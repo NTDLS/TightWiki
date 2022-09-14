@@ -1,0 +1,12 @@
+packages/
+*.user
+.vs/
+
+AsapWiki.Shared/bin/
+AsapWiki.Shared/obj/
+
+AsapWikiCom/bin/
+AsapWikiCom/obj/
+
+CodeGeneration/bin/
+CodeGeneration/obj/
