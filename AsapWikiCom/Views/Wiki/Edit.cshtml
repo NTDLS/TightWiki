@@ -1,0 +1,36 @@
+﻿@model AsapWiki.Shared.Models.Page
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<table border="0" width="100%" cellpadding="5">
+    <tbody>
+        <tr bgcolor="#fafafa">
+            <td height="52" valign="middle" align="center">
+
+                <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
+                    @if (@ViewBag.Validation != null)
+                    {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
+                </font>
+
+                @using (Html.BeginForm())
+                {
+                    <table border="0" width="100%" cellpadding="5">
+                        <tr class="padded">
+                            <td>
+                                <input type="submit" value="Save" /><br />
+                            </td>
+                        </tr>
+                        <tr class="padded">
+                            <td>
+                                @Html.TextAreaFor(x => x.Body, new { style = "width:90%;height:600px" })
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

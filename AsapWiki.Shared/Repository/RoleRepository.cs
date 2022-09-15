@@ -7,64 +7,62 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class UserRepository
+	public static partial class RoleRepository
 	{        
-		public static List<User> GetAllUser()
+		public static List<Role> GetAllRole()
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<User>("GetAllUser",
+                return handler.Connection.Query<Role>("GetAllRole",
                     null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
 		}
 
-		public static User GetUserById(int id)
+		public static Role GetRoleById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<User>("GetUserById",
+                return handler.Connection.Query<Role>("GetRoleById",
                     new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
 		}
 
-		public static void UpdateUserById(User item)
+		public static void UpdateRoleById(Role item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
 					Id = item.Id,
-					EmailAddress = item.EmailAddress,
-					DisplayName = item.DisplayName,
-					PasswordHash = item.PasswordHash
+					Name = item.Name,
+					Description = item.Description
 				};
 
-                handler.Connection.Execute("UpdateUserById",
+                handler.Connection.Execute("UpdateRoleById",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}		
 
-		public static int InsertUser(User item)
+		public static int InsertRole(Role item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
-					EmailAddress = item.EmailAddress,
-					DisplayName = item.DisplayName,
-					PasswordHash = item.PasswordHash
+					Name = item.Name,
+					Description = item.Description
 				};
 
-                return handler.Connection.ExecuteScalar<int>("InsertUser",
+                return handler.Connection.ExecuteScalar<int>("InsertRole",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}
 		
-		public static void DeleteUserById(int id)
+		public static void DeleteRoleById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                handler.Connection.Execute("DeleteUserById",
+                handler.Connection.Execute("DeleteRoleById",
                     new { Id = id }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }						
 		}

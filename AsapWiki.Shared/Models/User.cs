@@ -55,18 +55,18 @@ private string _displayName;
 			}
 		}
 		
-private string _password;
-		public string Password
+private string _passwordHash;
+		public string PasswordHash
 		{
 			get
 			{
-				return this._password;
+				return this._passwordHash;
 			}
 			set
 			{
-				if (this._password != value)
+				if (this._passwordHash != value)
 				{
-					this._password = value;
+					this._passwordHash = value;
 				}            
 			}
 		}

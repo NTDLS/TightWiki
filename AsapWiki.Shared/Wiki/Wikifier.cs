@@ -11,12 +11,10 @@ namespace AsapWiki.Shared.Wiki
 {
     public class Wikifier
     {
-        private Dictionary<string, string> _lookup { get; set; }
-        private StringBuilder _markup { get; set; }
-
+        private Dictionary<string, string> _lookup;
+        private StringBuilder _markup;
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
-
         private readonly Page _page = null;
         private readonly StateContext _context;
 
@@ -282,7 +280,7 @@ namespace AsapWiki.Shared.Wiki
 
                     StoreMatch(match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Show/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_context.IsLoggedIn)
+                else if (_context.CanCreatePage())
                 {
                     if (explicitLinkText.Length == 0)
                     {

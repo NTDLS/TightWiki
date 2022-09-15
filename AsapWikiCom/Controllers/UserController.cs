@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AsapWiki.Shared.Classes;
@@ -24,10 +27,8 @@ namespace AsapWikiCom.Controllers
         {
             if (ModelState.IsValid)
             {
-                var record = UserRepository.GetUserByEmailAndPassword(user.EmailAddress, user.Password);
-                if (record != null)
+                if (PerformLogin(user.EmailAddress, user.Password))
                 {
-                    FormsAuthentication.SetAuthCookie(record.EmailAddress, false);
                     return RedirectToAction("Show", "Wiki", "Home");
                 }
                 ModelState.AddModelError("", "invalid Username or Password");

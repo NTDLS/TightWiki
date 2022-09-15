@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
+using System.Web.Security;
 using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 
 namespace AsapWikiCom.Controllers
@@ -13,8 +17,6 @@ namespace AsapWikiCom.Controllers
         public ActionResult Show()
         {
             Configure();
-
-            context.IsLoggedIn = true;
 
             string navigation = RouteValue("navigation");
 
@@ -34,6 +36,30 @@ namespace AsapWikiCom.Controllers
         {
             Configure();
 
+            string navigation = RouteValue("navigation");
+
+            var page = PageRepository.GetPageByNavigation(navigation);
+            if (page != null)
+            {
+                ViewBag.Title = page.Name;
+
+                return View(new Page()
+                {
+                     Body = page.Body
+                });
+            }
+
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Edit(AsapWiki.Shared.Models.Page editPage)
+        {
+            if (ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "wtf did you do man?!");
+            }
             return View();
         }
     }

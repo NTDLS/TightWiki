@@ -7,64 +7,62 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class UserRepository
+	public static partial class UserRoleRepository
 	{        
-		public static List<User> GetAllUser()
+		public static List<UserRole> GetAllUserRole()
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<User>("GetAllUser",
+                return handler.Connection.Query<UserRole>("GetAllUserRole",
                     null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
 		}
 
-		public static User GetUserById(int id)
+		public static UserRole GetUserRoleById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<User>("GetUserById",
+                return handler.Connection.Query<UserRole>("GetUserRoleById",
                     new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
 		}
 
-		public static void UpdateUserById(User item)
+		public static void UpdateUserRoleById(UserRole item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
 					Id = item.Id,
-					EmailAddress = item.EmailAddress,
-					DisplayName = item.DisplayName,
-					PasswordHash = item.PasswordHash
+					UserId = item.UserId,
+					RoleId = item.RoleId
 				};
 
-                handler.Connection.Execute("UpdateUserById",
+                handler.Connection.Execute("UpdateUserRoleById",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}		
 
-		public static int InsertUser(User item)
+		public static int InsertUserRole(UserRole item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
-					EmailAddress = item.EmailAddress,
-					DisplayName = item.DisplayName,
-					PasswordHash = item.PasswordHash
+					UserId = item.UserId,
+					RoleId = item.RoleId
 				};
 
-                return handler.Connection.ExecuteScalar<int>("InsertUser",
+                return handler.Connection.ExecuteScalar<int>("InsertUserRole",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}
 		
-		public static void DeleteUserById(int id)
+		public static void DeleteUserRoleById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                handler.Connection.Execute("DeleteUserById",
+                handler.Connection.Execute("DeleteUserRoleById",
                     new { Id = id }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }						
 		}

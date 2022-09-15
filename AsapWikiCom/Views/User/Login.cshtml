@@ -28,7 +28,8 @@
                     {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
                 </font>
 
-                <form action="?" method="post">
+                @using (Html.BeginForm())
+                {
                     @Html.AntiForgeryToken()
 
                     <table border="0">
@@ -53,7 +54,7 @@
                             </td>
                         </tr>
                     </table>
-                </form>
+                }
                 <font size="3" face="ARIAL,HELVETICA">
                     Not a member? @Html.ActionLink("Signup!", "Signup", "User").<br />
                     Forgot your password? @Html.ActionLink("Reset it!", "Forgot", "User").<br />

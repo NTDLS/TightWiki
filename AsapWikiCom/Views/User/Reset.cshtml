@@ -28,7 +28,8 @@
                     {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
                 </font>
 
-                <form action="?" method="post">
+                @using (Html.BeginForm())
+                {
                     <table border="0">
                         <tr class="padded">
                             <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
@@ -65,7 +66,7 @@
                             </td>
                         </tr>
                     </table>
-                </form>
+                }
             </td>
         </tr>
     </tbody>
