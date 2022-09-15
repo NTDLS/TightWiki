@@ -24,8 +24,12 @@ namespace AsapWikiCom.Controllers
         {
             if (ModelState.IsValid)
             {
-                //FormsAuthentication.SetAuthCookie("DaUser", false);
-                //return RedirectToAction("Show", "Wiki", "Home");
+                var record = UserRepository.GetUserByEmailAndPassword(user.EmailAddress, user.Password);
+                if (record != null)
+                {
+                    FormsAuthentication.SetAuthCookie(record.EmailAddress, false);
+                    return RedirectToAction("Show", "Wiki", "Home");
+                }
             }
             ModelState.AddModelError("", "invalid Username or Password");
             return View();
