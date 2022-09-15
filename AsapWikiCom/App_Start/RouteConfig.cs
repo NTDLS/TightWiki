@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace AsapWikiSyncService
+namespace AsapWikiCom
 {
     public class RouteConfig
     {
@@ -14,10 +14,30 @@ namespace AsapWikiSyncService
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Static/");
 
+            /*
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Home", id = UrlParameter.Optional }
+                defaults: new { controller = "Wiki", action = "Show", id = UrlParameter.Optional }
+            );
+            */
+
+            routes.MapRoute(
+                name: "DefaultWiki",
+                url: "{navigation}",
+                defaults: new { navigation = "Home", controller = "Wiki", action = "Show" }
+            );
+
+            routes.MapRoute(
+                name: "DefaultOther",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Wiki", action = "Login" }
+            );
+
+            routes.MapRoute(
+                name: "CategoryPage",
+                url: "{controller}/{action}/{navigation}",
+                defaults: new { controller = "Wiki", action = "Show" }
             );
         }
     }

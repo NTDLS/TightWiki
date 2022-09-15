@@ -1,0 +1,70 @@
+﻿@model AsapWiki.Shared.Models.FormReset
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<font size="4" face="ARIAL,HELVETICA">
+    We all forget sometimes.... drop in your email address, temporary code and new password below.<br /><br />
+</font>
+
+<table border="0" width="400" cellpadding="5">
+    <tbody>
+        <tr bgcolor="#fafafa">
+            <td height="52" valign="middle" align="center">
+
+                <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
+                    @if (@ViewBag.Validation != null)
+                    {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
+                </font>
+
+                <form action="?" method="post">
+                    <table border="0">
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
+                            </td>
+                        </tr>
+                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.EmailAddress)</font></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.TempCode)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.TempCode, new { @class = "input-control" })
+                            </td>
+                        </tr>
+                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.TempCode)</font></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
+                            <td>
+                                @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
+                            </td>
+                        </tr>
+                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.Password)</font></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
+                            <td>
+                                @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
+                            </td>
+                        </tr>
+                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.ComparePassword)</font></td></tr>
+                        <tr class="padded">
+                            <td>&nbsp;</td>
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Reset</button></div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>

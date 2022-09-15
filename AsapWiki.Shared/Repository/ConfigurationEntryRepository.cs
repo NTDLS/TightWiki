@@ -36,7 +36,8 @@ namespace AsapWiki.Shared.Repository
 					Id = item.Id,
 					ConfigurationGroupId = item.ConfigurationGroupId,
 					Name = item.Name,
-					Value = item.Value
+					Value = item.Value,
+					Description = item.Description
 				};
 
                 handler.Connection.Execute("UpdateConfigurationEntryById",
@@ -52,7 +53,8 @@ namespace AsapWiki.Shared.Repository
 				{
 					ConfigurationGroupId = item.ConfigurationGroupId,
 					Name = item.Name,
-					Value = item.Value
+					Value = item.Value,
+					Description = item.Description
 				};
 
                 return handler.Connection.ExecuteScalar<int>("InsertConfigurationEntry",

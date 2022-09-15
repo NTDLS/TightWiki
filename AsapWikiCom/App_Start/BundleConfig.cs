@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace AsapWikiSyncService
+namespace AsapWikiCom
 {
     public class BundleConfig
     {

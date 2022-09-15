@@ -1,0 +1,53 @@
+﻿@model AsapWiki.Shared.Models.FormForgot
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<font size="4" face="ARIAL,HELVETICA">
+    We all forget sometimes.... drop in your email address and we'll promptly dispatch a reset code.<br /><br />
+</font>
+
+<table border="0" width="400" cellpadding="5">
+    <tbody>
+        <tr bgcolor="#fafafa">
+            <td height="52" valign="middle" align="center">
+
+                <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
+                    @if (@ViewBag.Validation != null)
+                    {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
+                </font>
+
+                <form action="?" method="post">
+                    <table border="0">
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
+                            </td>
+                        </tr>
+                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.EmailAddress)</font></td></tr>
+                        <tr class="padded">
+                            <td>&nbsp;</td>
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Get Code</button></div>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <font size="3" face="ARIAL,HELVETICA">
+                    Not a member? @Html.ActionLink("Signup!", "Signup", "User").<br />
+                    Already a member? <a href="/User/Login">Login</a>.<br />
+                </font>
+            </td>
+        </tr>
+    </tbody>
+</table>

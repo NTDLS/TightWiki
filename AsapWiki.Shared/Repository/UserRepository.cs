@@ -7,62 +7,64 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class ConfigurationGroupRepository
+	public static partial class UserRepository
 	{        
-		public static List<ConfigurationGroup> GetAllConfigurationGroup()
+		public static List<User> GetAllUser()
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<ConfigurationGroup>("GetAllConfigurationGroup",
+                return handler.Connection.Query<User>("GetAllUser",
                     null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
 		}
 
-		public static ConfigurationGroup GetConfigurationGroupById(int id)
+		public static User GetUserById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<ConfigurationGroup>("GetConfigurationGroupById",
+                return handler.Connection.Query<User>("GetUserById",
                     new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
 		}
 
-		public static void UpdateConfigurationGroupById(ConfigurationGroup item)
+		public static void UpdateUserById(User item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
 					Id = item.Id,
-					Name = item.Name,
-					Description = item.Description
+					EmailAddress = item.EmailAddress,
+					DisplayName = item.DisplayName,
+					Password = item.Password
 				};
 
-                handler.Connection.Execute("UpdateConfigurationGroupById",
+                handler.Connection.Execute("UpdateUserById",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}		
 
-		public static int InsertConfigurationGroup(ConfigurationGroup item)
+		public static int InsertUser(User item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
-					Name = item.Name,
-					Description = item.Description
+					EmailAddress = item.EmailAddress,
+					DisplayName = item.DisplayName,
+					Password = item.Password
 				};
 
-                return handler.Connection.ExecuteScalar<int>("InsertConfigurationGroup",
+                return handler.Connection.ExecuteScalar<int>("InsertUser",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}
 		
-		public static void DeleteConfigurationGroupById(int id)
+		public static void DeleteUserById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                handler.Connection.Execute("DeleteConfigurationGroupById",
+                handler.Connection.Execute("DeleteUserById",
                     new { Id = id }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }						
 		}

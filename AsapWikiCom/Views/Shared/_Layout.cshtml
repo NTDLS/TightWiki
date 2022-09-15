@@ -8,8 +8,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AsapWiki - @ViewBag.Title</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>@ViewBag.Title</title>
+    <link href="/css/bootstrap.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -27,11 +27,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-globe"></span> AsapWiki</a>
+                <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-globe"></span> @Html.Raw(ViewBag.Name)</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
+                    <li class="active"><a href="/">Home</a></li>
                     <!--<li><a href="#">About</a></li>
                     <li><a href="#">Products</a></li>-->
                     <li class="dropdown">
@@ -51,61 +51,28 @@
     </nav>
 
     <div class="container-fluid">
-        <div class="col-sm-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="panel-title"><span class="glyphicon glyphicon-random"></span> Play with Words</h1>
-                </div>
-                <div class="list-group">
-                    <a href="/" class="list-group-item">Home</a>
-                    <a href="/Home/Browse" class="list-group-item">Browse</a>
-                    <a href="/Home/Translate" class="list-group-item">Translate</a>
-                    <a href="/Home/SoundsLikeSoundEx" class="list-group-item">Sounds Like (SoundEx)</a>
-                    <a href="/Home/SoundsLikeMetaphone" class="list-group-item">Sounds Like (Metaphone)</a>
-                    <a href="/Home/SoundsLikeDoubleMetaphone" class="list-group-item">Sounds Like (Double-Metaphone)</a>
-                    <a href="/Home/Synonyms" class="list-group-item">Synonyms</a>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h1 class="panel-title"><span class="glyphicon glyphicon-cog"></span> Why Play?</h1>
-                </div>
-
-                <div class="panel-body">
-                    <p>Many years ago, I translated a giant list of 84,000 English words into 9 other languages. I was 17 and naïve thinking I could use this for sentence translations. The resulting dataset wasn’t completely useless, however. By joining on the translation results and using fuzzy matching I could do all sorts of odd things – like find similar words.</p>
-                </div>
-            </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-bullhorn"></span> Tell your friends!
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    <p>Or dont! Seriously, we don't care...</p>
-                </div>
-            </div>
-        </div>
-
         <div class="col-sm-6">
             <div class="row"><article class="col-xs-12">@RenderBody()</article></div>
-        </div>
-        <div class="col-sm-3">
         </div>
     </div>
 
     <footer>
+        @if (ViewBag.FooterBlurb != null)
+        {
         <div class="footer-blurb">
             <div class="container">
-                <div class="row">
-                </div>
+                <div class="row">@Html.Raw(ViewBag.FooterBlurb)</div>
             </div>
         </div>
+        }
+        @if (ViewBag.Copyright != null)
+        {
         <div class="small-print">
             <div class="container">
-                <p>Copyright &copy; AsapWiki.NTDLS.com 2022 </p>
+                <p>@Html.Raw(ViewBag.Copyright)</p>
             </div>
         </div>
+        }
     </footer>
 
     <script src="/js/jquery-1.11.3.min.js"></script>

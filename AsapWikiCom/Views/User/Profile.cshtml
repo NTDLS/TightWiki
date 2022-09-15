@@ -1,0 +1,84 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<h1>!!THIS PAGE IS UNDER CONSTRUCTION!!</h1>
+
+<table border="0" width="100%" cellpadding="5">
+    <tr>
+        <td height="52" valign="middle" align="center" bgcolor="#002856">
+            <font size="3" face="ARIAL,HELVETICA">
+                <a href="?Action=Logout">Logout</a>
+            </font>
+        </td>
+    </tr>
+
+    <tr>
+        <td valign="middle" align="center" bgcolor="#002856"><font size="3" face="ARIAL,HELVETICA"><strong>User Profile</strong></font></td>
+    </tr>
+
+    <tr>
+        <td height="52" valign="middle" align="center" bgcolor="#002856">
+
+            <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
+                @if (@ViewBag.Validation != null)
+                {
+                    <blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>
+                }
+            </font>
+
+            <form action="?" method="post">
+                <input type="hidden" Value="Profile" name="Type" />
+                <table border="0" cellspacing="0" cellpadding="3">
+                    <tr>
+                        <td><strong>Display Name</strong></td>
+                        <td><input type="text" Value="@ViewBag.CurrentUser.DisplayName" name="DisplayName" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email Address</strong></td>
+                        <td><input type="text" Value="@ViewBag.CurrentUser.EmailAddress" name="EmailAddress" required></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><button type="submit">Save</button></td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+
+    <tr>
+        <td valign="middle" align="center" bgcolor="#002856"><font size="3" face="ARIAL,HELVETICA"><strong>Change Password</strong></font></td>
+    </tr>
+
+    <tr>
+        <td height="52" valign="middle" align="center" bgcolor="#002856">
+            <form action="?" method="post">
+                <input type="hidden" Value="Password" name="Type" />
+                <table border="0" cellspacing="0" cellpadding="3">
+                    <tr>
+                        <td><strong>Password</strong></td>
+                        <td><input type="password" name="Password" required></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confirm Password</strong></td>
+                        <td><input type="password" name="Password2" required></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td><button type="submit">Save</button></td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
