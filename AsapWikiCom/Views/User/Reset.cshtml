@@ -16,6 +16,8 @@
     We all forget sometimes.... drop in your email address, temporary code and new password below.<br /><br />
 </font>
 
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
 <table border="0" width="400" cellpadding="5">
     <tbody>
         <tr bgcolor="#fafafa">
@@ -34,28 +36,28 @@
                                 @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
                             </td>
                         </tr>
-                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.EmailAddress)</font></td></tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
                         <tr class="padded">
                             <td><strong>@Html.LabelFor(m => m.TempCode)</strong></td>
                             <td>
                                 @Html.TextBoxFor(m => m.TempCode, new { @class = "input-control" })
                             </td>
                         </tr>
-                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.TempCode)</font></td></tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.TempCode)</div></td></tr>
                         <tr class="padded">
                             <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
                             <td>
                                 @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
                             </td>
                         </tr>
-                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.Password)</font></td></tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
                         <tr class="padded">
                             <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
                             <td>
                                 @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
                             </td>
                         </tr>
-                        <tr><td colspan="2"><font color="#aa0000">@Html.ValidationMessageFor(m => m.ComparePassword)</font></td></tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
                         <tr class="padded">
                             <td>&nbsp;</td>
                             <td>

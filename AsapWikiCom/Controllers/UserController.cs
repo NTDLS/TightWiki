@@ -30,8 +30,8 @@ namespace AsapWikiCom.Controllers
                     FormsAuthentication.SetAuthCookie(record.EmailAddress, false);
                     return RedirectToAction("Show", "Wiki", "Home");
                 }
+                ModelState.AddModelError("", "invalid Username or Password");
             }
-            ModelState.AddModelError("", "invalid Username or Password");
             return View();
         }
 
