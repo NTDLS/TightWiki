@@ -140,7 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\custom.css" />
     <Content Include="favicon.ico" />
     <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -172,12 +172,6 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Wiki\Show.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Wiki\Browse.cshtml" />
-    <Content Include="Views\Wiki\SoundsLikeDoubleMetaphone.cshtml" />
-    <Content Include="Views\Wiki\Synonyms.cshtml" />
-    <Content Include="Views\Wiki\SoundsLikeMetaphone.cshtml" />
-    <Content Include="Views\Wiki\SoundsLikeSoundEx.cshtml" />
-    <Content Include="Views\Wiki\Translate.cshtml" />
     <Content Include="Views\User\Forgot.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Reset.cshtml" />
