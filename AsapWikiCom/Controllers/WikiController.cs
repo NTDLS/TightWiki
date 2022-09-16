@@ -43,26 +43,32 @@ namespace AsapWikiCom.Controllers
             {
                 //Editing an existing page.
                 ViewBag.Title = page.Name;
-                return View(page);
+
+                return View(new EditPage()
+                {
+                    Id = page.Id,
+                    Body = page.Body,
+                    Name = page.Name,
+                    Navigation = page.Navigation,
+                    Description = page.Description
+                });
             }
             else
             {
                 var pageName = Request.QueryString["Name"] ?? navigation;
 
-                page = new Page()
+                return View(new EditPage()
                 {
                     Body = "#Draft\r\n\r\n",
                     Name = pageName,
                     Navigation = navigation
-                };
-                
-                return View(page);
+                });
             }
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult Edit(Page editPage)
+        public ActionResult Edit(EditPage editPage)
         {
             Configure();
 

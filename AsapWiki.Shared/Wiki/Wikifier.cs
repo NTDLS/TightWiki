@@ -6,6 +6,7 @@ using System.Text;
 using System.IO;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Classes;
+using System.Web;
 
 namespace AsapWiki.Shared.Wiki
 {
@@ -73,13 +74,50 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformMarkup()
         {
-            //Transform literal non-wiki strings.
-            Regex rgx = new Regex(@"(\{\{\{.+?\}\}\})", RegexOptions.IgnoreCase);
+            //Transform literal strings, even encodes HTML so that it displays verbatim.
+            Regex rgx = new Regex(@"{{{([\S\s]*?)}}}", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
             foreach (Match match in matches)
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
+                value = HttpUtility.HtmlEncode(value);
                 StoreMatch(match.Value, value);
+            }
+
+            //Transform literal non-wiki strings, but still allow HTML.
+            rgx = new Regex(@"\[\[\[([\S\s]*?)\]\]\]", RegexOptions.IgnoreCase);
+            matches = rgx.Matches(_markup.ToString());
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Substring(3, match.Value.Length - 6);
+                StoreMatch(match.Value, value);
+            }
+
+            //Single line bold.
+            rgx = new Regex(@"\*.*?\n", RegexOptions.IgnoreCase);
+            matches = rgx.Matches(_markup.ToString());
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
+                StoreMatch(match.Value.Trim(), $"<strong>{value}</strong>");
+            }
+
+            //Single line underline.
+            rgx = new Regex(@"_.*?\n", RegexOptions.IgnoreCase);
+            matches = rgx.Matches(_markup.ToString());
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
+                StoreMatch(match.Value.Trim(), $"<u>{value}</u>");
+            }
+            
+            //Single line italics.
+            rgx = new Regex(@"\/.*?\n", RegexOptions.IgnoreCase);
+            matches = rgx.Matches(_markup.ToString());
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
+                StoreMatch(match.Value.Trim(), $"<i>{value}</i>");
             }
 
             TransformSyntaxHighlighters("cpp", "cpp");
@@ -108,15 +146,15 @@ namespace AsapWiki.Shared.Wiki
         void TransformSectionHeadings()
         {
             var regEx = new StringBuilder();
-            regEx.Append(@"(\=\=\=\=\=\=.*)");
+            regEx.Append(@"(\=\=\=\=\=\=.*?\n)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=\=\=\=.*)");
+            regEx.Append(@"(\=\=\=\=\=.*?\n)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=\=\=.*)");
+            regEx.Append(@"(\=\=\=\=.*?\n)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=\=.*)");
+            regEx.Append(@"(\=\=\=.*?\n)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=.*)");
+            regEx.Append(@"(\=\=.*?\n)");
 
             Regex rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
@@ -140,7 +178,7 @@ namespace AsapWiki.Shared.Wiki
                     if (fontSize < 5) fontSize = 5;
 
                     string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>";
-                    StoreMatch(match.Value, Regex.Replace(match.Value, match.ToString(), link, RegexOptions.IgnoreCase));
+                    StoreMatch(match.Value.Trim(), link);
                     _tocTags.Add(new TOCTag(equalSigns - 1, match.Index, tag, value));
                 }
             }
@@ -370,7 +408,7 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformFunctions()
         {
-            Regex rgx = new Regex(@"(\#\#.+?\#\#)|(\#\#.*?\(.*?\)\#\#)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#.+?\#\#)|(\#\#.*?\(.*?\))", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
 
             foreach (Match match in matches)
@@ -419,11 +457,11 @@ namespace AsapWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages in the specified category.
                     //  Optionally also only pulls n-number of pages ordered by decending by the last modified date (then by page name).
-                    case "categorylist": //(CategoryName, [optional]TopCount)
-                    case "categorylistfull": //(CategoryName, [optional]TopCount)
+                    case "recentlymodified": //(TopCount)
+                    case "recentlymodifiedfull": //(TopCount)
                         if (args != null && (args.Count == 1))
                         {
-                            if (!int.TryParse(args[1], out int takeCount))
+                            if (!int.TryParse(args[0], out int takeCount))
                             {
                                 continue;
                             }
@@ -443,12 +481,11 @@ namespace AsapWiki.Shared.Wiki
                             if (pages.Count() > 0)
                             {
                                 html.Append("<ul>");
-
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/Page/View/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a>");
 
-                                    if (keyword == "categorylistfull")
+                                    if (keyword == "recentlymodifiedfull")
                                     {
                                         if (page.Description.Length > 0)
                                         {
@@ -457,7 +494,6 @@ namespace AsapWiki.Shared.Wiki
                                     }
                                     html.Append("</li>");
                                 }
-
                                 html.Append("</ul>");
                             }
 

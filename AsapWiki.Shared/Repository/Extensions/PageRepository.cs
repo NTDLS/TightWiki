@@ -23,13 +23,13 @@ namespace AsapWiki.Shared.Repository
             }
         }
 
-        public static List<Page> GetTopRecentlyModifiedPages(int top)
+        public static List<Page> GetTopRecentlyModifiedPages(int topCount)
         {
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
                 {
-                    Top = top
+                    TopCount = topCount
                 };
 
                 return handler.Connection.Query<Page>("GetTopRecentlyModifiedPages",
