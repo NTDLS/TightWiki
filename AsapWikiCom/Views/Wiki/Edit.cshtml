@@ -10,7 +10,6 @@
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
-
                     <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
                         @if (@ViewBag.Validation != null)
                         {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
@@ -32,7 +31,7 @@
                                     @Html.LabelFor(x => x.Name)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.Name, new { style = "width:90%" })
+                                    @Html.TextBoxFor(x => x.Name, new { style = "width:100%" })
                                 </td>
                             </tr>
                             <tr class="padded">
@@ -40,7 +39,7 @@
                                     @Html.LabelFor(x => x.Description)
                                 </td>
                                 <td>
-                                    @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
+                                    @Html.TextBoxFor(x => x.Description, new { style = "width:100%" })
                                 </td>
                             </tr>
                             <tr class="padded">
@@ -50,7 +49,7 @@
                             </tr>
                             <tr class="padded">
                                 <td colspan="2">
-                                    @Html.TextAreaFor(x => x.Body, new { style = "width:90%;height:600px" })
+                                    @Html.TextAreaFor(x => x.Body, new { style = "width:100%;height:600px" })
                                 </td>
                             </tr>
                         </table>
