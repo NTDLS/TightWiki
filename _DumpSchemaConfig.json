@@ -1,0 +1,86 @@
+{
+  //Connection information can be specified here and/or passed via command prompt.
+  //Any values specified here will be overridden by the command line values.
+  "ConnectionInfo": {
+    "ServerName": "LOCALHOST",
+    "UseIntegratedSecurity": true,
+    "DatabaseName": "AsapWiki",
+    "UseSSLConnection": false,
+    "ApplicationName": "SQL Script Generator"
+  },
+
+  //Any options that are not specified will default to FALSE.
+  //The value for "output" can be specified here or passed via command prompt.
+  //Any values specified here will be overridden by the command line values.
+  //Be sure to use two back-slashes when specifying an output path. e.g. "C:\\Temp\\Test.sql"
+  //Note that "DestinationPath" can be a directory or a single file depending on the value of "ScriptToIndividualFiles".
+  "DestinationOptions": {
+    "DestinationPath": ".\\SchemaDump",
+    "ScriptToIndividualFiles": true,
+    "PrependSequentialNumber": true,
+    "DeleteExistingFiles": true,
+    "RollupTableArtifacts": true,
+    "PrependSchemaName": true,
+    "AppendObjectType": true
+  },
+
+  //Tells the engine whether it should consider scripting various types of objects.
+  //Any options that are not specified will default to FALSE.
+  "ScriptTypes": {
+    "ScriptTables": true,
+    "ScriptIndexes": true,
+    "ScriptTriggers": true,
+    "ScriptStatistics": true,
+    "ScriptForeignKeys": true,
+    "ScriptViews": true,
+    "ScriptSchemas": true,
+    "ScriptUserDefinedTypes": true,
+    "ScriptXMLSchemaCollections": true,
+    "ScriptUsers": false,
+    "ScriptFunctions": true,
+    "ScriptProcedures": true,
+    "ScriptSequences": true,
+    "ScriptCSharpModels": false,
+    "ScriptData": true
+  },
+
+  //Various scripting options for SQL files.
+  //Any options that are not specified will default to FALSE.
+  "SQLScriptingOptions": {
+    "IncludeIfNotExists": true,
+    "DependencyHeuristics": false,
+    "DetectDependencies": true,
+    "IncludeSetOptions": true,
+    "IncludeIndexOptions": true
+  },
+
+  //The "ScriptSchemaList" section specifies which database objects will have their schema scripts generated.
+  //Alternately, if "ScriptSchemaExplicitExclude" is enabled then all database objects are scripted by default and the
+  //  "ScriptSchemaList" section instead becomes an exclusion list objects which are to be excluded from being generated.
+  //You can also use wildcards by placing a star/asterisk at the beginning, end or beginning AND end of any object below.
+  "ScriptSchemaList": [
+  ],
+  "ScriptSchemaExplicitExclude": true,
+
+  //The "ScriptDataList" section specifies which database tables will have their data scripts generated.
+  //Alternately, if "ScriptDataExplicitExclude" is enabled then all database tables will have their data scripted by default
+  //  and the "ScriptDataList" section instead becomes an exclusion list objects which are to be excluded from being generated.
+  "ScriptDataList": [
+    "dbo.Role",
+    "dbo.User",
+    "dbo.UserRole",
+    "dbo.PageTag",
+    "dbo.PageTag",
+    "dbo.ConfigurationEntry",
+    "dbo.ConfigurationGroup"
+  ],
+  "ScriptDataExplicitExclude": false,
+
+  //The "DoNotUpdateExistingDataList" section specifies which database tables will have their
+  //  data scripts generated for insert only - meaning that they will not update existing data.
+  //Alternately, if "DoNotUpdateExistingDataExplicitExclude" is enabled then all database tables will have this
+  //  option by default and tables listed here will be exlcuded from this option
+  "DoNotUpdateExistingDataList": [
+  ],
+  "DoNotUpdateExistingDataExplicitExclude": false
+}
