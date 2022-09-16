@@ -83,8 +83,8 @@ namespace AsapWikiCom.Controllers
                     };
 
                     var tags = page.HashTags();
-                    PageRepository.InsertPage(page);
-                    PageTagRepository.UpdatePageTags(editPage.Id, tags);
+                    int pageId = PageRepository.InsertPage(page);
+                    PageTagRepository.UpdatePageTags(pageId, tags);
                 }
                 else
                 {

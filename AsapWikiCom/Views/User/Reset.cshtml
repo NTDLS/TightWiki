@@ -12,62 +12,64 @@
     }
 </style>
 
-<font size="4" face="ARIAL,HELVETICA">
-    We all forget sometimes.... drop in your email address, temporary code and new password below.<br /><br />
-</font>
+<div class="jumbotron">
+    <font size="4" face="ARIAL,HELVETICA">
+        We all forget sometimes.... drop in your email address, temporary code and new password below.<br /><br />
+    </font>
 
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<table border="0" width="400" cellpadding="5">
-    <tbody>
-        <tr bgcolor="#fafafa">
-            <td height="52" valign="middle" align="center">
+    <table border="0" width="400" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="center">
 
-                <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
-                    @if (@ViewBag.Validation != null)
-                    {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
-                </font>
+                    <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
+                        @if (@ViewBag.Validation != null)
+                        {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
+                    </font>
 
-                @using (Html.BeginForm())
-                {
-                    <table border="0">
-                        <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
-                            <td>
-                                @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
-                            </td>
-                        </tr>
-                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
-                        <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.TempCode)</strong></td>
-                            <td>
-                                @Html.TextBoxFor(m => m.TempCode, new { @class = "input-control" })
-                            </td>
-                        </tr>
-                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.TempCode)</div></td></tr>
-                        <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
-                            <td>
-                                @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
-                            </td>
-                        </tr>
-                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
-                        <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
-                            <td>
-                                @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
-                            </td>
-                        </tr>
-                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
-                        <tr class="padded">
-                            <td>&nbsp;</td>
-                            <td>
-                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Reset</button></div>
-                            </td>
-                        </tr>
-                    </table>
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+                    @using (Html.BeginForm())
+                    {
+                        <table border="0">
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
+                                </td>
+                            </tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.TempCode)</strong></td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.TempCode, new { @class = "input-control" })
+                                </td>
+                            </tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.TempCode)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
+                                <td>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
+                                </td>
+                            </tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
+                                <td>
+                                    @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
+                                </td>
+                            </tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
+                            <tr class="padded">
+                                <td>&nbsp;</td>
+                                <td>
+                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Reset</button></div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
