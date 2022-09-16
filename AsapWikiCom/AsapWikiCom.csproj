@@ -141,8 +141,6 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="css\bootstrap.css" />
-    <Content Include="css\custom.css" />
     <Content Include="favicon.ico" />
     <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
