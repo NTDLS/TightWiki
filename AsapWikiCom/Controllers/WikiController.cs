@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AsapWiki.Shared.Classes;
@@ -57,13 +58,57 @@ namespace AsapWikiCom.Controllers
             {
                 var pageName = Request.QueryString["Name"] ?? navigation;
 
+                string newPageTemplate = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupNameAndEntryName("Basic", "New Page Template");
+
                 return View(new EditPage()
                 {
-                    Body = "#Draft\r\n\r\n",
+                    Body = newPageTemplate,
                     Name = pageName,
                     Navigation = navigation
                 });
             }
+        }
+
+
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Upload(object postData)
+        {
+            Configure();
+
+            string navigation = RouteValue("navigation");
+            int pageId = int.Parse(navigation);
+
+            HttpPostedFileBase file = Request.Files["ImageData"];
+            PageFileRepository.InsertPageFile(new PageFile()
+            {
+                Data = ConvertToBytes(file),
+                CreatedDate = DateTime.Now,
+                PageId = pageId,
+                Name = file.FileName,
+                Size = file.ContentLength
+            });
+
+            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(pageId);
+            return View(new Attachments()
+            {
+                Files = pageFiles
+            });
+        }
+
+        [Authorize]
+        public ActionResult Upload()
+        {
+            Configure();
+            string navigation = RouteValue("navigation");
+            int pageId = int.Parse(navigation);
+
+            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(pageId);
+            return View(new Attachments()
+            {
+                Files = pageFiles
+            });
         }
 
         [Authorize]
@@ -74,9 +119,11 @@ namespace AsapWikiCom.Controllers
 
             if (ModelState.IsValid)
             {
+                Page page = null;
+
                 if (editPage.Id == 0)
                 {
-                    var page = new Page()
+                    page = new Page()
                     {
                         CreatedDate = DateTime.Now,
                         CreatedByUserId = context.User.Id,
@@ -89,13 +136,12 @@ namespace AsapWikiCom.Controllers
                     };
 
                     var tags = page.HashTags();
-                    int pageId = PageRepository.InsertPage(page);
-                    PageTagRepository.UpdatePageTags(pageId, tags);
+                    page.Id = PageRepository.InsertPage(page);
+                    PageTagRepository.UpdatePageTags(page.Id, tags);
                 }
                 else
                 {
-                    var page = PageRepository.GetPageById(editPage.Id);
-
+                    page = PageRepository.GetPageById(editPage.Id);
                     page.ModifiedDate = DateTime.Now;
                     page.ModifiedByUserId = context.User.Id;
                     page.Body = editPage.Body;
@@ -108,7 +154,17 @@ namespace AsapWikiCom.Controllers
                     PageTagRepository.UpdatePageTags(editPage.Id, tags);
                 }
 
-                //ModelState.AddModelError("", "wtf did you do man?!");
+                if (page != null)
+                {
+                    return View(new EditPage()
+                    {
+                        Id = page.Id,
+                        Body = page.Body,
+                        Name = page.Name,
+                        Navigation = page.Navigation,
+                        Description = page.Description
+                    });
+                }
             }
             return View();
         }

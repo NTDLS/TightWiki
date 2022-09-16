@@ -1,7 +1,6 @@
-using AsapWiki.Shared.Wiki;
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AsapWiki.Shared.Models
@@ -10,27 +9,30 @@ namespace AsapWiki.Shared.Models
     {
         public List<string> HashTags()
         {
-            var tags = new List<string>();
-            Regex rgx = new Regex(@"(?:\s|^)#[A-Za-z0-9\-_\.]+", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#tags.+?\(\))|(\#\#tags.*?\(.*?\))", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(Body);
             foreach (Match match in matches)
             {
-                string tag = match.Value.Trim(new char[] { '#', '\r', '\n', ' ' });
+                string args = match.Value.Trim();
 
-                //If the hash tag contains a _ or a - then we will treat it as an explcit tag and not try to parse it.
-                if (tag.Contains("_") || tag.Contains("-"))
+                int startIndex = args.IndexOf('(');
+                int endIndex = args.LastIndexOf(')');
+
+                if (startIndex >= 0 && endIndex > 0 && endIndex > startIndex)
                 {
-                    tags.Add(tag.Replace('_', ' ').Replace('-', ' ').Replace("  ", " ").Trim());
-                }
-                else
-                {
-                    var parsedTag = Utility.SplitCamelCase(tag);
-                    var casedTag = Utility.TitleCase(parsedTag);
-                    tags.Add(casedTag);
+                    args = args.Substring(startIndex + 1, (endIndex - startIndex) - 1).Trim();
+                    var tags = args.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    var listOf = new List<string>();
+                    foreach (var tag in tags)
+                    {
+                        listOf.Add(tag.Trim());
+                    }
+                    return listOf.Distinct().ToList();
                 }
             }
 
-            return tags;
+            return new List<string>();
         }
     }
 }

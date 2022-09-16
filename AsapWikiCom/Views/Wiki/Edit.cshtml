@@ -3,6 +3,12 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+<style type="text/css">
+    .iframe {
+        box-shadow: none !important;
+    }
+</style>
+
 <div class="jumbotron">
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -53,6 +59,15 @@
                                 </td>
                             </tr>
                         </table>
+                    }
+                    
+                    @if (Model?.Id > 0)
+                    {
+                        <iframe src="/Wiki/Upload/@Model.Id" align="left" width="500" frameBorder="0" />
+                    }
+                    else
+                    {
+                        <div>Save the page before uploading files.</div>
                     }
                 </td>
             </tr>

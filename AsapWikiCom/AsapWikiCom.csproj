@@ -178,6 +178,7 @@
     <Content Include="Views\User\Signup.cshtml" />
     <Content Include="Views\User\Profile.cshtml" />
     <Content Include="Views\Wiki\Edit.cshtml" />
+    <Content Include="Views\Wiki\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

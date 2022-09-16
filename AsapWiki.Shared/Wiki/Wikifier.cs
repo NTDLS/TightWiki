@@ -12,11 +12,12 @@ namespace AsapWiki.Shared.Wiki
 {
     public class Wikifier
     {
+        private List<string> _tags = new List<string>();
         private Dictionary<string, string> _lookup;
         private StringBuilder _markup;
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
-        private readonly Page _page = null;
+        private Page _page;
         private readonly StateContext _context;
 
         public Wikifier(StateContext context)
@@ -26,22 +27,31 @@ namespace AsapWiki.Shared.Wiki
 
         public string Transform(Page page)
         {
+            _page = page;
+
             _lookup = new Dictionary<string, string>();
             _markup = new StringBuilder(page.Body);
 
+            TransformLiterals();
+            TransformInnerLinks();
             TransformMarkup();
+            TransformSectionHeadings();
             TransformFunctions();
             TransformProcessingInstructions();
-            TransformInnerLinks();
-            TransformHTML();
             TransformPostProcess();
-            TransformHashtags();
+            //TransformHashtags();
             TransformWhitespace();
 
-            foreach (var v in _lookup)
+            //We have to replace a few times because we could have replace tags (guids) nested inside others.
+            int length;
+            do
             {
-                _markup.Replace(v.Key, v.Value);
-            }
+                length = _markup.Length;
+                foreach (var v in _lookup)
+                {
+                    _markup.Replace(v.Key, v.Value);
+                }
+            } while (length != _markup.Length);
 
             return _markup.ToString();
         }
@@ -55,6 +65,16 @@ namespace AsapWiki.Shared.Wiki
             return (previousLength - _markup.Replace(match, identifier).Length);
         }
 
+        private void StoreMatch(int startPosition, int length, string value)
+        {
+            string identifier = "{" + Guid.NewGuid().ToString() + "}";
+            _lookup.Add(identifier, value);
+
+            _markup.Remove(startPosition, length);
+            _markup.Insert(startPosition, identifier);
+        }
+
+        /*
         private void TransformHashtags()
         {
             //Remove hashtags, they are stored with the page but not displayed.
@@ -65,14 +85,52 @@ namespace AsapWiki.Shared.Wiki
                 StoreMatch(match.Value, String.Empty);
             }
         }
+        */
 
         private void TransformWhitespace()
         {
             _markup = _markup.Replace("\r\n", "\n");
-            _markup = _markup.Replace("\n", "<br />");
+            _markup = _markup.Replace("\n\n", "<br />");
         }
 
-        private void TransformMarkup()
+        /// <summary>
+        /// Replaces HTML where we are transforming the entire line, such as "*this will be bold" - > "<b>this will be bold</b>
+        /// </summary>
+        /// <param name="regex"></param>
+        /// <param name="htmlTag"></param>
+        void ReplaceWholeLineHTMLMarker(string regex, string htmlTag)
+        {
+            Regex rgx = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            MatchCollection matches = rgx.Matches(_markup.ToString());
+            //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
+            for (int i = matches.Count - 1; i > -1; i--)
+            {
+                var match = matches[i];
+                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
+                var matxhString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
+                StoreMatch(match.Index, matxhString.Length, $"<{htmlTag}>{value}</{htmlTag}> ");
+            }
+        }
+
+        void ReplaceInlineHTMLMarker(string mark, string htmlTag)
+        {
+            string marker = string.Empty;
+            foreach (var c in mark)
+            {
+                marker += $"\\{c}";
+            }
+
+            Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
+            MatchCollection matches = rgx.Matches(_markup.ToString());
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
+
+                StoreMatch(match.Value, value);
+            }
+        }
+
+        private void TransformLiterals()
         {
             //Transform literal strings, even encodes HTML so that it displays verbatim.
             Regex rgx = new Regex(@"{{{([\S\s]*?)}}}", RegexOptions.IgnoreCase);
@@ -92,34 +150,16 @@ namespace AsapWiki.Shared.Wiki
                 string value = match.Value.Substring(3, match.Value.Length - 6);
                 StoreMatch(match.Value, value);
             }
+        }
+        private void TransformMarkup()
+        {
+            ReplaceWholeLineHTMLMarker(@"^\*.*?\n", "strong"); //Single line bold.
+            ReplaceWholeLineHTMLMarker(@"^_.*?\n", "u"); //Single line underline.
+            ReplaceWholeLineHTMLMarker(@"^\/.*?\n", "i"); //Single line italics.
 
-            //Single line bold.
-            rgx = new Regex(@"\*.*?\n", RegexOptions.IgnoreCase);
-            matches = rgx.Matches(_markup.ToString());
-            foreach (Match match in matches)
-            {
-                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
-                StoreMatch(match.Value.Trim(), $"<strong>{value}</strong>");
-            }
+            ReplaceInlineHTMLMarker("*", "strong"); //inline bold.
 
-            //Single line underline.
-            rgx = new Regex(@"_.*?\n", RegexOptions.IgnoreCase);
-            matches = rgx.Matches(_markup.ToString());
-            foreach (Match match in matches)
-            {
-                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
-                StoreMatch(match.Value.Trim(), $"<u>{value}</u>");
-            }
-            
-            //Single line italics.
-            rgx = new Regex(@"\/.*?\n", RegexOptions.IgnoreCase);
-            matches = rgx.Matches(_markup.ToString());
-            foreach (Match match in matches)
-            {
-                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
-                StoreMatch(match.Value.Trim(), $"<i>{value}</i>");
-            }
-
+            /*
             TransformSyntaxHighlighters("cpp", "cpp");
             TransformSyntaxHighlighters("csharp", "C#");
             TransformSyntaxHighlighters("sql", "sql");
@@ -127,10 +167,10 @@ namespace AsapWiki.Shared.Wiki
             TransformSyntaxHighlighters("xml", "xml");
             TransformSyntaxHighlighters("css", "css");
             TransformSyntaxHighlighters("java", "java");
-
-            TransformSectionHeadings();
+            */
         }
 
+        /*
         private void TransformSyntaxHighlighters(string tag, string brush)
         {
             Regex rgx = new Regex("\\[\\[" + tag + "\\]\\]([\\s\\S]*?)\\[\\[\\/" + tag + "\\]\\]", RegexOptions.IgnoreCase);
@@ -142,6 +182,7 @@ namespace AsapWiki.Shared.Wiki
                 StoreMatch(match.Value, "<pre class='brush: " + brush + "; toolbar: false; auto-links: false;'>" + rawValue + "</pre>");
             }
         }
+        */
 
         void TransformSectionHeadings()
         {
@@ -177,23 +218,10 @@ namespace AsapWiki.Shared.Wiki
                     int fontSize = 8 - equalSigns;
                     if (fontSize < 5) fontSize = 5;
 
-                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>";
+                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font><br />";
                     StoreMatch(match.Value.Trim(), link);
                     _tocTags.Add(new TOCTag(equalSigns - 1, match.Index, tag, value));
                 }
-            }
-        }
-
-        private void TransformHTML()
-        {
-            //Replace tables with border="1" with border="0". We do this because it is nearly impossible to edit
-            //  pages in the wysiwyg editor when the tables have no border. So we keep them in the editor, but
-            //  remove them before displaying them.
-            Regex rgx = new Regex("(\\<table.+?border=\"1\".+?\\>)", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(_markup.ToString());
-            foreach (Match match in matches)
-            {
-                StoreMatch(match.Value, Regex.Replace(match.Value, "border=\"1\"", "border=\"0\"", RegexOptions.IgnoreCase));
             }
         }
 
@@ -381,7 +409,7 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformProcessingInstructions()
         {
-            Regex rgx = new Regex(@"(\#\#.*)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#\w+)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
             foreach (Match match in matches)
             {
@@ -408,7 +436,7 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformFunctions()
         {
-            Regex rgx = new Regex(@"(\#\#.+?\#\#)|(\#\#.*?\(.*?\))", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#.*?\(.*?\))|(\#\#.+?\(\))|(\#\#\w+)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
 
             foreach (Match match in matches)
@@ -424,12 +452,13 @@ namespace AsapWiki.Shared.Wiki
 
                     foreach (var rawarg in rawargs)
                     {
-                        args.Add(rawarg.ToString().Substring(1, rawarg.ToString().Length - 2));
+                        string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
+                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
                     }
                 }
                 else
                 {
-                    keyword = match.Value.Substring(2, match.Value.Length - 4).ToLower(); ; //The match has no parameter.
+                    keyword = match.Value.Substring(2, match.Value.Length - 2).ToLower(); ; //The match has no parameter.
                 }
 
                 switch (keyword)
@@ -453,12 +482,19 @@ namespace AsapWiki.Shared.Wiki
                             }
                         }
                         break;
-
+                    //Associates tags with a page. These are saved with the page and can also be displayed.
+                    case "settags": //##SetTags(draft,new,test)
+                        if (args != null && args.Count > 0)
+                        {
+                            _tags.AddRange(args);
+                            StoreMatch(match.Value, "");
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages in the specified category.
                     //  Optionally also only pulls n-number of pages ordered by decending by the last modified date (then by page name).
-                    case "recentlymodified": //(TopCount)
-                    case "recentlymodifiedfull": //(TopCount)
+                    case "recentlymodified": //##RecentlyModified(TopCount)
+                    case "recentlymodifiedfull": //##RecentlyModifiedFull(TopCount)
                         if (args != null && (args.Count == 1))
                         {
                             if (!int.TryParse(args[0], out int takeCount))
@@ -813,16 +849,16 @@ namespace AsapWiki.Shared.Wiki
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "name":
-                        {
-                            string name = string.Empty;
-
-                            name = _page.Name;
-
-                            if (name != string.Empty)
-                            {
-                                StoreMatch(match.Value, name);
-                            }
-                        }
+                        StoreMatch(match.Value, _page.Name);
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "title":
+                        StoreMatch(match.Value, $"<h1>{_page.Name}</h1>");
+                        break;
+                    case "br": //Line break;
+                    case "nl": //New line.
+                    case "newline": //New line
+                        StoreMatch(match.Value, $"<br />");
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
@@ -845,15 +881,77 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformPostProcess()
         {
-            //Functions without parameters.
-            Regex rgx = new Regex(@"(\#\#.*)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#.*?\(.*?\))|(\#\#.+?\(\))|(\#\#\w+)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
+
             foreach (Match match in matches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
+                string keyword = string.Empty;
+                var args = new List<string>();                ;
 
-                switch (keyword.ToLower())
+                MatchCollection rawargs = (new Regex(@"\(+?\)|\(.+?\)")).Matches(match.Value);
+                if (rawargs.Count > 0)
                 {
+                    keyword = match.Value.Substring(2, match.Value.IndexOf('(') - 2).ToLower();
+
+                    foreach (var rawarg in rawargs)
+                    {
+                        string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
+                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                    }
+                }
+                else
+                {
+                    keyword = match.Value.Substring(2, match.Value.Length - 2).ToLower(); ; //The match has no parameter.
+                }
+
+                switch (keyword)
+                {
+                    //Displays a tag link list.
+                    case "tags": //##tags([optional]Format=OrderedList|FlatList,[optional]Layout=Links|Text)
+                        {
+                            string format = "orderedlist";
+                            string display = "links";
+
+                            if (args.Count > 0) format = args[0].ToLower();
+                            if (args.Count > 1) display = args[1].ToLower();
+
+                            var html = new StringBuilder();
+
+                            if (format == "orderedlist")
+                            {
+                                html.Append("<ul>");
+                                foreach (var tag in _tags)
+                                {
+                                    if (display == "links")
+                                    {
+                                        html.Append($"<li><a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
+                                    }
+                                    else if (display == "text")
+                                    {
+                                        html.Append($"<li>{tag}");
+                                    }
+                                }
+                                html.Append("</ul>");
+                            }
+                            else if (format == "flatlist")
+                            {
+                                foreach (var tag in _tags)
+                                {
+                                    if (display == "links")
+                                    {
+                                        html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a> ");
+                                    }
+                                    else if (display == "text")
+                                    {
+                                        html.Append($"{tag} ");
+                                    }
+                                }
+                            }
+
+                            StoreMatch(match.Value, html.ToString());
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "toc":
                         {

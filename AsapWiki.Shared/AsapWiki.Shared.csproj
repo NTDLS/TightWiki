@@ -80,6 +80,7 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\ConfigurationEntry.cs" />
     <Compile Include="Models\ConfigurationGroup.cs" />
+    <Compile Include="Models\Extensions\Attachments.cs" />
     <Compile Include="Models\Extensions\EditPage.cs" />
     <Compile Include="Models\Extensions\FormReset.cs" />
     <Compile Include="Models\Extensions\FormForgot.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Models\Extensions\FormSignup.cs" />
     <Compile Include="Models\Extensions\FormLogin.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\PageFile.cs" />
     <Compile Include="Models\PageTag.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
@@ -97,10 +99,12 @@
     <Compile Include="ADO\Singletons.cs" />
     <Compile Include="ADO\SqlConnectionHandler.cs" />
     <Compile Include="Repository\Extensions\ConfigurationEntryRepository.cs" />
+    <Compile Include="Repository\Extensions\PageFileRepository.cs" />
     <Compile Include="Repository\Extensions\PageRepository.cs" />
     <Compile Include="Repository\Extensions\PageTagRepository.cs" />
     <Compile Include="Repository\Extensions\RoleRepository.cs" />
     <Compile Include="Repository\Extensions\UserRepository.cs" />
+    <Compile Include="Repository\PageFileRepository.cs" />
     <Compile Include="Repository\PageRepository.cs" />
     <Compile Include="Repository\PageTagRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />

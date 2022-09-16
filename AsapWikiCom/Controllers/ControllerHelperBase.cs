@@ -2,6 +2,7 @@
 using AsapWiki.Shared.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -15,6 +16,13 @@ namespace AsapWikiCom.Controllers
     public class ControllerHelperBase : Controller
     {
         public StateContext context = new StateContext();
+
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            BinaryReader reader = new BinaryReader(image.InputStream);
+            byte[] imageBytes = reader.ReadBytes((int)image.ContentLength);
+            return imageBytes;
+        }
 
         public void Configure()
         {
