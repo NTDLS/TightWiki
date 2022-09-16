@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsapWiki.Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace AsapWiki.Shared.Classes
     public class StateContext
     {
         public bool IsAuthenticated { get; set; }
-        public string EmailAddress { get; set; }
+        public User User { get; set; }
         public List<string> Roles { get; set; }
 
         public bool CanEditPage()

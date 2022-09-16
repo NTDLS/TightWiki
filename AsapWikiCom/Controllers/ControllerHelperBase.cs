@@ -25,6 +25,8 @@ namespace AsapWikiCom.Controllers
             ViewBag.Title = ViewBag.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             ViewBag.FooterBlurb = config.Where(o => o.Name == "FooterBlurb").FirstOrDefault()?.Value;
             ViewBag.Copyright = config.Where(o => o.Name == "Copyright").FirstOrDefault()?.Value;
+            //ViewBag.PageUri = $"{RouteData.Values["controller"]}/{RouteData.Values["action"]}/{RouteData.Values["navigation"]}";
+            ViewBag.Navigation = RouteValue("navigation");
         }
 
         public void HydrateSecurityContext()
@@ -39,8 +41,11 @@ namespace AsapWikiCom.Controllers
                 var principal = new GenericPrincipal(User.Identity, roles);
 
                 context.IsAuthenticated = User.Identity.IsAuthenticated;
-                context.EmailAddress = principal.Identity.Name;
-                context.Roles = roles.ToList();
+                if (context.IsAuthenticated)
+                {
+                    context.Roles = roles.ToList();
+                    context.User = UserRepository.GetUserById(int.Parse(principal.Identity.Name));
+                }
             }
         }
 
@@ -49,16 +54,16 @@ namespace AsapWikiCom.Controllers
             var user = UserRepository.GetUserByEmailAndPassword(emailAddress, password);
             if (user != null)
             {
-                FormsAuthentication.SetAuthCookie(user.EmailAddress, false);
+                FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
                 var roles = RoleRepository.GetUserRolesByUserId(user.Id);
                 string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
 
                 var ticket = new FormsAuthenticationTicket(
                      version: 1,
-                     name: emailAddress,
+                     name: user.Id.ToString(),
                      issueDate: DateTime.Now,
-                     expiration: DateTime.Now.AddSeconds(Session.Timeout),
+                     expiration: DateTime.Now.AddMinutes(Session.Timeout),
                      isPersistent: false,
                      userData: String.Join("|", arrayOfRoles));
 

@@ -41,24 +41,68 @@ namespace AsapWikiCom.Controllers
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
             {
+                //Editing an existing page.
                 ViewBag.Title = page.Name;
-
-                return View(new Page()
-                {
-                     Body = page.Body
-                });
+                return View(page);
             }
+            else
+            {
+                var pageName = Request.QueryString["Name"] ?? navigation;
 
-            return View();
+                page = new Page()
+                {
+                    Body = "#Draft\r\n\r\n",
+                    Name = pageName,
+                    Navigation = navigation
+                };
+                
+                return View(page);
+            }
         }
 
         [Authorize]
         [HttpPost]
-        public ActionResult Edit(AsapWiki.Shared.Models.Page editPage)
+        public ActionResult Edit(Page editPage)
         {
+            Configure();
+
             if (ModelState.IsValid)
             {
-                ModelState.AddModelError("", "wtf did you do man?!");
+                if (editPage.Id == 0)
+                {
+                    var page = new Page()
+                    {
+                        CreatedDate = DateTime.Now,
+                        CreatedByUserId = context.User.Id,
+                        ModifiedDate = DateTime.Now,
+                        ModifiedByUserId = context.User.Id,
+                        Body = editPage.Body,
+                        Name = editPage.Name,
+                        Navigation = HTML.CleanPartialURI(editPage.Name),
+                        Description = editPage.Description
+                    };
+
+                    var tags = page.HashTags();
+                    PageRepository.InsertPage(page);
+                    PageTagRepository.UpdatePageTags(editPage.Id, tags);
+                }
+                else
+                {
+                    var page = PageRepository.GetPageById(editPage.Id);
+
+                    page.ModifiedDate = DateTime.Now;
+                    page.ModifiedByUserId = context.User.Id;
+                    page.Body = editPage.Body;
+                    page.Name = editPage.Name;
+                    page.Navigation = HTML.CleanPartialURI(editPage.Name);
+                    page.Description = editPage.Description;
+
+                    var tags = page.HashTags();
+                    PageRepository.UpdatePageById(page);
+                    PageTagRepository.UpdatePageTags(editPage.Id, tags);
+                }
+
+                //ModelState.AddModelError("", "wtf did you do man?!");
             }
             return View();
         }

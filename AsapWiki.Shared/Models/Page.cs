@@ -39,6 +39,22 @@ private string _name;
 			}
 		}
 		
+private string _navigation;
+		public string Navigation
+		{
+			get
+			{
+				return this._navigation;
+			}
+			set
+			{
+				if (this._navigation != value)
+				{
+					this._navigation = value;
+				}            
+			}
+		}
+		
 private string _description;
 		public string Description
 		{
@@ -67,22 +83,6 @@ private string _body;
 				if (this._body != value)
 				{
 					this._body = value;
-				}            
-			}
-		}
-		
-private string _navigation;
-		public string Navigation
-		{
-			get
-			{
-				return this._navigation;
-			}
-			set
-			{
-				if (this._navigation != value)
-				{
-					this._navigation = value;
 				}            
 			}
 		}

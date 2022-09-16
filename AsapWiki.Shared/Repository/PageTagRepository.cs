@@ -7,74 +7,62 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class PageRepository
+	public static partial class PageTagRepository
 	{        
-		public static List<Page> GetAllPage()
+		public static List<PageTag> GetAllPageTag()
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<Page>("GetAllPage",
+                return handler.Connection.Query<PageTag>("GetAllPageTag",
                     null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
 		}
 
-		public static Page GetPageById(int id)
+		public static PageTag GetPageTagById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<Page>("GetPageById",
+                return handler.Connection.Query<PageTag>("GetPageTagById",
                     new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
 		}
 
-		public static void UpdatePageById(Page item)
+		public static void UpdatePageTagById(PageTag item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
 					Id = item.Id,
-					Name = item.Name,
-					Navigation = item.Navigation,
-					Description = item.Description,
-					Body = item.Body,
-					CreatedByUserId = item.CreatedByUserId,
-					CreatedDate = item.CreatedDate,
-					ModifiedByUserId = item.ModifiedByUserId,
-					ModifiedDate = item.ModifiedDate
+					PageId = item.PageId,
+					Tag = item.Tag
 				};
 
-                handler.Connection.Execute("UpdatePageById",
+                handler.Connection.Execute("UpdatePageTagById",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}		
 
-		public static int InsertPage(Page item)
+		public static int InsertPageTag(PageTag item)
 		{
             using (var handler = new SqlConnectionHandler())
             {
 				var param = new
 				{
-					Name = item.Name,
-					Navigation = item.Navigation,
-					Description = item.Description,
-					Body = item.Body,
-					CreatedByUserId = item.CreatedByUserId,
-					CreatedDate = item.CreatedDate,
-					ModifiedByUserId = item.ModifiedByUserId,
-					ModifiedDate = item.ModifiedDate
+					PageId = item.PageId,
+					Tag = item.Tag
 				};
 
-                return handler.Connection.ExecuteScalar<int>("InsertPage",
+                return handler.Connection.ExecuteScalar<int>("InsertPageTag",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
 		}
 		
-		public static void DeletePageById(int id)
+		public static void DeletePageTagById(int id)
 		{
             using (var handler = new SqlConnectionHandler())
             {
-                handler.Connection.Execute("DeletePageById",
+                handler.Connection.Execute("DeletePageTagById",
                     new { Id = id }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }						
 		}

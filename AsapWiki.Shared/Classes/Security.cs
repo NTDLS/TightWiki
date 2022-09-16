@@ -15,6 +15,14 @@ namespace AsapWiki.Shared.Classes
             }
         }
 
+        public static string Sha1(string text)
+        {
+            byte[] buffer = Encoding.Unicode.GetBytes(text);
+            SHA1CryptoServiceProvider cryptoTransformSHA1 = new SHA1CryptoServiceProvider();
+            string hash = BitConverter.ToString(cryptoTransformSHA1.ComputeHash(buffer)).Replace("-", "");
+            return hash;
+        }
+
         public static string Sha256(string value)
         {
             using (var crypt = new System.Security.Cryptography.SHA256Managed())

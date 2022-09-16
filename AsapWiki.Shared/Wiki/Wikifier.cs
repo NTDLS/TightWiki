@@ -34,6 +34,8 @@ namespace AsapWiki.Shared.Wiki
             TransformInnerLinks();
             TransformHTML();
             TransformPostProcess();
+            TransformHashtags();
+            TransformWhitespace();
 
             foreach (var v in _lookup)
             {
@@ -50,6 +52,23 @@ namespace AsapWiki.Shared.Wiki
 
             int previousLength = _markup.Length;
             return (previousLength - _markup.Replace(match, identifier).Length);
+        }
+
+        private void TransformHashtags()
+        {
+            //Remove hashtags, they are stored with the page but not displayed.
+            Regex rgx = new Regex(@"(?:\s|^)#[A-Za-z0-9\-_\.]+", RegexOptions.IgnoreCase);
+            MatchCollection matches = rgx.Matches(_markup.ToString());
+            foreach (Match match in matches)
+            {
+                StoreMatch(match.Value, String.Empty);
+            }
+        }
+
+        private void TransformWhitespace()
+        {
+            _markup = _markup.Replace("\r\n", "\n");
+            _markup = _markup.Replace("\n", "<br />");
         }
 
         private void TransformMarkup()
@@ -89,15 +108,15 @@ namespace AsapWiki.Shared.Wiki
         void TransformSectionHeadings()
         {
             var regEx = new StringBuilder();
-            regEx.Append(@"(\=\=\=\=\=\=.+?\=\=\=\=\=\=)");
+            regEx.Append(@"(\=\=\=\=\=\=.*)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=\=\=\=.+?\=\=\=\=\=)");
+            regEx.Append(@"(\=\=\=\=\=.*)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=\=\=.+?\=\=\=\=)");
+            regEx.Append(@"(\=\=\=\=.*)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=\=.+?\=\=\=)");
+            regEx.Append(@"(\=\=\=.*)");
             regEx.Append(@"|");
-            regEx.Append(@"(\=\=.+?\=\=)");
+            regEx.Append(@"(\=\=.*)");
 
             Regex rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
@@ -115,8 +134,12 @@ namespace AsapWiki.Shared.Wiki
                 if (equalSigns >= 2 && equalSigns <= 6)
                 {
                     string tag = _tocName + "_" + _tocTags.Count().ToString();
-                    string value = match.Value.Substring(equalSigns, match.Value.Length - equalSigns * 2);
-                    string link = "<a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a><br />";
+                    string value = match.Value.Substring(equalSigns, match.Value.Length - equalSigns).Trim();
+
+                    int fontSize = 8 - equalSigns;
+                    if (fontSize < 5) fontSize = 5;
+
+                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>";
                     StoreMatch(match.Value, Regex.Replace(match.Value, match.ToString(), link, RegexOptions.IgnoreCase));
                     _tocTags.Add(new TOCTag(equalSigns - 1, match.Index, tag, value));
                 }
@@ -263,7 +286,7 @@ namespace AsapWiki.Shared.Wiki
                 }
 
                 string pageName = keyword;
-                string pageNavigation = Utility.CleanFullURI(pageName).Replace("/", "");
+                string pageNavigation = HTML.CleanFullURI(pageName).Replace("/", "");
 
                 var page = Repository.PageRepository.GetPageByNavigation(pageNavigation);
 
@@ -278,7 +301,7 @@ namespace AsapWiki.Shared.Wiki
                         linkText = explicitLinkText;
                     }
 
-                    StoreMatch(match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Show/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Show/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_context.CanCreatePage())
                 {
@@ -292,7 +315,7 @@ namespace AsapWiki.Shared.Wiki
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Edit/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
@@ -320,11 +343,11 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformProcessingInstructions()
         {
-            Regex rgx = new Regex(@"(\#\#.+?\#\#)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#.*)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
             foreach (Match match in matches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4);
+                string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
 
                 switch (keyword.ToLower())
                 {
@@ -787,11 +810,11 @@ namespace AsapWiki.Shared.Wiki
         private void TransformPostProcess()
         {
             //Functions without parameters.
-            Regex rgx = new Regex(@"(\#\#.+?\#\#)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#.*)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(_markup.ToString());
             foreach (Match match in matches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4);
+                string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
 
                 switch (keyword.ToLower())
                 {
@@ -812,7 +835,7 @@ namespace AsapWiki.Shared.Wiki
                                 {
                                     while (currentLevel < tag.Level)
                                     {
-                                        html.Append("<ul>\r\n");
+                                        html.Append("<ul>");
                                         currentLevel++;
                                     }
                                 }
@@ -821,17 +844,17 @@ namespace AsapWiki.Shared.Wiki
                                     while (currentLevel > tag.Level)
                                     {
 
-                                        html.Append("</ul>\r\n");
+                                        html.Append("</ul>");
                                         currentLevel--;
                                     }
                                 }
 
-                                html.Append("<li><a href=\"#" + tag.HrefTag + "\">" + tag.Text + "</a></li>\r\n");
+                                html.Append("<li><a href=\"#" + tag.HrefTag + "\">" + tag.Text + "</a></li>");
                             }
 
                             while (currentLevel > 0)
                             {
-                                html.Append("</ul>\r\n");
+                                html.Append("</ul>");
                                 currentLevel--;
                             }
 
@@ -848,7 +871,7 @@ namespace AsapWiki.Shared.Wiki
 
         public Page GetPageFromPathInfo(string routeData)
         {
-            routeData = Utility.CleanFullURI(routeData);
+            routeData = HTML.CleanFullURI(routeData);
             routeData = routeData.Substring(1, routeData.Length - 2);
 
             var page = Repository.PageRepository.GetPageByNavigation(routeData);

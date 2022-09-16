@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\HTML.cs" />
     <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\StateContext.cs" />
     <Compile Include="Classes\TOCTag.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="Models\Extensions\FormSignup.cs" />
     <Compile Include="Models\Extensions\FormLogin.cs" />
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\PageTag.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
@@ -73,12 +75,13 @@
     <Compile Include="ADO\SqlConnectionHandler.cs" />
     <Compile Include="Repository\Extensions\ConfigurationEntryRepository.cs" />
     <Compile Include="Repository\Extensions\PageRepository.cs" />
+    <Compile Include="Repository\Extensions\PageTagRepository.cs" />
     <Compile Include="Repository\Extensions\RoleRepository.cs" />
     <Compile Include="Repository\Extensions\UserRepository.cs" />
     <Compile Include="Repository\PageRepository.cs" />
+    <Compile Include="Repository\PageTagRepository.cs" />
     <Compile Include="Repository\RoleRepository.cs" />
     <Compile Include="Repository\UserRepository.cs" />
-    <Compile Include="Classes\Utility.cs" />
     <Compile Include="Repository\UserRoleRepository.cs" />
     <Compile Include="Wiki\Utility.cs" />
     <Compile Include="Wiki\Wikifier.cs" />

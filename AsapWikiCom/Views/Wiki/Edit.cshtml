@@ -17,18 +17,34 @@
 
                 @using (Html.BeginForm())
                 {
-                    <table border="0" width="100%" cellpadding="5">
-                        <tr class="padded">
-                            <td>
-                                <input type="submit" value="Save" /><br />
-                            </td>
-                        </tr>
-                        <tr class="padded">
-                            <td>
-                                @Html.TextAreaFor(x => x.Body, new { style = "width:90%;height:600px" })
-                            </td>
-                        </tr>
-                    </table>
+                    @Html.HiddenFor(x => x.Id)
+
+            <table border="0" width="100%" cellpadding="5">
+
+                <tr class="padded">
+                    <td>
+                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save</button></div>
+                    </td>
+                </tr>
+                <tr class="padded">
+                    <td>
+                        @Html.LabelFor(x => x.Name)
+                        @Html.TextBoxFor(x => x.Name, new { style = "width:90%" })
+                    </td>
+                </tr>
+                <tr class="padded">
+                    <td>
+                        @Html.LabelFor(x => x.Description)
+                        @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
+                    </td>
+                </tr>
+                <tr class="padded">
+                    <td>
+                        @Html.LabelFor(x => x.Body)
+                        @Html.TextAreaFor(x => x.Body, new { style = "width:90%;height:600px" })
+                    </td>
+                </tr>
+            </table>
                 }
             </td>
         </tr>
