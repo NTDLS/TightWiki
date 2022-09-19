@@ -18,6 +18,19 @@ namespace AsapWiki.Shared.Repository
             }
         }
 
+        public static void DeletePageFileByPageNavigationAndName(string pageNavigation, string imageName)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                handler.Connection.Query<PageFile>("DeletePageFileByPageNavigationAndName",
+                    new
+                    {
+                        PageNavigation = pageNavigation,
+                        ImageName = imageName
+                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
         public static PageFile GetPageFileByPageNavigationAndName(string pageNavigation, string imageName)
         {
             using (var handler = new SqlConnectionHandler())
@@ -39,6 +52,7 @@ namespace AsapWiki.Shared.Repository
                 {
                     PageId = item.PageId,
                     Name = item.Name,
+                    ContentType = item.ContentType,
                     Size = item.Size,
                     CreatedDate = item.CreatedDate,
                     Data = item.Data

@@ -516,6 +516,7 @@ BEGIN--PROCEDURE
 		[Id] as [Id],
 		[PageId] as [PageId],
 		[Name] as [Name],
+		[ContentType] as [ContentType],
 		[Size] as [Size],
 		[CreatedDate] as [CreatedDate],
 		[Data] as [Data]
@@ -571,6 +572,7 @@ BEGIN--PROCEDURE
 		[Id] as [Id],
 		[PageId] as [PageId],
 		[Name] as [Name],
+		[ContentType] as [ContentType],
 		[Size] as [Size],
 		[CreatedDate] as [CreatedDate],
 		[Data] as [Data]
@@ -596,6 +598,7 @@ CREATE PROCEDURE [UpdatePageFileById]
 	@Id as int,
 	@PageId as int,
 	@Name as nvarchar (500),
+	@ContentType as nvarchar (100),
 	@Size as int,
 	@CreatedDate as datetime,
 	@Data as varbinary (MAX)
@@ -610,6 +613,7 @@ BEGIN--PROCEDURE
 	SET
 		[PageId] = @PageId,
 		[Name] = @Name,
+		[ContentType] = @ContentType,
 		[Size] = @Size,
 		[CreatedDate] = @CreatedDate,
 		[Data] = @Data
@@ -634,6 +638,7 @@ CREATE PROCEDURE [InsertPageFile]
 (
 	@PageId as int,
 	@Name as nvarchar (500),
+	@ContentType as nvarchar (100),
 	@Size as int,
 	@CreatedDate as datetime,
 	@Data as varbinary (MAX)
@@ -647,6 +652,7 @@ BEGIN--PROCEDURE
 	(
 		[PageId],
 		[Name],
+		[ContentType],
 		[Size],
 		[CreatedDate],
 		[Data]
@@ -655,6 +661,7 @@ BEGIN--PROCEDURE
 	(
 		@PageId,
 		@Name,
+		@ContentType,
 		@Size,
 		@CreatedDate,
 		@Data

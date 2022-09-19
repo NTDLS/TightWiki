@@ -1,13 +1,11 @@
 ﻿@model AsapWiki.Shared.Models.Attachments
 
 <script>
-
-    function PostToParent() {
+   function PostToParent() {
         var imageData = document.getElementById('imageData'); 
         var fileName = imageData.files.item(0).name;
-        window.top.postMessage('image:##Image(' + fileName + ')', '*')
+        window.top.postMessage('image:##Image(' + fileName + ',100)', '*')
     }
-
 </script>
 
 <form method="post" enctype="multipart/form-data">

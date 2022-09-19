@@ -73,12 +73,18 @@ namespace AsapWikiCom.Controllers
         public ActionResult DeleteFile(string navigation)
         {
             string imageName = Request.QueryString["Image"];
-
             var page = PageRepository.GetPageByNavigation(navigation);
+
+            PageFileRepository.DeletePageFileByPageNavigationAndName(navigation, imageName);
 
             return RedirectToAction("Upload", "Wiki", new { navigation = page.Id });
         }
 
+        /// <summary>
+        /// Gets a file from the database and converts it to a PNG with optional scaling.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Png(string navigation)
@@ -139,7 +145,8 @@ namespace AsapWikiCom.Controllers
                 CreatedDate = DateTime.Now,
                 PageId = pageId,
                 Name = file.FileName,
-                Size = file.ContentLength
+                Size = file.ContentLength,
+                ContentType = MimeMapping.GetMimeMapping(file.FileName)
             });
 
             var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(pageId);
@@ -174,7 +181,7 @@ namespace AsapWikiCom.Controllers
 
             if (ModelState.IsValid)
             {
-                Page page = null;
+                Page page;
 
                 if (editPage.Id == 0)
                 {
@@ -184,33 +191,32 @@ namespace AsapWikiCom.Controllers
                         CreatedByUserId = context.User.Id,
                         ModifiedDate = DateTime.Now,
                         ModifiedByUserId = context.User.Id,
-                        Body = editPage.Body,
+                        Body = editPage.Body ?? "",
                         Name = editPage.Name,
                         Navigation = HTML.CleanPartialURI(editPage.Name),
-                        Description = editPage.Description
+                        Description = editPage.Description ?? ""
                     };
 
                     var tags = page.HashTags();
                     page.Id = PageRepository.InsertPage(page);
                     PageTagRepository.UpdatePageTags(page.Id, tags);
+
+                    return RedirectToAction("Edit", "Wiki", new { navigation = page.Navigation });
                 }
                 else
                 {
                     page = PageRepository.GetPageById(editPage.Id);
                     page.ModifiedDate = DateTime.Now;
                     page.ModifiedByUserId = context.User.Id;
-                    page.Body = editPage.Body;
+                    page.Body = editPage.Body ?? "";
                     page.Name = editPage.Name;
                     page.Navigation = HTML.CleanPartialURI(editPage.Name);
-                    page.Description = editPage.Description;
+                    page.Description = editPage.Description ?? "";
 
                     var tags = page.HashTags();
                     PageRepository.UpdatePageById(page);
                     PageTagRepository.UpdatePageTags(editPage.Id, tags);
-                }
 
-                if (page != null)
-                {
                     return View(new EditPage()
                     {
                         Id = page.Id,

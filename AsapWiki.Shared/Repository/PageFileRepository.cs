@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class PageFileRepository
-	{
-				public static List<PageFile> GetAllPageFile()
+    public static partial class PageFileRepository
+	{        
+		public static List<PageFile> GetAllPageFile()
 		{
             using (var handler = new SqlConnectionHandler())
             {
@@ -36,6 +36,7 @@ namespace AsapWiki.Shared.Repository
 					Id = item.Id,
 					PageId = item.PageId,
 					Name = item.Name,
+					ContentType = item.ContentType,
 					Size = item.Size,
 					CreatedDate = item.CreatedDate,
 					Data = item.Data
@@ -54,6 +55,7 @@ namespace AsapWiki.Shared.Repository
 				{
 					PageId = item.PageId,
 					Name = item.Name,
+					ContentType = item.ContentType,
 					Size = item.Size,
 					CreatedDate = item.CreatedDate,
 					Data = item.Data

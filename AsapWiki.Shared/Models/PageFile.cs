@@ -55,6 +55,22 @@ private string _name;
 			}
 		}
 		
+private string _contentType;
+		public string ContentType
+		{
+			get
+			{
+				return this._contentType;
+			}
+			set
+			{
+				if (this._contentType != value)
+				{
+					this._contentType = value;
+				}            
+			}
+		}
+		
 private int _size;
 		public int Size
 		{

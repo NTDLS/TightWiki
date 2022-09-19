@@ -90,7 +90,17 @@ namespace AsapWiki.Shared.Wiki
         private void TransformWhitespace()
         {
             _markup = _markup.Replace("\r\n", "\n");
-            _markup = _markup.Replace("\n\n", "<br />");
+
+            /*
+            int length;
+            do
+            {
+                length = _markup.Length;
+                _markup = _markup.Replace("\n\n", "\n");
+            } while (_markup.Length != length);
+            */
+
+            _markup = _markup.Replace("\n", "<br />");
         }
 
         /// <summary>
@@ -218,7 +228,7 @@ namespace AsapWiki.Shared.Wiki
                     int fontSize = 8 - equalSigns;
                     if (fontSize < 5) fontSize = 5;
 
-                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font><br />";
+                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>";
                     StoreMatch(match.Value.Trim(), link);
                     _tocTags.Add(new TOCTag(equalSigns - 1, match.Index, tag, value));
                 }
@@ -495,14 +505,20 @@ namespace AsapWiki.Shared.Wiki
                         {
                             string imageName = args[0];
                             string scale = "100";
+                            string alt = imageName;
 
                             if (args.Count > 1)
                             {
                                 scale = args[1];
                             }
 
+                            if (args.Count > 2)
+                            {
+                                alt = args[2];
+                            }
+
                             string link = $"/Wiki/Png/{_page.Navigation}?Image={imageName}";
-                            string image = $"<a href=\"{link}\"><img src=\"{link}&Scale={scale}\" alt=\"{imageName}\" border=\"0\" target=\"_blank\" /></a>";
+                            string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
 
                             StoreMatch(match.Value, image);
                         }
