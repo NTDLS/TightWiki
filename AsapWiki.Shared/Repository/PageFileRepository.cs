@@ -8,8 +8,8 @@ using System.Linq;
 namespace AsapWiki.Shared.Repository
 {
 	public static partial class PageFileRepository
-	{        
-		public static List<PageFile> GetAllPageFile()
+	{
+				public static List<PageFile> GetAllPageFile()
 		{
             using (var handler = new SqlConnectionHandler())
             {

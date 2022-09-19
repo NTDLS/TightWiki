@@ -23,6 +23,12 @@ namespace AsapWikiCom
             */
 
             routes.MapRoute(
+                name: "CategoryPage",
+                url: "{controller}/{action}/{navigation}",
+                defaults: new { controller = "Wiki", action = "Show", navigation = "Home" }
+            );
+            
+            routes.MapRoute(
                 name: "DefaultWiki",
                 url: "{navigation}",
                 defaults: new { navigation = "Home", controller = "Wiki", action = "Show" }
@@ -32,12 +38,6 @@ namespace AsapWikiCom
                 name: "DefaultOther",
                 url: "{controller}/{action}",
                 defaults: new { controller = "Wiki", action = "Login" }
-            );
-
-            routes.MapRoute(
-                name: "CategoryPage",
-                url: "{controller}/{action}/{navigation}",
-                defaults: new { controller = "Wiki", action = "Show" }
             );
         }
     }

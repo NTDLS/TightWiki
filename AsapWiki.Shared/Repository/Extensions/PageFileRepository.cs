@@ -17,5 +17,36 @@ namespace AsapWiki.Shared.Repository
                     new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
+
+        public static PageFile GetPageFileByPageNavigationAndName(string pageNavigation, string imageName)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.Query<PageFile>("GetPageFileByPageNavigationAndName",
+                    new
+                    {
+                        PageNavigation = pageNavigation,
+                        ImageName = imageName
+                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
+
+        public static int UpsertPageFile(PageFile item)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = item.PageId,
+                    Name = item.Name,
+                    Size = item.Size,
+                    CreatedDate = item.CreatedDate,
+                    Data = item.Data
+                };
+
+                return handler.Connection.ExecuteScalar<int>("UpsertPageFile",
+                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
     }
 }

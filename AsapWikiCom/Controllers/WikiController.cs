@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using AsapWiki.Shared.Classes;
+﻿using AsapWiki.Shared.Classes;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AsapWikiCom.Controllers
 {
@@ -69,7 +68,60 @@ namespace AsapWikiCom.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult DeleteFile(string navigation)
+        {
+            string imageName = Request.QueryString["Image"];
 
+            var page = PageRepository.GetPageByNavigation(navigation);
+
+            return RedirectToAction("Upload", "Wiki", new { navigation = page.Id });
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Png(string navigation)
+        {
+            string imageName = Request.QueryString["Image"];
+            string scale = Request.QueryString["Scale"] ?? "100";
+
+            var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, imageName);
+
+            if (file != null)
+            {
+                var img = Image.FromStream(new MemoryStream(file.Data));
+
+                int iscale = int.Parse(scale);
+                if (iscale != 100)
+                {
+                    int width = (int)(img.Width * (iscale / 100.0));
+                    int height = (int)(img.Height * (iscale / 100.0));
+
+                    using (Bitmap bmp = Images.ResizeImage(img, width, height) as Bitmap)
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            bmp.Save(ms, ImageFormat.Png);
+                            return File(ms.ToArray(), "image/png");
+                        }
+                    }
+                }
+                else
+                {
+                    var bmp = img as Bitmap;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        bmp.Save(ms, ImageFormat.Png);
+                        return File(ms.ToArray(), "image/png");
+                    }
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         [Authorize]
         [HttpPost]
@@ -81,7 +133,7 @@ namespace AsapWikiCom.Controllers
             int pageId = int.Parse(navigation);
 
             HttpPostedFileBase file = Request.Files["ImageData"];
-            PageFileRepository.InsertPageFile(new PageFile()
+            PageFileRepository.UpsertPageFile(new PageFile()
             {
                 Data = ConvertToBytes(file),
                 CreatedDate = DateTime.Now,
@@ -101,8 +153,11 @@ namespace AsapWikiCom.Controllers
         public ActionResult Upload()
         {
             Configure();
-            string navigation = RouteValue("navigation");
-            int pageId = int.Parse(navigation);
+            int pageId = int.Parse(RouteValue("navigation"));
+
+            var page = PageRepository.GetPageById(pageId);
+
+            ViewBag.Navigation = page.Navigation;
 
             var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(pageId);
             return View(new Attachments()

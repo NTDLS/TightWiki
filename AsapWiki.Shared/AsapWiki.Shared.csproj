@@ -45,6 +45,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -73,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\HTML.cs" />
+    <Compile Include="Classes\Images.cs" />
     <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\StateContext.cs" />
     <Compile Include="Classes\TOCTag.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Models\Extensions\Page.cs" />
     <Compile Include="Models\Extensions\FormSignup.cs" />
     <Compile Include="Models\Extensions\FormLogin.cs" />
+    <Compile Include="Models\Extensions\PageFile.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\PageFile.cs" />
     <Compile Include="Models\PageTag.cs" />

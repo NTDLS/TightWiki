@@ -490,6 +490,23 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(match.Value, "");
                         }
                         break;
+                    case "image":
+                        if (args != null && args.Count > 0)
+                        {
+                            string imageName = args[0];
+                            string scale = "100";
+
+                            if (args.Count > 1)
+                            {
+                                scale = args[1];
+                            }
+
+                            string link = $"/Wiki/Png/{_page.Navigation}?Image={imageName}";
+                            string image = $"<a href=\"{link}\"><img src=\"{link}&Scale={scale}\" alt=\"{imageName}\" border=\"0\" target=\"_blank\" /></a>";
+
+                            StoreMatch(match.Value, image);
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages in the specified category.
                     //  Optionally also only pulls n-number of pages ordered by decending by the last modified date (then by page name).

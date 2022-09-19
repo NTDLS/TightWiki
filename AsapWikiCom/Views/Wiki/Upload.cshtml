@@ -1,13 +1,22 @@
 ﻿@model AsapWiki.Shared.Models.Attachments
 
+<script>
+
+    function PostToParent() {
+        var imageData = document.getElementById('imageData'); 
+        var fileName = imageData.files.item(0).name;
+        window.top.postMessage('image:##Image(' + fileName + ')', '*')
+    }
+
+</script>
+
 <form method="post" enctype="multipart/form-data">
 
-    <input type="file" name="ImageData" id="ImageData" onchange="fileCheck(this);" />
-    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Upload</button></div>
+    <input type="file" name="imageData" id="imageData" onchange="fileCheck(this);" />
+    <div class="form-group"><button type="submit" onclick="PostToParent()" class="btn btn-primary rounded-0">Upload</button></div>
 </form>
 
 @foreach (var x in Model.Files)
 {
-    <div>@x.Name</div>
+    <div><a href="/Wiki/Png/@ViewBag.Navigation?Image=@x.Name" target="_blank"> @x.Name</a> [@x.FriendlySize] - <a href="/Wiki/DeleteFile/@ViewBag.Navigation?Image=@x.Name" onclick="return window.confirm('Delete the image?');">Delete</a></div>
 }
-
