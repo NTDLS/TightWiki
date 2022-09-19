@@ -7,6 +7,7 @@ using System.IO;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Classes;
 using System.Web;
+using AsapWiki.Shared.Repository;
 
 namespace AsapWiki.Shared.Wiki
 {
@@ -24,6 +25,7 @@ namespace AsapWiki.Shared.Wiki
         {
             _context = context;
         }
+
 
         public string Transform(Page page)
         {
@@ -54,6 +56,15 @@ namespace AsapWiki.Shared.Wiki
             } while (length != _markup.Length);
 
             return _markup.ToString();
+        }
+
+        private int StoreError(string match, string value)
+        {
+            string identifier = "{" + Guid.NewGuid().ToString() + "}";
+            _lookup.Add(identifier, $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>");
+
+            int previousLength = _markup.Length;
+            return (previousLength - _markup.Replace(match, identifier).Length);
         }
 
         private int StoreMatch(string match, string value)
@@ -271,68 +282,6 @@ namespace AsapWiki.Shared.Wiki
                 }
             }
 
-            //Parse internal explicit links. eg. [[/Login.aspx|Login Now]].
-            rgx = new Regex(@"(\[\[\/.+?\]\])", RegexOptions.IgnoreCase);
-            matches = rgx.Matches(_markup.ToString());
-            foreach (Match match in matches)
-            {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4);
-                string linkText = string.Empty;
-                string fileSize = string.Empty;
-                bool isLinkImage = false;
-
-                int pipeIndex = keyword.IndexOf("|");
-                if (pipeIndex > 0)
-                {
-                    linkText = keyword.Substring(pipeIndex + 1);
-
-                    if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        isLinkImage = true;
-                        string border = "";
-
-                        if (linkText.IndexOf("border", StringComparison.CurrentCultureIgnoreCase) < 0)
-                        {
-                            border = " border=\"0\"";
-                        }
-
-                        linkText = "<img " + linkText + border + ">";
-                    }
-
-                    keyword = keyword.Substring(0, pipeIndex);
-                }
-                else
-                {
-                    int iSlashIndex = keyword.LastIndexOf("/");
-                    if (iSlashIndex > 0)
-                    {
-                        linkText = keyword.Substring(iSlashIndex + 1);
-                    }
-                    else
-                    {
-                        linkText = keyword;
-                    }
-                }
-
-                /* //This looks like we are linking to a file, not a page. wtf?
-                if (!isLinkImage)
-                {
-                    try
-                    {
-                        string fullFilePath = _basePage.Server.MapPath(keyword);
-                        if (fullFilePath != "" && File.Exists(fullFilePath))
-                        {
-                            FileInfo fileInfo = new FileInfo(fullFilePath);
-                            fileSize = " <font color=\"#666666\">(" + Utility.GetFriendlySize(fileInfo.Length) + ")</font>";
-                        }
-                    }
-                    catch { }
-                }
-                */
-
-                StoreMatch(match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>" + fileSize);
-            }
-
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
             matches = rgx.Matches(_markup.ToString());
@@ -347,23 +296,10 @@ namespace AsapWiki.Shared.Wiki
                 {
                     explicitLinkText = keyword.Substring(pipeIndex + 1);
                     keyword = keyword.Substring(0, pipeIndex);
-
-                    if (explicitLinkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        string border = "";
-
-                        if (explicitLinkText.IndexOf("border", StringComparison.CurrentCultureIgnoreCase) < 0)
-                        {
-                            border = " border=\"0\"";
-                        }
-
-                        explicitLinkText = "<img " + explicitLinkText + border + ">";
-                    }
                 }
 
                 string pageName = keyword;
                 string pageNavigation = HTML.CleanFullURI(pageName).Replace("/", "");
-
                 var page = Repository.PageRepository.GetPageByNavigation(pageNavigation);
 
                 if (page != null)
@@ -411,7 +347,7 @@ namespace AsapWiki.Shared.Wiki
                     }
                     else
                     {
-                        StoreMatch(match.Value, "");
+                        StoreError(match.Value, $"The page has no name for {keyword}");
                     }
                 }
             }
@@ -428,11 +364,11 @@ namespace AsapWiki.Shared.Wiki
                 switch (keyword.ToLower())
                 {
                     case "depreciate":
-                        _markup.Insert(0, "<font color=\"#cc0000\" size=\"3\">This page has been depreciate and will be deleted.<br /></font>");
+                        _markup.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
                         StoreMatch(match.Value, "");
                         break;
                     case "draft":
-                        _markup.Insert(0, "<font color=\"#cc0000\" size=\"3\">This page is a draft and may contain incorrect information and/or experimental styling.<br /></font>");
+                        _markup.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
                         StoreMatch(match.Value, "");
                         break;
                 }
@@ -474,10 +410,15 @@ namespace AsapWiki.Shared.Wiki
                 switch (keyword)
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Includes a page by it's category name and page name.
+                    //Includes a page by it's navigation link.
                     case "include": //(PageCategory\PageName)
-                        if (args != null && args.Count == 1)
                         {
+                            if (args.Count != 1)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             Page page = GetPageFromPathInfo(args[0]);
                             if (page != null)
                             {
@@ -493,16 +434,28 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
                     //Associates tags with a page. These are saved with the page and can also be displayed.
-                    case "settags": //##SetTags(draft,new,test)
-                        if (args != null && args.Count > 0)
+                    case "settags": //##SetTags(comma,seperated,list,of,tags)
                         {
+                            if (args.Count == 0)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             _tags.AddRange(args);
                             StoreMatch(match.Value, "");
                         }
                         break;
-                    case "image":
+                    //Displays an image that is attached to the page.
+                    case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
                         if (args != null && args.Count > 0)
                         {
+                            if (args.Count < 1 || args.Count > 2)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             string imageName = args[0];
                             string scale = "100";
                             string alt = imageName;
@@ -511,7 +464,6 @@ namespace AsapWiki.Shared.Wiki
                             {
                                 scale = args[1];
                             }
-
                             if (args.Count > 2)
                             {
                                 alt = args[2];
@@ -524,12 +476,16 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of pages in the specified category.
-                    //  Optionally also only pulls n-number of pages ordered by decending by the last modified date (then by page name).
+                    //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
                     case "recentlymodifiedfull": //##RecentlyModifiedFull(TopCount)
-                        if (args != null && (args.Count == 1))
                         {
+                            if (args.Count != 1)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             if (!int.TryParse(args[0], out int takeCount))
                             {
                                 continue;
@@ -853,12 +809,17 @@ namespace AsapWiki.Shared.Wiki
                         break;
                     */
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the date and time that the current page was last modified.
                     case "lastmodified":
                         {
+                            if (args.Count != 0)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             DateTime lastModified = DateTime.MinValue;
-
                             lastModified = _page.ModifiedDate;
-
                             if (lastModified != DateTime.MinValue)
                             {
                                 StoreMatch(match.Value, lastModified.ToShortDateString());
@@ -867,12 +828,17 @@ namespace AsapWiki.Shared.Wiki
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the date and time that the current page was created.
                     case "created":
                         {
+                            if (args.Count != 0)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             DateTime createdDate = DateTime.MinValue;
-
                             createdDate = _page.CreatedDate;
-
                             if (createdDate != DateTime.MinValue)
                             {
                                 StoreMatch(match.Value, createdDate.ToShortDateString());
@@ -881,20 +847,57 @@ namespace AsapWiki.Shared.Wiki
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the name of the current page.
                     case "name":
-                        StoreMatch(match.Value, _page.Name);
+                        {
+                            if (args.Count != 0)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+                            StoreMatch(match.Value, _page.Name);
+                        }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the name of the current page in title form.
                     case "title":
-                        StoreMatch(match.Value, $"<h1>{_page.Name}</h1>");
+                        {
+                            if (args.Count != 0)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+                            StoreMatch(match.Value, $"<h1>{_page.Name}</h1>");
+                        }
                         break;
-                    case "br": //Line break;
-                    case "nl": //New line.
-                    case "newline": //New line
-                        StoreMatch(match.Value, $"<br />");
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Inserts empty lines into the page.
+                    case "br":
+                    case "nl":
+                    case "newline": //##NewLine([optional:default=1]count)
+                        {
+                            int count = 1;
+
+                            if (args.Count > 1)
+                            {
+                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
+                            if (args.Count > 0)
+                            {
+                                count = int.Parse(args[0]);
+                            }
+
+                            for (int i = 0; i < count; i++)
+                            {
+                                StoreMatch(match.Value, $"<br />");
+                            }
+                        }
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the navigation text for the current page.
                     case "navigation":
                         {
                             string navigation = string.Empty;
@@ -920,7 +923,7 @@ namespace AsapWiki.Shared.Wiki
             foreach (Match match in matches)
             {
                 string keyword = string.Empty;
-                var args = new List<string>();                ;
+                var args = new List<string>(); ;
 
                 MatchCollection rawargs = (new Regex(@"\(+?\)|\(.+?\)")).Matches(match.Value);
                 if (rawargs.Count > 0)
@@ -941,7 +944,7 @@ namespace AsapWiki.Shared.Wiki
                 switch (keyword)
                 {
                     //Displays a tag link list.
-                    case "tags": //##tags([optional]Format=OrderedList|FlatList,[optional]Layout=Links|Text)
+                    case "tags": //##tags([optional:default=orderedlist]Format=OrderedList|FlatList,[optional:default=links]Layout=Links|Text)
                         {
                             string format = "orderedlist";
                             string display = "links";
@@ -985,10 +988,17 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(match.Value, html.ToString());
                         }
                         break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Diplays a table of contents for the page based on the header tags.
                     case "toc":
                         {
+
                             var html = new StringBuilder();
+
+                            html.Append("<div class=\"panel panel-default\">");
+                            html.Append("<div class=\"panel-heading\">Table of Contents</div>");
+                            html.Append("<div class=\"panel-body\">");
 
                             var tags = from t in _tocTags
                                        orderby t.StartingPosition
@@ -1024,6 +1034,8 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("</ul>");
                                 currentLevel--;
                             }
+                            html.Append("</div>");
+                            html.Append("</div>");
 
                             StoreMatch(match.Value, html.ToString());
                         }
