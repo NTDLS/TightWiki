@@ -17,9 +17,9 @@ namespace AsapWiki.Shared.Wiki
         {
             public string Content { get; set; }
             /// <summary>
-            /// If true, the content from this match will not be replaced until the final pass.
+            /// The content in this segment will not be wikified.
             /// </summary>
-            public bool LateDecode { get; set; }
+            public bool AllowNestedDecode { get; set; }
         }
 
         private int _matchesPerIteration = 0;
@@ -71,6 +71,7 @@ namespace AsapWiki.Shared.Wiki
         {
             _matchesPerIteration = 0;
 
+            TransformSections(pageContent);
             TransformInnerLinks(pageContent);
             TransformMarkup(pageContent);
             TransformSectionHeadings(pageContent);
@@ -84,7 +85,7 @@ namespace AsapWiki.Shared.Wiki
                 length = pageContent.Length;
                 foreach (var v in _lookup)
                 {
-                    if (v.Value.LateDecode == false)
+                    if (v.Value.AllowNestedDecode)
                     {
                         pageContent.Replace(v.Key, v.Value.Content);
                     }
@@ -103,14 +104,14 @@ namespace AsapWiki.Shared.Wiki
             var matchSet = new MatchSet()
             {
                 Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
-                LateDecode = true
+                AllowNestedDecode = false
             };
 
             _lookup.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
         }
 
-        private void StoreMatch(StringBuilder pageContent, string match, string value, bool lateDecode = false)
+        private void StoreMatch(StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
             _matchesPerIteration++;
 
@@ -119,14 +120,14 @@ namespace AsapWiki.Shared.Wiki
             var matchSet = new MatchSet()
             {
                 Content = value,
-                LateDecode = lateDecode
+                AllowNestedDecode = allowNestedDecode
             };
 
             _lookup.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
         }
 
-        private void StoreMatch(StringBuilder pageContent, int startPosition, int length, string value, bool lateDecode = false)
+        private void StoreMatch(StringBuilder pageContent, int startPosition, int length, string value, bool allowNestedDecode = true)
         {
             _matchesPerIteration++;
 
@@ -135,7 +136,7 @@ namespace AsapWiki.Shared.Wiki
             var matchSet = new MatchSet()
             {
                 Content = value,
-                LateDecode = lateDecode
+                AllowNestedDecode = allowNestedDecode
             };
 
             _lookup.Add(identifier, matchSet);
@@ -177,26 +178,46 @@ namespace AsapWiki.Shared.Wiki
         /// </summary>
         /// <param name="regex"></param>
         /// <param name="htmlTag"></param>
-        void ReplaceWholeLineHTMLMarker(StringBuilder pageContent, string regex, string htmlTag)
+        void ReplaceWholeLineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
         {
-            Regex rgx = new Regex(regex, RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            string marker = String.Empty;
+            if (escape)
+            {
+                foreach (var c in mark)
+                {
+                    marker += $"\\{c}";
+                }
+            }
+            else
+            {
+                marker = mark;
+            }
+
+            Regex rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
             //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
             for (int i = matches.Count - 1; i > -1; i--)
             {
                 var match = matches[i];
-                string value = match.Value.Substring(1, match.Value.Length - 1).Trim();
+                string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
                 var matxhString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
                 StoreMatch(pageContent, match.Index, matxhString.Length, $"<{htmlTag}>{value}</{htmlTag}> ");
             }
         }
 
-        void ReplaceInlineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag)
+        void ReplaceInlineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
         {
-            string marker = string.Empty;
-            foreach (var c in mark)
+            string marker = String.Empty;
+            if (escape)
             {
-                marker += $"\\{c}";
+                foreach (var c in mark)
+                {
+                    marker += $"\\{c}";
+                }
+            }
+            else
+            {
+                marker = mark;
             }
 
             Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
@@ -205,55 +226,54 @@ namespace AsapWiki.Shared.Wiki
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
 
-                StoreMatch(pageContent, match.Value, value);
-            }
-        }
-
-        private void TransformLiterals(StringBuilder pageContent)
-        {
-            //Transform literal strings, even encodes HTML so that it displays verbatim.
-            Regex rgx = new Regex(@"{{{([\S\s]*?)}}}", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
-            {
-                string value = match.Value.Substring(3, match.Value.Length - 6);
-                value = HttpUtility.HtmlEncode(value);
-                StoreMatch(pageContent, match.Value, value, true);
-            }
-
-            //Transform literal non-wiki strings, but still allow HTML.
-            rgx = new Regex(@"\[\[\[([\S\s]*?)\]\]\]", RegexOptions.IgnoreCase);
-            matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
-            {
-                string value = match.Value.Substring(3, match.Value.Length - 6);
-                StoreMatch(pageContent, match.Value, value, true);
+                StoreMatch(pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
             }
         }
 
         private void TransformMarkup(StringBuilder pageContent)
         {
-            ReplaceWholeLineHTMLMarker(pageContent, @"^\*.*?\n", "strong"); //Single line bold.
-            ReplaceWholeLineHTMLMarker(pageContent, @"^_.*?\n", "u"); //Single line underline.
-            ReplaceWholeLineHTMLMarker(pageContent, @"^\/.*?\n", "i"); //Single line italics.
+            ReplaceWholeLineHTMLMarker(pageContent, "**", "strong", true); //Single line bold.
+            ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
+            ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
+            ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
 
-            ReplaceInlineHTMLMarker(pageContent, "*", "strong"); //inline bold.
+            ReplaceInlineHTMLMarker(pageContent, "**", "strong", true); //inline bold.
+            ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
+            ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
+            ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
+        }
 
+        private void TransformLiterals(StringBuilder pageContent)
+        {
+            //Transform literal strings, even encodes HTML so that it displays verbatim.
+            Regex rgx = new Regex(@"\[\{([\S\s]*?)\}\]", RegexOptions.IgnoreCase);
+            MatchCollection matches = rgx.Matches(pageContent.ToString());
+            foreach (Match match in matches)
+            {
+                string value = match.Value.Substring(2, match.Value.Length - 4);
+                value = HttpUtility.HtmlEncode(value);
+                StoreMatch(pageContent, match.Value, value.Replace("\r", "").Replace("\n", "<br />"), false);
+            }
+        }
+
+        private void TransformSections(StringBuilder pageContent)
+        {
             //Transform panels.
-            Regex rgx = new Regex(@"\(\(\(([\S\s]*?)\)\)\)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"\{\{\{\(([\S\s]*?)\}\}\}", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
             foreach (Match match in matches)
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6).Trim();
 
-                int newlineIndex = value.IndexOf("\n");
+                int newlineIndex = value.IndexOf(')');
 
                 if (newlineIndex > 0)
                 {
-                    string firstLine = value.Substring(0, newlineIndex).Trim();
+                    string firstLine = value.Substring(0, newlineIndex + 1).Trim();
                     string content = value.Substring(newlineIndex + 1).Trim();
                     string boxType;
                     string title = String.Empty;
+                    bool allowNestedDecode = true;
                     if (firstLine.StartsWith("(") && firstLine.EndsWith(")"))
                     {
                         firstLine = firstLine.Substring(1, firstLine.Length - 2);
@@ -279,32 +299,32 @@ namespace AsapWiki.Shared.Wiki
                             case "alert-info":
                                 {
                                     if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    pageContent.Insert(0, $"<div class=\"alert alert-info\">{content}.</div>");
+                                    html.Append($"<div class=\"alert alert-info\">{content}.</div>");
                                 }
                                 break;
                             case "alert-danger":
                                 {
                                     if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    pageContent.Insert(0, $"<div class=\"alert alert-danger\">{content}.</div>");
+                                    html.Append($"<div class=\"alert alert-danger\">{content}.</div>");
                                 }
                                 break;
                             case "alert-warning":
                                 {
                                     if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    pageContent.Insert(0, $"<div class=\"alert alert-warning\">{content}.</div>");
+                                    html.Append($"<div class=\"alert alert-warning\">{content}.</div>");
                                 }
                                 break;
                             case "alert-success":
                                 {
                                     if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    pageContent.Insert(0, $"<div class=\"alert alert-success\">{content}.</div>");
+                                    html.Append($"<div class=\"alert alert-success\">{content}.</div>");
                                 }
                                 break;
 
                             case "jumbotron":
                                 {
                                     if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    pageContent.Insert(0, $"<div class=\"jumbotron\">{content}.</div>");
+                                    html.Append($"<div class=\"jumbotron\">{content}.</div>");
                                 }
                                 break;
 
@@ -352,7 +372,7 @@ namespace AsapWiki.Shared.Wiki
                                 }
                                 break;
                         }
-                        StoreMatch(pageContent, match.Value, html.ToString());
+                        StoreMatch(pageContent, match.Value, html.ToString(), allowNestedDecode);
                     }
                 }
             }
@@ -567,7 +587,7 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformFunctions(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\#\#.*?\(.*?\))|(\#\#.+?\(\))|(\#\#\w+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"\#\#[A-Za-z]*\(.*?\)|(\#\#.+?\(\))|(\#\#\w+)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
 
             foreach (Match match in matches)
@@ -688,7 +708,7 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
 
-                    /*
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
@@ -696,7 +716,7 @@ namespace AsapWiki.Shared.Wiki
                         {
                             if (args.Count != 1)
                             {
-                                StoreError(match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
