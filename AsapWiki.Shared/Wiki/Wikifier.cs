@@ -246,11 +246,11 @@ namespace AsapWiki.Shared.Wiki
         private void TransformLiterals(StringBuilder pageContent)
         {
             //Transform literal strings, even encodes HTML so that it displays verbatim.
-            Regex rgx = new Regex(@"\[\{([\S\s]*?)\}\]", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"\[\{\{([\S\s]*?)\}\}\]", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
             foreach (Match match in matches)
             {
-                string value = match.Value.Substring(2, match.Value.Length - 4);
+                string value = match.Value.Substring(3, match.Value.Length - 6);
                 value = HttpUtility.HtmlEncode(value);
                 StoreMatch(pageContent, match.Value, value.Replace("\r", "").Replace("\n", "<br />"), false);
             }
