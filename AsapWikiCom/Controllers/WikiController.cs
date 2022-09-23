@@ -24,8 +24,8 @@ namespace AsapWikiCom.Controllers
             if (page != null)
             {
                 ViewBag.Title = page.Name;
-                var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context);
-                ViewBag.Body = wikifier.Transform(page);
+                var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
+                ViewBag.Body = wikifier.ProcessedBody;
             }
 
             return View();
@@ -66,6 +66,67 @@ namespace AsapWikiCom.Controllers
                     Navigation = navigation
                 });
             }
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Edit(EditPage editPage)
+        {
+            Configure();
+
+            if (ModelState.IsValid)
+            {
+                Page page;
+
+                if (editPage.Id == 0)
+                {
+                    page = new Page()
+                    {
+                        CreatedDate = DateTime.UtcNow,
+                        CreatedByUserId = context.User.Id,
+                        ModifiedDate = DateTime.UtcNow,
+                        ModifiedByUserId = context.User.Id,
+                        Body = editPage.Body ?? "",
+                        Name = editPage.Name,
+                        Navigation = HTML.CleanPartialURI(editPage.Name),
+                        Description = editPage.Description ?? ""
+                    };
+
+                    page.Id = PageRepository.SavePage(page);
+
+                    var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
+                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+                    ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+
+                    return RedirectToAction("Edit", "Wiki", new { navigation = page.Navigation });
+                }
+                else
+                {
+                    page = PageRepository.GetPageById(editPage.Id);
+                    page.ModifiedDate = DateTime.UtcNow;
+                    page.ModifiedByUserId = context.User.Id;
+                    page.Body = editPage.Body ?? "";
+                    page.Name = editPage.Name;
+                    page.Navigation = HTML.CleanPartialURI(editPage.Name);
+                    page.Description = editPage.Description ?? "";
+
+                    PageRepository.SavePage(page);
+
+                    var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
+                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+                    ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+
+                    return View(new EditPage()
+                    {
+                        Id = page.Id,
+                        Body = page.Body,
+                        Name = page.Name,
+                        Navigation = page.Navigation,
+                        Description = page.Description
+                    });
+                }
+            }
+            return View();
         }
 
         [AllowAnonymous]
@@ -142,7 +203,7 @@ namespace AsapWikiCom.Controllers
             PageFileRepository.UpsertPageFile(new PageFile()
             {
                 Data = ConvertToBytes(file),
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
                 Name = file.FileName,
                 Size = file.ContentLength,
@@ -173,61 +234,5 @@ namespace AsapWikiCom.Controllers
             });
         }
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult Edit(EditPage editPage)
-        {
-            Configure();
-
-            if (ModelState.IsValid)
-            {
-                Page page;
-
-                if (editPage.Id == 0)
-                {
-                    page = new Page()
-                    {
-                        CreatedDate = DateTime.Now,
-                        CreatedByUserId = context.User.Id,
-                        ModifiedDate = DateTime.Now,
-                        ModifiedByUserId = context.User.Id,
-                        Body = editPage.Body ?? "",
-                        Name = editPage.Name,
-                        Navigation = HTML.CleanPartialURI(editPage.Name),
-                        Description = editPage.Description ?? ""
-                    };
-
-                    var tags = page.HashTags();
-                    page.Id = PageRepository.InsertPage(page);
-                    PageTagRepository.UpdatePageTags(page.Id, tags);
-
-                    return RedirectToAction("Edit", "Wiki", new { navigation = page.Navigation });
-                }
-                else
-                {
-                    page = PageRepository.GetPageById(editPage.Id);
-                    page.ModifiedDate = DateTime.Now;
-                    page.ModifiedByUserId = context.User.Id;
-                    page.Body = editPage.Body ?? "";
-                    page.Name = editPage.Name;
-                    page.Navigation = HTML.CleanPartialURI(editPage.Name);
-                    page.Description = editPage.Description ?? "";
-
-                    var tags = page.HashTags();
-                    PageRepository.UpdatePageById(page);
-                    PageTagRepository.UpdatePageTags(editPage.Id, tags);
-
-                    return View(new EditPage()
-                    {
-                        Id = page.Id,
-                        Body = page.Body,
-                        Name = page.Name,
-                        Navigation = page.Navigation,
-                        Description = page.Description
-                    });
-                }
-            }
-            return View();
-        }
     }
 }

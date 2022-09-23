@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class RoleRepository
+    public static partial class RoleRepository
 	{
 
 		public static List<Role> GetUserRolesByUserId(int userID)

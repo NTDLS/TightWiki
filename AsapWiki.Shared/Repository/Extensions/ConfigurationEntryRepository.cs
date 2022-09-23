@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class ConfigurationEntryRepository
+    public static partial class ConfigurationEntryRepository
 	{
 		public static List<ConfigurationEntry> GetConfigurationEntryValuesByGroupName(string groupName)
 		{

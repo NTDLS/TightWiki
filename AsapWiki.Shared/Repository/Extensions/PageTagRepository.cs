@@ -1,13 +1,11 @@
 using AsapWiki.Shared.ADO;
-using AsapWiki.Shared.Models;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class PageTagRepository
+    public static partial class PageTagRepository
 	{        
 
 		public static void UpdatePageTags(int pageId, List<string> tags)

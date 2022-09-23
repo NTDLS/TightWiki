@@ -8,6 +8,15 @@ namespace AsapWiki.Shared
 {
     public static class Constants
     {
+        public static class WikiInstruction
+        {
+            public static string Depreciate = "Depreciate";
+            public static string Template = "Template";
+            public static string Review = "Review";
+            public static string Include = "Include";
+            public static string Draft = "Draft";
+        }
+
         public static class Roles
         {
             /// <summary>

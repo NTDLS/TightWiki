@@ -1,49 +1,41 @@
-﻿using System;
+﻿using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Models;
+using AsapWiki.Shared.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Text;
-using System.IO;
-using AsapWiki.Shared.Models;
-using AsapWiki.Shared.Classes;
+using System.Text.RegularExpressions;
 using System.Web;
-using AsapWiki.Shared.Repository;
+using static AsapWiki.Shared.Constants;
 
 namespace AsapWiki.Shared.Wiki
 {
     public class Wikifier
     {
-        class MatchSet
-        {
-            public string Content { get; set; }
-            /// <summary>
-            /// The content in this segment will not be wikified.
-            /// </summary>
-            public bool AllowNestedDecode { get; set; }
-        }
+        public List<string> ProcessingInstructions { get; private set; } = new List<string>();
+        public string ProcessedBody { get; private set; }
+        public List<string> Tags { get; private set; } = new List<string>();
+        public Dictionary<string, MatchSet> Matches { get; private set; } = new Dictionary<string, MatchSet>();
 
         private int _matchesPerIteration = 0;
-        private List<string> _tags = new List<string>();
-        private Dictionary<string, MatchSet> _lookup;
-
-
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
         private Page _page;
         private readonly StateContext _context;
 
-        public Wikifier(StateContext context)
-        {
-            _context = context;
-        }
-
-        public string Transform(Page page)
+        public Wikifier(StateContext context, Page page)
         {
             _page = page;
+            Matches = new Dictionary<string, MatchSet>();
+            _context = context;
 
-            _lookup = new Dictionary<string, MatchSet>();
+            Transform();
+        }
 
-            var pageContent = new StringBuilder(page.Body);
+        private void Transform()
+        {
+            var pageContent = new StringBuilder(_page.Body);
 
             TransformLiterals(pageContent);
 
@@ -58,21 +50,21 @@ namespace AsapWiki.Shared.Wiki
             do
             {
                 length = pageContent.Length;
-                foreach (var v in _lookup)
+                foreach (var v in Matches)
                 {
                     pageContent.Replace(v.Key, v.Value.Content);
                 }
             } while (length != pageContent.Length);
 
-            return pageContent.ToString();
+            ProcessedBody = pageContent.ToString();
         }
 
         public int TransformAll(StringBuilder pageContent)
         {
             _matchesPerIteration = 0;
 
-            TransformSections(pageContent);
-            TransformInnerLinks(pageContent);
+            TransformBlocks(pageContent);
+            TransformLinks(pageContent);
             TransformMarkup(pageContent);
             TransformSectionHeadings(pageContent);
             TransformFunctions(pageContent);
@@ -83,7 +75,7 @@ namespace AsapWiki.Shared.Wiki
             do
             {
                 length = pageContent.Length;
-                foreach (var v in _lookup)
+                foreach (var v in Matches)
                 {
                     if (v.Value.AllowNestedDecode)
                     {
@@ -107,7 +99,7 @@ namespace AsapWiki.Shared.Wiki
                 AllowNestedDecode = false
             };
 
-            _lookup.Add(identifier, matchSet);
+            Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
         }
 
@@ -123,7 +115,7 @@ namespace AsapWiki.Shared.Wiki
                 AllowNestedDecode = allowNestedDecode
             };
 
-            _lookup.Add(identifier, matchSet);
+            Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
         }
 
@@ -139,7 +131,7 @@ namespace AsapWiki.Shared.Wiki
                 AllowNestedDecode = allowNestedDecode
             };
 
-            _lookup.Add(identifier, matchSet);
+            Matches.Add(identifier, matchSet);
             pageContent.Remove(startPosition, length);
             pageContent.Insert(startPosition, identifier);
         }
@@ -230,6 +222,10 @@ namespace AsapWiki.Shared.Wiki
             }
         }
 
+        /// <summary>
+        /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
+        /// </summary>
+        /// <param name="pageContent"></param>
         private void TransformMarkup(StringBuilder pageContent)
         {
             ReplaceWholeLineHTMLMarker(pageContent, "**", "strong", true); //Single line bold.
@@ -243,6 +239,10 @@ namespace AsapWiki.Shared.Wiki
             ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
         }
 
+        /// <summary>
+        /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
+        /// </summary>
+        /// <param name="pageContent"></param>
         private void TransformLiterals(StringBuilder pageContent)
         {
             //Transform literal strings, even encodes HTML so that it displays verbatim.
@@ -256,7 +256,11 @@ namespace AsapWiki.Shared.Wiki
             }
         }
 
-        private void TransformSections(StringBuilder pageContent)
+        /// <summary>
+        /// Transform blocks or sections of code, these are thinks like panels and alerts.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        private void TransformBlocks(StringBuilder pageContent)
         {
             //Transform panels.
             Regex rgx = new Regex(@"\{\{\{\(([\S\s]*?)\}\}\}", RegexOptions.IgnoreCase);
@@ -402,9 +406,15 @@ namespace AsapWiki.Shared.Wiki
         }
         */
 
+        /// <summary>
+        /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
+        /// </summary>
+        /// <param name="pageContent"></param>
         void TransformSectionHeadings(StringBuilder pageContent)
         {
             var regEx = new StringBuilder();
+            regEx.Append(@"(\=\=\=\=\=\=\=.*?\n)");
+            regEx.Append(@"|");
             regEx.Append(@"(\=\=\=\=\=\=.*?\n)");
             regEx.Append(@"|");
             regEx.Append(@"(\=\=\=\=\=.*?\n)");
@@ -443,7 +453,11 @@ namespace AsapWiki.Shared.Wiki
             }
         }
 
-        private void TransformInnerLinks(StringBuilder pageContent)
+        /// <summary>
+        /// Transform links, these can be internal Wiki links or external links.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        private void TransformLinks(StringBuilder pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
             Regex rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
@@ -497,7 +511,7 @@ namespace AsapWiki.Shared.Wiki
 
                 string pageName = keyword;
                 string pageNavigation = HTML.CleanFullURI(pageName).Replace("/", "");
-                var page = Repository.PageRepository.GetPageByNavigation(pageNavigation);
+                var page = PageRepository.GetPageByNavigation(pageNavigation);
 
                 if (page != null)
                 {
@@ -550,6 +564,10 @@ namespace AsapWiki.Shared.Wiki
             }
         }
 
+        /// <summary>
+        /// Transform processing instructions are used to flag pages for specific needs such as deletion, review, draft, etc.
+        /// </summary>
+        /// <param name="pageContent"></param>
         private void TransformProcessingInstructions(StringBuilder pageContent)
         {
             Regex rgx = new Regex(@"(\@\@\w+)", RegexOptions.IgnoreCase);
@@ -561,18 +579,27 @@ namespace AsapWiki.Shared.Wiki
                 switch (keyword.ToLower())
                 {
                     case "depreciate":
+                        ProcessingInstructions.Add(WikiInstruction.Depreciate);
                         pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
                     case "template":
+                        ProcessingInstructions.Add(WikiInstruction.Template);
                         pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
+                    case "review":
+                        ProcessingInstructions.Add(WikiInstruction.Review);
+                        pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
+                        StoreMatch(pageContent, match.Value, "");
+                        break;
                     case "include":
+                        ProcessingInstructions.Add(WikiInstruction.Include);
                         pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
                     case "draft":
+                        ProcessingInstructions.Add(WikiInstruction.Draft);
                         pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
@@ -580,14 +607,13 @@ namespace AsapWiki.Shared.Wiki
             }
         }
 
-        private string RemoveParens(string text)
-        {
-            return text.Substring(1, text.Length - 2);
-        }
-
+        /// <summary>
+        /// Transform functions is used to call wiki functions such as including template pages, setting tags and displaying images.
+        /// </summary>
+        /// <param name="pageContent"></param>
         private void TransformFunctions(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"\#\#[A-Za-z]*\(.*?\)|(\#\#.+?\(\))|(\#\#\w+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"\#\#+[a-zA-Z0-9_-]+\(.*?\)|(\#\#.+?\(\))|(\#\#+[a-zA-Z0-9_-]+)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
 
             foreach (Match match in matches)
@@ -626,9 +652,8 @@ namespace AsapWiki.Shared.Wiki
                             Page page = GetPageFromPathInfo(args[0]);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_context);
-
-                                StoreMatch(pageContent, match.Value, wikify.Transform(page));
+                                var wikify = new Wikifier(_context, page);
+                                StoreMatch(pageContent, match.Value, wikify.ProcessedBody);
                             }
                             else
                             {
@@ -646,7 +671,7 @@ namespace AsapWiki.Shared.Wiki
                                 break;
                             }
 
-                            _tags.AddRange(args);
+                            Tags.AddRange(args);
                             StoreMatch(pageContent, match.Value, "");
                         }
                         break;
@@ -691,7 +716,7 @@ namespace AsapWiki.Shared.Wiki
 
                             var files = PageFileRepository.GetPageFilesInfoByPageId(_page.Id);
 
-                               var html = new StringBuilder();
+                            var html = new StringBuilder();
 
                             if (files.Count() > 0)
                             {
@@ -725,7 +750,7 @@ namespace AsapWiki.Shared.Wiki
                                 continue;
                             }
 
-                            var pages = Repository.PageRepository.GetTopRecentlyModifiedPages(takeCount);
+                            var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount);
 
                             //If we specified a Top Count parameter, then we want to show the most recent pages
                             //  which were added to the category - otherwise we show ALL pages in the category so
@@ -774,7 +799,7 @@ namespace AsapWiki.Shared.Wiki
 
                             foreach (var searchString in categoryName)
                             {
-                                var search = Repository.PageRepository.GetPagesByCategoryNavigation(searchString);
+                                var search = PageRepository.GetPagesByCategoryNavigation(searchString);
                                 pages.AddRange(search);
                             }
 
@@ -834,7 +859,7 @@ namespace AsapWiki.Shared.Wiki
 
                             foreach (var searchString in searchStrings)
                             {
-                                var search = Repository.PageRepository.GetPagesByBodyText(searchString);
+                                var search = PageRepository.GetPagesByBodyText(searchString);
                                 pages.AddRange(search);
                             }
 
@@ -899,7 +924,7 @@ namespace AsapWiki.Shared.Wiki
                                 }
                             }
 
-                            var pages = Repository.PageRepository.GetPagesByBodyText(searchString).Take(takeCount);
+                            var pages = PageRepository.GetPagesByBodyText(searchString).Take(takeCount);
 
                             //If we specified a Top Count parameter, then we want to show the most recent
                             //  modified pages otherwise we show ALL pages simply ordered by name.
@@ -965,7 +990,7 @@ namespace AsapWiki.Shared.Wiki
 
                             if (categoryNames == null)
                             {
-                                pages = Repository.PageRepository.GetAllPage();
+                                pages = PageRepository.GetAllPage();
                             }
                             else
                             {
@@ -973,7 +998,7 @@ namespace AsapWiki.Shared.Wiki
 
                                 foreach (string categoryName in categoryNames)
                                 {
-                                    pages.AddRange(Repository.PageRepository.GetTopRecentlyModifiedPagesByCategoryNavigation(takeCount, categoryName));
+                                    pages.AddRange(PageRepository.GetTopRecentlyModifiedPagesByCategoryNavigation(takeCount, categoryName));
                                 }
                             }
 
@@ -1150,11 +1175,11 @@ namespace AsapWiki.Shared.Wiki
         }
 
         /// <summary>
-        /// These are functions that must be called after all other functions. For example, we can't build a table-of-contents until we have parsed the entire page.
+        /// Transform post-process are functions that must be called after all other transformations. For example, we can't build a table-of-contents until we have parsed the entire page.
         /// </summary>
         private void TransformPostProcess(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\#\#.*?\(.*?\))|(\#\#.+?\(\))|(\#\#\w+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"\#\#+[a-zA-Z0-9_-]+\(.*?\)|(\#\#.+?\(\))|(\#\#+[a-zA-Z0-9_-]+)", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
 
             foreach (Match match in matches)
@@ -1181,44 +1206,25 @@ namespace AsapWiki.Shared.Wiki
                 switch (keyword)
                 {
                     //Displays a tag link list.
-                    case "tags": //##tags([optional:default=orderedlist]Format=OrderedList|FlatList,[optional:default=links]Layout=Links|Text)
+                    case "tags-flat": //##tags-flat
+                    case "tags": //##tags
                         {
-                            string format = "orderedlist";
-                            string display = "links";
-
-                            if (args.Count > 0) format = args[0].ToLower();
-                            if (args.Count > 1) display = args[1].ToLower();
-
                             var html = new StringBuilder();
 
-                            if (format == "orderedlist")
+                            if (keyword == "tags")
                             {
                                 html.Append("<ul>");
-                                foreach (var tag in _tags)
+                                foreach (var tag in Tags)
                                 {
-                                    if (display == "links")
-                                    {
-                                        html.Append($"<li><a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
-                                    }
-                                    else if (display == "text")
-                                    {
-                                        html.Append($"<li>{tag}");
-                                    }
+                                    html.Append($"<li><a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
                                 }
                                 html.Append("</ul>");
                             }
-                            else if (format == "flatlist")
+                            else if (keyword == "tags-flat")
                             {
-                                foreach (var tag in _tags)
+                                foreach (var tag in Tags)
                                 {
-                                    if (display == "links")
-                                    {
-                                        html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a> ");
-                                    }
-                                    else if (display == "text")
-                                    {
-                                        html.Append($"{tag} ");
-                                    }
+                                    html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a> ");
                                 }
                             }
 
@@ -1230,7 +1236,6 @@ namespace AsapWiki.Shared.Wiki
                     //Diplays a table of contents for the page based on the header tags.
                     case "toc":
                         {
-
                             var html = new StringBuilder();
 
                             var tags = from t in _tocTags
@@ -1284,7 +1289,7 @@ namespace AsapWiki.Shared.Wiki
             routeData = HTML.CleanFullURI(routeData);
             routeData = routeData.Substring(1, routeData.Length - 2);
 
-            var page = Repository.PageRepository.GetPageByNavigation(routeData);
+            var page = PageRepository.GetPageByNavigation(routeData);
 
             return page;
         }
