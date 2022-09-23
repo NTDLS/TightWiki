@@ -33,6 +33,35 @@ namespace AsapWiki.Shared.Wiki
             Transform();
         }
 
+        public List<SearchCacheItem> ParsePageTokens()
+        {
+            var exclusionWords = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupNameAndEntryName("Search", "Word Exclusions")
+                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
+
+            var htmlFree = HTML.StripHtml(ProcessedBody).ToLower();
+            var tokens = htmlFree.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
+            var casedTokens = new List<string>();
+
+            foreach (var token in tokens)
+            {
+                casedTokens.AddRange(Utility.SplitCamelCase(token).Split(' ').Except(tokens));
+            }
+
+            tokens.AddRange(casedTokens);
+
+            tokens.RemoveAll(o => exclusionWords.Contains(o));
+
+            var searchTokens = (from w in tokens
+                                group w by w into g
+                                select new SearchCacheItem
+                                {
+                                    Token = g.Key,
+                                    Weight = g.Count()
+                                }).ToList();
+
+            return searchTokens;
+        }
+
         private void Transform()
         {
             var pageContent = new StringBuilder(_page.Body);
@@ -136,32 +165,9 @@ namespace AsapWiki.Shared.Wiki
             pageContent.Insert(startPosition, identifier);
         }
 
-        /*
-        private void TransformHashtags()
-        {
-            //Remove hashtags, they are stored with the page but not displayed.
-            Regex rgx = new Regex(@"(?:\s|^)#[A-Za-z0-9\-_\.]+", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
-            {
-                StoreMatch(pageContent, match.Value, String.Empty);
-            }
-        }
-        */
-
         private void TransformWhitespace(StringBuilder pageContent)
         {
             pageContent.Replace("\r\n", "\n");
-
-            /*
-            int length;
-            do
-            {
-                length = pageContent.Length;
-                pageContent.Replace("\n\n", "\n");
-            } while (pageContent.Length != length);
-            */
-
             pageContent.Replace("\n", "<br />");
         }
 
@@ -256,6 +262,24 @@ namespace AsapWiki.Shared.Wiki
             }
         }
 
+        private int StartsWithHowMany(string value, char ch)
+        {
+            int count = 0;
+            foreach (var c in value)
+            {
+                if (c == ch)
+                {
+                    count++;
+                }
+                else
+                {
+                    return count;
+                }
+            }
+
+            return count;
+        }
+
         /// <summary>
         /// Transform blocks or sections of code, these are thinks like panels and alerts.
         /// </summary>
@@ -298,6 +322,75 @@ namespace AsapWiki.Shared.Wiki
 
                         switch (boxType.ToLower())
                         {
+                            case "bullets":
+                                {
+                                    var lines = content.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                                    int currentLevel = 0;
+
+                                    foreach (var line in lines)
+                                    {
+                                        int newIndent = StartsWithHowMany(line, '>') + 1;
+
+                                        if (newIndent < currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel--)
+                                            {
+                                                html.Append($"</ul>");
+                                            }
+                                        }
+                                        else if (newIndent > currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel++)
+                                            {
+                                                html.Append($"<ul>");
+                                            }
+                                        }
+
+                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                    }
+
+                                    for (; currentLevel > 0; currentLevel--)
+                                    {
+                                        html.Append($"</ul>");
+                                    }
+                                }
+                                break;
+                            case "bullets-ordered":
+                                {
+                                    var lines = content.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                                    int currentLevel = 0;
+
+                                    foreach (var line in lines)
+                                    {
+                                        int newIndent = StartsWithHowMany(line, '>') + 1;
+
+                                        if (newIndent < currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel--)
+                                            {
+                                                html.Append($"</ol>");
+                                            }
+                                        }
+                                        else if (newIndent > currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel++)
+                                            {
+                                                html.Append($"<ol>");
+                                            }
+                                        }
+
+                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                    }
+
+                                    for (; currentLevel > 0; currentLevel--)
+                                    {
+                                        html.Append($"</ol>");
+                                    }
+                                }
+                                break;
+
                             case "alert":
                             case "alert-default":
                             case "alert-info":

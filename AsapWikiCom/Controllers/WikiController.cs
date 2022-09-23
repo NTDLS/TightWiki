@@ -2,6 +2,7 @@
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 using System;
+using System.Linq;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -97,6 +98,8 @@ namespace AsapWikiCom.Controllers
                     var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+                    PageRepository.SavePageTokens(pageTokens);
 
                     return RedirectToAction("Edit", "Wiki", new { navigation = page.Navigation });
                 }
@@ -115,6 +118,8 @@ namespace AsapWikiCom.Controllers
                     var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+                    PageRepository.SavePageTokens(pageTokens);
 
                     return View(new EditPage()
                     {

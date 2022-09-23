@@ -18,6 +18,15 @@ namespace AsapWiki.Shared.Repository
             }
         }
 
+        public static void SavePageTokens(List<PageToken> items)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                handler.Connection.Execute("SavePageTokens",
+                    new { PageTokens = items.ToDataTable() }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
         public static int SavePage(Page item)
         {
             using (var handler = new SqlConnectionHandler())
