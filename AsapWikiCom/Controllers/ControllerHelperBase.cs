@@ -29,6 +29,8 @@ namespace AsapWikiCom.Controllers
             HydrateSecurityContext();
 
             var config = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            ViewBag.Title = ViewBag.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            ViewBag.BrandImageSmall = ViewBag.Copyright = config.Where(o => o.Name == "Brand Image (Small)").FirstOrDefault()?.Value;
             ViewBag.Name = config.Where(o => o.Name == "Name").FirstOrDefault()?.Value;
             ViewBag.Title = ViewBag.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             ViewBag.FooterBlurb = config.Where(o => o.Name == "FooterBlurb").FirstOrDefault()?.Value;

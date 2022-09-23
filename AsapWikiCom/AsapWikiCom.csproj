@@ -145,6 +145,11 @@
     <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="images\ASAP Wiki Icon 128.png" />
+    <Content Include="images\ASAP Wiki Icon 16.png" />
+    <Content Include="images\ASAP Wiki Icon 32.png" />
+    <Content Include="images\ASAP Wiki Icon 64.png" />
+    <Content Include="images\ASAPWiki Logo.png" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\holder.min.js" />
@@ -182,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\" />
     <Folder Include="Static\" />
   </ItemGroup>
   <ItemGroup>
