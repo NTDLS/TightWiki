@@ -18,7 +18,7 @@ namespace AsapWiki.Shared.Repository
             }
         }
 
-        public static void DeletePageFileByPageNavigationAndName(string pageNavigation, string imageName)
+        public static void DeletePageFileByPageNavigationAndName(string pageNavigation, string fileName)
         {
             using (var handler = new SqlConnectionHandler())
             {
@@ -26,7 +26,7 @@ namespace AsapWiki.Shared.Repository
                     new
                     {
                         PageNavigation = pageNavigation,
-                        ImageName = imageName
+                        FileName = fileName
                     }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
         }

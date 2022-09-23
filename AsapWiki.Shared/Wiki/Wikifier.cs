@@ -878,26 +878,22 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
 
-                    /*
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary of pages in the specified comma seperated category names.
-                    case "categoryglossary": //(CategoryNames)
-                    case "categoryglossaryfull": //(CategoryNames)
-                        if (args != null && args.Count == 1)
+                    //Creates a glossary of pages with the specified comma seperated tags.
+                    case "tagglossary":
+                    case "tagglossaryfull":
                         {
+                            if (args.Count == 0)
+                            {
+                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
                             string[] categoryName = args[0].ToLower().Split(',');
 
-                            List<Page> pages = new List<Page>();
-
-                            foreach (var searchString in categoryName)
-                            {
-                                var search = PageRepository.GetPagesByCategoryNavigation(searchString);
-                                pages.AddRange(search);
-                            }
-
+                            var pages = PageTagRepository.GetPageInfoByTags(args).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
-
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 
                             if (pages.Count() > 0)
@@ -917,9 +913,9 @@ namespace AsapWiki.Shared.Wiki
                                     html.Append("<ul>");
                                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/Page/View/" + page.CategoryNavigation + "/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/Wiki/Show/" + page.Navigation + "\">" + page.Name + "</a>");
 
-                                        if (keyword == "categoryglossaryfull")
+                                        if (keyword == "tagglossaryfull")
                                         {
                                             if (page.Description.Length > 0)
                                             {
@@ -937,27 +933,17 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, html.ToString());
                         }
                         break;
-                    */
-                    /*
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a glossary by searching page's body text for the specified comma seperated list of words.
-                    case "textglossary": //(PageSearchText)
-                    case "textglossaryfull": //(PageSearchText)
-                        if (args != null && args.Count == 1)
+                    case "textglossary":
+                    case "textglossaryfull":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
                             string[] searchStrings = args[0].ToLower().Split(',');
 
-                            List<Page> pages = new List<Page>();
-
-                            foreach (var searchString in searchStrings)
-                            {
-                                var search = PageRepository.GetPagesByBodyText(searchString);
-                                pages.AddRange(search);
-                            }
-
+                            var pages = PageTagRepository.GetPageInfoByTokens(args).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
-
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 
                             if (pages.Count() > 0)
@@ -977,7 +963,7 @@ namespace AsapWiki.Shared.Wiki
                                     html.Append("<ul>");
                                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/Page/View/" + page.CategoryNavigation + "/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/Wiki/Show/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                         if (keyword == "textglossaryfull")
                                         {
@@ -997,39 +983,13 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, html.ToString());
                         }
                         break;
-                    */
-                    /*
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages by searching the page body for the specified text.
-                    //  Optionally also only pulls n-number of pages ordered by decending by the last modified date (then by page name).
-                    case "textlist": //(PageSearchText, [optional]TopCount)
-                    case "textlistfull": //(PageSearchText, [optional]TopCount)
-                        if (args != null && (args.Count == 1 || args.Count == 2))
+                    case "textlist":
+                    case "textlistfull":
                         {
-                            string searchString = args[0].ToLower();
-                            int takeCount = 100000;
-
-                            if (args.Count > 1)
-                            {
-                                if (!int.TryParse(args[1], out takeCount))
-                                {
-                                    continue;
-                                }
-                            }
-
-                            var pages = PageRepository.GetPagesByBodyText(searchString).Take(takeCount);
-
-                            //If we specified a Top Count parameter, then we want to show the most recent
-                            //  modified pages otherwise we show ALL pages simply ordered by name.
-                            if (args.Count > 1)
-                            {
-                                pages = pages.OrderByDescending(p => p.ModifiedDate).ThenBy(p => p.Name);
-                            }
-                            else
-                            {
-                                pages = pages.OrderBy(p => p.Name);
-                            }
-
+                            var pages = PageTagRepository.GetPageInfoByTokens(args).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1038,7 +998,7 @@ namespace AsapWiki.Shared.Wiki
 
                                 foreach (var page in pages)
                                 {
-                                    html.Append("<li><a href=\"/Page/View/" + page.CategoryNavigation + "/" + page.Navigation + "\">" + page.Name + "</a>");
+                                    html.Append("<li><a href=\"/Wiki/Show/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                     if (keyword == "textlistfull")
                                     {
@@ -1056,110 +1016,7 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, html.ToString());
                         }
                         break;
-                    /*
-                    /*
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of the most recently modified pages, optionally only returning the top n-pages.
-                    case "recentlymodifiedfull": //(TopCount, [Optional]CategoryName)
-                    case "recentlymodified": //(TopCount, [Optional]CategoryName)
-                                             //Creates a list of the most recently created pages, optionally only returning the top n-pages.
-                    case "recentlycreatedfull": //(TopCount, [Optional]CategoryName)
-                    case "recentlycreated": //(TopCount, [Optional]CategoryName)
-                        if (args != null && (args.Count == 1 || args.Count == 2))
-                        {
-                            string[] categoryNames = null;
-                            int takeCount = 0;
-                            if (!int.TryParse(args[0], out takeCount))
-                            {
-                                continue;
-                            }
 
-                            if (args.Count > 1)
-                            {
-                                categoryNames = args[1].ToLower().Split(',');
-                            }
-
-                            List<Page> pages = null;
-
-                            if (categoryNames == null)
-                            {
-                                pages = PageRepository.GetAllPage();
-                            }
-                            else
-                            {
-                                pages = new List<Page>();
-
-                                foreach (string categoryName in categoryNames)
-                                {
-                                    pages.AddRange(PageRepository.GetTopRecentlyModifiedPagesByCategoryNavigation(takeCount, categoryName));
-                                }
-                            }
-
-                            if (keyword.ToLower().StartsWith("recentlymodified"))
-                            {
-                                pages = pages.OrderByDescending(p => p.ModifiedDate).ThenBy(p => p.Name).Take(takeCount).ToList();
-                            }
-                            else if (keyword.ToLower().StartsWith("recentlycreated"))
-                            {
-                                pages = pages.OrderByDescending(p => p.CreatedDate).ThenBy(p => p.Name).Take(takeCount).ToList();
-                            }
-
-                            var html = new StringBuilder();
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<table cellpadding=\"1\" cellspacing=\"0\" border=\"0\" width=\"100%\">");
-
-                                foreach (var page in pages)
-                                {
-                                    string date = string.Empty;
-
-                                    if (keyword.ToLower().StartsWith("recentlymodified"))
-                                    {
-                                        date = page.ModifiedDate.ToString("MM/dd/yyyy");
-                                    }
-                                    else if (keyword.ToLower().StartsWith("recentlycreated"))
-                                    {
-                                        date = page.CreatedDate.ToString("MM/dd/yyyy");
-                                    }
-
-                                    html.Append("<tr>");
-                                    html.Append("<td class=\"WikiModTableHead\" valign=\"top\" width=\"100%\">");
-                                    html.Append("<span class=\"WikiModSpanDate\">" + date.ToString() + "</span>");
-
-                                    html.Append("&nbsp;<a href=\"/Page/View/" + page.CategoryNavigation + "/" + page.Navigation + "\">" + page.Name + "</a>");
-
-                                    html.Append("</td>");
-                                    html.Append("</tr>");
-
-                                    html.Append("<tr>");
-
-                                    if (keyword.ToLower().EndsWith("full"))
-                                    {
-                                        html.Append("<tr>");
-                                        html.Append("<td class=\"WikiModTableDetail\" valign=\"top\">");
-                                        if (page.Description.Length > 0)
-                                        {
-                                            html.Append(page.Description);
-                                        }
-                                        html.Append("</td>");
-                                        html.Append("</tr>");
-
-                                        html.Append("<tr>");
-                                        html.Append("<td colspan=\"2\" valign=\"top\">");
-                                        html.Append("<img src=\"/Images/Site/Spacer.gif\" height=\"1\" width=\"1\" />");
-                                        html.Append("</td>");
-                                        html.Append("</tr>");
-                                    }
-                                }
-
-                                html.Append("</table>");
-                            }
-
-                            StoreMatch(pageContent, match.Value, html.ToString());
-                        }
-                        break;
-                    */
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a list of other related pages based on tags.
                     case "related-flat":
