@@ -613,7 +613,7 @@ namespace AsapWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformFunctions(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"\#\#+[a-zA-Z0-9_-]+\(.*?\)|(\#\#.+?\(\))|(\#\#+[a-zA-Z0-9_-]+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
 
             foreach (Match match in matches)
@@ -1068,6 +1068,34 @@ namespace AsapWiki.Shared.Wiki
                         break;
                     */
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays a list of other related pages based on tags.
+                    case "related-flat": //##related-flat
+                    case "related": //##related
+                        {
+                            var html = new StringBuilder();
+
+                            if (keyword == "tags")
+                            {
+                                html.Append("<ul>");
+                                foreach (var tag in Tags)
+                                {
+                                    html.Append($"<li><a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
+                                }
+                                html.Append("</ul>");
+                            }
+                            else if (keyword == "tags-flat")
+                            {
+                                foreach (var tag in Tags)
+                                {
+                                    html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a> ");
+                                }
+                            }
+
+                            StoreMatch(pageContent, match.Value, html.ToString());
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Displays the date and time that the current page was last modified.
                     case "lastmodified":
                         {
@@ -1179,7 +1207,7 @@ namespace AsapWiki.Shared.Wiki
         /// </summary>
         private void TransformPostProcess(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"\#\#+[a-zA-Z0-9_-]+\(.*?\)|(\#\#.+?\(\))|(\#\#+[a-zA-Z0-9_-]+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))", RegexOptions.IgnoreCase);
             MatchCollection matches = rgx.Matches(pageContent.ToString());
 
             foreach (Match match in matches)
