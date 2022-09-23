@@ -64,7 +64,21 @@ namespace AsapWiki.Shared.Repository
                 };
 
                 return handler.Connection.Query<Page>("GetTopRecentlyModifiedPages",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList(); ;
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public static List<RelatedPage> GetRelatedPages(int pageId)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = pageId
+                };
+
+                return handler.Connection.Query<RelatedPage>("GetRelatedPages",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
     }

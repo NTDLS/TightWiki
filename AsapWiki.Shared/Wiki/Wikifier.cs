@@ -1069,26 +1069,39 @@ namespace AsapWiki.Shared.Wiki
                     */
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a list of other related pages based on tags.
-                    case "related-flat": //##related-flat
+                    case "related-flat":
+                    case "related-full":
                     case "related": //##related
                         {
                             var html = new StringBuilder();
 
-                            if (keyword == "tags")
+                            var relatedPages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name);
+
+                            if (keyword == "related")
                             {
                                 html.Append("<ul>");
-                                foreach (var tag in Tags)
+                                foreach (var page in relatedPages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
+                                    html.Append($"<li><a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 html.Append("</ul>");
                             }
-                            else if (keyword == "tags-flat")
+                            else if (keyword == "related-flat")
                             {
-                                foreach (var tag in Tags)
+                                foreach (var page in relatedPages)
                                 {
-                                    html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a> ");
+                                    if (html.Length > 0) html.Append(" | ");
+                                    html.Append($"<a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a>");
                                 }
+                            }
+                            else if (keyword == "related-full")
+                            {
+                                html.Append("<ul>");
+                                foreach (var page in relatedPages)
+                                {
+                                    html.Append($"<li><a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a> - {page.Description}");
+                                }
+                                html.Append("</ul>");
                             }
 
                             StoreMatch(pageContent, match.Value, html.ToString());
@@ -1252,7 +1265,8 @@ namespace AsapWiki.Shared.Wiki
                             {
                                 foreach (var tag in Tags)
                                 {
-                                    html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a> ");
+                                    if (html.Length > 0) html.Append(" | ");
+                                    html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
                                 }
                             }
 
