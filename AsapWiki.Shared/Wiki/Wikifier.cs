@@ -192,14 +192,13 @@ namespace AsapWiki.Shared.Wiki
             }
 
             Regex rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
-            for (int i = matches.Count - 1; i > -1; i--)
+            foreach (var match in matches)
             {
-                var match = matches[i];
                 string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
-                var matxhString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
-                StoreMatch(pageContent, match.Index, matxhString.Length, $"<{htmlTag}>{value}</{htmlTag}> ");
+                var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
+                StoreMatch(pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
             }
         }
 
@@ -219,8 +218,8 @@ namespace AsapWiki.Shared.Wiki
             }
 
             Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
 
@@ -245,7 +244,7 @@ namespace AsapWiki.Shared.Wiki
             ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
         }
 
-        /// <summary>
+        /// <summary>6
         /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
         /// </summary>
         /// <param name="pageContent"></param>
@@ -253,8 +252,8 @@ namespace AsapWiki.Shared.Wiki
         {
             //Transform literal strings, even encodes HTML so that it displays verbatim.
             Regex rgx = new Regex(@"\[\{\{([\S\s]*?)\}\}\]", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
                 value = HttpUtility.HtmlEncode(value);
@@ -288,8 +287,8 @@ namespace AsapWiki.Shared.Wiki
         {
             //Transform panels.
             Regex rgx = new Regex(@"\{\{\{\(([\S\s]*?)\}\}\}", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6).Trim();
 
@@ -489,8 +488,8 @@ namespace AsapWiki.Shared.Wiki
         private void TransformSyntaxHighlighters(string tag, string brush)
         {
             Regex rgx = new Regex("\\[\\[" + tag + "\\]\\]([\\s\\S]*?)\\[\\[\\/" + tag + "\\]\\]", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string rawValue = match.Value.Substring(tag.Length + 4, match.Value.Length - ((tag.Length * 2) + 9));
                 rawValue = rawValue.Replace("<", "&lt;").Replace(">", "&gt;");
@@ -498,6 +497,29 @@ namespace AsapWiki.Shared.Wiki
             }
         }
         */
+
+        class OrderedMatch
+        {
+            public string Value { get; set; }
+            public int Index { get; set; }
+        }
+
+        List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
+        {
+            var result = new List<OrderedMatch>();
+
+            foreach (Match match in matches)
+            {
+                result.Add(new OrderedMatch
+                {
+                    Value = match.Value,
+                    Index = match.Index
+                });
+            }
+
+            return result.OrderByDescending(o => o.Value.Length).ToList();
+        }
+
 
         /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
@@ -519,8 +541,9 @@ namespace AsapWiki.Shared.Wiki
             regEx.Append(@"(\=\=.*?\n)");
 
             Regex rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+
+            foreach (var match in matches)
             {
                 int equalSigns = 0;
                 foreach (char c in match.Value)
@@ -554,8 +577,8 @@ namespace AsapWiki.Shared.Wiki
         {
             //Parse external explicit links. eg. [[http://test.net]].
             Regex rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
                 int pipeIndex = keyword.IndexOf("|");
@@ -588,8 +611,8 @@ namespace AsapWiki.Shared.Wiki
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
-            matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
                 string explicitLinkText = "";
@@ -664,8 +687,8 @@ namespace AsapWiki.Shared.Wiki
         private void TransformProcessingInstructions(StringBuilder pageContent)
         {
             Regex rgx = new Regex(@"(\@\@\w+)", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
-            foreach (Match match in matches)
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
 
@@ -707,9 +730,9 @@ namespace AsapWiki.Shared.Wiki
         private void TransformFunctions(StringBuilder pageContent)
         {
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
-            foreach (Match match in matches)
+            foreach (var match in matches)
             {
                 string keyword = string.Empty;
                 List<string> args = new List<string>();
@@ -1171,9 +1194,9 @@ namespace AsapWiki.Shared.Wiki
         private void TransformPostProcess(StringBuilder pageContent)
         {
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))", RegexOptions.IgnoreCase);
-            MatchCollection matches = rgx.Matches(pageContent.ToString());
+            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
-            foreach (Match match in matches)
+            foreach (var match in matches)
             {
                 string keyword = string.Empty;
                 var args = new List<string>(); ;
