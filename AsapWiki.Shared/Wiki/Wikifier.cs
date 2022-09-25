@@ -306,7 +306,7 @@ namespace AsapWiki.Shared.Wiki
                         firstLine = firstLine.Substring(1, firstLine.Length - 2);
 
                         //Parse box type and title.
-                        int index = firstLine.IndexOf(",");
+                        int index = firstLine.IndexOf("|");
                         if (index > 0) //Do we have a title? Only applicable for some of the box types really...
                         {
                             title = firstLine.Substring(index + 1).Trim();
@@ -588,18 +588,10 @@ namespace AsapWiki.Shared.Wiki
 
                     if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        string border = "";
-
-                        if (linkText.IndexOf("border", StringComparison.CurrentCultureIgnoreCase) < 0)
-                        {
-                            border = " border=\"0\"";
-                        }
-
-                        linkText = "<img " + linkText + border + ">";
+                        linkText = $"<img {linkText} border =\"0\" > ";
                     }
 
                     keyword = keyword.Substring(0, pipeIndex);
-
 
                     StoreMatch(pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
                 }
@@ -626,7 +618,7 @@ namespace AsapWiki.Shared.Wiki
                 }
 
                 string pageName = keyword;
-                string pageNavigation = HTML.CleanFullURI(pageName).Replace("/", "");
+                string pageNavigation = HTML.CleanPartialURI(pageName);
                 var page = PageRepository.GetPageByNavigation(pageNavigation);
 
                 if (page != null)
@@ -641,25 +633,50 @@ namespace AsapWiki.Shared.Wiki
 
                         string compareString = linkText.ToLower().RemoveWhitespace();
 
+                        //Internal page attached image:
                         if (compareString.StartsWith("img="))
                         {
-                            linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                            string scale = "100";
-
-                            int scaleIndex = linkText.IndexOf("|");
-                            if (scaleIndex > 0)
+                            if (linkText.Contains("/"))
                             {
-                                scale = linkText.Substring(scaleIndex + 1);
-                                linkText = linkText.Substring(0, scaleIndex);
-                            }
+                                linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                                string scale = "100";
 
-                            string attachementLink = $"/Wiki/Png/{_page.Navigation}?Image={linkText}";
-                            linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                //Allow loading attacehd images from other pages.
+                                int slashIndex = linkText.IndexOf("/");
+                                string navigation = HTML.CleanPartialURI(linkText.Substring(0, slashIndex));
+                                linkText = linkText.Substring(slashIndex + 1);
+
+                                int scaleIndex = linkText.IndexOf("|");
+                                if (scaleIndex > 0)
+                                {
+                                    scale = linkText.Substring(scaleIndex + 1);
+                                    linkText = linkText.Substring(0, scaleIndex);
+                                }
+
+                                string attachementLink = $"/Wiki/Png/{navigation}?Image={linkText}";
+                                linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                            }
+                            else
+                            {
+                                linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                                string scale = "100";
+
+                                int scaleIndex = linkText.IndexOf("|");
+                                if (scaleIndex > 0)
+                                {
+                                    scale = linkText.Substring(scaleIndex + 1);
+                                    linkText = linkText.Substring(0, scaleIndex);
+                                }
+
+                                string attachementLink = $"/Wiki/Png/{_page.Navigation}?Image={linkText}";
+                                linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                            }
                         }
+                        //External site image:
                         else if (compareString.StartsWith("src="))
                         {
                             linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                            linkText = $"<img src=\"{linkText}\" />";
+                            linkText = $"<img src=\"{linkText}\" border=\"0\" />";
                         }
                     }
 
@@ -768,7 +785,7 @@ namespace AsapWiki.Shared.Wiki
                     foreach (var rawarg in rawargs)
                     {
                         string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
-                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
                     }
                 }
                 else
@@ -825,6 +842,15 @@ namespace AsapWiki.Shared.Wiki
                             }
 
                             string imageName = args[0];
+                            string navigation = _page.Navigation;
+                            if (imageName.Contains("/"))
+                            {
+                                //Allow loading attacehd images from other pages.
+                                int slashIndex = imageName.IndexOf("/");
+                                navigation = HTML.CleanPartialURI(imageName.Substring(0, slashIndex));
+                                imageName = imageName.Substring(slashIndex + 1);
+                            }
+
                             string scale = "100";
                             string alt = imageName;
 
@@ -837,7 +863,7 @@ namespace AsapWiki.Shared.Wiki
                                 alt = args[2];
                             }
 
-                            string link = $"/Wiki/Png/{_page.Navigation}?Image={imageName}";
+                            string link = $"/Wiki/Png/{navigation}?Image={imageName}";
                             string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
 
                             StoreMatch(pageContent, match.Value, image);
@@ -936,7 +962,7 @@ namespace AsapWiki.Shared.Wiki
                             }
 
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            string[] categoryName = args[0].ToLower().Split(',');
+                            string[] categoryName = args[0].ToLower().Split('|');
 
                             var pages = PageTagRepository.GetPageInfoByTags(args).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -986,7 +1012,7 @@ namespace AsapWiki.Shared.Wiki
                     case "textglossaryfull":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            string[] searchStrings = args[0].ToLower().Split(',');
+                            string[] searchStrings = args[0].ToLower().Split('|');
 
                             var pages = PageTagRepository.GetPageInfoByTokens(args).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -1232,7 +1258,7 @@ namespace AsapWiki.Shared.Wiki
                     foreach (var rawarg in rawargs)
                     {
                         string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
-                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
                     }
                 }
                 else
