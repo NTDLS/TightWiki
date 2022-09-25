@@ -420,7 +420,7 @@ namespace AsapWiki.Shared.Wiki
                             case "jumbotron":
                                 {
                                     if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    html.Append($"<div class=\"jumbotron\">{content}.</div>");
+                                    html.Append($"<div class=\"jumbotron\">{content}</div>");
                                 }
                                 break;
 
@@ -638,6 +638,29 @@ namespace AsapWiki.Shared.Wiki
                     else
                     {
                         linkText = explicitLinkText;
+
+                        string compareString = linkText.ToLower().RemoveWhitespace();
+
+                        if (compareString.StartsWith("img="))
+                        {
+                            linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                            string scale = "100";
+
+                            int scaleIndex = linkText.IndexOf("|");
+                            if (scaleIndex > 0)
+                            {
+                                scale = linkText.Substring(scaleIndex + 1);
+                                linkText = linkText.Substring(0, scaleIndex);
+                            }
+
+                            string attachementLink = $"/Wiki/Png/{_page.Navigation}?Image={linkText}";
+                            linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                        }
+                        else if (compareString.StartsWith("src="))
+                        {
+                            linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                            linkText = $"<img src=\"{linkText}\" />";
+                        }
                     }
 
                     StoreMatch(pageContent, match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Show/{pageNavigation}") + $"\">{linkText}</a>");
