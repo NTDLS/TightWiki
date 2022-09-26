@@ -106,7 +106,7 @@ namespace AsapWiki.Shared.Wiki
         {
             _matchesPerIteration++;
 
-            string identifier = "{" + Guid.NewGuid().ToString() + "}";
+            string identifier = Guid.NewGuid().ToString();
 
             var matchSet = new MatchSet()
             {
@@ -122,7 +122,7 @@ namespace AsapWiki.Shared.Wiki
         {
             _matchesPerIteration++;
 
-            string identifier = "{" + Guid.NewGuid().ToString() + "}";
+            string identifier = Guid.NewGuid().ToString();
 
             var matchSet = new MatchSet()
             {
@@ -138,7 +138,7 @@ namespace AsapWiki.Shared.Wiki
         {
             _matchesPerIteration++;
 
-            string identifier = "{" + Guid.NewGuid().ToString() + "}";
+            string identifier = Guid.NewGuid().ToString();
 
             var matchSet = new MatchSet()
             {
@@ -153,8 +153,19 @@ namespace AsapWiki.Shared.Wiki
 
         private void TransformWhitespace(StringBuilder pageContent)
         {
+            string identifier = Guid.NewGuid().ToString();
+
+            //Replace new-lines with single character new line:
             pageContent.Replace("\r\n", "\n");
-            pageContent.Replace("\n", "<br />");
+
+            //Replace new-lines with an identifer so we can identify the places we are going to introduce line-breaks:
+            pageContent.Replace("\n", identifier);
+
+            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifers.
+            pageContent.Replace($"{identifier}{identifier}", identifier);
+
+            //Swap in the real line-breaks.
+            pageContent.Replace(identifier, "<br />");
         }
 
         /// <summary>
@@ -243,7 +254,7 @@ namespace AsapWiki.Shared.Wiki
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
                 value = HttpUtility.HtmlEncode(value);
-                StoreMatch(pageContent, match.Value, value.Replace("\r", "").Replace("\n", "<br />"), false);
+                StoreMatch(pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />"), false);
             }
         }
 
@@ -409,6 +420,45 @@ namespace AsapWiki.Shared.Wiki
                                     html.Append($"<div class=\"jumbotron\">{content}</div>");
                                 }
                                 break;
+
+                            case "block":
+                            case "block-default":
+                                {
+                                    html.Append("<div class=\"panel panel-default\">");
+                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
+                                }
+                                break;
+                            case "block-primary":
+                                {
+                                    html.Append("<div class=\"panel panel-primary\">");
+                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
+                                }
+                                break;
+                            case "block-success":
+                                {
+                                    html.Append("<div class=\"panel panel-success\">");
+                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
+                                }
+                                break;
+                            case "block-info":
+                                {
+                                    html.Append("<div class=\"panel panel-info\">");
+                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
+                                }
+                                break;
+                            case "block-warning":
+                                {
+                                    html.Append("<div class=\"panel panel-warning\">");
+                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
+                                }
+                                break;
+                            case "block-danger":
+                                {
+                                    html.Append("<div class=\"panel panel-danger\">");
+                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
+                                }
+                                break;
+
 
                             case "panel":
                             case "panel-default":
@@ -604,7 +654,7 @@ namespace AsapWiki.Shared.Wiki
                 }
 
                 string pageName = keyword;
-                string pageNavigation = HTML.CleanPartialURI(pageName);
+                string pageNavigation = Utility.CleanPartialURI(pageName);
                 var page = PageRepository.GetPageByNavigation(pageNavigation);
 
                 if (page != null)
@@ -629,7 +679,7 @@ namespace AsapWiki.Shared.Wiki
 
                                 //Allow loading attacehd images from other pages.
                                 int slashIndex = linkText.IndexOf("/");
-                                string navigation = HTML.CleanPartialURI(linkText.Substring(0, slashIndex));
+                                string navigation = Utility.CleanPartialURI(linkText.Substring(0, slashIndex));
                                 linkText = linkText.Substring(slashIndex + 1);
 
                                 int scaleIndex = linkText.IndexOf("|");
@@ -666,7 +716,7 @@ namespace AsapWiki.Shared.Wiki
                         }
                     }
 
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Content/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Content/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_context?.CanCreatePage() == true)
                 {
@@ -680,7 +730,7 @@ namespace AsapWiki.Shared.Wiki
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
@@ -755,7 +805,8 @@ namespace AsapWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformFunctions(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))", RegexOptions.IgnoreCase);
+            //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
+            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
             var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
@@ -771,7 +822,7 @@ namespace AsapWiki.Shared.Wiki
                     foreach (var rawarg in rawargs)
                     {
                         string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
-                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()));
                     }
                 }
                 else
@@ -833,7 +884,7 @@ namespace AsapWiki.Shared.Wiki
                             {
                                 //Allow loading attacehd images from other pages.
                                 int slashIndex = imageName.IndexOf("/");
-                                navigation = HTML.CleanPartialURI(imageName.Substring(0, slashIndex));
+                                navigation = Utility.CleanPartialURI(imageName.Substring(0, slashIndex));
                                 imageName = imageName.Substring(slashIndex + 1);
                             }
 
@@ -855,6 +906,61 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, image);
                         }
                         break;
+                    //Displays an file download link
+                    case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
+                        {
+                            if (args.Count < 1 || args.Count > 3)
+                            {
+                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
+                            int pageId = _page.Id;
+
+                            string fileName = args[0];
+                            string navigation = _page.Navigation;
+                            if (fileName.Contains("/"))
+                            {
+                                //Allow loading attacehd files from other pages.
+                                int slashIndex = fileName.IndexOf("/");
+                                navigation = Utility.CleanPartialURI(fileName.Substring(0, slashIndex));
+
+                                var page = PageRepository.GetPageInfoByNavigation(navigation);
+                                if (page == null)
+                                {
+                                    StoreError(pageContent, match.Value, $"Page [{navigation}] not found for file [{fileName}]");
+                                    break;
+                                }
+
+                                pageId = page.Id;
+                                fileName = fileName.Substring(slashIndex + 1);
+                            }
+
+                            var attachment = PageFileRepository.GetPageFileInfoByPageIdAndName(pageId, fileName);
+                            if (attachment != null)
+                            {
+                                string alt = fileName;
+
+                                if (args.Count > 1)
+                                {
+                                    alt = args[1];
+                                }
+                                if (args.Count > 2)
+                                {
+                                    if (args[2].ToLower() != "false")
+                                    {
+                                        alt += $" ({attachment.FriendlySize})";
+                                    }
+                                }
+
+                                string link = $"/Wiki/Attachment/{navigation}?file={fileName}";
+                                string image = $"<a href=\"{link}\">{alt}</a>";
+                                StoreMatch(pageContent, match.Value, image);
+                            }
+
+                            StoreError(pageContent, match.Value, $"File not found [{fileName}]");
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a list of files attached to the page.
                     case "files": //##Files()
@@ -874,7 +980,7 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var file in files)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Download/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
+                                    html.Append($"<li><a href=\"/Wiki/Attachment/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
                                     html.Append("</li>");
                                 }
                                 html.Append("</ul>");
@@ -1228,7 +1334,8 @@ namespace AsapWiki.Shared.Wiki
         /// </summary>
         private void TransformPostProcess(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))", RegexOptions.IgnoreCase);
+            //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
+            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
             var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
@@ -1244,7 +1351,7 @@ namespace AsapWiki.Shared.Wiki
                     foreach (var rawarg in rawargs)
                     {
                         string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
-                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()));
                     }
                 }
                 else
@@ -1336,7 +1443,7 @@ namespace AsapWiki.Shared.Wiki
 
         public Page GetPageFromPathInfo(string routeData)
         {
-            routeData = HTML.CleanFullURI(routeData);
+            routeData = Utility.CleanFullURI(routeData);
             routeData = routeData.Substring(1, routeData.Length - 2);
 
             var page = PageRepository.GetPageByNavigation(routeData);
