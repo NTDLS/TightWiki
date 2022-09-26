@@ -70,8 +70,8 @@ private string _description;
 				}            
 			}
 		}
-		
-private string _body;
+
+		private string _body;
 		public string Body
 		{
 			get

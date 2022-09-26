@@ -1389,6 +1389,22 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
 
+                    case "tagcloud": //##tagcloud()
+                        {
+                            if (args.Count != 1)
+                            {
+                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
+                            string seedTag = args[0];
+
+                            string cloudHtml = Utility.BuildTagCloud(seedTag);
+
+                            StoreMatch(pageContent, match.Value, cloudHtml);
+                        }
+                        break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Diplays a table of contents for the page based on the header tags.
                     case "toc":

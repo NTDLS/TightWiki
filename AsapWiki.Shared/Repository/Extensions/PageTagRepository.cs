@@ -9,6 +9,29 @@ namespace AsapWiki.Shared.Repository
 {
     public static partial class PageTagRepository
 	{
+		public static List<TagAssociation> GetAssociatedTags(string tag)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					Tag = tag
+				};
+
+				return handler.Connection.Query<TagAssociation>("GetAssociatedTags",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+			}
+		}
+
+		public static List<Page> GetPageInfoByTag(string tag)
+		{
+			var tags = new List<string>();
+
+			tags.Add(tag);
+
+			return GetPageInfoByTags(tags);
+		}
+
 		public static List<Page> GetPageInfoByTags(List<string> tags)
 		{
 			using (var handler = new SqlConnectionHandler())
@@ -22,6 +45,7 @@ namespace AsapWiki.Shared.Repository
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
 			}
 		}
+
 		public static List<Page> GetPageInfoByTokens(List<string> tags)
 		{
 			using (var handler = new SqlConnectionHandler())

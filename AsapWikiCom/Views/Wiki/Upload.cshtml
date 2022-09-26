@@ -16,5 +16,5 @@
 
 @foreach (var x in Model.Files)
 {
-    <div><a href="/Wiki/Png/@ViewBag.Navigation?Image=@x.Name" target="_blank"> @x.Name</a> [@x.FriendlySize] - <a href="/Wiki/DeleteFile/@ViewBag.Navigation?Image=@x.Name" onclick="return window.confirm('Delete the image?');">Delete</a></div>
+    <div><a href="/Wiki/Png/@ViewBag.Navigation?Image=@x.Name" target="_blank"> @x.Name</a> [@x.FriendlySize] - <a href="/Wiki/DeleteAttachment/@ViewBag.Navigation?Image=@x.Name" onclick="return window.confirm('Delete the image?');">Delete</a></div>
 }

@@ -49,6 +49,25 @@ namespace AsapWiki.Shared.Repository
             }
         }
 
+        /// <summary>
+        /// Gets the page info without the content.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        public static Page GetPageInfoByNavigation(string navigation)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    Navigation = navigation
+                };
+
+                return handler.Connection.Query<Page>("GetPageInfoByNavigation",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
+
         public static Page GetPageByNavigation(string navigation)
         {
             using (var handler = new SqlConnectionHandler())

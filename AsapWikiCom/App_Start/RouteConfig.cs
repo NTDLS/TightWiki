@@ -23,11 +23,23 @@ namespace AsapWikiCom
             */
 
             routes.MapRoute(
-                name: "CategoryPage",
-                url: "{controller}/{action}/{navigation}",
+                name: "Attachment",
+                url: "Wiki/Attachment/{navigation}",
+                defaults: new { controller = "Wiki", action = "Attachment", navigation = "Home" }
+            );
+
+            routes.MapRoute(
+                name: "TagAssociations",
+                url: "Tag/Associations/{navigation}",
+                defaults: new { controller = "Tags", action = "AssociationCloud", navigation = "Home" }
+            );
+
+            routes.MapRoute(
+                name: "Wiki",
+                url: "Wiki/{action}/{navigation}",
                 defaults: new { controller = "Wiki", action = "Content", navigation = "Home" }
             );
-            
+
             routes.MapRoute(
                 name: "DefaultWiki",
                 url: "{navigation}",

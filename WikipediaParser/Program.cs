@@ -1,12 +1,12 @@
 ﻿using AsapWiki.Shared.Classes;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
+using AsapWiki.Shared.Wiki;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WikipediaParser
 {
@@ -23,7 +23,7 @@ namespace WikipediaParser
             foreach (var file in files)
             {
                 string pageName = String.Join(" ", Path.GetFileNameWithoutExtension(file).Split('_'));
-                string pageNavigation = HTML.CleanPartialURI(pageName);
+                string pageNavigation = Utility.CleanPartialURI(pageName);
                 string description = string.Empty;
                 var parsedContent = new StringBuilder();
                 var allContent = File.ReadAllText(file);
@@ -107,7 +107,7 @@ namespace WikipediaParser
 
                 page.Id = PageRepository.SavePage(page);
 
-                var wikifier = new AsapWiki.Shared.Wiki.Wikifier(page);
+                var wikifier = new Wikifier(page);
                 PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                 ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                 var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();

@@ -9,6 +9,19 @@ namespace AsapWiki.Shared.Repository
 {
     public static partial class PageFileRepository
     {
+        public static PageFile GetPageFileInfoByPageIdAndName(int pageId, string fileName)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.Query<PageFile>("GetPageFileInfoByPageIdAndName",
+                    new
+                    {
+                        PageId = pageId,
+                        FileName = fileName
+                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
+
         public static List<PageFile> GetPageFilesInfoByPageId(int pageId)
         {
             using (var handler = new SqlConnectionHandler())

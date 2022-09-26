@@ -1,6 +1,7 @@
 ﻿using AsapWiki.Shared.Classes;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
+using AsapWiki.Shared.Wiki;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -20,15 +21,15 @@ namespace AsapWikiCom.Controllers
         public ActionResult Content()
         {
             Configure();
-
-            string navigation = RouteValue("navigation");
+            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
 
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
             {
+                var wiki = new Wikifier(context, page);
+
                 ViewBag.Title = page.Name;
-                var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
-                ViewBag.Body = wikifier.ProcessedBody;
+                ViewBag.Body = wiki.ProcessedBody;
             }
 
             return View();
@@ -39,11 +40,12 @@ namespace AsapWikiCom.Controllers
         #region Edit.
 
         [Authorize]
+        [HttpGet]
         public ActionResult Edit()
         {
             Configure();
 
-            string navigation = RouteValue("navigation");
+            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
 
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
@@ -56,7 +58,7 @@ namespace AsapWikiCom.Controllers
                     Id = page.Id,
                     Body = page.Body,
                     Name = page.Name,
-                    Navigation = page.Navigation,
+                    Navigation = Utility.CleanPartialURI(page.Navigation),
                     Description = page.Description
                 });
             }
@@ -70,7 +72,7 @@ namespace AsapWikiCom.Controllers
                 {
                     Body = newPageTemplate,
                     Name = pageName,
-                    Navigation = navigation
+                    Navigation = Utility.CleanPartialURI(navigation)
                 });
             }
         }
@@ -95,13 +97,13 @@ namespace AsapWikiCom.Controllers
                         ModifiedByUserId = context.User.Id,
                         Body = editPage.Body ?? "",
                         Name = editPage.Name,
-                        Navigation = HTML.CleanPartialURI(editPage.Name),
+                        Navigation = Utility.CleanPartialURI(editPage.Name),
                         Description = editPage.Description ?? ""
                     };
 
                     page.Id = PageRepository.SavePage(page);
 
-                    var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
+                    var wikifier = new Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
@@ -116,12 +118,12 @@ namespace AsapWikiCom.Controllers
                     page.ModifiedByUserId = context.User.Id;
                     page.Body = editPage.Body ?? "";
                     page.Name = editPage.Name;
-                    page.Navigation = HTML.CleanPartialURI(editPage.Name);
+                    page.Navigation = Utility.CleanPartialURI(editPage.Name);
                     page.Description = editPage.Description ?? "";
 
                     PageRepository.SavePage(page);
 
-                    var wikifier = new AsapWiki.Shared.Wiki.Wikifier(context, page);
+                    var wikifier = new Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
@@ -144,10 +146,17 @@ namespace AsapWikiCom.Controllers
 
         #region Attachments.
 
+        /// <summary>
+        /// Allows a user to delete a page attachment from a page.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult DeleteFile(string navigation)
+        public ActionResult DeleteAttachment(string navigation)
         {
+            navigation = Utility.CleanPartialURI(navigation);
+
             string imageName = Request.QueryString["Image"];
             var page = PageRepository.GetPageByNavigation(navigation);
 
@@ -157,7 +166,31 @@ namespace AsapWikiCom.Controllers
         }
 
         /// <summary>
-        /// Gets a file from the database and converts it to a PNG with optional scaling.
+        /// Gets a file from the database and returns it to the client.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Attachment(string navigation)
+        {
+            navigation = Utility.CleanPartialURI(navigation);
+            string attachmentName = Request.QueryString["file"];
+
+            var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, attachmentName);
+
+            if (file != null)
+            {
+                return File(file.Data.ToArray(), file.ContentType);
+            }
+            else
+            {
+                return new HttpNotFoundResult($"[{attachmentName}] was not found on the page [{navigation}].");
+            }
+        }
+
+        /// <summary>
+        /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>
         /// <param name="navigation"></param>
         /// <returns></returns>
@@ -165,6 +198,7 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Png(string navigation)
         {
+            navigation = Utility.CleanPartialURI(navigation);
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
@@ -201,17 +235,22 @@ namespace AsapWikiCom.Controllers
             }
             else
             {
-                return null;
+                return new HttpNotFoundResult($"[{imageName}] was not found on the page [{navigation}].");
             }
         }
 
+        /// <summary>
+        /// Allows the use to upload a file/attachemnt to a page.
+        /// </summary>
+        /// <param name="postData"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost]
         public ActionResult Upload(object postData)
         {
             Configure();
 
-            string navigation = RouteValue("navigation");
+            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
             int pageId = int.Parse(navigation);
 
             HttpPostedFileBase file = Request.Files["ImageData"];
@@ -232,7 +271,12 @@ namespace AsapWikiCom.Controllers
             });
         }
 
+        /// <summary>
+        /// Populate the upload page. Shows the attachments.
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
+        [HttpGet]
         public ActionResult Upload()
         {
             Configure();
