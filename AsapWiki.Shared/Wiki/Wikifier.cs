@@ -666,7 +666,7 @@ namespace AsapWiki.Shared.Wiki
                         }
                     }
 
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Show/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Content/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_context?.CanCreatePage() == true)
                 {
@@ -918,7 +918,7 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
 
                                     if (keyword == "recentlymodifiedfull")
                                     {
@@ -971,7 +971,7 @@ namespace AsapWiki.Shared.Wiki
                                     html.Append("<ul>");
                                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/Wiki/Show/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                         if (keyword == "tagglossaryfull")
                                         {
@@ -1021,7 +1021,7 @@ namespace AsapWiki.Shared.Wiki
                                     html.Append("<ul>");
                                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/Wiki/Show/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                         if (keyword == "textglossaryfull")
                                         {
@@ -1056,7 +1056,7 @@ namespace AsapWiki.Shared.Wiki
 
                                 foreach (var page in pages)
                                 {
-                                    html.Append("<li><a href=\"/Wiki/Show/" + page.Navigation + "\">" + page.Name + "</a>");
+                                    html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                     if (keyword == "textlistfull")
                                     {
@@ -1090,7 +1090,7 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in relatedPages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1099,7 +1099,7 @@ namespace AsapWiki.Shared.Wiki
                                 foreach (var page in relatedPages)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
                                 }
                             }
                             else if (keyword == "related-full")
@@ -1107,7 +1107,7 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in relatedPages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Show/{page.Navigation}\">{page.Name}</a> - {page.Description}");
+                                    html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a> - {page.Description}");
                                 }
                                 html.Append("</ul>");
                             }

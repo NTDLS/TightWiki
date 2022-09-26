@@ -29,7 +29,14 @@ namespace AsapWikiCom.Controllers
             {
                 if (PerformLogin(user.EmailAddress, user.Password))
                 {
-                    return RedirectToAction("Show", "Wiki", "Home");
+                    if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"] != "/")
+                    {
+                        return Redirect(Request.QueryString["ReturnUrl"]);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Content", "Wiki", "Home");
+                    }
                 }
                 ModelState.AddModelError("", "invalid Username or Password");
             }

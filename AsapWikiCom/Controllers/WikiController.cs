@@ -2,10 +2,10 @@
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 using System;
-using System.Linq;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,8 +14,10 @@ namespace AsapWikiCom.Controllers
     [Authorize]
     public class WikiController : ControllerHelperBase
     {
+        #region View Page.
+
         [AllowAnonymous]
-        public ActionResult Show()
+        public ActionResult Content()
         {
             Configure();
 
@@ -31,6 +33,10 @@ namespace AsapWikiCom.Controllers
 
             return View();
         }
+
+        #endregion
+
+        #region Edit.
 
         [Authorize]
         public ActionResult Edit()
@@ -133,6 +139,10 @@ namespace AsapWikiCom.Controllers
             }
             return View();
         }
+
+        #endregion
+
+        #region Attachments.
 
         [AllowAnonymous]
         [HttpGet]
@@ -239,5 +249,6 @@ namespace AsapWikiCom.Controllers
             });
         }
 
+        #endregion
     }
 }

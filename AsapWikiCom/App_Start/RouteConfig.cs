@@ -18,20 +18,20 @@ namespace AsapWikiCom
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Wiki", action = "Show", id = UrlParameter.Optional }
+                defaults: new { controller = "Wiki", action = "Content", id = UrlParameter.Optional }
             );
             */
 
             routes.MapRoute(
                 name: "CategoryPage",
                 url: "{controller}/{action}/{navigation}",
-                defaults: new { controller = "Wiki", action = "Show", navigation = "Home" }
+                defaults: new { controller = "Wiki", action = "Content", navigation = "Home" }
             );
             
             routes.MapRoute(
                 name: "DefaultWiki",
                 url: "{navigation}",
-                defaults: new { navigation = "Home", controller = "Wiki", action = "Show" }
+                defaults: new { navigation = "Home", controller = "Wiki", action = "Content" }
             );
 
             routes.MapRoute(
