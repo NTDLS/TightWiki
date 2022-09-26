@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsapWikiCom", "AsapWikiCom\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneration", "CodeGeneration\CodeGeneration.csproj", "{B6E792BD-E394-45A1-ACC0-1B0D73098F08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikipediaParser", "WikipediaParser\WikipediaParser.csproj", "{0A1287DE-3E21-4F0A-BEF1-3DAD4DCE754D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{B6E792BD-E394-45A1-ACC0-1B0D73098F08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6E792BD-E394-45A1-ACC0-1B0D73098F08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6E792BD-E394-45A1-ACC0-1B0D73098F08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A1287DE-3E21-4F0A-BEF1-3DAD4DCE754D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A1287DE-3E21-4F0A-BEF1-3DAD4DCE754D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A1287DE-3E21-4F0A-BEF1-3DAD4DCE754D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A1287DE-3E21-4F0A-BEF1-3DAD4DCE754D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

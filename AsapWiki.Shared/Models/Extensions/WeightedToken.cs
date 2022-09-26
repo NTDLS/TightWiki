@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AsapWiki.Shared.Models
 {
-    public class SearchCacheItem
+    public class WeightedToken
     {
         public string Token;
         public int Weight;

@@ -1,5 +1,10 @@
-﻿using System;
+﻿using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Models;
+using AsapWiki.Shared.Repository;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -7,6 +12,38 @@ namespace AsapWiki.Shared.Wiki
 {
     public static class Utility
     {
+        public static List<WeightedToken> ParsePageTokens(string contentBody)
+        {
+            var exclusionWords = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupNameAndEntryName("Search", "Word Exclusions")
+                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
+
+            var htmlFree = HTML.StripHtml(contentBody).ToLower();
+            var tokens = htmlFree.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
+            var casedTokens = new List<string>();
+
+            foreach (var token in tokens)
+            {
+                var spkitTokens = Utility.SplitCamelCase(token).Split(' ');
+                if (spkitTokens.Count() > 1)
+                {
+                    casedTokens.AddRange(spkitTokens);
+                }
+            }
+
+            tokens.AddRange(casedTokens);
+
+            tokens.RemoveAll(o => exclusionWords.Contains(o));
+
+            var searchTokens = (from w in tokens
+                                group w by w into g
+                                select new WeightedToken
+                                {
+                                    Token = g.Key,
+                                    Weight = g.Count()
+                                }).ToList();
+
+            return searchTokens;
+        }
         public static bool IsValidEmail(string email)
         {
             var trimmedEmail = email.Trim();

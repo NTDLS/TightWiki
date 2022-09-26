@@ -33,33 +33,19 @@ namespace AsapWiki.Shared.Wiki
             Transform();
         }
 
-        public List<SearchCacheItem> ParsePageTokens()
+        public Wikifier(Page page)
         {
-            var exclusionWords = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupNameAndEntryName("Search", "Word Exclusions")
-                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
+            _page = page;
+            Matches = new Dictionary<string, MatchSet>();
+            _context = null; //Not being called from a webpage.
 
-            var htmlFree = HTML.StripHtml(ProcessedBody).ToLower();
-            var tokens = htmlFree.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
-            var casedTokens = new List<string>();
+            Transform();
+        }
 
-            foreach (var token in tokens)
-            {
-                casedTokens.AddRange(Utility.SplitCamelCase(token).Split(' ').Except(tokens));
-            }
 
-            tokens.AddRange(casedTokens);
-
-            tokens.RemoveAll(o => exclusionWords.Contains(o));
-
-            var searchTokens = (from w in tokens
-                                group w by w into g
-                                select new SearchCacheItem
-                                {
-                                    Token = g.Key,
-                                    Weight = g.Count()
-                                }).ToList();
-
-            return searchTokens;
+        public List<WeightedToken> ParsePageTokens()
+        {
+            return Utility.ParsePageTokens(ProcessedBody);
         }
 
         private void Transform()
@@ -682,7 +668,7 @@ namespace AsapWiki.Shared.Wiki
 
                     StoreMatch(pageContent, match.Value, "<a href=\"" + HTML.CleanFullURI($"/Wiki/Show/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_context.CanCreatePage())
+                else if (_context?.CanCreatePage() == true)
                 {
                     if (explicitLinkText.Length == 0)
                     {

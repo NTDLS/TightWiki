@@ -78,7 +78,7 @@
     <Compile Include="Classes\MatchSet.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Models\Extensions\PageToken.cs" />
-    <Compile Include="Models\Extensions\SearchCacheItem.cs" />
+    <Compile Include="Models\Extensions\WeightedToken.cs" />
     <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\StateContext.cs" />
     <Compile Include="Classes\TOCTag.cs" />
