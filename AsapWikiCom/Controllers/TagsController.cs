@@ -16,10 +16,8 @@ namespace AsapWikiCom.Controllers
     [Authorize]
     public class TagsController : ControllerHelperBase
     {
-        #region View Page.
-
         [AllowAnonymous]
-        public ActionResult AssociationCloud()
+        public ActionResult Browse()
         {
             Configure();
             string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
@@ -67,8 +65,5 @@ namespace AsapWikiCom.Controllers
 
             return View();
         }
-
-        #endregion
-
     }
 }

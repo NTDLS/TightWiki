@@ -6,8 +6,8 @@ namespace AsapWiki.Shared.Models
 	public partial class Page : BaseModel
 	{
 		#region Properties
-		
-private int _id;
+
+		private int _id;
 		public int Id
 		{
 			get
@@ -19,11 +19,11 @@ private int _id;
 				if (this._id != value)
 				{
 					this._id = value;
-				}            
+				}
 			}
 		}
-		
-private string _name;
+
+		private string _name;
 		public string Name
 		{
 			get
@@ -35,11 +35,11 @@ private string _name;
 				if (this._name != value)
 				{
 					this._name = value;
-				}            
+				}
 			}
 		}
-		
-private string _navigation;
+
+		private string _navigation;
 		public string Navigation
 		{
 			get
@@ -51,11 +51,11 @@ private string _navigation;
 				if (this._navigation != value)
 				{
 					this._navigation = value;
-				}            
+				}
 			}
 		}
-		
-private string _description;
+
+		private string _description;
 		public string Description
 		{
 			get
@@ -67,7 +67,7 @@ private string _description;
 				if (this._description != value)
 				{
 					this._description = value;
-				}            
+				}
 			}
 		}
 
@@ -83,11 +83,11 @@ private string _description;
 				if (this._body != value)
 				{
 					this._body = value;
-				}            
+				}
 			}
 		}
-		
-private int _createdByUserId;
+
+		private int _createdByUserId;
 		public int CreatedByUserId
 		{
 			get
@@ -99,11 +99,11 @@ private int _createdByUserId;
 				if (this._createdByUserId != value)
 				{
 					this._createdByUserId = value;
-				}            
+				}
 			}
 		}
-		
-private DateTime _createdDate;
+
+		private DateTime _createdDate;
 		public DateTime CreatedDate
 		{
 			get
@@ -115,11 +115,11 @@ private DateTime _createdDate;
 				if (this._createdDate != value)
 				{
 					this._createdDate = value;
-				}            
+				}
 			}
 		}
-		
-private int _modifiedByUserId;
+
+		private int _modifiedByUserId;
 		public int ModifiedByUserId
 		{
 			get
@@ -131,11 +131,11 @@ private int _modifiedByUserId;
 				if (this._modifiedByUserId != value)
 				{
 					this._modifiedByUserId = value;
-				}            
+				}
 			}
 		}
-		
-private DateTime _modifiedDate;
+
+		private DateTime _modifiedDate;
 		public DateTime ModifiedDate
 		{
 			get
@@ -147,10 +147,10 @@ private DateTime _modifiedDate;
 				if (this._modifiedDate != value)
 				{
 					this._modifiedDate = value;
-				}            
+				}
 			}
 		}
-			
+
 		#endregion
 	}
 }

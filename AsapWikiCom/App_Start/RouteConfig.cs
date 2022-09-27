@@ -22,16 +22,38 @@ namespace AsapWikiCom
             );
             */
 
+            #region File.
+
             routes.MapRoute(
-                name: "Attachment",
-                url: "Wiki/Attachment/{navigation}",
-                defaults: new { controller = "Wiki", action = "Attachment", navigation = "Home" }
+                name: "File_Binary",
+                url: "File/Binary/{navigation}",
+                defaults: new { controller = "File", action = "Binary", navigation = "" }
             );
 
             routes.MapRoute(
-                name: "TagAssociations",
-                url: "Tag/Associations/{navigation}",
-                defaults: new { controller = "Tags", action = "AssociationCloud", navigation = "Home" }
+                name: "File_Image",
+                url: "File/Image/{navigation}",
+                defaults: new { controller = "File", action = "Image", navigation = "" }
+            );
+
+            routes.MapRoute(
+                name: "File_Png",
+                url: "File/Png/{navigation}",
+                defaults: new { controller = "File", action = "Png", navigation = "" }
+            );
+
+            routes.MapRoute(
+                name: "File_Upload",
+                url: "File/Upload/{navigation}",
+                defaults: new { controller = "File", action = "Upload", navigation = "" }
+            );
+
+            #endregion
+
+            routes.MapRoute(
+                name: "Tag_Associations",
+                url: "Tag/Browse/{navigation}",
+                defaults: new { controller = "Tags", action = "Browse", navigation = "Home" }
             );
 
             routes.MapRoute(

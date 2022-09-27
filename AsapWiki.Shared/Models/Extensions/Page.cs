@@ -7,6 +7,6 @@ namespace AsapWiki.Shared.Models
 {
     public partial class Page : BaseModel
     {
-
+        public int TokenWeight { get; set; }
     }
 }

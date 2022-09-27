@@ -18,6 +18,10 @@
             argument = argument.substring(6, argument.length);
             insertAtCursor(document.getElementById('Body'), argument)
         }
+        else if (argument.startsWith('file:')) {
+            argument = argument.substring(5, argument.length);
+            insertAtCursor(document.getElementById('Body'), argument)
+        }
     };
 
     function insertAtCursor(myField, myValue) {
@@ -95,7 +99,7 @@
                     
                     @if (Model?.Id > 0)
                     {
-                        <iframe src="/Wiki/Upload/@Model.Id" align="left" width="500" frameBorder="0" />
+                        <iframe src="/File/Upload/@Model.Id" align="left" width="500" frameBorder="0" />
                     }
                     else
                     {

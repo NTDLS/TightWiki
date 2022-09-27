@@ -689,7 +689,7 @@ namespace AsapWiki.Shared.Wiki
                                     linkText = linkText.Substring(0, scaleIndex);
                                 }
 
-                                string attachementLink = $"/Wiki/Png/{navigation}?Image={linkText}";
+                                string attachementLink = $"/File/Image/{navigation}?Image={linkText}";
                                 linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
                             }
                             else
@@ -704,7 +704,7 @@ namespace AsapWiki.Shared.Wiki
                                     linkText = linkText.Substring(0, scaleIndex);
                                 }
 
-                                string attachementLink = $"/Wiki/Png/{_page.Navigation}?Image={linkText}";
+                                string attachementLink = $"/File/Image/{_page.Navigation}?Image={linkText}";
                                 linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
                             }
                         }
@@ -812,7 +812,7 @@ namespace AsapWiki.Shared.Wiki
             foreach (var match in matches)
             {
                 string keyword = string.Empty;
-                List<string> args = new List<string>();
+                var args = new ParamSet();
 
                 MatchCollection rawargs = (new Regex(@"\(+?\)|\(.+?\)")).Matches(match.Value);
                 if (rawargs.Count > 0)
@@ -822,7 +822,8 @@ namespace AsapWiki.Shared.Wiki
                     foreach (var rawarg in rawargs)
                     {
                         string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
-                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()));
+                        var argsArray = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim());
+                        args = Utility.GetNamedParams(argsArray.ToList());
                     }
                 }
                 else
@@ -836,13 +837,13 @@ namespace AsapWiki.Shared.Wiki
                     //Includes a page by it's navigation link.
                     case "include": //(PageCategory\PageName)
                         {
-                            if (args.Count != 1)
+                            if (args.Ordinals.Count != 1)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
-                            Page page = GetPageFromPathInfo(args[0]);
+                            Page page = GetPageFromPathInfo(args.Ordinals[0]);
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page);
@@ -858,27 +859,27 @@ namespace AsapWiki.Shared.Wiki
                     //Associates tags with a page. These are saved with the page and can also be displayed.
                     case "settags": //##SetTags(comma,seperated,list,of,tags)
                         {
-                            if (args.Count == 0)
+                            if (args.Ordinals.Count == 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
-                            Tags.AddRange(args);
+                            Tags.AddRange(args.Ordinals);
                             StoreMatch(pageContent, match.Value, "");
                         }
                         break;
                     //Displays an image that is attached to the page.
                     case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
-                        if (args != null && args.Count > 0)
+                        if (args != null && args.Ordinals.Count > 0)
                         {
-                            if (args.Count < 1 || args.Count > 2)
+                            if (args.Ordinals.Count < 1 || args.Ordinals.Count > 2)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
-                            string imageName = args[0];
+                            string imageName = args.Ordinals[0];
                             string navigation = _page.Navigation;
                             if (imageName.Contains("/"))
                             {
@@ -891,16 +892,16 @@ namespace AsapWiki.Shared.Wiki
                             string scale = "100";
                             string alt = imageName;
 
-                            if (args.Count > 1)
+                            if (args.Ordinals.Count > 1)
                             {
-                                scale = args[1];
+                                scale = args.Ordinals[1];
                             }
-                            if (args.Count > 2)
+                            if (args.Ordinals.Count > 2)
                             {
-                                alt = args[2];
+                                alt = args.Ordinals[2];
                             }
 
-                            string link = $"/Wiki/Png/{navigation}?Image={imageName}";
+                            string link = $"/File/Image/{navigation}?Image={imageName}";
                             string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
 
                             StoreMatch(pageContent, match.Value, image);
@@ -909,7 +910,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays an file download link
                     case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
                         {
-                            if (args.Count < 1 || args.Count > 3)
+                            if (args.Ordinals.Count < 1 || args.Ordinals.Count > 3)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
@@ -917,7 +918,7 @@ namespace AsapWiki.Shared.Wiki
 
                             int pageId = _page.Id;
 
-                            string fileName = args[0];
+                            string fileName = args.Ordinals[0];
                             string navigation = _page.Navigation;
                             if (fileName.Contains("/"))
                             {
@@ -941,19 +942,23 @@ namespace AsapWiki.Shared.Wiki
                             {
                                 string alt = fileName;
 
-                                if (args.Count > 1)
+                                if (args.Ordinals.Count > 1)
                                 {
-                                    alt = args[1];
+                                    alt = args.Ordinals[1].Trim();
+                                    if (string.IsNullOrWhiteSpace(alt))
+                                    {
+                                        alt = fileName;
+                                    }
                                 }
-                                if (args.Count > 2)
+                                if (args.Ordinals.Count > 2)
                                 {
-                                    if (args[2].ToLower() != "false")
+                                    if (args.Ordinals[2].ToLower() != "false")
                                     {
                                         alt += $" ({attachment.FriendlySize})";
                                     }
                                 }
 
-                                string link = $"/Wiki/Attachment/{navigation}?file={fileName}";
+                                string link = $"/File/Binary/{navigation}?file={fileName}";
                                 string image = $"<a href=\"{link}\">{alt}</a>";
                                 StoreMatch(pageContent, match.Value, image);
                             }
@@ -965,7 +970,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays a list of files attached to the page.
                     case "files": //##Files()
                         {
-                            if (args.Count != 0)
+                            if (args.Ordinals.Count != 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
@@ -980,7 +985,7 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var file in files)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Attachment/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
+                                    html.Append($"<li><a href=\"/File/Binary/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
                                     html.Append("</li>");
                                 }
                                 html.Append("</ul>");
@@ -996,23 +1001,30 @@ namespace AsapWiki.Shared.Wiki
                     case "recentlymodified": //##RecentlyModified(TopCount)
                     case "recentlymodifiedfull": //##RecentlyModifiedFull(TopCount)
                         {
-                            if (args.Count != 1)
+                            if (args.Ordinals.Count != 1)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
-                            if (!int.TryParse(args[0], out int takeCount))
+                            if (!int.TryParse(args.Ordinals[0], out int takeCount))
                             {
                                 continue;
                             }
 
-                            var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount);
+                            var topCount = args.NamedInt("top");
+
+                            var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount).OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).ToList();
+
+                            if (topCount != null)
+                            {
+                                pages = pages.OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).Take((int)topCount).ToList();
+                            }
 
                             //If we specified a Top Count parameter, then we want to show the most recent pages
                             //  which were added to the category - otherwise we show ALL pages in the category so
                             //  we order them simply by name.
-                            if (args.Count == 1)
+                            if (args.Ordinals.Count == 1)
                             {
                                 pages = pages.OrderBy(p => p.Name).ToList();
                             }
@@ -1047,16 +1059,24 @@ namespace AsapWiki.Shared.Wiki
                     case "tagglossary":
                     case "tagglossaryfull":
                         {
-                            if (args.Count == 0)
+                            if (args.Ordinals.Count == 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            string[] categoryName = args[0].ToLower().Split('|');
+                            string[] categoryName = args.Ordinals[0].ToLower().Split('|');
 
-                            var pages = PageTagRepository.GetPageInfoByTags(args).OrderBy(o => o.Name).ToList();
+                            var topCount = args.NamedInt("top");
+
+                            var pages = PageTagRepository.GetPageInfoByTags(args.Ordinals).OrderBy(o => o.Name).ToList();
+
+                            if (topCount != null)
+                            {
+                                pages = pages.OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).Take((int)topCount).ToList();
+                            }
+
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 
@@ -1104,9 +1124,17 @@ namespace AsapWiki.Shared.Wiki
                     case "textglossaryfull":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            string[] searchStrings = args[0].ToLower().Split('|');
+                            string[] searchStrings = args.Ordinals[0].ToLower().Split('|');
 
-                            var pages = PageTagRepository.GetPageInfoByTokens(args).OrderBy(o => o.Name).ToList();
+                            var topCount = args.NamedInt("top");
+
+                            var pages = PageTagRepository.GetPageInfoByTokens(args.Ordinals).OrderBy(o => o.Name).ToList();
+
+                            if (topCount != null)
+                            {
+                                pages = pages.OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).Take((int)topCount).ToList();
+                            }
+
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 
@@ -1153,7 +1181,15 @@ namespace AsapWiki.Shared.Wiki
                     case "textlist":
                     case "textlistfull":
                         {
-                            var pages = PageTagRepository.GetPageInfoByTokens(args).OrderBy(o => o.Name).ToList();
+                            var topCount = args.NamedInt("top");
+
+                            var pages = PageTagRepository.GetPageInfoByTokens(args.Ordinals).OrderBy(o => o.Name).ToList();
+
+                            if (topCount != null)
+                            {
+                                pages = pages.OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).Take((int)topCount).ToList();
+                            }
+
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1189,12 +1225,19 @@ namespace AsapWiki.Shared.Wiki
                         {
                             var html = new StringBuilder();
 
-                            var relatedPages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name);
+                            var topCount = args.NamedInt("top");
+
+                            var pages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name).ToList();
+
+                            if (topCount != null)
+                            {
+                                pages = pages.Take((int)topCount).ToList();
+                            }
 
                             if (keyword == "related")
                             {
                                 html.Append("<ul>");
-                                foreach (var page in relatedPages)
+                                foreach (var page in pages)
                                 {
                                     html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
                                 }
@@ -1202,7 +1245,7 @@ namespace AsapWiki.Shared.Wiki
                             }
                             else if (keyword == "related-flat")
                             {
-                                foreach (var page in relatedPages)
+                                foreach (var page in pages)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
                                     html.Append($"<a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
@@ -1211,7 +1254,7 @@ namespace AsapWiki.Shared.Wiki
                             else if (keyword == "related-full")
                             {
                                 html.Append("<ul>");
-                                foreach (var page in relatedPages)
+                                foreach (var page in pages)
                                 {
                                     html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a> - {page.Description}");
                                 }
@@ -1226,7 +1269,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays the date and time that the current page was last modified.
                     case "lastmodified":
                         {
-                            if (args.Count != 0)
+                            if (args.Ordinals.Count != 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
@@ -1245,7 +1288,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays the date and time that the current page was created.
                     case "created":
                         {
-                            if (args.Count != 0)
+                            if (args.Ordinals.Count != 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
@@ -1264,7 +1307,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays the name of the current page.
                     case "name":
                         {
-                            if (args.Count != 0)
+                            if (args.Ordinals.Count != 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
@@ -1276,7 +1319,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays the name of the current page in title form.
                     case "title":
                         {
-                            if (args.Count != 0)
+                            if (args.Ordinals.Count != 0)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
@@ -1292,15 +1335,15 @@ namespace AsapWiki.Shared.Wiki
                         {
                             int count = 1;
 
-                            if (args.Count > 1)
+                            if (args.Ordinals.Count > 1)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
-                            if (args.Count > 0)
+                            if (args.Ordinals.Count > 0)
                             {
-                                count = int.Parse(args[0]);
+                                count = int.Parse(args.Ordinals[0]);
                             }
 
                             for (int i = 0; i < count; i++)
@@ -1341,7 +1384,7 @@ namespace AsapWiki.Shared.Wiki
             foreach (var match in matches)
             {
                 string keyword = string.Empty;
-                var args = new List<string>(); ;
+                var args = new ParamSet();
 
                 MatchCollection rawargs = (new Regex(@"\(+?\)|\(.+?\)")).Matches(match.Value);
                 if (rawargs.Count > 0)
@@ -1351,7 +1394,8 @@ namespace AsapWiki.Shared.Wiki
                     foreach (var rawarg in rawargs)
                     {
                         string rawArgTrimmed = rawarg.ToString().Substring(1, rawarg.ToString().Length - 2);
-                        args.AddRange(rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()));
+                        var argsArray = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim());
+                        args = Utility.GetNamedParams(argsArray.ToList());
                     }
                 }
                 else
@@ -1372,7 +1416,7 @@ namespace AsapWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var tag in Tags)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
+                                    html.Append($"<li><a href=\"/Tag/Browse/{tag}\">{tag}</a>");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1381,7 +1425,7 @@ namespace AsapWiki.Shared.Wiki
                                 foreach (var tag in Tags)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/Wiki/Tag/{tag}\">{tag}</a>");
+                                    html.Append($"<a href=\"/Tag/Browse/{tag}\">{tag}</a>");
                                 }
                             }
 
@@ -1391,19 +1435,34 @@ namespace AsapWiki.Shared.Wiki
 
                     case "tagcloud": //##tagcloud()
                         {
-                            if (args.Count != 1)
+                            if (args.Ordinals.Count != 1)
                             {
                                 StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
                                 break;
                             }
 
-                            string seedTag = args[0];
+                            string seedTag = args.Ordinals[0];
 
                             string cloudHtml = Utility.BuildTagCloud(seedTag);
 
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
                         break;
+
+                    case "searchcloud": //##SearchCloud()
+                        {
+                            if (args.Ordinals.Count < 1)
+                            {
+                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{keyword}");
+                                break;
+                            }
+
+                            string cloudHtml = Utility.BuildSearchCloud(args.Ordinals);
+
+                            StoreMatch(pageContent, match.Value, cloudHtml);
+                        }
+                        break;
+
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Diplays a table of contents for the page based on the header tags.

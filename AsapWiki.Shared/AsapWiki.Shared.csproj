@@ -76,6 +76,8 @@
     <Compile Include="Classes\HTML.cs" />
     <Compile Include="Classes\Images.cs" />
     <Compile Include="Classes\MatchSet.cs" />
+    <Compile Include="Classes\NamedParam.cs" />
+    <Compile Include="Classes\ParamSet.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Models\Extensions\TagAssociation.cs" />
     <Compile Include="Models\Extensions\PageToken.cs" />

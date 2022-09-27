@@ -25,7 +25,7 @@ namespace AsapWiki.Shared.Wiki
 
             foreach (var tag in tags)
             {
-                tagList.Add(new TagCoudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Associations/" + Utility.CleanFullURI(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
+                tagList.Add(new TagCoudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + Utility.CleanFullURI(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
 
                 if ((tagIndex % sizeStep) == 0)
                 {
@@ -35,21 +35,88 @@ namespace AsapWiki.Shared.Wiki
                 tagIndex++;
             }
 
-            var tagCloudHTML = new StringBuilder();
+            var cloudHtml = new StringBuilder();
 
             tagList.Sort(TagCoudItem.CompareItem);
 
-            tagCloudHTML.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
+            cloudHtml.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
 
             foreach (TagCoudItem tag in tagList)
             {
-                tagCloudHTML.Append(tag.HTML + "&nbsp; ");
+                cloudHtml.Append(tag.HTML + "&nbsp; ");
             }
 
-            tagCloudHTML.Append("</p></td></tr></table>");
+            cloudHtml.Append("</p></td></tr></table>");
 
-            return tagCloudHTML.ToString();
+            return cloudHtml.ToString();
         }
+
+        
+        public static ParamSet GetNamedParams(List<string> args)
+        {
+            var set = new ParamSet();
+
+            foreach (var arg in args)
+            {
+                if (arg.StartsWith(":") && arg.Contains("="))
+                {
+                    var parsed = arg.Substring(1); //Skip the colon.
+
+                    int index = parsed.IndexOf("=");
+
+                    var name = parsed.Substring(0, index).Trim().ToLower();
+                    var value = parsed.Substring(index + 1).Trim();
+
+                    set.Named.Add( new NamedParam(  name, value));
+                }
+                else
+                {
+                    set.Ordinals.Add(arg);
+                }
+            }
+
+            return set;
+        }
+
+        public static string BuildSearchCloud(List<string> tokens)
+        {
+            var pages = PageTagRepository.GetPageInfoByTokens(tokens).OrderByDescending(o => o.TokenWeight).ToList();
+
+            int pageCount = pages.Count();
+            int fontSize = 7;
+            int sizeStep = (pageCount > fontSize ? pageCount : (fontSize * 2)) / fontSize;
+            int pageIndex = 0;
+
+            var pageList = new List<TagCoudItem>();
+
+            foreach (var page in pages)
+            {
+                pageList.Add(new TagCoudItem(page.Name, pageIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + page.Navigation + "\">" + page.Name + "</a></font>"));
+
+                if ((pageIndex % sizeStep) == 0)
+                {
+                    fontSize--;
+                }
+
+                pageIndex++;
+            }
+
+            var cloudHtml = new StringBuilder();
+
+            pageList.Sort(TagCoudItem.CompareItem);
+
+            cloudHtml.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
+
+            foreach (TagCoudItem tag in pageList)
+            {
+                cloudHtml.Append(tag.HTML + "&nbsp; ");
+            }
+
+            cloudHtml.Append("</p></td></tr></table>");
+
+            return cloudHtml.ToString();
+        }
+
 
         public static string CleanPartialURI(string url)
         {
@@ -72,7 +139,7 @@ namespace AsapWiki.Shared.Wiki
                     || (c >= 'a' && c <= 'z')
                     || (c >= '0' && c <= '9')
                     || c == '_' || c == '/'
-                    || c == '.')
+                    || c == '.' || c == '-')
                 {
                     sb.Append(c);
                 }
