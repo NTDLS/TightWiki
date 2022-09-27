@@ -76,8 +76,10 @@
     <Compile Include="Classes\HTML.cs" />
     <Compile Include="Classes\Images.cs" />
     <Compile Include="Classes\MatchSet.cs" />
+    <Compile Include="Classes\MethodPrototypes.cs" />
     <Compile Include="Classes\NamedParam.cs" />
-    <Compile Include="Classes\ParamSet.cs" />
+    <Compile Include="Classes\MethodCallInfo.cs" />
+    <Compile Include="Classes\PrototypeSegment.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Models\Extensions\TagAssociation.cs" />
     <Compile Include="Models\Extensions\PageToken.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Repository\Extensions\ProcessingInstructionRepository.cs" />
     <Compile Include="Repository\Extensions\RoleRepository.cs" />
     <Compile Include="Repository\Extensions\UserRepository.cs" />
+    <Compile Include="Wiki\Singletons.cs" />
     <Compile Include="Wiki\Utility.cs" />
     <Compile Include="Wiki\Wikifier.cs" />
   </ItemGroup>

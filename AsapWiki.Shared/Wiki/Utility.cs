@@ -50,34 +50,7 @@ namespace AsapWiki.Shared.Wiki
 
             return cloudHtml.ToString();
         }
-
-        
-        public static ParamSet GetNamedParams(List<string> args)
-        {
-            var set = new ParamSet();
-
-            foreach (var arg in args)
-            {
-                if (arg.StartsWith(":") && arg.Contains("="))
-                {
-                    var parsed = arg.Substring(1); //Skip the colon.
-
-                    int index = parsed.IndexOf("=");
-
-                    var name = parsed.Substring(0, index).Trim().ToLower();
-                    var value = parsed.Substring(index + 1).Trim();
-
-                    set.Named.Add( new NamedParam(  name, value));
-                }
-                else
-                {
-                    set.Ordinals.Add(arg);
-                }
-            }
-
-            return set;
-        }
-
+       
         public static string BuildSearchCloud(List<string> tokens)
         {
             var pages = PageTagRepository.GetPageInfoByTokens(tokens).OrderByDescending(o => o.TokenWeight).ToList();
