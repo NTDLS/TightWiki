@@ -592,7 +592,7 @@ namespace AsapWiki.Shared.Wiki
                     }
                     else
                     {
-                        StoreError(pageContent, match.Value, $"The page has no name for {keyword}");
+                        StoreError(pageContent, match.Value, $"The page has no name for [{keyword}]");
                     }
                 }
             }
@@ -676,7 +676,9 @@ namespace AsapWiki.Shared.Wiki
                     //Includes a page by it's navigation link.
                     case "include": //(PageName)
                         {
-                            Page page = Utility.GetPageFromPathInfo(method.Parameters.Get<String>("pageName"));
+                            var navigation = method.Parameters.Get<String>("pageName");
+
+                            Page page = Utility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page);
@@ -684,8 +686,7 @@ namespace AsapWiki.Shared.Wiki
                             }
                             else
                             {
-                                //Remove wiki tags for pages which were not found or which we do not have permission to view.
-                                StoreMatch(pageContent, match.Value, "");
+                                StoreError(pageContent, match.Value, $"The include page was not found: [{navigation}]");
                             }
                         }
                         break;
@@ -696,6 +697,7 @@ namespace AsapWiki.Shared.Wiki
                         {
                             var tags = method.Parameters.GetList<string>("tags");
                             Tags.AddRange(tags);
+                            Tags = Tags.Distinct().ToList();
                             StoreMatch(pageContent, match.Value, "");
                         }
                         break;

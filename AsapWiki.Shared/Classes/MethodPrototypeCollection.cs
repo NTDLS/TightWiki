@@ -62,15 +62,19 @@ namespace AsapWiki.Shared.Classes
 
                     if (prototypeSegment.Type.Contains(':'))
                     {
-                        var segs = prototypeSegment.Type.Split(':');
-                        prototypeSegment.Type = segs[0];
-                        if (segs[1].ToLower() == "infinite")
+                        var splitSeg = prototypeSegment.Type.Split(':');
+                        prototypeSegment.Type = splitSeg[0];
+                        if (splitSeg[1].ToLower() == "infinite")
                         {
                             prototypeSegment.IsInfinite = true;
+                            if (prototype.Parameters.Any(o => o.IsInfinite))
+                            {
+                                throw new Exception($"Method [{methodName}], prototype error: cannot contain more than one [infinite] parameter.");
+                            }
                         }
                         else
                         {
-                            throw new Exception($"Parser error, expected 'infinite' got '{segs[1]}' for {methodName}");
+                            throw new Exception($"Method [{methodName}], prototype error: expected [infinite] got [{splitSeg[1]}].");
                         }
                     }
 
@@ -102,7 +106,7 @@ namespace AsapWiki.Shared.Classes
                     }
                     else
                     {
-                        throw new Exception("Parser error, expected '{' or '[' for {FunctionName}");
+                        throw new Exception($"Method [{methodName}], prototype error: expected [{{] or [[].");
                     }
 
                     SkipWhiteSpace(segment, ref index);
@@ -114,7 +118,7 @@ namespace AsapWiki.Shared.Classes
 
                         if (segment[index] != '\'')
                         {
-                            throw new Exception("Parser error, expected '\'' for {FunctionName}");
+                            throw new Exception($"Method [{methodName}], prototype error: expected [\'].");
                         }
 
                         index++; //Skip the '''
@@ -125,13 +129,13 @@ namespace AsapWiki.Shared.Classes
 
                         if (index < segment.Length && segment[index] != '\'')
                         {
-                            throw new Exception("Parser error, expected '\'' for {FunctionName}");
+                            throw new Exception($"Method [{methodName}], prototype error: expected [\'].");
                         }
                     }
                 }
                 else
                 {
-                    throw new Exception($"Parser error, expected '<' for {methodName}");
+                    throw new Exception($"Method [{methodName}], prototype error: expected [<].");
                 }
 
                 prototype.Parameters.Add(prototypeSegment);
@@ -176,6 +180,5 @@ namespace AsapWiki.Shared.Classes
                 index++;
             }
         }
-
     }
 }

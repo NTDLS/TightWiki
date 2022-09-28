@@ -9,7 +9,7 @@ namespace AsapWiki.Shared.Classes
         /// <summary>
         /// Variables set by ordinal.
         /// </summary>
-        public List<string> Ordinals { get; set; } = new List<string>();
+        public List<OrdinalParam> Ordinals { get; set; } = new List<OrdinalParam>();
         /// <summary>
         /// Variables set by name.
         /// </summary>
@@ -62,7 +62,7 @@ namespace AsapWiki.Shared.Classes
             {
                 if (int.TryParse(value, out var parsedResult) == false)
                 {
-                    throw new Exception($"Error converting value {value} to integer.");
+                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to integer.");
                 }
                 return (T)Convert.ChangeType(parsedResult, typeof(T));
             }
@@ -70,7 +70,7 @@ namespace AsapWiki.Shared.Classes
             {
                 if (float.TryParse(value, out var parsedResult) == false)
                 {
-                    throw new Exception($"Error converting value {value} to float.");
+                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to float.");
                 }
                 return (T)Convert.ChangeType(parsedResult, typeof(T));
             }
@@ -78,7 +78,7 @@ namespace AsapWiki.Shared.Classes
             {
                 if (double.TryParse(value, out var parsedResult) == false)
                 {
-                    throw new Exception($"Error converting value {value} to double.");
+                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to double.");
                 }
                 return (T)Convert.ChangeType(parsedResult, typeof(T));
             }
@@ -87,13 +87,13 @@ namespace AsapWiki.Shared.Classes
                 value = value.ToLower();
                 if (bool.TryParse(value, out var parsedResult) == false)
                 {
-                    throw new Exception($"Error converting value {value} to boolean.");
+                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to boolean.");
                 }
                 return (T)Convert.ChangeType(parsedResult, typeof(T));
             }
             else
             {
-                throw new Exception("Unsupported parameter type");
+                throw new Exception($"Method [{_owner.Name}], unsupported parameter type.");
             }
         }
     }

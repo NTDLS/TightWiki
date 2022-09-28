@@ -14,11 +14,8 @@ namespace AsapWiki.Shared.Wiki
     {
         public static Page GetPageFromPathInfo(string routeData)
         {
-            routeData = Utility.CleanFullURI(routeData);
-            routeData = routeData.Substring(1, routeData.Length - 2);
-
+            routeData = Utility.CleanFullURI(routeData).Trim(new char[] { '\\', '/' });
             var page = PageRepository.GetPageByNavigation(routeData);
-
             return page;
         }
 

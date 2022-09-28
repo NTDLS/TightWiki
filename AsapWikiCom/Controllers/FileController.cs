@@ -5,6 +5,7 @@ using AsapWiki.Shared.Wiki;
 using System;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -236,11 +237,19 @@ namespace AsapWikiCom.Controllers
 
             var navigation = RouteValue("navigation");
             var page = PageRepository.GetPageByNavigation(navigation);
-            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+            if (page != null)
+            {
+                var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+
+                return View(new Attachments()
+                {
+                    Files = pageFiles
+                });
+            }
 
             return View(new Attachments()
             {
-                Files = pageFiles
+                Files = new List<PageFile>()
             });
         }
 
