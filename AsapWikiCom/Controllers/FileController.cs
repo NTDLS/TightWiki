@@ -28,11 +28,9 @@ namespace AsapWikiCom.Controllers
             navigation = Utility.CleanPartialURI(navigation);
 
             string imageName = Request.QueryString["Image"];
-            var page = PageRepository.GetPageByNavigation(navigation);
-
             PageFileRepository.DeletePageFileByPageNavigationAndName(navigation, imageName);
 
-            return RedirectToAction("Upload", "File", new { navigation = page.Id });
+            return RedirectToAction("Upload", "File", new { navigation = navigation });
         }
 
         /// <summary>
@@ -234,13 +232,11 @@ namespace AsapWikiCom.Controllers
         public ActionResult Upload()
         {
             Configure();
-            int pageId = int.Parse(RouteValue("navigation"));
 
-            var page = PageRepository.GetPageById(pageId);
+            var navigation = RouteValue("navigation");
+            var page = PageRepository.GetPageByNavigation(navigation);
+            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
 
-            ViewBag.Navigation = page.Navigation;
-
-            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(pageId);
             return View(new Attachments()
             {
                 Files = pageFiles
