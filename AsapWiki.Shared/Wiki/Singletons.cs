@@ -9,7 +9,6 @@ namespace AsapWiki.Shared.Wiki
         {
             get
             {
-              
                 if (_methodPrototypes == null)
                 {
                     _methodPrototypes = new MethodPrototypeCollection();
@@ -44,5 +43,3 @@ namespace AsapWiki.Shared.Wiki
         }
     }
 }
-
-

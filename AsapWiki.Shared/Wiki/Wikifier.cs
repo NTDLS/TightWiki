@@ -162,8 +162,8 @@ namespace AsapWiki.Shared.Wiki
 
                 string scopeBody = match.Value.Substring(paramEndIndex, (match.Value.Length - paramEndIndex) - 3).Trim();
 
-                string boxType = method.Parameters.GetString("boxType");
-                string title = method.Parameters.GetString("title");
+                string boxType = method.Parameters.Get<String>("boxType");
+                string title = method.Parameters.Get<String>("title");
 
                 var html = new StringBuilder();
 
@@ -676,7 +676,7 @@ namespace AsapWiki.Shared.Wiki
                     //Includes a page by it's navigation link.
                     case "include": //(PageName)
                         {
-                            Page page = Utility.GetPageFromPathInfo(method.Parameters.GetString("pageName"));
+                            Page page = Utility.GetPageFromPathInfo(method.Parameters.Get<String>("pageName"));
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page);
@@ -694,7 +694,8 @@ namespace AsapWiki.Shared.Wiki
                     //Associates tags with a page. These are saved with the page and can also be displayed.
                     case "tag": //##tag(pipe|seperated|list|of|tags)
                         {
-                            Tags.AddRange(method.Parameters.Ordinals);
+                            var tags = method.Parameters.GetList<string>("tags");
+                            Tags.AddRange(tags);
                             StoreMatch(pageContent, match.Value, "");
                         }
                         break;
@@ -703,9 +704,9 @@ namespace AsapWiki.Shared.Wiki
                     //Displays an image that is attached to the page.
                     case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
                         {
-                            string imageName = method.Parameters.GetString("name");
-                            string alt = method.Parameters.GetString("alttext", imageName);
-                            int scale = method.Parameters.GetInt("scale");
+                            string imageName = method.Parameters.Get<String>("name");
+                            string alt = method.Parameters.Get<String>("alttext", imageName);
+                            int scale = method.Parameters.Get<int>("scale");
 
                             string navigation = _page.Navigation;
                             if (imageName.Contains("/"))
@@ -729,7 +730,7 @@ namespace AsapWiki.Shared.Wiki
                         {
                             int pageId = _page.Id;
 
-                            string fileName = method.Parameters.GetString("name");
+                            string fileName = method.Parameters.Get<String>("name");
                             string navigation = _page.Navigation;
                             if (fileName.Contains("/"))
                             {
@@ -751,9 +752,9 @@ namespace AsapWiki.Shared.Wiki
                             var attachment = PageFileRepository.GetPageFileInfoByPageIdAndName(pageId, fileName);
                             if (attachment != null)
                             {
-                                string alt = method.Parameters.GetString("linkText", fileName);
+                                string alt = method.Parameters.Get<String>("linkText", fileName);
 
-                                if (method.Parameters.GetBool("showSize"))
+                                if (method.Parameters.Get<bool>("showSize"))
                                 {
                                     alt += $" ({attachment.FriendlySize})";
                                 }
@@ -794,18 +795,12 @@ namespace AsapWiki.Shared.Wiki
                     //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
                         {
-                            string view = method.Parameters.GetString("View").ToLower();
-                            var takeCount = method.Parameters.GetInt("top");
+                            string view = method.Parameters.Get<String>("View").ToLower();
+                            var takeCount = method.Parameters.Get<int>("top");
 
-                            var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount).OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).ToList();
-
-                            //If we specified a Top Count parameter, then we want to show the most recent pages
-                            //  which were added to the category - otherwise we show ALL pages in the category so
-                            //  we order them simply by name.
-                            if (method.Parameters.Ordinals.Count == 1)
-                            {
-                                pages = pages.OrderBy(p => p.Name).ToList();
-                            }
+                            var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount)
+                                .OrderByDescending(o => o.ModifiedDate)
+                                .OrderBy(o => o.Name).ToList();
 
                             var html = new StringBuilder();
 
@@ -837,10 +832,10 @@ namespace AsapWiki.Shared.Wiki
                     case "tagglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            var tags = method.Parameters.GetStringList("tags");
+                            var tags = method.Parameters.GetList<string>("tags");
 
-                            string view = method.Parameters.GetString("View").ToLower();
-                            var topCount = method.Parameters.GetInt("top");
+                            string view = method.Parameters.Get<String>("View").ToLower();
+                            var topCount = method.Parameters.Get<int>("top");
                             var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
@@ -888,12 +883,12 @@ namespace AsapWiki.Shared.Wiki
                     case "textglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            var searchStrings = method.Parameters.GetStringList("tokens");
-                            var topCount = method.Parameters.GetInt("top");
+                            var searchStrings = method.Parameters.GetList<string>("tokens");
+                            var topCount = method.Parameters.Get<int>("top");
                             var pages = PageTagRepository.GetPageInfoByTokens(searchStrings).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
-                            string view = method.Parameters.GetString("View").ToLower();
+                            string view = method.Parameters.Get<String>("View").ToLower();
 
                             if (pages.Count() > 0)
                             {
@@ -937,9 +932,10 @@ namespace AsapWiki.Shared.Wiki
                     //Creates a list of pages by searching the page body for the specified text.
                     case "textlist":
                         {
-                            string view = method.Parameters.GetString("View").ToLower();
-                            var topCount = method.Parameters.GetInt("top");
-                            var pages = PageTagRepository.GetPageInfoByTokens(method.Parameters.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
+                            string view = method.Parameters.Get<String>("View").ToLower();
+                            var topCount = method.Parameters.Get<int>("top");
+                            var tags = method.Parameters.GetList<string>("tags");
+                            var pages = PageTagRepository.GetPageInfoByTokens(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -972,9 +968,11 @@ namespace AsapWiki.Shared.Wiki
                     //Creates a list of pages by searching the page tags.
                     case "taglist":
                         {
-                            string view = method.Parameters.GetString("View").ToLower();
-                            var topCount = method.Parameters.GetInt("top");
-                            var pages = PageTagRepository.GetPageInfoByTags(method.Parameters.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
+                            string view = method.Parameters.Get<String>("View").ToLower();
+                            var topCount = method.Parameters.Get<int>("top");
+                            var tags = method.Parameters.GetList<string>("tags");
+
+                            var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1007,9 +1005,9 @@ namespace AsapWiki.Shared.Wiki
                     //Displays a list of other related pages based on tags.
                     case "related": //##related
                         {
-                            string view = method.Parameters.GetString("View").ToLower();
+                            string view = method.Parameters.Get<String>("View").ToLower();
                             var html = new StringBuilder();
-                            var topCount = method.Parameters.GetInt("top");
+                            var topCount = method.Parameters.Get<int>("top");
                             var pages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name).Take(topCount).ToList();
 
                             if (view == "list")
@@ -1091,7 +1089,7 @@ namespace AsapWiki.Shared.Wiki
                     case "nl":
                     case "newline": //##NewLine([optional:default=1]count)
                         {
-                            int count = method.Parameters.GetInt("Count");
+                            int count = method.Parameters.Get<int>("Count");
                             for (int i = 0; i < count; i++)
                             {
                                 StoreMatch(pageContent, match.Value, $"<br />");
@@ -1143,7 +1141,7 @@ namespace AsapWiki.Shared.Wiki
                     //Displays a tag link list.
                     case "tags": //##tags
                         {
-                            string view = method.Parameters.GetString("View").ToLower();
+                            string view = method.Parameters.Get<String>("View").ToLower();
                             var html = new StringBuilder();
 
                             if (view == "list")
@@ -1171,7 +1169,7 @@ namespace AsapWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "tagcloud":
                         {
-                            string seedTag = method.Parameters.GetString("tag");
+                            string seedTag = method.Parameters.Get<String>("tag");
                             string cloudHtml = Utility.BuildTagCloud(seedTag);
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
@@ -1180,7 +1178,8 @@ namespace AsapWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "searchcloud":
                         {
-                            string cloudHtml = Utility.BuildSearchCloud(method.Parameters.Ordinals);
+                            var tokens = method.Parameters.GetList<string>("tokens");
+                            string cloudHtml = Utility.BuildSearchCloud(tokens);
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
                         break;
