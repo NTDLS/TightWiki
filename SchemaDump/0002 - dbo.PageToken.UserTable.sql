@@ -1,0 +1,22 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PageToken]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[PageToken](
+	[PageId] [int] NOT NULL,
+	[Token] [nvarchar](128) NOT NULL,
+	[Weight] [int] NOT NULL
+) ON [PRIMARY]
+END
+GO
+SET ANSI_PADDING ON
+
+GO
+IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[PageToken]') AND name = N'PK_PageToken')
+ALTER TABLE [dbo].[PageToken] ADD  CONSTRAINT [PK_PageToken] PRIMARY KEY CLUSTERED 
+(
+	[PageId] ASC,
+	[Token] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

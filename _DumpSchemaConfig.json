@@ -66,13 +66,16 @@
   //Alternately, if "ScriptDataExplicitExclude" is enabled then all database tables will have their data scripted by default
   //  and the "ScriptDataList" section instead becomes an exclusion list objects which are to be excluded from being generated.
   "ScriptDataList": [
-    "dbo.Role",
-    "dbo.User",
-    "dbo.UserRole",
-    "dbo.PageTag",
-    "dbo.PageTag",
-    "dbo.ConfigurationEntry",
-    "dbo.ConfigurationGroup"
+	"dbo.Page",
+	"dbo.ConfigurationEntry",
+	"dbo.ConfigurationGroup",
+	"dbo.Role",
+	"dbo.UserRole",
+	"dbo.User",
+	"dbo.PageFile",
+	"dbo.PageTag",
+	"dbo.ProcessingInstruction",
+	"dbo.PageToken"
   ],
   "ScriptDataExplicitExclude": false,
 
