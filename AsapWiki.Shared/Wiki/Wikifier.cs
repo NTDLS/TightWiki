@@ -440,8 +440,8 @@ namespace AsapWiki.Shared.Wiki
                     int fontSize = 8 - equalSigns;
                     if (fontSize < 5) fontSize = 5;
 
-                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>";
-                    StoreMatch(pageContent, match.Value.Trim(), link);
+                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
+                    StoreMatch(pageContent, match.Value, link);
                     _tocTags.Add(new TOCTag(equalSigns - 1, match.Index, tag, value));
                 }
             }
