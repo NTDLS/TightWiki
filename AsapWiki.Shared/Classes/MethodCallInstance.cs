@@ -4,89 +4,42 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Classes
 {
-    public class MethodCallInfo
+    public class MethodCallInstance
     {
         /// <summary>
         /// The name of the method being called.
         /// </summary>
         public string Name { get; private set; }
-        public List<PrototypeParameter> PrototypeParameters { get; private set; }
-
+        public MethodPrototype Prototype { get; set; }
+        /// <summary>
+        /// The arguments supplied by the caller.
+        /// </summary>
         public MethodParameters Parameters { get; private set; }
 
-        public MethodCallInfo()
+        public MethodCallInstance(MethodPrototype prototype, List<string> args)
         {
+            Prototype = prototype;
             Parameters = new MethodParameters(this);
-        }
-
-        public static MethodCallInfo CreateInstance(List<string> args, string prototype)
-        {
-            return CreateInstance(args.ToArray(), prototype);
-        }
-
-        public static MethodCallInfo CreateInstance(string[] args, string prototype)
-        {
-            var set = new MethodCallInfo();
+            Name = prototype.MethodName;
 
             foreach (var arg in args)
             {
                 if (arg.StartsWith(":") && arg.Contains("="))
                 {
                     var parsed = arg.Substring(1); //Skip the colon.
-
                     int index = parsed.IndexOf("=");
-
                     var name = parsed.Substring(0, index).Trim().ToLower();
                     var value = parsed.Substring(index + 1).Trim();
 
-                    set.Parameters.Named.Add(new NamedParam(name, value));
+                    Parameters.Named.Add(new NamedParam(name, value));
                 }
                 else
                 {
-                    set.Parameters.Ordinals.Add(arg);
+                    Parameters.Ordinals.Add(arg);
                 }
             }
 
-            set.ParsePrototype(prototype);
-
-            return set;
-        }
-
-        /// <summary>
-        /// Gets the next token in a string.
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        private string Tok(string str, ref int index)
-        {
-            var token = string.Empty;
-
-            SkipWhiteSpace(str, ref index);
-
-            string allowed = "<>{}[]()";
-
-            for (; index < str.Length; index++)
-            {
-                if (allowed.Contains(str[index]))
-                {
-                    break;
-                }
-
-                token += str[index];
-            }
-
-            SkipWhiteSpace(str, ref index);
-
-            return token;
-        }
-
-        private void SkipWhiteSpace(string str, ref int index)
-        {
-            while (index < str.Length && char.IsWhiteSpace(str[index]))
-            {
-                index++;
-            }
+            ApplyPrototype();
         }
 
         /// <summary>
@@ -141,9 +94,9 @@ namespace AsapWiki.Shared.Classes
             var namedToAddLater = new List<NamedParam>();
 
             //Hanldle non-infinite ordinal based required parameters:
-            for (; index < PrototypeParameters.Count; index++)
+            for (; index < Prototype.Parameters.Count; index++)
             {
-                var param = PrototypeParameters[index];
+                var param = Prototype.Parameters[index];
 
                 if (param.IsRequired == false)
                 {
@@ -171,9 +124,9 @@ namespace AsapWiki.Shared.Classes
             bool hasEncounteredOptionalParameter = false;
 
             //Hanlde remaining optional parameters:
-            for (; index < PrototypeParameters.Count; index++)
+            for (; index < Prototype.Parameters.Count; index++)
             {
-                var param = PrototypeParameters[index];
+                var param = Prototype.Parameters[index];
 
                 if (param.IsInfinite == true)
                 {
@@ -227,7 +180,7 @@ namespace AsapWiki.Shared.Classes
 
             foreach (var named in Parameters.Named)
             {
-                var param = PrototypeParameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
+                var param = Prototype.Parameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
                 if (param == null)
                 {
                     throw new Exception($"Passed named parameter ({named.Name}) is not defined in the prototype for ({Name}).");
@@ -239,117 +192,5 @@ namespace AsapWiki.Shared.Classes
             Parameters.Named.AddRange(namedToAddLater);
         }
 
-        /// <summary>
-        /// Parses a ASAPWiki method protype string.
-        /// </summary>
-        /// <param name="prototype"></param>
-        /// <exception cref="Exception"></exception>
-        private void ParsePrototype(string prototype)
-        {
-            int nameEndIndex = prototype.IndexOf(':');
-
-            Name = prototype.Substring(0, nameEndIndex).Trim();
-            prototype = prototype.Substring(nameEndIndex + 1).Trim();
-            PrototypeParameters = new List<PrototypeParameter>();
-
-            if (prototype.Length == 0)
-            {
-                //No parameters.
-                return;
-            }
-
-            var segments = prototype.Trim().Split('|').Select(o => o.Trim());
-
-            foreach (var segment in segments)
-            {
-                var prototypeSegment = new PrototypeParameter();
-
-                int index = 0;
-
-                if (segment[index] == '<')
-                {
-                    index++; //Skip the '<'
-                    prototypeSegment.Type = Tok(segment, ref index);
-                    index++; //Skip the '>'
-
-                    if (prototypeSegment.Type.Contains(':'))
-                    {
-                        var segs = prototypeSegment.Type.Split(':');
-                        prototypeSegment.Type = segs[0];
-                        if (segs[1].ToLower() == "infinite")
-                        {
-                            prototypeSegment.IsInfinite = true;
-                        }
-                        else
-                        {
-                            throw new Exception($"Parser error, expected 'infinite' got '{segs[1]}' for {Name}");
-                        }
-                    }
-
-                    SkipWhiteSpace(segment, ref index);
-
-                    if (index < segment.Length && segment[index] == '{' || segment[index] == '[')
-                    {
-                        if (index < segment.Length && segment[index] == '[')
-                        {
-                            prototypeSegment.IsRequired = true;
-                        }
-
-                        index++; //Skip the '[' or '{'
-
-                        prototypeSegment.Name = Tok(segment, ref index);
-
-                        if (index < segment.Length && segment[index] == '(') //Parse allowed values.
-                        {
-                            int allowedValueEndIndex = segment.IndexOf(')', index);
-                            string roteRequiredValues = segment.Substring(index + 1, (allowedValueEndIndex - index) - 1);
-                            prototypeSegment.AllowedValues = roteRequiredValues.Trim().Split(',').Select(o => o.Trim().ToLower()).ToList();
-
-                            index = allowedValueEndIndex;
-                            index++; //Skip the ')'
-                            SkipWhiteSpace(segment, ref index);
-                        }
-
-                        index++; //Skip the ']' or '}'
-                    }
-                    else
-                    {
-                        throw new Exception("Parser error, expected '{' or '[' for {FunctionName}");
-                    }
-
-                    SkipWhiteSpace(segment, ref index);
-
-                    if (index < segment.Length && segment[index] == '=')
-                    {
-                        index++; //Skip the '='
-                        SkipWhiteSpace(segment, ref index);
-
-                        if (segment[index] != '\'')
-                        {
-                            throw new Exception("Parser error, expected '\'' for {FunctionName}");
-                        }
-
-                        index++; //Skip the '''
-
-                        prototypeSegment.DefaultValue = segment.Substring(index, (segment.Length - index) - 1);
-
-                        index = segment.Length - 1;
-
-                        if (index < segment.Length && segment[index] != '\'')
-                        {
-                            throw new Exception("Parser error, expected '\'' for {FunctionName}");
-                        }
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Parser error, expected '<' for {Name}");
-                }
-
-                PrototypeParameters.Add(prototypeSegment);
-            }
-
-            ApplyPrototype();
-        }
     }
 }

@@ -77,9 +77,10 @@
     <Compile Include="Classes\Images.cs" />
     <Compile Include="Classes\MatchSet.cs" />
     <Compile Include="Classes\MethodParameters.cs" />
-    <Compile Include="Classes\MethodPrototypes.cs" />
+    <Compile Include="Classes\MethodPrototype.cs" />
+    <Compile Include="Classes\MethodPrototypeCollection.cs" />
     <Compile Include="Classes\NamedParam.cs" />
-    <Compile Include="Classes\MethodCallInfo.cs" />
+    <Compile Include="Classes\MethodCallInstance.cs" />
     <Compile Include="Classes\OrderedMatch.cs" />
     <Compile Include="Classes\PrototypeParameter.cs" />
     <Compile Include="ExtensionMethods.cs" />

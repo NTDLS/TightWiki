@@ -2,8 +2,8 @@
 
 <script>
     function PostToParent() {
-        var imageData = document.getElementById('imageData');
-        var fileName = imageData.files.item(0).name;
+        var binaryData = document.getElementById('binaryData');
+        var fileName = binaryData.files.item(0).name;
 
         var lower = fileName.toLowerCase();
 
@@ -19,7 +19,7 @@
 </script>
 
 <form method="post" enctype="multipart/form-data">
-    <input type="file" name="imageData" id="imageData" onchange="fileCheck(this);" />
+    <input type="file" name="binaryData" id="binaryData" onchange="fileCheck(this);" />
     <div class="form-group"><button type="submit" onclick="PostToParent()" class="btn btn-primary rounded-0">Upload</button></div>
 </form>
 

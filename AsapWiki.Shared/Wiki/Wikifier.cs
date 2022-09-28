@@ -148,7 +148,7 @@ namespace AsapWiki.Shared.Wiki
             {
                 int paramEndIndex = -1;
 
-                MethodCallInfo method;
+                MethodCallInstance method;
 
                 try
                 {
@@ -658,7 +658,7 @@ namespace AsapWiki.Shared.Wiki
 
             foreach (var match in matches)
             {
-                MethodCallInfo method;
+                MethodCallInstance method;
 
                 try
                 {
@@ -1125,7 +1125,7 @@ namespace AsapWiki.Shared.Wiki
 
             foreach (var match in matches)
             {
-                MethodCallInfo method;
+                MethodCallInstance method;
 
                 try
                 {

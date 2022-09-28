@@ -14,9 +14,9 @@ namespace AsapWiki.Shared.Classes
         /// </summary>
         public List<NamedParam> Named { get; private set; } = new List<NamedParam>();
 
-        private MethodCallInfo _owner;
+        private MethodCallInstance _owner;
 
-        public MethodParameters(MethodCallInfo owner)
+        public MethodParameters(MethodCallInstance owner)
         {
             _owner = owner;
         }
@@ -45,7 +45,7 @@ namespace AsapWiki.Shared.Classes
             var value = Named.Where(o => o.Name.ToLower() == name).FirstOrDefault()?.Value;
             if (value == null)
             {
-                var prototype = _owner.PrototypeParameters.Where(o => o.Name.ToLower() == name).First();
+                var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name).First();
                 value = prototype.DefaultValue;
             }
 
@@ -64,7 +64,7 @@ namespace AsapWiki.Shared.Classes
                 }
             }
 
-            var prototype = _owner.PrototypeParameters.Where(o => o.Name.ToLower() == name).First();
+            var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name).First();
             return bool.Parse(prototype.DefaultValue);
         }
 
@@ -80,7 +80,7 @@ namespace AsapWiki.Shared.Classes
                 }
             }
 
-            var prototype = _owner.PrototypeParameters.Where(o => o.Name.ToLower() == name).First();
+            var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name).First();
             return int.Parse(prototype.DefaultValue);
         }
 

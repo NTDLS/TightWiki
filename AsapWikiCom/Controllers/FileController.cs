@@ -203,20 +203,21 @@ namespace AsapWikiCom.Controllers
             Configure();
 
             string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
-            int pageId = int.Parse(navigation);
 
-            HttpPostedFileBase file = Request.Files["ImageData"];
+            var page = PageRepository.GetPageInfoByNavigation(navigation);
+
+            HttpPostedFileBase file = Request.Files["BinaryData"];
             PageFileRepository.UpsertPageFile(new PageFile()
             {
                 Data = ConvertToBytes(file),
                 CreatedDate = DateTime.UtcNow,
-                PageId = pageId,
+                PageId = page.Id,
                 Name = file.FileName,
                 Size = file.ContentLength,
                 ContentType = MimeMapping.GetMimeMapping(file.FileName)
             });
 
-            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(pageId);
+            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
             return View(new Attachments()
             {
                 Files = pageFiles

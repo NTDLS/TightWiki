@@ -56,7 +56,7 @@ namespace AsapWiki.Shared.Wiki
             return result.OrderByDescending(o => o.Value.Length).ToList();
         }
 
-        public static MethodCallInfo ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex, string methodName = null)
+        public static MethodCallInstance ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex, string methodName = null)
         {
             List<string> rawArguments = new List<string>();
 
@@ -91,7 +91,7 @@ namespace AsapWiki.Shared.Wiki
                 throw new Exception($"Method ({methodName}) does not have a defined prototype.");
             }
 
-            return MethodCallInfo.CreateInstance(rawArguments, prototype);
+            return new MethodCallInstance(prototype, rawArguments);
         }
 
         public static string BuildTagCloud(string seedTag)

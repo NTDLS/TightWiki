@@ -4,14 +4,15 @@ namespace AsapWiki.Shared.Wiki
 {
     public static class Singletons
     {
-        private static MethodPrototypes _methodPrototypes;
-        public static MethodPrototypes MethodPrototypes
+        private static MethodPrototypeCollection _methodPrototypes;
+        public static MethodPrototypeCollection MethodPrototypes
         {
             get
             {
+              
                 if (_methodPrototypes == null)
                 {
-                    _methodPrototypes = new MethodPrototypes();
+                    _methodPrototypes = new MethodPrototypeCollection();
                     _methodPrototypes.Add("PanelScope: <string>[boxType(bullets,bullets-ordered,alert,alert-default,alert-info,alert-danger,alert-warning,alert-success,jumbotron,block,block-default,block-primary,block-success,block-success,block-info,block-warning,block-danger,panel,panel-default,panel-primary,panel-success,panel-info,panel-warning,panel-danger)] | <string>{title}=''");
                     _methodPrototypes.Add("Tag: <string:infinite>[tags]");
                     _methodPrototypes.Add("TextList: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
@@ -43,3 +44,5 @@ namespace AsapWiki.Shared.Wiki
         }
     }
 }
+
+
