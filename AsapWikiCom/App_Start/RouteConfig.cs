@@ -48,6 +48,13 @@ namespace AsapWikiCom
                 defaults: new { controller = "File", action = "Upload", navigation = "" }
             );
 
+
+            routes.MapRoute(
+                name: "File_Delete",
+                url: "File/Delete/{navigation}",
+                defaults: new { controller = "File", action = "Delete", navigation = "" }
+            );
+
             #endregion
 
             routes.MapRoute(

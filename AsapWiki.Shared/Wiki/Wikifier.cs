@@ -674,7 +674,7 @@ namespace AsapWiki.Shared.Wiki
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Includes a page by it's navigation link.
-                    case "include": //(PageCategory\PageName)
+                    case "include": //(PageName)
                         {
                             Page page = Utility.GetPageFromPathInfo(method.Parameters.GetString("pageName"));
                             if (page != null)

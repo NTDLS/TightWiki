@@ -32,7 +32,7 @@ namespace AsapWikiCom.Controllers
 
             PageFileRepository.DeletePageFileByPageNavigationAndName(navigation, imageName);
 
-            return RedirectToAction("Upload", "Wiki", new { navigation = page.Id });
+            return RedirectToAction("Upload", "File", new { navigation = page.Id });
         }
 
         /// <summary>
