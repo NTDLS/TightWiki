@@ -52,6 +52,12 @@ namespace AsapWiki.Shared.Classes
             return set;
         }
 
+        /// <summary>
+        /// Gets the next token in a string.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
         private string Tok(string str, ref int index)
         {
             var token = string.Empty;
@@ -83,6 +89,12 @@ namespace AsapWiki.Shared.Classes
             }
         }
 
+        /// <summary>
+        /// Checks the passed value agains the method prototype to ensure that the variable is the correct type, value, etc.
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <param name="value"></param>
+        /// <exception cref="Exception"></exception>
         private void EnforcePrototypeParamValue(PrototypeParameter segment, string value)
         {
             if (segment.Type == "bool")
@@ -116,6 +128,11 @@ namespace AsapWiki.Shared.Classes
             }
         }
 
+        /// <summary>
+        /// Rolls through the supplied arguments and applies them to the prototype. Also identifies which supplied arguments are associated with each 
+        /// prototype argument and adds the ordinal based arguments to the name based collection. Ensures that each argument conforms with the prototype.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         private void ApplyPrototype()
         {
             int index = 0;
@@ -126,13 +143,13 @@ namespace AsapWiki.Shared.Classes
             //Hanldle non-infinite ordinal based required parameters:
             for (; index < PrototypeParameters.Count; index++)
             {
-                var seg = PrototypeParameters[index];
+                var param = PrototypeParameters[index];
 
-                if (seg.IsRequired == false)
+                if (param.IsRequired == false)
                 {
                     break;
                 }
-                if (seg.IsInfinite == true)
+                if (param.IsInfinite == true)
                 {
                     break;
                 }
@@ -140,14 +157,14 @@ namespace AsapWiki.Shared.Classes
                 if (Parameters.Ordinals.Count > index)
                 {
                     //Good, we have a value.
-                    string value = Parameters.Ordinals[index].ToLower();
-                    EnforcePrototypeParamValue(seg, value);
+                    string value = Parameters.Ordinals[index];
+                    EnforcePrototypeParamValue(param, value.ToLower());
 
-                    namedToAddLater.Add(new NamedParam(seg.Name, value));
+                    namedToAddLater.Add(new NamedParam(param.Name, value));
                 }
                 else
                 {
-                    throw new Exception($"Required parameter ({seg.Name}) was not passed. Keep in mind that required parameters are always the first parameters and cannot be passed by name.");
+                    throw new Exception($"Required parameter ({param.Name}) was not passed. Keep in mind that required parameters are always the first parameters and cannot be passed by name.");
                 }
             }
 
@@ -156,72 +173,77 @@ namespace AsapWiki.Shared.Classes
             //Hanlde remaining optional parameters:
             for (; index < PrototypeParameters.Count; index++)
             {
-                var seg = PrototypeParameters[index];
+                var param = PrototypeParameters[index];
 
-                if (seg.IsInfinite == true)
+                if (param.IsInfinite == true)
                 {
-                    if (seg.IsRequired == true)
+                    if (param.IsRequired == true)
                     {
                         //Make sure we have at least one of these required infinite parameters passed.
                         if (Parameters.Ordinals.Count > index)
                         {
                             //Good, we have a value.
-                            string value = Parameters.Ordinals[index].ToLower();
-                            EnforcePrototypeParamValue(seg, value);
+                            string value = Parameters.Ordinals[index];
+                            EnforcePrototypeParamValue(param, value.ToLower());
                         }
                         else
                         {
-                            throw new Exception($"Required infinite parameter ({seg.Name}) was not passed. Keep in mind that required parameters are always the first parameters and cannot be passed by name.");
+                            throw new Exception($"Required infinite parameter ({param.Name}) was not passed. Keep in mind that required parameters are always the first parameters and cannot be passed by name.");
                         }
                     }
 
                     //Now that we have encountered an infinite parameter, it will swallow up all other ordnial based arguments. Might as well check the types and exit the loop.
                     for (; index < Parameters.Ordinals.Count; index++)
                     {
-                        string value = Parameters.Ordinals[index].ToLower();
-                        EnforcePrototypeParamValue(seg, value);
-                        namedToAddLater.Add(new NamedParam(seg.Name, value));
+                        string value = Parameters.Ordinals[index];
+                        EnforcePrototypeParamValue(param, value.ToLower());
+                        namedToAddLater.Add(new NamedParam(param.Name, value));
                     }
 
                     break;
                 }
 
-                if (seg.IsRequired == false)
+                if (param.IsRequired == false)
                 {
                     hasEncounteredOptionalParameter = true;
                 }
 
-                if (seg.IsRequired == true && hasEncounteredOptionalParameter)
+                if (param.IsRequired == true && hasEncounteredOptionalParameter)
                 {
-                    throw new Exception($"Required parameter ({seg.Name}) found after other optional parameters.");
+                    throw new Exception($"Required parameter ({param.Name}) found after other optional parameters.");
                 }
-                else if (seg.IsInfinite == true)
+                else if (param.IsInfinite == true)
                 {
-                    throw new Exception($"Encountered an unexpected number of infinite parameters for ({seg.Name}).");
+                    throw new Exception($"Encountered an unexpected number of infinite parameters for ({param.Name}).");
                 }
 
                 if (Parameters.Ordinals.Count > index)
                 {
-                    string value = Parameters.Ordinals[index].ToLower();
-                    EnforcePrototypeParamValue(seg, value);
-                    namedToAddLater.Add(new NamedParam(seg.Name, value));
+                    string value = Parameters.Ordinals[index];
+                    EnforcePrototypeParamValue(param, value.ToLower());
+                    namedToAddLater.Add(new NamedParam(param.Name, value));
                 }
             }
 
             foreach (var named in Parameters.Named)
             {
-                var seg = PrototypeParameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
-                if (seg == null)
+                var param = PrototypeParameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
+                if (param == null)
                 {
                     throw new Exception($"Passed named parameter ({named.Name}) is not defined in the prototype for ({Name}).");
                 }
 
-                EnforcePrototypeParamValue(seg, named.Value);
+                EnforcePrototypeParamValue(param, named.Value);
             }
 
             Parameters.Named.AddRange(namedToAddLater);
         }
 
+        /// <summary>
+        /// Parses a ASAPWiki method protype string.
+        /// </summary>
+        /// <param name="prototype"></param>
+        /// <exception cref="Exception"></exception>
         private void ParsePrototype(string prototype)
         {
             int nameEndIndex = prototype.IndexOf(':');
@@ -235,15 +257,6 @@ namespace AsapWiki.Shared.Classes
                 //No parameters.
                 return;
             }
-
-            //<type> //Only supports string, int, float, bool and string:infinite, int:infinite, and float:infinite.
-            //{Optional (allowed|values) }='Default Value' or [Required (allowed|values) ]='Default Value'
-            //All required parameters must come before the optional parameters.
-
-            //... indicates infinite parameters, these should typically come after required parameters but
-            //  can come before optional parameters as long as the optional parameters are passed by name.
-
-            //prototype = "<string>[boxType(bullets,bullets-ordered)] | <string>{title}='' | ...";
 
             var segments = prototype.Trim().Split('|').Select(o => o.Trim());
 

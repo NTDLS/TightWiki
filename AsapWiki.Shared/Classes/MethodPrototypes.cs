@@ -8,6 +8,15 @@ namespace AsapWiki.Shared.Classes
 {
     public class MethodPrototypes
     {
+        //<type> //Only supports string, int, float, bool and string:infinite, int:infinite, and float:infinite.
+        //{Optional (allowed|values) }='Default Value' or [Required (allowed|values) ]='Default Value'
+        //All required parameters must come before the optional parameters.
+
+        //... indicates infinite parameters, these should typically come after required parameters but
+        //  can come before optional parameters as long as the optional parameters are passed by name.
+
+        //prototype = "<string>[boxType(bullets,bullets-ordered)] | <string>{title}='' | ...";
+
         private class PrototypeSet
         {
             public string Name { get; set; }
