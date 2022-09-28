@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AsapWiki.Shared.Classes
 {
-    public class PrototypeSegment
+    public class PrototypeParameter
     {
         public string Type { get; set; }
         public string Name { get; set; }

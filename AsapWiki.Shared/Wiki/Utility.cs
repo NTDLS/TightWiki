@@ -12,6 +12,88 @@ namespace AsapWiki.Shared.Wiki
 {
     public static class Utility
     {
+        public static Page GetPageFromPathInfo(string routeData)
+        {
+            routeData = Utility.CleanFullURI(routeData);
+            routeData = routeData.Substring(1, routeData.Length - 2);
+
+            var page = PageRepository.GetPageByNavigation(routeData);
+
+            return page;
+        }
+
+        public static int StartsWithHowMany(string value, char ch)
+        {
+            int count = 0;
+            foreach (var c in value)
+            {
+                if (c == ch)
+                {
+                    count++;
+                }
+                else
+                {
+                    return count;
+                }
+            }
+
+            return count;
+        }
+
+        public static List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
+        {
+            var result = new List<OrderedMatch>();
+
+            foreach (Match match in matches)
+            {
+                result.Add(new OrderedMatch
+                {
+                    Value = match.Value,
+                    Index = match.Index
+                });
+            }
+
+            return result.OrderByDescending(o => o.Value.Length).ToList();
+        }
+
+        public static MethodCallInfo ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex, string methodName = null)
+        {
+            List<string> rawArguments = new List<string>();
+
+            MatchCollection matches = (new Regex(@"\(+?\)|\(.+?\)")).Matches(methodMatch.Value);
+            if (matches.Count > 0)
+            {
+                var match = matches[0];
+
+                if (methodName == null)
+                {
+                    methodName = methodMatch.Value.Substring(2, methodMatch.Value.IndexOf('(') - 2).ToLower();
+                }
+
+                parseEndIndex = match.Index + match.Length;
+
+                string rawArgTrimmed = match.ToString().Substring(1, match.ToString().Length - 2);
+                rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
+            }
+            else if (methodName == null)
+            {
+                methodName = methodMatch.Value.Substring(2, methodMatch.Value.Length - 2).ToLower(); ; //The match has no parameter.
+                parseEndIndex = methodMatch.Value.Length;
+            }
+            else
+            {
+                parseEndIndex = -1;
+            }
+
+            var prototype = Singletons.MethodPrototypes.Get(methodName);
+            if (prototype == null)
+            {
+                throw new Exception($"Method ({methodName}) does not have a defined prototype.");
+            }
+
+            return MethodCallInfo.CreateInstance(rawArguments, prototype);
+        }
+
         public static string BuildTagCloud(string seedTag)
         {
             var tags = PageTagRepository.GetAssociatedTags(seedTag).OrderByDescending(o => o.PageCount).ToList();

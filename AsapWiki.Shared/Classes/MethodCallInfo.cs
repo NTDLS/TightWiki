@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AsapWiki.Shared.Classes
 {
     public class MethodCallInfo
     {
-        public string FunctionName { get; private set; }
         /// <summary>
-        /// Variables set by ordinal.
+        /// The name of the method being called.
         /// </summary>
-        public List<string> Ordinals { get; set; } = new List<string>();
-        /// <summary>
-        /// Variables set by name.
-        /// </summary>
-        public List<NamedParam> Named { get; private set; } = new List<NamedParam>();
-        public List<PrototypeSegment> PrototypeSegments { get; private set; }
+        public string Name { get; private set; }
+        public List<PrototypeParameter> PrototypeParameters { get; private set; }
+
+        public MethodParameters Parameters { get; private set; }
+
+        public MethodCallInfo()
+        {
+            Parameters = new MethodParameters(this);
+        }
 
         public static MethodCallInfo CreateInstance(List<string> args, string prototype)
         {
             return CreateInstance(args.ToArray(), prototype);
         }
 
-        public static MethodCallInfo CreateInstance(string []args, string prototype)
+        public static MethodCallInfo CreateInstance(string[] args, string prototype)
         {
             var set = new MethodCallInfo();
 
@@ -39,19 +39,18 @@ namespace AsapWiki.Shared.Classes
                     var name = parsed.Substring(0, index).Trim().ToLower();
                     var value = parsed.Substring(index + 1).Trim();
 
-                    set.Named.Add(new NamedParam(name, value));
+                    set.Parameters.Named.Add(new NamedParam(name, value));
                 }
                 else
                 {
-                    set.Ordinals.Add(arg);
+                    set.Parameters.Ordinals.Add(arg);
                 }
             }
 
-            set.ApplyPrototype(prototype);
+            set.ParsePrototype(prototype);
 
             return set;
         }
-
 
         private string Tok(string str, ref int index)
         {
@@ -84,7 +83,7 @@ namespace AsapWiki.Shared.Classes
             }
         }
 
-        private void EnforcePrototypeParamValue(PrototypeSegment segment, string value)
+        private void EnforcePrototypeParamValue(PrototypeParameter segment, string value)
         {
             if (segment.Type == "bool")
             {
@@ -117,7 +116,7 @@ namespace AsapWiki.Shared.Classes
             }
         }
 
-        private void EnforcePrototype()
+        private void ApplyPrototype()
         {
             int index = 0;
 
@@ -125,9 +124,9 @@ namespace AsapWiki.Shared.Classes
             var namedToAddLater = new List<NamedParam>();
 
             //Hanldle non-infinite ordinal based required parameters:
-            for (; index < PrototypeSegments.Count; index++)
+            for (; index < PrototypeParameters.Count; index++)
             {
-                var seg = PrototypeSegments[index];
+                var seg = PrototypeParameters[index];
 
                 if (seg.IsRequired == false)
                 {
@@ -138,10 +137,10 @@ namespace AsapWiki.Shared.Classes
                     break;
                 }
 
-                if (Ordinals.Count > index)
+                if (Parameters.Ordinals.Count > index)
                 {
                     //Good, we have a value.
-                    string value = Ordinals[index].ToLower();
+                    string value = Parameters.Ordinals[index].ToLower();
                     EnforcePrototypeParamValue(seg, value);
 
                     namedToAddLater.Add(new NamedParam(seg.Name, value));
@@ -155,19 +154,19 @@ namespace AsapWiki.Shared.Classes
             bool hasEncounteredOptionalParameter = false;
 
             //Hanlde remaining optional parameters:
-            for (; index < PrototypeSegments.Count; index++)
+            for (; index < PrototypeParameters.Count; index++)
             {
-                var seg = PrototypeSegments[index];
+                var seg = PrototypeParameters[index];
 
                 if (seg.IsInfinite == true)
                 {
                     if (seg.IsRequired == true)
                     {
                         //Make sure we have at least one of these required infinite parameters passed.
-                        if (Ordinals.Count > index)
+                        if (Parameters.Ordinals.Count > index)
                         {
                             //Good, we have a value.
-                            string value = Ordinals[index].ToLower();
+                            string value = Parameters.Ordinals[index].ToLower();
                             EnforcePrototypeParamValue(seg, value);
                         }
                         else
@@ -177,9 +176,9 @@ namespace AsapWiki.Shared.Classes
                     }
 
                     //Now that we have encountered an infinite parameter, it will swallow up all other ordnial based arguments. Might as well check the types and exit the loop.
-                    for (; index < Ordinals.Count; index++)
+                    for (; index < Parameters.Ordinals.Count; index++)
                     {
-                        string value = Ordinals[index].ToLower();
+                        string value = Parameters.Ordinals[index].ToLower();
                         EnforcePrototypeParamValue(seg, value);
                         namedToAddLater.Add(new NamedParam(seg.Name, value));
                     }
@@ -201,35 +200,35 @@ namespace AsapWiki.Shared.Classes
                     throw new Exception($"Encountered an unexpected number of infinite parameters for ({seg.Name}).");
                 }
 
-                if (Ordinals.Count > index)
+                if (Parameters.Ordinals.Count > index)
                 {
-                    string value = Ordinals[index].ToLower();
+                    string value = Parameters.Ordinals[index].ToLower();
                     EnforcePrototypeParamValue(seg, value);
                     namedToAddLater.Add(new NamedParam(seg.Name, value));
                 }
             }
 
-            foreach (var named in Named)
+            foreach (var named in Parameters.Named)
             {
-                var seg = PrototypeSegments.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
+                var seg = PrototypeParameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
                 if (seg == null)
                 {
-                    throw new Exception($"Passed named parameter ({named.Name}) is not defined in the prototype for ({FunctionName}).");
+                    throw new Exception($"Passed named parameter ({named.Name}) is not defined in the prototype for ({Name}).");
                 }
 
                 EnforcePrototypeParamValue(seg, named.Value);
             }
 
-            Named.AddRange(namedToAddLater);
+            Parameters.Named.AddRange(namedToAddLater);
         }
 
-        private void ApplyPrototype(string prototype)
+        private void ParsePrototype(string prototype)
         {
             int nameEndIndex = prototype.IndexOf(':');
 
-            FunctionName = prototype.Substring(0, nameEndIndex).Trim();
+            Name = prototype.Substring(0, nameEndIndex).Trim();
             prototype = prototype.Substring(nameEndIndex + 1).Trim();
-            PrototypeSegments = new List<PrototypeSegment>();
+            PrototypeParameters = new List<PrototypeParameter>();
 
             if (prototype.Length == 0)
             {
@@ -250,7 +249,7 @@ namespace AsapWiki.Shared.Classes
 
             foreach (var segment in segments)
             {
-                var prototypeSegment = new PrototypeSegment();
+                var prototypeSegment = new PrototypeParameter();
 
                 int index = 0;
 
@@ -270,7 +269,7 @@ namespace AsapWiki.Shared.Classes
                         }
                         else
                         {
-                            throw new Exception($"Parser error, expected 'infinite' got '{segs[1]}' for {FunctionName}");
+                            throw new Exception($"Parser error, expected 'infinite' got '{segs[1]}' for {Name}");
                         }
                     }
 
@@ -331,79 +330,13 @@ namespace AsapWiki.Shared.Classes
                 }
                 else
                 {
-                    throw new Exception($"Parser error, expected '<' for {FunctionName}");
+                    throw new Exception($"Parser error, expected '<' for {Name}");
                 }
 
-                PrototypeSegments.Add(prototypeSegment);
+                PrototypeParameters.Add(prototypeSegment);
             }
 
-            EnforcePrototype();
-        }
-
-        public List<string> GetStringList(string name)
-        {
-            name = name.ToLower();
-            return Named.Where(o => o.Name.ToLower() == name)?.Select(o=>o.Value)?.ToList();
-        }
-
-        public string GetString(string name)
-        {
-            name = name.ToLower();
-            var value = Named.Where(o => o.Name.ToLower() == name).FirstOrDefault()?.Value;
-            if (value == null)
-            {
-                var prototype = PrototypeSegments.Where(o => o.Name.ToLower() == name).First();
-                value = prototype.DefaultValue;
-            }
-
-            return value;
-        }
-
-        public bool GetBool(string name)
-        {
-            name = name.ToLower();
-            var value = Named.Where(o => o.Name.ToLower() == name).FirstOrDefault()?.Value;
-            if (value != null)
-            {
-                if (bool.TryParse(value, out bool parsed))
-                {
-                    return parsed;
-                }
-            }
-
-            var prototype = PrototypeSegments.Where(o => o.Name.ToLower() == name).First();
-            return bool.Parse(prototype.DefaultValue);
-        }
-
-        public int GetInt(string name)
-        {
-            name = name.ToLower();
-            var value = Named.Where(o => o.Name.ToLower() == name).FirstOrDefault()?.Value;
-            if (value != null)
-            {
-                if (int.TryParse(value, out int parsed))
-                {
-                    return parsed;
-                }
-            }
-
-            var prototype = PrototypeSegments.Where(o => o.Name.ToLower() == name).First();
-            return int.Parse(prototype.DefaultValue);
-        }
-
-        public List<int> GetIntList(string name)
-        {
-            var intList = new List<int>();
-            var stringList = GetStringList(name);
-            foreach (var s in stringList)
-            {
-                if (int.TryParse(s, out int parsed))
-                {
-                    intList.Add(parsed);
-                }
-            }
-            return intList;
+            ApplyPrototype();
         }
     }
 }
-

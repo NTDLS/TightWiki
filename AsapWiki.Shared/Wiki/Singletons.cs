@@ -25,9 +25,9 @@ namespace AsapWiki.Shared.Wiki
                     _methodPrototypes.Add("TagGlossary: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("RecentlyModified: <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("TextGlossary: <string:infinite>[tokens] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
-                    _methodPrototypes.Add("TagCloud: <string:infinite>[tags] | <int>{Top}='1000'");
-                    _methodPrototypes.Add("Image: <string>[name] | <int>{scale}='100'");
-                    _methodPrototypes.Add("File: <string>[name] | <bool>{showSize}='false'");
+                    _methodPrototypes.Add("TagCloud: <string>[tag] | <int>{Top}='1000'");
+                    _methodPrototypes.Add("Image: <string>[name] | <int>{scale}='100' | <string>{altText}=''");
+                    _methodPrototypes.Add("File: <string>[name] | <string>[linkText] | <bool>{showSize}='false'");
                     _methodPrototypes.Add("Related: <int>{Top}='1000' | <string>{view(List,Flat,Full)}='Full'");
                     _methodPrototypes.Add("Tags: <string>{view(Flat,list)}='list'");
                     _methodPrototypes.Add("Include: <string>[pageName]");

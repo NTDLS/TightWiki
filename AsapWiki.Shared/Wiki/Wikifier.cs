@@ -42,7 +42,6 @@ namespace AsapWiki.Shared.Wiki
             Transform();
         }
 
-
         public List<WeightedToken> ParsePageTokens()
         {
             return Utility.ParsePageTokens(ProcessedBody);
@@ -102,128 +101,6 @@ namespace AsapWiki.Shared.Wiki
             return _matchesPerIteration;
         }
 
-        private void StoreError(StringBuilder pageContent, string match, string value)
-        {
-            _matchesPerIteration++;
-
-            string identifier = Guid.NewGuid().ToString();
-
-            var matchSet = new MatchSet()
-            {
-                Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
-                AllowNestedDecode = false
-            };
-
-            Matches.Add(identifier, matchSet);
-            pageContent.Replace(match, identifier);
-        }
-
-        private void StoreMatch(StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
-        {
-            _matchesPerIteration++;
-
-            string identifier = Guid.NewGuid().ToString();
-
-            var matchSet = new MatchSet()
-            {
-                Content = value,
-                AllowNestedDecode = allowNestedDecode
-            };
-
-            Matches.Add(identifier, matchSet);
-            pageContent.Replace(match, identifier);
-        }
-
-        private void StoreMatch(StringBuilder pageContent, int startPosition, int length, string value, bool allowNestedDecode = true)
-        {
-            _matchesPerIteration++;
-
-            string identifier = Guid.NewGuid().ToString();
-
-            var matchSet = new MatchSet()
-            {
-                Content = value,
-                AllowNestedDecode = allowNestedDecode
-            };
-
-            Matches.Add(identifier, matchSet);
-            pageContent.Remove(startPosition, length);
-            pageContent.Insert(startPosition, identifier);
-        }
-
-        private void TransformWhitespace(StringBuilder pageContent)
-        {
-            string identifier = Guid.NewGuid().ToString();
-
-            //Replace new-lines with single character new line:
-            pageContent.Replace("\r\n", "\n");
-
-            //Replace new-lines with an identifer so we can identify the places we are going to introduce line-breaks:
-            pageContent.Replace("\n", identifier);
-
-            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifers.
-            pageContent.Replace($"{identifier}{identifier}", identifier);
-
-            //Swap in the real line-breaks.
-            pageContent.Replace(identifier, "<br />");
-        }
-
-        /// <summary>
-        /// Replaces HTML where we are transforming the entire line, such as "*this will be bold" - > "<b>this will be bold</b>
-        /// </summary>
-        /// <param name="regex"></param>
-        /// <param name="htmlTag"></param>
-        void ReplaceWholeLineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
-        {
-            string marker = String.Empty;
-            if (escape)
-            {
-                foreach (var c in mark)
-                {
-                    marker += $"\\{c}";
-                }
-            }
-            else
-            {
-                marker = mark;
-            }
-
-            Regex rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
-            foreach (var match in matches)
-            {
-                string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
-                var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
-                StoreMatch(pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
-            }
-        }
-
-        void ReplaceInlineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
-        {
-            string marker = String.Empty;
-            if (escape)
-            {
-                foreach (var c in mark)
-                {
-                    marker += $"\\{c}";
-                }
-            }
-            else
-            {
-                marker = mark;
-            }
-
-            Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            foreach (var match in matches)
-            {
-                string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
-
-                StoreMatch(pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
-            }
-        }
-
         /// <summary>
         /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
         /// </summary>
@@ -249,31 +126,13 @@ namespace AsapWiki.Shared.Wiki
         {
             //Transform literal strings, even encodes HTML so that it displays verbatim.
             Regex rgx = new Regex(@"\[\{\{([\S\s]*?)\}\}\]", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
                 value = HttpUtility.HtmlEncode(value);
                 StoreMatch(pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />"), false);
             }
-        }
-
-        private int StartsWithHowMany(string value, char ch)
-        {
-            int count = 0;
-            foreach (var c in value)
-            {
-                if (c == ch)
-                {
-                    count++;
-                }
-                else
-                {
-                    return count;
-                }
-            }
-
-            return count;
         }
 
         /// <summary>
@@ -284,239 +143,235 @@ namespace AsapWiki.Shared.Wiki
         {
             //Transform panels.
             Regex rgx = new Regex(@"\{\{\{\(([\S\s]*?)\}\}\}", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string value = match.Value.Substring(3, match.Value.Length - 6).Trim();
+                int paramEndIndex = -1;
 
-                int newlineIndex = value.IndexOf(')');
+                MethodCallInfo method;
 
-                if (newlineIndex > 0)
+                try
                 {
-                    MethodCallInfo args = new MethodCallInfo();
+                    method = Utility.ParseMethodCallInfo(match, out paramEndIndex, "PanelScope");
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
+                    continue;
+                }
 
-                    string firstLine = value.Substring(0, newlineIndex + 1).Trim();
-                    string content = value.Substring(newlineIndex + 1).Trim();
-                    //string boxType;
-                    //string title = String.Empty;
-                    bool allowNestedDecode = true;
-                    if (firstLine.StartsWith("(") && firstLine.EndsWith(")"))
-                    {
-                        firstLine = firstLine.Substring(1, firstLine.Length - 2);
-                        var argsArray = firstLine.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
+                string scopeBody = match.Value.Substring(paramEndIndex, (match.Value.Length - paramEndIndex) - 3).Trim();
 
-                        try
+                string boxType = method.Parameters.GetString("boxType");
+                string title = method.Parameters.GetString("title");
+
+                var html = new StringBuilder();
+
+                switch (boxType.ToLower())
+                {
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "bullets":
                         {
-                            //We dont really have a methodName here, we're calling this the PanelScope since its really a scope of code that takes parameters to define its behavior.
-                            var prototype = Singletons.MethodPrototypes.Get("PanelScope");
-                            if (prototype == null)
+                            var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                            int currentLevel = 0;
+
+                            foreach (var line in lines)
                             {
-                                throw new Exception("Method (PanelScope) does not have a defined prototype.");
-                            }
+                                int newIndent = Utility.StartsWithHowMany(line, '>') + 1;
 
-                            args = MethodCallInfo.CreateInstance(argsArray, prototype);
-                        }
-                        catch (Exception ex)
-                        {
-                            StoreError(pageContent, match.Value, ex.Message);
-                            continue;
-                        }
-
-                        string boxType = args.GetString("boxType");
-                        string title = args.GetString("title");
-
-                        var html = new StringBuilder();
-
-                        switch (boxType.ToLower())
-                        {
-                            case "bullets":
+                                if (newIndent < currentLevel)
                                 {
-                                    var lines = content.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                    int currentLevel = 0;
-
-                                    foreach (var line in lines)
-                                    {
-                                        int newIndent = StartsWithHowMany(line, '>') + 1;
-
-                                        if (newIndent < currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel--)
-                                            {
-                                                html.Append($"</ul>");
-                                            }
-                                        }
-                                        else if (newIndent > currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel++)
-                                            {
-                                                html.Append($"<ul>");
-                                            }
-                                        }
-
-                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
-                                    }
-
-                                    for (; currentLevel > 0; currentLevel--)
+                                    for (; currentLevel != newIndent; currentLevel--)
                                     {
                                         html.Append($"</ul>");
                                     }
                                 }
-                                break;
-                            case "bullets-ordered":
+                                else if (newIndent > currentLevel)
                                 {
-                                    var lines = content.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                    int currentLevel = 0;
-
-                                    foreach (var line in lines)
+                                    for (; currentLevel != newIndent; currentLevel++)
                                     {
-                                        int newIndent = StartsWithHowMany(line, '>') + 1;
-
-                                        if (newIndent < currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel--)
-                                            {
-                                                html.Append($"</ol>");
-                                            }
-                                        }
-                                        else if (newIndent > currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel++)
-                                            {
-                                                html.Append($"<ol>");
-                                            }
-                                        }
-
-                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                        html.Append($"<ul>");
                                     }
+                                }
 
-                                    for (; currentLevel > 0; currentLevel--)
+                                html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                            }
+
+                            for (; currentLevel > 0; currentLevel--)
+                            {
+                                html.Append($"</ul>");
+                            }
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "bullets-ordered":
+                        {
+                            var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                            int currentLevel = 0;
+
+                            foreach (var line in lines)
+                            {
+                                int newIndent = Utility.StartsWithHowMany(line, '>') + 1;
+
+                                if (newIndent < currentLevel)
+                                {
+                                    for (; currentLevel != newIndent; currentLevel--)
                                     {
                                         html.Append($"</ol>");
                                     }
                                 }
-                                break;
+                                else if (newIndent > currentLevel)
+                                {
+                                    for (; currentLevel != newIndent; currentLevel++)
+                                    {
+                                        html.Append($"<ol>");
+                                    }
+                                }
 
-                            case "alert":
-                            case "alert-default":
-                            case "alert-info":
-                                {
-                                    if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    html.Append($"<div class=\"alert alert-info\">{content}.</div>");
-                                }
-                                break;
-                            case "alert-danger":
-                                {
-                                    if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    html.Append($"<div class=\"alert alert-danger\">{content}.</div>");
-                                }
-                                break;
-                            case "alert-warning":
-                                {
-                                    if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    html.Append($"<div class=\"alert alert-warning\">{content}.</div>");
-                                }
-                                break;
-                            case "alert-success":
-                                {
-                                    if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    html.Append($"<div class=\"alert alert-success\">{content}.</div>");
-                                }
-                                break;
+                                html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                            }
 
-                            case "jumbotron":
-                                {
-                                    if (!String.IsNullOrEmpty(title)) content = $"<h1>{title}</h1>{content}";
-                                    html.Append($"<div class=\"jumbotron\">{content}</div>");
-                                }
-                                break;
-
-                            case "block":
-                            case "block-default":
-                                {
-                                    html.Append("<div class=\"panel panel-default\">");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "block-primary":
-                                {
-                                    html.Append("<div class=\"panel panel-primary\">");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "block-success":
-                                {
-                                    html.Append("<div class=\"panel panel-success\">");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "block-info":
-                                {
-                                    html.Append("<div class=\"panel panel-info\">");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "block-warning":
-                                {
-                                    html.Append("<div class=\"panel panel-warning\">");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "block-danger":
-                                {
-                                    html.Append("<div class=\"panel panel-danger\">");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-
-                            case "panel":
-                            case "panel-default":
-                                {
-                                    html.Append("<div class=\"panel panel-default\">");
-                                    html.Append($"<div class=\"panel-heading\">{title}</div>");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "panel-primary":
-                                {
-                                    html.Append("<div class=\"panel panel-primary\">");
-                                    html.Append($"<div class=\"panel-heading\">{title}</div>");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "panel-success":
-                                {
-                                    html.Append("<div class=\"panel panel-success\">");
-                                    html.Append($"<div class=\"panel-heading\">{title}</div>");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "panel-info":
-                                {
-                                    html.Append("<div class=\"panel panel-info\">");
-                                    html.Append($"<div class=\"panel-heading\">{title}</div>");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "panel-warning":
-                                {
-                                    html.Append("<div class=\"panel panel-warning\">");
-                                    html.Append($"<div class=\"panel-heading\">{title}</div>");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
-                            case "panel-danger":
-                                {
-                                    html.Append("<div class=\"panel panel-danger\">");
-                                    html.Append($"<div class=\"panel-heading\">{title}</div>");
-                                    html.Append($"<div class=\"panel-body\">{content}</div></div>");
-                                }
-                                break;
+                            for (; currentLevel > 0; currentLevel--)
+                            {
+                                html.Append($"</ol>");
+                            }
                         }
-                        StoreMatch(pageContent, match.Value, html.ToString(), allowNestedDecode);
-                    }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "alert":
+                    case "alert-default":
+                    case "alert-info":
+                        {
+                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-info\">{scopeBody}.</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "alert-danger":
+                        {
+                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-danger\">{scopeBody}.</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "alert-warning":
+                        {
+                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-warning\">{scopeBody}.</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "alert-success":
+                        {
+                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-success\">{scopeBody}.</div>");
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "jumbotron":
+                        {
+                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block":
+                    case "block-default":
+                        {
+                            html.Append("<div class=\"panel panel-default\">");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-primary":
+                        {
+                            html.Append("<div class=\"panel panel-primary\">");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-success":
+                        {
+                            html.Append("<div class=\"panel panel-success\">");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-info":
+                        {
+                            html.Append("<div class=\"panel panel-info\">");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-warning":
+                        {
+                            html.Append("<div class=\"panel panel-warning\">");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-danger":
+                        {
+                            html.Append("<div class=\"panel panel-danger\">");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel":
+                    case "panel-default":
+                        {
+                            html.Append("<div class=\"panel panel-default\">");
+                            html.Append($"<div class=\"panel-heading\">{title}</div>");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-primary":
+                        {
+                            html.Append("<div class=\"panel panel-primary\">");
+                            html.Append($"<div class=\"panel-heading\">{title}</div>");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-success":
+                        {
+                            html.Append("<div class=\"panel panel-success\">");
+                            html.Append($"<div class=\"panel-heading\">{title}</div>");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-info":
+                        {
+                            html.Append("<div class=\"panel panel-info\">");
+                            html.Append($"<div class=\"panel-heading\">{title}</div>");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-warning":
+                        {
+                            html.Append("<div class=\"panel panel-warning\">");
+                            html.Append($"<div class=\"panel-heading\">{title}</div>");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-danger":
+                        {
+                            html.Append("<div class=\"panel panel-danger\">");
+                            html.Append($"<div class=\"panel-heading\">{title}</div>");
+                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                        }
+                        break;
                 }
+
+                StoreMatch(pageContent, match.Value, html.ToString());
             }
 
             /*
@@ -534,7 +389,7 @@ namespace AsapWiki.Shared.Wiki
         private void TransformSyntaxHighlighters(string tag, string brush)
         {
             Regex rgx = new Regex("\\[\\[" + tag + "\\]\\]([\\s\\S]*?)\\[\\[\\/" + tag + "\\]\\]", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string rawValue = match.Value.Substring(tag.Length + 4, match.Value.Length - ((tag.Length * 2) + 9));
@@ -543,29 +398,6 @@ namespace AsapWiki.Shared.Wiki
             }
         }
         */
-
-        class OrderedMatch
-        {
-            public string Value { get; set; }
-            public int Index { get; set; }
-        }
-
-        List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
-        {
-            var result = new List<OrderedMatch>();
-
-            foreach (Match match in matches)
-            {
-                result.Add(new OrderedMatch
-                {
-                    Value = match.Value,
-                    Index = match.Index
-                });
-            }
-
-            return result.OrderByDescending(o => o.Value.Length).ToList();
-        }
-
 
         /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
@@ -587,7 +419,7 @@ namespace AsapWiki.Shared.Wiki
             regEx.Append(@"(\=\=.*?\n)");
 
             Regex rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -623,7 +455,7 @@ namespace AsapWiki.Shared.Wiki
         {
             //Parse external explicit links. eg. [[http://test.net]].
             Regex rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
@@ -649,7 +481,7 @@ namespace AsapWiki.Shared.Wiki
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
-            matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
@@ -773,33 +605,38 @@ namespace AsapWiki.Shared.Wiki
         private void TransformProcessingInstructions(StringBuilder pageContent)
         {
             Regex rgx = new Regex(@"(\@\@\w+)", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
 
                 switch (keyword.ToLower())
                 {
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "depreciate":
                         ProcessingInstructions.Add(WikiInstruction.Depreciate);
                         pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "template":
                         ProcessingInstructions.Add(WikiInstruction.Template);
                         pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "review":
                         ProcessingInstructions.Add(WikiInstruction.Review);
                         pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "include":
                         ProcessingInstructions.Add(WikiInstruction.Include);
                         pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
                         StoreMatch(pageContent, match.Value, "");
                         break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "draft":
                         ProcessingInstructions.Add(WikiInstruction.Draft);
                         pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
@@ -817,41 +654,15 @@ namespace AsapWiki.Shared.Wiki
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
-                string methodName = string.Empty;
-                List<string> rawArguments = new List<string>();
-                var args = new MethodCallInfo();
-
-                MatchCollection rawArgs = (new Regex(@"\(+?\)|\(.+?\)")).Matches(match.Value);
-                if (rawArgs.Count > 0)
-                {
-                    methodName = match.Value.Substring(2, match.Value.IndexOf('(') - 2).ToLower();
-
-                    if (rawArgs.Count > 1)
-                    {
-                        throw new Exception("More than one set of parmaters found for method.");
-                    }
-
-                    string rawArgTrimmed = rawArgs[0].ToString().Substring(1, rawArgs[0].ToString().Length - 2);
-                    rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
-                }
-                else
-                {
-                    methodName = match.Value.Substring(2, match.Value.Length - 2).ToLower(); ; //The match has no parameter.
-                }
+                MethodCallInfo method;
 
                 try
                 {
-                    var prototype = Singletons.MethodPrototypes.Get(methodName);
-                    if (prototype == null)
-                    {
-                        throw new Exception($"Method ({methodName}) does not have a defined prototype.");
-                    }
-
-                    args = MethodCallInfo.CreateInstance(rawArguments, prototype);
+                    method = Utility.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -859,13 +670,13 @@ namespace AsapWiki.Shared.Wiki
                     continue;
                 }
 
-                switch (methodName)
+                switch (method.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Includes a page by it's navigation link.
                     case "include": //(PageCategory\PageName)
                         {
-                            Page page = GetPageFromPathInfo(args.Ordinals[0]);
+                            Page page = Utility.GetPageFromPathInfo(method.Parameters.GetString("pageName"));
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page);
@@ -878,30 +689,24 @@ namespace AsapWiki.Shared.Wiki
                             }
                         }
                         break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Associates tags with a page. These are saved with the page and can also be displayed.
                     case "tag": //##tag(pipe|seperated|list|of|tags)
                         {
-                            if (args.Ordinals.Count == 0)
-                            {
-                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{methodName}");
-                                break;
-                            }
-
-                            Tags.AddRange(args.Ordinals);
+                            Tags.AddRange(method.Parameters.Ordinals);
                             StoreMatch(pageContent, match.Value, "");
                         }
                         break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Displays an image that is attached to the page.
                     case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
-                        if (args != null && args.Ordinals.Count > 0)
                         {
-                            if (args.Ordinals.Count < 1 || args.Ordinals.Count > 2)
-                            {
-                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{methodName}");
-                                break;
-                            }
+                            string imageName = method.Parameters.GetString("name");
+                            string alt = method.Parameters.GetString("alttext", imageName);
+                            int scale = method.Parameters.GetInt("scale");
 
-                            string imageName = args.Ordinals[0];
                             string navigation = _page.Navigation;
                             if (imageName.Contains("/"))
                             {
@@ -911,36 +716,20 @@ namespace AsapWiki.Shared.Wiki
                                 imageName = imageName.Substring(slashIndex + 1);
                             }
 
-                            string scale = "100";
-                            string alt = imageName;
-
-                            if (args.Ordinals.Count > 1)
-                            {
-                                scale = args.Ordinals[1];
-                            }
-                            if (args.Ordinals.Count > 2)
-                            {
-                                alt = args.Ordinals[2];
-                            }
-
                             string link = $"/File/Image/{navigation}?Image={imageName}";
                             string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
 
                             StoreMatch(pageContent, match.Value, image);
                         }
                         break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Displays an file download link
                     case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
                         {
-                            if (args.Ordinals.Count < 1 || args.Ordinals.Count > 3)
-                            {
-                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{methodName}");
-                                break;
-                            }
-
                             int pageId = _page.Id;
 
-                            string fileName = args.Ordinals[0];
+                            string fileName = method.Parameters.GetString("name");
                             string navigation = _page.Navigation;
                             if (fileName.Contains("/"))
                             {
@@ -962,22 +751,11 @@ namespace AsapWiki.Shared.Wiki
                             var attachment = PageFileRepository.GetPageFileInfoByPageIdAndName(pageId, fileName);
                             if (attachment != null)
                             {
-                                string alt = fileName;
+                                string alt = method.Parameters.GetString("linkText", fileName);
 
-                                if (args.Ordinals.Count > 1)
+                                if (method.Parameters.GetBool("showSize"))
                                 {
-                                    alt = args.Ordinals[1].Trim();
-                                    if (string.IsNullOrWhiteSpace(alt))
-                                    {
-                                        alt = fileName;
-                                    }
-                                }
-                                if (args.Ordinals.Count > 2)
-                                {
-                                    if (args.Ordinals[2].ToLower() != "false")
-                                    {
-                                        alt += $" ({attachment.FriendlySize})";
-                                    }
+                                    alt += $" ({attachment.FriendlySize})";
                                 }
 
                                 string link = $"/File/Binary/{navigation}?file={fileName}";
@@ -988,6 +766,7 @@ namespace AsapWiki.Shared.Wiki
                             StoreError(pageContent, match.Value, $"File not found [{fileName}]");
                         }
                         break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a list of files attached to the page.
                     case "files": //##Files()
@@ -1011,32 +790,19 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
 
-
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
                         {
-                            string view = args.GetString("View").ToLower();
-
-                            if (args.Ordinals.Count != 1)
-                            {
-                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{methodName}");
-                                break;
-                            }
-
-                            if (!int.TryParse(args.Ordinals[0], out int takeCount))
-                            {
-                                continue;
-                            }
-
-                            var topCount = args.GetInt("top");
+                            string view = method.Parameters.GetString("View").ToLower();
+                            var takeCount = method.Parameters.GetInt("top");
 
                             var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount).OrderByDescending(o => o.ModifiedDate).OrderBy(o => o.Name).ToList();
 
                             //If we specified a Top Count parameter, then we want to show the most recent pages
                             //  which were added to the category - otherwise we show ALL pages in the category so
                             //  we order them simply by name.
-                            if (args.Ordinals.Count == 1)
+                            if (method.Parameters.Ordinals.Count == 1)
                             {
                                 pages = pages.OrderBy(p => p.Name).ToList();
                             }
@@ -1070,18 +836,12 @@ namespace AsapWiki.Shared.Wiki
                     //Creates a glossary of pages with the specified comma seperated tags.
                     case "tagglossary":
                         {
-                            if (args.Ordinals.Count == 0)
-                            {
-                                StoreError(pageContent, match.Value, $"invalid number of parameters passed to ##{methodName}");
-                                break;
-                            }
-
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            string[] categoryName = args.Ordinals[0].ToLower().Split('|');
+                            var tags = method.Parameters.GetStringList("tags");
 
-                            string view = args.GetString("View").ToLower();
-                            var topCount = args.GetInt("top");
-                            var pages = PageTagRepository.GetPageInfoByTags(args.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
+                            string view = method.Parameters.GetString("View").ToLower();
+                            var topCount = method.Parameters.GetInt("top");
+                            var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 
@@ -1128,12 +888,12 @@ namespace AsapWiki.Shared.Wiki
                     case "textglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            string[] searchStrings = args.Ordinals[0].ToLower().Split('|');
-                            var topCount = args.GetInt("top");
-                            var pages = PageTagRepository.GetPageInfoByTokens(args.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var searchStrings = method.Parameters.GetStringList("tokens");
+                            var topCount = method.Parameters.GetInt("top");
+                            var pages = PageTagRepository.GetPageInfoByTokens(searchStrings).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
-                            string view = args.GetString("View").ToLower();
+                            string view = method.Parameters.GetString("View").ToLower();
 
                             if (pages.Count() > 0)
                             {
@@ -1177,9 +937,9 @@ namespace AsapWiki.Shared.Wiki
                     //Creates a list of pages by searching the page body for the specified text.
                     case "textlist":
                         {
-                            string view = args.GetString("View").ToLower();
-                            var topCount = args.GetInt("top");
-                            var pages = PageTagRepository.GetPageInfoByTokens(args.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
+                            string view = method.Parameters.GetString("View").ToLower();
+                            var topCount = method.Parameters.GetInt("top");
+                            var pages = PageTagRepository.GetPageInfoByTokens(method.Parameters.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1212,9 +972,9 @@ namespace AsapWiki.Shared.Wiki
                     //Creates a list of pages by searching the page tags.
                     case "taglist":
                         {
-                            string view = args.GetString("View").ToLower();
-                            var topCount = args.GetInt("top");
-                            var pages = PageTagRepository.GetPageInfoByTags(args.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
+                            string view = method.Parameters.GetString("View").ToLower();
+                            var topCount = method.Parameters.GetInt("top");
+                            var pages = PageTagRepository.GetPageInfoByTags(method.Parameters.Ordinals).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1242,13 +1002,14 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, html.ToString());
                         }
                         break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a list of other related pages based on tags.
                     case "related": //##related
                         {
-                            string view = args.GetString("View").ToLower();
+                            string view = method.Parameters.GetString("View").ToLower();
                             var html = new StringBuilder();
-                            var topCount = args.GetInt("top");
+                            var topCount = method.Parameters.GetInt("top");
                             var pages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name).Take(topCount).ToList();
 
                             if (view == "list")
@@ -1315,6 +1076,7 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, _page.Name);
                         }
                         break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays the name of the current page in title form.
                     case "title":
@@ -1322,13 +1084,14 @@ namespace AsapWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, $"<h1>{_page.Name}</h1>");
                         }
                         break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Inserts empty lines into the page.
                     case "br":
                     case "nl":
                     case "newline": //##NewLine([optional:default=1]count)
                         {
-                            int count = args.GetInt("Count");
+                            int count = method.Parameters.GetInt("Count");
                             for (int i = 0; i < count; i++)
                             {
                                 StoreMatch(pageContent, match.Value, $"<br />");
@@ -1347,7 +1110,6 @@ namespace AsapWiki.Shared.Wiki
                             }
                         }
                         break;
-                        //------------------------------------------------------------------------------------------------------------------------------                
                 }
             }
         }
@@ -1359,41 +1121,15 @@ namespace AsapWiki.Shared.Wiki
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
-                string methodName = string.Empty;
-                List<string> rawArguments = new List<string>();
-                var args = new MethodCallInfo();
-
-                MatchCollection rawArgs = (new Regex(@"\(+?\)|\(.+?\)")).Matches(match.Value);
-                if (rawArgs.Count > 0)
-                {
-                    methodName = match.Value.Substring(2, match.Value.IndexOf('(') - 2).ToLower();
-
-                    if (rawArgs.Count > 1)
-                    {
-                        throw new Exception("More than one set of parmaters found for method.");
-                    }
-
-                    string rawArgTrimmed = rawArgs[0].ToString().Substring(1, rawArgs[0].ToString().Length - 2);
-                    rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
-                }
-                else
-                {
-                    methodName = match.Value.Substring(2, match.Value.Length - 2).ToLower(); ; //The match has no parameter.
-                }
+                MethodCallInfo method;
 
                 try
                 {
-                    var prototype = Singletons.MethodPrototypes.Get(methodName);
-                    if (prototype == null)
-                    {
-                        throw new Exception($"Method ({methodName}) does not have a defined prototype.");
-                    }
-
-                    args = MethodCallInfo.CreateInstance(rawArguments, prototype);
+                    method = Utility.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1401,12 +1137,13 @@ namespace AsapWiki.Shared.Wiki
                     continue;
                 }
 
-                switch (methodName)
+                switch (method.Name.ToLower())
                 {
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a tag link list.
                     case "tags": //##tags
                         {
-                            string view = args.GetString("View").ToLower();
+                            string view = method.Parameters.GetString("View").ToLower();
                             var html = new StringBuilder();
 
                             if (view == "list")
@@ -1431,21 +1168,22 @@ namespace AsapWiki.Shared.Wiki
                         }
                         break;
 
-                    case "tagcloud": //##tagcloud()
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "tagcloud":
                         {
-                            string seedTag = args.Ordinals[0];
+                            string seedTag = method.Parameters.GetString("tag");
                             string cloudHtml = Utility.BuildTagCloud(seedTag);
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
                         break;
 
-                    case "searchcloud": //##SearchCloud()
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "searchcloud":
                         {
-                            string cloudHtml = Utility.BuildSearchCloud(args.Ordinals);
+                            string cloudHtml = Utility.BuildSearchCloud(method.Parameters.Ordinals);
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
                         break;
-
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Diplays a table of contents for the page based on the header tags.
@@ -1490,25 +1228,114 @@ namespace AsapWiki.Shared.Wiki
 
                             StoreMatch(pageContent, match.Value, html.ToString());
                         }
-
                         break;
-                        //------------------------------------------------------------------------------------------------------------------------------                
                 }
             }
         }
 
-        #region Linq Getters.
-
-        public Page GetPageFromPathInfo(string routeData)
+        private void StoreError(StringBuilder pageContent, string match, string value)
         {
-            routeData = Utility.CleanFullURI(routeData);
-            routeData = routeData.Substring(1, routeData.Length - 2);
+            _matchesPerIteration++;
 
-            var page = PageRepository.GetPageByNavigation(routeData);
+            string identifier = Guid.NewGuid().ToString();
 
-            return page;
+            var matchSet = new MatchSet()
+            {
+                Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
+                AllowNestedDecode = false
+            };
+
+            Matches.Add(identifier, matchSet);
+            pageContent.Replace(match, identifier);
         }
 
-        #endregion
+        private void StoreMatch(StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        {
+            _matchesPerIteration++;
+
+            string identifier = Guid.NewGuid().ToString();
+
+            var matchSet = new MatchSet()
+            {
+                Content = value,
+                AllowNestedDecode = allowNestedDecode
+            };
+
+            Matches.Add(identifier, matchSet);
+            pageContent.Replace(match, identifier);
+        }
+
+        private void TransformWhitespace(StringBuilder pageContent)
+        {
+            string identifier = Guid.NewGuid().ToString();
+
+            //Replace new-lines with single character new line:
+            pageContent.Replace("\r\n", "\n");
+
+            //Replace new-lines with an identifer so we can identify the places we are going to introduce line-breaks:
+            pageContent.Replace("\n", identifier);
+
+            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifers.
+            pageContent.Replace($"{identifier}{identifier}", identifier);
+
+            //Swap in the real line-breaks.
+            pageContent.Replace(identifier, "<br />");
+        }
+
+        /// <summary>
+        /// Replaces HTML where we are transforming the entire line, such as "*this will be bold" - > "<b>this will be bold</b>
+        /// </summary>
+        /// <param name="regex"></param>
+        /// <param name="htmlTag"></param>
+        void ReplaceWholeLineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
+        {
+            string marker = String.Empty;
+            if (escape)
+            {
+                foreach (var c in mark)
+                {
+                    marker += $"\\{c}";
+                }
+            }
+            else
+            {
+                marker = mark;
+            }
+
+            Regex rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
+            foreach (var match in matches)
+            {
+                string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
+                var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
+                StoreMatch(pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
+            }
+        }
+
+        void ReplaceInlineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
+        {
+            string marker = String.Empty;
+            if (escape)
+            {
+                foreach (var c in mark)
+                {
+                    marker += $"\\{c}";
+                }
+            }
+            else
+            {
+                marker = mark;
+            }
+
+            Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
+            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
+            {
+                string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
+
+                StoreMatch(pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
+            }
+        }
     }
 }
