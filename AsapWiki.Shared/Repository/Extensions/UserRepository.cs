@@ -16,6 +16,14 @@ namespace AsapWiki.Shared.Repository
 					new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 			}
 		}
+		public static User GetUserByAccountName(string accountName)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.Query<User>("GetUserByAccountName",
+					new { AccountName = accountName }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
 
 		public static User GetUserByEmailAndPassword(string emailAddress, string password)
 		{

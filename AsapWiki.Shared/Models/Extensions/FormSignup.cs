@@ -10,7 +10,7 @@ namespace AsapWiki.Shared.Models
 
         [Required]
         [Display(Name = "Display Name")]
-        public string DisplayName { get; set; }
+        public string AccountName { get; set; }
 
         [Required]
         [Display(Name = "Password")]

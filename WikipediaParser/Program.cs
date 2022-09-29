@@ -23,7 +23,7 @@ namespace WikipediaParser
             foreach (var file in files)
             {
                 string pageName = String.Join(" ", Path.GetFileNameWithoutExtension(file).Split('_'));
-                string pageNavigation = Utility.CleanPartialURI(pageName);
+                string pageNavigation = WikiUtility.CleanPartialURI(pageName);
                 string description = string.Empty;
                 var parsedContent = new StringBuilder();
                 var allContent = File.ReadAllText(file);
@@ -57,7 +57,7 @@ namespace WikipediaParser
 
                 parsedContent.Insert(0, "##title()\r\n##{{{(Panel, Table of Contents) ##toc() }}}\r\n");
 
-                var preProcessPageTokens = AsapWiki.Shared.Wiki.Utility.ParsePageTokens(parsedContent.ToString());
+                var preProcessPageTokens = AsapWiki.Shared.Wiki.WikiUtility.ParsePageTokens(parsedContent.ToString());
 
                 if (preProcessPageTokens.Any(o => o.Token == "draft"))
                 {

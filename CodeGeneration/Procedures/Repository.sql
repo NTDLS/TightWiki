@@ -990,7 +990,7 @@ BEGIN--PROCEDURE
 	SELECT
 		[Id] as [Id],
 		[EmailAddress] as [EmailAddress],
-		[DisplayName] as [DisplayName],
+		[AccountName] as [AccountName],
 		[PasswordHash] as [PasswordHash]
 	FROM
 		[User]
@@ -1043,7 +1043,7 @@ BEGIN--PROCEDURE
 	SELECT
 		[Id] as [Id],
 		[EmailAddress] as [EmailAddress],
-		[DisplayName] as [DisplayName],
+		[AccountName] as [AccountName],
 		[PasswordHash] as [PasswordHash]
 	FROM
 		[User]
@@ -1066,7 +1066,7 @@ CREATE PROCEDURE [UpdateUserById]
 (
 	@Id as int,
 	@EmailAddress as nvarchar (128),
-	@DisplayName as nvarchar (128),
+	@AccountName as nvarchar (128),
 	@PasswordHash as nvarchar (128) = NULL
 ) AS
 BEGIN--PROCEDURE
@@ -1078,7 +1078,7 @@ BEGIN--PROCEDURE
 		[User]
 	SET
 		[EmailAddress] = @EmailAddress,
-		[DisplayName] = @DisplayName,
+		[AccountName] = @AccountName,
 		[PasswordHash] = @PasswordHash
 	FROM
 		[User]
@@ -1100,7 +1100,7 @@ GO
 CREATE PROCEDURE [InsertUser]
 (
 	@EmailAddress as nvarchar (128),
-	@DisplayName as nvarchar (128),
+	@AccountName as nvarchar (128),
 	@PasswordHash as nvarchar (128) = NULL
 ) AS
 BEGIN--PROCEDURE
@@ -1111,13 +1111,13 @@ BEGIN--PROCEDURE
 	INSERT INTO [User]
 	(
 		[EmailAddress],
-		[DisplayName],
+		[AccountName],
 		[PasswordHash]
 	)
 	VALUES
 	(
 		@EmailAddress,
-		@DisplayName,
+		@AccountName,
 		@PasswordHash
 	)
 

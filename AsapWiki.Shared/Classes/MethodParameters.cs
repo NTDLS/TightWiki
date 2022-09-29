@@ -24,76 +24,52 @@ namespace AsapWiki.Shared.Classes
 
         public T Get<T>(string name)
         {
-            string value = Named.Where(o => o.Name.ToLower() == name.ToLower()).FirstOrDefault()?.Value;
-            if (value == null)
+            try
             {
-                var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name.ToLower()).First();
-                return ConvertTo<T>(prototype.DefaultValue);
-            }
+                string value = Named.Where(o => o.Name.ToLower() == name.ToLower()).FirstOrDefault()?.Value;
+                if (value == null)
+                {
+                    var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name.ToLower()).First();
+                    return Utility.ConvertTo<T>(prototype.DefaultValue);
+                }
 
-            return ConvertTo<T>(value);
+                return Utility.ConvertTo<T>(value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Method [{_owner.Name}], {ex.Message}");
+            }
         }
 
         public T Get<T>(string name, T defaultValue)
         {
-            string value = Named.Where(o => o.Name.ToLower() == name.ToLower()).FirstOrDefault()?.Value;
-            if (value == null)
+            try
             {
-                return defaultValue;
-            }
+                string value = Named.Where(o => o.Name.ToLower() == name.ToLower()).FirstOrDefault()?.Value;
+                if (value == null)
+                {
+                    return defaultValue;
+                }
 
-            return ConvertTo<T>(value);
+                return Utility.ConvertTo<T>(value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Method [{_owner.Name}], {ex.Message}");
+            }
         }
 
         public List<T> GetList<T>(string name)
         {
-            var values = Named.Where(o => o.Name.ToLower() == name.ToLower())?
-                .Select(o => ConvertTo<T>(o.Value))?.ToList();
-            return values;
-        }
-
-        public T ConvertTo<T>(string value)
-        {
-            if (typeof(T) == typeof(string))
+            try
             {
-                return (T)Convert.ChangeType(value, typeof(T));
+                var values = Named.Where(o => o.Name.ToLower() == name.ToLower())?
+                    .Select(o => Utility.ConvertTo<T>(o.Value))?.ToList();
+                return values;
             }
-            else if (typeof(T) == typeof(int))
+            catch (Exception ex)
             {
-                if (int.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to integer.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else if (typeof(T) == typeof(float))
-            {
-                if (float.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to float.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else if (typeof(T) == typeof(double))
-            {
-                if (double.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to double.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else if (typeof(T) == typeof(bool))
-            {
-                value = value.ToLower();
-                if (bool.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Method [{_owner.Name}], error converting value [{value}] to boolean.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else
-            {
-                throw new Exception($"Method [{_owner.Name}], unsupported parameter type.");
+                throw new Exception($"Method [{_owner.Name}], {ex.Message}");
             }
         }
     }

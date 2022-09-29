@@ -34,6 +34,8 @@ namespace AsapWikiCom.Controllers
             ViewBag.Copyright = config.Where(o => o.Name == "Copyright").FirstOrDefault()?.Value;
             //ViewBag.PageUri = $"{RouteData.Values["controller"]}/{RouteData.Values["action"]}/{RouteData.Values["navigation"]}";
             ViewBag.Navigation = RouteValue("navigation");
+
+            ViewBag.Context = context;
         }
 
         public void HydrateSecurityContext()
@@ -54,6 +56,41 @@ namespace AsapWikiCom.Controllers
                     context.User = UserRepository.GetUserById(int.Parse(principal.Identity.Name));
                 }
             }
+            else if (ConfigurationEntryRepository.Get("Membership", "Allow Guest", false))
+            {
+                PerformGuestLogin();
+            }
+        }
+
+        public bool PerformGuestLogin()
+        {
+            string guestAccount = ConfigurationEntryRepository.Get<string>("Membership", "Guest Account");
+
+            var user = UserRepository.GetUserByAccountName(guestAccount);
+            if (user != null)
+            {
+                FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
+
+                var roles = RoleRepository.GetUserRolesByUserId(user.Id);
+                string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
+
+                var ticket = new FormsAuthenticationTicket(
+                     version: 1,
+                     name: user.Id.ToString(),
+                     issueDate: DateTime.Now,
+                     expiration: DateTime.Now.AddMinutes(Session.Timeout),
+                     isPersistent: false,
+                     userData: String.Join("|", arrayOfRoles));
+
+                var encryptedTicket = FormsAuthentication.Encrypt(ticket);
+                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+
+                Response.Cookies.Add(cookie);
+
+                return true;
+            }
+
+            return false;
         }
 
         public bool PerformLogin(string emailAddress, string password)

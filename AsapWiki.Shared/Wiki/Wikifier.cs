@@ -44,7 +44,7 @@ namespace AsapWiki.Shared.Wiki
 
         public List<WeightedToken> ParsePageTokens()
         {
-            return Utility.ParsePageTokens(ProcessedBody);
+            return WikiUtility.ParsePageTokens(ProcessedBody);
         }
 
         private void Transform()
@@ -126,7 +126,7 @@ namespace AsapWiki.Shared.Wiki
         {
             //Transform literal strings, even encodes HTML so that it displays verbatim.
             Regex rgx = new Regex(@"\[\{\{([\S\s]*?)\}\}\]", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
@@ -143,7 +143,7 @@ namespace AsapWiki.Shared.Wiki
         {
             //Transform panels.
             Regex rgx = new Regex(@"\{\{\{\(([\S\s]*?)\}\}\}", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 int paramEndIndex = -1;
@@ -152,7 +152,7 @@ namespace AsapWiki.Shared.Wiki
 
                 try
                 {
-                    method = Utility.ParseMethodCallInfo(match, out paramEndIndex, "PanelScope");
+                    method = WikiUtility.ParseMethodCallInfo(match, out paramEndIndex, "PanelScope");
                 }
                 catch (Exception ex)
                 {
@@ -178,7 +178,7 @@ namespace AsapWiki.Shared.Wiki
 
                             foreach (var line in lines)
                             {
-                                int newIndent = Utility.StartsWithHowMany(line, '>') + 1;
+                                int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
 
                                 if (newIndent < currentLevel)
                                 {
@@ -213,7 +213,7 @@ namespace AsapWiki.Shared.Wiki
 
                             foreach (var line in lines)
                             {
-                                int newIndent = Utility.StartsWithHowMany(line, '>') + 1;
+                                int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
 
                                 if (newIndent < currentLevel)
                                 {
@@ -419,7 +419,7 @@ namespace AsapWiki.Shared.Wiki
             regEx.Append(@"(\=\=.*?\n)");
 
             Regex rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -455,7 +455,7 @@ namespace AsapWiki.Shared.Wiki
         {
             //Parse external explicit links. eg. [[http://test.net]].
             Regex rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
@@ -481,7 +481,7 @@ namespace AsapWiki.Shared.Wiki
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
-            matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
@@ -496,7 +496,7 @@ namespace AsapWiki.Shared.Wiki
                 }
 
                 string pageName = keyword;
-                string pageNavigation = Utility.CleanPartialURI(pageName);
+                string pageNavigation = WikiUtility.CleanPartialURI(pageName);
                 var page = PageRepository.GetPageByNavigation(pageNavigation);
 
                 if (page != null)
@@ -521,7 +521,7 @@ namespace AsapWiki.Shared.Wiki
 
                                 //Allow loading attacehd images from other pages.
                                 int slashIndex = linkText.IndexOf("/");
-                                string navigation = Utility.CleanPartialURI(linkText.Substring(0, slashIndex));
+                                string navigation = WikiUtility.CleanPartialURI(linkText.Substring(0, slashIndex));
                                 linkText = linkText.Substring(slashIndex + 1);
 
                                 int scaleIndex = linkText.IndexOf("|");
@@ -558,9 +558,9 @@ namespace AsapWiki.Shared.Wiki
                         }
                     }
 
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Content/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Wiki/Content/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_context?.CanCreatePage() == true)
+                else if (_context?.CanCreate == true)
                 {
                     if (explicitLinkText.Length == 0)
                     {
@@ -572,7 +572,7 @@ namespace AsapWiki.Shared.Wiki
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + Utility.CleanFullURI($"/Wiki/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Wiki/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
@@ -605,7 +605,7 @@ namespace AsapWiki.Shared.Wiki
         private void TransformProcessingInstructions(StringBuilder pageContent)
         {
             Regex rgx = new Regex(@"(\@\@\w+)", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
@@ -654,7 +654,7 @@ namespace AsapWiki.Shared.Wiki
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -662,7 +662,7 @@ namespace AsapWiki.Shared.Wiki
 
                 try
                 {
-                    method = Utility.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = WikiUtility.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -678,7 +678,7 @@ namespace AsapWiki.Shared.Wiki
                         {
                             var navigation = method.Parameters.Get<String>("pageName");
 
-                            Page page = Utility.GetPageFromPathInfo(navigation);
+                            Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page);
@@ -715,7 +715,7 @@ namespace AsapWiki.Shared.Wiki
                             {
                                 //Allow loading attacehd images from other pages.
                                 int slashIndex = imageName.IndexOf("/");
-                                navigation = Utility.CleanPartialURI(imageName.Substring(0, slashIndex));
+                                navigation = WikiUtility.CleanPartialURI(imageName.Substring(0, slashIndex));
                                 imageName = imageName.Substring(slashIndex + 1);
                             }
 
@@ -738,7 +738,7 @@ namespace AsapWiki.Shared.Wiki
                             {
                                 //Allow loading attacehd files from other pages.
                                 int slashIndex = fileName.IndexOf("/");
-                                navigation = Utility.CleanPartialURI(fileName.Substring(0, slashIndex));
+                                navigation = WikiUtility.CleanPartialURI(fileName.Substring(0, slashIndex));
 
                                 var page = PageRepository.GetPageInfoByNavigation(navigation);
                                 if (page == null)
@@ -1121,7 +1121,7 @@ namespace AsapWiki.Shared.Wiki
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -1129,7 +1129,7 @@ namespace AsapWiki.Shared.Wiki
 
                 try
                 {
-                    method = Utility.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = WikiUtility.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1172,7 +1172,7 @@ namespace AsapWiki.Shared.Wiki
                     case "tagcloud":
                         {
                             string seedTag = method.Parameters.Get<String>("tag");
-                            string cloudHtml = Utility.BuildTagCloud(seedTag);
+                            string cloudHtml = WikiUtility.BuildTagCloud(seedTag);
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
                         break;
@@ -1181,7 +1181,7 @@ namespace AsapWiki.Shared.Wiki
                     case "searchcloud":
                         {
                             var tokens = method.Parameters.GetList<string>("tokens");
-                            string cloudHtml = Utility.BuildSearchCloud(tokens);
+                            string cloudHtml = WikiUtility.BuildSearchCloud(tokens);
                             StoreMatch(pageContent, match.Value, cloudHtml);
                         }
                         break;
@@ -1304,7 +1304,7 @@ namespace AsapWiki.Shared.Wiki
             }
 
             Regex rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
             foreach (var match in matches)
             {
@@ -1330,7 +1330,7 @@ namespace AsapWiki.Shared.Wiki
             }
 
             Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));

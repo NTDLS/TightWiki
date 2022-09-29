@@ -60,6 +60,25 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Signup()
         {
+            if (ConfigurationEntryRepository.Get("Membership", "Allow Signup", false) == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            Configure();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AllowAnonymous]
+        public ActionResult Signup(AsapWiki.Shared.Models.FormSignup user)
+        {
+            if (ConfigurationEntryRepository.Get("Membership", "Allow Signup", false) == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             Configure();
             return View();
         }

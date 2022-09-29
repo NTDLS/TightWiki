@@ -9,7 +9,7 @@ namespace AsapWiki.Shared.Models
 		{
 			get
 			{
-				return Wiki.Utility.GetFriendlySize(Size);
+				return Wiki.WikiUtility.GetFriendlySize(Size);
 			}
 		}
 	}

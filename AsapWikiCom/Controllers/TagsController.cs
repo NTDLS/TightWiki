@@ -20,9 +20,15 @@ namespace AsapWikiCom.Controllers
         public ActionResult Browse()
         {
             Configure();
-            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
 
-            ViewBag.TagCloud = Utility.BuildTagCloud(navigation);
+            if (context.CanView == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
+
+            ViewBag.TagCloud = WikiUtility.BuildTagCloud(navigation);
 
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
             var pages = PageTagRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();

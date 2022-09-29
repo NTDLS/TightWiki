@@ -39,18 +39,18 @@ private string _emailAddress;
 			}
 		}
 		
-private string _displayName;
-		public string DisplayName
+private string _AccountName;
+		public string AccountName
 		{
 			get
 			{
-				return this._displayName;
+				return this._AccountName;
 			}
 			set
 			{
-				if (this._displayName != value)
+				if (this._AccountName != value)
 				{
-					this._displayName = value;
+					this._AccountName = value;
 				}            
 			}
 		}

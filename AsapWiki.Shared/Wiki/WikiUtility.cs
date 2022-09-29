@@ -3,18 +3,17 @@ using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AsapWiki.Shared.Wiki
 {
-    public static class Utility
+    public static class WikiUtility
     {
         public static Page GetPageFromPathInfo(string routeData)
         {
-            routeData = Utility.CleanFullURI(routeData).Trim(new char[] { '\\', '/' });
+            routeData = WikiUtility.CleanFullURI(routeData).Trim(new char[] { '\\', '/' });
             var page = PageRepository.GetPageByNavigation(routeData);
             return page;
         }
@@ -104,7 +103,7 @@ namespace AsapWiki.Shared.Wiki
 
             foreach (var tag in tags)
             {
-                tagList.Add(new TagCoudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + Utility.CleanFullURI(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
+                tagList.Add(new TagCoudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + WikiUtility.CleanFullURI(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
 
                 if ((tagIndex % sizeStep) == 0)
                 {
@@ -129,7 +128,7 @@ namespace AsapWiki.Shared.Wiki
 
             return cloudHtml.ToString();
         }
-       
+
         public static string BuildSearchCloud(List<string> tokens)
         {
             var pages = PageTagRepository.GetPageInfoByTokens(tokens).OrderByDescending(o => o.TokenWeight).ToList();
@@ -168,7 +167,6 @@ namespace AsapWiki.Shared.Wiki
 
             return cloudHtml.ToString();
         }
-
 
         public static string CleanPartialURI(string url)
         {
@@ -220,9 +218,10 @@ namespace AsapWiki.Shared.Wiki
 
             return result.TrimEnd(new char[] { '/', '\\' });
         }
+
         public static List<WeightedToken> ParsePageTokens(string contentBody)
         {
-            var exclusionWords = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupNameAndEntryName("Search", "Word Exclusions")
+            var exclusionWords = ConfigurationEntryRepository.Get<string>("Search", "Word Exclusions")
                 .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
 
             var htmlFree = HTML.StripHtml(contentBody).ToLower();
@@ -231,7 +230,7 @@ namespace AsapWiki.Shared.Wiki
 
             foreach (var token in tokens)
             {
-                var spkitTokens = Utility.SplitCamelCase(token).Split(' ');
+                var spkitTokens = WikiUtility.SplitCamelCase(token).Split(' ');
                 if (spkitTokens.Count() > 1)
                 {
                     casedTokens.AddRange(spkitTokens);
@@ -252,6 +251,7 @@ namespace AsapWiki.Shared.Wiki
 
             return searchTokens;
         }
+
         public static bool IsValidEmail(string email)
         {
             var trimmedEmail = email.Trim();
@@ -298,7 +298,7 @@ namespace AsapWiki.Shared.Wiki
         {
             return Regex.Replace(Regex.Replace(Regex.Replace(text, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2"), @"\s+", " ");
         }
-        
+
         public static string GetFriendlySize(long size)
         {
             double s = size;

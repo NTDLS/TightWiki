@@ -97,7 +97,7 @@
                         </table>
                     }
                     
-                    @if (Model?.Id > 0)
+                    @if (Model?.Id > 0 && @ViewBag.Context?.CanCreate == true)
                     {
                         <iframe src="/File/Upload/@ViewBag.Navigation" align="left" width="500" frameBorder="0" />
                     }

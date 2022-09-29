@@ -31,39 +31,41 @@
 
                     @using (Html.BeginForm())
                     {
+                        @Html.AntiForgeryToken()
+
                         <table border="0">
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
                             <tr class="padded">
                                 <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
                                 <td>
                                     @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountName)</div></td></tr>
                             <tr class="padded">
-                                <td><strong>@Html.LabelFor(m => m.DisplayName)</strong></td>
+                                <td><strong>@Html.LabelFor(m => m.AccountName)</strong></td>
                                 <td>
-                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "input-control" })
+                                    @Html.TextBoxFor(m => m.AccountName, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.DisplayName)</div></td></tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
                             <tr class="padded">
                                 <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
                                 <td>
                                     @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
                             <tr class="padded">
                                 <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
                                 <td>
                                     @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
                             <tr class="padded">
                                 <td>&nbsp;</td>
                                 <td>
-                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Reset</button></div>
+                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Signup!</button></div>
                                 </td>
                             </tr>
                         </table>

@@ -34,20 +34,20 @@
                         @Html.AntiForgeryToken()
 
                         <table border="0">
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
                             <tr class="padded">
                                 <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
                                 <td>
                                     @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
                             <tr class="padded">
                                 <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
                                 <td>
                                     @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
                             <tr class="padded">
                                 <td>&nbsp;</td>
                                 <td>

@@ -16,7 +16,12 @@ namespace AsapWikiCom.Controllers
         public ActionResult Content()
         {
             Configure();
-            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
+            if (context.CanView == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
 
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
@@ -39,8 +44,12 @@ namespace AsapWikiCom.Controllers
         public ActionResult Edit()
         {
             Configure();
+            if (context.CanEdit == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
 
-            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
+            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
 
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
@@ -53,7 +62,7 @@ namespace AsapWikiCom.Controllers
                     Id = page.Id,
                     Body = page.Body,
                     Name = page.Name,
-                    Navigation = Utility.CleanPartialURI(page.Navigation),
+                    Navigation = WikiUtility.CleanPartialURI(page.Navigation),
                     Description = page.Description
                 });
             }
@@ -61,13 +70,13 @@ namespace AsapWikiCom.Controllers
             {
                 var pageName = Request.QueryString["Name"] ?? navigation;
 
-                string newPageTemplate = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupNameAndEntryName("Basic", "New Page Template");
+                string newPageTemplate = ConfigurationEntryRepository.Get<string>("Basic", "New Page Template");
 
                 return View(new EditPage()
                 {
                     Body = newPageTemplate,
                     Name = pageName,
-                    Navigation = Utility.CleanPartialURI(navigation)
+                    Navigation = WikiUtility.CleanPartialURI(navigation)
                 });
             }
         }
@@ -77,6 +86,10 @@ namespace AsapWikiCom.Controllers
         public ActionResult Edit(EditPage editPage)
         {
             Configure();
+            if (context.CanEdit == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
 
             if (ModelState.IsValid)
             {
@@ -92,7 +105,7 @@ namespace AsapWikiCom.Controllers
                         ModifiedByUserId = context.User.Id,
                         Body = editPage.Body ?? "",
                         Name = editPage.Name,
-                        Navigation = Utility.CleanPartialURI(editPage.Name),
+                        Navigation = WikiUtility.CleanPartialURI(editPage.Name),
                         Description = editPage.Description ?? ""
                     };
 
@@ -113,7 +126,7 @@ namespace AsapWikiCom.Controllers
                     page.ModifiedByUserId = context.User.Id;
                     page.Body = editPage.Body ?? "";
                     page.Name = editPage.Name;
-                    page.Navigation = Utility.CleanPartialURI(editPage.Name);
+                    page.Navigation = WikiUtility.CleanPartialURI(editPage.Name);
                     page.Description = editPage.Description ?? "";
 
                     PageRepository.SavePage(page);

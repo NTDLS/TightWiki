@@ -84,7 +84,9 @@
     <Compile Include="Classes\OrderedMatch.cs" />
     <Compile Include="Classes\OrdinalParam.cs" />
     <Compile Include="Classes\PrototypeParameter.cs" />
+    <Compile Include="Classes\Utility.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Models\Extensions\ConfigurationEntry.cs" />
     <Compile Include="Models\Extensions\TagAssociation.cs" />
     <Compile Include="Models\Extensions\PageToken.cs" />
     <Compile Include="Models\Extensions\TagCoudItem.cs" />
@@ -123,7 +125,7 @@
     <Compile Include="Repository\Extensions\RoleRepository.cs" />
     <Compile Include="Repository\Extensions\UserRepository.cs" />
     <Compile Include="Wiki\Singletons.cs" />
-    <Compile Include="Wiki\Utility.cs" />
+    <Compile Include="Wiki\WikiUtility.cs" />
     <Compile Include="Wiki\Wikifier.cs" />
   </ItemGroup>
   <ItemGroup>

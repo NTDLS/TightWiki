@@ -1,7 +1,5 @@
-﻿using AsapWiki.Shared.Classes;
-using AsapWiki.Shared.Models;
+﻿using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
-using AsapWiki.Shared.Wiki;
 using System;
 using System.Drawing.Imaging;
 using System.IO;
@@ -9,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Wiki;
 
 namespace AsapWikiCom.Controllers
 {
@@ -22,11 +22,16 @@ namespace AsapWikiCom.Controllers
         /// </summary>
         /// <param name="navigation"></param>
         /// <returns></returns>
-        [AllowAnonymous]
         [HttpGet]
         public ActionResult Delete(string navigation)
         {
-            navigation = Utility.CleanPartialURI(navigation);
+            Configure();
+            if (context.CanDelete == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            navigation = WikiUtility.CleanPartialURI(navigation);
 
             string imageName = Request.QueryString["Image"];
             PageFileRepository.DeletePageFileByPageNavigationAndName(navigation, imageName);
@@ -43,7 +48,13 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Binary(string navigation)
         {
-            navigation = Utility.CleanPartialURI(navigation);
+            Configure();
+            if (context.CanView == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            navigation = WikiUtility.CleanPartialURI(navigation);
             string attachmentName = Request.QueryString["file"];
 
             var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, attachmentName);
@@ -67,7 +78,13 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Image(string navigation)
         {
-            navigation = Utility.CleanPartialURI(navigation);
+            Configure();
+            if (context.CanView == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            navigation = WikiUtility.CleanPartialURI(navigation);
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
@@ -151,7 +168,13 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Png(string navigation)
         {
-            navigation = Utility.CleanPartialURI(navigation);
+            Configure();
+            if (context.CanView == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            navigation = WikiUtility.CleanPartialURI(navigation);
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
@@ -202,9 +225,12 @@ namespace AsapWikiCom.Controllers
         public ActionResult Upload(object postData)
         {
             Configure();
+            if (context.CanCreate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
 
-            string navigation = Utility.CleanPartialURI(RouteValue("navigation"));
-
+            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
             var page = PageRepository.GetPageInfoByNavigation(navigation);
 
             HttpPostedFileBase file = Request.Files["BinaryData"];
@@ -234,6 +260,10 @@ namespace AsapWikiCom.Controllers
         public ActionResult Upload()
         {
             Configure();
+            if (context.CanCreate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
 
             var navigation = RouteValue("navigation");
             var page = PageRepository.GetPageByNavigation(navigation);
