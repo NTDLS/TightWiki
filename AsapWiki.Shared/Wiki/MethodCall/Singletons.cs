@@ -1,6 +1,10 @@
 ﻿using AsapWiki.Shared.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
-namespace AsapWiki.Shared.Wiki
+namespace AsapWiki.Shared.Wiki.MethodCall
 {
     public static class Singletons
     {
@@ -41,5 +45,44 @@ namespace AsapWiki.Shared.Wiki
                 return _methodPrototypes;
             }
         }
+
+        public static MethodCallInstance ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex, string methodName = null)
+        {
+            List<string> rawArguments = new List<string>();
+
+            MatchCollection matches = (new Regex(@"\(+?\)|\(.+?\)")).Matches(methodMatch.Value);
+            if (matches.Count > 0)
+            {
+                var match = matches[0];
+
+                if (methodName == null)
+                {
+                    methodName = methodMatch.Value.Substring(2, methodMatch.Value.IndexOf('(') - 2).ToLower();
+                }
+
+                parseEndIndex = match.Index + match.Length;
+
+                string rawArgTrimmed = match.ToString().Substring(1, match.ToString().Length - 2);
+                rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
+            }
+            else if (methodName == null)
+            {
+                methodName = methodMatch.Value.Substring(2, methodMatch.Value.Length - 2).ToLower(); ; //The match has no parameter.
+                parseEndIndex = methodMatch.Value.Length;
+            }
+            else
+            {
+                parseEndIndex = -1;
+            }
+
+            var prototype = Singletons.MethodPrototypes.Get(methodName);
+            if (prototype == null)
+            {
+                throw new Exception($"Method ({methodName}) does not have a defined prototype.");
+            }
+
+            return new MethodCallInstance(prototype, rawArguments);
+        }
+
     }
 }

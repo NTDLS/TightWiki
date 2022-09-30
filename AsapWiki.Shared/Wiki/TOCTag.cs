@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AsapWiki.Shared.Classes
+namespace AsapWiki.Shared.Wiki
 {
     //Table of contense tag.
     public class TOCTag

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AsapWiki.Shared.Classes
+namespace AsapWiki.Shared.Wiki.MethodCall
 {
     public class MethodCallInstance
     {

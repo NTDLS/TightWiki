@@ -1,6 +1,7 @@
 ﻿using AsapWiki.Shared.Classes;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
+using AsapWiki.Shared.Wiki.MethodCall;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -152,7 +153,7 @@ namespace AsapWiki.Shared.Wiki
 
                 try
                 {
-                    method = WikiUtility.ParseMethodCallInfo(match, out paramEndIndex, "PanelScope");
+                    method = Singletons.ParseMethodCallInfo(match, out paramEndIndex, "PanelScope");
                 }
                 catch (Exception ex)
                 {
@@ -661,7 +662,7 @@ namespace AsapWiki.Shared.Wiki
 
                 try
                 {
-                    method = WikiUtility.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = Singletons.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1128,7 +1129,7 @@ namespace AsapWiki.Shared.Wiki
 
                 try
                 {
-                    method = WikiUtility.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = Singletons.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {

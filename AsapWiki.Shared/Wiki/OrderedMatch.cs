@@ -1,4 +1,4 @@
-﻿namespace AsapWiki.Shared.Classes
+﻿namespace AsapWiki.Shared.Wiki
 {
     public class OrderedMatch
     {

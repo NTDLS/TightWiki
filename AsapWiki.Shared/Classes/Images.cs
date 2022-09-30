@@ -2,7 +2,6 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-
 namespace AsapWiki.Shared.Classes
 {
     public static class Images
@@ -31,6 +30,5 @@ namespace AsapWiki.Shared.Classes
 
             return destImage;
         }
-
     }
 }
