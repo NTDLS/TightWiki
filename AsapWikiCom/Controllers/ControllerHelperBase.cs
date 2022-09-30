@@ -72,7 +72,7 @@ namespace AsapWikiCom.Controllers
             {
                 FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
-                var roles = RoleRepository.GetUserRolesByUserId(user.Id);
+                var roles = UserRepository.GetUserRolesByUserId(user.Id);
                 string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
 
                 var ticket = new FormsAuthenticationTicket(
@@ -101,7 +101,7 @@ namespace AsapWikiCom.Controllers
             {
                 FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
-                var roles = RoleRepository.GetUserRolesByUserId(user.Id);
+                var roles = UserRepository.GetUserRolesByUserId(user.Id);
                 string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
 
                 var ticket = new FormsAuthenticationTicket(

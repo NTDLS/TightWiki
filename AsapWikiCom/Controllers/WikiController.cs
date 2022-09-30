@@ -141,7 +141,7 @@ namespace AsapWikiCom.Controllers
 
                     var wikifier = new Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-                    ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
                     PageRepository.SavePageTokens(pageTokens);
 
@@ -163,7 +163,7 @@ namespace AsapWikiCom.Controllers
 
                     var wikifier = new Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-                    ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
                     PageRepository.SavePageTokens(pageTokens);
 

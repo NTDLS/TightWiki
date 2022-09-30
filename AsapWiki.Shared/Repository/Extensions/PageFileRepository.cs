@@ -3,6 +3,7 @@ using AsapWiki.Shared.Models;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace AsapWiki.Shared.Repository
@@ -11,6 +12,9 @@ namespace AsapWiki.Shared.Repository
     {
         public static PageFile GetPageFileInfoByPageIdAndName(int pageId, string fileName)
         {
+            string cacheKey = $"Page:{pageId}";
+            Singletons.ClearCacheItems(cacheKey);
+
             using (var handler = new SqlConnectionHandler())
             {
                 return handler.Connection.Query<PageFile>("GetPageFileInfoByPageIdAndName",
@@ -24,15 +28,32 @@ namespace AsapWiki.Shared.Repository
 
         public static List<PageFile> GetPageFilesInfoByPageId(int pageId)
         {
+            string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
+            var cacheItem = Singletons.GetCacheItem<List<PageFile>>(cacheKey);
+            if (cacheItem != null)
+            {
+                return cacheItem;
+            }
+
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<PageFile>("GetPageFilesInfoByPageId",
+                cacheItem = handler.Connection.Query<PageFile>("GetPageFilesInfoByPageId",
                     new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+                Singletons.PutCacheItem(cacheKey, cacheItem);
             }
+
+            return cacheItem;
         }
 
         public static void DeletePageFileByPageNavigationAndName(string pageNavigation, string fileName)
         {
+            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
+            if (page != null)
+            {
+                string cacheKey = $"Page:{page.Id}";
+                Singletons.ClearCacheItems(cacheKey);
+            }
+
             using (var handler = new SqlConnectionHandler())
             {
                 handler.Connection.Query<PageFile>("DeletePageFileByPageNavigationAndName",
@@ -59,6 +80,9 @@ namespace AsapWiki.Shared.Repository
 
         public static int UpsertPageFile(PageFile item)
         {
+            string cacheKey = $"Page:{item.PageId}";
+            Singletons.ClearCacheItems(cacheKey);
+
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new

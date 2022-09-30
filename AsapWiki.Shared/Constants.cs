@@ -8,6 +8,11 @@ namespace AsapWiki.Shared
 {
     public static class Constants
     {
+        public enum CacheCategory
+        {
+            Page
+        }
+
         public static class WikiInstruction
         {
             public static string Depreciate = "Depreciate";

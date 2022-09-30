@@ -19,7 +19,7 @@ namespace AsapWiki.Shared.Classes
             PageId = pageId;
             if (pageId != null)
             {
-                ProcessingInstructions = ProcessingInstructionRepository.GetPageProcessingInstructionsByPageId((int)pageId);
+                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId((int)pageId);
             }
             else
             {
