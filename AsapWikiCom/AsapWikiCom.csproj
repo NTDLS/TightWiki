@@ -183,7 +183,7 @@
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Reset.cshtml" />
     <Content Include="Views\User\Signup.cshtml" />
-    <Content Include="Views\User\Profile.cshtml" />
+    <Content Include="Views\User\UserProfile.cshtml" />
     <Content Include="Views\Wiki\Edit.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Tags\Browse.cshtml" />

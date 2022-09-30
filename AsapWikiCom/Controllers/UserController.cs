@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 
 namespace AsapWikiCom.Controllers
@@ -87,7 +88,17 @@ namespace AsapWikiCom.Controllers
         public ActionResult UserProfile()
         {
             Configure();
-            return View();
+
+            var user = UserRepository.GetUserById(context.User.Id);
+
+            var profile = new FormUserProfile()
+            {
+                AccountName = user.AccountName,
+                EmailAddress = user.EmailAddress
+            };
+        
+
+            return View(profile);
         }
 
     }

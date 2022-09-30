@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Classes\HTML.cs" />
     <Compile Include="Classes\Images.cs" />
+    <Compile Include="Models\FormUserProfile.cs" />
     <Compile Include="Wiki\MatchSet.cs" />
     <Compile Include="Wiki\MethodCall\MethodParameters.cs" />
     <Compile Include="Wiki\MethodCall\MethodPrototype.cs" />

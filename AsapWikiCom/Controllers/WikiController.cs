@@ -103,7 +103,7 @@ namespace AsapWikiCom.Controllers
                 return View(new EditPage()
                 {
                     Body = templatePage.Body,
-                    Name = pageName,
+                    Name = pageName.Replace('_', ' '),
                     Navigation = WikiUtility.CleanPartialURI(navigation)
                 });
             }
