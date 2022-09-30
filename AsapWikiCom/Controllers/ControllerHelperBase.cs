@@ -34,6 +34,7 @@ namespace AsapWikiCom.Controllers
             ViewBag.Copyright = config.Where(o => o.Name == "Copyright").FirstOrDefault()?.Value;
             //ViewBag.PageUri = $"{RouteData.Values["controller"]}/{RouteData.Values["action"]}/{RouteData.Values["navigation"]}";
             ViewBag.Navigation = RouteValue("navigation");
+            ViewBag.MenuItems = MenuItemRepository.GetAllMenuItems();
 
             ViewBag.Context = context;
         }

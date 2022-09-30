@@ -16,7 +16,7 @@
 	string projectNamespace = "AsapWiki.Shared.Models";
 	string relativeOutputFilePath = null;
 	string outputPath = "./../AsapWiki.Shared/Models/";
-	List<string> includeTables = new List<string> { };
+	List<string> includeTables = new List<string> { "MenuItem" };
  
 	SqlConnection oneSqlConnection = new SqlConnection(connectionString);
 	ServerConnection oneServerConnection = new ServerConnection(oneSqlConnection);

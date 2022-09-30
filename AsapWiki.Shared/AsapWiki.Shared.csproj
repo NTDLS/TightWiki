@@ -107,6 +107,7 @@
     <Compile Include="Models\Extensions\FormLogin.cs" />
     <Compile Include="Models\Extensions\PageFile.cs" />
     <Compile Include="Models\Extensions\RelatedPage.cs" />
+    <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\PageFile.cs" />
     <Compile Include="Models\PageTag.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="ADO\Singletons.cs" />
     <Compile Include="ADO\SqlConnectionHandler.cs" />
     <Compile Include="Repository\Extensions\ConfigurationEntryRepository.cs" />
+    <Compile Include="Repository\Extensions\MenuItemRepository.cs" />
     <Compile Include="Repository\Extensions\PageFileRepository.cs" />
     <Compile Include="Repository\Extensions\PageRepository.cs" />
     <Compile Include="Repository\Extensions\PageTagRepository.cs" />

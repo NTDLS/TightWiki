@@ -458,18 +458,17 @@ namespace AsapWiki.Shared.Wiki
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4);
+                string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
                 int pipeIndex = keyword.IndexOf("|");
                 if (pipeIndex > 0)
                 {
-                    string linkText = keyword.Substring(pipeIndex + 1);
-
+                    string linkText = keyword.Substring(pipeIndex + 1).Trim();
                     if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
                     {
                         linkText = $"<img {linkText} border =\"0\" > ";
                     }
 
-                    keyword = keyword.Substring(0, pipeIndex);
+                    keyword = keyword.Substring(0, pipeIndex).Trim();
 
                     StoreMatch(pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
                 }
@@ -491,8 +490,8 @@ namespace AsapWiki.Shared.Wiki
                 int pipeIndex = keyword.IndexOf("|");
                 if (pipeIndex > 0)
                 {
-                    explicitLinkText = keyword.Substring(pipeIndex + 1);
-                    keyword = keyword.Substring(0, pipeIndex);
+                    explicitLinkText = keyword.Substring(pipeIndex + 1).Trim();
+                    keyword = keyword.Substring(0, pipeIndex).Trim();
                 }
 
                 string pageName = keyword;

@@ -27,9 +27,25 @@ namespace AsapWikiCom.Controllers
             if (page != null)
             {
                 var wiki = new Wikifier(context, page);
-
+                ViewBag.Context.PageId = page.Id;
                 ViewBag.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
+            }
+            else
+            {
+                var pageName = ConfigurationEntryRepository.Get<string>("Basic", "Page Not Exists Page");
+                navigation = WikiUtility.CleanPartialURI(pageName);
+                page = PageRepository.GetPageByNavigation(navigation);
+
+                var wiki = new Wikifier(context, page);
+                ViewBag.Context.PageId = null; //We do not have a page loaded.
+                ViewBag.Title = page.Name;
+                ViewBag.Body = wiki.ProcessedBody;
+
+                if (context.IsAuthenticated && context.CanCreate)
+                {
+                    ViewBag.CreatePage = true;
+                }
             }
 
             return View();
@@ -56,6 +72,7 @@ namespace AsapWikiCom.Controllers
             {
                 //Editing an existing page.
                 ViewBag.Title = page.Name;
+                ViewBag.Context.PageId = page.Id;
 
                 return View(new EditPage()
                 {
@@ -70,11 +87,18 @@ namespace AsapWikiCom.Controllers
             {
                 var pageName = Request.QueryString["Name"] ?? navigation;
 
-                string newPageTemplate = ConfigurationEntryRepository.Get<string>("Basic", "New Page Template");
+                string templateName = ConfigurationEntryRepository.Get<string>("Basic", "New Page Template");
+                string templateNavigation = WikiUtility.CleanPartialURI(templateName);
+                var templatePage = PageRepository.GetPageByNavigation(templateNavigation);
+
+                if (templatePage == null)
+                {
+                    templatePage = new Page();
+                }
 
                 return View(new EditPage()
                 {
-                    Body = newPageTemplate,
+                    Body = templatePage.Body,
                     Name = pageName,
                     Navigation = WikiUtility.CleanPartialURI(navigation)
                 });
@@ -110,6 +134,7 @@ namespace AsapWikiCom.Controllers
                     };
 
                     page.Id = PageRepository.SavePage(page);
+                    ViewBag.Context.PageId = page.Id;
 
                     var wikifier = new Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
@@ -128,6 +153,7 @@ namespace AsapWikiCom.Controllers
                     page.Name = editPage.Name;
                     page.Navigation = WikiUtility.CleanPartialURI(editPage.Name);
                     page.Description = editPage.Description ?? "";
+                    ViewBag.Context.PageId = editPage.Id;
 
                     PageRepository.SavePage(page);
 

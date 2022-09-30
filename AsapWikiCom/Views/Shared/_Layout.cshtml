@@ -30,23 +30,39 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Services <span class="caret"></span></a>
-                        <ul class="dropdown-menu" aria-labelledby="about-us">
-                            <li><a href="/Home/Browse" class="list-group-item">Browse</a></li>
-                            <li><a href="/Home/Translate" class="list-group-item">Translate</a></li>
-                            <li><a href="/Home/SoundsLikeSoundEx" class="list-group-item">Sounds Like (SoundEx)</a></li>
-                            <li><a href="/Home/SoundsLikeMetaphone" class="list-group-item">Sounds Like (Metaphone)</a></li>
-                            <li><a href="/Home/SoundsLikeDoubleMetaphone" class="list-group-item">Sounds Like (Double-Metaphone)</a></li>
-                            <li><a href="/Home/Synonyms" class="list-group-item">Synonyms</a></li>
-                        </ul>
-                    </li>
 
-                    <!--<li class="active"><a href="/Wiki/Edit/@ViewBag.Navigation">Edit</a></li>-->
-                    <li><a href="/Wiki/Edit/@ViewBag.Navigation">Edit</a></li>
+                    @foreach (AsapWiki.Shared.Models.MenuItem item in ViewBag.MenuItems)
+                    {
+                        <li><a href="@item.Link">@item.Name</a></li>
+                    }
+
+                    @if (@ViewBag.Context?.IsPageLoaded == true && @ViewBag.Context?.CanEdit == true)
+                    {
+                        <li><a href="/Wiki/Edit/@ViewBag.Navigation">Edit</a></li>
+                    }
+
+                    @if (@ViewBag.CreatePage == true)
+                    {
+                        <li><a href="/Wiki/Edit/@ViewBag.Navigation">Create</a></li>
+                    }
+
+                    @if (@ViewBag?.Context?.IsAuthenticated == true)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Profile <span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="about-us">
+                                <li><a href="/User/Profile" class="list-group-item">Profile</a></li>
+                                <li><a href="/User/ChangePassword" class="list-group-item">Change Password</a></li>
+                                <li><a href="/User/Logout" class="list-group-item">Logout</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (@ViewBag?.Context?.IsAuthenticated == false)
+                    {
+                        <li><a href="/User/Login">Login</a></li>
+                    }
+
                 </ul>
             </div>
         </div>

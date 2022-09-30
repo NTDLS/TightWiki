@@ -8,9 +8,10 @@ namespace AsapWiki.Shared.Classes
         public bool IsAuthenticated { get; set; }
         public User User { get; set; }
         public List<string> Roles { get; set; }
+        public int? PageId { get; set; } = null;
 
-        public bool CanView =>
-            true;
+        public bool IsPageLoaded => ((PageId ?? 0) > 0);
+        public bool CanView => true;
 
         public bool CanEdit =>
             IsAuthenticated
@@ -19,13 +20,13 @@ namespace AsapWiki.Shared.Classes
                 || Roles.Contains(Constants.Roles.Moderator));
 
         public bool CanCreate =>
-            IsAuthenticated
+            IsAuthenticated && CanEdit
                 && (Roles.Contains(Constants.Roles.Administrator)
                 || Roles.Contains(Constants.Roles.Contributor)
                 || Roles.Contains(Constants.Roles.Moderator));
 
         public bool CanDelete =>
-            IsAuthenticated
+            IsAuthenticated && CanCreate
                 && (Roles.Contains(Constants.Roles.Administrator)
                 || Roles.Contains(Constants.Roles.Moderator));
     }
