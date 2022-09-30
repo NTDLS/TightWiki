@@ -2,6 +2,7 @@
 using AsapWiki.Shared.Repository;
 using AsapWiki.Shared.Wiki;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -26,20 +27,22 @@ namespace AsapWikiCom.Controllers
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
             {
+                context.SetPageId(page.Id);
+
                 var wiki = new Wikifier(context, page);
-                ViewBag.Context.PageId = page.Id;
                 ViewBag.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
             }
             else
             {
-                var pageName = ConfigurationEntryRepository.Get<string>("Basic", "Page Not Exists Page");
-                navigation = WikiUtility.CleanPartialURI(pageName);
-                page = PageRepository.GetPageByNavigation(navigation);
+                var notExistPageName = ConfigurationEntryRepository.Get<string>("Basic", "Page Not Exists Page");
+                string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
+                var notExistsPage = PageRepository.GetPageByNavigation(notExistPageNavigation);
 
-                var wiki = new Wikifier(context, page);
-                ViewBag.Context.PageId = null; //We do not have a page loaded.
-                ViewBag.Title = page.Name;
+                context.SetPageId(null);
+
+                var wiki = new Wikifier(context, notExistsPage);
+                ViewBag.Title = notExistsPage.Name;
                 ViewBag.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
@@ -70,9 +73,10 @@ namespace AsapWikiCom.Controllers
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
             {
+                context.SetPageId(page.Id);
+
                 //Editing an existing page.
                 ViewBag.Title = page.Name;
-                ViewBag.Context.PageId = page.Id;
 
                 return View(new EditPage()
                 {
@@ -134,13 +138,14 @@ namespace AsapWikiCom.Controllers
                     };
 
                     page.Id = PageRepository.SavePage(page);
-                    ViewBag.Context.PageId = page.Id;
 
                     var wikifier = new Wikifier(context, page);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
                     PageRepository.SavePageTokens(pageTokens);
+
+                    context.SetPageId(page.Id);
 
                     return RedirectToAction("Edit", "Wiki", new { navigation = page.Navigation });
                 }
@@ -153,7 +158,6 @@ namespace AsapWikiCom.Controllers
                     page.Name = editPage.Name;
                     page.Navigation = WikiUtility.CleanPartialURI(editPage.Name);
                     page.Description = editPage.Description ?? "";
-                    ViewBag.Context.PageId = editPage.Id;
 
                     PageRepository.SavePage(page);
 
@@ -162,6 +166,8 @@ namespace AsapWikiCom.Controllers
                     ProcessingInstructionRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
                     PageRepository.SavePageTokens(pageTokens);
+
+                    context.SetPageId(page.Id);
 
                     return View(new EditPage()
                     {

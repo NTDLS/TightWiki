@@ -11,6 +11,7 @@ namespace AsapWiki.Shared
         public static class WikiInstruction
         {
             public static string Depreciate = "Depreciate";
+            public static string Protect = "Protect";
             public static string Template = "Template";
             public static string Review = "Review";
             public static string Include = "Include";

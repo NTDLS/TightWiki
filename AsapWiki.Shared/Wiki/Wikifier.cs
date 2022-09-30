@@ -604,19 +604,41 @@ namespace AsapWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformProcessingInstructions(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\@\@\w+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\@\@[\w-]+\(\))|(\@\@[\w-]+\(.*?\))|(\@\@[\w-]+)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 2).Trim();
+                MethodCallInstance method;
 
-                switch (keyword.ToLower())
+                try
+                {
+                    method = Singletons.ParseMethodCallInfo(match, out int matchEndIndex);
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
+                    continue;
+                }
+
+                switch (method.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "depreciate":
                         ProcessingInstructions.Add(WikiInstruction.Depreciate);
                         pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
                         StoreMatch(pageContent, match.Value, "");
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "protect":
+                        {
+                            bool isSilent = method.Parameters.Get<bool>("isSilent");
+                            ProcessingInstructions.Add(WikiInstruction.Protect);
+                            if (isSilent == false)
+                            {
+                                pageContent.Insert(0, "<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
+                            }
+                            StoreMatch(pageContent, match.Value, "");
+                        }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "template":

@@ -179,7 +179,6 @@ namespace AsapWikiCom.Controllers
             string scale = Request.QueryString["Scale"] ?? "100";
 
             var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, imageName);
-
             if (file != null)
             {
                 var img = System.Drawing.Image.FromStream(new MemoryStream(file.Data));

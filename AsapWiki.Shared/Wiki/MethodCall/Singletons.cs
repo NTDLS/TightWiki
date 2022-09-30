@@ -40,6 +40,12 @@ namespace AsapWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("Created:");
                     _methodPrototypes.Add("LastModified:");
                     _methodPrototypes.Add("Files:");
+                    _methodPrototypes.Add("Depreciate:");
+                    _methodPrototypes.Add("Protect:<bool>{isSilent}='false'");
+                    _methodPrototypes.Add("Remplate:");
+                    _methodPrototypes.Add("Review:");
+                    _methodPrototypes.Add("Include:");
+                    _methodPrototypes.Add("Draft:");
                 }
 
                 return _methodPrototypes;
