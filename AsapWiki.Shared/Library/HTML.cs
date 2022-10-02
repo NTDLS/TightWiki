@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace AsapWiki.Shared.Classes
+namespace AsapWiki.Shared.Library
 {
     public static class HTML
     {

@@ -1,5 +1,5 @@
 using AsapWiki.Shared.ADO;
-using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Library;
 using AsapWiki.Shared.Models;
 using Dapper;
 using System.Collections.Generic;

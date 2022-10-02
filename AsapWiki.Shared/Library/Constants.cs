@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AsapWiki.Shared
+﻿namespace AsapWiki.Shared.Library
 {
     public static class Constants
     {
-        public enum CacheCategory
-        {
-            Page
-        }
-
         public static class WikiInstruction
         {
             public static string Depreciate = "Depreciate";

@@ -2,9 +2,9 @@
 using AsapWiki.Shared.Repository;
 using System.Collections.Generic;
 using System.Linq;
-using static AsapWiki.Shared.Constants;
+using static AsapWiki.Shared.Library.Constants;
 
-namespace AsapWiki.Shared.Classes
+namespace AsapWiki.Shared.Library
 {
     public class StateContext
     {

@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Library;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 

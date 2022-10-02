@@ -15,8 +15,8 @@
 	string databaseName = "AsapWiki";
 	string projectNamespace = "AsapWiki.Shared.Models";
 	string relativeOutputFilePath = null;
-	string outputPath = "./../AsapWiki.Shared/Models/";
-	List<string> includeTables = new List<string> { "MenuItem" };
+	string outputPath = "./../AsapWiki.Shared/Models/Data/";
+	List<string> includeTables = new List<string> { };
  
 	SqlConnection oneSqlConnection = new SqlConnection(connectionString);
 	ServerConnection oneServerConnection = new ServerConnection(oneSqlConnection);
@@ -32,7 +32,7 @@ using System.Runtime.Serialization;
 
 namespace <#= projectNamespace #>
 {
-	public partial class <#= oneTable.Name #> : BaseModel
+	public partial class <#= oneTable.Name #>
 	{
 		#region Properties
 		<#

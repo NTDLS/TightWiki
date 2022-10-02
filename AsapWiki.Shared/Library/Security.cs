@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace AsapWiki.Shared.Classes
+namespace AsapWiki.Shared.Library
 {
     public static class Security
     {

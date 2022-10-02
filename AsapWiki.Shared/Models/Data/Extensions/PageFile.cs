@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace AsapWiki.Shared.Models
 {
-	public partial class PageFile : BaseModel
+	public partial class PageFile
 	{
 		public string FriendlySize
 		{

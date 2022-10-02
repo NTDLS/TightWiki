@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using AsapWiki.Shared.Classes;
+using AsapWiki.Shared.Library;
 using AsapWiki.Shared.Wiki;
 
 namespace AsapWikiCom.Controllers

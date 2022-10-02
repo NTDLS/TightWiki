@@ -71,7 +71,7 @@ namespace AsapWiki.Shared.Repository
 
 		public static User GetUserByEmailAndPassword(string emailAddress, string password)
 		{
-			string passwordHash = Classes.Security.Sha256(password);
+			string passwordHash = Library.Security.Sha256(password);
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new

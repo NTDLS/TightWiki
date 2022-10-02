@@ -44,23 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ADODALClasses.cs">
-      <DependentUpon>ADODALClasses.tt</DependentUpon>
+    <Compile Include="ADORepository.cs">
+      <DependentUpon>ADORepository.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ADODALProcedures.cs">
-      <DependentUpon>ADODALProcedures.tt</DependentUpon>
+    <Compile Include="ADOProcedures.cs">
+      <DependentUpon>ADOProcedures.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ModelClasses.cs">
-      <DependentUpon>ModelClasses.tt</DependentUpon>
+      <DependentUpon>ADOModels.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="ModelClasses1.cs">
-      <DependentUpon>ModelClasses.tt</DependentUpon>
+    <Compile Include="ADOModels.cs">
+      <DependentUpon>ADOModels.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -71,17 +71,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ADODALClasses.tt">
+    <Content Include="ADORepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ADODALClasses.cs</LastGenOutput>
+      <LastGenOutput>ADORepository.cs</LastGenOutput>
     </Content>
-    <Content Include="ADODALProcedures.tt">
+    <Content Include="ADOProcedures.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ADODALProcedures.cs</LastGenOutput>
+      <LastGenOutput>ADOProcedures.cs</LastGenOutput>
     </Content>
-    <Content Include="ModelClasses.tt">
+    <Content Include="ADOModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelClasses1.cs</LastGenOutput>
+      <LastGenOutput>ADOModels.cs</LastGenOutput>
     </Content>
     <Content Include="Procedures\Repository.sql" />
   </ItemGroup>

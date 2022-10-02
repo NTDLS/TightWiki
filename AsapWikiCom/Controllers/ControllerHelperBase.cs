@@ -1,4 +1,4 @@
-﻿using AsapWiki.Shared.Classes;
+﻿using AsapWiki.Shared.Library;
 using AsapWiki.Shared.Repository;
 using System;
 using System.IO;

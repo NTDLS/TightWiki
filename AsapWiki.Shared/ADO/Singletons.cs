@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Runtime.Caching;
-using static AsapWiki.Shared.Constants;
 
 namespace AsapWiki.Shared.ADO
 {
@@ -58,11 +57,6 @@ namespace AsapWiki.Shared.ADO
             {
                 Cache.Remove(key);
             }
-        }
-
-        public static void ClearCacheItem(CacheCategory category, string key)
-        {
-            Cache.Remove(key);
         }
     }
 }

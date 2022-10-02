@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace AsapWiki.Shared.Models
 {
-	public partial class PageTag : BaseModel
+	public partial class PageTag
 	{
 		#region Properties
 		

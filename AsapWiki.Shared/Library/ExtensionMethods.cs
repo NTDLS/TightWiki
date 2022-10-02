@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 
-namespace AsapWiki.Shared
+namespace AsapWiki.Shared.Library
 {
     public static class ExtensionMethods
     {

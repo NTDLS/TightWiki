@@ -1,4 +1,4 @@
-﻿using AsapWiki.Shared.Classes;
+﻿using AsapWiki.Shared.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace AsapWiki.Shared.Models
 {
-	public partial class User : BaseModel
+	public partial class User
 	{
 		#region Properties
 		

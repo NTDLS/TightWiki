@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace AsapWiki.Shared.Models
 {
-    public partial class Page : BaseModel
+    public partial class Page
     {
         public int TokenWeight { get; set; }
     }

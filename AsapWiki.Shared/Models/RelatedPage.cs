@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace AsapWiki.Shared.Models
 {
-	public partial class RelatedPage : BaseModel
+	public partial class RelatedPage
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace AsapWiki.Shared.Models
 {
-	public partial class ProcessingInstruction : BaseModel
+	public partial class ProcessingInstruction
 	{
 		#region Properties
 

@@ -1,4 +1,4 @@
-﻿using AsapWiki.Shared.Classes;
+﻿using AsapWiki.Shared.Library;
 using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 using AsapWiki.Shared.Wiki.MethodCall;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using static AsapWiki.Shared.Constants;
+using static AsapWiki.Shared.Library.Constants;
 
 namespace AsapWiki.Shared.Wiki
 {

@@ -2,7 +2,7 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace AsapWiki.Shared.Classes
+namespace AsapWiki.Shared.Library
 {
     public static class Images
     {

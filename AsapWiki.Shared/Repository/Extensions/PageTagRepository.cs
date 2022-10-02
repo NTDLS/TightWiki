@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-	public static partial class PageTagRepository
+    public static partial class PageTagRepository
 	{
 		public static List<TagAssociation> GetAssociatedTags(string tag)
 		{

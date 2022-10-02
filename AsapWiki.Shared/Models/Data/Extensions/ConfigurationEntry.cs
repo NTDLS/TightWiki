@@ -1,4 +1,4 @@
-﻿using AsapWiki.Shared.Classes;
+﻿using AsapWiki.Shared.Library;
 
 namespace AsapWiki.Shared.Models
 {
