@@ -20,7 +20,7 @@
     string watermarkString= "AsapWiki-ADODAL-Procedures";
 	string relativeOutputFilePath = null;
 	string objectPrefix = "";
-	List<string> includeTables = new List<string>{ "MenuItem" };
+	List<string> includeTables = new List<string>{ };
 	
 	SqlConnection oneSqlConnection = new SqlConnection(connectionString);
 	ServerConnection oneServerConnection = new ServerConnection(oneSqlConnection);

@@ -46,7 +46,7 @@
 </script>
 
 <div class="jumbotron">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationSummary(false, "", new { @class = "alert alert-warning" })
 
     <table border="0" width="100%" cellpadding="5">
         <tbody>
@@ -96,7 +96,7 @@
                             </tr>
                         </table>
                     }
-                    
+
                     @if (Model?.Id > 0 && @ViewBag.Context?.CanCreate == true)
                     {
                         <iframe src="/File/Upload/@ViewBag.Navigation" align="left" width="500" frameBorder="0" />

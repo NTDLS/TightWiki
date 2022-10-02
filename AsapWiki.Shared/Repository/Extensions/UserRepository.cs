@@ -50,9 +50,9 @@ namespace AsapWiki.Shared.Repository
 			return cacheItem;
 		}
 
-		public static User GetUserByAccountName(string accountName)
+		public static User GetUserByNavigation(string navigation)
 		{
-			string cacheKey = $"User:{accountName}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
+			string cacheKey = $"User:{navigation}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
 			var cacheItem = Singletons.GetCacheItem<User>(cacheKey);
 			if (cacheItem != null)
 			{
@@ -61,8 +61,8 @@ namespace AsapWiki.Shared.Repository
 
 			using (var handler = new SqlConnectionHandler())
 			{
-				cacheItem = handler.Connection.Query<User>("GetUserByAccountName",
-					new { AccountName = accountName }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+				cacheItem = handler.Connection.Query<User>("GetUserByNavigation",
+					new { Navigation = navigation }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
 
@@ -85,7 +85,6 @@ namespace AsapWiki.Shared.Repository
 			}
 		}
 
-
 		public static void UpdateUserAvatar(int userId, byte[] imageData)
 		{
 			Singletons.ClearCacheItems($"User:{userId}");
@@ -99,6 +98,42 @@ namespace AsapWiki.Shared.Repository
 				};
 
 				handler.Connection.Execute("UpdateUserAvatar",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+			}
+		}
+
+		public static byte[] GetUserAvatarBynavigation(string navigation)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.Query<byte[]>("GetUserAvatarBynavigation",
+					new
+					{
+						Navigation = navigation
+					}, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
+		public static void UpdateUser(User item)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					Id = item.Id,
+					EmailAddress = item.EmailAddress,
+					AccountName = item.AccountName,
+					Navigation = item.Navigation,
+					PasswordHash = item.PasswordHash,
+					FirstName = item.FirstName,
+					LastName = item.LastName,
+					TimeZone = item.TimeZone,
+					Country = item.Country,
+					AboutMe = item.AboutMe,
+					ModifiedDate = item.ModifiedDate
+				};
+
+				handler.Connection.Execute("UpdateUser",
 					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
 			}
 		}

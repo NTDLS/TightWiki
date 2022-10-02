@@ -67,7 +67,7 @@ namespace AsapWikiCom.Controllers
         {
             string guestAccount = ConfigurationEntryRepository.Get<string>("Membership", "Guest Account");
 
-            var user = UserRepository.GetUserByAccountName(guestAccount);
+            var user = UserRepository.GetUserByNavigation(guestAccount);
             if (user != null)
             {
                 FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);

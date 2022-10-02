@@ -80,6 +80,13 @@ namespace AsapWikiCom
                 url: "{controller}/{action}",
                 defaults: new { controller = "Wiki", action = "Login" }
             );
+
+            routes.MapRoute(
+                name: "User_Avatar",
+                url: "User/Avatar/{UserAccountName}",
+                defaults: new { controller = "User", action = "Avatar" }
+            );
+
         }
     }
 }

@@ -4,6 +4,8 @@ namespace AsapWiki.Shared.Models
 {
     public class FormUserProfile
     {
+        public int Id { get; set; }
+
         [Required]
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
@@ -11,6 +13,8 @@ namespace AsapWiki.Shared.Models
         [Required]
         [Display(Name = "Display Name")]
         public string AccountName { get; set; }
+
+        public string Navigation { get; set; }
 
         [Required]
         [Display(Name = "First Name")]
@@ -28,14 +32,10 @@ namespace AsapWiki.Shared.Models
         [Display(Name = "Country")]
         public string Country { get; set; }
 
-        [Required]
-        [Display(Name = "AboutMe")]
+        [Display(Name = "Personal Bio")]
         public string AboutMe { get; set; }
 
-        [Required]
         [Display(Name = "Avatar")]
         public byte[] Avatar { get; set; }
-
-
     }
 }

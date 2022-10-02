@@ -17,7 +17,7 @@
 	string adoConnectionString = "Singletons.MetaConnectionString.ToString()";
 	string objectPrefix = "";
 	string outputPath = "./../AsapWiki.Shared/Repository/";
-	List<string> includeTables = new List<string> { "MenuItem" };
+	List<string> includeTables = new List<string> {  };
 
 	string relativeOutputFilePath = null;
 	System.Text.StringBuilder paramList = new System.Text.StringBuilder();

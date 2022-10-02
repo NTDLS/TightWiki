@@ -132,6 +132,8 @@ namespace AsapWiki.Shared.Wiki
 
         public static string CleanPartialURI(string url)
         {
+            if (url == null) return null;
+
             var sb = new StringBuilder();
 
             url = url.Replace('\\', '/');
