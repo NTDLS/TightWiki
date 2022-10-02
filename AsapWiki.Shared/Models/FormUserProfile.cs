@@ -13,14 +13,29 @@ namespace AsapWiki.Shared.Models
         public string AccountName { get; set; }
 
         [Required]
-        [Display(Name = "Password")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Must have a minimum length of 5.")]
-        public string Password { get; set; }
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Re-enter Password")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "Must have a minimum length of 5.")]
-        [Compare("Password", ErrorMessage = "The two entered passwords do not match.")]
-        public string ComparePassword { get; set; }
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Time Zone")]
+        public string TimeZone { get; set; }
+
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Required]
+        [Display(Name = "AboutMe")]
+        public string AboutMe { get; set; }
+
+        [Required]
+        [Display(Name = "Avatar")]
+        public byte[] Avatar { get; set; }
+
+
     }
 }

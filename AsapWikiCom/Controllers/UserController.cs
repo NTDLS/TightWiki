@@ -85,6 +85,7 @@ namespace AsapWikiCom.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public ActionResult UserProfile()
         {
             Configure();
@@ -96,7 +97,27 @@ namespace AsapWikiCom.Controllers
                 AccountName = user.AccountName,
                 EmailAddress = user.EmailAddress
             };
-        
+
+
+            return View(profile);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult UserProfile([Bind(Exclude = "Avatar")] FormUserProfile profile)
+        {
+            Configure();
+            var user = UserRepository.GetUserById(context.User.Id);
+
+            HttpPostedFileBase file = Request.Files["Avtar"];
+            if (file != null)
+            {
+                UserRepository.UpdateUserAvatar(user.Id, ConvertToBytes(file));
+
+            }
+
+
+
 
             return View(profile);
         }

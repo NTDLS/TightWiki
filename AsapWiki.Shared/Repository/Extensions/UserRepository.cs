@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-    public static partial class UserRepository
+	public static partial class UserRepository
 	{
 		public static List<Role> GetUserRolesByUserId(int userID)
 		{
@@ -42,7 +42,7 @@ namespace AsapWiki.Shared.Repository
 
 			using (var handler = new SqlConnectionHandler())
 			{
-				cacheItem =  handler.Connection.Query<User>("GetUserById",
+				cacheItem = handler.Connection.Query<User>("GetUserById",
 					new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
@@ -82,6 +82,24 @@ namespace AsapWiki.Shared.Repository
 
 				return handler.Connection.Query<User>("GetUserByEmailAndPasswordHash",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
+
+		public static void UpdateUserAvatar(int userId, byte[] imageData)
+		{
+			Singletons.ClearCacheItems($"User:{userId}");
+
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					UserId = userId,
+					Avatar = imageData,
+				};
+
+				handler.Connection.Execute("UpdateUserAvatar",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
 			}
 		}
 	}
