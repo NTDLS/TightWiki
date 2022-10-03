@@ -13,9 +13,9 @@
 </style>
 
 <div class="jumbotron">
-    <h2>User account profile</h2>
+    <h2>Wiki configuration</h2>
     <font size="4" face="ARIAL,HELVETICA">
-        This is your user profile, do with it what you may.<br /><br />
+        Global configuration values for the wiki, its functionality, behavior, formatting and branding.<br /><br />
     </font>
 
     @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -41,65 +41,65 @@
                     {
                         @Html.AntiForgeryToken()
 
-                <table border="1" width="100%">
+                        <table border="0" width="100%">
 
-                    @foreach (var group in Model.Nest)
-                    {
-                        <tr>
-                            <td width="200"><strong>@group.Name</strong></td>
-                        </tr>
+                            @foreach (var group in Model.Nest)
+                            {
+                                <tr>
+                                    <td width="200">
 
-                        <tr>
-                            <td width="200">
-                                <table border="1" width="100%">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h2>@group.Name</h2>@group.Description</div>
+                                            <div class="panel-body">
 
-                                    @foreach (var entry in group.Entries)
-                                    {
-                                        <tr class="padded">
-                                            <td width="200">
-                                                @entry.Name
-                                            </td>
-                                        </tr>
-                                        <tr class="padded">
-                                            <td width="200">
+                                                <table border="0" width="100%">
 
-                                                @if (@entry.DataType == "string")
-                                                {
-                                                    @:<input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
-                                                }
-                                                else if (@entry.DataType == "int")
-                                                {
-                                                    @:<input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
-                                                    <br />
-                                                }
-                                                else if (@entry.DataType == "boolean")
-                                                {
-                                                    <label for="html">Yes</label>
-                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "")  />
+                                                    @foreach (var entry in group.Entries)
+                                                    {
+                                                        <tr class="padded">
+                                                            <td width="200">
+                                                                <strong>@entry.Name</strong><br />
+                                                                @entry.Description<br />
 
-                                                    <label for="html">No</label>
-                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="0"  @(entry.Value == "0" ? "checked=\"checked\"" : "") />
-                                                }
-                                            </td>
-                                        </tr>
-                                    }
+                                                                @if (@entry.DataType == "string")
+                                                                {
+                                                                    @:<input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                }
+                                                                else if (@entry.DataType == "int")
+                                                                {
+                                                                    @:<input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                    <br />
+                                                                }
+                                                                else if (@entry.DataType == "boolean")
+                                                                {
+                                                                    <label for="html">Yes</label>
+                                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "") />
+                                                                    @:&nbsp; &nbsp;
+                                                                    <label for="html">No</label>
+                                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="0" @(entry.Value == "0" ? "checked=\"checked\"" : "") />
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    }
 
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><br /></td>
-                        </tr>
+                                                </table>
 
-                    }
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><br /></td>
+                                </tr>
 
-                    <tr class="padded">
-                        <td>
-                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                        </td>
-                    </tr>
-                </table>
+                            }
 
+                            <tr class="padded">
+                                <td>
+                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                                </td>
+                            </tr>
+                        </table>
                     }
                 </td>
             </tr>
