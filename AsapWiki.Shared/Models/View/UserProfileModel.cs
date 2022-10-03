@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AsapWiki.Shared.Models
+namespace AsapWiki.Shared.Models.View
 {
-    public class FormUserProfile
+    public class UserProfileModel
     {
         public int Id { get; set; }
 

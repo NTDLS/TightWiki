@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AsapWiki.Shared.Library;
-using AsapWiki.Shared.Models;
+using AsapWiki.Shared.Models.View;
 using AsapWiki.Shared.Repository;
 using AsapWiki.Shared.Wiki;
 
@@ -33,7 +33,7 @@ namespace AsapWikiCom.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Login(FormLogin user)
+        public ActionResult Login(LoginModel user)
         {
             if (ModelState.IsValid)
             {
@@ -88,7 +88,7 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Signup()
         {
-            if (ConfigurationEntryRepository.Get("Membership", "Allow Signup", false) == false)
+            if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -104,9 +104,9 @@ namespace AsapWikiCom.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Signup(FormSignup user)
+        public ActionResult Signup(SignupModel user)
         {
-            if (ConfigurationEntryRepository.Get("Membership", "Allow Signup", false) == false)
+            if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -268,7 +268,7 @@ namespace AsapWikiCom.Controllers
 
             var user = UserRepository.GetUserById(context.User.Id);
 
-            var profile = new FormUserProfile()
+            var profile = new UserProfileModel()
             {
                 AccountName = user.AccountName,
                 EmailAddress = user.EmailAddress,
@@ -293,7 +293,7 @@ namespace AsapWikiCom.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public ActionResult UserProfile([Bind(Exclude = "Avatar")] FormUserProfile profile)
+        public ActionResult UserProfile([Bind(Exclude = "Avatar")] UserProfileModel profile)
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();

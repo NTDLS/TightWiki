@@ -23,7 +23,7 @@ namespace AsapWikiCom.Controllers
         {
             HydrateSecurityContext();
 
-            var config = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            var config = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             ViewBag.Title = ViewBag.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             ViewBag.BrandImageSmall = ViewBag.Copyright = config.Where(o => o.Name == "Brand Image (Small)").FirstOrDefault()?.Value;
             ViewBag.Name = config.Where(o => o.Name == "Name").FirstOrDefault()?.Value;
@@ -55,7 +55,7 @@ namespace AsapWikiCom.Controllers
                     context.User = UserRepository.GetUserById(int.Parse(principal.Identity.Name));
                 }
             }
-            else if (ConfigurationEntryRepository.Get("Membership", "Allow Guest", false))
+            else if (ConfigurationRepository.Get("Membership", "Allow Guest", false))
             {
                 PerformGuestLogin();
             }
@@ -63,7 +63,7 @@ namespace AsapWikiCom.Controllers
 
         public bool PerformGuestLogin()
         {
-            var guestAccount = ConfigurationEntryRepository.Get<string>("Membership", "Guest Account");
+            var guestAccount = ConfigurationRepository.Get<string>("Membership", "Guest Account");
 
             var user = UserRepository.GetUserByNavigation(guestAccount);
             if (user != null)
@@ -96,7 +96,7 @@ namespace AsapWikiCom.Controllers
 
         public void PerformLogin(string emailAddress, string password)
         {
-            var requireEmailVerification = ConfigurationEntryRepository.Get<bool>("Membership", "Require Email Verification");
+            var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Require Email Verification");
 
             var user = UserRepository.GetUserByEmailAndPassword(emailAddress, password);
             if (user != null)

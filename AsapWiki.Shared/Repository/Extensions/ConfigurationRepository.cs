@@ -9,8 +9,66 @@ using System.Linq;
 
 namespace AsapWiki.Shared.Repository
 {
-    public static partial class ConfigurationEntryRepository
+    public static partial class ConfigurationRepository
 	{
+		public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					GroupName = groupName,
+					EntryName = entryName,
+					Value = value
+				};
+
+				handler.Connection.Execute("SaveConfigurationEntryValueByGroupAndEntry",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+			}
+		}
+
+		public static List<ConfigurationNest> GetConfigurationNest()
+		{
+			var result = new List<ConfigurationNest>();
+			var flatConfig = GetFlatConfiguration();
+
+			var groups = flatConfig.GroupBy(o => o.GroupId).OrderBy(o => o.Key).ToList();
+			foreach (var group in groups)
+			{
+				var nest = new ConfigurationNest
+				{
+					Id = group.Key,
+					Name = group.Select(o => o.GroupName).First(),
+					Description = group.Select(o => o.GroupDescription).First()
+				};
+
+				foreach (var value in group.OrderBy(o => o.EntryName))
+				{
+					nest.Entries.Add(new ConfigurationEntry()
+					{
+						Id = value.EntryId,
+						Value = value.EntryValue,
+						Description = value.EntryDescription,
+						Name = value.EntryName,
+						DataType = value.DataType.ToLower(),
+						ConfigurationGroupId = group.Key,
+					});
+				}
+				result.Add(nest);
+			}
+
+			return result;
+		}
+
+		public static List<ConfigurationFlat> GetFlatConfiguration()
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.Query<ConfigurationFlat>("GetFlatConfiguration",
+					null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+			}
+		}
+
 		public static List<ConfigurationEntry> GetConfigurationEntryValuesByGroupName(string groupName)
 		{
 			string cacheKey = $"Configuration:{groupName}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";

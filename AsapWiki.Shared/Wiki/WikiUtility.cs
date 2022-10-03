@@ -185,7 +185,7 @@ namespace AsapWiki.Shared.Wiki
 
         public static List<WeightedToken> ParsePageTokens(string contentBody)
         {
-            var exclusionWords = ConfigurationEntryRepository.Get<string>("Search", "Word Exclusions")
+            var exclusionWords = ConfigurationRepository.Get<string>("Search", "Word Exclusions")
                 .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
 
             var htmlFree = HTML.StripHtml(contentBody).ToLower();

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AsapWiki.Shared.Models
+namespace AsapWiki.Shared.Models.View
 {
-    public class FormLogin
+    public class LoginModel
 	{
         [Required]
         [Display(Name = "Email Address")]

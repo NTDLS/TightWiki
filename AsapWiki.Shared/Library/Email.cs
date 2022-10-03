@@ -10,7 +10,7 @@ namespace AsapWiki.Shared.Library
     {
         public static void SendEmail(string emailAddress, string subject, string htmlBody)
         {
-            var values = ConfigurationEntryRepository.GetConfigurationEntryValuesByGroupName("Email");
+            var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Email");
 
             string smtpPassword = values.Where(o => o.Name == "SMTP.Password").FirstOrDefault().Value;
             string smtpUsername = values.Where(o => o.Name == "SMTP.Username").FirstOrDefault().Value;

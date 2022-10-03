@@ -1,8 +1,8 @@
 ﻿using System.Web.Mvc;
 
-namespace AsapWiki.Shared.Models
+namespace AsapWiki.Shared.Models.View
 {
-    public class EditPage
+    public class EditPageModel
     {
 		public int Id { get; set; }
 		public string Name { get; set; }

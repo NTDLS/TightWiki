@@ -1,0 +1,108 @@
+﻿@model AsapWiki.Shared.Models.View.ConfigurationModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<div class="jumbotron">
+    <h2>User account profile</h2>
+    <font size="4" face="ARIAL,HELVETICA">
+        This is your user profile, do with it what you may.<br /><br />
+    </font>
+
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
+    <table border="0" width="600" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="center">
+
+                    @if (ViewBag.Warninig != null)
+                    {
+                        <div class="alert alert-warning">@ViewBag.Warninig</div>
+                    }
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.Success</div>
+                    }
+
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                <table border="1" width="100%">
+
+                    @foreach (var group in Model.Nest)
+                    {
+                        <tr>
+                            <td width="200"><strong>@group.Name</strong></td>
+                        </tr>
+
+                        <tr>
+                            <td width="200">
+                                <table border="1" width="100%">
+
+                                    @foreach (var entry in group.Entries)
+                                    {
+                                        <tr class="padded">
+                                            <td width="200">
+                                                @entry.Name
+                                            </td>
+                                        </tr>
+                                        <tr class="padded">
+                                            <td width="200">
+
+                                                @if (@entry.DataType == "string")
+                                                {
+                                                    @:<input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                }
+                                                else if (@entry.DataType == "int")
+                                                {
+                                                    @:<input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                    <br />
+                                                }
+                                                else if (@entry.DataType == "boolean")
+                                                {
+                                                    <label for="html">Yes</label>
+                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "")  />
+
+                                                    <label for="html">No</label>
+                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="0"  @(entry.Value == "0" ? "checked=\"checked\"" : "") />
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><br /></td>
+                        </tr>
+
+                    }
+
+                    <tr class="padded">
+                        <td>
+                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                        </td>
+                    </tr>
+                </table>
+
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

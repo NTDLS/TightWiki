@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AsapWiki.Shared.Models
+namespace AsapWiki.Shared.Models.View
 {
-    public class FormForgot
+    public class ForgotModel
     {
         [Required]
         [Display(Name = "Email Address")]

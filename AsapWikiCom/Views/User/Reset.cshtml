@@ -1,4 +1,4 @@
-﻿@model AsapWiki.Shared.Models.FormReset
+﻿@model AsapWiki.Shared.Models.View.ResetModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -22,7 +22,6 @@
     {
         @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
     }
-
 
     <table border="0" width="400" cellpadding="5">
         <tbody>

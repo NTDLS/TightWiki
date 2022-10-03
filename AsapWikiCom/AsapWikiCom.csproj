@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ControllerHelperBase.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -187,6 +188,7 @@
     <Content Include="Views\Wiki\Edit.cshtml" />
     <Content Include="Views\File\Upload.cshtml" />
     <Content Include="Views\Tags\Browse.cshtml" />
+    <Content Include="Views\Admin\Config.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

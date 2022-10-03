@@ -18,5 +18,7 @@ namespace AsapWiki.Shared.Models
 
             return Utility.ConvertTo<T>(Value);
         }
+
+        public string DataType { get; set; }
     }
 }

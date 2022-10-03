@@ -1,16 +1,16 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AsapWiki.Shared.Models
+namespace AsapWiki.Shared.Models.View
 {
-    public class FormReset
+    public class SignupModel
     {
         [Required]
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
 
         [Required]
-        [Display(Name = "Temp Code")]
-        public string TempCode { get; set; }
+        [Display(Name = "Display Name")]
+        public string AccountName { get; set; }
 
         [Required]
         [Display(Name = "Password")]

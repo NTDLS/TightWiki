@@ -1,4 +1,5 @@
-﻿using AsapWiki.Shared.Models;
+﻿using AsapWiki.Shared.Models.View;
+using AsapWiki.Shared.Models;
 using AsapWiki.Shared.Repository;
 using AsapWiki.Shared.Wiki;
 using System;
@@ -34,7 +35,7 @@ namespace AsapWikiCom.Controllers
             }
             else
             {
-                var notExistPageName = ConfigurationEntryRepository.Get<string>("Basic", "Page Not Exists Page");
+                var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Page Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageByNavigation(notExistPageNavigation);
 
@@ -76,7 +77,7 @@ namespace AsapWikiCom.Controllers
                 //Editing an existing page.
                 ViewBag.Title = page.Name;
 
-                return View(new EditPage()
+                return View(new EditPageModel()
                 {
                     Id = page.Id,
                     Body = page.Body,
@@ -89,7 +90,7 @@ namespace AsapWikiCom.Controllers
             {
                 var pageName = Request.QueryString["Name"] ?? navigation;
 
-                string templateName = ConfigurationEntryRepository.Get<string>("Basic", "New Page Template");
+                string templateName = ConfigurationRepository.Get<string>("Basic", "New Page Template");
                 string templateNavigation = WikiUtility.CleanPartialURI(templateName);
                 var templatePage = PageRepository.GetPageByNavigation(templateNavigation);
 
@@ -98,7 +99,7 @@ namespace AsapWikiCom.Controllers
                     templatePage = new Page();
                 }
 
-                return View(new EditPage()
+                return View(new EditPageModel()
                 {
                     Body = templatePage.Body,
                     Name = pageName.Replace('_', ' '),
@@ -109,7 +110,7 @@ namespace AsapWikiCom.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult Edit(EditPage editPage)
+        public ActionResult Edit(EditPageModel editPage)
         {
             if (context.CanEdit == false)
             {
@@ -166,7 +167,7 @@ namespace AsapWikiCom.Controllers
 
                     context.SetPageId(page.Id);
 
-                    return View(new EditPage()
+                    return View(new EditPageModel()
                     {
                         Id = page.Id,
                         Body = page.Body,

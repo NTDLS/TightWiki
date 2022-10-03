@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace AsapWikiCom
@@ -76,17 +72,22 @@ namespace AsapWikiCom
             );
 
             routes.MapRoute(
-                name: "DefaultOther",
-                url: "{controller}/{action}",
-                defaults: new { controller = "Wiki", action = "Login" }
-            );
-
-            routes.MapRoute(
                 name: "User_Avatar",
                 url: "User/Avatar/{UserAccountName}",
                 defaults: new { controller = "User", action = "Avatar" }
             );
 
+            routes.MapRoute(
+                name: "Admin_Config",
+                url: "Admin/Config",
+                defaults: new { controller = "Admin", action = "Config" }
+            );
+
+            routes.MapRoute(
+                name: "DefaultOther",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Wiki", action = "Login" }
+            );
         }
     }
 }
