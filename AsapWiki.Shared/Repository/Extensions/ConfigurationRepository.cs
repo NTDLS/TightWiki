@@ -47,7 +47,14 @@ namespace AsapWiki.Shared.Repository
 					string entryValue;
 					if (value.IsEncrypted)
 					{
-						entryValue = Security.DecryptString(Security.MachineKey, value.EntryValue);
+						try
+						{
+							entryValue = Security.DecryptString(Security.MachineKey, value.EntryValue);
+						}
+						catch
+						{
+							entryValue = "";
+						}
 					}
 					else
 					{
@@ -101,7 +108,14 @@ namespace AsapWiki.Shared.Repository
 
 				foreach (var entry in cacheItem.Where(o => o.IsEncrypted))
 				{
-					entry.Value = Security.DecryptString(Security.MachineKey, entry.Value);
+					try
+					{
+						entry.Value = Security.DecryptString(Security.MachineKey, entry.Value);
+					}
+					catch
+					{
+						entry.Value = "";
+					}
 				}
 
 				Singletons.PutCacheItem(cacheKey, cacheItem);
@@ -132,7 +146,14 @@ namespace AsapWiki.Shared.Repository
 
 				if (configEntry?.IsEncrypted == true)
 				{
-					configEntry.Value = Security.DecryptString(Security.MachineKey, configEntry.Value);
+					try
+					{
+						configEntry.Value = Security.DecryptString(Security.MachineKey, configEntry.Value);
+					}
+					catch
+					{
+						configEntry.Value = "";
+					}
 				}
 
 				cacheItem = configEntry?.Value?.ToString();
