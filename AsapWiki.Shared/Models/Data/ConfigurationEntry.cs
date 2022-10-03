@@ -71,6 +71,22 @@ private string _value;
 			}
 		}
 		
+private int _dataTypeId;
+		public int DataTypeId
+		{
+			get
+			{
+				return this._dataTypeId;
+			}
+			set
+			{
+				if (this._dataTypeId != value)
+				{
+					this._dataTypeId = value;
+				}            
+			}
+		}
+		
 private string _description;
 		public string Description
 		{
@@ -83,6 +99,22 @@ private string _description;
 				if (this._description != value)
 				{
 					this._description = value;
+				}            
+			}
+		}
+		
+private bool _isEncrypted;
+		public bool IsEncrypted
+		{
+			get
+			{
+				return this._isEncrypted;
+			}
+			set
+			{
+				if (this._isEncrypted != value)
+				{
+					this._isEncrypted = value;
 				}            
 			}
 		}

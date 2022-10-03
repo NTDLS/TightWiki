@@ -63,11 +63,18 @@
 
                                                                 @if (@entry.DataType == "string")
                                                                 {
-                                                                    @:<input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                    if (@entry.IsEncrypted == true)
+                                                                    {
+                                                                        <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id">
+                                                                    }                                                                                                            
+                                                                    else
+                                                                    {
+                                                                        <input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                    }
                                                                 }
                                                                 else if (@entry.DataType == "int")
                                                                 {
-                                                                    @:<input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                    <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
                                                                     <br />
                                                                 }
                                                                 else if (@entry.DataType == "boolean")

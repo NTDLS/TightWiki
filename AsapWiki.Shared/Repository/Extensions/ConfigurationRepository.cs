@@ -44,13 +44,24 @@ namespace AsapWiki.Shared.Repository
 
 				foreach (var value in group.OrderBy(o => o.EntryName))
 				{
+					string entryValue;
+					if (value.IsEncrypted)
+					{
+						entryValue = Security.DecryptString(Security.MachineKey, value.EntryValue);
+					}
+					else
+					{
+						entryValue = value.EntryValue;
+					}
+
 					nest.Entries.Add(new ConfigurationEntry()
 					{
 						Id = value.EntryId,
-						Value = value.EntryValue,
+						Value = entryValue,
 						Description = value.EntryDescription,
 						Name = value.EntryName,
 						DataType = value.DataType.ToLower(),
+						IsEncrypted = value.IsEncrypted,
 						ConfigurationGroupId = group.Key,
 					});
 				}
@@ -87,6 +98,12 @@ namespace AsapWiki.Shared.Repository
 
 				cacheItem = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+
+				foreach (var entry in cacheItem.Where(o => o.IsEncrypted))
+				{
+					entry.Value = Security.DecryptString(Security.MachineKey, entry.Value);
+				}
+
 				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
 
@@ -110,8 +127,16 @@ namespace AsapWiki.Shared.Repository
 					EntryName = entryName
 				};
 
-				cacheItem = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName",
-					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault()?.Value;
+				var configEntry = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+
+				if (configEntry?.IsEncrypted == true)
+				{
+					configEntry.Value = Security.DecryptString(Security.MachineKey, configEntry.Value);
+				}
+
+				cacheItem = configEntry?.Value?.ToString();
+
 				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
 

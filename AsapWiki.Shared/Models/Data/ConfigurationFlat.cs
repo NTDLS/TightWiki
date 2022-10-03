@@ -9,6 +9,7 @@
         public string EntryName { get; set; }
         public string EntryValue { get; set; }
         public string EntryDescription { get; set; }
+        public bool IsEncrypted { get; set; }
         public string DataType { get; set; }
     }
 }

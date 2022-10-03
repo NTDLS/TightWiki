@@ -53,9 +53,9 @@ namespace AsapWikiCom.Controllers
 
                 var value = Request.Form[key];
 
-                if (fc.EntryName.Contains("Allow"))
+                if (fc.IsEncrypted)
                 {
-
+                    value = Security.EncryptString(Security.MachineKey, value);
                 }
 
                 ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);

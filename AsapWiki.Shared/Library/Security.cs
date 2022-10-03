@@ -46,43 +46,66 @@ namespace AsapWiki.Shared.Library
             }
         }
 
-        public static byte[] Encrypt(byte[] data, byte[] key)
+        public static string EncryptString(string key, string plainText)
         {
-            using (var aesAlg = Aes.Create())
+            using (var hashstring = new SHA256Managed())
+            using (Aes aes = Aes.Create())
             {
-                aesAlg.Mode = CipherMode.CBC;
-                using (var encryptor = aesAlg.CreateEncryptor(key, aesAlg.IV))
-                using (var msEncrypt = new MemoryStream())
-                {
-                    msEncrypt.Write(aesAlg.IV, 0, aesAlg.IV.Length);
+                byte[] iv = new byte[16];
+                byte[] keyBytes = hashstring.ComputeHash(Encoding.Unicode.GetBytes(key));
+                byte[] vector = (byte[])keyBytes.Clone();
 
-                    using (var csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                for (int i = 0; i < 16; i++)
+                {
+                    iv[i] = vector[i];
+                }
+
+                aes.Key = keyBytes;
+                aes.IV = iv;
+
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream())
+                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                {
+                    using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
                     {
-                        csEncrypt.Write(data, 0, data.Length);
+                        streamWriter.Write(plainText);
                     }
 
-                    return msEncrypt.ToArray();
+                    return Convert.ToBase64String(memoryStream.ToArray());
                 }
             }
         }
 
-        public static byte[] Decrypt(byte[] encrypted, byte[] key)
+        public static string DecryptString(string key, string cipherText)
         {
-            var iv = new byte[16];
-            Buffer.BlockCopy(encrypted, 0, iv, 0, iv.Length);
-            using (var aesAlg = Aes.Create())
+            byte[] buffer = Convert.FromBase64String(cipherText);
+
+            using (var hashstring = new SHA256Managed())
+            using (Aes aes = Aes.Create())
             {
-                aesAlg.Mode = CipherMode.CBC;
-                using (var decryptor = aesAlg.CreateDecryptor(key, iv))
-                using (var msDecrypt = new MemoryStream(encrypted, iv.Length, encrypted.Length - iv.Length))
-                using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-                using (var resultStream = new MemoryStream())
+                byte[] iv = new byte[16];
+                byte[] keyBytes = hashstring.ComputeHash(Encoding.Unicode.GetBytes(key));
+                byte[] vector = (byte[])keyBytes.Clone();
+
+                for (int i = 0; i < 16; i++)
                 {
-                    csDecrypt.CopyTo(resultStream);
-                    return resultStream.ToArray();
+                    iv[i] = vector[i];
+                }
+
+                aes.Key = keyBytes;
+                aes.IV = iv;
+
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+                using (StreamReader streamReader = new StreamReader(cryptoStream))
+                {
+                    return streamReader.ReadToEnd();
                 }
             }
         }
     }
 }
-        
