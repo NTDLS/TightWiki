@@ -69,6 +69,20 @@ namespace AsapWiki.Shared.Repository
 			return cacheItem;
 		}
 
+		public static User GetUserByEmail(string emailAddress)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					EmailAddress = emailAddress
+				};
+
+				return handler.Connection.Query<User>("GetUserByEmail",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
 		public static User GetUserByEmailAndPassword(string emailAddress, string password)
 		{
 			string passwordHash = Library.Security.Sha256(password);
@@ -82,6 +96,20 @@ namespace AsapWiki.Shared.Repository
 
 				return handler.Connection.Query<User>("GetUserByEmailAndPasswordHash",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
+		public static void UpdateUserLastLoginDateByUserId(int userId)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					UserId = userId
+				};
+
+				handler.Connection.Execute("UpdateUserLastLoginDateByUserId",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
 			}
 		}
 

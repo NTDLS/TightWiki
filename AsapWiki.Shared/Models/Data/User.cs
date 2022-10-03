@@ -183,8 +183,8 @@ private byte[] _avatar;
 			}
 		}
 		
-private DateTime? _createdDate;
-		public DateTime? CreatedDate
+private DateTime _createdDate;
+		public DateTime CreatedDate
 		{
 			get
 			{
@@ -199,8 +199,8 @@ private DateTime? _createdDate;
 			}
 		}
 		
-private DateTime? _modifiedDate;
-		public DateTime? ModifiedDate
+private DateTime _modifiedDate;
+		public DateTime ModifiedDate
 		{
 			get
 			{
@@ -215,8 +215,8 @@ private DateTime? _modifiedDate;
 			}
 		}
 		
-private DateTime? _lastLoginDate;
-		public DateTime? LastLoginDate
+private DateTime _lastLoginDate;
+		public DateTime LastLoginDate
 		{
 			get
 			{
@@ -247,8 +247,8 @@ private string _verificationCode;
 			}
 		}
 		
-private bool? _emailVerified;
-		public bool? EmailVerified
+private bool _emailVerified;
+		public bool EmailVerified
 		{
 			get
 			{

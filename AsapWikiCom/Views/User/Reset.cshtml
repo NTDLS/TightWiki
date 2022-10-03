@@ -13,11 +13,16 @@
 </style>
 
 <div class="jumbotron">
+    <h2>Reset account password</h2>
     <font size="4" face="ARIAL,HELVETICA">
         We all forget sometimes.... drop in your email address, temporary code and new password below.<br /><br />
     </font>
 
-    @Html.ValidationSummary(false, "", new { @class = "alert alert-warning" })
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
 
     <table border="0" width="400" cellpadding="5">
         <tbody>

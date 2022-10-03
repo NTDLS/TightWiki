@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Library\CountryItem.cs" />
+    <Compile Include="Library\Email.cs" />
     <Compile Include="Library\HTML.cs" />
     <Compile Include="Library\Images.cs" />
     <Compile Include="Library\TimeZoneItem.cs" />

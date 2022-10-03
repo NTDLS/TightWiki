@@ -16,7 +16,6 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Content()
         {
-            Configure();
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
@@ -62,7 +61,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Edit()
         {
-            Configure();
             if (context.CanEdit == false)
             {
                 return new HttpUnauthorizedResult();
@@ -113,7 +111,6 @@ namespace AsapWikiCom.Controllers
         [HttpPost]
         public ActionResult Edit(EditPage editPage)
         {
-            Configure();
             if (context.CanEdit == false)
             {
                 return new HttpUnauthorizedResult();

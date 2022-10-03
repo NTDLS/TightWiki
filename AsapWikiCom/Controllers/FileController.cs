@@ -25,7 +25,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Delete(string navigation)
         {
-            Configure();
             if (context.CanDelete == false)
             {
                 return new HttpUnauthorizedResult();
@@ -48,7 +47,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Binary(string navigation)
         {
-            Configure();
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
@@ -78,7 +76,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Image(string navigation)
         {
-            Configure();
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
@@ -168,7 +165,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Png(string navigation)
         {
-            Configure();
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
@@ -223,7 +219,6 @@ namespace AsapWikiCom.Controllers
         [HttpPost]
         public ActionResult Upload(object postData)
         {
-            Configure();
             if (context.CanCreate == false)
             {
                 return new HttpUnauthorizedResult();
@@ -235,7 +230,7 @@ namespace AsapWikiCom.Controllers
             HttpPostedFileBase file = Request.Files["BinaryData"];
             PageFileRepository.UpsertPageFile(new PageFile()
             {
-                Data = ConvertToBytes(file),
+                Data = Utility.ConvertHttpFileToBytes(file),
                 CreatedDate = DateTime.UtcNow,
                 PageId = page.Id,
                 Name = file.FileName,
@@ -258,7 +253,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Upload()
         {
-            Configure();
             if (context.CanCreate == false)
             {
                 return new HttpUnauthorizedResult();

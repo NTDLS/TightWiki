@@ -14,11 +14,9 @@ namespace AsapWikiCom.Controllers
     {
         public StateContext context = new StateContext();
 
-        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            BinaryReader reader = new BinaryReader(image.InputStream);
-            byte[] imageBytes = reader.ReadBytes((int)image.ContentLength);
-            return imageBytes;
+            Configure();
         }
 
         public void Configure()
@@ -65,7 +63,7 @@ namespace AsapWikiCom.Controllers
 
         public bool PerformGuestLogin()
         {
-            string guestAccount = ConfigurationEntryRepository.Get<string>("Membership", "Guest Account");
+            var guestAccount = ConfigurationEntryRepository.Get<string>("Membership", "Guest Account");
 
             var user = UserRepository.GetUserByNavigation(guestAccount);
             if (user != null)
@@ -86,6 +84,8 @@ namespace AsapWikiCom.Controllers
                 var encryptedTicket = FormsAuthentication.Encrypt(ticket);
                 var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
 
+                UserRepository.UpdateUserLastLoginDateByUserId(user.Id);
+
                 Response.Cookies.Add(cookie);
 
                 return true;
@@ -94,11 +94,18 @@ namespace AsapWikiCom.Controllers
             return false;
         }
 
-        public bool PerformLogin(string emailAddress, string password)
+        public void PerformLogin(string emailAddress, string password)
         {
+            var requireEmailVerification = ConfigurationEntryRepository.Get<bool>("Membership", "Require Email Verification");
+
             var user = UserRepository.GetUserByEmailAndPassword(emailAddress, password);
             if (user != null)
             {
+                if (requireEmailVerification == true && user.EmailVerified == false)
+                {
+                    throw new Exception("Email address has not been verified. Check you email or use the password reset link to confirm your email address.");
+                }
+
                 FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
 
                 var roles = UserRepository.GetUserRolesByUserId(user.Id);
@@ -115,12 +122,14 @@ namespace AsapWikiCom.Controllers
                 var encryptedTicket = FormsAuthentication.Encrypt(ticket);
                 var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
 
+                UserRepository.UpdateUserLastLoginDateByUserId(user.Id);
+
                 Response.Cookies.Add(cookie);
-
-                return true;
             }
-
-            return false;
+            else
+            {
+                throw new Exception("Invalid Username or Password");
+            }
         }
 
         public string RouteValue(string key, string defaultValue = "")

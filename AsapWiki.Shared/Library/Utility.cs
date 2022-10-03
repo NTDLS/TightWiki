@@ -1,10 +1,21 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 
 namespace AsapWiki.Shared.Library
 {
     public static class Utility
     {
+        public static byte[] ConvertHttpFileToBytes(HttpPostedFileBase image)
+        {
+            using (BinaryReader reader = new BinaryReader(image.InputStream))
+            {
+                byte[] imageBytes = reader.ReadBytes((int)image.ContentLength);
+                return imageBytes;
+            }
+        }
+
         public static T ConvertTo<T>(string value)
         {
             if (typeof(T) == typeof(string))

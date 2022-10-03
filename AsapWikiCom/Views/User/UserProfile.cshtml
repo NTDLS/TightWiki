@@ -12,13 +12,16 @@
     }
 </style>
 
-
 <div class="jumbotron">
+    <h2>User account profile</h2>
     <font size="4" face="ARIAL,HELVETICA">
         This is your user profile, do with it what you may.<br /><br />
     </font>
 
-    @Html.ValidationSummary(false, "", new { @class = "alert alert-warning" })
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
 
     <table border="0" width="600" cellpadding="5">
         <tbody>

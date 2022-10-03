@@ -22,7 +22,6 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            Configure();
             return View();
         }
 
@@ -38,8 +37,10 @@ namespace AsapWikiCom.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (PerformLogin(user.EmailAddress, user.Password))
+                try
                 {
+                    PerformLogin(user.EmailAddress, user.Password);
+
                     if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"] != "/")
                     {
                         return Redirect(Request.QueryString["ReturnUrl"]);
@@ -49,7 +50,10 @@ namespace AsapWikiCom.Controllers
                         return RedirectToAction("Content", "Wiki", "Home");
                     }
                 }
-                ModelState.AddModelError("", "invalid Username or Password");
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
             }
             return View();
         }
@@ -62,7 +66,6 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Forgot()
         {
-            Configure();
             return View();
         }
 
@@ -74,7 +77,6 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Reset()
         {
-            Configure();
             return View();
         }
 
@@ -91,7 +93,6 @@ namespace AsapWikiCom.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            Configure();
             return View();
         }
 
@@ -110,7 +111,69 @@ namespace AsapWikiCom.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            Configure();
+
+            /*
+                    string newEmailAddress = Utility.StripHTML(Request.Form["EmailAddress"]);
+                    string newDisplayName = Utility.StripHTML(Request.Form["DisplayName"]);
+
+                    if (Currentuser().EmailAddress.ToLower() != newEmailAddress.ToLower())
+                    {
+                        if ((newEmailAddress?.Length ?? 0) < 5)
+                        {
+                            ViewBag.Validation = Utility.ValidationMessage("You must enter an email address");
+                            return View();
+                        }
+                        else if (Utility.IsValidEmail(newEmailAddress) == false)
+                        {
+                            ViewBag.Validation = Utility.ValidationMessage("You'll need to specifiy a valid(ish) email address");
+                            return View();
+                        }
+                        else if (UserRepository.DoesEmailAddressExist(newEmailAddress))
+                        {
+                            ViewBag.Validation = Utility.ValidationMessage("This email address is already in use", "If you have forgotten your password, reset it");
+                            return View();
+                        }
+                    }
+                    else if (Currentuser().DisplayName.ToLower() != newDisplayName.ToLower())
+                    {
+                        if ((newDisplayName?.Length ?? 0) < 2)
+                        {
+                            ViewBag.Validation = Utility.ValidationMessage("You must enter a display name / alias");
+                            return View();
+                        }
+                        else if (UserRepository.DoesDisplayNameExist(newDisplayName))
+                        {
+                            ViewBag.Validation = Utility.ValidationMessage("This display name is already in use", "If you have forgotten your password, reset it", "Otherwise, be more creative");
+                            return View();
+                        }
+                    }
+
+                    UserRepository.UpdateUser(Currentuser().Id, newEmailAddress, newDisplayName);
+
+                    (Session["LoggedInSession"] as LoggedInSession).User = UserRepository.GetUserById(Currentuser().Id);
+
+                    LoadSessionGlobals();
+                }
+                else if (formType == "Password")
+                {
+                    string newPassword = Request.Form["Password"];
+                    string newPassword2 = Request.Form["Password2"];
+
+                    if ((newPassword?.Length ?? 0) < 5 != (newPassword2?.Length ?? 0) < 5)
+                    {
+                        ViewBag.Validation = Utility.ValidationMessage("The password is too short. 5 character minimum.");
+                        return View();
+                    }
+                    else if (newPassword != newPassword2)
+                    {
+                        ViewBag.Validation = Utility.ValidationMessage("The passwords you entered do not match");
+                        return View();
+                    }
+
+                    UserRepository.UpdateUserPassword(Currentuser().Id, newPassword);
+                }
+            */
+
             return View();
         }
 
@@ -123,7 +186,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult Avatar(string userAccountName)
         {
-            Configure();
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
@@ -201,7 +263,6 @@ namespace AsapWikiCom.Controllers
         [HttpGet]
         public ActionResult UserProfile()
         {
-            Configure();
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
 
@@ -234,7 +295,6 @@ namespace AsapWikiCom.Controllers
         [HttpPost]
         public ActionResult UserProfile([Bind(Exclude = "Avatar")] FormUserProfile profile)
         {
-            Configure();
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
 
@@ -250,6 +310,16 @@ namespace AsapWikiCom.Controllers
                     if (checkName != null)
                     {
                         ModelState.AddModelError("AccountName", "Account name is already in use.");
+                        return View(profile);
+                    }
+                }
+
+                if (user.EmailAddress.ToLower() != profile.EmailAddress.ToLower())
+                {
+                    var checkName = UserRepository.GetUserByEmail(profile.EmailAddress.ToLower());
+                    if (checkName != null)
+                    {
+                        ModelState.AddModelError("EmailAddress", "Email address is already in use.");
                         return View(profile);
                     }
                 }
@@ -270,7 +340,7 @@ namespace AsapWikiCom.Controllers
                 {
                     try
                     {
-                        var imageBytes = ConvertToBytes(file);
+                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         //This is just to ensure this is a valid image:
                         var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
                         UserRepository.UpdateUserAvatar(user.Id, imageBytes);

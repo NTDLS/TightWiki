@@ -19,8 +19,6 @@ namespace AsapWikiCom.Controllers
         [AllowAnonymous]
         public ActionResult Browse()
         {
-            Configure();
-
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
