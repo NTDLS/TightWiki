@@ -1,0 +1,115 @@
+﻿@model SharpWiki.Shared.Models.EditPage
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .iframe {
+        box-shadow: none !important;
+    }
+</style>
+
+<script>
+
+    window.onmessage = function (e) {
+        var argument = (e.data + '');
+
+        if (argument.startsWith('image:')) {
+            argument = argument.substring(6, argument.length);
+            insertAtCursor(document.getElementById('Body'), argument)
+        }
+        else if (argument.startsWith('file:')) {
+            argument = argument.substring(5, argument.length);
+            insertAtCursor(document.getElementById('Body'), argument)
+        }
+    };
+
+    function insertAtCursor(myField, myValue) {
+        //IE support
+        if (document.selection) {
+            myField.focus();
+            sel = document.selection.createRange();
+            sel.text = myValue;
+        }
+        //MOZILLA and others
+        else if (myField.selectionStart || myField.selectionStart == '0') {
+            var startPos = myField.selectionStart;
+            var endPos = myField.selectionEnd;
+            myField.value = myField.value.substring(0, startPos)
+                + myValue
+                + myField.value.substring(endPos, myField.value.length);
+        } else {
+            myField.value += myValue;
+        }
+    }
+
+</script>
+
+<div class="jumbotron">
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
+    <table border="0" width="100%" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="center">
+                    <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
+                        @if (@ViewBag.Validation != null)
+                        {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
+                    </font>
+
+                    @using (Html.BeginForm())
+                    {
+                        @Html.HiddenFor(x => x.Id)
+
+                        <table border="0" width="100%" cellpadding="5">
+
+                            <tr class="padded">
+                                <td colspan="2">
+                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save</button></div>
+                                </td>
+                            </tr>
+                            <tr class="padded">
+                                <td width="10">
+                                    @Html.LabelFor(x => x.Name)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.Name, new { style = "width:100%" })
+                                </td>
+                            </tr>
+                            <tr class="padded">
+                                <td>
+                                    @Html.LabelFor(x => x.Description)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(x => x.Description, new { style = "width:100%" })
+                                </td>
+                            </tr>
+                            <tr class="padded">
+                                <td colspan="2">
+                                    @Html.LabelFor(x => x.Body)
+                                </td>
+                            </tr>
+                            <tr class="padded">
+                                <td colspan="2">
+                                    @Html.TextAreaFor(x => x.Body, new { style = "width:100%;height:600px", Name = "Body" })
+                                </td>
+                            </tr>
+                        </table>
+                    }
+
+                    @if (Model?.Id > 0 && @ViewBag.Context?.CanCreate == true)
+                    {
+                        <iframe src="/File/Upload/@ViewBag.Navigation" align="left" width="500" frameBorder="0" />
+                    }
+                    else
+                    {
+                        <div>Save the page before uploading files.</div>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

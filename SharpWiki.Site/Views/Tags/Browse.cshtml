@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Associated Tags</div>
+    <div class="panel-body">@Html.Raw(ViewBag.TagCloud)</div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Associated Pages</div>
+    <div class="panel-body">@Html.Raw(ViewBag.Pages)</div>
+</div>
+

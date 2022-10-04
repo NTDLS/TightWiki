@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWiki.Shared", "SharpWiki.Shared\SharpWiki.Shared.csproj", "{6AA15776-6C2E-452D-B095-913F2E6B56C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWikiCom", "SharpWikiCom\SharpWikiCom.csproj", "{B4C2AC84-FB5E-4C48-9DC2-800ECB24A3DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpWiki.Site", "SharpWiki.Site\SharpWiki.Site.csproj", "{B4C2AC84-FB5E-4C48-9DC2-800ECB24A3DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneration", "CodeGeneration\CodeGeneration.csproj", "{B6E792BD-E394-45A1-ACC0-1B0D73098F08}"
 EndProject
