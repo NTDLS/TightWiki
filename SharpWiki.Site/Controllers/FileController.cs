@@ -228,13 +228,14 @@ namespace SharpWiki.Site.Controllers
             var page = PageRepository.GetPageInfoByNavigation(navigation);
 
             HttpPostedFileBase file = Request.Files["BinaryData"];
+            int fileSize = file.ContentLength;
             PageFileRepository.UpsertPageFile(new PageFile()
             {
                 Data = Utility.ConvertHttpFileToBytes(file),
                 CreatedDate = DateTime.UtcNow,
                 PageId = page.Id,
                 Name = file.FileName,
-                Size = file.ContentLength,
+                Size = fileSize,
                 ContentType = MimeMapping.GetMimeMapping(file.FileName)
             });
 
@@ -258,7 +259,7 @@ namespace SharpWiki.Site.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            var navigation = RouteValue("navigation");
+            var navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
             var page = PageRepository.GetPageByNavigation(navigation);
             if (page != null)
             {

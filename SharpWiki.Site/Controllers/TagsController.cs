@@ -50,7 +50,7 @@ namespace SharpWiki.Site.Controllers
                     glossaryHtml.Append("<ul>");
                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                     {
-                        glossaryHtml.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
+                        glossaryHtml.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
                         if (page.Description.Length > 0)
                         {

@@ -108,10 +108,10 @@ namespace SharpWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformMarkup(StringBuilder pageContent)
         {
-            ReplaceWholeLineHTMLMarker(pageContent, "**", "strong", true); //Single line bold.
-            ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
-            ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
-            ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
+            //ReplaceWholeLineHTMLMarker(pageContent, "**", "strong", true); //Single line bold.
+            //ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
+            //ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
+            //ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
 
             ReplaceInlineHTMLMarker(pageContent, "**", "strong", true); //inline bold.
             ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
@@ -558,7 +558,7 @@ namespace SharpWiki.Shared.Wiki
                         }
                     }
 
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Wiki/Content/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_context?.CanCreate == true)
                 {
@@ -833,7 +833,7 @@ namespace SharpWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
 
                                     if (view == "full")
                                     {
@@ -881,7 +881,7 @@ namespace SharpWiki.Shared.Wiki
                                     html.Append("<ul>");
                                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                         if (view == "full")
                                         {
@@ -931,7 +931,7 @@ namespace SharpWiki.Shared.Wiki
                                     html.Append("<ul>");
                                     foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                         if (view == "full")
                                         {
@@ -968,7 +968,7 @@ namespace SharpWiki.Shared.Wiki
 
                                 foreach (var page in pages)
                                 {
-                                    html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
+                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                     if (view == "full")
                                     {
@@ -1005,7 +1005,7 @@ namespace SharpWiki.Shared.Wiki
 
                                 foreach (var page in pages)
                                 {
-                                    html.Append("<li><a href=\"/Wiki/Content/" + page.Navigation + "\">" + page.Name + "</a>");
+                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
                                     if (view == "full")
                                     {
@@ -1039,7 +1039,7 @@ namespace SharpWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1048,7 +1048,7 @@ namespace SharpWiki.Shared.Wiki
                                 foreach (var page in pages)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Name}</a>");
                                 }
                             }
                             else if (view == "full")
@@ -1056,7 +1056,7 @@ namespace SharpWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/Wiki/Content/{page.Navigation}\">{page.Name}</a> - {page.Description}");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a> - {page.Description}");
                                 }
                                 html.Append("</ul>");
                             }
