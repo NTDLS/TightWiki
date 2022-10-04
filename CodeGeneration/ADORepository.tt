@@ -12,11 +12,11 @@
 
 <#
 	string connectionString = @"Server=.;integrated security=true";
-	string databaseName = "AsapWiki";
-	string strNamespace = "AsapWiki.Shared.Repository";
+	string databaseName = "SharpWiki";
+	string strNamespace = "SharpWiki.Shared.Repository";
 	string adoConnectionString = "Singletons.MetaConnectionString.ToString()";
 	string objectPrefix = "";
-	string outputPath = "./../AsapWiki.Shared/Repository/";
+	string outputPath = "./../SharpWiki.Shared/Repository/";
 	List<string> includeTables = new List<string> {  };
 
 	string relativeOutputFilePath = null;
@@ -30,8 +30,8 @@
 		if (!oneTable.Name.Equals("sysdiagrams") && oneTable.Columns.Contains("Id") == true && (includeTables.Count == 0 || includeTables.Contains(oneTable.Name)))
 		{
 #>
-using AsapWiki.Shared.ADO;
-using AsapWiki.Shared.Models;
+using SharpWiki.Shared.ADO;
+using SharpWiki.Shared.Models;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;

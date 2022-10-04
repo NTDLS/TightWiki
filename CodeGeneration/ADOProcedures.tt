@@ -16,8 +16,8 @@
 	System.Text.StringBuilder fieldList = new System.Text.StringBuilder();
 	
 	string connectionString = @"Server=.;integrated security=True;";
-	string databaseName = "AsapWiki";
-    string watermarkString= "AsapWiki-ADODAL-Procedures";
+	string databaseName = "SharpWiki";
+    string watermarkString= "SharpWiki-ADODAL-Procedures";
 	string relativeOutputFilePath = null;
 	string objectPrefix = "";
 	List<string> includeTables = new List<string>{ };
