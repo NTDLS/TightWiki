@@ -1,4 +1,4 @@
-# SharpWiki.NTDLS.com
+# SharpWiki
 
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that “checks all the boxes” – so I wrote one.
