@@ -2,11 +2,11 @@ packages/
 *.user
 .vs/
 
-AsapWiki.Shared/bin/
-AsapWiki.Shared/obj/
+SharpWiki.Shared/bin/
+SharpWiki.Shared/obj/
 
-AsapWikiCom/bin/
-AsapWikiCom/obj/
+SharpWiki.Site/bin/
+SharpWiki.Site/obj/
 
 CodeGeneration/bin/
 CodeGeneration/obj/
