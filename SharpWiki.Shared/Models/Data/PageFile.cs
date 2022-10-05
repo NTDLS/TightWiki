@@ -6,8 +6,8 @@ namespace SharpWiki.Shared.Models
 	public partial class PageFile
 	{
 		#region Properties
-		
-private int _id;
+
+		private int _id;
 		public int Id
 		{
 			get
@@ -19,11 +19,11 @@ private int _id;
 				if (this._id != value)
 				{
 					this._id = value;
-				}            
+				}
 			}
 		}
-		
-private int _pageId;
+
+		private int _pageId;
 		public int PageId
 		{
 			get
@@ -35,11 +35,11 @@ private int _pageId;
 				if (this._pageId != value)
 				{
 					this._pageId = value;
-				}            
+				}
 			}
 		}
-		
-private string _name;
+
+		private string _name;
 		public string Name
 		{
 			get
@@ -51,11 +51,11 @@ private string _name;
 				if (this._name != value)
 				{
 					this._name = value;
-				}            
+				}
 			}
 		}
-		
-private string _contentType;
+
+		private string _contentType;
 		public string ContentType
 		{
 			get
@@ -67,11 +67,11 @@ private string _contentType;
 				if (this._contentType != value)
 				{
 					this._contentType = value;
-				}            
+				}
 			}
 		}
-		
-private int _size;
+
+		private int _size;
 		public int Size
 		{
 			get
@@ -83,11 +83,11 @@ private int _size;
 				if (this._size != value)
 				{
 					this._size = value;
-				}            
+				}
 			}
 		}
-		
-private DateTime _createdDate;
+
+		private DateTime _createdDate;
 		public DateTime CreatedDate
 		{
 			get
@@ -99,11 +99,11 @@ private DateTime _createdDate;
 				if (this._createdDate != value)
 				{
 					this._createdDate = value;
-				}            
+				}
 			}
 		}
-		
-private byte[] _data;
+
+		private byte[] _data;
 		public byte[] Data
 		{
 			get
@@ -115,10 +115,10 @@ private byte[] _data;
 				if (this._data != value)
 				{
 					this._data = value;
-				}            
+				}
 			}
 		}
-			
+
 		#endregion
 	}
 }

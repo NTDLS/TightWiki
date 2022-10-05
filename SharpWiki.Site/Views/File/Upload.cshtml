@@ -1,19 +1,16 @@
-﻿@model SharpWiki.Shared.Models.Attachments
+﻿@model SharpWiki.Shared.Models.View.FileAttachmentModel
 
 <script>
     function PostToParent() {
         var binaryData = document.getElementById('binaryData');
         var fileName = binaryData.files.item(0).name;
-
         var lower = fileName.toLowerCase();
 
-        if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff"))
-        {
+        if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff")) {
             window.top.postMessage('image:##Image(' + fileName + ' | 100)', '*')
         }
         else {
             window.top.postMessage('file:##File(' + fileName + ')', '*')
-
         }
     }
 </script>

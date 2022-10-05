@@ -13,9 +13,6 @@ namespace SharpWiki.Shared.Repository
     {
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
-            string cacheKey = $"Page:{pageId}";
-            Singletons.ClearCacheItems(cacheKey);
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
@@ -31,14 +28,6 @@ namespace SharpWiki.Shared.Repository
 
         public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId)
         {
-            string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-
-            var cacheItem = Singletons.GetCacheItem<List<ProcessingInstruction>>(cacheKey);
-            if (cacheItem != null)
-            {
-                return cacheItem;
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
@@ -46,45 +35,22 @@ namespace SharpWiki.Shared.Repository
                     PageId = pageId
                 };
 
-                cacheItem = handler.Connection.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId",
+                return handler.Connection.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-
-                Singletons.PutCacheItem(cacheKey, cacheItem);
-
             }
-
-            return cacheItem;
         }
 
         public static Page GetPageRevisionById(int pageId, int? revision = null)
         {
-            string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-            var cacheItem = Singletons.GetCacheItem<Page>(cacheKey);
-            if (cacheItem != null)
-            {
-                return cacheItem;
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
-                cacheItem = handler.Connection.Query<Page>("GetPageRevisionById",
+                return handler.Connection.Query<Page>("GetPageRevisionById",
                     new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-                Singletons.PutCacheItem(cacheKey, cacheItem);
             }
-
-            return cacheItem;
         }
 
         public static void SavePageTokens(List<PageToken> items)
         {
-            var pageIds = items.Select(o => o.PageId).Distinct();
-
-            foreach (var pageId in pageIds)
-            {
-                string cacheKey = $"Page:{pageId}";
-                Singletons.ClearCacheItems(cacheKey);
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
                 handler.Connection.Execute("SavePageTokens",
@@ -94,10 +60,6 @@ namespace SharpWiki.Shared.Repository
 
         public static int SavePage(Page item)
         {
-            string cacheKey = $"Page:{item.Id}";
-            Singletons.ClearCacheItems(cacheKey);
-            Singletons.ClearCacheItems("Page:Navigation:");
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
@@ -125,38 +87,6 @@ namespace SharpWiki.Shared.Repository
         /// <returns></returns>
         public static Page GetPageInfoByNavigation(string navigation)
         {
-            Page cacheItem = null;
-
-            int? pageId = GetPageIdFromNavigation(navigation);
-            if (pageId != null)
-            {
-                string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-
-                using (var handler = new SqlConnectionHandler())
-                {
-                    var param = new
-                    {
-                        PageId = pageId
-                    };
-
-                    cacheItem = handler.Connection.Query<Page>("GetPageInfoById",
-                        param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-                    Singletons.PutCacheItem(cacheKey, cacheItem);
-                }
-            }
-
-            return cacheItem;
-        }
-
-        public static int? GetPageIdFromNavigation(string navigation)
-        {
-            string cacheKey = $"Page:Navigation:{navigation}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-            var cacheItem = Singletons.GetCacheItem<int?>(cacheKey);
-            if (cacheItem != null)
-            {
-                return cacheItem;
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
@@ -164,50 +94,43 @@ namespace SharpWiki.Shared.Repository
                     Navigation = navigation
                 };
 
-                cacheItem = handler.Connection.Query<int?>("GetPageIdFromNavigation",
+                return handler.Connection.Query<Page>("GetPageInfoByNavigation",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-                Singletons.PutCacheItem(cacheKey, cacheItem);
             }
+        }
 
-            return cacheItem;
+        public static int? GetPageIdFromNavigation(string navigation)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    Navigation = navigation
+                };
 
+                return handler.Connection.Query<int?>("GetPageIdFromNavigation",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
         }
 
         public static Page GetPageRevisionByNavigation(string navigation, int? revision = null)
         {
-            Page cacheItem = null;
 
-            int? pageId = GetPageIdFromNavigation(navigation);
-            if (pageId != null)
+            using (var handler = new SqlConnectionHandler())
             {
-                string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-
-                using (var handler = new SqlConnectionHandler())
+                var param = new
                 {
-                    var param = new
-                    {
-                        PageId = pageId,
-                        Revision = revision
-                    };
+                    Navigation = navigation,
+                    Revision = revision
+                };
 
-                    cacheItem = handler.Connection.Query<Page>("GetPageRevisionById",
-                        param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-                    Singletons.PutCacheItem(cacheKey, cacheItem);
-                }
+                return handler.Connection.Query<Page>("GetPageRevisionByNavigation",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
-
-            return cacheItem;
         }
 
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
         {
-            string cacheKey = $"Page:{topCount}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-            var cacheItem = Singletons.GetCacheItem<List<Page>>(cacheKey);
-            if (cacheItem != null)
-            {
-                return cacheItem;
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
@@ -215,23 +138,13 @@ namespace SharpWiki.Shared.Repository
                     TopCount = topCount
                 };
 
-                cacheItem = handler.Connection.Query<Page>("GetTopRecentlyModifiedPagesInfo",
+                return handler.Connection.Query<Page>("GetTopRecentlyModifiedPagesInfo",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-                Singletons.PutCacheItem(cacheKey, cacheItem);
             }
-
-            return cacheItem;
         }
 
         public static List<RelatedPage> GetRelatedPages(int pageId)
         {
-            string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-            var cacheItem = Singletons.GetCacheItem<List<RelatedPage>>(cacheKey);
-            if (cacheItem != null)
-            {
-                return cacheItem;
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
@@ -239,12 +152,9 @@ namespace SharpWiki.Shared.Repository
                     PageId = pageId
                 };
 
-                cacheItem = handler.Connection.Query<RelatedPage>("GetRelatedPages",
+                return handler.Connection.Query<RelatedPage>("GetRelatedPages",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-                Singletons.PutCacheItem(cacheKey, cacheItem);
             }
-
-            return cacheItem;
         }
     }
 }

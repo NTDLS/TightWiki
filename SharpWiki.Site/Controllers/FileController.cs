@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Wiki;
+using SharpWiki.Shared.Models.View;
 
 namespace SharpWiki.Site.Controllers
 {
@@ -55,7 +56,7 @@ namespace SharpWiki.Site.Controllers
             navigation = WikiUtility.CleanPartialURI(navigation);
             string attachmentName = Request.QueryString["file"];
 
-            var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, attachmentName);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, attachmentName);
 
             if (file != null)
             {
@@ -85,7 +86,7 @@ namespace SharpWiki.Site.Controllers
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
-            var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, imageName);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName);
 
             if (file != null)
             {
@@ -174,7 +175,7 @@ namespace SharpWiki.Site.Controllers
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
-            var file = PageFileRepository.GetPageFileByPageNavigationAndName(navigation, imageName);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName);
             if (file != null)
             {
                 var img = System.Drawing.Image.FromStream(new MemoryStream(file.Data));
@@ -229,7 +230,7 @@ namespace SharpWiki.Site.Controllers
 
             HttpPostedFileBase file = Request.Files["BinaryData"];
             int fileSize = file.ContentLength;
-            PageFileRepository.UpsertPageFile(new PageFile()
+            PageFileRepository.UpsertPageFile(new PageFileAttachment()
             {
                 Data = Utility.ConvertHttpFileToBytes(file),
                 CreatedDate = DateTime.UtcNow,
@@ -239,8 +240,8 @@ namespace SharpWiki.Site.Controllers
                 ContentType = MimeMapping.GetMimeMapping(file.FileName)
             });
 
-            var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
-            return View(new Attachments()
+            var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
+            return View(new FileAttachmentModel()
             {
                 Files = pageFiles
             });
@@ -263,17 +264,17 @@ namespace SharpWiki.Site.Controllers
             var page = PageRepository.GetPageRevisionByNavigation(navigation);
             if (page != null)
             {
-                var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
+                var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
 
-                return View(new Attachments()
+                return View(new FileAttachmentModel()
                 {
                     Files = pageFiles
                 });
             }
 
-            return View(new Attachments()
+            return View(new FileAttachmentModel()
             {
-                Files = new List<PageFile>()
+                Files = new List<PageFileAttachment>()
             });
         }
 

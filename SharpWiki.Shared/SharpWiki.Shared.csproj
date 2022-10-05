@@ -82,6 +82,7 @@
     <Compile Include="Models\Data\ConfigurationFlat.cs" />
     <Compile Include="Models\Data\ConfigurationNest.cs" />
     <Compile Include="Models\View\ConfigurationModel.cs" />
+    <Compile Include="Models\Data\PageFileAttachment.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />
     <Compile Include="Wiki\MatchSet.cs" />
     <Compile Include="Wiki\MethodCall\MethodParameters.cs" />
@@ -105,14 +106,13 @@
     <Compile Include="Library\Constants.cs" />
     <Compile Include="Models\Data\ConfigurationEntry.cs" />
     <Compile Include="Models\Data\ConfigurationGroup.cs" />
-    <Compile Include="Models\Attachments.cs" />
+    <Compile Include="Models\View\FileAttachmentModel.cs" />
     <Compile Include="Models\View\EditPageModel.cs" />
     <Compile Include="Models\View\ResetModel.cs" />
     <Compile Include="Models\View\ForgotModel.cs" />
     <Compile Include="Models\Data\Extensions\Page.cs" />
     <Compile Include="Models\View\SignupModel.cs" />
     <Compile Include="Models\View\LoginModel.cs" />
-    <Compile Include="Models\Data\Extensions\PageFile.cs" />
     <Compile Include="Models\RelatedPage.cs" />
     <Compile Include="Models\Data\MenuItem.cs" />
     <Compile Include="Models\Data\Page.cs" />

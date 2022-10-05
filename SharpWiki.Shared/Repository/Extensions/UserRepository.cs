@@ -12,61 +12,29 @@ namespace SharpWiki.Shared.Repository
 	{
 		public static List<Role> GetUserRolesByUserId(int userID)
 		{
-			string cacheKey = $"User:{userID}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-
-			var cacheItem = Singletons.GetCacheItem<List<Role>>(cacheKey);
-			if (cacheItem != null)
-			{
-				return cacheItem;
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
-				cacheItem = handler.Connection.Query<Role>("GetUserRolesByUserId",
+				return handler.Connection.Query<Role>("GetUserRolesByUserId",
 					new { UserID = userID }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-				Singletons.PutCacheItem(cacheKey, cacheItem);
-
 			}
-
-			return cacheItem;
 		}
 
 		public static User GetUserById(int id)
 		{
-			string cacheKey = $"User:{id}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			var cacheItem = Singletons.GetCacheItem<User>(cacheKey);
-			if (cacheItem != null)
-			{
-				return cacheItem;
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
-				cacheItem = handler.Connection.Query<User>("GetUserById",
+				return handler.Connection.Query<User>("GetUserById",
 					new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
-
-			return cacheItem;
 		}
 
 		public static User GetUserByNavigation(string navigation)
 		{
-			string cacheKey = $"User:{navigation}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			var cacheItem = Singletons.GetCacheItem<User>(cacheKey);
-			if (cacheItem != null)
-			{
-				return cacheItem;
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
-				cacheItem = handler.Connection.Query<User>("GetUserByNavigation",
+				return handler.Connection.Query<User>("GetUserByNavigation",
 					new { Navigation = navigation }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
-
-			return cacheItem;
 		}
 
 		public static User GetUserByEmail(string emailAddress)
@@ -115,8 +83,6 @@ namespace SharpWiki.Shared.Repository
 
 		public static void UpdateUserAvatar(int userId, byte[] imageData)
 		{
-			Singletons.ClearCacheItems($"User:{userId}");
-
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new

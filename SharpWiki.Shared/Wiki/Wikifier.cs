@@ -773,7 +773,7 @@ namespace SharpWiki.Shared.Wiki
                                 fileName = fileName.Substring(slashIndex + 1);
                             }
 
-                            var attachment = PageFileRepository.GetPageFileInfoByPageIdAndName(pageId, fileName);
+                            var attachment = PageFileRepository.GetPageFileInfoByPageIdPageRevisionAndName(pageId, fileName);
                             if (attachment != null)
                             {
                                 string alt = method.Parameters.Get<String>("linkText", fileName);
@@ -796,7 +796,7 @@ namespace SharpWiki.Shared.Wiki
                     //Displays a list of files attached to the page.
                     case "files": //##Files()
                         {
-                            var files = PageFileRepository.GetPageFilesInfoByPageId(_page.Id);
+                            var files = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(_page.Id);
 
                             var html = new StringBuilder();
 

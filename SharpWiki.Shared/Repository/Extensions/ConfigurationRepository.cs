@@ -1,10 +1,9 @@
+using Dapper;
 using SharpWiki.Shared.ADO;
 using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models;
-using Dapper;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 
 namespace SharpWiki.Shared.Repository
@@ -13,8 +12,6 @@ namespace SharpWiki.Shared.Repository
 	{
 		public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
 		{
-			Singletons.ClearCacheItems("Configuration");
-
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new
@@ -91,13 +88,6 @@ namespace SharpWiki.Shared.Repository
 
 		public static List<ConfigurationEntry> GetConfigurationEntryValuesByGroupName(string groupName)
 		{
-			string cacheKey = $"Configuration:{groupName}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			var cacheItem = Singletons.GetCacheItem<List<ConfigurationEntry>>(cacheKey);
-			if (cacheItem != null)
-			{
-				return cacheItem;
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new
@@ -105,7 +95,7 @@ namespace SharpWiki.Shared.Repository
 					GroupName = groupName
 				};
 
-				cacheItem = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName",
+				var cacheItem = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
 
 				foreach (var entry in cacheItem.Where(o => o.IsEncrypted))
@@ -119,22 +109,12 @@ namespace SharpWiki.Shared.Repository
 						entry.Value = "";
 					}
 				}
-
-				Singletons.PutCacheItem(cacheKey, cacheItem);
+				return cacheItem;
 			}
-
-			return cacheItem;
 		}
 
 		public static string GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
 		{
-			string cacheKey = $"Configuration:{groupName}:{entryName}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			var cacheItem = Singletons.GetCacheItem<string>(cacheKey);
-			if (cacheItem != null)
-			{
-				return cacheItem;
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new
@@ -158,50 +138,21 @@ namespace SharpWiki.Shared.Repository
 					}
 				}
 
-				cacheItem = configEntry?.Value?.ToString();
-
-				Singletons.PutCacheItem(cacheKey, cacheItem);
+				return configEntry?.Value?.ToString();
 			}
-
-			return cacheItem;
 		}
 
 		public static T Get<T>(string groupName, string entryName)
 		{
-			string cacheKey = $"Configuration:{groupName}:{entryName}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			T cacheItem;
-			if (Singletons.Cache.Contains(cacheKey))
-			{
-				cacheItem = Singletons.GetCacheItem<T>(cacheKey);
-				if (cacheItem != null)
-				{
-					return cacheItem;
-				}
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
 				string value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
-				cacheItem = Utility.ConvertTo<T>(value);
-				Singletons.PutCacheItem(cacheKey, cacheItem);
+				return Utility.ConvertTo<T>(value);
 			}
-
-			return cacheItem;
 		}
 
 		public static T Get<T>(string groupName, string entryName, T defaultValue)
 		{
-			string cacheKey = $"Configuration:{groupName}:{entryName}:{defaultValue}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			T cacheItem;
-			if (Singletons.Cache.Contains(cacheKey))
-			{
-				cacheItem = Singletons.GetCacheItem<T>(cacheKey);
-				if (cacheItem != null)
-				{
-					return cacheItem;
-				}
-			}
-
 			using (var handler = new SqlConnectionHandler())
 			{
 				string value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
@@ -211,11 +162,8 @@ namespace SharpWiki.Shared.Repository
 					return defaultValue;
 				}
 
-				cacheItem = Utility.ConvertTo<T>(value);
-				Singletons.PutCacheItem(cacheKey, cacheItem);
+				return Utility.ConvertTo<T>(value);
 			}
-
-			return cacheItem;
 		}
 	}
 }

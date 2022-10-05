@@ -10,79 +10,58 @@ namespace SharpWiki.Shared.Repository
 {
     public static partial class PageFileRepository
     {
-        public static PageFile GetPageFileInfoByPageIdAndName(int pageId, string fileName)
+        public static PageFileAttachment GetPageFileInfoByPageIdPageRevisionAndName(int pageId, string fileName, string pageRevision = null)
         {
-            string cacheKey = $"Page:{pageId}";
-            Singletons.ClearCacheItems(cacheKey);
-
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<PageFile>("GetPageFileInfoByPageIdAndName",
+                return handler.Connection.Query<PageFileAttachment>("GetPageFileInfoByPageIdPageRevisionAndName",
                     new
                     {
                         PageId = pageId,
-                        FileName = fileName
+                        FileName = fileName,
+                        PageRevision = pageRevision
                     }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
         }
 
-        public static List<PageFile> GetPageFilesInfoByPageId(int pageId)
+        public static List<PageFileAttachment> GetPageFilesInfoByPageIdAndPageRevision(int pageId, string pageRevision = null)
         {
-            string cacheKey = $"Page:{pageId}:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-            var cacheItem = Singletons.GetCacheItem<List<PageFile>>(cacheKey);
-            if (cacheItem != null)
-            {
-                return cacheItem;
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
-                cacheItem = handler.Connection.Query<PageFile>("GetPageFilesInfoByPageId",
-                    new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-                Singletons.PutCacheItem(cacheKey, cacheItem);
+                return handler.Connection.Query<PageFileAttachment>("GetPageFilesInfoByPageIdAndPageRevision",
+                    new { PageId = pageId, PageRevision = pageRevision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
-
-            return cacheItem;
         }
 
         public static void DeletePageFileByPageNavigationAndName(string pageNavigation, string fileName)
         {
-            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
-            if (page != null)
-            {
-                string cacheKey = $"Page:{page.Id}";
-                Singletons.ClearCacheItems(cacheKey);
-            }
-
             using (var handler = new SqlConnectionHandler())
             {
-                handler.Connection.Query<PageFile>("DeletePageFileByPageNavigationAndName",
+                handler.Connection.Execute("DeletePageFileByPageNavigationAndName",
                     new
                     {
                         PageNavigation = pageNavigation,
                         FileName = fileName
-                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure);
+                    }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
         }
 
-        public static PageFile GetPageFileByPageNavigationAndName(string pageNavigation, string imageName)
+        public static PageFileAttachment GetPageFileAttachmentByPageNavigationPageRevisionAndName(string pageNavigation, string fileName, int? pageRevision = null)
         {
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<PageFile>("GetPageFileByPageNavigationAndName",
+                return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentByPageNavigationPageRevisionAndName",
                     new
                     {
                         PageNavigation = pageNavigation,
-                        ImageName = imageName
+                        FileName = fileName,
+                        PageRevision = pageRevision
                     }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
         }
 
-        public static int UpsertPageFile(PageFile item)
+        public static int UpsertPageFile(PageFileAttachment item)
         {
-            string cacheKey = $"Page:{item.PageId}";
-            Singletons.ClearCacheItems(cacheKey);
-
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
