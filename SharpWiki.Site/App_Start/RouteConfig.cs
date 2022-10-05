@@ -54,6 +54,18 @@ namespace SharpWiki.Site
             #endregion
 
             routes.MapRoute(
+                name: "File_Associations",
+                url: "File/{action}/{navigation}",
+                defaults: new { controller = "Tags", action = "Binary", navigation = "" }
+            );
+
+            routes.MapRoute(
+                name: "File_Associations_revision",
+                url: "File/{action}/{navigation}/r/{revision}",
+                defaults: new { controller = "File", action = "Binary", navigation = "", revision = 1 }
+            );
+
+            routes.MapRoute(
                 name: "Tag_Associations",
                 url: "Tag/Browse/{navigation}",
                 defaults: new { controller = "Tags", action = "Browse", navigation = "Home" }

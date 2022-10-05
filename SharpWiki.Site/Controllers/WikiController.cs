@@ -29,7 +29,7 @@ namespace SharpWiki.Site.Controllers
             {
                 context.SetPageId(page.Id);
 
-                var wiki = new Wikifier(context, page);
+                var wiki = new Wikifier(context, page, revision);
                 ViewBag.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
             }

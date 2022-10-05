@@ -1,10 +1,9 @@
+using Dapper;
 using SharpWiki.Shared.ADO;
 using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models;
-using Dapper;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 
 namespace SharpWiki.Shared.Repository

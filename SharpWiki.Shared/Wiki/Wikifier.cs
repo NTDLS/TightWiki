@@ -23,11 +23,13 @@ namespace SharpWiki.Shared.Wiki
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
         private Page _page;
+        private int? _revision;
         private readonly StateContext _context;
 
-        public Wikifier(StateContext context, Page page)
+        public Wikifier(StateContext context, Page page, int ?revision = null)
         {
             _page = page;
+            _revision = revision;
             Matches = new Dictionary<string, MatchSet>();
             _context = context;
 
@@ -531,8 +533,16 @@ namespace SharpWiki.Shared.Wiki
                                     linkText = linkText.Substring(0, scaleIndex);
                                 }
 
-                                string attachementLink = $"/File/Image/{navigation}?Image={linkText}";
-                                linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                if (_revision != null)
+                                {
+                                    string attachementLink = $"/File/Image/{navigation}/r/{_revision}?Image={linkText}";
+                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                }
+                                else
+                                {
+                                    string attachementLink = $"/File/Image/{navigation}?Image={linkText}";
+                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                }
                             }
                             else
                             {
@@ -546,8 +556,16 @@ namespace SharpWiki.Shared.Wiki
                                     linkText = linkText.Substring(0, scaleIndex);
                                 }
 
-                                string attachementLink = $"/File/Image/{_page.Navigation}?Image={linkText}";
-                                linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                if (_revision != null)
+                                {
+                                    string attachementLink = $"/File/Image/{_page.Navigation}/r/{_revision}?Image={linkText}";
+                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                }
+                                else
+                                {
+                                    string attachementLink = $"/File/Image/{_page.Navigation}?Image={linkText}";
+                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                }
                             }
                         }
                         //External site image:
@@ -741,10 +759,18 @@ namespace SharpWiki.Shared.Wiki
                                 imageName = imageName.Substring(slashIndex + 1);
                             }
 
-                            string link = $"/File/Image/{navigation}?Image={imageName}";
-                            string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-
-                            StoreMatch(pageContent, match.Value, image);
+                            if (_revision != null)
+                            {
+                                string link = $"/File/Image/{navigation}/r/{_revision}?Image={imageName}";
+                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                                StoreMatch(pageContent, match.Value, image);
+                            }
+                            else
+                            {
+                                string link = $"/File/Image/{navigation}?Image={imageName}";
+                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                                StoreMatch(pageContent, match.Value, image);
+                            }
                         }
                         break;
 
@@ -783,9 +809,18 @@ namespace SharpWiki.Shared.Wiki
                                     alt += $" ({attachment.FriendlySize})";
                                 }
 
-                                string link = $"/File/Binary/{navigation}?file={fileName}";
-                                string image = $"<a href=\"{link}\">{alt}</a>";
-                                StoreMatch(pageContent, match.Value, image);
+                                if (_revision != null)
+                                {
+                                    string link = $"/File/Binary/{navigation}/r/{_revision}?file={fileName}";
+                                    string image = $"<a href=\"{link}\">{alt}</a>";
+                                    StoreMatch(pageContent, match.Value, image);
+                                }
+                                else
+                                {
+                                    string link = $"/File/Binary/{navigation}?file={fileName}";
+                                    string image = $"<a href=\"{link}\">{alt}</a>";
+                                    StoreMatch(pageContent, match.Value, image);
+                                }
                             }
 
                             StoreError(pageContent, match.Value, $"File not found [{fileName}]");
@@ -805,7 +840,14 @@ namespace SharpWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var file in files)
                                 {
-                                    html.Append($"<li><a href=\"/File/Binary/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
+                                    if (_revision != null)
+                                    {
+                                        html.Append($"<li><a href=\"/File/Binary/{file.Name}/r/{_revision}\">{file.Name} ({file.FriendlySize})</a>");
+                                    }
+                                    else
+                                    {
+                                        html.Append($"<li><a href=\"/File/Binary/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
+                                    }
                                     html.Append("</li>");
                                 }
                                 html.Append("</ul>");

@@ -46,7 +46,7 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Binary(string navigation)
+        public ActionResult Binary(string navigation, int? revision = null)
         {
             if (context.CanView == false)
             {
@@ -56,7 +56,7 @@ namespace SharpWiki.Site.Controllers
             navigation = WikiUtility.CleanPartialURI(navigation);
             string attachmentName = Request.QueryString["file"];
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, attachmentName);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, attachmentName, revision);
 
             if (file != null)
             {
@@ -75,7 +75,7 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Image(string navigation)
+        public ActionResult Image(string navigation, int? revision = null)
         {
             if (context.CanView == false)
             {
@@ -86,7 +86,7 @@ namespace SharpWiki.Site.Controllers
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName, revision);
 
             if (file != null)
             {
@@ -164,7 +164,7 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Png(string navigation)
+        public ActionResult Png(string navigation, int? revision = null)
         {
             if (context.CanView == false)
             {
@@ -175,7 +175,7 @@ namespace SharpWiki.Site.Controllers
             string imageName = Request.QueryString["Image"];
             string scale = Request.QueryString["Scale"] ?? "100";
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName, revision);
             if (file != null)
             {
                 var img = System.Drawing.Image.FromStream(new MemoryStream(file.Data));
