@@ -14,7 +14,7 @@ namespace SharpWiki.Site
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Wiki", action = "Content", id = UrlParameter.Optional }
+                defaults: new { controller = "Wiki", action = "Display", id = UrlParameter.Optional }
             );
             */
 
@@ -62,13 +62,19 @@ namespace SharpWiki.Site
             routes.MapRoute(
                 name: "Wiki",
                 url: "Wiki/{action}/{navigation}",
-                defaults: new { controller = "Wiki", action = "Content", navigation = "Home" }
+                defaults: new { controller = "Wiki", action = "Display", navigation = "Home" }
             );
 
             routes.MapRoute(
                 name: "DefaultWiki",
                 url: "{navigation}",
-                defaults: new { navigation = "Home", controller = "Wiki", action = "Content" }
+                defaults: new { navigation = "Home", controller = "Wiki", action = "Display", revision = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "DefaultWiki_Revision",
+                url: "{navigation}/r/{revision}",
+                defaults: new { navigation = "Home", controller = "Wiki", action = "Display", revision = 1 }
             );
 
             routes.MapRoute(

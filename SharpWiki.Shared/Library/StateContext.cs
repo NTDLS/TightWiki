@@ -12,11 +12,13 @@ namespace SharpWiki.Shared.Library
         public User User { get; set; }
         public List<string> Roles { get; set; }
         public int? PageId { get; private set; } = null;
+        public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new List<ProcessingInstruction>();
 
-        public void SetPageId(int? pageId)
+        public void SetPageId(int? pageId, int ?revision = null)
         {
             PageId = pageId;
+            Revision = revision;
             if (pageId != null)
             {
                 ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId((int)pageId);

@@ -8,5 +8,6 @@ namespace SharpWiki.Shared.Models
     public partial class Page
     {
         public int TokenWeight { get; set; }
+        public string Body { get; set; }
     }
 }

@@ -12,6 +12,7 @@ BEGIN--PROCEDURE
 	SELECT TOP 100
 		P.Id,
 		P.[Name],
+		P.[Revision],
 		P.Navigation,
 		P.[Description],
 		Hits.Matches

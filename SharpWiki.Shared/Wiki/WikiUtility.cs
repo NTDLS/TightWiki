@@ -14,7 +14,7 @@ namespace SharpWiki.Shared.Wiki
         public static Page GetPageFromPathInfo(string routeData)
         {
             routeData = WikiUtility.CleanFullURI(routeData).Trim(new char[] { '\\', '/' });
-            var page = PageRepository.GetPageByNavigation(routeData);
+            var page = PageRepository.GetPageRevisionByNavigation(routeData);
             return page;
         }
 

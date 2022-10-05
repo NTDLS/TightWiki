@@ -497,7 +497,7 @@ namespace SharpWiki.Shared.Wiki
 
                 string pageName = keyword;
                 string pageNavigation = WikiUtility.CleanPartialURI(pageName);
-                var page = PageRepository.GetPageByNavigation(pageNavigation);
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
                 if (page != null)
                 {
@@ -822,7 +822,7 @@ namespace SharpWiki.Shared.Wiki
                             string view = method.Parameters.Get<String>("View").ToLower();
                             var takeCount = method.Parameters.Get<int>("top");
 
-                            var pages = PageRepository.GetTopRecentlyModifiedPages(takeCount)
+                            var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
                                 .OrderByDescending(o => o.ModifiedDate)
                                 .OrderBy(o => o.Name).ToList();
 

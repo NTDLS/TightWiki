@@ -260,7 +260,7 @@ namespace SharpWiki.Site.Controllers
             }
 
             var navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
-            var page = PageRepository.GetPageByNavigation(navigation);
+            var page = PageRepository.GetPageRevisionByNavigation(navigation);
             if (page != null)
             {
                 var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);

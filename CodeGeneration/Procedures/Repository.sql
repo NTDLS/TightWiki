@@ -520,13 +520,13 @@ GO
 
 
 --------------------------------------------------------------------------------------------------------------------------------
-IF OBJECT_ID('GetPageById') IS NOT NULL
+IF OBJECT_ID('GetPageRevisionById') IS NOT NULL
 BEGIN--IF
-	DROP PROCEDURE [GetPageById]
+	DROP PROCEDURE [GetPageRevisionById]
 END--IF
 GO
 
-CREATE PROCEDURE [GetPageById]
+CREATE PROCEDURE [GetPageRevisionById]
 (
 	@Id Int
 ) AS

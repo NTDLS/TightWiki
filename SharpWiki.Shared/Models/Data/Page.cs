@@ -71,34 +71,18 @@ private string _description;
 			}
 		}
 		
-private string _body;
-		public string Body
+private int _revision;
+		public int Revision
 		{
 			get
 			{
-				return this._body;
+				return this._revision;
 			}
 			set
 			{
-				if (this._body != value)
+				if (this._revision != value)
 				{
-					this._body = value;
-				}            
-			}
-		}
-		
-private string _cachedBody;
-		public string CachedBody
-		{
-			get
-			{
-				return this._cachedBody;
-			}
-			set
-			{
-				if (this._cachedBody != value)
-				{
-					this._cachedBody = value;
+					this._revision = value;
 				}            
 			}
 		}

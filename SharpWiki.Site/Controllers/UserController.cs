@@ -47,7 +47,7 @@ namespace SharpWiki.Site.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("Content", "Wiki", "Home");
+                        return RedirectToAction("Display", "Wiki", "Home");
                     }
                 }
                 catch (Exception ex)

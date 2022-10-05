@@ -15,16 +15,16 @@ namespace SharpWiki.Site.Controllers
         #region Content.
 
         [AllowAnonymous]
-        public ActionResult Content()
+        public ActionResult Display(string navigation, int? revision)
         {
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
+            navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
 
-            var page = PageRepository.GetPageByNavigation(navigation);
+            var page = PageRepository.GetPageRevisionByNavigation(navigation, revision);
             if (page != null)
             {
                 context.SetPageId(page.Id);
@@ -33,11 +33,28 @@ namespace SharpWiki.Site.Controllers
                 ViewBag.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
             }
+            else if (revision != null)
+            {
+                var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Revision Does Not Exists Page");
+                string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
+                var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
+
+                context.SetPageId(null, revision);
+
+                var wiki = new Wikifier(context, notExistsPage);
+                ViewBag.Title = notExistsPage.Name;
+                ViewBag.Body = wiki.ProcessedBody;
+
+                if (context.IsAuthenticated && context.CanCreate)
+                {
+                    ViewBag.CreatePage = false;
+                }
+            }
             else
             {
                 var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Page Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
-                var notExistsPage = PageRepository.GetPageByNavigation(notExistPageNavigation);
+                var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
                 context.SetPageId(null);
 
@@ -69,7 +86,7 @@ namespace SharpWiki.Site.Controllers
 
             string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
 
-            var page = PageRepository.GetPageByNavigation(navigation);
+            var page = PageRepository.GetPageRevisionByNavigation(navigation);
             if (page != null)
             {
                 context.SetPageId(page.Id);
@@ -92,7 +109,7 @@ namespace SharpWiki.Site.Controllers
 
                 string templateName = ConfigurationRepository.Get<string>("Basic", "New Page Template");
                 string templateNavigation = WikiUtility.CleanPartialURI(templateName);
-                var templatePage = PageRepository.GetPageByNavigation(templateNavigation);
+                var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
 
                 if (templatePage == null)
                 {
@@ -149,7 +166,7 @@ namespace SharpWiki.Site.Controllers
                 }
                 else
                 {
-                    page = PageRepository.GetPageById(editPage.Id);
+                    page = PageRepository.GetPageRevisionById(editPage.Id);
                     page.ModifiedDate = DateTime.UtcNow;
                     page.ModifiedByUserId = context.User.Id;
                     page.Body = editPage.Body ?? "";

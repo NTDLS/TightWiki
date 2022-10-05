@@ -9,14 +9,19 @@ CREATE TABLE [dbo].[Page](
 	[Name] [nvarchar](128) NOT NULL,
 	[Navigation] [nvarchar](128) NOT NULL,
 	[Description] [nvarchar](max) NOT NULL,
-	[Body] [nvarchar](max) NOT NULL,
-	[CachedBody] [nvarchar](max) NULL,
+	[Revision] [int] NOT NULL,
 	[CreatedByUserId] [int] NOT NULL,
 	[CreatedDate] [datetime] NOT NULL,
 	[ModifiedByUserId] [int] NOT NULL,
 	[ModifiedDate] [datetime] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Page_Revision]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Page] ADD  CONSTRAINT [DF_Page_Revision]  DEFAULT ((1)) FOR [Revision]
+END
+
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Page_CreatedDate]') AND type = 'D')
 BEGIN
