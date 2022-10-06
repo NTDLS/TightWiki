@@ -23,11 +23,11 @@
 @foreach (var x in Model.Files)
 {
     <div>
-        <a href="/Wiki/Png/@ViewBag.Navigation?Image=@x.Name" target="_blank"> @x.Name</a> [@x.FriendlySize]
+        <a href="/File/Binary/@ViewBag.PageNavigation/x.Navigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
 
         @if (@ViewBag.Context?.CanDelete == true)
         {
-            @: - <a href="/File/Delete/@ViewBag.Navigation?Image=@x.Name" onclick="return window.confirm('Delete the image?');"> Delete </a>
+            @: - <a href="/File/Delete/@ViewBag.PageNavigation/@x.FileNavigation" onclick="return window.confirm('Delete the image?');"> Delete </a>
         }
     </div>
 }

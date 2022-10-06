@@ -38,12 +38,12 @@
 
                     @if (@ViewBag.Context?.IsPageLoaded == true && @ViewBag.Context?.CanEdit == true)
                     {
-                        <li><a href="/Wiki/Edit/@ViewBag.Navigation">Edit</a></li>
+                        <li><a href="/Page/Edit/@ViewBag.PageNavigation">Edit</a></li>
+                        <li><a href="/Page/Edit/">Create New</a></li>
                     }
-
-                    @if (@ViewBag.CreatePage == true)
+                    else if (@ViewBag.CreatePage == true)
                     {
-                        <li><a href="/Wiki/Edit/@ViewBag.Navigation">Create</a></li>
+                        <li><a href="/Page/Edit/@ViewBag.PageNavigation">Create</a></li>
                     }
 
                     @if (@ViewBag?.Context?.IsAuthenticated == true && @ViewBag?.Context?.Roles.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator))

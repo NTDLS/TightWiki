@@ -145,7 +145,7 @@ namespace SharpWiki.Shared.Wiki
 
             foreach (char c in url)
             {
-                if (c == ' ')
+                if (c == ' ' || c == '.')
                 {
                     sb.Append("_");
                 }
@@ -153,7 +153,7 @@ namespace SharpWiki.Shared.Wiki
                     || (c >= 'a' && c <= 'z')
                     || (c >= '0' && c <= '9')
                     || c == '_' || c == '/'
-                    || c == '.' || c == '-')
+                    || c == '-')
                 {
                     sb.Append(c);
                 }

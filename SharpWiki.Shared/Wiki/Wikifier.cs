@@ -26,7 +26,7 @@ namespace SharpWiki.Shared.Wiki
         private int? _revision;
         private readonly StateContext _context;
 
-        public Wikifier(StateContext context, Page page, int ?revision = null)
+        public Wikifier(StateContext context, Page page, int? revision = null)
         {
             _page = page;
             _revision = revision;
@@ -535,13 +535,13 @@ namespace SharpWiki.Shared.Wiki
 
                                 if (_revision != null)
                                 {
-                                    string attachementLink = $"/File/Image/{navigation}/r/{_revision}?Image={linkText}";
-                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                    string attachementLink = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(linkText)}/r/{_revision}";
+                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                                 }
                                 else
                                 {
-                                    string attachementLink = $"/File/Image/{navigation}?Image={linkText}";
-                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                    string attachementLink = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(linkText)}";
+                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                                 }
                             }
                             else
@@ -558,13 +558,13 @@ namespace SharpWiki.Shared.Wiki
 
                                 if (_revision != null)
                                 {
-                                    string attachementLink = $"/File/Image/{_page.Navigation}/r/{_revision}?Image={linkText}";
-                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                    string attachementLink = $"/File/Image/{_page.Navigation}/{WikiUtility.CleanPartialURI(linkText)}/r/{_revision}";
+                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                                 }
                                 else
                                 {
-                                    string attachementLink = $"/File/Image/{_page.Navigation}?Image={linkText}";
-                                    linkText = $"<img src=\"{attachementLink}&Scale={scale}\" border=\"0\" />";
+                                    string attachementLink = $"/File/Image/{_page.Navigation}/{WikiUtility.CleanPartialURI(linkText)}";
+                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                                 }
                             }
                         }
@@ -590,7 +590,7 @@ namespace SharpWiki.Shared.Wiki
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Wiki/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
@@ -761,14 +761,14 @@ namespace SharpWiki.Shared.Wiki
 
                             if (_revision != null)
                             {
-                                string link = $"/File/Image/{navigation}/r/{_revision}?Image={imageName}";
-                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                                string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}/r/{_revision}";
+                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                                 StoreMatch(pageContent, match.Value, image);
                             }
                             else
                             {
-                                string link = $"/File/Image/{navigation}?Image={imageName}";
-                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}&Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                                string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}";
+                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                                 StoreMatch(pageContent, match.Value, image);
                             }
                         }
@@ -811,13 +811,13 @@ namespace SharpWiki.Shared.Wiki
 
                                 if (_revision != null)
                                 {
-                                    string link = $"/File/Binary/{navigation}/r/{_revision}?file={fileName}";
+                                    string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}/r/{_revision}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
                                     StoreMatch(pageContent, match.Value, image);
                                 }
                                 else
                                 {
-                                    string link = $"/File/Binary/{navigation}?file={fileName}";
+                                    string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
                                     StoreMatch(pageContent, match.Value, image);
                                 }
@@ -842,11 +842,11 @@ namespace SharpWiki.Shared.Wiki
                                 {
                                     if (_revision != null)
                                     {
-                                        html.Append($"<li><a href=\"/File/Binary/{file.Name}/r/{_revision}\">{file.Name} ({file.FriendlySize})</a>");
+                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{WikiUtility.CleanPartialURI(file.Name)}/r/{_revision}\">{file.Name} ({file.FriendlySize})</a>");
                                     }
                                     else
                                     {
-                                        html.Append($"<li><a href=\"/File/Binary/{file.Name}\">{file.Name} ({file.FriendlySize})</a>");
+                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{WikiUtility.CleanPartialURI(file.Name)}\">{file.Name} ({file.FriendlySize})</a>");
                                     }
                                     html.Append("</li>");
                                 }
@@ -865,8 +865,7 @@ namespace SharpWiki.Shared.Wiki
                             var takeCount = method.Parameters.Get<int>("top");
 
                             var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
-                                .OrderByDescending(o => o.ModifiedDate)
-                                .OrderBy(o => o.Name).ToList();
+                                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
                             var html = new StringBuilder();
 
@@ -879,7 +878,7 @@ namespace SharpWiki.Shared.Wiki
 
                                     if (view == "full")
                                     {
-                                        if (page.Description.Length > 0)
+                                        if (page?.Description?.Length > 0)
                                         {
                                             html.Append(" - " + page.Description);
                                         }
@@ -927,7 +926,7 @@ namespace SharpWiki.Shared.Wiki
 
                                         if (view == "full")
                                         {
-                                            if (page.Description.Length > 0)
+                                            if (page?.Description?.Length > 0)
                                             {
                                                 html.Append(" - " + page.Description);
                                             }
@@ -977,7 +976,7 @@ namespace SharpWiki.Shared.Wiki
 
                                         if (view == "full")
                                         {
-                                            if (page.Description.Length > 0)
+                                            if (page?.Description?.Length > 0)
                                             {
                                                 html.Append(" - " + page.Description);
                                             }
@@ -1014,7 +1013,7 @@ namespace SharpWiki.Shared.Wiki
 
                                     if (view == "full")
                                     {
-                                        if (page.Description.Length > 0)
+                                        if (page?.Description?.Length > 0)
                                         {
                                             html.Append(" - " + page.Description);
                                         }
@@ -1051,7 +1050,7 @@ namespace SharpWiki.Shared.Wiki
 
                                     if (view == "full")
                                     {
-                                        if (page.Description.Length > 0)
+                                        if (page?.Description?.Length > 0)
                                         {
                                             html.Append(" - " + page.Description);
                                         }

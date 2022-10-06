@@ -135,7 +135,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\FileController.cs" />
-    <Compile Include="Controllers\WikiController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,15 +178,15 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="Views\Wiki\Display.cshtml" />
+    <Content Include="Views\Page\Display.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Forgot.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\Reset.cshtml" />
     <Content Include="Views\User\Signup.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
-    <Content Include="Views\Wiki\Edit.cshtml" />
-    <Content Include="Views\File\Upload.cshtml" />
+    <Content Include="Views\Page\Edit.cshtml" />
+    <Content Include="Views\File\EditPageAttachment.cshtml" />
     <Content Include="Views\Tags\Browse.cshtml" />
     <Content Include="Views\Admin\Config.cshtml" />
   </ItemGroup>

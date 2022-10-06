@@ -31,7 +31,8 @@ namespace SharpWiki.Site.Controllers
             ViewBag.FooterBlurb = config.Where(o => o.Name == "FooterBlurb").FirstOrDefault()?.Value;
             ViewBag.Copyright = config.Where(o => o.Name == "Copyright").FirstOrDefault()?.Value;
             //ViewBag.PageUri = $"{RouteData.Values["controller"]}/{RouteData.Values["action"]}/{RouteData.Values["navigation"]}";
-            ViewBag.Navigation = RouteValue("navigation");
+            ViewBag.PageNavigation = RouteValue("pageNavigation");
+            ViewBag.PageRevision = RouteValue("pageRevision");
             ViewBag.MenuItems = MenuItemRepository.GetAllMenuItems();
 
             ViewBag.Context = context;

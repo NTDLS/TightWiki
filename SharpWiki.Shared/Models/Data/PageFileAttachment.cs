@@ -11,6 +11,8 @@ namespace SharpWiki.Shared.Models
 		public int Size { get; set; }
 		public DateTime CreatedDate { get; set; }
 		public byte[] Data { get; set; }
+		public string FileNavigation { get; set; }
+		public string PageNavigation { get; set; }
 
 		public string FriendlySize
 		{

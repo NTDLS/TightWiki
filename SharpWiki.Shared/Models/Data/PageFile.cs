@@ -6,8 +6,8 @@ namespace SharpWiki.Shared.Models
 	public partial class PageFile
 	{
 		#region Properties
-
-		private int _id;
+		
+private int _id;
 		public int Id
 		{
 			get
@@ -19,11 +19,11 @@ namespace SharpWiki.Shared.Models
 				if (this._id != value)
 				{
 					this._id = value;
-				}
+				}            
 			}
 		}
-
-		private int _pageId;
+		
+private int _pageId;
 		public int PageId
 		{
 			get
@@ -35,11 +35,11 @@ namespace SharpWiki.Shared.Models
 				if (this._pageId != value)
 				{
 					this._pageId = value;
-				}
+				}            
 			}
 		}
-
-		private string _name;
+		
+private string _name;
 		public string Name
 		{
 			get
@@ -51,43 +51,43 @@ namespace SharpWiki.Shared.Models
 				if (this._name != value)
 				{
 					this._name = value;
-				}
+				}            
 			}
 		}
-
-		private string _contentType;
-		public string ContentType
+		
+private string _navigation;
+		public string Navigation
 		{
 			get
 			{
-				return this._contentType;
+				return this._navigation;
 			}
 			set
 			{
-				if (this._contentType != value)
+				if (this._navigation != value)
 				{
-					this._contentType = value;
-				}
+					this._navigation = value;
+				}            
 			}
 		}
-
-		private int _size;
-		public int Size
+		
+private int _revision;
+		public int Revision
 		{
 			get
 			{
-				return this._size;
+				return this._revision;
 			}
 			set
 			{
-				if (this._size != value)
+				if (this._revision != value)
 				{
-					this._size = value;
-				}
+					this._revision = value;
+				}            
 			}
 		}
-
-		private DateTime _createdDate;
+		
+private DateTime _createdDate;
 		public DateTime CreatedDate
 		{
 			get
@@ -99,26 +99,10 @@ namespace SharpWiki.Shared.Models
 				if (this._createdDate != value)
 				{
 					this._createdDate = value;
-				}
+				}            
 			}
 		}
-
-		private byte[] _data;
-		public byte[] Data
-		{
-			get
-			{
-				return this._data;
-			}
-			set
-			{
-				if (this._data != value)
-				{
-					this._data = value;
-				}
-			}
-		}
-
+			
 		#endregion
 	}
 }

@@ -63,7 +63,7 @@ namespace SharpWiki.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                ViewBag.Success = "The configuration has been saved successfully!.";
+                ViewBag.Success = "The configuration has been saved successfully!";
             }
 
             var model = new ConfigurationModel();

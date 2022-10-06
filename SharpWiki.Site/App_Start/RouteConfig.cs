@@ -14,79 +14,68 @@ namespace SharpWiki.Site
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Wiki", action = "Display", id = UrlParameter.Optional }
+                defaults: new { controller = "Page", action = "Display", id = UrlParameter.Optional }
             );
             */
 
-            #region File.
-
-            routes.MapRoute(
-                name: "File_Binary",
-                url: "File/Binary/{navigation}",
-                defaults: new { controller = "File", action = "Binary", navigation = "" }
-            );
-
-            routes.MapRoute(
-                name: "File_Image",
-                url: "File/Image/{navigation}",
-                defaults: new { controller = "File", action = "Image", navigation = "" }
-            );
-
-            routes.MapRoute(
-                name: "File_Png",
-                url: "File/Png/{navigation}",
-                defaults: new { controller = "File", action = "Png", navigation = "" }
-            );
-
+            /*
             routes.MapRoute(
                 name: "File_Upload",
-                url: "File/Upload/{navigation}",
-                defaults: new { controller = "File", action = "Upload", navigation = "" }
+                url: "File/Upload/{pageNavigation}",
+                defaults: new { controller = "File", action = "Upload", pageNavigation = "" }
             );
-
 
             routes.MapRoute(
                 name: "File_Delete",
-                url: "File/Delete/{navigation}",
-                defaults: new { controller = "File", action = "Delete", navigation = "" }
+                url: "File/Delete/{pageNavigation}",
+                defaults: new { controller = "File", action = "Delete", pageNavigation = "" }
             );
 
-            #endregion
-
-            routes.MapRoute(
-                name: "File_Associations",
-                url: "File/{action}/{navigation}",
-                defaults: new { controller = "Tags", action = "Binary", navigation = "" }
-            );
+            */
 
             routes.MapRoute(
-                name: "File_Associations_revision",
-                url: "File/{action}/{navigation}/r/{revision}",
-                defaults: new { controller = "File", action = "Binary", navigation = "", revision = 1 }
+                name: "File_Attachment",
+                url: "File/{action}/{pageNavigation}/{fileNavigation}",
+                defaults: new { controller = "File", action = "Binary", pageNavigation = "", fileNavigation = "", pageRevision = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "File_Attachment_Revision",
+                url: "File/{action}/{pageNavigation}/{fileNavigation}/r/{pageRevision}",
+                defaults: new { controller = "File", action = "Binary", pageNavigation = "", fileNavigation = "", pageRevision = 1 }
+            );
+
+            routes.MapRoute(
+                name: "Page_Display",
+                url: "{pageNavigation}",
+                defaults: new { pageNavigation = "Home", controller = "Page", action = "Display", pageRevision = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Page_Display_Revision",
+                url: "{pageNavigation}/r/{pageRevision}",
+                defaults: new { pageNavigation = "Home", controller = "Page", action = "Display", pageRevision = 1 }
+            );
+
+            routes.MapRoute(
+                name: "Page_Edit",
+                url: "Page/Edit/{pageNavigation}",
+                defaults: new { controller = "Page", action = "Edit", pageNavigation = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Page_Default",
+                url: "Page/{action}/{pageNavigation}",
+                defaults: new { controller = "Page", action = "Display", pageNavigation = "Home" }
+            );
+
+            //http://localhost/File/Binary/pageNav/ImageNav/r/10
+            //http://localhost/File/Binary/pageNav/ImageNav/r/10
 
             routes.MapRoute(
                 name: "Tag_Associations",
-                url: "Tag/Browse/{navigation}",
-                defaults: new { controller = "Tags", action = "Browse", navigation = "Home" }
-            );
-
-            routes.MapRoute(
-                name: "Wiki",
-                url: "Wiki/{action}/{navigation}",
-                defaults: new { controller = "Wiki", action = "Display", navigation = "Home" }
-            );
-
-            routes.MapRoute(
-                name: "DefaultWiki",
-                url: "{navigation}",
-                defaults: new { navigation = "Home", controller = "Wiki", action = "Display", revision = UrlParameter.Optional }
-            );
-
-            routes.MapRoute(
-                name: "DefaultWiki_Revision",
-                url: "{navigation}/r/{revision}",
-                defaults: new { navigation = "Home", controller = "Wiki", action = "Display", revision = 1 }
+                url: "Tag/Browse/{pageNavigation}",
+                defaults: new { controller = "Tags", action = "Browse", pageNavigation = "Home" }
             );
 
             routes.MapRoute(
@@ -104,8 +93,9 @@ namespace SharpWiki.Site
             routes.MapRoute(
                 name: "DefaultOther",
                 url: "{controller}/{action}",
-                defaults: new { controller = "Wiki", action = "Login" }
+                defaults: new { controller = "Page", action = "Login" }
             );
+
         }
     }
 }

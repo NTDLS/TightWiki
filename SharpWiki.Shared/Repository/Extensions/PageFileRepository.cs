@@ -1,6 +1,7 @@
 using Dapper;
 using SharpWiki.Shared.ADO;
 using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Wiki;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -32,28 +33,28 @@ namespace SharpWiki.Shared.Repository
             }
         }
 
-        public static void DeletePageFileByPageNavigationAndName(string pageNavigation, string fileName)
+        public static void DeletePageFileByPageNavigationAndFileName(string pageNavigation, string fileNavigation)
         {
             using (var handler = new SqlConnectionHandler())
             {
-                handler.Connection.Execute("DeletePageFileByPageNavigationAndName",
+                handler.Connection.Execute("DeletePageFileByPageNavigationAndFileName",
                     new
                     {
                         PageNavigation = pageNavigation,
-                        FileName = fileName
+                        FileNavigation = fileNavigation
                     }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
         }
 
-        public static PageFileAttachment GetPageFileAttachmentByPageNavigationPageRevisionAndName(string pageNavigation, string fileName, int? pageRevision = null)
+        public static PageFileAttachment GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             using (var handler = new SqlConnectionHandler())
             {
-                return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentByPageNavigationPageRevisionAndName",
+                return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation",
                     new
                     {
                         PageNavigation = pageNavigation,
-                        FileName = fileName,
+                        FileNavigation = fileNavigation,
                         PageRevision = pageRevision
                     }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
@@ -67,6 +68,7 @@ namespace SharpWiki.Shared.Repository
                 {
                     PageId = item.PageId,
                     Name = item.Name,
+                    Navigation = WikiUtility.CleanPartialURI(item.Name),
                     ContentType = item.ContentType,
                     Size = item.Size,
                     CreatedDate = item.CreatedDate,

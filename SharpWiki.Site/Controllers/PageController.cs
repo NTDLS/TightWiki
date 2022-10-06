@@ -10,36 +10,36 @@ using System.Web.Mvc;
 namespace SharpWiki.Site.Controllers
 {
     [Authorize]
-    public class WikiController : ControllerHelperBase
+    public class PageController : ControllerHelperBase
     {
         #region Content.
 
         [AllowAnonymous]
-        public ActionResult Display(string navigation, int? revision)
+        public ActionResult Display(string pageNavigation, int? pageRevision)
         {
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
-            var page = PageRepository.GetPageRevisionByNavigation(navigation, revision);
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
             if (page != null)
             {
                 context.SetPageId(page.Id);
 
-                var wiki = new Wikifier(context, page, revision);
+                var wiki = new Wikifier(context, page, pageRevision);
                 ViewBag.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
             }
-            else if (revision != null)
+            else if (pageRevision != null)
             {
                 var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Revision Does Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
-                context.SetPageId(null, revision);
+                context.SetPageId(null, pageRevision);
 
                 var wiki = new Wikifier(context, notExistsPage);
                 ViewBag.Title = notExistsPage.Name;
@@ -77,16 +77,16 @@ namespace SharpWiki.Site.Controllers
 
         [Authorize]
         [HttpGet]
-        public ActionResult Edit()
+        public ActionResult Edit(string pageNavigation)
         {
             if (context.CanEdit == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
-            var page = PageRepository.GetPageRevisionByNavigation(navigation);
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
                 context.SetPageId(page.Id);
@@ -105,7 +105,7 @@ namespace SharpWiki.Site.Controllers
             }
             else
             {
-                var pageName = Request.QueryString["Name"] ?? navigation;
+                var pageName = Request.QueryString["Name"] ?? pageNavigation;
 
                 string templateName = ConfigurationRepository.Get<string>("Basic", "New Page Template");
                 string templateNavigation = WikiUtility.CleanPartialURI(templateName);
@@ -119,8 +119,8 @@ namespace SharpWiki.Site.Controllers
                 return View(new EditPageModel()
                 {
                     Body = templatePage.Body,
-                    Name = pageName.Replace('_', ' '),
-                    Navigation = WikiUtility.CleanPartialURI(navigation)
+                    Name = pageName?.Replace('_', ' '),
+                    Navigation = WikiUtility.CleanPartialURI(pageNavigation)
                 });
             }
         }
@@ -132,6 +132,20 @@ namespace SharpWiki.Site.Controllers
             if (context.CanEdit == false)
             {
                 return new HttpUnauthorizedResult();
+            }
+
+            if (string.IsNullOrWhiteSpace(editPage.Name))
+            {
+                ViewBag.Warninig = "The page name cannot be empty.";
+
+                return View(new EditPageModel()
+                {
+                    Id = editPage.Id,
+                    Body = editPage.Body,
+                    Name = editPage.Name,
+                    Navigation = editPage.Navigation,
+                    Description = editPage.Description
+                });
             }
 
             if (ModelState.IsValid)
@@ -162,7 +176,12 @@ namespace SharpWiki.Site.Controllers
 
                     context.SetPageId(page.Id);
 
-                    return RedirectToAction("Edit", "Wiki", new { navigation = page.Navigation });
+                    if (ModelState.IsValid)
+                    {
+                        ViewBag.Success = "The page was successfully created!";
+                    }
+
+                    return RedirectToAction("Edit", "Page", new { pageNavigation = page.Navigation });
                 }
                 else
                 {
@@ -183,6 +202,11 @@ namespace SharpWiki.Site.Controllers
                     PageRepository.SavePageTokens(pageTokens);
 
                     context.SetPageId(page.Id);
+
+                    if (ModelState.IsValid)
+                    {
+                        ViewBag.Success = "The page was saved successfully!";
+                    }
 
                     return View(new EditPageModel()
                     {

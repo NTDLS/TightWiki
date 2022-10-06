@@ -24,19 +24,19 @@ namespace SharpWiki.Site.Controllers
         /// <param name="navigation"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Delete(string navigation)
+        public ActionResult Delete(string pageNavigation, string fileNavigation)
         {
             if (context.CanDelete == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            navigation = WikiUtility.CleanPartialURI(navigation);
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
 
-            string imageName = Request.QueryString["Image"];
-            PageFileRepository.DeletePageFileByPageNavigationAndName(navigation, imageName);
+            PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation, fileNavigation);
 
-            return RedirectToAction("Upload", "File", new { navigation = navigation });
+            return RedirectToAction("EditPageAttachment", "File", new { pageNavigation = pageNavigation });
         }
 
         /// <summary>
@@ -46,17 +46,17 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Binary(string navigation, int? revision = null)
+        public ActionResult Binary(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            navigation = WikiUtility.CleanPartialURI(navigation);
-            string attachmentName = Request.QueryString["file"];
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, attachmentName, revision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
 
             if (file != null)
             {
@@ -64,7 +64,7 @@ namespace SharpWiki.Site.Controllers
             }
             else
             {
-                return new HttpNotFoundResult($"[{attachmentName}] was not found on the page [{navigation}].");
+                return new HttpNotFoundResult($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
         }
 
@@ -75,18 +75,19 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Image(string navigation, int? revision = null)
+        public ActionResult Image(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            navigation = WikiUtility.CleanPartialURI(navigation);
-            string imageName = Request.QueryString["Image"];
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
+
             string scale = Request.QueryString["Scale"] ?? "100";
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName, revision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
 
             if (file != null)
             {
@@ -153,7 +154,7 @@ namespace SharpWiki.Site.Controllers
             }
             else
             {
-                return new HttpNotFoundResult($"[{imageName}] was not found on the page [{navigation}].");
+                return new HttpNotFoundResult($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
         }
 
@@ -164,18 +165,19 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Png(string navigation, int? revision = null)
+        public ActionResult Png(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            navigation = WikiUtility.CleanPartialURI(navigation);
-            string imageName = Request.QueryString["Image"];
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
+
             string scale = Request.QueryString["Scale"] ?? "100";
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndName(navigation, imageName, revision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
             if (file != null)
             {
                 var img = System.Drawing.Image.FromStream(new MemoryStream(file.Data));
@@ -207,7 +209,7 @@ namespace SharpWiki.Site.Controllers
             }
             else
             {
-                return new HttpNotFoundResult($"[{imageName}] was not found on the page [{navigation}].");
+                return new HttpNotFoundResult($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
         }
 
@@ -218,15 +220,15 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public ActionResult Upload(object postData)
+        public ActionResult EditPageAttachment(string pageNavigation, object postData)
         {
             if (context.CanCreate == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
-            var page = PageRepository.GetPageInfoByNavigation(navigation);
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
 
             HttpPostedFileBase file = Request.Files["BinaryData"];
             int fileSize = file.ContentLength;
@@ -253,15 +255,15 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpGet]
-        public ActionResult Upload()
+        public ActionResult EditPageAttachment(string pageNavigation)
         {
             if (context.CanCreate == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            var navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
-            var page = PageRepository.GetPageRevisionByNavigation(navigation);
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
                 var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
