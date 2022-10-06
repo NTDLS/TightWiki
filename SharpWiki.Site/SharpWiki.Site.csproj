@@ -189,6 +189,7 @@
     <Content Include="Views\File\EditPageAttachment.cshtml" />
     <Content Include="Views\Tags\Browse.cshtml" />
     <Content Include="Views\Admin\Config.cshtml" />
+    <Content Include="Views\Page\History.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

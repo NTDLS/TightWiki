@@ -58,6 +58,12 @@ namespace SharpWiki.Site
             );
 
             routes.MapRoute(
+                name: "Page_Display_History",
+                url: "{pageNavigation}/History",
+                defaults: new { pageNavigation = "Home", controller = "Page", action = "History", pageRevision = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Page_Edit",
                 url: "Page/Edit/{pageNavigation}",
                 defaults: new { controller = "Page", action = "Edit", pageNavigation = UrlParameter.Optional }

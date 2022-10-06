@@ -9,5 +9,7 @@ namespace SharpWiki.Shared.Models
     {
         public int TokenWeight { get; set; }
         public string Body { get; set; }
+        public string CreatedByUserName { get; set; }
+        public string ModifiedByUserName { get; set; }
     }
 }

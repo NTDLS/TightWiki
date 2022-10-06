@@ -38,6 +38,23 @@ namespace SharpWiki.Shared.Repository
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
+        public static Page GetPageRevisionInfoById(int pageId, int? revision = null)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.Query<Page>("GetPageRevisionInfoById",
+                    new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
+
+        public static Page GetPageInfoById(int pageId)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.Query<Page>("GetPageInfoById",
+                    new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
 
         public static Page GetPageRevisionById(int pageId, int? revision = null)
         {

@@ -29,6 +29,7 @@ namespace SharpWiki.Shared.Library
             }
         }
 
+        public bool IsViewingOldVersion => ((Revision ?? 0) > 0);
         public bool IsPageLoaded => ((PageId ?? 0) > 0);
         public bool CanView => true;
 

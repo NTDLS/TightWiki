@@ -36,10 +36,18 @@
                         <li><a href="@item.Link">@item.Name</a></li>
                     }
 
+                    @if (@ViewBag.Context?.IsPageLoaded == true)
+                    {
+                        <li><a href="/@ViewBag.PageNavigation/History">History</a></li>
+                    }
+
                     @if (@ViewBag.Context?.IsPageLoaded == true && @ViewBag.Context?.CanEdit == true)
                     {
-                        <li><a href="/Page/Edit/@ViewBag.PageNavigation">Edit</a></li>
-                        <li><a href="/Page/Edit/">Create New</a></li>
+                        if (@ViewBag.Context?.IsViewingOldVersion == false)
+                        {
+                            <li><a href="/Page/Edit/@ViewBag.PageNavigation">Edit</a></li>
+                        }
+                        <li><a href="/Page/Edit/">Create Page</a></li>
                     }
                     else if (@ViewBag.CreatePage == true)
                     {

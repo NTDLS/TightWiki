@@ -73,6 +73,19 @@ namespace SharpWiki.Shared.Wiki
                 }
             } while (length != pageContent.Length);
 
+            if (_revision != null)
+            {
+                var revision = PageRepository.GetPageRevisionInfoById(_page.Id, _revision);
+                var pageInfo = PageRepository.GetPageInfoById(_page.Id);
+
+                var html = new StringBuilder();
+                html.Append("<div class=\"panel panel-warning\">");
+                html.Append($"<div class=\"panel-heading\">Viewing a historical revision</div>");
+                html.Append($"<div class=\"panel-body\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {revision.ModifiedDate}.<br />");
+                html.Append($"<a href=\"/{_page.Navigation}\">Click here to view the latest revision {pageInfo.Revision}.</a></div></div><br />");
+                pageContent.Insert(0, html);
+            }
+
             ProcessedBody = pageContent.ToString();
         }
 
