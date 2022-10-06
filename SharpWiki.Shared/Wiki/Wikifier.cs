@@ -139,13 +139,39 @@ namespace SharpWiki.Shared.Wiki
         }
 
         /// <summary>
-        /// Transform blocks or sections of code, these are thinks like panels and alerts.
+        /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
         /// <param name="pageContent"></param>
         private void TransformBlocks(StringBuilder pageContent)
         {
-            //Transform panels.
-            Regex rgx = new Regex(@"\{\{\{\(([\S\s]*?)\}\}\}", RegexOptions.IgnoreCase);
+            var content = pageContent.ToString();
+
+            while (true)
+            {
+                int startPos = content.LastIndexOf("{{{");
+                if (startPos < 0)
+                {
+                    break;
+                }
+                int endPos = content.IndexOf("}}}", startPos);
+
+                string rawBlock = content.Substring(startPos, (endPos - startPos) + 3);
+                var transformBlock = new StringBuilder(rawBlock);
+                TransformBlock(transformBlock);
+                content = content.Replace(rawBlock, transformBlock.ToString());
+            }
+
+            pageContent.Clear();
+            pageContent.Append(content);
+        }
+
+        /// <summary>
+        /// Transform blocks or sections of code, these are thinks like panels and alerts.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        private void TransformBlock(StringBuilder pageContent)
+        {
+            Regex rgx = new Regex(@"{{{([\S\s]*)}}}", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
