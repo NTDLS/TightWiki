@@ -733,7 +733,7 @@ namespace SharpWiki.Shared.Wiki
         private void TransformFunctions(StringBuilder pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
@@ -1223,7 +1223,7 @@ namespace SharpWiki.Shared.Wiki
         private void TransformPostProcess(StringBuilder pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(\#\#[\w-]+\(.*?\))|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)

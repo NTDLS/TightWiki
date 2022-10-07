@@ -1,7 +1,6 @@
 ﻿using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Repository;
 using System;
-using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;

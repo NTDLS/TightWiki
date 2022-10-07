@@ -1,9 +1,6 @@
-using System;
-using System.Runtime.Serialization;
-
 namespace SharpWiki.Shared.Models.Data
 {
-	public partial class RelatedPage
+    public partial class RelatedPage
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }

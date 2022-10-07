@@ -56,19 +56,21 @@ namespace SharpWiki.Shared.Wiki.MethodCall
         {
             List<string> rawArguments = new List<string>();
 
-            MatchCollection matches = (new Regex(@"\(+?\)|\(.+?\)")).Matches(methodMatch.Value);
+            MatchCollection matches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(methodMatch.Value);
             if (matches.Count > 0)
             {
                 var match = matches[0];
 
+                int paramStartIndex = match.Value.IndexOf('(');
+
                 if (methodName == null)
                 {
-                    methodName = methodMatch.Value.Substring(2, methodMatch.Value.IndexOf('(') - 2).ToLower();
+                    methodName = match.Value.Substring(0, paramStartIndex).ToLower().TrimStart(new char[] { '{', '#', '@' } );
                 }
 
                 parseEndIndex = match.Index + match.Length;
 
-                string rawArgTrimmed = match.ToString().Substring(1, match.ToString().Length - 2);
+                string rawArgTrimmed = match.ToString().Substring(paramStartIndex + 1, (match.ToString().Length - paramStartIndex) - 2);
                 rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
             }
             else if (methodName == null)

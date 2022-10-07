@@ -1,9 +1,8 @@
-﻿using SharpWiki.Shared.Models.View;
-using SharpWiki.Shared.Models.Data;
+﻿using SharpWiki.Shared.Models.Data;
+using SharpWiki.Shared.Models.View;
 using SharpWiki.Shared.Repository;
 using SharpWiki.Shared.Wiki;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
