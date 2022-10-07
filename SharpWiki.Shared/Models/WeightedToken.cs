@@ -1,4 +1,6 @@
-﻿namespace SharpWiki.Shared.Models
+﻿using SharpWiki.Shared.Models.Data;
+
+namespace SharpWiki.Shared.Models
 {
     public class WeightedToken
     {

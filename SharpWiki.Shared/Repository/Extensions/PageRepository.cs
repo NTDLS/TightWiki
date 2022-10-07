@@ -1,7 +1,7 @@
 using Dapper;
 using SharpWiki.Shared.ADO;
 using SharpWiki.Shared.Library;
-using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Models.Data;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -93,6 +93,21 @@ namespace SharpWiki.Shared.Repository
 
                 return handler.Connection.ExecuteScalar<int>("SavePage",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigation(string navigation, int pageNumber)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    Navigation = navigation,
+                    PageNumber = pageNumber
+                };
+
+                return handler.Connection.Query<PageRevisionHistory>("GetPageRevisionHistoryInfoByNavigation",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
 

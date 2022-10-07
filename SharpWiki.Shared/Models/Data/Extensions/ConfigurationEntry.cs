@@ -1,6 +1,6 @@
 ﻿using SharpWiki.Shared.Library;
 
-namespace SharpWiki.Shared.Models
+namespace SharpWiki.Shared.Models.Data
 {
     public partial class ConfigurationEntry
     {

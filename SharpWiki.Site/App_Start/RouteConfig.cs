@@ -59,8 +59,8 @@ namespace SharpWiki.Site
 
             routes.MapRoute(
                 name: "Page_Display_History",
-                url: "{pageNavigation}/History",
-                defaults: new { pageNavigation = "Home", controller = "Page", action = "History", pageRevision = UrlParameter.Optional }
+                url: "{pageNavigation}/History/{page}",
+                defaults: new { pageNavigation = "Home", controller = "Page", action = "History", pageRevision = UrlParameter.Optional, page = 1 }
             );
 
             routes.MapRoute(
@@ -74,9 +74,6 @@ namespace SharpWiki.Site
                 url: "Page/{action}/{pageNavigation}",
                 defaults: new { controller = "Page", action = "Display", pageNavigation = "Home" }
             );
-
-            //http://localhost/File/Binary/pageNav/ImageNav/r/10
-            //http://localhost/File/Binary/pageNav/ImageNav/r/10
 
             routes.MapRoute(
                 name: "Tag_Associations",

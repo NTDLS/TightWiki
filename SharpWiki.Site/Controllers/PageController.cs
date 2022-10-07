@@ -1,5 +1,5 @@
 ﻿using SharpWiki.Shared.Models.View;
-using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Repository;
 using SharpWiki.Shared.Wiki;
 using System;
@@ -14,8 +14,10 @@ namespace SharpWiki.Site.Controllers
     {
         #region Content.
         [AllowAnonymous]
-        public ActionResult History(string pageNavigation, int? pageRevision)
+        public ActionResult History(string pageNavigation, int page)
         {
+            if (page <= 0) page = 1;
+
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
@@ -23,51 +25,23 @@ namespace SharpWiki.Site.Controllers
 
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
-            if (page != null)
+            var result = new PageHistoryModel()
             {
-                context.SetPageId(page.Id, pageRevision);
+                History = PageRepository.GetPageRevisionHistoryInfoByNavigation(pageNavigation, page)
+            };
 
-                var wiki = new Wikifier(context, page, pageRevision);
-                ViewBag.Title = page.Name;
-                ViewBag.Body = wiki.ProcessedBody;
-            }
-            else if (pageRevision != null)
+            if (result.History != null && result.History.Any())
             {
-                var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Revision Does Not Exists Page");
-                string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
-                var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
+                context.SetPageId(result.History.First().PageId);
+                ViewBag.Title = $"{result.History.First().Name} History";
+                ViewBag.PaginationCount = result.History.First().PaginationCount;
+                ViewBag.CurrentPage = page;
 
-                context.SetPageId(null, pageRevision);
-
-                var wiki = new Wikifier(context, notExistsPage);
-                ViewBag.Title = notExistsPage.Name;
-                ViewBag.Body = wiki.ProcessedBody;
-
-                if (context.IsAuthenticated && context.CanCreate)
-                {
-                    ViewBag.CreatePage = false;
-                }
-            }
-            else
-            {
-                var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Page Not Exists Page");
-                string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
-                var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
-
-                context.SetPageId(null, pageRevision);
-
-                var wiki = new Wikifier(context, notExistsPage);
-                ViewBag.Title = notExistsPage.Name;
-                ViewBag.Body = wiki.ProcessedBody;
-
-                if (context.IsAuthenticated && context.CanCreate)
-                {
-                    ViewBag.CreatePage = true;
-                }
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if(page > 1) ViewBag.PreviousPage = page - 1;
             }
 
-            return View();
+            return View(result);
         }
 
 
@@ -84,6 +58,11 @@ namespace SharpWiki.Site.Controllers
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
             if (page != null)
             {
+                if (page.Revision == page.LatestRevision)
+                {
+                    pageRevision = null;
+                }
+
                 context.SetPageId(page.Id, pageRevision);
 
                 var wiki = new Wikifier(context, page, pageRevision);

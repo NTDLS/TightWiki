@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace SharpWiki.Shared.Models
+namespace SharpWiki.Shared.Models.Data
 {
 	public partial class ConfigurationEntry
 	{

@@ -31,7 +31,7 @@
             <div class="collapse navbar-collapse" id="navbar">
                 <ul class="nav navbar-nav">
 
-                    @foreach (SharpWiki.Shared.Models.MenuItem item in ViewBag.MenuItems)
+                    @foreach (SharpWiki.Shared.Models.Data.MenuItem item in ViewBag.MenuItems)
                     {
                         <li><a href="@item.Link">@item.Name</a></li>
                     }

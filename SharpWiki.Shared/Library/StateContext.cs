@@ -1,4 +1,4 @@
-﻿using SharpWiki.Shared.Models;
+﻿using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Repository;
 using System.Collections.Generic;
 using System.Linq;

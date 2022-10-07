@@ -1,6 +1,6 @@
 using System;
 
-namespace SharpWiki.Shared.Models
+namespace SharpWiki.Shared.Models.Data
 {
 	public partial class PageFileAttachment
 	{

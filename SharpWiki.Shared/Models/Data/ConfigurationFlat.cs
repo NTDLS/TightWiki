@@ -1,4 +1,4 @@
-﻿namespace SharpWiki.Shared.Models
+﻿namespace SharpWiki.Shared.Models.Data
 {
     public class ConfigurationFlat
     {

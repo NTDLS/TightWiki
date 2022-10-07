@@ -1,5 +1,81 @@
-﻿@{
+﻿@model SharpWiki.Shared.Models.View.PageHistoryModel
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Raw(ViewBag.Body)
+<div class="jumbotron">
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
+    <table border="0" width="100%" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="center">
+                    @if (ViewBag.Warninig != null)
+                    {
+                        <div class="alert alert-warning">@ViewBag.Warninig</div>
+                    }
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.Success</div>
+                    }
+
+                    @using (Html.BeginForm())
+                    {
+                        <table class="table table-striped table-bordered" border="0" width="100%" cellpadding="5">
+
+                            <thead>
+                                <tr>
+                                    <td><strong>Revision</strong></td>
+                                    <td><strong>Modified By</strong></td>
+                                    <td><strong>Modified Date</strong></td>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var h in Model.History)
+                                {
+                                    <tr>
+                                        <td><a href="/@ViewBag.PageNavigation/r/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                        <td>@Html.DisplayTextFor(x => h.ModifiedByUserName)</td>
+                                        <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+
+                        if (@ViewBag.PreviousPage != null)
+                        {
+                            <a href="/@ViewBag.PageNavigation/History/1">&lt;&lt; First</a>
+                            @:&nbsp; | &nbsp;
+                            <a href="/@ViewBag.PageNavigation/History/@ViewBag.PreviousPage">&lt; Previous</a>
+                        }
+                        else
+                        {
+                            @:&lt;&lt; First
+                            @:&nbsp; | &nbsp;
+                            @:&lt; Previous
+                        }
+                        @:&nbsp; | &nbsp;
+
+                        if (@ViewBag.NextPage != null)
+                        {
+                            <a href="/@ViewBag.PageNavigation/History/@ViewBag.NextPage">Next &gt;</a>
+                            @:&nbsp; | &nbsp;
+                            <a href="/@ViewBag.PageNavigation/History/@ViewBag.PaginationCount">Last &gt;&gt;</a>
+                        }
+                        else
+                        {
+                            @:Next &gt;
+                            @:&nbsp; | &nbsp;
+                            @:Last &gt;&gt;
+                        }
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -81,8 +81,10 @@
     <Compile Include="Library\TimeZoneItem.cs" />
     <Compile Include="Models\Data\ConfigurationFlat.cs" />
     <Compile Include="Models\Data\ConfigurationNest.cs" />
+    <Compile Include="Models\Data\PageRevisionHistory.cs" />
     <Compile Include="Models\View\ConfigurationModel.cs" />
     <Compile Include="Models\Data\PageFileAttachment.cs" />
+    <Compile Include="Models\View\PageHistoryModel.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />
     <Compile Include="Wiki\MatchSet.cs" />
     <Compile Include="Wiki\MethodCall\MethodParameters.cs" />
@@ -96,7 +98,7 @@
     <Compile Include="Library\Utility.cs" />
     <Compile Include="Library\ExtensionMethods.cs" />
     <Compile Include="Models\Data\Extensions\ConfigurationEntry.cs" />
-    <Compile Include="Models\TagAssociation.cs" />
+    <Compile Include="Models\Data\TagAssociation.cs" />
     <Compile Include="Models\Data\PageToken.cs" />
     <Compile Include="Models\TagCoudItem.cs" />
     <Compile Include="Models\WeightedToken.cs" />
@@ -113,7 +115,7 @@
     <Compile Include="Models\Data\Extensions\Page.cs" />
     <Compile Include="Models\View\SignupModel.cs" />
     <Compile Include="Models\View\LoginModel.cs" />
-    <Compile Include="Models\RelatedPage.cs" />
+    <Compile Include="Models\Data\RelatedPage.cs" />
     <Compile Include="Models\Data\MenuItem.cs" />
     <Compile Include="Models\Data\Page.cs" />
     <Compile Include="Models\Data\PageFile.cs" />

@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace SharpWiki.Shared.Models
+namespace SharpWiki.Shared.Models.Data
 {
     public partial class Page
     {
@@ -11,5 +6,6 @@ namespace SharpWiki.Shared.Models
         public string Body { get; set; }
         public string CreatedByUserName { get; set; }
         public string ModifiedByUserName { get; set; }
+        public int LatestRevision { get; set; }
     }
 }

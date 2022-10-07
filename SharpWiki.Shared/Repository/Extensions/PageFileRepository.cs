@@ -1,6 +1,6 @@
 using Dapper;
 using SharpWiki.Shared.ADO;
-using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Wiki;
 using System.Collections.Generic;
 using System.Data;

@@ -1,15 +1,15 @@
-﻿using SharpWiki.Shared.Models;
+﻿using SharpWiki.Shared.Library;
+using SharpWiki.Shared.Models.Data;
+using SharpWiki.Shared.Models.View;
 using SharpWiki.Shared.Repository;
+using SharpWiki.Shared.Wiki;
 using System;
+using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SharpWiki.Shared.Library;
-using SharpWiki.Shared.Wiki;
-using SharpWiki.Shared.Models.View;
 
 namespace SharpWiki.Site.Controllers
 {

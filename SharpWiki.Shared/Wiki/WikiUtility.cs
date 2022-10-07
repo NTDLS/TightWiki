@@ -1,5 +1,6 @@
 ﻿using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Repository;
 using System;
 using System.Collections.Generic;
