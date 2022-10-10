@@ -28,12 +28,13 @@ namespace SharpWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("Image: <string>[name] | <int>{scale}='100' | <string>{altText}=''");
                     _methodPrototypes.Add("File: <string>[name] | <string>[linkText] | <bool>{showSize}='false'");
                     _methodPrototypes.Add("Related: <int>{Top}='1000' | <string>{view(List,Flat,Full)}='Full'");
-                    _methodPrototypes.Add("Tags: <string>{view(Flat,list)}='list'");
+                    _methodPrototypes.Add("Tags: <string>{view(Flat,List)}='List'");
                     _methodPrototypes.Add("EditLink: <string>{linkText}='edit'");
                     _methodPrototypes.Add("Include: <string>[pageName]");
                     _methodPrototypes.Add("BR: <int>{Count}='1'");
                     _methodPrototypes.Add("NL: <int>{Count}='1'");
                     _methodPrototypes.Add("NewLine: <int>{Count}='1'");
+                    _methodPrototypes.Add("History:<string>{view(Full,List)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true'");
                     _methodPrototypes.Add("TOC:");
                     _methodPrototypes.Add("Title:");
                     _methodPrototypes.Add("Navigation:");

@@ -38,6 +38,7 @@ namespace SharpWiki.Shared.Repository
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
+
         public static Page GetPageRevisionInfoById(int pageId, int? revision = null)
         {
             using (var handler = new SqlConnectionHandler())
@@ -96,14 +97,15 @@ namespace SharpWiki.Shared.Repository
             }
         }
 
-        public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigation(string navigation, int pageNumber)
+        public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigation(string navigation, int pageNumber, int pageSize = 0)
         {
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
                 {
                     Navigation = navigation,
-                    PageNumber = pageNumber
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
                 };
 
                 return handler.Connection.Query<PageRevisionHistory>("GetPageRevisionHistoryInfoByNavigation",

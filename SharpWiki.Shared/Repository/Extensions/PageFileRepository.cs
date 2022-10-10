@@ -68,7 +68,7 @@ namespace SharpWiki.Shared.Repository
                 {
                     PageId = item.PageId,
                     Name = item.Name,
-                    Navigation = WikiUtility.CleanPartialURI(item.Name),
+                    FileNavigation = WikiUtility.CleanPartialURI(item.Name),
                     ContentType = item.ContentType,
                     Size = item.Size,
                     CreatedDate = item.CreatedDate,

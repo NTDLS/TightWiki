@@ -89,6 +89,7 @@
     <Compile Include="Models\Data\PageFileAttachment.cs" />
     <Compile Include="Models\View\PageHistoryModel.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />
+    <Compile Include="Wiki\Differentiator.cs" />
     <Compile Include="Wiki\MatchSet.cs" />
     <Compile Include="Wiki\MethodCall\MethodParameters.cs" />
     <Compile Include="Wiki\MethodCall\MethodPrototype.cs" />

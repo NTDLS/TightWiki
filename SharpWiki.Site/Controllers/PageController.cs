@@ -65,7 +65,7 @@ namespace SharpWiki.Site.Controllers
 
                 context.SetPageId(page.Id, pageRevision);
 
-                var wiki = new Wikifier(context, page, pageRevision);
+                var wiki = new Wikifier(context, page, pageRevision, Request.QueryString);
                 ViewBag.Config.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
             }
@@ -77,7 +77,7 @@ namespace SharpWiki.Site.Controllers
 
                 context.SetPageId(null, pageRevision);
 
-                var wiki = new Wikifier(context, notExistsPage);
+                var wiki = new Wikifier(context, notExistsPage, null, Request.QueryString);
                 ViewBag.Config.Title = notExistsPage.Name;
                 ViewBag.Body = wiki.ProcessedBody;
 
@@ -94,7 +94,7 @@ namespace SharpWiki.Site.Controllers
 
                 context.SetPageId(null, pageRevision);
 
-                var wiki = new Wikifier(context, notExistsPage);
+                var wiki = new Wikifier(context, notExistsPage, null, Request.QueryString);
                 ViewBag.Config.Title = notExistsPage.Name;
                 ViewBag.Body = wiki.ProcessedBody;
 
@@ -204,7 +204,7 @@ namespace SharpWiki.Site.Controllers
 
                     page.Id = PageRepository.SavePage(page);
 
-                    var wikifier = new Wikifier(context, page);
+                    var wikifier = new Wikifier(context, page, null, Request.QueryString);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
@@ -239,7 +239,7 @@ namespace SharpWiki.Site.Controllers
 
                     PageRepository.SavePage(page);
 
-                    var wikifier = new Wikifier(context, page);
+                    var wikifier = new Wikifier(context, page, null, Request.QueryString);
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();

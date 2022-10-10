@@ -232,15 +232,18 @@ namespace SharpWiki.Site.Controllers
 
             HttpPostedFileBase file = Request.Files["BinaryData"];
             int fileSize = file.ContentLength;
-            PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            if (fileSize > 0)
             {
-                Data = Utility.ConvertHttpFileToBytes(file),
-                CreatedDate = DateTime.UtcNow,
-                PageId = page.Id,
-                Name = file.FileName,
-                Size = fileSize,
-                ContentType = MimeMapping.GetMimeMapping(file.FileName)
-            });
+                PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                {
+                    Data = Utility.ConvertHttpFileToBytes(file),
+                    CreatedDate = DateTime.UtcNow,
+                    PageId = page.Id,
+                    Name = file.FileName,
+                    Size = fileSize,
+                    ContentType = MimeMapping.GetMimeMapping(file.FileName)
+                });
+            }
 
             var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
             return View(new FileAttachmentModel()

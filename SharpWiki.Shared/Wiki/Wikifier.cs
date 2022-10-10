@@ -5,6 +5,7 @@ using SharpWiki.Shared.Repository;
 using SharpWiki.Shared.Wiki.MethodCall;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,10 +29,12 @@ namespace SharpWiki.Shared.Wiki
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
         private Page _page;
         private int? _revision;
+        NameValueCollection _queryString;
         private readonly StateContext _context;
 
-        public Wikifier(StateContext context, Page page, int? revision = null)
+        public Wikifier(StateContext context, Page page, int? revision = null, NameValueCollection queryString = null)
         {
+            _queryString = queryString;
             _page = page;
             _revision = revision;
             Matches = new Dictionary<string, MatchSet>();
@@ -228,11 +231,15 @@ namespace SharpWiki.Shared.Wiki
                             string language = method.Parameters.Get<string>("language");
                             if (string.IsNullOrEmpty(language))
                             {
-                                html.Append($"<pre><code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
+                                html.Append($"<pre>");
+                                if (!String.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
+                                html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                             }
                             else
                             {
-                                html.Append($"<pre class=\"language-{language}\"><code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
+                                html.Append($"<pre class=\"language-{language}\">");
+                                if (!String.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
+                                html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                             }
                         }
                         break;
@@ -777,6 +784,72 @@ namespace SharpWiki.Shared.Wiki
                 switch (method.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
+                    case "history":
+                        {
+                            int pageNumber = int.Parse((_queryString.Get("page") ?? "1"));
+
+
+                            string view = method.Parameters.Get<String>("View").ToLower();
+                            var pageSize = method.Parameters.Get<int>("pageSize");
+                            var pageSelector = method.Parameters.Get<bool>("pageSelector");
+                            var history = PageRepository.GetPageRevisionHistoryInfoByNavigation(_page.Navigation, pageNumber, pageSize);
+                            var html = new StringBuilder();
+
+                            if (history.Count() > 0)
+                            {
+                                html.Append("<ul>");
+                                foreach (var item in history)
+                                {
+                                    html.Append($"<li><a href=\"/{item.Navigation}/r/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {item.ModifiedDate}</a>");
+
+                                    if (view == "full")
+                                    {
+                                        var thisRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision);
+                                        var prevRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision - 1);
+
+                                        var summaryText = Differentiator.GetComparisionSummary(thisRev.Body, prevRev?.Body ?? "");
+
+                                        if (summaryText.Length > 0)
+                                        {
+                                            html.Append(" - " + summaryText);
+                                        }
+                                    }
+                                    html.Append("</li>");
+                                }
+                                html.Append("</ul>");
+
+                                if (pageSelector)
+                                {
+                                    int paginationCount = history.First().PaginationCount;
+                                    if (pageNumber > 1)
+                                    {
+                                        html.Append($"<a href=\"?Page=1\">&lt;&lt; First</a>");
+                                        html.Append("&nbsp; | &nbsp;");
+                                        html.Append($"<a href=\"?Page={pageNumber - 1}\"> &lt; Previous</a>");
+                                    }
+                                    else
+                                    {
+                                        html.Append("&lt;&lt; First &nbsp; | &nbsp; &lt; Previous");
+                                    }
+                                    html.Append("&nbsp; | &nbsp;");
+                                    if (pageNumber < paginationCount)
+                                    {
+                                        html.Append($"<a href=\"?Page={pageNumber + 1}\"> Next &gt;</a>");
+                                        html.Append(" &nbsp; | &nbsp;");
+                                        html.Append($"<a href=\"?Page={paginationCount}\"> Last &gt;&gt;</a>");
+                                    }
+                                    else
+                                    {
+                                        html.Append("Next &gt; &nbsp; | &nbsp; Last &gt;&gt;");
+                                    }
+                                }
+                            }
+
+                            StoreMatch(pageContent, match.Value, html.ToString());
+
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Includes a page by it's navigation link.
                     case "editlink": //(##EditLink(link text))
                         {
@@ -784,8 +857,7 @@ namespace SharpWiki.Shared.Wiki
                             StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
                         }
                         break;
-
-
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Includes a page by it's navigation link.
                     case "include": //(PageName)
                         {
@@ -794,7 +866,7 @@ namespace SharpWiki.Shared.Wiki
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_context, page);
+                                var wikify = new Wikifier(_context, page, null, _queryString);
                                 StoreMatch(pageContent, match.Value, wikify.ProcessedBody);
                             }
                             else

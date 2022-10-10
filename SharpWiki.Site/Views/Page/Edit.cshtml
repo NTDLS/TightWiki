@@ -10,7 +10,6 @@
 </style>
 
 <script>
-
     window.onmessage = function (e) {
         var argument = (e.data + '');
 
@@ -102,13 +101,13 @@
                             </tr>
                             <tr class="padded">
                                 <td colspan="2">
-                                    @Html.TextAreaFor(x => x.Body, new { style = "width:100%;height:600px", Name = "Body" })
+                                    @Html.TextAreaFor(x => x.Body, new { style = "width:100%;height:600px", Name = "Body", onkeydown = "if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" })
                                 </td>
                             </tr>
                         </table>
                     }
 
-                    @if (Model?.Id > 0 && @ViewBag.Context?.CanCreate == true)
+                    @if (Model?.Id > 0 && @ViewBag.Config.Context?.CanCreate == true)
                     {
                         <iframe src="/File/EditPageAttachment/@ViewBag.Config.PageNavigation" align="left" width="500" frameBorder="0" />
                     }
