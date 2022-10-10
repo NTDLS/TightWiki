@@ -74,14 +74,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Library\Cache.cs" />
     <Compile Include="Library\CountryItem.cs" />
     <Compile Include="Library\Email.cs" />
     <Compile Include="Library\HTML.cs" />
     <Compile Include="Library\Images.cs" />
     <Compile Include="Library\TimeZoneItem.cs" />
+    <Compile Include="Models\Data\ConfigurationEntries.cs" />
     <Compile Include="Models\Data\ConfigurationFlat.cs" />
     <Compile Include="Models\Data\ConfigurationNest.cs" />
     <Compile Include="Models\Data\PageRevisionHistory.cs" />
+    <Compile Include="Models\ViewBagConfig.cs" />
     <Compile Include="Models\View\ConfigurationModel.cs" />
     <Compile Include="Models\Data\PageFileAttachment.cs" />
     <Compile Include="Models\View\PageHistoryModel.cs" />

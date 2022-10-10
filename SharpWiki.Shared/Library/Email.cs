@@ -1,6 +1,4 @@
 ﻿using SharpWiki.Shared.Repository;
-using System;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 
@@ -11,12 +9,11 @@ namespace SharpWiki.Shared.Library
         public static void SendEmail(string emailAddress, string subject, string htmlBody)
         {
             var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Email");
-
-            string smtpPassword = values.Where(o => o.Name == "SMTP.Password").FirstOrDefault().Value;
-            string smtpUsername = values.Where(o => o.Name == "SMTP.Username").FirstOrDefault().Value;
-            string smtpAddress = values.Where(o => o.Name == "SMTP.Address").FirstOrDefault().Value;
-            string smtpFromDisplayName = values.Where(o => o.Name == "SMTP.From Display Name").FirstOrDefault().Value;
-            int smtpPort = Int32.Parse(values.Where(o => o.Name == "SMTP.Port").FirstOrDefault().Value);
+            string smtpPassword = values.ValueAs<string>("SMTP.Password");
+            string smtpUsername = values.ValueAs<string>("SMTP.Username");
+            string smtpAddress = values.ValueAs<string>("SMTP.Address");
+            string smtpFromDisplayName = values.ValueAs<string>("SMTP.From Display Name");
+            int smtpPort = values.ValueAs<int>("SMTP.Port");
 
             var smtpClient = new SmtpClient
             {

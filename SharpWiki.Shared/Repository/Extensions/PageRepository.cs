@@ -144,8 +144,20 @@ namespace SharpWiki.Shared.Repository
             }
         }
 
-        public static Page GetPageRevisionByNavigation(string navigation, int? revision = null)
+        public static Page GetPageRevisionByNavigation(string navigation, int? revision = null, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                string cacheKey = $"Page:{navigation}:{revision}:GetPageRevisionByNavigation";
+                var result = Cache.Get<Page> (cacheKey);
+                if (result == null)
+                {
+                    result = GetPageRevisionByNavigation(navigation, revision, false);
+                    Cache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
 
             using (var handler = new SqlConnectionHandler())
             {

@@ -1,4 +1,5 @@
-﻿using SharpWiki.Shared.Models.Data;
+﻿using SharpWiki.Shared.Library;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Models.View;
 using SharpWiki.Shared.Repository;
 using SharpWiki.Shared.Wiki;
@@ -32,7 +33,7 @@ namespace SharpWiki.Site.Controllers
             if (result.History != null && result.History.Any())
             {
                 context.SetPageId(result.History.First().PageId);
-                ViewBag.Title = $"{result.History.First().Name} History";
+                ViewBag.Config.Title = $"{result.History.First().Name} History";
                 ViewBag.PaginationCount = result.History.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -65,7 +66,7 @@ namespace SharpWiki.Site.Controllers
                 context.SetPageId(page.Id, pageRevision);
 
                 var wiki = new Wikifier(context, page, pageRevision);
-                ViewBag.Title = page.Name;
+                ViewBag.Config.Title = page.Name;
                 ViewBag.Body = wiki.ProcessedBody;
             }
             else if (pageRevision != null)
@@ -77,7 +78,7 @@ namespace SharpWiki.Site.Controllers
                 context.SetPageId(null, pageRevision);
 
                 var wiki = new Wikifier(context, notExistsPage);
-                ViewBag.Title = notExistsPage.Name;
+                ViewBag.Config.Title = notExistsPage.Name;
                 ViewBag.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
@@ -94,7 +95,7 @@ namespace SharpWiki.Site.Controllers
                 context.SetPageId(null, pageRevision);
 
                 var wiki = new Wikifier(context, notExistsPage);
-                ViewBag.Title = notExistsPage.Name;
+                ViewBag.Config.Title = notExistsPage.Name;
                 ViewBag.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
@@ -127,7 +128,7 @@ namespace SharpWiki.Site.Controllers
                 context.SetPageId(page.Id);
 
                 //Editing an existing page.
-                ViewBag.Title = page.Name;
+                ViewBag.Config.Title = page.Name;
 
                 return View(new EditPageModel()
                 {
@@ -220,7 +221,15 @@ namespace SharpWiki.Site.Controllers
                 }
                 else
                 {
+                    string originalNavigation = string.Empty;
+
                     page = PageRepository.GetPageRevisionById(editPage.Id);
+
+                    if (page.Navigation != editPage.Navigation)
+                    {
+                        originalNavigation = page.Navigation; //So we can clear cache.
+                    }
+
                     page.ModifiedDate = DateTime.UtcNow;
                     page.ModifiedByUserId = context.User.Id;
                     page.Body = editPage.Body ?? "";
@@ -243,6 +252,17 @@ namespace SharpWiki.Site.Controllers
                         ViewBag.Success = "The page was saved successfully!";
                     }
 
+                    if (page != null)
+                    {
+                        Cache.ClearClass($"Page:{page.Navigation}");
+
+                        if (string.IsNullOrWhiteSpace(originalNavigation) == false)
+                        {
+                            Cache.ClearClass($"Page:{originalNavigation}");
+
+                        }
+                    }
+
                     return View(new EditPageModel()
                     {
                         Id = page.Id,
@@ -253,6 +273,7 @@ namespace SharpWiki.Site.Controllers
                     });
                 }
             }
+
             return View();
         }
 

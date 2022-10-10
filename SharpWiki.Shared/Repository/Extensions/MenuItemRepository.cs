@@ -1,32 +1,35 @@
 using Dapper;
 using SharpWiki.Shared.ADO;
+using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models.Data;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Linq;
 
 namespace SharpWiki.Shared.Repository
 {
     public static partial class MenuItemRepository
 	{
-		public static List<MenuItem> GetAllMenuItems()
+		public static List<MenuItem> GetAllMenuItems(bool allowCache = true)
 		{
-			string cacheKey = $"Menu:{(new StackTrace()).GetFrame(0).GetMethod().Name}";
-			var cacheItem = Singletons.GetCacheItem<List<MenuItem>>(cacheKey);
-			if (cacheItem != null)
+			if (allowCache)
 			{
-				return cacheItem;
+				string cacheKey = $"Config:GetAllMenuItems";
+				var result = Cache.Get<List<MenuItem>>(cacheKey);
+				if (result == null)
+				{
+					result = GetAllMenuItems(false);
+					Cache.Put(cacheKey, result);
+				}
+				return result;
 			}
 
 			using (var handler = new SqlConnectionHandler())
 			{
-				cacheItem = handler.Connection.Query<MenuItem>("GetAllMenuItems",
+				return handler.Connection.Query<MenuItem>("GetAllMenuItems",
 					null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-				Singletons.PutCacheItem(cacheKey, cacheItem);
 			}
-
-			return cacheItem;
 		}
 	}
 }
+

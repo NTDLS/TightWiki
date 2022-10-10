@@ -15,6 +15,9 @@ namespace SharpWiki.Shared.Wiki
 {
     public class Wikifier
     {
+        private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
+        private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
+
         public List<string> ProcessingInstructions { get; private set; } = new List<string>();
         public string ProcessedBody { get; private set; }
         public List<string> Tags { get; private set; } = new List<string>();
@@ -86,6 +89,9 @@ namespace SharpWiki.Shared.Wiki
                 html.Append($"<a href=\"/{_page.Navigation}\">Click here to view the latest revision {pageInfo.Revision}.</a></div></div><br />");
                 pageContent.Insert(0, html);
             }
+
+            pageContent.Replace(SoftBreak, "\r\n");
+            pageContent.Replace(HardBreak, "<br />");
 
             ProcessedBody = pageContent.ToString();
         }
@@ -215,6 +221,20 @@ namespace SharpWiki.Shared.Wiki
 
                 switch (boxType.ToLower())
                 {
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "code":
+                        {
+                            string language = method.Parameters.Get<string>("language");
+                            if (string.IsNullOrEmpty(language))
+                            {
+                                html.Append($"<pre><code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
+                            }
+                            else
+                            {
+                                html.Append($"<pre class=\"language-{language}\"><code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
+                            }
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "bullets":
                         {

@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using SharpWiki.Shared.Library;
+﻿using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models.View;
 using SharpWiki.Shared.Repository;
-using SharpWiki.Shared.Wiki;
+using System.Web.Mvc;
 
 namespace SharpWiki.Site.Controllers
 {
@@ -60,6 +51,8 @@ namespace SharpWiki.Site.Controllers
 
                 ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
             }
+
+            Cache.ClearClass("Config:");
 
             if (ModelState.IsValid)
             {

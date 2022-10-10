@@ -86,8 +86,21 @@ namespace SharpWiki.Shared.Repository
 			}
 		}
 
-		public static List<ConfigurationEntry> GetConfigurationEntryValuesByGroupName(string groupName)
+		public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
 		{
+			if (allowCache)
+			{
+				string cacheKey = $"Config:GetConfigurationEntryValuesByGroupName:{groupName}";
+				var result = Cache.Get<ConfigurationEntries>(cacheKey);
+				if (result == null)
+				{
+					result = GetConfigurationEntryValuesByGroupName(groupName, false);
+					Cache.Put(cacheKey, result);
+				}
+
+				return result;
+			}
+
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new
@@ -95,10 +108,10 @@ namespace SharpWiki.Shared.Repository
 					GroupName = groupName
 				};
 
-				var cacheItem = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName",
+				var result = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
 
-				foreach (var entry in cacheItem.Where(o => o.IsEncrypted))
+				foreach (var entry in result.Where(o => o.IsEncrypted))
 				{
 					try
 					{
@@ -109,12 +122,26 @@ namespace SharpWiki.Shared.Repository
 						entry.Value = "";
 					}
 				}
-				return cacheItem;
+
+				return new ConfigurationEntries(result);
 			}
 		}
 
-		public static string GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
+		public static string GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName, bool allowCache = true)
 		{
+			if (allowCache)
+			{
+				string cacheKey = $"Config:GetConfigurationEntryValuesByGroupNameAndEntryName:{groupName}:{entryName}";
+				var result = Cache.Get<string>(cacheKey);
+				if (result == null)
+				{
+					result = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName, false);
+					Cache.Put(cacheKey, result);
+				}
+
+				return result;
+			}
+
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new

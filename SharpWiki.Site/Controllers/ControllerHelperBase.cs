@@ -1,4 +1,5 @@
 ﻿using SharpWiki.Shared.Library;
+using SharpWiki.Shared.Models;
 using SharpWiki.Shared.Repository;
 using System;
 using System.Linq;
@@ -22,19 +23,26 @@ namespace SharpWiki.Site.Controllers
         {
             HydrateSecurityContext();
 
-            var config = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-            ViewBag.Title = ViewBag.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
-            ViewBag.BrandImageSmall = ViewBag.Copyright = config.Where(o => o.Name == "Brand Image (Small)").FirstOrDefault()?.Value;
-            ViewBag.Name = config.Where(o => o.Name == "Name").FirstOrDefault()?.Value;
-            ViewBag.Title = ViewBag.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
-            ViewBag.FooterBlurb = config.Where(o => o.Name == "FooterBlurb").FirstOrDefault()?.Value;
-            ViewBag.Copyright = config.Where(o => o.Name == "Copyright").FirstOrDefault()?.Value;
-            //ViewBag.PageUri = $"{RouteData.Values["controller"]}/{RouteData.Values["action"]}/{RouteData.Values["navigation"]}";
-            ViewBag.PageNavigation = RouteValue("pageNavigation");
-            ViewBag.PageRevision = RouteValue("pageRevision");
-            ViewBag.MenuItems = MenuItemRepository.GetAllMenuItems();
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
 
-            ViewBag.Context = context;
+            ViewBag.Config = new ViewBagConfig
+            {
+                Context = context,
+                HTMLHeader = htmlConfig.ValueAs<string>("Header"),
+                HTMLFooter = htmlConfig.ValueAs<string>("Footer"),
+                HTMLPreBody = htmlConfig.ValueAs<string>("Pre-Body"),
+                HTMLPostBody = htmlConfig.ValueAs<string>("Post-Body"),
+                BrandImageSmall = basicConfig.ValueAs<string>("Brand Image (Small)"),
+                Name = basicConfig.ValueAs<string>("Name"),
+                Title = basicConfig.ValueAs<string>("Name"), //Default the title to the name. This will be replaced when the page is found and loaded.
+                FooterBlurb = basicConfig.ValueAs<string>("FooterBlurb"),
+                Copyright = basicConfig.ValueAs<string>("Copyright"),
+                PageNavigation = RouteValue("pageNavigation"),
+                PageRevision = RouteValue("pageRevision"),
+                AllowGuestsToViewHistory = basicConfig.ValueAs<bool>("Allow Guests to View History"),
+                MenuItems = MenuItemRepository.GetAllMenuItems()
+            };
         }
 
         public void HydrateSecurityContext()

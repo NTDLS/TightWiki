@@ -38,7 +38,7 @@
                                 @foreach (var h in Model.History)
                                 {
                                     <tr>
-                                        <td><a href="/@ViewBag.PageNavigation/r/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                        <td><a href="/@ViewBag.Config.PageNavigation/r/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                                         <td>@Html.DisplayTextFor(x => h.ModifiedByUserName)</td>
                                         <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                     </tr>
@@ -49,9 +49,9 @@
 
                         if (@ViewBag.PreviousPage != null)
                         {
-                            <a href="/@ViewBag.PageNavigation/History/1">&lt;&lt; First</a>
+                            <a href="/@ViewBag.Config.PageNavigation/History/1">&lt;&lt; First</a>
                             @:&nbsp; | &nbsp;
-                            <a href="/@ViewBag.PageNavigation/History/@ViewBag.PreviousPage">&lt; Previous</a>
+                            <a href="/@ViewBag.Config.PageNavigation/History/@ViewBag.PreviousPage">&lt; Previous</a>
                         }
                         else
                         {
@@ -61,9 +61,9 @@
 
                         if (@ViewBag.NextPage != null)
                         {
-                            <a href="/@ViewBag.PageNavigation/History/@ViewBag.NextPage">Next &gt;</a>
+                            <a href="/@ViewBag.Config.PageNavigation/History/@ViewBag.NextPage">Next &gt;</a>
                             @:&nbsp; | &nbsp;
-                            <a href="/@ViewBag.PageNavigation/History/@ViewBag.PaginationCount">Last &gt;&gt;</a>
+                            <a href="/@ViewBag.Config.PageNavigation/History/@ViewBag.PaginationCount">Last &gt;&gt;</a>
                         }
                         else
                         {

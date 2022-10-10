@@ -15,6 +15,10 @@
         public static class Roles
         {
             /// <summary>
+            /// Members are auto logged in as guests..
+            /// </summary>
+            public static string Guest = "Guest";
+            /// <summary>
             /// Administrators can do anything. Add, edit, delete, pages, users, etc.
             /// </summary>
             public static string Administrator = "Administrator";
