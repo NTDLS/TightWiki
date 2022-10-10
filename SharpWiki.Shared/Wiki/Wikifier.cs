@@ -134,7 +134,8 @@ namespace SharpWiki.Shared.Wiki
             //ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
             //ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
             //ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
-
+            
+            ReplaceInlineHTMLMarker(pageContent, "~~", "strike", true); //inline bold.
             ReplaceInlineHTMLMarker(pageContent, "**", "strong", true); //inline bold.
             ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
             ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
@@ -776,6 +777,15 @@ namespace SharpWiki.Shared.Wiki
                 switch (method.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Includes a page by it's navigation link.
+                    case "editlink": //(##EditLink(link text))
+                        {
+                            var linkText = method.Parameters.Get<String>("linkText");
+                            StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
+                        }
+                        break;
+
+
                     //Includes a page by it's navigation link.
                     case "include": //(PageName)
                         {
