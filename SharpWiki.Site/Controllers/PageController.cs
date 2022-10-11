@@ -13,15 +13,21 @@ namespace SharpWiki.Site.Controllers
     public class PageController : ControllerHelperBase
     {
         #region Content.
-        [AllowAnonymous]
+        [Authorize]
+        [HttpGet]
         public ActionResult History(string pageNavigation, int page)
         {
-            if (page <= 0) page = 1;
+            if (context.Roles?.Contains(Constants.Roles.Guest) == true && context.Config.AllowGuestsToViewHistory == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
 
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();
             }
+
+            if (page <= 0) page = 1;
 
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
@@ -29,6 +35,13 @@ namespace SharpWiki.Site.Controllers
             {
                 History = PageRepository.GetPageRevisionHistoryInfoByNavigation(pageNavigation, page)
             };
+
+            foreach (var p in result.History)
+            {
+                var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
+                var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
+                p.ChangeSummary = Differentiator.GetComparisionSummary(thisRev.Body, prevRev?.Body ?? "");
+            }
 
             if (result.History != null && result.History.Any())
             {
@@ -39,6 +52,59 @@ namespace SharpWiki.Site.Controllers
 
                 if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
                 if(page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(result);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Revert(string pageNavigation, int pageRevision, PageRevertModel model)
+        {
+            if (context.CanModerate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true)
+            {
+                var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+                SavePage(revisionPage);
+            }
+
+            return RedirectToAction("Display", "Page", new { pageNavigation = pageNavigation });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Revert(string pageNavigation, int pageRevision)
+        {
+            if (context.CanModerate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
+            var mostCurrentPage = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+            var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+
+            ViewBag.PageName = revisionPage.Name;
+            ViewBag.CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision;
+            ViewBag.MostCurrentRevision = mostCurrentPage.Revision;
+
+            var result = new PageRevertModel()
+            {
+
+            };
+
+            if (revisionPage != null)
+            {
+                context.SetPageId(revisionPage.Id, pageRevision);
+                ViewBag.Config.Title = $"{revisionPage.Name} Revert";
             }
 
             return View(result);
@@ -92,7 +158,7 @@ namespace SharpWiki.Site.Controllers
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
-                context.SetPageId(null, pageRevision);
+                context.SetPageId(null, null);
 
                 var wiki = new Wikifier(context, notExistsPage, null, Request.QueryString);
                 ViewBag.Config.Title = notExistsPage.Name;
@@ -202,13 +268,7 @@ namespace SharpWiki.Site.Controllers
                         Description = editPage.Description ?? ""
                     };
 
-                    page.Id = PageRepository.SavePage(page);
-
-                    var wikifier = new Wikifier(context, page, null, Request.QueryString);
-                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
-                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-                    PageRepository.SavePageTokens(pageTokens);
+                    page.Id = SavePage(page);
 
                     context.SetPageId(page.Id);
 
@@ -237,13 +297,7 @@ namespace SharpWiki.Site.Controllers
                     page.Navigation = WikiUtility.CleanPartialURI(editPage.Name);
                     page.Description = editPage.Description ?? "";
 
-                    PageRepository.SavePage(page);
-
-                    var wikifier = new Wikifier(context, page, null, Request.QueryString);
-                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
-                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-                    PageRepository.SavePageTokens(pageTokens);
+                    SavePage(page);
 
                     context.SetPageId(page.Id);
 
@@ -252,15 +306,9 @@ namespace SharpWiki.Site.Controllers
                         ViewBag.Success = "The page was saved successfully!";
                     }
 
-                    if (page != null)
+                    if (page != null && string.IsNullOrWhiteSpace(originalNavigation) == false)
                     {
-                        Cache.ClearClass($"Page:{page.Navigation}");
-
-                        if (string.IsNullOrWhiteSpace(originalNavigation) == false)
-                        {
-                            Cache.ClearClass($"Page:{originalNavigation}");
-
-                        }
+                        Cache.ClearClass($"Page:{originalNavigation}");
                     }
 
                     return View(new EditPageModel()

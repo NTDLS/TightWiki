@@ -23,35 +23,24 @@ namespace SharpWiki.Shared.Wiki
             int thisRevLineCount = thisRevLines.Count();
             int prevRevLinesCount = prevRevLines.Count();
 
-            int maxLines = (thisRevLineCount > prevRevLinesCount) ? thisRevLineCount : prevRevLinesCount;
+            int linesAdded = prevRevLines.Except(thisRevLines).Count();
+            int linesDeleted = thisRevLines.Except(prevRevLines).Count();
 
-            int differences = 0;
-
-            for (int i = 0; i < maxLines; i++)
+            if(thisRevLineCount != prevRevLinesCount)
             {
-                if (thisRevLineCount > i && prevRevLinesCount > i)
-                {
-                    if (thisRevLines[i] != prevRevLines[i])
-                    {
-                        differences++;
-                    }
-                }
+                summary.Append($"{Math.Abs(thisRevLineCount - prevRevLinesCount):N0} lines changed.");
             }
 
-            if (differences > 0)
-            {
-                summary.Append($"{differences:N0} lines changed.");
-            }
-
-            if (thisRevLineCount > prevRevLinesCount)
+            if (linesAdded > 0)
             {
                 if (summary.Length > 0) summary.Append(" ");
-                summary.Append($"{(thisRevLineCount - prevRevLinesCount):N0} lines added.");
+                summary.Append($"{linesAdded:N0} lines added.");
             }
-            else if (prevRevLinesCount > thisRevLineCount)
+
+            if (linesDeleted > 0)
             {
                 if (summary.Length > 0) summary.Append(" ");
-                summary.Append($"{(prevRevLinesCount - thisRevLineCount):N0} lines deleted.");
+                summary.Append($"{linesDeleted:N0} lines deleted.");
             }
 
             if (summary.Length == 0)

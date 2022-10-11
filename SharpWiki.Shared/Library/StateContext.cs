@@ -1,4 +1,5 @@
-﻿using SharpWiki.Shared.Models.Data;
+﻿using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Repository;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,11 @@ namespace SharpWiki.Shared.Library
 {
     public class StateContext
     {
+        /// <summary>
+        /// A more accesible code frendly reference to what's in the viewbag.
+        /// </summary>
+        public ViewBagConfig Config { get; set; }
+
         public bool IsAuthenticated { get; set; }
         public User User { get; set; }
         public List<string> Roles { get; set; }
@@ -15,7 +21,7 @@ namespace SharpWiki.Shared.Library
         public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new List<ProcessingInstruction>();
 
-        public void SetPageId(int? pageId, int ?revision = null)
+        public void SetPageId(int? pageId, int? revision = null)
         {
             PageId = pageId;
             Revision = revision;
@@ -54,14 +60,19 @@ namespace SharpWiki.Shared.Library
             }
         }
 
+        public bool CanModerate =>
+            IsAuthenticated
+                && (Roles.Contains(Constants.Roles.Administrator)
+                || Roles.Contains(Constants.Roles.Moderator));
+
         public bool CanCreate =>
-            IsAuthenticated && CanEdit
+            IsAuthenticated
                 && (Roles.Contains(Constants.Roles.Administrator)
                 || Roles.Contains(Constants.Roles.Contributor)
                 || Roles.Contains(Constants.Roles.Moderator));
 
         public bool CanDelete =>
-            IsAuthenticated && CanCreate
+            IsAuthenticated
                 && (Roles.Contains(Constants.Roles.Administrator)
                 || Roles.Contains(Constants.Roles.Moderator));
     }

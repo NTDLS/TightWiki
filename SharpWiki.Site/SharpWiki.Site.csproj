@@ -830,6 +830,7 @@
     <Content Include="Views\Admin\Config.cshtml" />
     <Content Include="Views\Page\History.cshtml" />
     <Content Include="syntax\es\package.json" />
+    <Content Include="Views\Page\Revert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

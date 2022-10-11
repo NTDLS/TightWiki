@@ -21,6 +21,6 @@ namespace SharpWiki.Shared.Models.Data
         public int CreatedByUserId { get; set; }
         public string CreatedByUserName { get; set; }
         public DateTime CreatedDate { get; set; }
-
+        public string ChangeSummary { get; set; }
     }
 }

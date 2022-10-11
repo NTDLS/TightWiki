@@ -44,69 +44,54 @@
                     }
 
                     @{
-                        bool showHistory = (@ViewBag.Config.Context.IsPageLoaded == true);
+                        bool showHistory = (@ViewBag.Context.IsPageLoaded == true && @ViewBag.Context.IsAuthenticated);
 
-                        if (((ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Moderator) == true
-                            || ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true)))
+                        if (@ViewBag.Context.CanModerate)
                         {
-                            showHistory = false; //No need to show history link to admin/moderator, they get a whole menu for that.
+                            showHistory = showHistory && @ViewBag.Context.CanModerate;
                         }
 
-                        if (showHistory &&
-                            (ViewBag.Config.Context.IsAuthenticated || ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Guest) == true
-                            ) && ViewBag.Config.AllowGuestsToViewHistory == false)
+                        if (showHistory && @ViewBag.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Guest) == true
+                            && ViewBag.Config.AllowGuestsToViewHistory == false)
                         {
                             showHistory = false;
                         }
                     }
 
-                    @if ((showHistory) || (ViewBag.Config.Context.IsPageLoaded == true && ViewBag.Config.Context.CanEdit == true) || (ViewBag.CreatePage == true))
+                    @if (ViewBag.Context.IsPageLoaded == true && (showHistory || ViewBag.Context.CanEdit || ViewBag.Context.CanCreate || ViewBag.Context.CanModerate || ViewBag.Context.Delete))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Page<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="page">
 
+                                @if (ViewBag.Context.IsPageLoaded == true && ViewBag.Context.CanEdit)
+                                {
+                                    if (ViewBag.Context.IsViewingOldVersion == false)
+                                    {
+                                        <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Edit</a></li>
+                                    }
+                                    <li><a href="/Page/Edit/" class="list-group-item">Create New</a></li>
+                                }
+                                else if (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
+                                {
+                                    <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Create This</a></li>
+                                }
+
                                 @if (showHistory)
                                 {
-                                    <li><a href="/@ViewBag.Config.PageNavigation/History">History</a></li>
+                                    <li><a href="/@ViewBag.Config.PageNavigation/History" class="list-group-item">History</a></li>
                                 }
 
-                                @if (@ViewBag.Config.Context.IsPageLoaded == true && @ViewBag.Config.Context.CanEdit == true)
+                                @if (ViewBag.Context.IsViewingOldVersion && ViewBag.Context.CanModerate)
                                 {
-                                    if (@ViewBag.Config.Context.IsViewingOldVersion == false)
-                                    {
-                                        <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation">Edit</a></li>
-                                    }
-                                    <li><a href="/Page/Edit/">Create New</a></li>
-                                }
-                                else if (@ViewBag.CreatePage == true)
-                                {
-                                    <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation">Create This</a></li>
+                                    <li><a href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision" class="list-group-item">Revert to revision @ViewBag.Config.PageRevision</a></li>
                                 }
 
                             </ul>
                         </li>
                     }
 
-
-                    @if (ViewBag.Config.Context.IsAuthenticated == true
-                        && (ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Moderator) == true
-                        || ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true
-                        ))
-                    {
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Moderation<span class="caret"></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="moderation">
-                                <li><a href="/@ViewBag.Config.PageNavigation/History" class="list-group-item">View History</a></li>
-                                @if (@ViewBag.Config.PageRevision != null)
-                                {
-                                    <li><a href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision">Revert to revision @ViewBag.Config.PageRevision</a></li>
-                                }
-                            </ul>
-                        </li>
-                    }
-
-                    @if (ViewBag.Config.Context.IsAuthenticated == true && ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true)
+                    @if (ViewBag.Context.IsAuthenticated == true && ViewBag.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
@@ -118,7 +103,7 @@
                         </li>
                     }
 
-                    @if (@ViewBag.Config.Context.IsAuthenticated == true)
+                    @if (ViewBag.Context.IsAuthenticated == true)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
@@ -130,7 +115,7 @@
                         </li>
                     }
 
-                    @if (ViewBag.Config.Context.IsAuthenticated == false)
+                    @if (ViewBag.Context.IsAuthenticated == false)
                     {
                         <li><a href="/User/Login?ReturnUrl=@Request.Url.PathAndQuery">Login</a></li>
                     }

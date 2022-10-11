@@ -10,29 +10,6 @@ namespace SharpWiki.Site
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("Static/");
 
-            /*
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Page", action = "Display", id = UrlParameter.Optional }
-            );
-            */
-
-            /*
-            routes.MapRoute(
-                name: "File_Upload",
-                url: "File/Upload/{pageNavigation}",
-                defaults: new { controller = "File", action = "Upload", pageNavigation = "" }
-            );
-
-            routes.MapRoute(
-                name: "File_Delete",
-                url: "File/Delete/{pageNavigation}",
-                defaults: new { controller = "File", action = "Delete", pageNavigation = "" }
-            );
-
-            */
-
             routes.MapRoute(
                 name: "File_Attachment",
                 url: "File/{action}/{pageNavigation}/{fileNavigation}",
@@ -61,6 +38,12 @@ namespace SharpWiki.Site
                 name: "Page_Display_History",
                 url: "{pageNavigation}/History/{page}",
                 defaults: new { pageNavigation = "Home", controller = "Page", action = "History", pageRevision = UrlParameter.Optional, page = 1 }
+            );
+
+            routes.MapRoute(
+                name: "Page_Revert_History",
+                url: "{pageNavigation}/Revert/{pageRevision}",
+                defaults: new { pageNavigation = "Home", controller = "Page", action = "Revert" }
             );
 
             routes.MapRoute(

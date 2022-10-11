@@ -1,6 +1,8 @@
 ﻿using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Repository;
+using SharpWiki.Shared.Wiki;
 using System;
 using System.Linq;
 using System.Security.Principal;
@@ -43,6 +45,9 @@ namespace SharpWiki.Site.Controllers
                 AllowGuestsToViewHistory = basicConfig.ValueAs<bool>("Allow Guests to View History"),
                 MenuItems = MenuItemRepository.GetAllMenuItems()
             };
+
+            context.Config = ViewBag.Config;
+            ViewBag.Context = context;
         }
 
         public void HydrateSecurityContext()
@@ -67,6 +72,21 @@ namespace SharpWiki.Site.Controllers
             {
                 PerformGuestLogin();
             }
+        }
+
+        public int SavePage(Page page)
+        {
+            int pageId = PageRepository.SavePage(page);
+
+            var wikifier = new Wikifier(context, page, null, Request.QueryString);
+            PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+            var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+            PageRepository.SavePageTokens(pageTokens);
+
+            Cache.ClearClass($"Page:{page.Navigation}");
+
+            return pageId;
         }
 
         public bool PerformGuestLogin()

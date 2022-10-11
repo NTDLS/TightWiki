@@ -88,6 +88,7 @@
     <Compile Include="Models\View\ConfigurationModel.cs" />
     <Compile Include="Models\Data\PageFileAttachment.cs" />
     <Compile Include="Models\View\PageHistoryModel.cs" />
+    <Compile Include="Models\View\PageRevertModel.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />
     <Compile Include="Wiki\Differentiator.cs" />
     <Compile Include="Wiki\MatchSet.cs" />

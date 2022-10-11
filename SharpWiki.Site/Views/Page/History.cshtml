@@ -31,6 +31,7 @@
                                     <td><strong>Revision</strong></td>
                                     <td><strong>Modified By</strong></td>
                                     <td><strong>Modified Date</strong></td>
+                                    <td><strong>Summary</strong></td>
                                 </tr>
                             </thead>
 
@@ -41,8 +42,8 @@
                                         <td><a href="/@ViewBag.Config.PageNavigation/r/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                                         <td>@Html.DisplayTextFor(x => h.ModifiedByUserName)</td>
                                         <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
+                                        <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
                                     </tr>
-
                                 }
                             </tbody>
                         </table>
