@@ -831,6 +831,8 @@
     <Content Include="Views\Page\History.cshtml" />
     <Content Include="syntax\es\package.json" />
     <Content Include="Views\Page\Revert.cshtml" />
+    <Content Include="Views\User\Confirm.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

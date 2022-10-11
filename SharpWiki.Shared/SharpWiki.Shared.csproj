@@ -85,8 +85,10 @@
     <Compile Include="Models\Data\ConfigurationNest.cs" />
     <Compile Include="Models\Data\PageRevisionHistory.cs" />
     <Compile Include="Models\ViewBagConfig.cs" />
+    <Compile Include="Models\View\ChangePasswordModel.cs" />
     <Compile Include="Models\View\ConfigurationModel.cs" />
     <Compile Include="Models\Data\PageFileAttachment.cs" />
+    <Compile Include="Models\View\ConfirmModel.cs" />
     <Compile Include="Models\View\PageHistoryModel.cs" />
     <Compile Include="Models\View\PageRevertModel.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />

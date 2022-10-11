@@ -66,9 +66,16 @@ namespace SharpWiki.Site
 
             routes.MapRoute(
                 name: "User_Avatar",
-                url: "User/Avatar/{UserAccountName}",
+                url: "User/{userAccountName}/Avatar",
                 defaults: new { controller = "User", action = "Avatar" }
             );
+
+            routes.MapRoute(
+                name: "User_Confirm",
+                url: "User/{userAccountName}/Confirm/{confirmationCcode}",
+                defaults: new { controller = "User", action = "Confirm" }
+            );
+
 
             routes.MapRoute(
                 name: "Admin_Config",

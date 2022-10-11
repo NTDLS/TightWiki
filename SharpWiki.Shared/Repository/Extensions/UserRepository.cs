@@ -9,6 +9,100 @@ namespace SharpWiki.Shared.Repository
 {
     public static partial class UserRepository
 	{
+		public static int CreateUser(User user)
+		{
+			var param = new
+			{
+				EmailAddress = user.EmailAddress,
+				AccountName = user.AccountName,
+				Navigation = user.Navigation,
+				PasswordHash = user.PasswordHash,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				TimeZone = user.TimeZone,
+				Country = user.Country,
+				VerificationCode = user.VerificationCode
+			};
+
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.ExecuteScalar<int>("CreateUser",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+			}
+		}
+
+		public static void VerifyUserEmail(int userId)
+		{
+			var param = new
+			{
+				UserId = userId
+			};
+
+			using (var handler = new SqlConnectionHandler())
+			{
+				handler.Connection.Execute("VerifyUserEmail",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+			}
+		}
+
+		public static void UpdateUserRoles(int userId, string roles)
+		{
+			var param = new
+			{
+				UserId = userId,
+				Roles = roles
+			};
+
+			using (var handler = new SqlConnectionHandler())
+			{
+				handler.Connection.Execute("UpdateUserRoles",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+			}
+		}
+
+		public static bool UpdateUserRoles(User user)
+		{
+			var param = new
+			{
+				EmailAddress = user.EmailAddress,
+				AccountName = user.AccountName,
+				Navigation = user.Navigation,
+				PasswordHash = user.PasswordHash,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				TimeZone = user.TimeZone,
+				Country = user.Country,
+				VerificationCode = user.VerificationCode
+			};
+
+			using (var handler = new SqlConnectionHandler())
+			{
+				var result = handler.Connection.ExecuteScalar<int?>("CreateUser",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+				return (result ?? 0) != 0;
+			}
+		}
+
+		public static bool DoesEmailAddressExist(string emailAddress)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var result = handler.Connection.ExecuteScalar<int?>("DoesEmailAddressExist",
+					new { EmailAddress = emailAddress }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+				return (result ?? 0) != 0;
+			}
+		}
+
+		public static bool DoesAccountNameExist(string accountName)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var result = handler.Connection.ExecuteScalar<int?>("DoesAccountNameExist",
+					new { accountName = accountName }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+				return (result ?? 0) != 0;
+			}
+		}
+
 		public static List<Role> GetUserRolesByUserId(int userID)
 		{
 			using (var handler = new SqlConnectionHandler())
@@ -24,6 +118,22 @@ namespace SharpWiki.Shared.Repository
 			{
 				return handler.Connection.Query<User>("GetUserById",
 					new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
+
+		public static User GetUserByNavigationAndVerificationCode(string navigation, string verificationCode)
+		{
+			var param = new
+			{
+				Navigation = navigation,
+				VerificationCode = verificationCode,
+			};
+
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.Query<User>("GetUserByNavigationAndVerificationCode",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 			}
 		}
 
@@ -46,6 +156,21 @@ namespace SharpWiki.Shared.Repository
 				};
 
 				return handler.Connection.Query<User>("GetUserByEmail",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
+		public static User GetUserByEmailAndPasswordHash(string emailAddress, string passwordHash)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					EmailAddress = emailAddress,
+					PasswordHash = passwordHash
+				};
+
+				return handler.Connection.Query<User>("GetUserByEmailAndPasswordHash",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 			}
 		}
@@ -104,6 +229,21 @@ namespace SharpWiki.Shared.Repository
 					{
 						Navigation = navigation
 					}, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
+		public static void UpdateUserPassword(int userId, string password)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					UserId = userId,
+					PasswordHash = Library.Security.Sha256(password)
+				};
+
+				handler.Connection.Execute("UpdateUserPassword",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
 			}
 		}
 

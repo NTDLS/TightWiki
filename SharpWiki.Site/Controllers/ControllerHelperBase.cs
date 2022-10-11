@@ -122,16 +122,26 @@ namespace SharpWiki.Site.Controllers
             return false;
         }
 
-        public void PerformLogin(string emailAddress, string password)
+        public void PerformLogin(string emailAddress, string password, bool isPasswordHash)
         {
             var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Require Email Verification");
 
-            var user = UserRepository.GetUserByEmailAndPassword(emailAddress, password);
+            User user;
+
+            if (isPasswordHash)
+            {
+                user = UserRepository.GetUserByEmailAndPasswordHash(emailAddress, password);
+            }
+            else
+            {
+                user = UserRepository.GetUserByEmailAndPassword(emailAddress, password);
+            }
+
             if (user != null)
             {
                 if (requireEmailVerification == true && user.EmailVerified == false)
                 {
-                    throw new Exception("Email address has not been verified. Check you email or use the password reset link to confirm your email address.");
+                    throw new Exception("Email address has not been verified. Check your email or use the password reset link to confirm your email address.");
                 }
 
                 FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);

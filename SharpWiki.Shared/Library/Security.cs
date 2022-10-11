@@ -15,12 +15,19 @@ namespace SharpWiki.Shared.Library
             }
         }
 
-        public static string GenerateRandomString()
+        public static string GenerateRandomString(int maxLength = 10)
         {
             using (var crypto = Aes.Create())
             {
                 crypto.GenerateKey();
-                return Convert.ToBase64String(crypto.Key).Replace("/", "").Replace("=", "").Replace("+", "");
+                var result = Convert.ToBase64String(crypto.Key).Replace("/", "").Replace("=", "").Replace("+", "");
+
+                if (result.Length > maxLength)
+                {
+                    result = result.Substring(0, maxLength);
+                }
+
+                return result.ToUpper();
             }
         }
 

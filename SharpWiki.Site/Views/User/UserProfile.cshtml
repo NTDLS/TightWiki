@@ -27,7 +27,6 @@
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
-
                     @if (ViewBag.Warninig != null)
                     {
                         <div class="alert alert-warning">@ViewBag.Warninig</div>
@@ -47,7 +46,7 @@
                                 <td width="200"><strong>Avatar</strong></td>
                                 <td>
                                     @Html.HiddenFor(x => x.Navigation)
-                                    <img src="/User/Avatar/@Model.Navigation?max=150" /><br />
+                                    <img src="/User/@Model.Navigation/Avatar?max=150" /><br />
                                     <input type="file" id="Avatar" name="Avatar" onchange="fileCheck(this);" />
                                 </td>
                             </tr>

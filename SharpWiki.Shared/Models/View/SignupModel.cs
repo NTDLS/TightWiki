@@ -22,5 +22,23 @@ namespace SharpWiki.Shared.Models.View
         [StringLength(50, MinimumLength = 5, ErrorMessage = "Must have a minimum length of 5.")]
         [Compare("Password", ErrorMessage = "The two entered passwords do not match.")]
         public string ComparePassword { get; set; }
+
+        public string Navigation { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Time Zone")]
+        public string TimeZone { get; set; }
+
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
     }
 }

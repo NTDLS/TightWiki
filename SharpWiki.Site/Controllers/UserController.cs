@@ -4,10 +4,12 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using SharpWiki.Shared.Library;
+using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Models.View;
 using SharpWiki.Shared.Repository;
 using SharpWiki.Shared.Wiki;
@@ -17,6 +19,50 @@ namespace SharpWiki.Site.Controllers
     [Authorize]
     public class UserController : ControllerHelperBase
     {
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            Session.Abandon();
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Display", "Page", "Home");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ChangePassword()
+        {
+            return View(new ChangePasswordModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            if ((model.Password?.Length ?? 0) < 5)
+            {
+                ModelState.AddModelError("Password", "The password is too short. 5 character minimum.");
+                return View(model);
+            }
+            else if ((model.ComparePassword?.Length ?? 0) < 5)
+            {
+                ModelState.AddModelError("ComparePassword", "The password is too short. 5 character minimum.");
+                return View(model);
+            }
+            else if (model.Password != model.ComparePassword)
+            {
+                ModelState.AddModelError("ComparePassword", "The passwords you entered do not match");
+                return View(model);
+            }
+            else if (ModelState.IsValid)
+            {
+                UserRepository.UpdateUserPassword(context.User.Id, model.Password);
+                ViewBag.Success = "Your account password has been changed!";
+            }
+
+            return View(model);
+        }
+
         //Populate login form.
         [HttpGet]
         [AllowAnonymous]
@@ -39,7 +85,7 @@ namespace SharpWiki.Site.Controllers
             {
                 try
                 {
-                    PerformLogin(user.EmailAddress, user.Password);
+                    PerformLogin(user.EmailAddress, user.Password, false);
 
                     if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"] != "/")
                     {
@@ -88,12 +134,23 @@ namespace SharpWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Signup()
         {
+            ViewBag.TimeZones = TimeZoneItem.GetAll();
+            ViewBag.Countries = CountryItem.GetAll();
+
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            return View();
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+
+            var model = new SignupModel()
+            {
+                Country = basicConfig.ValueAs<string>("Default Country"),
+                TimeZone = basicConfig.ValueAs<string>("Default TimeZone"),
+            };
+
+            return View(model);
         }
 
         /// <summary>
@@ -104,75 +161,150 @@ namespace SharpWiki.Site.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Signup(SignupModel user)
+        public ActionResult Signup(SignupModel model)
         {
+            ViewBag.TimeZones = TimeZoneItem.GetAll();
+            ViewBag.Countries = CountryItem.GetAll();
+
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
+            model.EmailAddress = HTML.StripHTML(model.EmailAddress);
+            model.AccountName = HTML.StripHTML(model.AccountName);
 
-            /*
-                    string newEmailAddress = Utility.StripHTML(Request.Form["EmailAddress"]);
-                    string newDisplayName = Utility.StripHTML(Request.Form["DisplayName"]);
+            if ((model.EmailAddress?.Length ?? 0) < 5)
+            {
+                ModelState.AddModelError("EmailAddress", "You must enter an email address.");
+                return View(model);
+            }
+            else if (WikiUtility.IsValidEmail(model.EmailAddress) == false)
+            {
+                ModelState.AddModelError("EmailAddress", "You must specifiy a valid email address.");
+                return View(model);
+            }
+            else if (UserRepository.DoesEmailAddressExist(model.EmailAddress))
+            {
+                ModelState.AddModelError("EmailAddress", "This email address is already in use.");
+                return View(model);
+            }
+            else if ((model.AccountName?.Length ?? 0) < 2)
+            {
+                ModelState.AddModelError("AccountName", "You must enter an account name / alias.");
+                return View(model);
+            }
+            else if (UserRepository.DoesAccountNameExist(model.AccountName))
+            {
+                ModelState.AddModelError("AccountName", "This display name is already in use.");
+                return View(model);
+            }
+            else if ((model.Password?.Length ?? 0) < 5)
+            {
+                ModelState.AddModelError("Password", "The password is too short. 5 character minimum.");
+                return View(model);
+            }
+            else if ((model.ComparePassword?.Length ?? 0) < 5)
+            {
+                ModelState.AddModelError("ComparePassword", "The password is too short. 5 character minimum.");
+                return View(model);
+            }
+            else if (model.Password != model.ComparePassword)
+            {
+                ModelState.AddModelError("ComparePassword", "The passwords you entered do not match");
+                return View(model);
+            }
+            else if (ModelState.IsValid)
+            {
+                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                var siteName = basicConfig.ValueAs<string>("Name");
+                var address = basicConfig.ValueAs<string>("Address");
 
-                    if (Currentuser().EmailAddress.ToLower() != newEmailAddress.ToLower())
-                    {
-                        if ((newEmailAddress?.Length ?? 0) < 5)
-                        {
-                            ViewBag.Validation = Utility.ValidationMessage("You must enter an email address");
-                            return View();
-                        }
-                        else if (Utility.IsValidEmail(newEmailAddress) == false)
-                        {
-                            ViewBag.Validation = Utility.ValidationMessage("You'll need to specifiy a valid(ish) email address");
-                            return View();
-                        }
-                        else if (UserRepository.DoesEmailAddressExist(newEmailAddress))
-                        {
-                            ViewBag.Validation = Utility.ValidationMessage("This email address is already in use", "If you have forgotten your password, reset it");
-                            return View();
-                        }
-                    }
-                    else if (Currentuser().DisplayName.ToLower() != newDisplayName.ToLower())
-                    {
-                        if ((newDisplayName?.Length ?? 0) < 2)
-                        {
-                            ViewBag.Validation = Utility.ValidationMessage("You must enter a display name / alias");
-                            return View();
-                        }
-                        else if (UserRepository.DoesDisplayNameExist(newDisplayName))
-                        {
-                            ViewBag.Validation = Utility.ValidationMessage("This display name is already in use", "If you have forgotten your password, reset it", "Otherwise, be more creative");
-                            return View();
-                        }
-                    }
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+                var defaultSignupRole = membershipConfig.ValueAs<string>("Default Signup Role");
+                var requestEmailVerification = membershipConfig.ValueAs<bool>("Request Email Verification");
+                var requireEmailVerification = membershipConfig.ValueAs<bool>("Require Email Verification");
+                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.ValueAs<string>("Account Verification Email Template"));
 
-                    UserRepository.UpdateUser(Currentuser().Id, newEmailAddress, newDisplayName);
-
-                    (Session["LoggedInSession"] as LoggedInSession).User = UserRepository.GetUserById(Currentuser().Id);
-
-                    LoadSessionGlobals();
-                }
-                else if (formType == "Password")
+                var user = new User()
                 {
-                    string newPassword = Request.Form["Password"];
-                    string newPassword2 = Request.Form["Password2"];
+                    EmailAddress = model.EmailAddress,
+                    AccountName = model.AccountName,
+                    Navigation = WikiUtility.CleanPartialURI(model.AccountName),
+                    PasswordHash = Security.Sha256(model.Password),
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    TimeZone = model.TimeZone,
+                    Country = model.Country,
+                    AboutMe = string.Empty,
+                    VerificationCode = Security.GenerateRandomString(6)
+                };
 
-                    if ((newPassword?.Length ?? 0) < 5 != (newPassword2?.Length ?? 0) < 5)
-                    {
-                        ViewBag.Validation = Utility.ValidationMessage("The password is too short. 5 character minimum.");
-                        return View();
-                    }
-                    else if (newPassword != newPassword2)
-                    {
-                        ViewBag.Validation = Utility.ValidationMessage("The passwords you entered do not match");
-                        return View();
-                    }
+                int userId = UserRepository.CreateUser(user);
 
-                    UserRepository.UpdateUserPassword(Currentuser().Id, newPassword);
+                if (requestEmailVerification || requireEmailVerification)
+                {
+                    var emailSubject = "Account Verification";
+                    accountVerificationEmailTemplate.Replace("##SUBJECT##", emailSubject);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
+                    accountVerificationEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
+                    accountVerificationEmailTemplate.Replace("##CODE##", user.VerificationCode);
+                    accountVerificationEmailTemplate.Replace("##SITENAME##", siteName);
+                    accountVerificationEmailTemplate.Replace("##SITEADDRESS##", address);
+
+                    Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
                 }
-            */
+
+                UserRepository.UpdateUserRoles(userId, defaultSignupRole);
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Confirms an account email address
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Confirm(string userAccountName, string confirmationCcode)
+        {
+            userAccountName = WikiUtility.CleanPartialURI(userAccountName);
+
+            var user = UserRepository.GetUserByNavigationAndVerificationCode(userAccountName, confirmationCcode);
+
+            if (user == null)
+            {
+                ViewBag.Warninig = "The account and confirmation code you specified could not be found.";
+            }
+            else
+            {
+                UserRepository.VerifyUserEmail(user.Id);
+                ViewBag.Success = "Your account has been confirmed, feel free to login!";
+
+                try
+                {
+                    PerformLogin(user.EmailAddress, user.PasswordHash, true);
+
+                    if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"] != "/")
+                    {
+                        return Redirect(Request.QueryString["ReturnUrl"]);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Display", "Page", "Home");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
+                }
+
+            }
 
             return View();
         }
@@ -252,8 +384,6 @@ namespace SharpWiki.Site.Controllers
                 return new HttpNotFoundResult();
             }
         }
-
-
 
         /// <summary>
         /// Get user profile.

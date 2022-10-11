@@ -27,11 +27,14 @@
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
-
-                    <font size="5" face="ARIAL,HELVETICA" color="#e6e600">
-                        @if (@ViewBag.Validation != null)
-                        {<blockquote>@Html.Raw(@ViewBag.Validation)</blockquote>}
-                    </font>
+                    @if (ViewBag.Warninig != null)
+                    {
+                        <div class="alert alert-warning">@ViewBag.Warninig</div>
+                    }
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.Success</div>
+                    }
 
                     @using (Html.BeginForm())
                     {
