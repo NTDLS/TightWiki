@@ -89,7 +89,7 @@ namespace SharpWiki.Shared.Wiki
                 html.Append("<div class=\"panel panel-warning\">");
                 html.Append($"<div class=\"panel-heading\">Viewing a historical revision</div>");
                 html.Append($"<div class=\"panel-body\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {revision.ModifiedDate}.<br />");
-                html.Append($"<a href=\"/{_page.Navigation}\">Click here to view the latest revision {pageInfo.Revision}.</a></div></div><br />");
+                html.Append($"<a href=\"/{_page.Navigation}\">View the latest revision {pageInfo.Revision:0}.</a></div></div><br />");
                 pageContent.Insert(0, html);
             }
 

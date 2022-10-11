@@ -46,6 +46,12 @@
                     @{
                         bool showHistory = (@ViewBag.Config.Context.IsPageLoaded == true);
 
+                        if (((ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Moderator) == true
+                            || ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true)))
+                        {
+                            showHistory = false; //No need to show history link to admin/moderator, they get a whole menu for that.
+                        }
+
                         if (showHistory &&
                             (ViewBag.Config.Context.IsAuthenticated || ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Guest) == true
                             ) && ViewBag.Config.AllowGuestsToViewHistory == false)
@@ -54,29 +60,57 @@
                         }
                     }
 
-                    @if (showHistory)
+                    @if ((showHistory) || (ViewBag.Config.Context.IsPageLoaded == true && ViewBag.Config.Context.CanEdit == true) || (ViewBag.CreatePage == true))
                     {
-                    <li><a href="/@ViewBag.Config.PageNavigation/History">History</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Page<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="page">
+
+                                @if (showHistory)
+                                {
+                                    <li><a href="/@ViewBag.Config.PageNavigation/History">History</a></li>
+                                }
+
+                                @if (@ViewBag.Config.Context.IsPageLoaded == true && @ViewBag.Config.Context.CanEdit == true)
+                                {
+                                    if (@ViewBag.Config.Context.IsViewingOldVersion == false)
+                                    {
+                                        <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation">Edit</a></li>
+                                    }
+                                    <li><a href="/Page/Edit/">Create New</a></li>
+                                }
+                                else if (@ViewBag.CreatePage == true)
+                                {
+                                    <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation">Create This</a></li>
+                                }
+
+                            </ul>
+                        </li>
                     }
 
-                    @if (@ViewBag.Config.Context.IsPageLoaded == true && @ViewBag.Config.Context.CanEdit == true)
+
+                    @if (ViewBag.Config.Context.IsAuthenticated == true
+                        && (ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Moderator) == true
+                        || ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true
+                        ))
                     {
-                        if (@ViewBag.Config.Context.IsViewingOldVersion == false)
-                        {
-                            <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation">Edit</a></li>
-                        }
-                        <li><a href="/Page/Edit/">Create Page</a></li>
-                    }
-                    else if (@ViewBag.CreatePage == true)
-                    {
-                        <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation">Create</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Moderation<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="moderation">
+                                <li><a href="/@ViewBag.Config.PageNavigation/History" class="list-group-item">View History</a></li>
+                                @if (@ViewBag.Config.PageRevision != null)
+                                {
+                                    <li><a href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision">Revert to revision @ViewBag.Config.PageRevision</a></li>
+                                }
+                            </ul>
+                        </li>
                     }
 
                     @if (ViewBag.Config.Context.IsAuthenticated == true && ViewBag.Config.Context.Roles?.Contains(SharpWiki.Shared.Library.Constants.Roles.Administrator) == true)
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="about-us">
+                            <ul class="dropdown-menu" aria-labelledby="administration">
                                 <li><a href="/Admin/Config" class="list-group-item">Configuration</a></li>
                                 <li><a href="/Admin/Accounts" class="list-group-item">Accounts</a></li>
                                 <li><a href="/Admin/Roles" class="list-group-item">Roles</a></li>
@@ -87,8 +121,8 @@
                     @if (@ViewBag.Config.Context.IsAuthenticated == true)
                     {
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your Profile<span class="caret"></span></a>
-                            <ul class="dropdown-menu" aria-labelledby="about-us">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
+                            <ul class="dropdown-menu" aria-labelledby="account">
                                 <li><a href="/User/UserProfile" class="list-group-item">Profile</a></li>
                                 <li><a href="/User/ChangePassword" class="list-group-item">Change Password</a></li>
                                 <li><a href="/User/Logout" class="list-group-item">Logout</a></li>
