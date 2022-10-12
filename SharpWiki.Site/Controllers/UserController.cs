@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using SharpWiki.Shared.Library;
+﻿using SharpWiki.Shared.Library;
 using SharpWiki.Shared.Models.Data;
 using SharpWiki.Shared.Models.View;
 using SharpWiki.Shared.Repository;
 using SharpWiki.Shared.Wiki;
+using System;
+using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
 
 namespace SharpWiki.Site.Controllers
 {
@@ -29,14 +27,14 @@ namespace SharpWiki.Site.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult ChangePassword()
         {
             return View(new ChangePasswordModel());
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
             if ((model.Password?.Length ?? 0) < 5)
@@ -153,6 +151,28 @@ namespace SharpWiki.Site.Controllers
             return View(model);
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SignupComplete()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SignupCompleteVerification()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SignupPendingVerification()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Save signup form.
         /// </summary>
@@ -259,6 +279,18 @@ namespace SharpWiki.Site.Controllers
                 }
 
                 UserRepository.UpdateUserRoles(userId, defaultSignupRole);
+
+                if (requireEmailVerification)
+                {
+                    return RedirectToAction("SignupPendingVerification", "User");
+                }
+                else if (requestEmailVerification)
+                {
+                    return RedirectToAction("SignupCompleteVerification", "User");
+                }
+                else {
+                    return RedirectToAction("SignupComplete", "User");
+                }
             }
 
             return View(model);

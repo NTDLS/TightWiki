@@ -833,6 +833,9 @@
     <Content Include="Views\Page\Revert.cshtml" />
     <Content Include="Views\User\Confirm.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\User\SignupComplete.cshtml" />
+    <Content Include="Views\User\SignupCompleteVerification.cshtml" />
+    <Content Include="Views\User\SignupPendingVerification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

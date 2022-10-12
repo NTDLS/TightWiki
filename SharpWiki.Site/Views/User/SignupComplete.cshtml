@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<div class="jumbotron">
+    <table border="0" width="600" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="left">
+                    <h2>Signup complete!</h2>
+                    You are now fully signed up and ready to <a href="/User/Login">Login</a>.
+
+                    <br /><br />
+                    Forgot your password? @Html.ActionLink("Reset it!", "Forgot", "User").<br />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
