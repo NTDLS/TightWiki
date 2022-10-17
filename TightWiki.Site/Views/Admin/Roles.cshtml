@@ -23,7 +23,12 @@
         @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
     }
 
-    <table border="0" width="600" cellpadding="5">
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
+    <table border="0" width="100%" cellpadding="0">
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
@@ -41,20 +46,28 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <table border="0" width="100%">
-                            <tr>
-                                <td>
-                                    This page has not been implemented...
+                <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Description</strong></td>
+                        </tr>
+                    </thead>
 
-                                </td>
-                            </tr>
+                    @foreach (var role in Model.Roles)
+                    {
+                        <tr>
+                            <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
+                            <td>@role.Description</td>
+                        </tr>
+                    }
 
-                            <tr class="padded">
-                                <td>
-                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                </td>
-                            </tr>
-                        </table>
+                    <tr class="padded">
+                        <td>
+                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                        </td>
+                    </tr>
+                </table>
                     }
                 </td>
             </tr>

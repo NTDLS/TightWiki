@@ -12,15 +12,35 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Roles()
         {
-            var model = new RolesModel();
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var model = new RolesModel()
+            {
+                Roles = UserRepository.GetAllRoles()
+            };
+
             return View(model);
         }
 
         [Authorize]
         [HttpGet]
-        public ActionResult Accounts()
+        public ActionResult Accounts(int page)
         {
-            var model = new AccountsModel();
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            if (page <= 0) page = 1;
+
+            var model = new AccountsModel()
+            {
+                Users = UserRepository.GetAllUsers(page)
+            };
+
             return View(model);
         }
 
@@ -28,6 +48,11 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Config()
         {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
 
@@ -40,6 +65,11 @@ namespace TightWiki.Site.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Config([Bind(Exclude = "Avatar")] ConfigurationModel config)
         {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
 

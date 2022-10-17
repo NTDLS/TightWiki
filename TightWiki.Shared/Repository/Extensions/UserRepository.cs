@@ -9,6 +9,30 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class UserRepository
 	{
+		public static List<Role> GetAllRoles()
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.Query<Role>("GetAllRoles",
+					null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+			}
+		}
+
+		public static List<User> GetAllUsers(int pageNumber, int pageSize = 0)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					PageNumber = pageNumber,
+					PageSize = pageSize
+				};
+
+				return handler.Connection.Query<User>("GetAllUsers",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+			}
+		}
+
 		public static int CreateUser(User user)
 		{
 			var param = new

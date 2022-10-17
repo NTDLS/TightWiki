@@ -23,7 +23,7 @@
         @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
     }
 
-    <table border="0" width="600" cellpadding="5">
+    <table border="0" width="100%" cellpadding="0">
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
@@ -41,20 +41,38 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <table border="0" width="100%">
-                            <tr>
-                                <td>
-                                    This page has not been implemented...
+                <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <td><strong>Account</strong></td>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Country</strong></td>
+                            <td><strong>Time Zone</strong></td>
+                            <td><strong>Email Address</strong></td>
+                            <td><strong>Created</strong></td>
+                            <td><strong>Last Login</strong></td>
+                        </tr>
+                    </thead>
 
-                                </td>
-                            </tr>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
+                            <td>@user.FirstName @user.LastName</td>
+                            <td>@user.Country</td>
+                            <td>@user.TimeZone</td>
+                            <td>@user.EmailAddress  @Html.Raw(((user.EmailVerified == true) ? "&check;" : ""))   </td>
+                            <td>@user.CreatedDate</td>
+                            <td>@user.LastLoginDate</td>
+                        </tr>
+                    }
 
-                            <tr class="padded">
-                                <td>
-                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                </td>
-                            </tr>
-                        </table>
+                    <tr class="padded">
+                        <td>
+                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                        </td>
+                    </tr>
+                </table>
                     }
                 </td>
             </tr>
