@@ -2,11 +2,11 @@ packages/
 *.user
 .vs/
 
-SharpWiki.Shared/bin/
-SharpWiki.Shared/obj/
+TightWiki.Shared/bin/
+TightWiki.Shared/obj/
 
-SharpWiki.Site/bin/
-SharpWiki.Site/obj/
+TightWiki.Site/bin/
+TightWiki.Site/obj/
 
 CodeGeneration/bin/
 CodeGeneration/obj/
