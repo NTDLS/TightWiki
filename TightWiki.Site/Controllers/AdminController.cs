@@ -8,10 +8,22 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class AdminController : ControllerHelperBase
     {
-        /// <summary>
-        /// Get user profile.
-        /// </summary>
-        /// <returns></returns>
+        [Authorize]
+        [HttpGet]
+        public ActionResult Roles()
+        {
+            var model = new RolesModel();
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Accounts()
+        {
+            var model = new AccountsModel();
+            return View(model);
+        }
+
         [Authorize]
         [HttpGet]
         public ActionResult Config()
@@ -24,13 +36,8 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-        /// <summary>
-        /// Save user profile.
-        /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult Config([Bind(Exclude = "Avatar")] ConfigurationModel config)
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();

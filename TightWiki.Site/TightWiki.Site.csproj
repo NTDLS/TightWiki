@@ -838,6 +838,8 @@
     <Content Include="Views\User\PasswordResetEmailSent.cshtml" />
     <Content Include="Views\User\Reset.cshtml" />
     <Content Include="Views\User\ResetComplete.cshtml" />
+    <Content Include="Views\Admin\Roles.cshtml" />
+    <Content Include="Views\Admin\Accounts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

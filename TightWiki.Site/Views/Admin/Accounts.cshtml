@@ -1,0 +1,63 @@
+﻿@model TightWiki.Shared.Models.View.AccountsModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<div class="jumbotron">
+    <h2>Accounts</h2>
+    <font size="4" face="ARIAL,HELVETICA">
+        Global configuration for usr accounts.<br /><br />
+    </font>
+
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
+    <table border="0" width="600" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="center">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.Error</div>
+                    }
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.Success</div>
+                    }
+
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <table border="0" width="100%">
+                            <tr>
+                                <td>
+                                    This page has not been implemented...
+
+                                </td>
+                            </tr>
+
+                            <tr class="padded">
+                                <td>
+                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

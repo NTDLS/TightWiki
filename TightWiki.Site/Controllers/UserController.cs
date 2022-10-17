@@ -557,68 +557,67 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public ActionResult UserProfile([Bind(Exclude = "Avatar")] UserProfileModel profile)
+        public ActionResult UserProfile([Bind(Exclude = "Avatar")] UserProfileModel model)
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
 
+            model.Navigation = WikiUtility.CleanPartialURI(model.AccountName.ToLower());
+            var user = UserRepository.GetUserById(context.User.Id);
+
+            HttpPostedFileBase file = Request.Files["Avatar"];
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                    //This is just to ensure this is a valid image:
+                    var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                    UserRepository.UpdateUserAvatar(user.Id, imageBytes);
+                }
+                catch
+                {
+                    ModelState.AddModelError("Avatar", "Could not save the attached image.");
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                profile.Navigation = WikiUtility.CleanPartialURI(profile.AccountName.ToLower());
-
-                var user = UserRepository.GetUserById(context.User.Id);
-
-                if (user.Navigation != profile.Navigation)
+                if (user.Navigation.ToLower() != model.Navigation.ToLower())
                 {
-                    var checkName = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(profile.AccountName.ToLower()));
+                    var checkName = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(model.AccountName.ToLower()));
                     if (checkName != null)
                     {
                         ModelState.AddModelError("AccountName", "Account name is already in use.");
-                        return View(profile);
+                        return View(model);
                     }
                 }
 
-                if (user.EmailAddress.ToLower() != profile.EmailAddress.ToLower())
+                if (user.EmailAddress.ToLower() != model.EmailAddress.ToLower())
                 {
-                    var checkName = UserRepository.GetUserByEmail(profile.EmailAddress.ToLower());
+                    var checkName = UserRepository.GetUserByEmail(model.EmailAddress.ToLower());
                     if (checkName != null)
                     {
                         ModelState.AddModelError("EmailAddress", "Email address is already in use.");
-                        return View(profile);
+                        return View(model);
                     }
                 }
 
-                user.AboutMe = profile.AboutMe;
-                user.FirstName = profile.FirstName;
-                user.LastName = profile.LastName;
-                user.TimeZone = profile.TimeZone;
-                user.Country = profile.Country;
-                user.AccountName = profile.AccountName;
-                user.Navigation = WikiUtility.CleanPartialURI(profile.AccountName);
-                user.EmailAddress = profile.EmailAddress;
+                user.AboutMe = model.AboutMe;
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.TimeZone = model.TimeZone;
+                user.Country = model.Country;
+                user.AccountName = model.AccountName;
+                user.Navigation = WikiUtility.CleanPartialURI(model.AccountName);
+                user.EmailAddress = model.EmailAddress;
                 user.ModifiedDate = DateTime.UtcNow;
                 UserRepository.UpdateUser(user);
-
-                HttpPostedFileBase file = Request.Files["Avatar"];
-                if (file != null && file.ContentLength > 0)
-                {
-                    try
-                    {
-                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        //This is just to ensure this is a valid image:
-                        var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
-                        UserRepository.UpdateUserAvatar(user.Id, imageBytes);
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError("Avatar", "Could not save the attached image.");
-                    }
-                }
 
                 ViewBag.Success = "Your profile has been saved successfully!.";
             }
 
-            return View(profile);
+            return View(model);
         }
     }
 }

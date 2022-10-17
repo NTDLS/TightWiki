@@ -91,6 +91,8 @@
     <Compile Include="Models\View\ConfirmModel.cs" />
     <Compile Include="Models\View\PageHistoryModel.cs" />
     <Compile Include="Models\View\PageRevertModel.cs" />
+    <Compile Include="Models\View\AccountsModel.cs" />
+    <Compile Include="Models\View\RolesModel.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />
     <Compile Include="Wiki\Differentiator.cs" />
     <Compile Include="Wiki\MatchSet.cs" />
@@ -113,7 +115,6 @@
     <Compile Include="Library\StateContext.cs" />
     <Compile Include="Wiki\TOCTag.cs" />
     <Compile Include="Library\Constants.cs" />
-    <Compile Include="Models\Data\ConfigurationEntry.cs" />
     <Compile Include="Models\Data\ConfigurationGroup.cs" />
     <Compile Include="Models\View\FileAttachmentModel.cs" />
     <Compile Include="Models\View\EditPageModel.cs" />
