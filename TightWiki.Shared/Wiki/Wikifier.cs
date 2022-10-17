@@ -447,31 +447,7 @@ namespace TightWiki.Shared.Wiki
 
                 StoreMatch(pageContent, match.Value, html.ToString());
             }
-
-            /*
-            TransformSyntaxHighlighters("cpp", "cpp");
-            TransformSyntaxHighlighters("csharp", "C#");
-            TransformSyntaxHighlighters("sql", "sql");
-            TransformSyntaxHighlighters("vbnet", "vbnet");
-            TransformSyntaxHighlighters("xml", "xml");
-            TransformSyntaxHighlighters("css", "css");
-            TransformSyntaxHighlighters("java", "java");
-            */
         }
-
-        /*
-        private void TransformSyntaxHighlighters(string tag, string brush)
-        {
-            Regex rgx = new Regex("\\[\\[" + tag + "\\]\\]([\\s\\S]*?)\\[\\[\\/" + tag + "\\]\\]", RegexOptions.IgnoreCase);
-            var matches = Utility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            foreach (var match in matches)
-            {
-                string rawValue = match.Value.Substring(tag.Length + 4, match.Value.Length - ((tag.Length * 2) + 9));
-                rawValue = rawValue.Replace("<", "&lt;").Replace(">", "&gt;");
-                StoreMatch(pageContent, match.Value, "<pre class='brush: " + brush + "; toolbar: false; auto-links: false;'>" + rawValue + "</pre>");
-            }
-        }
-        */
 
         /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
