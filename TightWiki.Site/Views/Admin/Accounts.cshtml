@@ -37,7 +37,7 @@
                         <div class="alert alert-success">@ViewBag.Success</div>
                     }
 
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
 
