@@ -229,24 +229,24 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult Edit(EditPageModel editPage)
+        public ActionResult Edit(EditPageModel model)
         {
             if (context.CanEdit == false)
             {
                 return new HttpUnauthorizedResult();
             }
 
-            if (string.IsNullOrWhiteSpace(editPage.Name))
+            if (string.IsNullOrWhiteSpace(model.Name))
             {
                 ViewBag.Error = "The page name cannot be empty.";
 
                 return View(new EditPageModel()
                 {
-                    Id = editPage.Id,
-                    Body = editPage.Body,
-                    Name = editPage.Name,
-                    Navigation = editPage.Navigation,
-                    Description = editPage.Description
+                    Id = model.Id,
+                    Body = model.Body,
+                    Name = model.Name,
+                    Navigation = model.Navigation,
+                    Description = model.Description
                 });
             }
 
@@ -254,7 +254,7 @@ namespace TightWiki.Site.Controllers
             {
                 Page page;
 
-                if (editPage.Id == 0) //Saving a new page.
+                if (model.Id == 0) //Saving a new page.
                 {
                     page = new Page()
                     {
@@ -262,11 +262,17 @@ namespace TightWiki.Site.Controllers
                         CreatedByUserId = context.User.Id,
                         ModifiedDate = DateTime.UtcNow,
                         ModifiedByUserId = context.User.Id,
-                        Body = editPage.Body ?? "",
-                        Name = editPage.Name,
-                        Navigation = WikiUtility.CleanPartialURI(editPage.Name),
-                        Description = editPage.Description ?? ""
+                        Body = model.Body ?? "",
+                        Name = model.Name,
+                        Navigation = WikiUtility.CleanPartialURI(model.Name),
+                        Description = model.Description ?? ""
                     };
+
+                    if (PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
+                    {
+                        ViewBag.Error = "The page name you entered already exists.";
+                        return View(model);
+                    }
 
                     page.Id = SavePage(page);
 
@@ -283,19 +289,27 @@ namespace TightWiki.Site.Controllers
                 {
                     string originalNavigation = string.Empty;
 
-                    page = PageRepository.GetPageRevisionById(editPage.Id);
+                    page = PageRepository.GetPageRevisionById(model.Id);
 
-                    if (page.Navigation != editPage.Navigation)
+                    model.Navigation = WikiUtility.CleanPartialURI(model.Name);
+
+                    if (page.Navigation.ToLower() != model.Navigation.ToLower())
                     {
+                        if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
+                        {
+                            ViewBag.Error = "The page name you entered already exists.";
+                            return View(model);
+                        }
+
                         originalNavigation = page.Navigation; //So we can clear cache.
                     }
 
                     page.ModifiedDate = DateTime.UtcNow;
                     page.ModifiedByUserId = context.User.Id;
-                    page.Body = editPage.Body ?? "";
-                    page.Name = editPage.Name;
-                    page.Navigation = WikiUtility.CleanPartialURI(editPage.Name);
-                    page.Description = editPage.Description ?? "";
+                    page.Body = model.Body ?? "";
+                    page.Name = model.Name;
+                    page.Navigation = WikiUtility.CleanPartialURI(model.Name);
+                    page.Description = model.Description ?? "";
 
                     SavePage(page);
 

@@ -76,7 +76,7 @@ namespace TightWiki.Site.Controllers
 
         public int SavePage(Page page)
         {
-            int pageId = PageRepository.SavePage(page);
+            page.Id = PageRepository.SavePage(page);
 
             var wikifier = new Wikifier(context, page, null, Request.QueryString);
             PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
@@ -86,7 +86,7 @@ namespace TightWiki.Site.Controllers
 
             Cache.ClearClass($"Page:{page.Navigation}");
 
-            return pageId;
+            return page.Id;
         }
 
         public bool PerformGuestLogin()
