@@ -238,7 +238,7 @@ namespace SharpWiki.Site.Controllers
 
             if (string.IsNullOrWhiteSpace(editPage.Name))
             {
-                ViewBag.Warninig = "The page name cannot be empty.";
+                ViewBag.Error = "The page name cannot be empty.";
 
                 return View(new EditPageModel()
                 {

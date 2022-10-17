@@ -72,8 +72,14 @@ namespace SharpWiki.Site
 
             routes.MapRoute(
                 name: "User_Confirm",
-                url: "User/{userAccountName}/Confirm/{confirmationCcode}",
+                url: "User/{userAccountName}/Confirm/{verificationCode}",
                 defaults: new { controller = "User", action = "Confirm" }
+            );
+            
+            routes.MapRoute(
+                name: "User_Reset",
+                url: "User/{userAccountName}/Reset/{verificationCode}",
+                defaults: new { controller = "User", action = "Reset" }
             );
 
 

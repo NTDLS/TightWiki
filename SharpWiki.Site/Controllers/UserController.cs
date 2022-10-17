@@ -113,15 +113,104 @@ namespace SharpWiki.Site.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Forgot(ForgotModel model)
+        {
+            var user = UserRepository.GetUserByEmail(model.EmailAddress);
+
+            if (user != null)
+            {
+                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                var siteName = basicConfig.ValueAs<string>("Name");
+                var address = basicConfig.ValueAs<string>("Address");
+
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+                var resetPasswordEmailTemplate = new StringBuilder(membershipConfig.ValueAs<string>("Reset Password Email Template"));
+
+                user.VerificationCode = Security.GenerateRandomString(6);
+                UserRepository.UpdateUserVerificationCode(user.Id, user.VerificationCode);
+
+                var emailSubject = "Reset Password";
+                resetPasswordEmailTemplate.Replace("##SUBJECT##", emailSubject);
+                resetPasswordEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
+                resetPasswordEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
+                resetPasswordEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
+                resetPasswordEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
+                resetPasswordEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
+                resetPasswordEmailTemplate.Replace("##CODE##", user.VerificationCode);
+                resetPasswordEmailTemplate.Replace("##SITENAME##", siteName);
+                resetPasswordEmailTemplate.Replace("##SITEADDRESS##", address);
+
+                Email.Send(user.EmailAddress, emailSubject, resetPasswordEmailTemplate.ToString());
+            }
+
+            return RedirectToAction("PasswordResetEmailSent", "User");
+        }
+
         /// <summary>
         /// Populate reset password form.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Reset()
+        public ActionResult Reset(string userAccountName, string verificationCode)
         {
-            return View();
+            var user = UserRepository.GetUserByNavigation(userAccountName);
+
+            if (user != null)
+            {
+                if (user.VerificationCode?.ToLower() != verificationCode.ToLower())
+                {
+                    ViewBag.Error = "The verification code you specified can not be found.";
+                }
+                else
+                {
+                    return View(new ResetModel
+                    {
+                        EmailAddress = user.EmailAddress,
+                        VerificationCode = verificationCode
+                    });
+                }
+            }
+            else
+            {
+                ViewBag.Error = "The email address you specified can not be found.";
+            }
+
+            return View(new ResetModel());
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Reset(string userAccountName, string verificationCode, ResetModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserRepository.GetUserByEmail(model.EmailAddress);
+
+                if (user != null)
+                {
+                    if (user.VerificationCode?.ToLower() != model.VerificationCode.ToLower())
+                    {
+                        ViewBag.Error = "The verification code you specified can not be found.";
+                        return Reset(userAccountName, verificationCode);
+                    }
+
+                    UserRepository.UpdateUserPassword(user.Id, model.Password);
+                    UserRepository.VerifyUserEmail(user.Id);
+
+                    return RedirectToAction("ResetComplete", "User");
+                }
+                else
+                {
+                    ViewBag.Error = "The email address you specified can not be found.";
+                }
+
+                return View(new ResetModel());
+            }
+
+            return Reset(userAccountName, verificationCode);
         }
 
         /// <summary>
@@ -151,6 +240,12 @@ namespace SharpWiki.Site.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ResetComplete()
+        {
+            return View();
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -169,6 +264,13 @@ namespace SharpWiki.Site.Controllers
         [HttpGet]
         [AllowAnonymous]
         public ActionResult SignupPendingVerification()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult PasswordResetEmailSent()
         {
             return View();
         }
@@ -303,15 +405,15 @@ namespace SharpWiki.Site.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Confirm(string userAccountName, string confirmationCcode)
+        public ActionResult Confirm(string userAccountName, string verificationCode)
         {
             userAccountName = WikiUtility.CleanPartialURI(userAccountName);
 
-            var user = UserRepository.GetUserByNavigationAndVerificationCode(userAccountName, confirmationCcode);
+            var user = UserRepository.GetUserByNavigationAndVerificationCode(userAccountName, verificationCode);
 
             if (user == null)
             {
-                ViewBag.Warninig = "The account and confirmation code you specified could not be found.";
+                ViewBag.Error = "The account and verification code you specified could not be found.";
             }
             else
             {

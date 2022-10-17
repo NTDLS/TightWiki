@@ -247,6 +247,21 @@ namespace SharpWiki.Shared.Repository
 			}
 		}
 
+		public static void UpdateUserVerificationCode(int userId, string VerificationCode)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					UserId = userId,
+					VerificationCode = VerificationCode
+				};
+
+				handler.Connection.Execute("UpdateUserVerificationCode",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+			}
+		}
+
 		public static void UpdateUser(User item)
 		{
 			using (var handler = new SqlConnectionHandler())

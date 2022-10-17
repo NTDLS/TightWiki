@@ -821,7 +821,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\User\Forgot.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\User\Reset.cshtml" />
     <Content Include="Views\User\Signup.cshtml" />
     <Content Include="Views\User\UserProfile.cshtml" />
     <Content Include="Views\Page\Edit.cshtml" />
@@ -836,6 +835,9 @@
     <Content Include="Views\User\SignupComplete.cshtml" />
     <Content Include="Views\User\SignupCompleteVerification.cshtml" />
     <Content Include="Views\User\SignupPendingVerification.cshtml" />
+    <Content Include="Views\User\PasswordResetEmailSent.cshtml" />
+    <Content Include="Views\User\Reset.cshtml" />
+    <Content Include="Views\User\ResetComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

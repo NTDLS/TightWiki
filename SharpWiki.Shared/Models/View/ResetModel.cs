@@ -9,8 +9,8 @@ namespace SharpWiki.Shared.Models.View
         public string EmailAddress { get; set; }
 
         [Required]
-        [Display(Name = "Temp Code")]
-        public string TempCode { get; set; }
+        [Display(Name = "Verification Code")]
+        public string VerificationCode { get; set; }
 
         [Required]
         [Display(Name = "Password")]

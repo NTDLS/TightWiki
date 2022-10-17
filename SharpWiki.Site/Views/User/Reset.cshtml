@@ -27,9 +27,9 @@
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
-                    @if (ViewBag.Warninig != null)
+                    @if (ViewBag.Error != null)
                     {
-                        <div class="alert alert-warning">@ViewBag.Warninig</div>
+                        <div class="alert alert-danger">@ViewBag.Error</div>
                     }
                     @if (ViewBag.Success != null)
                     {
@@ -47,12 +47,12 @@
                             </tr>
                             <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
                             <tr class="padded">
-                                <td><strong>@Html.LabelFor(m => m.TempCode)</strong></td>
+                                <td><strong>@Html.LabelFor(m => m.VerificationCode)</strong></td>
                                 <td>
-                                    @Html.TextBoxFor(m => m.TempCode, new { @class = "input-control" })
+                                    @Html.TextBoxFor(m => m.VerificationCode, new { @class = "input-control" })
                                 </td>
                             </tr>
-                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.TempCode)</div></td></tr>
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.VerificationCode)</div></td></tr>
                             <tr class="padded">
                                 <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
                                 <td>
