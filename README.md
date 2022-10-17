@@ -1,9 +1,9 @@
-# SharpWiki
+# TightWiki
 
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that “checks all the boxes” – so I wrote one.
 
-SharpWiki is a .net ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
+TightWiki is a .net ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
 # Default home page:
 ![Home](https://user-images.githubusercontent.com/11428567/193913171-952c8fc5-1dea-4e16-815f-1a9f61fd3d3e.png)

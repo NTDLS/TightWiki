@@ -12,10 +12,10 @@
 
 <#
 	string connectionString = @"Server=.;integrated security=True;";
-	string databaseName = "SharpWiki";
-	string projectNamespace = "SharpWiki.Shared.Models";
+	string databaseName = "TightWiki";
+	string projectNamespace = "TightWiki.Shared.Models";
 	string relativeOutputFilePath = null;
-	string outputPath = "./../SharpWiki.Shared/Models/Data/";
+	string outputPath = "./../TightWiki.Shared/Models/Data/";
 	List<string> includeTables = new List<string> { };
  
 	SqlConnection oneSqlConnection = new SqlConnection(connectionString);
