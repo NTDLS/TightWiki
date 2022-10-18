@@ -122,11 +122,11 @@ namespace TightWiki.Site.Controllers
             if (user != null)
             {
                 var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-                var siteName = basicConfig.ValueAs<string>("Name");
-                var address = basicConfig.ValueAs<string>("Address");
+                var siteName = basicConfig.As<string>("Name");
+                var address = basicConfig.As<string>("Address");
 
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                var resetPasswordEmailTemplate = new StringBuilder(membershipConfig.ValueAs<string>("Reset Password Email Template"));
+                var resetPasswordEmailTemplate = new StringBuilder(membershipConfig.As<string>("Reset Password Email Template"));
 
                 user.VerificationCode = Security.GenerateRandomString(6);
                 UserRepository.UpdateUserVerificationCode(user.Id, user.VerificationCode);
@@ -233,8 +233,8 @@ namespace TightWiki.Site.Controllers
 
             var model = new SignupModel()
             {
-                Country = basicConfig.ValueAs<string>("Default Country"),
-                TimeZone = basicConfig.ValueAs<string>("Default TimeZone"),
+                Country = basicConfig.As<string>("Default Country"),
+                TimeZone = basicConfig.As<string>("Default TimeZone"),
             };
 
             return View(model);
@@ -339,14 +339,14 @@ namespace TightWiki.Site.Controllers
             else if (ModelState.IsValid)
             {
                 var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-                var siteName = basicConfig.ValueAs<string>("Name");
-                var address = basicConfig.ValueAs<string>("Address");
+                var siteName = basicConfig.As<string>("Name");
+                var address = basicConfig.As<string>("Address");
 
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                var defaultSignupRole = membershipConfig.ValueAs<string>("Default Signup Role");
-                var requestEmailVerification = membershipConfig.ValueAs<bool>("Request Email Verification");
-                var requireEmailVerification = membershipConfig.ValueAs<bool>("Require Email Verification");
-                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.ValueAs<string>("Account Verification Email Template"));
+                var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
+                var requestEmailVerification = membershipConfig.As<bool>("Request Email Verification");
+                var requireEmailVerification = membershipConfig.As<bool>("Require Email Verification");
+                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
 
                 var user = new User()
                 {

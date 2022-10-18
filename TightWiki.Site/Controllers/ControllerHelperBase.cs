@@ -27,22 +27,25 @@ namespace TightWiki.Site.Controllers
 
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
+            var functConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
 
             ViewBag.Config = new ViewBagConfig
             {
                 Context = context,
-                HTMLHeader = htmlConfig.ValueAs<string>("Header"),
-                HTMLFooter = htmlConfig.ValueAs<string>("Footer"),
-                HTMLPreBody = htmlConfig.ValueAs<string>("Pre-Body"),
-                HTMLPostBody = htmlConfig.ValueAs<string>("Post-Body"),
-                BrandImageSmall = basicConfig.ValueAs<string>("Brand Image (Small)"),
-                Name = basicConfig.ValueAs<string>("Name"),
-                Title = basicConfig.ValueAs<string>("Name"), //Default the title to the name. This will be replaced when the page is found and loaded.
-                FooterBlurb = basicConfig.ValueAs<string>("FooterBlurb"),
-                Copyright = basicConfig.ValueAs<string>("Copyright"),
+                IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta"),
+                IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta"),
+                HTMLHeader = htmlConfig.As<string>("Header"),
+                HTMLFooter = htmlConfig.As<string>("Footer"),
+                HTMLPreBody = htmlConfig.As<string>("Pre-Body"),
+                HTMLPostBody = htmlConfig.As<string>("Post-Body"),
+                BrandImageSmall = basicConfig.As<string>("Brand Image (Small)"),
+                Name = basicConfig.As<string>("Name"),
+                Title = basicConfig.As<string>("Name"), //Default the title to the name. This will be replaced when the page is found and loaded.
+                FooterBlurb = basicConfig.As<string>("FooterBlurb"),
+                Copyright = basicConfig.As<string>("Copyright"),
                 PageNavigation = RouteValue("pageNavigation"),
                 PageRevision = RouteValue("pageRevision"),
-                AllowGuestsToViewHistory = basicConfig.ValueAs<bool>("Allow Guests to View History"),
+                AllowGuestsToViewHistory = basicConfig.As<bool>("Allow Guests to View History"),
                 MenuItems = MenuItemRepository.GetAllMenuItems()
             };
 

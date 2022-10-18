@@ -10,6 +10,22 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class PageRepository
     {
+        public static List<Page> GetAllPages(int pageNumber, int pageSize = 0, string searchTerms = null)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    SearchTerms = searchTerms
+                };
+                
+                return handler.Connection.Query<Page>("GetAllPages",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
             using (var handler = new SqlConnectionHandler())
@@ -45,6 +61,15 @@ namespace TightWiki.Shared.Repository
             {
                 return handler.Connection.Query<Page>("GetPageRevisionInfoById",
                     new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
+
+        public static List<PageTag> GetPageTagsById(int pageId)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.Query<PageTag>("GetPageTagsById",
+                    new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
 

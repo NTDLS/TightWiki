@@ -2,12 +2,44 @@
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using System.Web.Mvc;
+using TightWiki.Shared.Wiki;
+using System.Linq;
 
 namespace TightWiki.Site.Controllers
 {
     [Authorize]
     public class AdminController : ControllerHelperBase
     {
+        [Authorize]
+        [HttpGet]
+        public ActionResult Pages(int page)
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true
+                && context.CanModerate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            if (page <= 0) page = 1;
+
+            var model = new PagesModel()
+            {
+                Pages = PageRepository.GetAllPages(page, 0, "")
+            };
+
+            if (model.Pages != null && model.Pages.Any())
+            {
+                ViewBag.Config.Title = $"{model.Pages.First().Name} History";
+                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page<ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if(page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
         [Authorize]
         [HttpGet]
         public ActionResult Roles()
@@ -20,6 +52,28 @@ namespace TightWiki.Site.Controllers
             var model = new RolesModel()
             {
                 Roles = UserRepository.GetAllRoles()
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Account(string navigation)
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            ViewBag.TimeZones = TimeZoneItem.GetAll();
+            ViewBag.Countries = CountryItem.GetAll();
+
+            navigation = WikiUtility.CleanPartialURI(navigation);
+
+            var model = new AccountModel()
+            {
+                Account = UserRepository.GetUserByNavigation(navigation)
             };
 
             return View(model);

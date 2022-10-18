@@ -21,6 +21,16 @@
 
     <title>@ViewBag.Config.HTMLHeader</title>
     <!-- END Syntax Highlighter -->
+
+    @if (ViewBag.Config.IncludeWikiDescriptionInMeta)
+    {
+        <meta name="description" content="@ViewBag.Config.PageDescription">
+    }
+
+    @if (ViewBag.Config.IncludeWikiTagsInMeta)
+    {
+        <meta name="keywords" content="@ViewBag.Config.PageTags">
+    }
 </head>
 
 <body>
@@ -58,7 +68,9 @@
                         }
                     }
 
-                    @if ((ViewBag.CreatePage == true && ViewBag.Context.CanCreate) || ViewBag.Context.IsPageLoaded == true && (showHistory || ViewBag.Context.CanEdit || ViewBag.Context.CanCreate || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
+                    @if (ViewBag.Context.CanCreate
+                        || (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
+                        || ViewBag.Context.IsPageLoaded == true && (showHistory || ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Page<span class="caret"></span></a>
@@ -70,11 +82,15 @@
                                     {
                                         <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Edit</a></li>
                                     }
-                                    <li><a href="/Page/Edit/" class="list-group-item">Create New</a></li>
                                 }
                                 else if (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
                                 {
                                     <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Create "@ViewBag.Config.PageNavigation"</a></li>
+                                }
+
+                                @if (ViewBag.Context.CanCreate)
+                                {
+                                    <li><a href="/Page/Edit/" class="list-group-item">Create new page</a></li>
                                 }
 
                                 @if (showHistory)
@@ -91,14 +107,21 @@
                         </li>
                     }
 
-                    @if (ViewBag.Context.IsAuthenticated == true && ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true)
+                    @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true))
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="administration">
-                                <li><a href="/Admin/Config" class="list-group-item">Configuration</a></li>
-                                <li><a href="/Admin/Accounts" class="list-group-item">Accounts</a></li>
-                                <li><a href="/Admin/Roles" class="list-group-item">Roles</a></li>
+                                @if (ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true)
+                                {
+                                    <li><a href="/Admin/Config" class="list-group-item">Configuration</a></li>
+                                    <li><a href="/Admin/Accounts" class="list-group-item">Accounts</a></li>
+                                    <li><a href="/Admin/Roles" class="list-group-item">Roles</a></li>
+                                }
+                                @if (ViewBag.Context.CanModerate == true)
+                                {
+                                    <li><a href="/Admin/Pages" class="list-group-item">Pages</a></li>
+                                }
                             </ul>
                         </li>
                     }

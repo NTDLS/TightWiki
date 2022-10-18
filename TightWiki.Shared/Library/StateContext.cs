@@ -27,7 +27,18 @@ namespace TightWiki.Shared.Library
             Revision = revision;
             if (pageId != null)
             {
-                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId((int)pageId);
+                var page = PageRepository.GetPageInfoById((int)pageId);
+
+                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+
+                if (Config.IncludeWikiDescriptionInMeta)
+                {
+                    Config.PageDescription = page.Description;
+                }
+                if (Config.IncludeWikiTagsInMeta)
+                {
+                    Config.PageTags = string.Join(",", PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag));
+                }
             }
             else
             {

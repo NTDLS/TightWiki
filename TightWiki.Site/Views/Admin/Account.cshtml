@@ -1,0 +1,144 @@
+﻿@model TightWiki.Shared.Models.View.AccountModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    tr.padded td {
+        padding-bottom: 0.5em;
+        padding-top: 0.5em;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+    }
+</style>
+
+<div class="jumbotron">
+    <h2>Accounts</h2>
+    <font size="4" face="ARIAL,HELVETICA">
+        Global configuration for usr accounts.<br /><br />
+    </font>
+
+    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+    {
+        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+    }
+
+    <table border="0" width="100%" cellpadding="0">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="center">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">@ViewBag.Error</div>
+                    }
+                    @if (ViewBag.Success != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.Success</div>
+                    }
+
+                    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <table border="0">
+
+                            <tr class="padded">
+                                <td width="200"><strong>Avatar</strong></td>
+                                <td>
+                                    @Html.HiddenFor(m => m.Account.Navigation)
+                                    <img src="/User/@Model.Account.Navigation/Avatar?max=150" /><br />
+                                    <input type="file" id="Avatar" name="Avatar" onchange="fileCheck(this);" />
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.EmailAddress)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.EmailAddress)</strong></td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Account.EmailAddress, new { @class = "input-control" })
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.AccountName)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.AccountName)</strong></td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Account.AccountName, new { @class = "input-control" })
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.FirstName)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.FirstName)</strong></td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Account.FirstName, new { @class = "input-control" })
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.LastName)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.LastName)</strong></td>
+                                <td>
+                                    @Html.TextBoxFor(m => m.Account.LastName, new { @class = "input-control" })
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.TimeZone)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.TimeZone)</strong></td>
+                                <td>
+                                    <select name="TimeZone" id="TimeZone">
+                                        <option value="" style="color:#ccc !important;">
+                                            Select a time-zone
+                                        </option>
+                                        @foreach (var item in ViewBag.TimeZones)
+                                        {
+                                            <option value="@item.Account.Value" @(Model.Account.TimeZone == item.Value ? "selected" : "")>
+                                                @item.Account.Text
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Country)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.Country)</strong></td>
+                                <td>
+
+                                    <select name="Country" id="Country">
+                                        <option value="" style="color:#ccc !important;">
+                                            Select a country
+                                        </option>
+                                        @foreach (var item in ViewBag.Countries)
+                                        {
+                                            <option value="@item.Account.Value" @(Model.Account.Country == item.Value ? "selected" : "")>
+                                                @item.Account.Text
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.AboutMe)</div></td></tr>
+                            <tr class="padded">
+                                <td><strong>@Html.LabelFor(m => m.Account.AboutMe)</strong></td>
+                                <td>
+                                    @Html.TextAreaFor(m => m.Account.AboutMe, new { style = "width:100%;height:200px", Name = "AboutMe" })
+                                </td>
+                            </tr>
+
+                            <tr class="padded">
+                                <td>&nbsp;</td>
+                                <td>
+                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                                </td>
+                            </tr>
+                        </table>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

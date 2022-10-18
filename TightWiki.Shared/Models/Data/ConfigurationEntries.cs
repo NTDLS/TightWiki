@@ -17,7 +17,7 @@ namespace TightWiki.Shared.Models.Data
             Collection = new List<ConfigurationEntry>(entries);
         }
 
-        public T ValueAs<T>(string name)
+        public T As<T>(string name)
          {
             var value = Collection.Where(o => o.Name == name).FirstOrDefault();
             if (value == null)

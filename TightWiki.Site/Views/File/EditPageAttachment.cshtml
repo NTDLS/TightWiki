@@ -1,33 +1,67 @@
 ﻿@model TightWiki.Shared.Models.View.FileAttachmentModel
 
-<script>
-    function PostToParent() {
-        var binaryData = document.getElementById('binaryData');
-        var fileName = binaryData.files.item(0).name;
-        var lower = fileName.toLowerCase();
+<html>
+<head>
 
-        if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff")) {
-            window.top.postMessage('image:##Image(' + fileName + ' | 100)', '*')
+    <script>
+        function PostToParent() {
+            var binaryData = document.getElementById('binaryData');
+            var fileName = binaryData.files.item(0).name;
+            var lower = fileName.toLowerCase();
+
+            if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff")) {
+                window.top.postMessage('image:##Image(' + fileName + ' | 100)', '*')
+            }
+            else {
+                window.top.postMessage('file:##File(' + fileName + ')', '*')
+            }
         }
-        else {
-            window.top.postMessage('file:##File(' + fileName + ')', '*')
-        }
-    }
-</script>
+    </script>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="binaryData" id="binaryData" onchange="fileCheck(this);" />
-    <div class="form-group"><button type="submit" onclick="PostToParent()" class="btn btn-primary rounded-0">Upload</button></div>
-</form>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Config.Title</title>
+    @Styles.Render("~/Content/css")
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
 
-@foreach (var x in Model.Files)
-{
-    <div>
-        <a href="/File/Binary/@ViewBag.Config.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
+    <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+            <tr>
+                <td>
 
-        @if (@ViewBag.Config.Context?.CanDelete == true)
-        {
-            @: - <a href="/File/Delete/@ViewBag.Config.PageNavigation/@x.FileNavigation" onclick="return window.confirm('Delete the image?');"> Delete </a>
-        }
-    </div>
-}
+                    <form method="post" enctype="multipart/form-data">
+                        <table border="0" width="100%" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><input type="file" name="binaryData" id="binaryData" onchange="fileCheck(this);" /></td>
+                                <td><button type="submit" onclick="PostToParent()" class="btn btn-primary rounded-0">Upload</button></td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @foreach (var x in Model.Files)
+                    {
+                        <div>
+                            <a href="/File/Binary/@ViewBag.Config.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
+
+                            @if (@ViewBag.Config.Context?.CanDelete == true)
+                            {
+                                @: - <a href="/File/Delete/@ViewBag.Config.PageNavigation/@x.FileNavigation" onclick="return window.confirm('Delete the image?');"> Delete </a>
+                            }
+                        </div>
+                    }
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

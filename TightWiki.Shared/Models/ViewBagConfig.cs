@@ -20,5 +20,9 @@ namespace TightWiki.Shared.Models
         public string HTMLFooter { get; set; }
         public string HTMLPreBody { get; set; }
         public string HTMLPostBody { get; set; }
+        public bool IncludeWikiDescriptionInMeta { get; set; }
+        public bool IncludeWikiTagsInMeta { get; set; }
+        public string PageTags { get; set; }
+        public string PageDescription { get; set; }
     }
 }

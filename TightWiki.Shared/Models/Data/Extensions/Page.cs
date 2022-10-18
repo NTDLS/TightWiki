@@ -7,5 +7,6 @@ namespace TightWiki.Shared.Models.Data
         public string CreatedByUserName { get; set; }
         public string ModifiedByUserName { get; set; }
         public int LatestRevision { get; set; }
+        public int PaginationCount { get; set; }
     }
 }

@@ -83,6 +83,12 @@ namespace TightWiki.Site
             );
 
             routes.MapRoute(
+                name: "Admin_Account",
+                url: "Admin/Account/{navigation}",
+                defaults: new { controller = "Admin", action = "Account", navigation = "admin" }
+            );
+
+            routes.MapRoute(
                 name: "Admin_Generic",
                 url: "Admin/{action}/{page}",
                 defaults: new { controller = "Admin", action = "Config", page = 1 }
