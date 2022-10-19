@@ -12,70 +12,77 @@
     }
 </style>
 
-<div class="jumbotron">
-    <h2>Accounts</h2>
-    <font size="4" face="ARIAL,HELVETICA">
-        Global configuration for usr accounts.<br /><br />
-    </font>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>Accounts</h2></div>
+    <div class="panel-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            Global configuration for usr accounts.<br /><br />
+        </font>
 
-    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-    {
-        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-    }
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-    <table border="0" width="100%" cellpadding="0">
-        <tbody>
-            <tr>
-                <td height="52" valign="middle" align="center">
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">@ViewBag.Error</div>
-                    }
-                    @if (ViewBag.Success != null)
-                    {
-                        <div class="alert alert-success">@ViewBag.Success</div>
-                    }
+        <table border="0" width="100%" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="center">
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Error</div>
+                        }
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-success">@ViewBag.Success</div>
+                        }
 
-                <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <td><strong>Account</strong></td>
-                            <td><strong>Name</strong></td>
-                            <td><strong>Country</strong></td>
-                            <td><strong>Time Zone</strong></td>
-                            <td><strong>Email Address</strong></td>
-                            <td><strong>Created</strong></td>
-                            <td><strong>Last Login</strong></td>
-                        </tr>
-                    </thead>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-                    @foreach (var user in Model.Users)
-                    {
-                        <tr>
-                            <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
-                            <td>@user.FirstName @user.LastName</td>
-                            <td>@user.Country</td>
-                            <td>@user.TimeZone</td>
-                            <td>@user.EmailAddress  @Html.Raw(((user.EmailVerified == true) ? "&check;" : ""))   </td>
-                            <td>@user.CreatedDate</td>
-                            <td>@user.LastLoginDate</td>
-                        </tr>
-                    }
+                            <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <td><strong>Account</strong></td>
+                                        <td><strong>Name</strong></td>
+                                        <td><strong>Country</strong></td>
+                                        <td><strong>Time Zone</strong></td>
+                                        <td><strong>Email Address</strong></td>
+                                        <td><strong>Created</strong></td>
+                                        <td><strong>Last Login</strong></td>
+                                    </tr>
+                                </thead>
 
-                    <tr class="padded">
-                        <td>
-                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                        </td>
-                    </tr>
-                </table>
-                    }
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                                @foreach (var user in Model.Users)
+                                {
+                                    <tr>
+                                        <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
+                                        <td>@user.FirstName @user.LastName</td>
+                                        <td>@user.Country</td>
+                                        <td>@user.TimeZone</td>
+                                        <td>@user.EmailAddress  @Html.Raw(((user.EmailVerified == true) ? "&check;" : ""))   </td>
+                                        <td>@user.CreatedDate</td>
+                                        <td>@user.LastLoginDate</td>
+                                    </tr>
+                                }
+
+                                <tr class="padded">
+                                    <td>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

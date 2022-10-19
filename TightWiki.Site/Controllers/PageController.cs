@@ -101,8 +101,6 @@ namespace TightWiki.Site.Controllers
             {
             };
 
-            PageRepository.DeletePageById(page.Id);
-
             if (page != null)
             {
                 context.SetPageId(page.Id, page.Revision);

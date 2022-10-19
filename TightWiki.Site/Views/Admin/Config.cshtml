@@ -12,134 +12,141 @@
     }
 </style>
 
-<div class="jumbotron">
-    <h2>Wiki configuration</h2>
-    <font size="4" face="ARIAL,HELVETICA">
-        Global configuration values for the wiki, its functionality, behavior, formatting and branding.<br /><br />
-    </font>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>Wiki configuration</h2></div>
+    <div class="panel-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            Global configuration values for the wiki, its functionality, behavior, formatting and branding.<br /><br />
+        </font>
 
-    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-    {
-        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-    }
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-    <table border="0" width="600" cellpadding="5">
-        <tbody>
-            <tr>
-                <td height="52" valign="middle" align="center">
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">@ViewBag.Error</div>
-                    }
-                    @if (ViewBag.Success != null)
-                    {
-                        <div class="alert alert-success">@ViewBag.Success</div>
-                    }
+        <table border="0" width="600" cellpadding="5">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="center">
 
-                    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
-                        @Html.AntiForgeryToken()
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Error</div>
+                        }
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-success">@ViewBag.Success</div>
+                        }
 
-                        <table border="0" width="100%">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
 
-                            @foreach (var group in Model.Nest)
-                            {
-                                <tr>
-                                    <td width="200">
+                            <table border="0" width="100%">
 
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading"><h2>@group.Name</h2>@group.Description</div>
-                                            <div class="panel-body">
+                                @foreach (var group in Model.Nest)
+                                {
+                                    <tr>
+                                        <td width="200">
 
-                                                <table border="0" width="100%">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading"><h2>@group.Name</h2>@group.Description</div>
+                                                <div class="panel-body">
 
-                                                    @foreach (var entry in group.Entries)
-                                                    {
-                                                        <tr class="padded">
-                                                            <td width="200">
-                                                                <strong>@entry.Name</strong><br />
-                                                                @entry.Description<br />
+                                                    <table border="0" width="100%">
 
-                                                                @if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
-                                                                    || $"{group.Name}:{entry.Name}" == "Basic:Default TimeZone")
-                                                                {
-                                                                    <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                        <option value="" style="color:#ccc !important;">
-                                                                            Select a time-zone
-                                                                        </option>
-                                                                        @foreach (var item in ViewBag.TimeZones)
-                                                                        {
-                                                                            <option value="@item.Value" @(entry.Value == item.Value ? "selected" : "")>
-                                                                                @item.Text
-                                                                            </option>
-                                                                        }
-                                                                    </select>
-                                                                }
-                                                                else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country"
-                                                                    || $"{group.Name}:{entry.Name}" == "Basic:Default Country")
-                                                                {
-                                                                    <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                        <option value="" style="color:#ccc !important;">
-                                                                            Select a country
-                                                                        </option>
-                                                                        @foreach (var item in ViewBag.Countries)
-                                                                        {
-                                                                            <option value="@item.Value" @(entry.Value == item.Value ? "selected" : "")>
-                                                                                @item.Text
-                                                                            </option>
-                                                                        }
-                                                                    </select>
-                                                                }
-                                                                else if (@entry.DataType == "string")
-                                                                {
-                                                                    if (@entry.IsEncrypted == true)
+                                                        @foreach (var entry in group.Entries)
+                                                        {
+                                                            <tr class="padded">
+                                                                <td width="200">
+                                                                    <strong>@entry.Name</strong><br />
+                                                                    @entry.Description<br />
+
+                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
+                                                                        || $"{group.Name}:{entry.Name}" == "Basic:Default TimeZone")
                                                                     {
-                                                                        <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id">
+                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                            <option value="" style="color:#ccc !important;">
+                                                                                Select a time-zone
+                                                                            </option>
+                                                                            @foreach (var item in ViewBag.TimeZones)
+                                                                            {
+                                                                                <option value="@item.Value" @(entry.Value == item.Value ? "selected" : "")>
+                                                                                    @item.Text
+                                                                                </option>
+                                                                            }
+                                                                        </select>
                                                                     }
-                                                                    else
+                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country"
+                                                                        || $"{group.Name}:{entry.Name}" == "Basic:Default Country")
                                                                     {
-                                                                        <input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                            <option value="" style="color:#ccc !important;">
+                                                                                Select a country
+                                                                            </option>
+                                                                            @foreach (var item in ViewBag.Countries)
+                                                                            {
+                                                                                <option value="@item.Value" @(entry.Value == item.Value ? "selected" : "")>
+                                                                                    @item.Text
+                                                                                </option>
+                                                                            }
+                                                                        </select>
                                                                     }
-                                                                }
-                                                                else if (@entry.DataType == "int")
-                                                                {
-                                                                    <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
-                                                                    <br />
-                                                                }
-                                                                else if (@entry.DataType == "boolean")
-                                                                {
-                                                                    <label for="html">Yes</label>
-                                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "") />
-                                                                    @:&nbsp; &nbsp;
-                                                                    <label for="html">No</label>
-                                                                    <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="0" @(entry.Value == "0" ? "checked=\"checked\"" : "") />
-                                                                }
-                                                            </td>
-                                                        </tr>
-                                                    }
+                                                                    else if (@entry.DataType == "string")
+                                                                    {
+                                                                        if (@entry.IsEncrypted == true)
+                                                                        {
+                                                                            <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                        }
+                                                                    }
+                                                                    else if (@entry.DataType == "int")
+                                                                    {
+                                                                        <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                        <br />
+                                                                    }
+                                                                    else if (@entry.DataType == "boolean")
+                                                                    {
+                                                                        <label for="html">Yes</label>
+                                                                        <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "") />
+                                                                        @:&nbsp; &nbsp;
+                                                                        <label for="html">No</label>
+                                                                        <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" value="0" @(entry.Value == "0" ? "checked=\"checked\"" : "") />
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                        }
 
-                                                </table>
+                                                    </table>
 
+                                                </div>
                                             </div>
-                                        </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><br /></td>
+                                    </tr>
+
+                                }
+
+                                <tr class="padded">
+                                    <td>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><br /></td>
-                                </tr>
-
-                            }
-
-                            <tr class="padded">
-                                <td>
-                                    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                </td>
-                            </tr>
-                        </table>
-                    }
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                            </table>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

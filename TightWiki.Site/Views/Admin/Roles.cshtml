@@ -12,65 +12,66 @@
     }
 </style>
 
-<div class="jumbotron">
-    <h2>Roles</h2>
-    <font size="4" face="ARIAL,HELVETICA">
-        Global configuration for security roles and membership.<br /><br />
-    </font>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>Roles</h2></div>
+    <div class="panel-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            Global configuration for security roles and membership.<br /><br />
+        </font>
 
-    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-    {
-        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-    }
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-    {
-        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-    }
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-    <table border="0" width="100%" cellpadding="0">
-        <tbody>
-            <tr>
-                <td height="52" valign="middle" align="center">
+        <table border="0" width="100%" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="center">
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Error</div>
+                        }
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-success">@ViewBag.Success</div>
+                        }
 
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">@ViewBag.Error</div>
-                    }
-                    @if (ViewBag.Success != null)
-                    {
-                        <div class="alert alert-success">@ViewBag.Success</div>
-                    }
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
+                            <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <td><strong>Name</strong></td>
+                                        <td><strong>Description</strong></td>
+                                    </tr>
+                                </thead>
 
-                <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <td><strong>Name</strong></td>
-                            <td><strong>Description</strong></td>
-                        </tr>
-                    </thead>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <tr>
+                                        <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
+                                        <td>@role.Description</td>
+                                    </tr>
+                                }
 
-                    @foreach (var role in Model.Roles)
-                    {
-                        <tr>
-                            <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
-                            <td>@role.Description</td>
-                        </tr>
-                    }
-
-                    <tr class="padded">
-                        <td>
-                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                        </td>
-                    </tr>
-                </table>
-                    }
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                                <tr class="padded">
+                                    <td>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>

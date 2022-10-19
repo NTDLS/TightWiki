@@ -12,91 +12,98 @@
     }
 </style>
 
-<div class="jumbotron">
-    <h2>Pages</h2>
-    <font size="4" face="ARIAL,HELVETICA">
-        All pages contained in the wiki.<br /><br />
-    </font>
+<div class="panel panel-default">
+    <div class="panel-heading"><h2>Pages</h2></div>
+    <div class="panel-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            All pages contained in the wiki.<br /><br />
+        </font>
 
-    @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-    {
-        @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-    }
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-    <table border="0" width="100%" cellpadding="0">
-        <tbody>
-            <tr>
-                <td height="52" valign="middle" align="center">
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
 
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">@ViewBag.Error</div>
-                    }
-                    @if (ViewBag.Success != null)
-                    {
-                        <div class="alert alert-success">@ViewBag.Success</div>
-                    }
+        <table border="0" width="100%" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="center">
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger">@ViewBag.Error</div>
+                        }
+                        @if (ViewBag.Success != null)
+                        {
+                            <div class="alert alert-success">@ViewBag.Success</div>
+                        }
 
-                        <table border="0" width="100%" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td><strong>Search</strong></td>
-                                <td>
-                                    @Html.TextBoxFor(x => x.SearchTokens, new { style = "width:100%" })
-                                </td>
-                                <td colspan="2"><button type="submit" class="btn btn-primary rounded-0">Go</button></td>
-                            </tr>
-                        </table>
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
 
-                        <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                            <thead>
+                            <table border="0" width="100%" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td><strong>Name</strong></td>
-                                    <td><strong>Revision</strong></td>
-                                    <td><strong>Modified By</strong></td>
-                                    <td><strong>Modified Date</strong></td>
+                                    <td><strong>Search</strong></td>
+                                    <td>
+                                        @Html.TextBoxFor(x => x.SearchTokens, new { style = "width:100%" })
+                                    </td>
+                                    <td colspan="2"><button type="submit" class="btn btn-primary rounded-0">Go</button></td>
                                 </tr>
-                            </thead>
+                            </table>
 
-                            @foreach (var page in Model.Pages)
+                            <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <td><strong>Name</strong></td>
+                                        <td><strong>Revision</strong></td>
+                                        <td><strong>Modified By</strong></td>
+                                        <td><strong>Modified Date</strong></td>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var page in Model.Pages)
+                                {
+                                    <tr>
+                                        <td><a href="/@page.Navigation">@page.Name</a></td>
+                                        <td>@page.Revision</td>
+                                        <td>@page.ModifiedByUserName</td>
+                                        <td>@page.ModifiedDate</td>
+                                    </tr>
+                                }
+                            </table>
+
+                            if (@ViewBag.PreviousPage != null)
                             {
-                                <tr>
-                                    <td><a href="/@page.Navigation">@page.Name</a></td>
-                                    <td>@page.Revision</td>
-                                    <td>@page.ModifiedByUserName</td>
-                                    <td>@page.ModifiedDate</td>
-                                </tr>
+                                <a href="/Admin/Pages/1?Tokens=@Model.SearchTokens">&lt;&lt; First</a>
+                                @:&nbsp; | &nbsp;
+                                <a href="/Admin/Pages/@ViewBag.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
                             }
-                        </table>
-
-                        if (@ViewBag.PreviousPage != null)
-                        {
-                            <a href="/Admin/Pages/1?Tokens=@Model.SearchTokens">&lt;&lt; First</a>
+                            else
+                            {
+                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                            }
                             @:&nbsp; | &nbsp;
-                            <a href="/Admin/Pages/@ViewBag.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
-                        }
-                        else
-                        {
-                            @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                        }
-                        @:&nbsp; | &nbsp;
 
-                        if (@ViewBag.NextPage != null)
-                        {
-                            <a href="/Admin/Pages/@ViewBag.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
-                            @:&nbsp; | &nbsp;
-                            <a href="/Admin/Pages/@ViewBag.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
+                            if (@ViewBag.NextPage != null)
+                            {
+                                <a href="/Admin/Pages/@ViewBag.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
+                                @:&nbsp; | &nbsp;
+                                <a href="/Admin/Pages/@ViewBag.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
+                            }
+                            else
+                            {
+                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                            }
                         }
-                        else
-                        {
-                            @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                        }
-                    }
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
