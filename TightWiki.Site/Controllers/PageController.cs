@@ -1,11 +1,11 @@
-﻿using TightWiki.Shared.Library;
+﻿using System;
+using System.Linq;
+using System.Web.Mvc;
+using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
-using System;
-using System.Linq;
-using System.Web.Mvc;
 
 namespace TightWiki.Site.Controllers
 {
@@ -31,31 +31,87 @@ namespace TightWiki.Site.Controllers
 
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
-            var result = new PageHistoryModel()
+            var model = new PageHistoryModel()
             {
                 History = PageRepository.GetPageRevisionHistoryInfoByNavigation(pageNavigation, page)
             };
 
-            foreach (var p in result.History)
+            foreach (var p in model.History)
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
                 p.ChangeSummary = Differentiator.GetComparisionSummary(thisRev.Body, prevRev?.Body ?? "");
             }
 
-            if (result.History != null && result.History.Any())
+            if (model.History != null && model.History.Any())
             {
-                context.SetPageId(result.History.First().PageId);
-                ViewBag.Config.Title = $"{result.History.First().Name} History";
-                ViewBag.PaginationCount = result.History.First().PaginationCount;
+                context.SetPageId(model.History.First().PageId);
+                ViewBag.Config.Title = $"{model.History.First().Name} History";
+                ViewBag.PaginationCount = model.History.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
                 if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
                 if(page > 1) ViewBag.PreviousPage = page - 1;
             }
 
-            return View(result);
+            return View(model);
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Delete(string pageNavigation, PageDeleteModel model)
+        {
+            if (context.CanDelete == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true && page != null)
+            {
+                PageRepository.DeletePageById(page.Id);
+                Cache.ClearClass($"Page:{page.Navigation}");
+            }
+
+            return RedirectToAction("Display", "Page", new { pageNavigation = "Home" });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Delete(string pageNavigation)
+        {
+            if (context.CanDelete == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+
+            ViewBag.PageName = page.Name;
+            ViewBag.MostCurrentRevision = page.Revision;
+            ViewBag.CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id);
+
+            var model = new PageDeleteModel()
+            {
+            };
+
+            PageRepository.DeletePageById(page.Id);
+
+            if (page != null)
+            {
+                context.SetPageId(page.Id, page.Revision);
+                ViewBag.Config.Title = $"{page.Name} Delete";
+            }
+
+            return View(model);
+        }
+
 
         [Authorize]
         [HttpPost]
@@ -71,8 +127,8 @@ namespace TightWiki.Site.Controllers
             bool confirmAction = bool.Parse(Request.Form["Action"]);
             if (confirmAction == true)
             {
-                var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
-                SavePage(revisionPage);
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+                SavePage(page);
             }
 
             return RedirectToAction("Display", "Page", new { pageNavigation = pageNavigation });
@@ -96,7 +152,7 @@ namespace TightWiki.Site.Controllers
             ViewBag.CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision;
             ViewBag.MostCurrentRevision = mostCurrentPage.Revision;
 
-            var result = new PageRevertModel()
+            var model = new PageRevertModel()
             {
 
             };
@@ -107,7 +163,7 @@ namespace TightWiki.Site.Controllers
                 ViewBag.Config.Title = $"{revisionPage.Name} Revert";
             }
 
-            return View(result);
+            return View(model);
         }
 
 

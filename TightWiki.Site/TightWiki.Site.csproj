@@ -844,6 +844,7 @@
     <Content Include="Views\Admin\Accounts.cshtml" />
     <Content Include="Views\Admin\Account.cshtml" />
     <Content Include="Views\Admin\Pages.cshtml" />
+    <Content Include="Views\Page\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

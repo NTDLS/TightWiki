@@ -157,6 +157,34 @@ namespace TightWiki.Shared.Repository
             }
         }
 
+        public static void DeletePageById(int pageId)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = pageId
+                };
+
+                handler.Connection.Execute("DeletePageById",
+                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static int GetCountOfPageAttachmentsById(int pageId)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = pageId
+                };
+
+                return handler.Connection.Query<int?>("GetCountOfPageAttachmentsById",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault() ?? 0;
+            }
+        }
+
         public static int? GetPageIdFromNavigation(string navigation)
         {
             using (var handler = new SqlConnectionHandler())

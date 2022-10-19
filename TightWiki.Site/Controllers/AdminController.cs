@@ -40,8 +40,8 @@ namespace TightWiki.Site.Controllers
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
-                if (page<ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if(page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -161,7 +161,7 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpPost, ValidateInput(false)]
-        public ActionResult Config([Bind(Exclude = "Avatar")] ConfigurationModel config)
+        public ActionResult Config([Bind(Exclude = "Avatar")] ConfigurationModel model)
         {
             if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
             {
@@ -194,9 +194,10 @@ namespace TightWiki.Site.Controllers
                 ViewBag.Success = "The configuration has been saved successfully!";
             }
 
-            var model = new ConfigurationModel();
-            model.Nest = ConfigurationRepository.GetConfigurationNest();
-            return View(model);
+            var newModel = new ConfigurationModel();
+            newModel.Nest = ConfigurationRepository.GetConfigurationNest();
+            return View(newModel);
         }
     }
 }
+

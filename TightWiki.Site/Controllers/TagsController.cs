@@ -66,7 +66,6 @@ namespace TightWiki.Site.Controllers
 
             ViewBag.Pages = glossaryHtml.ToString();
 
-
             return View();
         }
     }

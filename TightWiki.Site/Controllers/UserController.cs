@@ -77,13 +77,13 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public ActionResult Login(LoginModel user)
+        public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    PerformLogin(user.EmailAddress, user.Password, false);
+                    PerformLogin(model.EmailAddress, model.Password, false);
 
                     if (Request.QueryString["ReturnUrl"] != null && Request.QueryString["ReturnUrl"] != "/")
                     {
@@ -532,7 +532,7 @@ namespace TightWiki.Site.Controllers
 
             var user = UserRepository.GetUserById(context.User.Id);
 
-            var profile = new UserProfileModel()
+            var model = new UserProfileModel()
             {
                 AccountName = user.AccountName,
                 EmailAddress = user.EmailAddress,
@@ -546,7 +546,7 @@ namespace TightWiki.Site.Controllers
                 Avatar = user.Avatar
             };
 
-            return View(profile);
+            return View(model);
         }
 
 

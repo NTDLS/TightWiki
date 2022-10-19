@@ -70,13 +70,14 @@
 
                     @if (ViewBag.Context.CanCreate
                         || (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
-                        || ViewBag.Context.IsPageLoaded == true && (showHistory || ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
+                        || (ViewBag.Context.IsPageLoaded == true && (showHistory || ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
+                        )
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Page<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="page">
 
-                                @if (ViewBag.Context.IsPageLoaded == true && ViewBag.Context.CanEdit)
+                                @if (ViewBag.Context.CanEdit && ViewBag.Context.IsPageLoaded == true)
                                 {
                                     if (ViewBag.Context.IsViewingOldVersion == false)
                                     {
@@ -93,12 +94,17 @@
                                     <li><a href="/Page/Edit/" class="list-group-item">Create new page</a></li>
                                 }
 
+                                @if (ViewBag.Context.CanDelete && ViewBag.Context.IsPageLoaded == true)
+                                {
+                                    <li><a href="/Page/Delete/@ViewBag.Config.PageNavigation" class="list-group-item">Delete this page</a></li>
+                                }
+
                                 @if (showHistory)
                                 {
                                     <li><a href="/@ViewBag.Config.PageNavigation/History" class="list-group-item">History</a></li>
                                 }
 
-                                @if (ViewBag.Context.IsViewingOldVersion && ViewBag.Context.CanModerate)
+                                @if (ViewBag.Context.IsViewingOldVersion && ViewBag.Context.CanModerate && ViewBag.Context.IsPageLoaded == true)
                                 {
                                     <li><a href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision" class="list-group-item">Revert to revision @ViewBag.Config.PageRevision</a></li>
                                 }

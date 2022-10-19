@@ -1,0 +1,42 @@
+﻿@model TightWiki.Shared.Models.View.PageDeleteModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+{
+    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+}
+
+<table class="table table-bordered" border="0" width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="center">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Success</div>
+                }
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">Delete page "@ViewBag.PageName"?</div>
+                    <div class="panel-body">
+
+                        <strong>Deleting "@ViewBag.PageName" will permanently remove the page, all @ViewBag.Config.PageRevision revisions and @ViewBag.CountOfAttachments file attachments.</strong><br />
+                        You will not be able to revert this deletion/
+
+                        Are you sure you want to continue with this deletion?<br /><br />
+
+                        @using (Html.BeginForm())
+                        {
+                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0" name="Action" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-primary rounded-0" name="Action" value="false">No</button></div>
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
