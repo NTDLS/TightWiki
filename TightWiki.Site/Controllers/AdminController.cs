@@ -22,9 +22,16 @@ namespace TightWiki.Site.Controllers
 
             if (page <= 0) page = 1;
 
+            string searchTokens = Request.QueryString["Tokens"];
+            if (searchTokens != null)
+            {
+                searchTokens = string.Join(",", searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries));
+            }
+
             var model = new PagesModel()
             {
-                Pages = PageRepository.GetAllPages(page, 0, "")
+                Pages = PageRepository.GetAllPages(page, 0, searchTokens),
+                SearchTokens = Request.QueryString["Tokens"]
             };
 
             if (model.Pages != null && model.Pages.Any())
@@ -35,6 +42,43 @@ namespace TightWiki.Site.Controllers
 
                 if (page<ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
                 if(page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Pages(int page, PagesModel model)
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true
+                && context.CanModerate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            page = 1;
+
+            string searchTokens = null;
+            if (model.SearchTokens != null)
+            {
+                searchTokens = string.Join(",", model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries));
+            }
+
+            model = new PagesModel()
+            {
+                Pages = PageRepository.GetAllPages(page, 0, searchTokens),
+                SearchTokens = model.SearchTokens
+            };
+
+            if (model.Pages != null && model.Pages.Any())
+            {
+                ViewBag.Config.Title = $"{model.Pages.First().Name} History";
+                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
             }
 
             return View(model);
