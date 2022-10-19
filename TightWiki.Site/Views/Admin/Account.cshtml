@@ -43,7 +43,7 @@
                             <div class="alert alert-success">@ViewBag.Success</div>
                         }
 
-                        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm(null, null, new { navigation = Model.Account.Navigation }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
 
@@ -94,7 +94,7 @@
                                 <tr class="padded">
                                     <td><strong>@Html.LabelFor(m => m.Account.TimeZone)</strong></td>
                                     <td>
-                                        <select name="TimeZone" id="TimeZone">
+                                        <select name="Account.TimeZone" id="Account.TimeZone">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a time-zone
                                             </option>
@@ -113,7 +113,7 @@
                                     <td><strong>@Html.LabelFor(m => m.Account.Country)</strong></td>
                                     <td>
 
-                                        <select name="Country" id="Country">
+                                        <select name="Account.Country" id="Account.Country">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a country
                                             </option>

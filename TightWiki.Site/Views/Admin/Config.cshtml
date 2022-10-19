@@ -43,7 +43,7 @@
                             <div class="alert alert-success">@ViewBag.Success</div>
                         }
 
-                        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
 
@@ -55,7 +55,7 @@
                                         <td width="200">
 
                                             <div class="panel panel-default">
-                                                <div class="panel-heading"><h2>@group.Name</h2>@group.Description</div>
+                                                <div class="panel-heading"><h3>@group.Name</h3>@group.Description</div>
                                                 <div class="panel-body">
 
                                                     <table border="0" width="100%">

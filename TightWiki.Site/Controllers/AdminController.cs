@@ -4,6 +4,9 @@ using TightWiki.Shared.Repository;
 using System.Web.Mvc;
 using TightWiki.Shared.Wiki;
 using System.Linq;
+using System.Web;
+using System;
+using System.IO;
 
 namespace TightWiki.Site.Controllers
 {
@@ -119,6 +122,81 @@ namespace TightWiki.Site.Controllers
             {
                 Account = UserRepository.GetUserByNavigation(navigation)
             };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save user profile.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult Account([Bind(Exclude = "Avatar")] AccountModel model)
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            ViewBag.TimeZones = TimeZoneItem.GetAll();
+            ViewBag.Countries = CountryItem.GetAll();
+
+            model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower());
+            var user = UserRepository.GetUserByNavigation(model.Account.Navigation);
+
+            HttpPostedFileBase file = Request.Files["Avatar"];
+            if (file != null && file.ContentLength > 0)
+            {
+                try
+                {
+                    var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                    //This is just to ensure this is a valid image:
+                    var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                    UserRepository.UpdateUserAvatar(user.Id, imageBytes);
+                }
+                catch
+                {
+                    ModelState.AddModelError("Avatar", "Could not save the attached image.");
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (user.Navigation.ToLower() != model.Account.Navigation.ToLower())
+                {
+                    var checkName = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower()));
+                    if (checkName != null)
+                    {
+                        ModelState.AddModelError("AccountName", "Account name is already in use.");
+                        return View(model);
+                    }
+                }
+
+                if (user.EmailAddress.ToLower() != model.Account.EmailAddress.ToLower())
+                {
+                    var checkName = UserRepository.GetUserByEmail(model.Account.EmailAddress.ToLower());
+                    if (checkName != null)
+                    {
+                        ModelState.AddModelError("EmailAddress", "Email address is already in use.");
+                        return View(model);
+                    }
+                }
+
+                user.AboutMe = model.Account.AboutMe;
+                user.FirstName = model.Account.FirstName;
+                user.LastName = model.Account.LastName;
+                user.TimeZone = model.Account.TimeZone;
+                user.Country = model.Account.Country;
+                user.AccountName = model.Account.AccountName;
+                user.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName);
+                user.EmailAddress = model.Account.EmailAddress;
+                user.ModifiedDate = DateTime.UtcNow;
+                UserRepository.UpdateUser(user);
+
+                ViewBag.Success = "Your profile has been saved successfully!.";
+            }
 
             return View(model);
         }
