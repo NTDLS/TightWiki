@@ -20,9 +20,19 @@ namespace TightWiki.Shared.Repository
                     PageSize = pageSize,
                     SearchTerms = searchTerms
                 };
-                
-                return handler.Connection.Query<Page>("GetAllPages",
+
+                return handler.Connection.Query<Page>("GetAllPagesPaged",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public static List<Page> GetAllPages()
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+
+                return handler.Connection.Query<Page>("GetAllPages",
+                    null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
 
@@ -97,6 +107,15 @@ namespace TightWiki.Shared.Repository
             {
                 handler.Connection.Execute("SavePageTokens",
                     new { PageTokens = items.ToDataTable() }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static void TruncateAllPageHistory(string confirm)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                handler.Connection.Execute("TruncateAllPageHistory",
+                    new { Confirm = confirm }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
         }
 

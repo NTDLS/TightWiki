@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 
 namespace TightWiki.Shared.Library
@@ -26,6 +27,15 @@ namespace TightWiki.Shared.Library
                 AbsoluteExpiration = System.DateTimeOffset.Now.AddMinutes(minutes)
             };
             Memcache.Add(key, value, policy);
+        }
+
+        public static void Clear()
+        {
+            var items = Memcache.ToList();
+            foreach (var a in items)
+            {
+                Memcache.Remove(a.Key);
+            }
         }
 
         /// <summary>

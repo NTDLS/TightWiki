@@ -473,26 +473,67 @@ namespace TightWiki.Shared.Wiki
 
             foreach (var match in matches)
             {
-                int equalSigns = 0;
+                int headingMarkers = 0;
                 foreach (char c in match.Value)
                 {
                     if (c != '=')
                     {
                         break;
                     }
-                    equalSigns++;
+                    headingMarkers++;
                 }
-                if (equalSigns >= 2 && equalSigns <= 6)
+                if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
                     string tag = _tocName + "_" + _tocTags.Count().ToString();
-                    string value = match.Value.Substring(equalSigns, match.Value.Length - equalSigns).Trim();
+                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
 
-                    int fontSize = 8 - equalSigns;
+                    int fontSize = 8 - headingMarkers;
                     if (fontSize < 5) fontSize = 5;
 
-                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (equalSigns - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
+                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (headingMarkers - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
                     StoreMatch(pageContent, match.Value, link);
-                    _tocTags.Add(new TOCTag(equalSigns - 1, match.Index, tag, value));
+                    _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
+                }
+            }
+
+            regEx = new StringBuilder();
+            regEx.Append(@"(\^\^\^\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^.*?\n)");
+
+            rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
+            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+
+            foreach (var match in matches)
+            {
+                int headingMarkers = 0;
+                foreach (char c in match.Value)
+                {
+                    if (c != '^')
+                    {
+                        break;
+                    }
+                    headingMarkers++;
+                }
+                if (headingMarkers >= 2 && headingMarkers <= 6)
+                {
+                    string tag = _tocName + "_" + _tocTags.Count().ToString();
+                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
+
+                    int fontSize = 1 + headingMarkers;
+                    if (fontSize < 1) fontSize = 1;
+
+                    string link = "<font size=\"" + fontSize + "\">" + value + "</span></font>\r\n";
+                    StoreMatch(pageContent, match.Value, link);
+                    _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
             }
         }

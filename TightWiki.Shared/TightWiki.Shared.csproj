@@ -87,6 +87,7 @@
     <Compile Include="Models\Data\PageRevisionHistory.cs" />
     <Compile Include="Models\ViewBagConfig.cs" />
     <Compile Include="Models\View\AccountModel.cs" />
+    <Compile Include="Models\View\ConfirmActionModel.cs" />
     <Compile Include="Models\View\DeletePageModel.cs" />
     <Compile Include="Models\View\PagesModel.cs" />
     <Compile Include="Models\View\ChangePasswordModel.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Models\View\AccountsModel.cs" />
     <Compile Include="Models\View\RolesModel.cs" />
     <Compile Include="Models\View\UserProfileModel.cs" />
+    <Compile Include="Models\View\UtilitiesModel.cs" />
     <Compile Include="Wiki\Differentiator.cs" />
     <Compile Include="Wiki\MatchSet.cs" />
     <Compile Include="Wiki\MethodCall\MethodParameters.cs" />

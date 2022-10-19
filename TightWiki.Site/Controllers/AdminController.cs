@@ -1,12 +1,12 @@
-﻿using TightWiki.Shared.Library;
-using TightWiki.Shared.Models.View;
-using TightWiki.Shared.Repository;
-using System.Web.Mvc;
-using TightWiki.Shared.Wiki;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
-using System;
-using System.IO;
+using System.Web.Mvc;
+using TightWiki.Shared.Library;
+using TightWiki.Shared.Models.View;
+using TightWiki.Shared.Repository;
+using TightWiki.Shared.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
@@ -82,6 +82,109 @@ namespace TightWiki.Site.Controllers
 
                 if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
                 if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult ConfirmAction()
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var model = new UtilitiesModel()
+            {
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult ConfirmAction(ConfirmActionModel model)
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            model.ActionToConfirm = Request.Form["ActionToConfirm"];
+            model.PostBackURL = Request.QueryString["PostBack"];
+            model.Message = Request.Form["message"];
+
+            return View(model);
+        }
+
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Utilities()
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            var model = new UtilitiesModel()
+            {
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Utilities(UtilitiesModel model)
+        {
+            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
+            string action = Request.Form["ActionToConfirm"]?.ToLower();
+            if (bool.Parse(Request.Form["ConfirmAction"]) != true)
+            {
+                return View(model);
+            }
+
+            if (action == "rebuildsearchcache")
+            {
+                var pages = PageRepository.GetAllPages();
+
+                foreach (var page in pages)
+                {
+                    var wikifier = new Wikifier(context, page, null, Request.QueryString);
+                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+                    PageRepository.SavePageTokens(pageTokens);
+                    Cache.ClearClass($"Page:{page.Navigation}");
+                }
+            }
+            else if (action == "rebuildallpages")
+            {
+                var pages = PageRepository.GetAllPages();
+
+                foreach (var page in pages)
+                {
+                    page.Id = PageRepository.SavePage(page);
+                    var wikifier = new Wikifier(context, page, null, Request.QueryString);
+                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+                    PageRepository.SavePageTokens(pageTokens);
+
+                    Cache.ClearClass($"Page:{page.Navigation}");
+                }
+            }
+            else if (action == "truncatepagerevisionhistory")
+            {
+                PageRepository.TruncateAllPageHistory("YES");
+                Cache.Clear();
             }
 
             return View(model);

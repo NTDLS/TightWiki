@@ -45,7 +45,7 @@
 </script>
 
 <div class="panel panel-default">
-    <div class="panel-heading">Content</div>
+    <div class="panel-heading"><h2>Content</h2></div>
     <div class="panel-body">
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
         {
@@ -117,7 +117,7 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">Attachments</div>
+    <div class="panel-heading"><h2>Attachments</h2></div>
     <div class="panel-body">
         @if (Model?.Id > 0 && @ViewBag.Config.Context?.CanCreate == true)
         {

@@ -1,0 +1,41 @@
+﻿@model TightWiki.Shared.Models.View.ConfirmActionModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+{
+    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+}
+
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="center">
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Success</div>
+                }
+
+                <div class="panel panel-danger">
+                    <div class="panel-heading">Are you sure?</div>
+                    <div class="panel-body">
+
+                        @Model.Message<br /><br />
+
+                        <form action='@Model.PostBackURL' method="post">
+                            @Html.HiddenFor(m => m.PostBackURL)
+                            @Html.HiddenFor(m => m.ActionToConfirm)
+                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0" name="ConfirmAction" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-primary rounded-0" name="ConfirmAction" value="false">No</button></div>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
