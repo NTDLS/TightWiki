@@ -13,7 +13,7 @@
 </style>
 
 <div class="jumbotron">
-    <h2>Account email verification</h2>
+    <h2>Account Email Verification</h2>
 
     @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
     {
@@ -29,6 +29,7 @@
         <tbody>
             <tr>
                 <td height="52" valign="middle" align="center">
+
                     @if (ViewBag.Error != null)
                     {
                         <div class="alert alert-danger">@ViewBag.Error</div>
