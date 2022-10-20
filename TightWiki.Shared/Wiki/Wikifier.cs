@@ -63,6 +63,7 @@ namespace TightWiki.Shared.Wiki
             allTokens.AddRange(WikiUtility.ParsePageTokens(ProcessedBody, 1));
             allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Description, 2));
             allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 3));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(String.Join(" ", Tags), 3));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {
