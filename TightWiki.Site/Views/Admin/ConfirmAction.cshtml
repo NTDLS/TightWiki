@@ -31,7 +31,7 @@
                         <form action='@Model.PostBackURL' method="post">
                             @Html.HiddenFor(m => m.PostBackURL)
                             @Html.HiddenFor(m => m.ActionToConfirm)
-                            <div class="form-group"><button type="submit" class="btn btn-primary rounded-0" name="ConfirmAction" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-primary rounded-0" name="ConfirmAction" value="false">No</button></div>
+                            <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="ConfirmAction" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="ConfirmAction" value="false">No</button></div>
                         </form>
                     </div>
                 </div>
