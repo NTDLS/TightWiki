@@ -63,7 +63,7 @@ namespace TightWiki.Shared.Wiki
             allTokens.AddRange(WikiUtility.ParsePageTokens(ProcessedBody, 1));
             allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Description, 2));
             allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 3));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(String.Join(" ", Tags), 3));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(string.Join(" ", Tags), 3));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {
@@ -95,7 +95,7 @@ namespace TightWiki.Shared.Wiki
                 {
                     if (_omitMatches.Contains(v.Value.MatchType))
                     {
-                        pageContent.Replace(v.Key, String.Empty);
+                        pageContent.Replace(v.Key, string.Empty);
                     }
                     else
                     {
@@ -145,7 +145,7 @@ namespace TightWiki.Shared.Wiki
                     {
                         if (_omitMatches.Contains(v.Value.MatchType))
                         {
-                            pageContent.Replace(v.Key, String.Empty);
+                            pageContent.Replace(v.Key, string.Empty);
                         }
                         else
                         {
@@ -175,6 +175,47 @@ namespace TightWiki.Shared.Wiki
             ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
             ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
             ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
+
+            var regEx = new StringBuilder();
+            regEx.Append(@"(\^\^\^\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^\^.*?\n)");
+            regEx.Append(@"|");
+            regEx.Append(@"(\^\^.*?\n)");
+
+            var rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+
+            foreach (var match in matches)
+            {
+                int headingMarkers = 0;
+                foreach (char c in match.Value)
+                {
+                    if (c != '^')
+                    {
+                        break;
+                    }
+                    headingMarkers++;
+                }
+                if (headingMarkers >= 2 && headingMarkers <= 6)
+                {
+                    string tag = _tocName + "_" + _tocTags.Count().ToString();
+                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
+
+                    int fontSize = 1 + headingMarkers;
+                    if (fontSize < 1) fontSize = 1;
+
+                    string link = "<font size=\"" + fontSize + "\">" + value + "</span></font>\r\n";
+                    StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, link);
+                    _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
+                }
+            }
         }
 
         /// <summary>6
@@ -250,8 +291,8 @@ namespace TightWiki.Shared.Wiki
 
                 string scopeBody = match.Value.Substring(paramEndIndex, (match.Value.Length - paramEndIndex) - 3).Trim();
 
-                string boxType = method.Parameters.Get<String>("boxType");
-                string title = method.Parameters.Get<String>("title");
+                string boxType = method.Parameters.Get<string>("boxType");
+                string title = method.Parameters.Get<string>("title");
 
                 var html = new StringBuilder();
 
@@ -264,13 +305,13 @@ namespace TightWiki.Shared.Wiki
                             if (string.IsNullOrEmpty(language))
                             {
                                 html.Append($"<pre>");
-                                if (!String.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
+                                if (!string.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
                                 html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                             }
                             else
                             {
                                 html.Append($"<pre class=\"language-{language}\">");
-                                if (!String.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
+                                if (!string.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
                                 html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                             }
                         }
@@ -350,28 +391,28 @@ namespace TightWiki.Shared.Wiki
                     case "alert-default":
                     case "alert-info":
                         {
-                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert alert-info\">{scopeBody}.</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert-danger":
                         {
-                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert alert-danger\">{scopeBody}.</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert-warning":
                         {
-                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert alert-warning\">{scopeBody}.</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert-success":
                         {
-                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert alert-success\">{scopeBody}.</div>");
                         }
                         break;
@@ -379,7 +420,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "jumbotron":
                         {
-                            if (!String.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
                         }
                         break;
@@ -523,47 +564,6 @@ namespace TightWiki.Shared.Wiki
                     if (fontSize < 5) fontSize = 5;
 
                     string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (headingMarkers - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
-                    StoreMatch(WikiMatchType.Heading, pageContent, match.Value, link);
-                    _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
-                }
-            }
-
-            regEx = new StringBuilder();
-            regEx.Append(@"(\^\^\^\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
-            regEx.Append(@"(\^\^\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
-            regEx.Append(@"(\^\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
-            regEx.Append(@"(\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
-            regEx.Append(@"(\^\^\^.*?\n)");
-            regEx.Append(@"|");
-            regEx.Append(@"(\^\^.*?\n)");
-
-            rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
-            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-
-            foreach (var match in matches)
-            {
-                int headingMarkers = 0;
-                foreach (char c in match.Value)
-                {
-                    if (c != '^')
-                    {
-                        break;
-                    }
-                    headingMarkers++;
-                }
-                if (headingMarkers >= 2 && headingMarkers <= 6)
-                {
-                    string tag = _tocName + "_" + _tocTags.Count().ToString();
-                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
-
-                    int fontSize = 1 + headingMarkers;
-                    if (fontSize < 1) fontSize = 1;
-
-                    string link = "<font size=\"" + fontSize + "\">" + value + "</span></font>\r\n";
                     StoreMatch(WikiMatchType.Heading, pageContent, match.Value, link);
                     _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
@@ -1595,7 +1595,7 @@ namespace TightWiki.Shared.Wiki
         /// <param name="htmlTag"></param>
         void ReplaceWholeLineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
         {
-            string marker = String.Empty;
+            string marker = string.Empty;
             if (escape)
             {
                 foreach (var c in mark)
@@ -1621,7 +1621,7 @@ namespace TightWiki.Shared.Wiki
 
         void ReplaceInlineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)
         {
-            string marker = String.Empty;
+            string marker = string.Empty;
             if (escape)
             {
                 foreach (var c in mark)
@@ -1634,7 +1634,7 @@ namespace TightWiki.Shared.Wiki
                 marker = mark;
             }
 
-            Regex rgx = new Regex($@"{marker}.*?{marker}", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex($@"{marker}([\S\s]*?){marker}", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
