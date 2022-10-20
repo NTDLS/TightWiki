@@ -21,6 +21,11 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Moderate(int page)
         {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             if (page <= 0) page = 1;
 
             ViewBag.Config.Title = $"Page Moderation";
@@ -59,6 +64,11 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult Moderate(int page, PageModerateModel model)
         {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return new HttpUnauthorizedResult();
+            }
+
             page = 1;
 
             ViewBag.Config.Title = $"Page Moderation";
@@ -86,8 +96,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Pages(int page)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true
-                && context.CanModerate == false)
+            if (context.CanAdmin == false && context.CanModerate == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -124,8 +133,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult Pages(int page, PagesModel model)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true
-                && context.CanModerate == false)
+            if (context.CanAdmin == false && context.CanModerate == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -162,7 +170,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult ConfirmAction()
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -178,7 +186,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult ConfirmAction(ConfirmActionModel model)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -195,7 +203,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Utilities()
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -211,7 +219,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult Utilities(UtilitiesModel model)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -265,7 +273,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Roles()
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -282,7 +290,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Account(string navigation)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -309,7 +317,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult Account([Bind(Exclude = "Avatar")] AccountModel model)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -379,7 +387,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Accounts(int page)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -398,7 +406,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Config()
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -415,7 +423,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Config([Bind(Exclude = "Avatar")] ConfigurationModel model)
         {
-            if (context.Roles?.Contains(Constants.Roles.Administrator) != true)
+            if (context.CanAdmin == false)
             {
                 return new HttpUnauthorizedResult();
             }
@@ -452,4 +460,3 @@ namespace TightWiki.Site.Controllers
         }
     }
 }
-

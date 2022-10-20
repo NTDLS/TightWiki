@@ -46,7 +46,6 @@ namespace TightWiki.Site.Controllers
                 Copyright = basicConfig.As<string>("Copyright"),
                 PageNavigation = RouteValue("pageNavigation"),
                 PageRevision = RouteValue("pageRevision"),
-                AllowGuestsToViewHistory = basicConfig.As<bool>("Allow Guests to View History"),
                 MenuItems = MenuItemRepository.GetAllMenuItems()
             };
 
@@ -72,10 +71,6 @@ namespace TightWiki.Site.Controllers
                     context.User = UserRepository.GetUserById(int.Parse(principal.Identity.Name));
                 }
             }
-            else if (ConfigurationRepository.Get("Membership", "Allow Guest", false))
-            {
-                PerformGuestLogin();
-            }
         }
 
         public int SavePage(Page page)
@@ -91,39 +86,6 @@ namespace TightWiki.Site.Controllers
             Cache.ClearClass($"Page:{page.Navigation}");
 
             return page.Id;
-        }
-
-        public bool PerformGuestLogin()
-        {
-            var guestAccount = ConfigurationRepository.Get<string>("Membership", "Guest Account");
-
-            var user = UserRepository.GetUserByNavigation(guestAccount);
-            if (user != null)
-            {
-                FormsAuthentication.SetAuthCookie(user.Id.ToString(), false);
-
-                var roles = UserRepository.GetUserRolesByUserId(user.Id);
-                string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
-
-                var ticket = new FormsAuthenticationTicket(
-                     version: 1,
-                     name: user.Id.ToString(),
-                     issueDate: DateTime.Now,
-                     expiration: DateTime.Now.AddMinutes(Session.Timeout),
-                     isPersistent: false,
-                     userData: String.Join("|", arrayOfRoles));
-
-                var encryptedTicket = FormsAuthentication.Encrypt(ticket);
-                var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-
-                UserRepository.UpdateUserLastLoginDateByUserId(user.Id);
-
-                Response.Cookies.Add(cookie);
-
-                return true;
-            }
-
-            return false;
         }
 
         public void PerformLogin(string emailAddress, string password, bool isPasswordHash)

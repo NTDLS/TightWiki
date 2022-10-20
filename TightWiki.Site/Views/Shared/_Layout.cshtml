@@ -52,39 +52,21 @@
                     {
                         <li><a href="@item.Link">@item.Name</a></li>
                     }
-                    
-                    @{
-                        bool showHistory = (@ViewBag.Context.IsPageLoaded == true && @ViewBag.Context.IsAuthenticated);
-
-                        if (@ViewBag.Context.CanModerate)
-                        {
-                            showHistory = showHistory && @ViewBag.Context.CanModerate;
-                        }
-
-                        if (showHistory && @ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Guest) == true
-                            && ViewBag.Config.AllowGuestsToViewHistory == false)
-                        {
-                            showHistory = false;
-                        }
-                    }
 
                     @if (ViewBag.Context.CanCreate
                         || (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
-                        || (ViewBag.Context.IsPageLoaded == true && (showHistory || ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
+                        || (ViewBag.Context.IsPageLoaded == true && (ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
                         )
                     {
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Page<span class="caret"></span></a>
                             <ul class="dropdown-menu" aria-labelledby="page">
 
-                                @if (ViewBag.Context.CanEdit && ViewBag.Context.IsPageLoaded == true)
+                                @if (ViewBag.Context.CanEdit && ViewBag.Context.IsPageLoaded == true && ViewBag.Context.IsViewingOldVersion == false)
                                 {
-                                    if (ViewBag.Context.IsViewingOldVersion == false)
-                                    {
-                                        <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Edit</a></li>
-                                    }
+                                    <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Edit</a></li>
                                 }
-                                else if (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
+                                else if (ViewBag.Context.CanCreate && ViewBag.CreatePage == true)
                                 {
                                     <li><a href="/Page/Edit/@ViewBag.Config.PageNavigation" class="list-group-item">Create "@ViewBag.Config.PageNavigation"</a></li>
                                 }
@@ -99,12 +81,12 @@
                                     <li><a href="/Page/Delete/@ViewBag.Config.PageNavigation" class="list-group-item">Delete this page</a></li>
                                 }
 
-                                @if (showHistory)
+                                @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true)
                                 {
                                     <li><a href="/@ViewBag.Config.PageNavigation/History" class="list-group-item">History</a></li>
                                 }
 
-                                @if (ViewBag.Context.IsViewingOldVersion && ViewBag.Context.CanModerate && ViewBag.Context.IsPageLoaded == true)
+                                @if (ViewBag.Context.CanModerate && ViewBag.Context.IsViewingOldVersion && ViewBag.Context.IsPageLoaded == true)
                                 {
                                     <li><a href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision" class="list-group-item">Revert to revision @ViewBag.Config.PageRevision</a></li>
                                 }

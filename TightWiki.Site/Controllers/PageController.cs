@@ -92,11 +92,6 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult History(string pageNavigation, int page)
         {
-            if (context.Roles?.Contains(Constants.Roles.Guest) == true && context.Config.AllowGuestsToViewHistory == false)
-            {
-                return new HttpUnauthorizedResult();
-            }
-
             if (context.CanView == false)
             {
                 return new HttpUnauthorizedResult();

@@ -15,7 +15,6 @@ namespace TightWiki.Shared.Models
         public string PageRevision { get; set; }
         public List<MenuItem> MenuItems { get; set; }
         public StateContext Context { get; set; }
-        public bool AllowGuestsToViewHistory { get; set; }
         public string HTMLHeader { get; set; }
         public string HTMLFooter { get; set; }
         public string HTMLPreBody { get; set; }

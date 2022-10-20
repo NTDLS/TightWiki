@@ -71,6 +71,10 @@ namespace TightWiki.Shared.Library
             }
         }
 
+        public bool CanAdmin =>
+            IsAuthenticated
+                && Roles.Contains(Constants.Roles.Administrator);
+
         public bool CanModerate =>
             IsAuthenticated
                 && (Roles.Contains(Constants.Roles.Administrator)
