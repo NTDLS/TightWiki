@@ -82,9 +82,23 @@ namespace TightWiki.Shared.Library
                 || Roles.Contains(Constants.Roles.Contributor)
                 || Roles.Contains(Constants.Roles.Moderator));
 
-        public bool CanDelete =>
-            IsAuthenticated
-                && (Roles.Contains(Constants.Roles.Administrator)
-                || Roles.Contains(Constants.Roles.Moderator));
+        public bool CanDelete
+        {
+            get
+            {
+                if (IsAuthenticated)
+                {
+                    if (ProcessingInstructions.Where(o => o.Instruction.ToLower() == WikiInstruction.Protect.ToString().ToLower()).Any())
+                    {
+                        return false;
+                    }
+
+                    return (Roles.Contains(Constants.Roles.Administrator)
+                        || Roles.Contains(Constants.Roles.Moderator));
+                }
+
+                return false;
+            }
+        }
     }
 }

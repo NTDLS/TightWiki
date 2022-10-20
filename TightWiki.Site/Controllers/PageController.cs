@@ -7,6 +7,7 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
+using static TightWiki.Shared.Library.Constants;
 
 namespace TightWiki.Site.Controllers
 {
@@ -143,6 +144,11 @@ namespace TightWiki.Site.Controllers
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+            var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+            if (instructions.Select(o=>o.Instruction == WikiInstruction.Protect).Any())
+            {
+                return new HttpNotFoundResult();
+            }
 
             bool confirmAction = bool.Parse(Request.Form["Action"]);
             if (confirmAction == true && page != null)
@@ -166,6 +172,11 @@ namespace TightWiki.Site.Controllers
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+            var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+            if (instructions.Select(o => o.Instruction == WikiInstruction.Protect).Any())
+            {
+                ViewBag.Error = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
+            }
 
             ViewBag.PageName = page.Name;
             ViewBag.MostCurrentRevision = page.Revision;
@@ -177,7 +188,7 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                context.SetPageId(page.Id, page.Revision);
+                context.SetPageId(page.Id);
                 ViewBag.Config.Title = $"{page.Name} Delete";
             }
 
