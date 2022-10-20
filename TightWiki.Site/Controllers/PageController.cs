@@ -172,11 +172,6 @@ namespace TightWiki.Site.Controllers
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-            var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-            if (instructions.Select(o => o.Instruction == WikiInstruction.Protect).Any())
-            {
-                ViewBag.Error = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
-            }
 
             ViewBag.PageName = page.Name;
             ViewBag.MostCurrentRevision = page.Revision;
@@ -190,6 +185,11 @@ namespace TightWiki.Site.Controllers
             {
                 context.SetPageId(page.Id);
                 ViewBag.Config.Title = $"{page.Name} Delete";
+            }
+
+            if (context.CanDelete) //This really isnt applicable until after a call to SetPageId().
+            {
+                ViewBag.Error = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
             }
 
             return View(model);

@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TightWiki.Shared.Library;
+using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
+using static TightWiki.Shared.Library.Constants;
 using static TightWiki.Shared.Wiki.MethodCall.Singletons;
 
 namespace TightWiki.Site.Controllers
@@ -14,6 +17,71 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class AdminController : ControllerHelperBase
     {
+        [Authorize]
+        [HttpGet]
+        public ActionResult Moderate(int page)
+        {
+            if (page <= 0) page = 1;
+
+            ViewBag.Config.Title = $"Page Moderation";
+
+            string instruction = Request.QueryString["Instruction"];
+            if (instruction != null)
+            {
+                var model = new PageModerateModel()
+                {
+                    Pages = PageRepository.GetAllPagesByInstructionPaged(page, 0, instruction),
+                    Instruction = instruction,
+                    Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
+                };
+
+                if (model.Pages != null && model.Pages.Any())
+                {
+                    ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                    ViewBag.CurrentPage = page;
+
+                    if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                    if (page > 1) ViewBag.PreviousPage = page - 1;
+                }
+
+                return View(model);
+            }
+
+            return View(new PageModerateModel()
+            {
+                Pages = new List<Page>(),
+                Instruction = String.Empty,
+                Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Moderate(int page, PageModerateModel model)
+        {
+            page = 1;
+
+            ViewBag.Config.Title = $"Page Moderation";
+
+            model = new PageModerateModel()
+            {
+                Pages = PageRepository.GetAllPagesByInstructionPaged(page, 0, model.Instruction),
+                Instruction = model.Instruction,
+                Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
+            };
+
+            if (model.Pages != null && model.Pages.Any())
+            {
+                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
         [Authorize]
         [HttpGet]
         public ActionResult Pages(int page)

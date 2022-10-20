@@ -10,6 +10,22 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class PageRepository
     {
+        public static List<Page> GetAllPagesByInstructionPaged(int pageNumber, int pageSize = 0, string instruction = null)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    Instruction = instruction
+                };
+
+                return handler.Connection.Query<Page>("GetAllPagesByInstructionPaged",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public static List<Page> PageSearchPaged(int pageNumber, int pageSize = 0, string searchTerms = null)
         {
             using (var handler = new SqlConnectionHandler())

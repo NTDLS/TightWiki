@@ -56,7 +56,7 @@ namespace TightWiki.Shared.Library
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Where(o => o.Instruction.ToLower() == WikiInstruction.Protect.ToString().ToLower()).Any())
+                    if (ProcessingInstructions.Where(o => o.Instruction == WikiInstruction.Protect).Any())
                     {
                         return (Roles.Contains(Constants.Roles.Administrator)
                             || Roles.Contains(Constants.Roles.Moderator));

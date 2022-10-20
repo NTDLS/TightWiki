@@ -33,14 +33,16 @@ namespace TightWiki.Shared.Wiki
         private readonly int? _revision;
         readonly NameValueCollection _queryString;
         private readonly StateContext _context;
+        private readonly int _nestLevel;
 
         /// <summary>
         /// When matches are omitted, the entire match will be removed from the resulting wiki text.
         /// </summary>
         private List<WikiMatchType> _omitMatches = new List<WikiMatchType>();
 
-        public Wikifier(StateContext context, Page page, int? revision = null, NameValueCollection queryString = null, WikiMatchType []omitMatches = null)
+        public Wikifier(StateContext context, Page page, int? revision = null, NameValueCollection queryString = null, WikiMatchType []omitMatches = null, int nestLevel = 0)
         {
+            _nestLevel = nestLevel;
             _queryString = queryString;
             _page = page;
             _revision = revision;
@@ -757,46 +759,66 @@ namespace TightWiki.Shared.Wiki
 
                 switch (method.Name.ToLower())
                 {
+                    //We check _nestLevel here because we dont want to include the processing instructions on any parent pages that are injecting this one.
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "depreciate":
-                        ProcessingInstructions.Add(WikiInstruction.Depreciate);
-                        pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
+                        if (_nestLevel == 0)
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.Depreciate);
+                            pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
+                        }
                         StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "protect":
                         {
-                            bool isSilent = method.Parameters.Get<bool>("isSilent");
-                            ProcessingInstructions.Add(WikiInstruction.Protect);
-                            if (isSilent == false)
+                            if (_nestLevel == 0)
                             {
-                                pageContent.Insert(0, "<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
+                                bool isSilent = method.Parameters.Get<bool>("isSilent");
+                                ProcessingInstructions.Add(WikiInstruction.Protect);
+                                if (isSilent == false)
+                                {
+                                    pageContent.Insert(0, "<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
+                                }
                             }
                             StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "template":
-                        ProcessingInstructions.Add(WikiInstruction.Template);
-                        pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
+                        if (_nestLevel == 0)
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.Template);
+                            pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
+                        }
                         StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "review":
-                        ProcessingInstructions.Add(WikiInstruction.Review);
-                        pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
+                        if (_nestLevel == 0)
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.Review);
+                            pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
+                        }
                         StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "include":
-                        ProcessingInstructions.Add(WikiInstruction.Include);
-                        pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
+                        if (_nestLevel == 0)
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.Include);
+                            pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
+                        }
                         StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "draft":
-                        ProcessingInstructions.Add(WikiInstruction.Draft);
-                        pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
+                        if (_nestLevel == 0)
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.Draft);
+                            pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
+                        }
                         StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                 }
@@ -895,7 +917,6 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Includes a page by it's navigation link.
                     case "editlink": //(##EditLink(link text))
                         {
                             var linkText = method.Parameters.Get<String>("linkText");
@@ -903,15 +924,15 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Includes a page by it's navigation link.
-                    case "include": //(PageName)
+                    //Includes/injects a page by it's navigation link.
+                    case "inject": //(PageName)
                         {
                             var navigation = method.Parameters.Get<String>("pageName");
 
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray());
+                                var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray(), _nestLevel +1);
                                 StoreMatch(method, pageContent, match.Value, wikify.ProcessedBody);
                             }
                             else

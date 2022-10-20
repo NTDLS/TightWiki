@@ -42,7 +42,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("Related: <int>{Top}='1000' | <string>{view(List,Flat,Full)}='Full'");
                     _methodPrototypes.Add("Tags: <string>{view(Flat,List)}='List'");
                     _methodPrototypes.Add("EditLink: <string>{linkText}='edit'");
-                    _methodPrototypes.Add("Include: <string>[pageName]");
+                    _methodPrototypes.Add("Inject: <string>[pageName]");
                     _methodPrototypes.Add("BR: <int>{Count}='1'");
                     _methodPrototypes.Add("NL: <int>{Count}='1'");
                     _methodPrototypes.Add("NewLine: <int>{Count}='1'");

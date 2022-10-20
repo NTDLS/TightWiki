@@ -4,12 +4,12 @@
     {
         public static class WikiInstruction
         {
-            public static string Depreciate = "Depreciate";
-            public static string Protect = "Protect";
-            public static string Template = "Template";
-            public static string Review = "Review";
-            public static string Include = "Include";
-            public static string Draft = "Draft";
+            public static string Depreciate { get; } = "Depreciate";
+            public static string Protect { get; } = "Protect";
+            public static string Template { get; } = "Template";
+            public static string Review { get; } = "Review";
+            public static string Include { get; } = "Include";
+            public static string Draft { get; } = "Draft";
         }
 
         public static class Roles

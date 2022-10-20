@@ -849,6 +849,7 @@
     <Content Include="Views\Admin\Utilities.cshtml" />
     <Content Include="Views\Admin\ConfirmAction.cshtml" />
     <Content Include="Views\Page\Search.cshtml" />
+    <Content Include="Views\Admin\Moderate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

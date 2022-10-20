@@ -53,6 +53,12 @@ namespace TightWiki.Site
             );
 
             routes.MapRoute(
+                name: "Admin_Moderate",
+                url: "Admin/Moderate/{page}",
+                defaults: new { controller = "Admin", action = "Moderate", page = 1 }
+            );
+
+            routes.MapRoute(
                 name: "Page_Edit",
                 url: "Page/Edit/{pageNavigation}",
                 defaults: new { controller = "Page", action = "Edit", pageNavigation = UrlParameter.Optional }
