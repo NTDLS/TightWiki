@@ -1,16 +1,18 @@
-﻿using TightWiki.Shared.Library;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
+using TightWiki.Shared.Library;
 using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki.MethodCall;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
 using static TightWiki.Shared.Library.Constants;
+using static TightWiki.Shared.Wiki.MethodCall.Singletons;
 
 namespace TightWiki.Shared.Wiki
 {
@@ -27,34 +29,34 @@ namespace TightWiki.Shared.Wiki
         private int _matchesPerIteration = 0;
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
-        private Page _page;
-        private int? _revision;
-        NameValueCollection _queryString;
+        private readonly Page _page;
+        private readonly int? _revision;
+        readonly NameValueCollection _queryString;
         private readonly StateContext _context;
 
-        public Wikifier(StateContext context, Page page, int? revision = null, NameValueCollection queryString = null)
+        /// <summary>
+        /// When matches are omitted, the entire match will be removed from the resulting wiki text.
+        /// </summary>
+        private List<WikiMatchType> _omitMatches = new List<WikiMatchType>();
+
+        public Wikifier(StateContext context, Page page, int? revision = null, NameValueCollection queryString = null, WikiMatchType []omitMatches = null)
         {
             _queryString = queryString;
             _page = page;
             _revision = revision;
             Matches = new Dictionary<string, MatchSet>();
             _context = context;
-
-            Transform();
-        }
-
-        public Wikifier(Page page)
-        {
-            _page = page;
-            Matches = new Dictionary<string, MatchSet>();
-            _context = null; //Not being called from a webpage.
+            if (omitMatches != null)
+            {
+                _omitMatches.AddRange(omitMatches);
+            }
 
             Transform();
         }
 
         public List<WeightedToken> ParsePageTokens()
         {
-            return WikiUtility.ParsePageTokens(ProcessedBody);
+            return WikiUtility.ParsePageTokens($"{ProcessedBody} {_page.Description}");
         }
 
         private void Transform()
@@ -76,7 +78,14 @@ namespace TightWiki.Shared.Wiki
                 length = pageContent.Length;
                 foreach (var v in Matches)
                 {
-                    pageContent.Replace(v.Key, v.Value.Content);
+                    if (_omitMatches.Contains(v.Value.MatchType))
+                    {
+                        pageContent.Replace(v.Key, String.Empty);
+                    }
+                    else
+                    {
+                        pageContent.Replace(v.Key, v.Value.Content);
+                    }
                 }
             } while (length != pageContent.Length);
 
@@ -119,7 +128,15 @@ namespace TightWiki.Shared.Wiki
                 {
                     if (v.Value.AllowNestedDecode)
                     {
-                        pageContent.Replace(v.Key, v.Value.Content);
+                        if (_omitMatches.Contains(v.Value.MatchType))
+                        {
+                            pageContent.Replace(v.Key, String.Empty);
+                        }
+                        else
+                        {
+                            pageContent.Replace(v.Key, v.Value.Content);
+                        }
+
                     }
                 }
             } while (length != pageContent.Length);
@@ -161,7 +178,7 @@ namespace TightWiki.Shared.Wiki
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
                 value = HttpUtility.HtmlEncode(value);
-                StoreMatch(pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />"), false);
+                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />"), false);
             }
         }
 
@@ -445,7 +462,7 @@ namespace TightWiki.Shared.Wiki
                         break;
                 }
 
-                StoreMatch(pageContent, match.Value, html.ToString());
+                StoreMatch(WikiMatchType.Block, pageContent, match.Value, html.ToString());
             }
         }
 
@@ -491,7 +508,7 @@ namespace TightWiki.Shared.Wiki
                     if (fontSize < 5) fontSize = 5;
 
                     string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (headingMarkers - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
-                    StoreMatch(pageContent, match.Value, link);
+                    StoreMatch(WikiMatchType.Heading, pageContent, match.Value, link);
                     _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
             }
@@ -532,7 +549,7 @@ namespace TightWiki.Shared.Wiki
                     if (fontSize < 1) fontSize = 1;
 
                     string link = "<font size=\"" + fontSize + "\">" + value + "</span></font>\r\n";
-                    StoreMatch(pageContent, match.Value, link);
+                    StoreMatch(WikiMatchType.Heading, pageContent, match.Value, link);
                     _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
             }
@@ -561,11 +578,11 @@ namespace TightWiki.Shared.Wiki
 
                     keyword = keyword.Substring(0, pipeIndex).Trim();
 
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
                 }
                 else
                 {
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>");
                 }
             }
 
@@ -664,7 +681,7 @@ namespace TightWiki.Shared.Wiki
                         }
                     }
 
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_context?.CanCreate == true)
                 {
@@ -678,7 +695,7 @@ namespace TightWiki.Shared.Wiki
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
@@ -694,7 +711,7 @@ namespace TightWiki.Shared.Wiki
                     //Remove wiki tags for pages which were not found or which we do not have permission to view.
                     if (linkText.Length > 0)
                     {
-                        StoreMatch(pageContent, match.Value, linkText);
+                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, linkText);
                     }
                     else
                     {
@@ -732,7 +749,7 @@ namespace TightWiki.Shared.Wiki
                     case "depreciate":
                         ProcessingInstructions.Add(WikiInstruction.Depreciate);
                         pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
-                        StoreMatch(pageContent, match.Value, "");
+                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "protect":
@@ -743,32 +760,32 @@ namespace TightWiki.Shared.Wiki
                             {
                                 pageContent.Insert(0, "<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
                             }
-                            StoreMatch(pageContent, match.Value, "");
+                            StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "template":
                         ProcessingInstructions.Add(WikiInstruction.Template);
                         pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
-                        StoreMatch(pageContent, match.Value, "");
+                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "review":
                         ProcessingInstructions.Add(WikiInstruction.Review);
                         pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
-                        StoreMatch(pageContent, match.Value, "");
+                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "include":
                         ProcessingInstructions.Add(WikiInstruction.Include);
                         pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
-                        StoreMatch(pageContent, match.Value, "");
+                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "draft":
                         ProcessingInstructions.Add(WikiInstruction.Draft);
                         pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
-                        StoreMatch(pageContent, match.Value, "");
+                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                 }
             }
@@ -790,7 +807,7 @@ namespace TightWiki.Shared.Wiki
 
                 try
                 {
-                    method = Singletons.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -804,7 +821,6 @@ namespace TightWiki.Shared.Wiki
                     case "history":
                         {
                             int pageNumber = int.Parse((_queryString.Get("page") ?? "1"));
-
 
                             string view = method.Parameters.Get<String>("View").ToLower();
                             var pageSize = method.Parameters.Get<int>("pageSize");
@@ -862,7 +878,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
 
                         }
                         break;
@@ -871,7 +887,7 @@ namespace TightWiki.Shared.Wiki
                     case "editlink": //(##EditLink(link text))
                         {
                             var linkText = method.Parameters.Get<String>("linkText");
-                            StoreMatch(pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
+                            StoreMatch(method, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
@@ -883,8 +899,8 @@ namespace TightWiki.Shared.Wiki
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_context, page, null, _queryString);
-                                StoreMatch(pageContent, match.Value, wikify.ProcessedBody);
+                                var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray());
+                                StoreMatch(method, pageContent, match.Value, wikify.ProcessedBody);
                             }
                             else
                             {
@@ -900,7 +916,7 @@ namespace TightWiki.Shared.Wiki
                             var tags = method.Parameters.GetList<string>("tags");
                             Tags.AddRange(tags);
                             Tags = Tags.Distinct().ToList();
-                            StoreMatch(pageContent, match.Value, "");
+                            StoreMatch(method, pageContent, match.Value, "");
                         }
                         break;
 
@@ -925,13 +941,13 @@ namespace TightWiki.Shared.Wiki
                             {
                                 string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}/r/{_revision}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(pageContent, match.Value, image);
+                                StoreMatch(method, pageContent, match.Value, image);
                             }
                             else
                             {
                                 string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(pageContent, match.Value, image);
+                                StoreMatch(method, pageContent, match.Value, image);
                             }
                         }
                         break;
@@ -975,13 +991,13 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}/r/{_revision}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
-                                    StoreMatch(pageContent, match.Value, image);
+                                    StoreMatch(method, pageContent, match.Value, image);
                                 }
                                 else
                                 {
                                     string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
-                                    StoreMatch(pageContent, match.Value, image);
+                                    StoreMatch(method, pageContent, match.Value, image);
                                 }
                             }
 
@@ -1015,7 +1031,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1050,7 +1066,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1101,7 +1117,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1151,7 +1167,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1187,7 +1203,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1224,7 +1240,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1264,7 +1280,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1276,7 +1292,7 @@ namespace TightWiki.Shared.Wiki
                             lastModified = _page.ModifiedDate;
                             if (lastModified != DateTime.MinValue)
                             {
-                                StoreMatch(pageContent, match.Value, lastModified.ToShortDateString());
+                                StoreMatch(method, pageContent, match.Value, lastModified.ToShortDateString());
                             }
                         }
                         break;
@@ -1289,8 +1305,17 @@ namespace TightWiki.Shared.Wiki
                             createdDate = _page.CreatedDate;
                             if (createdDate != DateTime.MinValue)
                             {
-                                StoreMatch(pageContent, match.Value, createdDate.ToShortDateString());
+                                StoreMatch(method, pageContent, match.Value, createdDate.ToShortDateString());
                             }
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the version of the wiki.
+                    case "appversion":
+                        {
+                            string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                            StoreMatch(method, pageContent, match.Value, version);
                         }
                         break;
 
@@ -1298,7 +1323,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays the name of the current page.
                     case "name":
                         {
-                            StoreMatch(pageContent, match.Value, _page.Name);
+                            StoreMatch(method, pageContent, match.Value, _page.Name);
                         }
                         break;
 
@@ -1306,7 +1331,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays the name of the current page in title form.
                     case "title":
                         {
-                            StoreMatch(pageContent, match.Value, $"<h1>{_page.Name}</h1>");
+                            StoreMatch(method, pageContent, match.Value, $"<h1>{_page.Name}</h1>");
                         }
                         break;
 
@@ -1319,7 +1344,7 @@ namespace TightWiki.Shared.Wiki
                             int count = method.Parameters.Get<int>("Count");
                             for (int i = 0; i < count; i++)
                             {
-                                StoreMatch(pageContent, match.Value, $"<br />");
+                                StoreMatch(method, pageContent, match.Value, $"<br />");
                             }
                         }
                         break;
@@ -1331,7 +1356,7 @@ namespace TightWiki.Shared.Wiki
                             string navigation = _page.Navigation;
                             if (navigation != string.Empty)
                             {
-                                StoreMatch(pageContent, match.Value, navigation);
+                                StoreMatch(method, pageContent, match.Value, navigation);
                             }
                         }
                         break;
@@ -1389,7 +1414,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1398,7 +1423,7 @@ namespace TightWiki.Shared.Wiki
                         {
                             string seedTag = method.Parameters.Get<String>("tag");
                             string cloudHtml = WikiUtility.BuildTagCloud(seedTag);
-                            StoreMatch(pageContent, match.Value, cloudHtml);
+                            StoreMatch(method, pageContent, match.Value, cloudHtml);
                         }
                         break;
 
@@ -1407,7 +1432,7 @@ namespace TightWiki.Shared.Wiki
                         {
                             var tokens = method.Parameters.GetList<string>("tokens");
                             string cloudHtml = WikiUtility.BuildSearchCloud(tokens);
-                            StoreMatch(pageContent, match.Value, cloudHtml);
+                            StoreMatch(method, pageContent, match.Value, cloudHtml);
                         }
                         break;
 
@@ -1452,7 +1477,7 @@ namespace TightWiki.Shared.Wiki
                                 currentLevel--;
                             }
 
-                            StoreMatch(pageContent, match.Value, html.ToString());
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
                 }
@@ -1468,14 +1493,15 @@ namespace TightWiki.Shared.Wiki
             var matchSet = new MatchSet()
             {
                 Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
-                AllowNestedDecode = false
+                AllowNestedDecode = false,
+                MatchType = WikiMatchType.Error
             };
 
             Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
         }
 
-        private void StoreMatch(StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        private void StoreMatch(WikiMatchType matchType, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
             _matchesPerIteration++;
 
@@ -1483,6 +1509,7 @@ namespace TightWiki.Shared.Wiki
 
             var matchSet = new MatchSet()
             {
+                MatchType = matchType,
                 Content = value,
                 AllowNestedDecode = allowNestedDecode
             };
@@ -1490,6 +1517,25 @@ namespace TightWiki.Shared.Wiki
             Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
         }
+
+        private void StoreMatch(MethodCallInstance method, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        {
+            _matchesPerIteration++;
+
+            string identifier = Guid.NewGuid().ToString();
+
+            var matchSet = new MatchSet()
+            {
+                MatchType =  WikiMatchType.Function,
+                Content = value,
+                Method = method,
+                AllowNestedDecode = allowNestedDecode
+            };
+
+            Matches.Add(identifier, matchSet);
+            pageContent.Replace(match, identifier);
+        }
+
 
         private void TransformWhitespace(StringBuilder pageContent)
         {
@@ -1535,7 +1581,7 @@ namespace TightWiki.Shared.Wiki
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
                 var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
-                StoreMatch(pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
+                StoreMatch(WikiMatchType.Formatting, pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
             }
         }
 
@@ -1560,7 +1606,7 @@ namespace TightWiki.Shared.Wiki
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
 
-                StoreMatch(pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
+                StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
             }
         }
     }

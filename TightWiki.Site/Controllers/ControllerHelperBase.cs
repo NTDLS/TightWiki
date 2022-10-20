@@ -9,6 +9,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using static TightWiki.Shared.Wiki.MethodCall.Singletons;
 
 namespace TightWiki.Site.Controllers
 {
@@ -81,7 +82,7 @@ namespace TightWiki.Site.Controllers
         {
             page.Id = PageRepository.SavePage(page);
 
-            var wikifier = new Wikifier(context, page, null, Request.QueryString);
+            var wikifier = new Wikifier(context, page, null, Request.QueryString, new WikiMatchType[] { WikiMatchType.Function });
             PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
             var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();

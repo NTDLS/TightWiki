@@ -1,12 +1,12 @@
-﻿using TightWiki.Shared.Library;
-using TightWiki.Shared.Models;
-using TightWiki.Shared.Models.Data;
-using TightWiki.Shared.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using TightWiki.Shared.Library;
+using TightWiki.Shared.Models;
+using TightWiki.Shared.Models.Data;
+using TightWiki.Shared.Repository;
 
 namespace TightWiki.Shared.Wiki
 {
@@ -186,23 +186,27 @@ namespace TightWiki.Shared.Wiki
 
         public static List<WeightedToken> ParsePageTokens(string contentBody)
         {
-            var exclusionWords = ConfigurationRepository.Get<string>("Search", "Word Exclusions")
-                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
+            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
-            var htmlFree = HTML.StripHtml(contentBody).ToLower();
-            var tokens = htmlFree.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
-            var casedTokens = new List<string>();
+            var exclusionWords = searchConfig.As<string>("Word Exclusions").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
+            var strippedContent = HTML.StripHtml(contentBody).ToLower();
+            var tokens = strippedContent.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
 
-            foreach (var token in tokens)
+            if (searchConfig.As<bool>("Split Camel Case"))
             {
-                var spkitTokens = WikiUtility.SplitCamelCase(token).Split(' ');
-                if (spkitTokens.Count() > 1)
-                {
-                    casedTokens.AddRange(spkitTokens);
-                }
-            }
+                var casedTokens = new List<string>();
 
-            tokens.AddRange(casedTokens);
+                foreach (var token in tokens)
+                {
+                    var spkitTokens = WikiUtility.SplitCamelCase(token).Split(' ');
+                    if (spkitTokens.Count() > 1)
+                    {
+                        casedTokens.AddRange(spkitTokens);
+                    }
+                }
+
+                tokens.AddRange(casedTokens);
+            }
 
             tokens.RemoveAll(o => exclusionWords.Contains(o));
 
@@ -219,16 +223,15 @@ namespace TightWiki.Shared.Wiki
 
         public static bool IsValidEmail(string email)
         {
-            var trimmedEmail = email.Trim();
+            email = email.Trim();
 
-            if (trimmedEmail.EndsWith("."))
+            if (email.EndsWith("."))
             {
                 return false;
             }
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == trimmedEmail;
+                return ((new System.Net.Mail.MailAddress(email))?.Address == email);
             }
             catch
             {

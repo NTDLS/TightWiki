@@ -8,6 +8,18 @@ namespace TightWiki.Shared.Wiki.MethodCall
 {
     public static class Singletons
     {
+        public enum WikiMatchType
+        {
+            Block,
+            Instruction,
+            Formatting,
+            Error,
+            Function,
+            Link,
+            Heading,
+            Literal
+        }
+
         private static MethodPrototypeCollection _methodPrototypes;
         public static MethodPrototypeCollection MethodPrototypes
         {
@@ -48,6 +60,8 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("Review:");
                     _methodPrototypes.Add("Include:");
                     _methodPrototypes.Add("Draft:");
+
+                    _methodPrototypes.Add("AppVersion:");
                 }
 
                 return _methodPrototypes;
