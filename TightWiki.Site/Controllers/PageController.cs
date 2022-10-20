@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using TightWiki.Shared.Library;
@@ -12,6 +13,79 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class PageController : ControllerHelperBase
     {
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Search(int page)
+        {
+            if (page <= 0) page = 1;
+
+            ViewBag.Config.Title = $"Page Search";
+
+            string searchTokens = Request.QueryString["Tokens"];
+            if (searchTokens != null)
+            {
+                var tokens = searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                searchTokens = string.Join(",", tokens);
+
+                var model = new PageSearchModel()
+                {
+                    Pages = PageRepository.PageSearchPaged(page, 0, searchTokens),
+                    SearchTokens = Request.QueryString["Tokens"]
+                };
+
+                if (model.Pages != null && model.Pages.Any())
+                {
+                    ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                    ViewBag.CurrentPage = page;
+
+                    if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                    if (page > 1) ViewBag.PreviousPage = page - 1;
+                }
+
+                return View(model);
+            }
+
+            return View(new PageSearchModel()
+            {
+                Pages = new List<Page>(),
+                SearchTokens = String.Empty
+            });
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Search(int page, PageSearchModel model)
+        {
+            page = 1;
+
+            ViewBag.Config.Title = $"Page Search";
+
+            string searchTokens = null;
+            if (model.SearchTokens != null)
+            {
+                var tokens = model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                searchTokens = string.Join(",", tokens);
+            }
+
+            model = new PageSearchModel()
+            {
+                Pages = PageRepository.PageSearchPaged(page, 0, searchTokens),
+                SearchTokens = model.SearchTokens
+            };
+
+            if (model.Pages != null && model.Pages.Any())
+            {
+                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+
         #region Content.
         [Authorize]
         [HttpGet]

@@ -184,12 +184,12 @@ namespace TightWiki.Shared.Wiki
             return result.TrimEnd(new char[] { '/', '\\' });
         }
 
-        public static List<WeightedToken> ParsePageTokens(string contentBody)
+        public static List<WeightedToken> ParsePageTokens(string content, int weightMultiplier)
         {
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
             var exclusionWords = searchConfig.As<string>("Word Exclusions").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
-            var strippedContent = HTML.StripHtml(contentBody).ToLower();
+            var strippedContent = HTML.StripHtml(content).ToLower();
             var tokens = strippedContent.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
 
             if (searchConfig.As<bool>("Split Camel Case"))
@@ -215,7 +215,7 @@ namespace TightWiki.Shared.Wiki
                                 select new WeightedToken
                                 {
                                     Token = g.Key,
-                                    Weight = g.Count()
+                                    Weight = g.Count() * weightMultiplier
                                 }).ToList();
 
             return searchTokens;

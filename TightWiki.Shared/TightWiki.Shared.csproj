@@ -89,6 +89,7 @@
     <Compile Include="Models\View\AccountModel.cs" />
     <Compile Include="Models\View\ConfirmActionModel.cs" />
     <Compile Include="Models\View\DeletePageModel.cs" />
+    <Compile Include="Models\View\PageSearchModel.cs" />
     <Compile Include="Models\View\PagesModel.cs" />
     <Compile Include="Models\View\ChangePasswordModel.cs" />
     <Compile Include="Models\View\ConfigurationModel.cs" />

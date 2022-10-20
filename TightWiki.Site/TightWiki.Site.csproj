@@ -848,6 +848,7 @@
     <Content Include="Views\Page\Delete.cshtml" />
     <Content Include="Views\Admin\Utilities.cshtml" />
     <Content Include="Views\Admin\ConfirmAction.cshtml" />
+    <Content Include="Views\Page\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

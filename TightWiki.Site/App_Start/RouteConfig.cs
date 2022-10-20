@@ -47,6 +47,12 @@ namespace TightWiki.Site
             );
 
             routes.MapRoute(
+                name: "Page_Search",
+                url: "Page/Search/{page}",
+                defaults: new { controller = "Page", action = "Search", page = 1 }
+            );
+
+            routes.MapRoute(
                 name: "Page_Edit",
                 url: "Page/Edit/{pageNavigation}",
                 defaults: new { controller = "Page", action = "Edit", pageNavigation = UrlParameter.Optional }

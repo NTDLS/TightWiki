@@ -29,7 +29,8 @@ namespace TightWiki.Site.Controllers
             string searchTokens = Request.QueryString["Tokens"];
             if (searchTokens != null)
             {
-                searchTokens = string.Join(",", searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries));
+                var tokens = searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                searchTokens = string.Join(",", tokens);
             }
 
             var model = new PagesModel()
@@ -40,7 +41,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
-                ViewBag.Config.Title = $"{model.Pages.First().Name} History";
+                ViewBag.Config.Title = $"Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -66,7 +67,8 @@ namespace TightWiki.Site.Controllers
             string searchTokens = null;
             if (model.SearchTokens != null)
             {
-                searchTokens = string.Join(",", model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries));
+                var tokens = model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                searchTokens = string.Join(",", tokens);
             }
 
             model = new PagesModel()
@@ -77,7 +79,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
-                ViewBag.Config.Title = $"{model.Pages.First().Name} History";
+                ViewBag.Config.Title = $"Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 

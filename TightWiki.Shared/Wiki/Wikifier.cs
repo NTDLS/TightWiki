@@ -56,7 +56,19 @@ namespace TightWiki.Shared.Wiki
 
         public List<WeightedToken> ParsePageTokens()
         {
-            return WikiUtility.ParsePageTokens($"{ProcessedBody} {_page.Description}");
+            var allTokens = new List<WeightedToken>();
+
+            allTokens.AddRange(WikiUtility.ParsePageTokens(ProcessedBody, 1));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Description, 2));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 3));
+
+            allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
+            {
+                Token = o.Key,
+                Weight = o.Sum(g => g.Weight)
+            }).ToList();
+
+            return allTokens;
         }
 
         private void Transform()
