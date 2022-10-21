@@ -30,7 +30,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes = new MethodPrototypeCollection();
                     _methodPrototypes.Add("PanelScope: <string>[boxType(code,bullets,bullets-ordered,alert,alert-default,alert-info,alert-danger,alert-warning,alert-success,jumbotron,block,block-default,block-primary,block-success,block-success,block-info,block-warning,block-danger,panel,panel-default,panel-primary,panel-success,panel-info,panel-warning,panel-danger)] | <string>{title}='' | <string>{language(cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}=''");
                     _methodPrototypes.Add("Tag: <string:infinite>[tags]");
-                    _methodPrototypes.Add("TextList: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
+                    _methodPrototypes.Add("TextList: <string:infinite>[tokens] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("TagList: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("SearchCloud: <string:infinite>[tokens] | <int>{Top}='1000'");
                     _methodPrototypes.Add("TagGlossary: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");

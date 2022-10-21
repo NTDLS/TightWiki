@@ -44,20 +44,6 @@ namespace TightWiki.Shared.Repository
 			}
 		}
 
-		public static List<Page> GetPageInfoByTokens(List<string> tags)
-		{
-			using (var handler = new SqlConnectionHandler())
-			{
-				var param = new
-				{
-					Tokens = string.Join(",", tags.Select(o => o.Trim()))
-				};
-
-				return handler.Connection.Query<Page>("GetPageInfoByTokens",
-					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-			}
-		}
-
 		public static void UpdatePageTags(int pageId, List<string> tags)
 		{
 			using (var handler = new SqlConnectionHandler())

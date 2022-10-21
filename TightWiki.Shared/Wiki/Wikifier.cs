@@ -213,7 +213,6 @@ namespace TightWiki.Shared.Wiki
 
                     string link = "<font size=\"" + fontSize + "\">" + value + "</span></font>\r\n";
                     StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, link);
-                    _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
             }
         }
@@ -1162,7 +1161,7 @@ namespace TightWiki.Shared.Wiki
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
                             var searchStrings = method.Parameters.GetList<string>("tokens");
                             var topCount = method.Parameters.Get<int>("top");
-                            var pages = PageTagRepository.GetPageInfoByTokens(searchStrings).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var pages = PageRepository.PageSearch(string.Join(",", searchStrings)).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
                             string view = method.Parameters.Get<String>("View").ToLower();
@@ -1211,8 +1210,8 @@ namespace TightWiki.Shared.Wiki
                         {
                             string view = method.Parameters.Get<String>("View").ToLower();
                             var topCount = method.Parameters.Get<int>("top");
-                            var tags = method.Parameters.GetList<string>("tags");
-                            var pages = PageTagRepository.GetPageInfoByTokens(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var tokens = method.Parameters.GetList<string>("tokens");
+                            var pages = PageRepository.PageSearch(string.Join(",", tokens)).Take(topCount).OrderByDescending(o => o.Score).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)

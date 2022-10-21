@@ -94,7 +94,7 @@ namespace TightWiki.Shared.Wiki
 
         public static string BuildSearchCloud(List<string> tokens)
         {
-            var pages = PageTagRepository.GetPageInfoByTokens(tokens).OrderByDescending(o => o.TokenWeight).ToList();
+            var pages = PageRepository.PageSearch(string.Join(",", tokens)).OrderByDescending(o => o.Score).ToList();
 
             int pageCount = pages.Count();
             int fontSize = 7;
