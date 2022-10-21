@@ -56,7 +56,15 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static List<Page> GetAllPages(int pageNumber, int pageSize = 0, string searchTerms = null)
+        /// <summary>
+        /// Unlike the search, this method retunrs all pages and allows them to be paired down using the search terms.
+        /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchTerms"></param>
+        /// <returns></returns>
+        public static List<Page> GetAllPagesPaged(int pageNumber, int pageSize = 0, string searchTerms = null)
         {
             using (var handler = new SqlConnectionHandler())
             {
@@ -247,20 +255,6 @@ namespace TightWiki.Shared.Repository
 
                 return handler.Connection.Query<int?>("GetCountOfPageAttachmentsById",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault() ?? 0;
-            }
-        }
-
-        public static int? GetPageIdFromNavigation(string navigation)
-        {
-            using (var handler = new SqlConnectionHandler())
-            {
-                var param = new
-                {
-                    Navigation = navigation
-                };
-
-                return handler.Connection.Query<int?>("GetPageIdFromNavigation",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
         }
 

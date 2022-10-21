@@ -112,7 +112,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PagesModel()
             {
-                Pages = PageRepository.GetAllPages(page, 0, searchTokens),
+                Pages = PageRepository.GetAllPagesPaged(page, 0, searchTokens),
                 SearchTokens = Request.QueryString["Tokens"]
             };
 
@@ -149,7 +149,7 @@ namespace TightWiki.Site.Controllers
 
             model = new PagesModel()
             {
-                Pages = PageRepository.GetAllPages(page, 0, searchTokens),
+                Pages = PageRepository.GetAllPagesPaged(page, 0, searchTokens),
                 SearchTokens = model.SearchTokens
             };
 
