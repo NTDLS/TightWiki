@@ -111,10 +111,15 @@ namespace TightWiki.Shared.Wiki
                 var pageInfo = PageRepository.GetPageInfoById(_page.Id);
 
                 var html = new StringBuilder();
-                html.Append("<div class=\"panel panel-warning\">");
-                html.Append($"<div class=\"panel-heading\">Viewing a historical revision</div>");
-                html.Append($"<div class=\"panel-body\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {revision.ModifiedDate}.<br />");
-                html.Append($"<a href=\"/{_page.Navigation}\">View the latest revision {pageInfo.Revision:0}.</a></div></div><br />");
+
+                html.Append("<div class=\"card bg-warning mb-3\">");
+                html.Append($"<div class=\"card-header\">Viewing a historical revision</div>");
+                html.Append("<div class=\"card-body\">");
+                html.Append($"<p class=\"card-text\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {revision.ModifiedDate}. <br />");
+                html.Append($"<a href=\"/{_page.Navigation}\">View the latest revision {pageInfo.Revision:0}.</a>");
+                html.Append("</p>");
+                html.Append("</div>");
+                html.Append("</div>");
                 pageContent.Insert(0, html);
             }
 
@@ -388,32 +393,52 @@ namespace TightWiki.Shared.Wiki
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert":
-                    case "alert-default":
-                    case "alert-info":
+                    case "alert-primary":
                         {
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-info\">{scopeBody}.</div>");
+                            html.Append($"<div class=\"alert alert-primary\">{scopeBody}.</div>");
                         }
                         break;
-                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "alert-secondary":
+                        {
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-secondary\">{scopeBody}.</div>");
+                        }
+                        break;
+                    case "alert-success":
+                        {
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-success\">{scopeBody}.</div>");
+                        }
+                        break;
                     case "alert-danger":
                         {
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert alert-danger\">{scopeBody}.</div>");
                         }
                         break;
-                    //------------------------------------------------------------------------------------------------------------------------------
                     case "alert-warning":
                         {
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert alert-warning\">{scopeBody}.</div>");
                         }
                         break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "alert-success":
+                    case "alert-info":
                         {
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-success\">{scopeBody}.</div>");
+                            html.Append($"<div class=\"alert alert-info\">{scopeBody}.</div>");
+                        }
+                        break;
+                    case "alert-light":
+                        {
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-light\">{scopeBody}.</div>");
+                        }
+                        break;
+                    case "alert-dark":
+                        {
+                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            html.Append($"<div class=\"alert alert-dark\">{scopeBody}.</div>");
                         }
                         break;
 
@@ -425,95 +450,214 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "block":
-                    case "block-default":
                         {
-                            html.Append("<div class=\"panel panel-default\">");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "block-primary":
                         {
-                            html.Append("<div class=\"panel panel-primary\">");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-primary mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-secondary":
+                        {
+                            html.Append("<div class=\"card text-white bg-secondary mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-info ":
+                        {
+                            html.Append("<div class=\"card text-white bg-info mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "block-success":
                         {
-                            html.Append("<div class=\"panel panel-success\">");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-success mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "block-info":
                         {
-                            html.Append("<div class=\"panel panel-info\">");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-info mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "block-warning":
                         {
-                            html.Append("<div class=\"panel panel-warning\">");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card bg-warning mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "block-danger":
                         {
-                            html.Append("<div class=\"panel panel-danger\">");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-danger mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-light":
+                        {
+                            html.Append("<div class=\"card text-black bg-light mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "block-dark":
+                        {
+                            html.Append("<div class=\"card text-white bg-dark mb-3\">");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "panel":
-                    case "panel-default":
                         {
-                            html.Append("<div class=\"panel panel-default\">");
-                            html.Append($"<div class=\"panel-heading\">{title}</div>");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "panel-primary":
                         {
-                            html.Append("<div class=\"panel panel-primary\">");
-                            html.Append($"<div class=\"panel-heading\">{title}</div>");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-primary mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-secondary":
+                        {
+                            html.Append("<div class=\"card text-white bg-secondary mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-info ":
+                        {
+                            html.Append("<div class=\"card text-white bg-info mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "panel-success":
                         {
-                            html.Append("<div class=\"panel panel-success\">");
-                            html.Append($"<div class=\"panel-heading\">{title}</div>");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-success mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "panel-info":
                         {
-                            html.Append("<div class=\"panel panel-info\">");
-                            html.Append($"<div class=\"panel-heading\">{title}</div>");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-info mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "panel-warning":
                         {
-                            html.Append("<div class=\"panel panel-warning\">");
-                            html.Append($"<div class=\"panel-heading\">{title}</div>");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card bg-warning mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "panel-danger":
                         {
-                            html.Append("<div class=\"panel panel-danger\">");
-                            html.Append($"<div class=\"panel-heading\">{title}</div>");
-                            html.Append($"<div class=\"panel-body\">{scopeBody}</div></div>");
+                            html.Append("<div class=\"card text-white bg-danger mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-light":
+                        {
+                            html.Append("<div class=\"card text-black bg-light mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "panel-dark":
+                        {
+                            html.Append("<div class=\"card text-white bg-dark mb-3\">");
+                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            html.Append("<div class=\"card-body\">");
+                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                            html.Append("</div>");
+                            html.Append("</div>");
                         }
                         break;
                 }

@@ -36,7 +36,6 @@
                 <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@ViewBag.Config.BrandImageSmall" /></span> @ViewBag.Config.Name</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-
                         @foreach (TightWiki.Shared.Models.Data.MenuItem item in ViewBag.Config.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
