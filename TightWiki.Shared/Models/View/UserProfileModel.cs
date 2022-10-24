@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace TightWiki.Shared.Models.View
@@ -36,6 +37,7 @@ namespace TightWiki.Shared.Models.View
         public string AboutMe { get; set; }
 
         [Display(Name = "Avatar")]
+        [BindNever]
         public byte[] Avatar { get; set; }
     }
 }

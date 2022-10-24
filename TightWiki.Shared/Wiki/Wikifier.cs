@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace TightWiki.Shared.Wiki
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
         private readonly Page _page;
         private readonly int? _revision;
-        readonly NameValueCollection _queryString;
+        readonly IQueryCollection _queryString;
         private readonly StateContext _context;
         private readonly int _nestLevel;
 
@@ -40,7 +41,7 @@ namespace TightWiki.Shared.Wiki
         /// </summary>
         private List<WikiMatchType> _omitMatches = new List<WikiMatchType>();
 
-        public Wikifier(StateContext context, Page page, int? revision = null, NameValueCollection queryString = null, WikiMatchType []omitMatches = null, int nestLevel = 0)
+        public Wikifier(StateContext context, Page page, int? revision = null, IQueryCollection queryString = null, WikiMatchType []omitMatches = null, int nestLevel = 0)
         {
             _nestLevel = nestLevel;
             _queryString = queryString;
@@ -854,7 +855,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "history":
                         {
-                            int pageNumber = int.Parse((_queryString.Get("page") ?? "1"));
+                            int pageNumber = int.Parse(_queryString["page"].ToString().IsNullOrEmpty("1"));
 
                             string view = method.Parameters.Get<String>("View").ToLower();
                             var pageSize = method.Parameters.Get<int>("pageSize");

@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Config.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- BEGIN Syntax Highlighter -->
+    <link rel="stylesheet" href="/syntax/styles/default.min.css">
+    <script src="/syntax/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <title>@ViewBag.Config.HTMLHeader</title>
+    <!-- END Syntax Highlighter -->
+    @if (ViewBag.Config.IncludeWikiDescriptionInMeta)
+    {
+        <meta name="description" content="@ViewBag.Config.PageDescription">
+    }
+
+    @if (ViewBag.Config.IncludeWikiTagsInMeta)
+    {
+        <meta name="keywords" content="@ViewBag.Config.PageTags">
+    }
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@ViewBag.Config.BrandImageSmall" /></span> @ViewBag.Config.Name</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @foreach (TightWiki.Shared.Models.Data.MenuItem item in ViewBag.Config.MenuItems)
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
+                        }
+
+                        @if (ViewBag.Context.CanCreate
+                        || (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
+                        || (ViewBag.Context.IsPageLoaded == true && (ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
+                        )
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @if (ViewBag.Context.CanEdit && ViewBag.Context.IsPageLoaded == true && ViewBag.Context.IsViewingOldVersion == false)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Config.PageNavigation">Edit</a>
+                                    }
+                                    else if (ViewBag.Context.CanCreate && ViewBag.CreatePage == true)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Config.PageNavigation">Create "@ViewBag.Config.PageNavigation</a>
+                                    }
+
+                                    @if (ViewBag.Context.CanCreate)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Page/Edit/">Create new page</a>
+                                    }
+
+                                    @if (ViewBag.Context.CanDelete && ViewBag.Context.IsPageLoaded == true)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Page/Delete/@ViewBag.Config.PageNavigation">Delete this page</a>
+                                    }
+
+                                    @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/@ViewBag.Config.PageNavigation/History">History</a>
+                                    }
+
+                                    @if (ViewBag.Context.CanModerate && ViewBag.Context.IsViewingOldVersion && ViewBag.Context.IsPageLoaded == true)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision">Revert to revision @ViewBag.Config.PageRevision</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+
+                        @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administration</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    @if (ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Admin/Config">Configuration</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Utilities">Utilities</a>
+                                    }
+                                    @if (ViewBag.Context.CanModerate == true)
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Moderate">Moderate</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+
+                        @if (ViewBag.Context.IsAuthenticated == true)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item text-dark" href="/User/UserProfile">Profile</a>
+                                    <a class="dropdown-item text-dark" href="/User/ChangePassword">Change Password</a>
+                                    <a class="dropdown-item text-dark" href="/User/Logout">Logout</a>
+                                </div>
+                            </li>
+                        }
+
+                        @if (ViewBag.Context.IsAuthenticated == false)
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" href="/Account/Login?ReturnUrl=@ViewBag.Config.PathAndQuery">Login</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @ViewBag.Config.HTMLPreBody
+            @RenderBody()
+            @ViewBag.Config.HTMLPostBody
+        </main>
+    </div>
+
+    <br />
+    <footer class="border-top footer text-muted">
+        @if (ViewBag.Config.FooterBlurb != null || ViewBag.Config.Copyright != null)
+        {
+            <div class="container">
+                @if (ViewBag.Config.FooterBlurb != null)
+                {
+                    @Html.Raw(ViewBag.Config.FooterBlurb)
+                }
+                @if (ViewBag.Config.Copyright != null)
+                {
+                    <br />
+                    @Html.Raw(ViewBag.Config.Copyright)
+                }
+            </div>
+        }
+        @ViewBag.Config.HTMLFooter
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

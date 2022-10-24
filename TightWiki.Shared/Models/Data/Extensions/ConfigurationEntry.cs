@@ -1,5 +1,4 @@
-﻿using System.Web.Mvc;
-using TightWiki.Shared.Library;
+﻿using TightWiki.Shared.Library;
 
 namespace TightWiki.Shared.Models.Data
 {
@@ -8,8 +7,6 @@ namespace TightWiki.Shared.Models.Data
 		public int Id { get; set; }
 		public int ConfigurationGroupId { get; set; }
 		public string Name { get; set; }
-
-		[AllowHtml]
 		public string Value { get; set; }
 		public int DataTypeId { get; set; }
 		public string Description { get; set; }

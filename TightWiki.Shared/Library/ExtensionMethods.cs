@@ -8,6 +8,26 @@ namespace TightWiki.Shared.Library
 {
     public static class ExtensionMethods
     {
+        public static bool IsNull<T>(this T @this) where T : class
+        {
+            return @this == null;
+        }
+
+        public static T IsNull<T>(this T @this, T defaultValue) where T : class
+        {
+            return @this == null ? defaultValue : @this;
+        }
+
+        public static bool IsNullOrEmpty(this string @this)
+        {
+            return string.IsNullOrEmpty(@this);
+        }
+
+        public static string IsNullOrEmpty(this string @this, string defaultValue)
+        {
+            return string.IsNullOrEmpty(@this) == true ? defaultValue : @this;
+        }
+
         public static string RemoveWhitespace(this string input)
         {
             return new string(input.ToCharArray()

@@ -1,17 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.StaticFiles;
+using System;
 using System.IO;
 using System.Linq;
-using System.Web;
 
 namespace TightWiki.Shared.Library
 {
     public static class Utility
     {
-        public static byte[] ConvertHttpFileToBytes(HttpPostedFileBase image)
+        public static string GetMimeType(string fileName)
         {
-            using (BinaryReader reader = new BinaryReader(image.InputStream))
+            string contentType;
+            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
+            return contentType ?? "application/octet-stream";
+
+        }
+        public static byte[] ConvertHttpFileToBytes(IFormFile image)
+        {
+            using(var stream = image.OpenReadStream())
+            using (BinaryReader reader = new BinaryReader(stream))
             {
-                byte[] imageBytes = reader.ReadBytes((int)image.ContentLength);
+                byte[] imageBytes = reader.ReadBytes((int)image.Length);
                 return imageBytes;
             }
         }
