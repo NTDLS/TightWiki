@@ -59,7 +59,7 @@
                                                                     @entry.Description<br />
 
                                                                     @if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
-                                                                        || $"{group.Name}:{entry.Name}" == "Basic:Default TimeZone")
+                                                                   || $"{group.Name}:{entry.Name}" == "Basic:Default TimeZone")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">
@@ -74,7 +74,7 @@
                                                                         </select>
                                                                     }
                                                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country"
-                                                                        || $"{group.Name}:{entry.Name}" == "Basic:Default Country")
+                                                                    || $"{group.Name}:{entry.Name}" == "Basic:Default Country")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">
