@@ -1,9 +1,15 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Shared.Library;
 
 namespace TightWiki.Shared.Models.View
 {
     public class SignupModel : ModelBase
     {
+        public List<TimeZoneItem> TimeZones { get; set; }
+        public List<CountryItem> Countries { get; set; }
+        public List<LanguageItem> Languages { get; set; }
+
         [Required]
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }

@@ -90,7 +90,7 @@
                                             <option value="" style="color:#ccc !important;">
                                                 Select a country
                                             </option>
-                                            @foreach (var item in ViewBag.Countries)
+                                            @foreach (var item in Model.Countries)
                                             {
                                                 <option value="@item.Value" selected=@(Model.Account.Country == item.Value ? "selected" : null)>
                                                     @item.Text
@@ -108,7 +108,7 @@
                                             <option value="" style="color:#ccc !important;">
                                                 Select a language
                                             </option>
-                                            @foreach (var item in ViewBag.Languages)
+                                            @foreach (var item in Model.Languages)
                                             {
                                                 <option value="@item.Value" selected=@(Model.Account.Language == item.Value ? "selected" : null)>
                                                     @item.Text
@@ -126,7 +126,7 @@
                                             <option value="" style="color:#ccc !important;">
                                                 Select a time-zone
                                             </option>
-                                            @foreach (var item in ViewBag.TimeZones)
+                                            @foreach (var item in Model.TimeZones)
                                             {
                                                 <option value="@item.Value" selected=@(Model.Account.TimeZone == item.Value ? "selected" : null)>
                                                     @item.Text

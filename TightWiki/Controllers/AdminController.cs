@@ -320,15 +320,14 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
-
             navigation = WikiUtility.CleanPartialURI(navigation);
 
             var model = new AccountModel()
             {
-                Account = UserRepository.GetUserByNavigation(navigation)
+                Account = UserRepository.GetUserByNavigation(navigation),
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll()
             };
 
             model.Account.CreatedDate = context.LocalizeDateTime(model.Account.CreatedDate);
@@ -352,9 +351,9 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
+            model.TimeZones = TimeZoneItem.GetAll();
+            model.Countries = CountryItem.GetAll();
+            model.Languages = LanguageItem.GetAll();
 
             model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower());
             var user = UserRepository.GetUserByNavigation(model.Account.Navigation);
@@ -450,12 +449,13 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
-
-            var model = new ConfigurationModel();
-            model.Nest = ConfigurationRepository.GetConfigurationNest();
+            var model = new ConfigurationModel()
+            {
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll(),
+                Nest = ConfigurationRepository.GetConfigurationNest()
+            };
             return View(model);
         }
 
@@ -468,9 +468,9 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
+            model.TimeZones = TimeZoneItem.GetAll();
+            model.Countries = CountryItem.GetAll();
+            model.Languages = LanguageItem.GetAll();
 
             var flatConfig = ConfigurationRepository.GetFlatConfiguration();
 
@@ -492,7 +492,7 @@ namespace TightWiki.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                ViewBag.Success = "The configuration has been saved successfully!";
+                model.SuccessMessage = "The configuration has been saved successfully!";
             }
 
             var newModel = new ConfigurationModel();

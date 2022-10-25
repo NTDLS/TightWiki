@@ -1,10 +1,16 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Shared.Library;
 
 namespace TightWiki.Shared.Models.View
 {
     public class UserProfileModel : ModelBase
     {
+        public List<TimeZoneItem> TimeZones { get; set; }
+        public List<CountryItem> Countries { get; set; }
+        public List<LanguageItem> Languages { get; set; }
+
         public int Id { get; set; }
 
         [Required]

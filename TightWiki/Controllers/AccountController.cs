@@ -226,10 +226,6 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Signup()
         {
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
-
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return Unauthorized();
@@ -239,6 +235,9 @@ namespace TightWiki.Site.Controllers
 
             var model = new SignupModel()
             {
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll(),
                 Country = basicConfig.As<string>("Default Country"),
                 TimeZone = basicConfig.As<string>("Default TimeZone"),
                 Language = basicConfig.As<string>("Default Language"),
@@ -292,9 +291,9 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Signup(SignupModel model)
         {
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
+            model.TimeZones = TimeZoneItem.GetAll();
+            model.Countries = CountryItem.GetAll();
+            model.Languages = LanguageItem.GetAll();
 
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
@@ -430,7 +429,7 @@ namespace TightWiki.Site.Controllers
             else
             {
                 UserRepository.VerifyUserEmail(user.Id);
-                model.SuccessMessage = "Your account has been confirmed, feel free to login!";
+                model.SuccessMessage = "Your account has been confirmed, feel free to login.";
 
                 try
                 {
@@ -539,14 +538,13 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult UserProfile()
         {
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
-
             var user = UserRepository.GetUserById(context.User.Id);
 
             var model = new UserProfileModel()
             {
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll(),
                 AccountName = user.AccountName,
                 EmailAddress = user.EmailAddress,
                 Navigation = user.Navigation,
@@ -573,9 +571,9 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult UserProfile(UserProfileModel model)
         {
-            ViewBag.TimeZones = TimeZoneItem.GetAll();
-            ViewBag.Countries = CountryItem.GetAll();
-            ViewBag.Languages = LanguageItem.GetAll();
+            model.TimeZones = TimeZoneItem.GetAll();
+            model.Countries = CountryItem.GetAll();
+            model.Languages = LanguageItem.GetAll();
 
             model.Navigation = WikiUtility.CleanPartialURI(model.AccountName.ToLower());
             var user = UserRepository.GetUserById(context.User.Id);
