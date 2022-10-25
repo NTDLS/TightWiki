@@ -15,11 +15,6 @@
             @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
         }
 
-        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-        {
-            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-        }
-
         <table border="0" width="100%" cellpadding="0">
             <tbody>
                 <tr>
