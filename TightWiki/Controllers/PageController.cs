@@ -88,8 +88,6 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-
-
         #region Content.
         [Authorize]
         [HttpGet]

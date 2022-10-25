@@ -17,8 +17,6 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class FileController : ControllerHelperBase
     {
-        #region Attachments.
-
         /// <summary>
         /// Allows a user to delete a page attachment from a page.
         /// </summary>
@@ -284,7 +282,5 @@ namespace TightWiki.Site.Controllers
                 Files = new List<PageFileAttachment>()
             });
         }
-
-        #endregion
     }
 }

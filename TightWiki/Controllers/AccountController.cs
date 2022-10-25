@@ -55,7 +55,7 @@ namespace TightWiki.Site.Controllers
             else if (ModelState.IsValid)
             {
                 UserRepository.UpdateUserPassword(context.User.Id, model.Password);
-                ViewBag.Success = "Your account password has been changed!";
+                model.SuccessMessage = "Your account password has been changed!";
             }
 
             return View(model);
@@ -630,7 +630,7 @@ namespace TightWiki.Site.Controllers
                 user.ModifiedDate = DateTime.UtcNow;
                 UserRepository.UpdateUser(user);
 
-                ViewBag.Success = "Your profile has been saved successfully!.";
+                model.SuccessMessage = "Your profile has been saved successfully!.";
             }
 
             return View(model);

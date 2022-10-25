@@ -113,11 +113,6 @@ namespace TightWiki.Controllers
                     throw new Exception("Email address has not been verified. Check your email or use the password reset link to confirm your email address.");
                 }
 
-                //https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-3.1
-                //https://learn.microsoft.com/en-us/aspnet/core/razor-pages/?view=aspnetcore-6.0&tabs=visual-studio
-                //https://learn.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-6.0
-
-
                 var roles = UserRepository.GetUserRolesByUserId(user.Id);
                 string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
 
@@ -130,9 +125,7 @@ namespace TightWiki.Controllers
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, "Login");
-
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
                 UserRepository.UpdateUserLastLoginDateByUserId(user.Id);
             }
             else

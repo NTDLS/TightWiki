@@ -409,7 +409,7 @@ namespace TightWiki.Site.Controllers
                 user.ModifiedDate = DateTime.UtcNow;
                 UserRepository.UpdateUser(user);
 
-                ViewBag.Success = "Your profile has been saved successfully!.";
+                model.SuccessMessage = "Your profile has been saved successfully!.";
             }
 
             return View(model);
