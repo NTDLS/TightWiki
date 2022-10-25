@@ -1,7 +1,7 @@
-CREATE TABLE #tmp_8d6ec1ba78384b5aa53b86de3fb86406 ([Id] [int],[PageId] [int],[Name] [nvarchar](250),[Navigation] [nvarchar](250),[Revision] [int],[CreatedDate] [datetime])
+CREATE TABLE #tmp_cc0a0e1749ae45c3a918c9f8db89a4f0 ([Id] [int],[PageId] [int],[Name] [nvarchar](250),[Navigation] [nvarchar](250),[Revision] [int],[CreatedDate] [datetime])
 GO
 
-INSERT INTO #tmp_8d6ec1ba78384b5aa53b86de3fb86406 ([PageId],[Name],[Navigation],[Revision],[CreatedDate]) VALUES
+INSERT INTO #tmp_cc0a0e1749ae45c3a918c9f8db89a4f0 ([PageId],[Name],[Navigation],[Revision],[CreatedDate]) VALUES
 (333,'100.png','100_png',1,'10/5/2022 8:10:33 PM'),
 (333,'Cool.png','Cool_png',1,'10/5/2022 8:10:36 PM'),
 (333,'Dead.png','Dead_png',1,'10/5/2022 8:10:40 PM'),
@@ -23,7 +23,10 @@ INSERT INTO #tmp_8d6ec1ba78384b5aa53b86de3fb86406 ([PageId],[Name],[Navigation],
 (345,'TightWiki Icon 64.png','TightWiki_Icon_64_png',1,'10/7/2022 7:15:12 PM'),
 (345,'TightWiki Icon 128.png','TightWiki_Icon_128_png',1,'10/7/2022 7:15:17 PM'),
 (345,'TightWiki Logo.png','TightWiki_Logo_png',1,'10/7/2022 7:15:20 PM'),
-(5,'TightWiki Icon (multi).ico','TightWiki_Icon_multi_ico',1,'10/10/2022 7:10:41 PM')
+(5,'TightWiki Icon (multi).ico','TightWiki_Icon_multi_ico',1,'10/10/2022 7:10:41 PM'),
+(345,'Unamused.png','Unamused_png',1,'10/25/2022 7:30:36 PM'),
+(356,'logo.gif','logo_gif',1,'10/25/2022 7:45:30 PM'),
+(356,'TightWiki Logo.png','TightWiki_Logo_png',1,'10/25/2022 7:47:34 PM')
 GO
 ALTER TABLE [dbo].[PageFile] NOCHECK CONSTRAINT ALL
 GO
@@ -31,8 +34,8 @@ INSERT INTO [dbo].[PageFile] (
 	[PageId],[Name],[Navigation],[Revision],[CreatedDate])
 SELECT
 	[PageId],[Name],[Navigation],[Revision],[CreatedDate]
-FROM #tmp_8d6ec1ba78384b5aa53b86de3fb86406 as S
+FROM #tmp_cc0a0e1749ae45c3a918c9f8db89a4f0 as S
 ALTER TABLE [dbo].[PageFile] CHECK CONSTRAINT ALL
 GO
-DROP TABLE #tmp_8d6ec1ba78384b5aa53b86de3fb86406
+DROP TABLE #tmp_cc0a0e1749ae45c3a918c9f8db89a4f0
 GO

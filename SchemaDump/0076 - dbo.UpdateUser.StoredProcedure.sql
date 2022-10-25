@@ -4,9 +4,6 @@ BEGIN
 END
 GO
 
-
-
-
 ALTER PROCEDURE [dbo].[UpdateUser]
 (
 	@Id as int,
@@ -16,8 +13,9 @@ ALTER PROCEDURE [dbo].[UpdateUser]
 	@PasswordHash as nvarchar (128) = NULL,
 	@FirstName as nvarchar (128) = NULL,
 	@LastName as nvarchar (128) = NULL,
-	@TimeZone as varchar (50) = NULL,
-	@Country as nvarchar (100) = NULL,
+	@TimeZone as varchar (128) = NULL,
+	@Country as nvarchar (128) = NULL,
+	@Language as nvarchar (128) = NULL,
 	@AboutMe as nvarchar (MAX) = NULL,
 	@ModifiedDate as datetime = NULL
 ) AS
@@ -33,6 +31,7 @@ BEGIN--PROCEDURE
 		[PasswordHash] = @PasswordHash,
 		[FirstName] = @FirstName,
 		[LastName] = @LastName,
+		[Language] = @Language,
 		[TimeZone] = @TimeZone,
 		[Country] = @Country,
 		[AboutMe] = @AboutMe

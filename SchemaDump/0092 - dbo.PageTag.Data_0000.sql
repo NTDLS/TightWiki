@@ -1,7 +1,7 @@
-CREATE TABLE #tmp_cd8e091a702e44baa86a9b6660841c40 ([PageId] [int],[Tag] [nvarchar](128))
+CREATE TABLE #tmp_bf92ff73da59449a8eb837600347ba65 ([PageId] [int],[Tag] [nvarchar](128))
 GO
 
-INSERT INTO #tmp_cd8e091a702e44baa86a9b6660841c40 ([PageId],[Tag]) VALUES
+INSERT INTO #tmp_bf92ff73da59449a8eb837600347ba65 ([PageId],[Tag]) VALUES
 (1,'Home'),
 (1,'Official'),
 (3,'Help'),
@@ -70,26 +70,42 @@ INSERT INTO #tmp_cd8e091a702e44baa86a9b6660841c40 ([PageId],[Tag]) VALUES
 (346,'Official'),
 (346,'Official-Help'),
 (346,'Wiki'),
-(347,'Draft'),
-(351,'Youtube')
+(347,'Official'),
+(351,'Youtube'),
+(353,'Help'),
+(353,'Official'),
+(353,'Official-Help'),
+(353,'Wiki'),
+(354,'Help'),
+(354,'Official'),
+(354,'Official-Help'),
+(354,'Wiki'),
+(355,'Help'),
+(355,'Official'),
+(355,'Official-Help'),
+(355,'Wiki'),
+(356,'About'),
+(356,'Official'),
+(356,'Story'),
+(356,'Wiki')
 GO
 ALTER TABLE [dbo].[PageTag] NOCHECK CONSTRAINT ALL
 GO
 UPDATE T SET
 FROM [dbo].[PageTag] as T
-INNER JOIN #tmp_cd8e091a702e44baa86a9b6660841c40 as S
+INNER JOIN #tmp_bf92ff73da59449a8eb837600347ba65 as S
 ON T.[PageId] = S.[PageId] AND T.[Tag] = S.[Tag]
 GO
 INSERT INTO [dbo].[PageTag] (
 	[PageId],[Tag])
 SELECT
 	[PageId],[Tag]
-FROM #tmp_cd8e091a702e44baa86a9b6660841c40 as S
+FROM #tmp_bf92ff73da59449a8eb837600347ba65 as S
 WHERE NOT EXISTS (
 	SELECT TOP 1 1 FROM  [dbo].[PageTag] as T
 	WHERE T.[PageId] = S.[PageId] AND T.[Tag] = S.[Tag]
 )
 ALTER TABLE [dbo].[PageTag] CHECK CONSTRAINT ALL
 GO
-DROP TABLE #tmp_cd8e091a702e44baa86a9b6660841c40
+DROP TABLE #tmp_bf92ff73da59449a8eb837600347ba65
 GO

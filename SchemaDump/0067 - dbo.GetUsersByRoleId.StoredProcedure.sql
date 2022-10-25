@@ -1,14 +1,13 @@
-IF NOT EXISTS(SELECT TOP 1 1 FROM sys.objects WHERE object_id = object_id('[dbo].[GetAllUsers]'))
+IF NOT EXISTS(SELECT TOP 1 1 FROM sys.objects WHERE object_id = object_id('[dbo].[GetUsersByRoleId]'))
 BEGIN
-    EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetAllUsers] AS'
+    EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetUsersByRoleId] AS'
 END
 GO
 
 
-
-
-ALTER PROCEDURE [dbo].[GetAllUsers]
+ALTER PROCEDURE [dbo].[GetUsersByRoleId]
 (
+	@RoleId int,
 	@PageNumber int = 1,
 	@PageSize int = 0
 ) AS
@@ -31,32 +30,40 @@ BEGIN--PROCEDURE
 	END--IF
 
 	SELECT
-		Id,
-		EmailAddress,
-		AccountName,
-		Navigation,
-		PasswordHash,
-		FirstName,
-		LastName,
-		TimeZone,
-		[Language],
-		Country,
-		CreatedDate,
-		ModifiedDate,
-		LastLoginDate,
-		EmailVerified,
+		U.Id,
+		U.EmailAddress,
+		U.AccountName,
+		U.Navigation,
+		U.PasswordHash,
+		U.FirstName,
+		U.LastName,
+		U.TimeZone,
+		U.[Language],
+		U.Country,
+		U.CreatedDate,
+		U.ModifiedDate,
+		U.LastLoginDate,
+		U.EmailVerified,
 		@PaginationSize as PaginationSize,
 		(
 			SELECT
 				CEILING(Count(0) / (@PaginationSize + 0.0))
 			FROM
 				[User] as P
+			INNER JOIN UserRole as UR
+				ON UR.UserId = P.Id
+			WHERE
+				UR.RoleId = @RoleId
 		) as PaginationCount
 	FROM
-		[User]
+		[User] as U
+	INNER JOIN UserRole as UR
+		ON UR.UserId = U.Id
+	WHERE
+		UR.RoleId = @RoleId
 	ORDER BY
-		AccountName,
-		Id
+		U.AccountName,
+		U.Id
 	OFFSET ((@PageNumber - 1) * @PaginationSize) ROWS FETCH NEXT @PaginationSize ROWS ONLY
 
 END--PROCEDURE

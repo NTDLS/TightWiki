@@ -25,6 +25,7 @@ BEGIN--PROCEDURE
 		LastName,
 		TimeZone,
 		Country,
+		[Language],
 		AboutMe,
 		CreatedDate,
 		ModifiedDate,

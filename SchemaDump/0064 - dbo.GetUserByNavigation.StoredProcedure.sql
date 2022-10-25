@@ -1,15 +1,16 @@
-IF NOT EXISTS(SELECT TOP 1 1 FROM sys.objects WHERE object_id = object_id('[dbo].[GetUserByEmail]'))
+IF NOT EXISTS(SELECT TOP 1 1 FROM sys.objects WHERE object_id = object_id('[dbo].[GetUserByNavigation]'))
 BEGIN
-    EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetUserByEmail] AS'
+    EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetUserByNavigation] AS'
 END
 GO
 
 
 
 
-ALTER PROCEDURE [dbo].[GetUserByEmail]
+
+ALTER PROCEDURE [dbo].[GetUserByNavigation]
 (
-	@EmailAddress nVarChar(128)
+	@Navigation nvarchar(128)
 ) AS
 BEGIN--PROCEDURE
 	SET NOCOUNT ON;
@@ -24,6 +25,7 @@ BEGIN--PROCEDURE
 		LastName,
 		TimeZone,
 		Country,
+		[Language],
 		AboutMe,
 		CreatedDate,
 		ModifiedDate,
@@ -33,6 +35,6 @@ BEGIN--PROCEDURE
 	FROM
 		[User]
 	WHERE
-		EmailAddress = @EmailAddress
+		Navigation = @Navigation
 
 END--PROCEDURE

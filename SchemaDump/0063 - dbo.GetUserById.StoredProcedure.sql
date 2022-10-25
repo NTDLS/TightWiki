@@ -1,16 +1,15 @@
-IF NOT EXISTS(SELECT TOP 1 1 FROM sys.objects WHERE object_id = object_id('[dbo].[GetUserByNavigation]'))
+IF NOT EXISTS(SELECT TOP 1 1 FROM sys.objects WHERE object_id = object_id('[dbo].[GetUserById]'))
 BEGIN
-    EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetUserByNavigation] AS'
+    EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[GetUserById] AS'
 END
 GO
 
 
 
 
-
-ALTER PROCEDURE [dbo].[GetUserByNavigation]
+ALTER PROCEDURE [dbo].[GetUserById]
 (
-	@Navigation nvarchar(128)
+	@Id int
 ) AS
 BEGIN--PROCEDURE
 	SET NOCOUNT ON;
@@ -24,6 +23,7 @@ BEGIN--PROCEDURE
 		FirstName,
 		LastName,
 		TimeZone,
+		[Language],
 		Country,
 		AboutMe,
 		CreatedDate,
@@ -34,6 +34,6 @@ BEGIN--PROCEDURE
 	FROM
 		[User]
 	WHERE
-		Navigation = @Navigation
+		Id = @Id
 
 END--PROCEDURE

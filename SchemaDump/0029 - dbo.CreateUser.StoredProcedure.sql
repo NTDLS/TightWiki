@@ -16,8 +16,9 @@ ALTER PROCEDURE [dbo].[CreateUser]
 	@PasswordHash as nvarchar (128) = NULL,
 	@FirstName as nvarchar (128) = NULL,
 	@LastName as nvarchar (128) = NULL,
-	@TimeZone as varchar (50) = NULL,
-	@Country as nvarchar (100) = NULL,
+	@TimeZone as nvarchar (128) = NULL,
+	@Language as nvarchar (128) = NULL,
+	@Country as nvarchar (128) = NULL,
 	@VerificationCode varchar(20)
 ) AS
 BEGIN--PROCEDURE
@@ -33,6 +34,7 @@ BEGIN--PROCEDURE
 		[LastName],
 		[TimeZone],
 		[Country],
+		[Language],
 		[CreatedDate],
 		[ModifiedDate],
 		[LastLoginDate],
@@ -47,6 +49,7 @@ BEGIN--PROCEDURE
 		@LastName,
 		@TimeZone,
 		@Country,
+		@Language,
 		GETUTCDATE(),
 		GETUTCDATE(),
 		GETUTCDATE(),

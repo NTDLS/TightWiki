@@ -1,10 +1,8 @@
-CREATE TABLE #tmp_038e60ed756f4ff997c94561391bd5fb ([Id] [int],[UserId] [int],[RoleId] [int])
+CREATE TABLE #tmp_8c562199296543a69b66c0c415623d28 ([Id] [int],[UserId] [int],[RoleId] [int])
 GO
 
-INSERT INTO #tmp_038e60ed756f4ff997c94561391bd5fb ([UserId],[RoleId]) VALUES
+INSERT INTO #tmp_8c562199296543a69b66c0c415623d28 ([UserId],[RoleId]) VALUES
 (1,1),
-(2,3),
-(2,5),
 (7,1),
 (15,3),
 (16,3)
@@ -15,12 +13,12 @@ INSERT INTO [dbo].[UserRole] (
 	[UserId],[RoleId])
 SELECT
 	[UserId],[RoleId]
-FROM #tmp_038e60ed756f4ff997c94561391bd5fb as S
+FROM #tmp_8c562199296543a69b66c0c415623d28 as S
 WHERE NOT EXISTS (
 	SELECT TOP 1 1 FROM  [dbo].[UserRole] as T
 	WHERE 
 )
 ALTER TABLE [dbo].[UserRole] CHECK CONSTRAINT ALL
 GO
-DROP TABLE #tmp_038e60ed756f4ff997c94561391bd5fb
+DROP TABLE #tmp_8c562199296543a69b66c0c415623d28
 GO
