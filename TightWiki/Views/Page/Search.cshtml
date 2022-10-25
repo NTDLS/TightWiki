@@ -3,18 +3,9 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<style type="text/css">
-    tr.padded td {
-        padding-bottom: 0.5em;
-        padding-top: 0.5em;
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-    }
-</style>
-
-<div class="panel panel-default">
-    <div class="panel-heading"><h3>Page Search</h3></div>
-    <div class="panel-body">
+<div class="card">
+    <div class="card-header"><h3>Page Search</h3></div>
+    <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
             If it's here, you should be able to find it.<br /><br />
         </font>
@@ -55,6 +46,7 @@
                                     <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
                                 </tr>
                             </table>
+                            <br />
 
                             <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
                                 @foreach (var p in Model.Pages)

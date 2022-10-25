@@ -123,6 +123,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @ViewBag.Config.HTMLPreBody
@@ -131,24 +132,21 @@
         </main>
     </div>
 
-    <br />
-    <footer class="border-top footer text-muted">
+    <div class="container">
         @if (ViewBag.Config.FooterBlurb != null || ViewBag.Config.Copyright != null)
         {
-            <div class="container">
-                @if (ViewBag.Config.FooterBlurb != null)
-                {
-                    @Html.Raw(ViewBag.Config.FooterBlurb)
-                }
-                @if (ViewBag.Config.Copyright != null)
-                {
-                    <br />
-                    @Html.Raw(ViewBag.Config.Copyright)
-                }
-            </div>
+            @if (ViewBag.Config.FooterBlurb != null)
+            {
+                @Html.Raw(ViewBag.Config.FooterBlurb)
+            }
+            @if (ViewBag.Config.Copyright != null)
+            {
+                <br />
+                @Html.Raw(ViewBag.Config.Copyright)
+            }
         }
         @ViewBag.Config.HTMLFooter
-    </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
