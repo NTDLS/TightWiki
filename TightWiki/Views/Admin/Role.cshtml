@@ -43,7 +43,7 @@
                                 @foreach (var user in Model.Users)
                                 {
                                     <tr>
-                                        <td><a href="/Admin/Role/@user.AccountName">@user.AccountName</a></td>
+                                        <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
                                     </tr>
                                 }
                             </table>
