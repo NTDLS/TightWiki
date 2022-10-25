@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -115,7 +114,7 @@ namespace TightWiki.Shared.Wiki
                 html.Append("<div class=\"card bg-warning mb-3\">");
                 html.Append($"<div class=\"card-header\">Viewing a historical revision</div>");
                 html.Append("<div class=\"card-body\">");
-                html.Append($"<p class=\"card-text\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {revision.ModifiedDate}. <br />");
+                html.Append($"<p class=\"card-text\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {_context.LocalizeDateTime(revision.ModifiedDate)}. <br />");
                 html.Append($"<a href=\"/{_page.Navigation}\">View the latest revision {pageInfo.Revision:0}.</a>");
                 html.Append("</p>");
                 html.Append("</div>");
@@ -1012,7 +1011,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var item in history)
                                 {
-                                    html.Append($"<li><a href=\"/{item.Navigation}/r/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {item.ModifiedDate}</a>");
+                                    html.Append($"<li><a href=\"/{item.Navigation}/r/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {_context.LocalizeDateTime(item.ModifiedDate)}</a>");
 
                                     if (view == "full")
                                     {
@@ -1470,7 +1469,7 @@ namespace TightWiki.Shared.Wiki
                             lastModified = _page.ModifiedDate;
                             if (lastModified != DateTime.MinValue)
                             {
-                                StoreMatch(method, pageContent, match.Value, lastModified.ToShortDateString());
+                                StoreMatch(method, pageContent, match.Value, _context.LocalizeDateTime(lastModified).ToShortDateString());
                             }
                         }
                         break;
@@ -1483,7 +1482,7 @@ namespace TightWiki.Shared.Wiki
                             createdDate = _page.CreatedDate;
                             if (createdDate != DateTime.MinValue)
                             {
-                                StoreMatch(method, pageContent, match.Value, createdDate.ToShortDateString());
+                                StoreMatch(method, pageContent, match.Value, _context.LocalizeDateTime(createdDate).ToShortDateString());
                             }
                         }
                         break;

@@ -17,6 +17,7 @@ namespace TightWiki.Shared.Models.Data
 		public string LastName { get; set; }
 		public string TimeZone { get; set; }
 		public string Country { get; set; }
+		public string Language { get; set; }
 		public string AboutMe { get; set; }
 		public byte[] Avatar { get; set; }
 		public DateTime CreatedDate { get; set; }

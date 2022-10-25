@@ -23,7 +23,7 @@ namespace TightWiki.Shared.Models
         public bool IncludeWikiTagsInMeta { get; set; }
         public string PageTags { get; set; }
         public string PageDescription { get; set; }
-
         public string PathAndQuery { get; set; }
+        public string DefaultTimeZone { get; set; }
     }
 }

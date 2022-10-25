@@ -44,6 +44,7 @@ namespace TightWiki.Shared.Repository
 				FirstName = user.FirstName,
 				LastName = user.LastName,
 				TimeZone = user.TimeZone,
+				Language = user.Language,
 				Country = user.Country,
 				VerificationCode = user.VerificationCode
 			};
@@ -95,6 +96,7 @@ namespace TightWiki.Shared.Repository
 				FirstName = user.FirstName,
 				LastName = user.LastName,
 				TimeZone = user.TimeZone,
+				Language = user.Language,
 				Country = user.Country,
 				VerificationCode = user.VerificationCode
 			};
@@ -300,6 +302,7 @@ namespace TightWiki.Shared.Repository
 					FirstName = item.FirstName,
 					LastName = item.LastName,
 					TimeZone = item.TimeZone,
+					Language = item.Language,
 					Country = item.Country,
 					AboutMe = item.AboutMe,
 					ModifiedDate = item.ModifiedDate

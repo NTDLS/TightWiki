@@ -1,8 +1,9 @@
-﻿using TightWiki.Shared.Models;
-using TightWiki.Shared.Models.Data;
-using TightWiki.Shared.Repository;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TightWiki.Shared.Models;
+using TightWiki.Shared.Models.Data;
+using TightWiki.Shared.Repository;
 using static TightWiki.Shared.Library.Constants;
 
 namespace TightWiki.Shared.Library
@@ -13,13 +14,26 @@ namespace TightWiki.Shared.Library
         /// A more accesible code frendly reference to what's in the viewbag.
         /// </summary>
         public ViewBagConfig Config { get; set; }
-
         public bool IsAuthenticated { get; set; }
         public User User { get; set; }
         public List<string> Roles { get; set; }
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new List<ProcessingInstruction>();
+
+        public DateTime LocalizeDateTime(DateTime datetime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetTimeZone());
+        }
+
+        public TimeZoneInfo GetTimeZone()
+        {
+            if(User == null)
+            {
+                return TimeZoneInfo.FindSystemTimeZoneById(Config.DefaultTimeZone);
+            }
+            return TimeZoneInfo.FindSystemTimeZoneById(User.TimeZone);
+        }
 
         public void SetPageId(int? pageId, int? revision = null)
         {

@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace TightWiki
 {
@@ -154,21 +150,21 @@ namespace TightWiki
                 );
 
                 endpoints.MapControllerRoute(
-                    name: "User_Avatar",
-                    pattern: "User/{userAccountName}/Avatar",
-                    defaults: new { controller = "User", action = "Avatar" }
+                    name: "Account_Avatar",
+                    pattern: "Account/{userAccountName}/Avatar",
+                    defaults: new { controller = "Account", action = "Avatar" }
                 );
 
                 endpoints.MapControllerRoute(
-                    name: "User_Confirm",
-                    pattern: "User/{userAccountName}/Confirm/{verificationCode}",
-                    defaults: new { controller = "User", action = "Confirm" }
+                    name: "Account_Confirm",
+                    pattern: "Account/{userAccountName}/Confirm/{verificationCode}",
+                    defaults: new { controller = "Account", action = "Confirm" }
                 );
 
                 endpoints.MapControllerRoute(
-                    name: "User_Reset",
-                    pattern: "User/{userAccountName}/Reset/{verificationCode}",
-                    defaults: new { controller = "User", action = "Reset" }
+                    name: "Account_Reset",
+                    pattern: "Account/{userAccountName}/Reset/{verificationCode}",
+                    defaults: new { controller = "Account", action = "Reset" }
                 );
 
                 endpoints.MapControllerRoute(

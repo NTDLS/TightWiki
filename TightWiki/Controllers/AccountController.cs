@@ -137,6 +137,7 @@ namespace TightWiki.Site.Controllers
                 resetPasswordEmailTemplate.Replace("##SUBJECT##", emailSubject);
                 resetPasswordEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
                 resetPasswordEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
+                resetPasswordEmailTemplate.Replace("##ACCOUNTLANGUAGE##", user.Language);
                 resetPasswordEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
                 resetPasswordEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
                 resetPasswordEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
@@ -227,6 +228,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
@@ -239,6 +241,7 @@ namespace TightWiki.Site.Controllers
             {
                 Country = basicConfig.As<string>("Default Country"),
                 TimeZone = basicConfig.As<string>("Default TimeZone"),
+                Language = basicConfig.As<string>("Default Language"),
             };
 
             return View(model);
@@ -291,6 +294,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
@@ -361,6 +365,7 @@ namespace TightWiki.Site.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     TimeZone = model.TimeZone,
+                    Language = model.Language,
                     Country = model.Country,
                     AboutMe = string.Empty,
                     VerificationCode = Security.GenerateRandomString(6)
@@ -374,6 +379,7 @@ namespace TightWiki.Site.Controllers
                     accountVerificationEmailTemplate.Replace("##SUBJECT##", emailSubject);
                     accountVerificationEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
                     accountVerificationEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTLANGUAGE##", user.Language);
                     accountVerificationEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
                     accountVerificationEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
                     accountVerificationEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
@@ -535,6 +541,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             var user = UserRepository.GetUserById(context.User.Id);
 
@@ -547,6 +554,7 @@ namespace TightWiki.Site.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 TimeZone = user.TimeZone,
+                Language = user.Language,
                 Country = user.Country,
                 AboutMe = user.AboutMe,
                 Avatar = user.Avatar
@@ -567,6 +575,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             model.Navigation = WikiUtility.CleanPartialURI(model.AccountName.ToLower());
             var user = UserRepository.GetUserById(context.User.Id);
@@ -613,6 +622,7 @@ namespace TightWiki.Site.Controllers
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.TimeZone = model.TimeZone;
+                user.Language = model.Language;
                 user.Country = model.Country;
                 user.AccountName = model.AccountName;
                 user.Navigation = WikiUtility.CleanPartialURI(model.AccountName);

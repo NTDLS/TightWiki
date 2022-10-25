@@ -89,6 +89,7 @@ namespace TightWiki.Site.Controllers
         }
 
 
+
         #region Content.
         [Authorize]
         [HttpGet]
@@ -107,6 +108,12 @@ namespace TightWiki.Site.Controllers
             {
                 History = PageRepository.GetPageRevisionHistoryInfoByNavigation(pageNavigation, page)
             };
+
+            model.History.ForEach(o =>
+            {
+                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+            });
 
             foreach (var p in model.History)
             {
@@ -226,16 +233,18 @@ namespace TightWiki.Site.Controllers
             pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
             var mostCurrentPage = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+            mostCurrentPage.CreatedDate = context.LocalizeDateTime(mostCurrentPage.CreatedDate);
+            mostCurrentPage.ModifiedDate = context.LocalizeDateTime(mostCurrentPage.ModifiedDate);
+
             var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+            revisionPage.CreatedDate = context.LocalizeDateTime(revisionPage.CreatedDate);
+            revisionPage.ModifiedDate = context.LocalizeDateTime(revisionPage.ModifiedDate);
 
             ViewBag.PageName = revisionPage.Name;
             ViewBag.CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision;
             ViewBag.MostCurrentRevision = mostCurrentPage.Revision;
 
-            var model = new PageRevertModel()
-            {
-
-            };
+            var model = new PageRevertModel();
 
             if (revisionPage != null)
             {
@@ -245,7 +254,6 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
-
 
         [AllowAnonymous]
         public ActionResult Display(string pageNavigation, int? pageRevision)

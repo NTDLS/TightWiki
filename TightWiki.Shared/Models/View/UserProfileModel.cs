@@ -25,19 +25,23 @@ namespace TightWiki.Shared.Models.View
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Required]
-        [Display(Name = "Time Zone")]
-        public string TimeZone { get; set; }
-
-        [Required]
-        [Display(Name = "Country")]
-        public string Country { get; set; }
-
         [Display(Name = "Personal Bio")]
         public string AboutMe { get; set; }
 
         [Display(Name = "Avatar")]
         [BindNever]
         public byte[] Avatar { get; set; }
+
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Required]
+        [Display(Name = "Language")]
+        public string Language { get; set; }
+
+        [Required]
+        [Display(Name = "Time Zone")]
+        public string TimeZone { get; set; }
     }
 }

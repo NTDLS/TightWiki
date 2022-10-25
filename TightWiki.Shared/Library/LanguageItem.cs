@@ -4,27 +4,31 @@ using System.Linq;
 
 namespace TightWiki.Shared.Library
 {
-    public class CountryItem
+    public class LanguageItem
     {
         public string Text { get; set; }
         public string Value { get; set; }
 
-        public static List<CountryItem> GetAll()
+        public static List<LanguageItem> GetAll()
         {
-            var list = new List<CountryItem>();
+            var list = new List<LanguageItem>();
 
             var cultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
 
             foreach (var culture in cultureInfo)
             {
-                var regionInfo = new RegionInfo(culture.LCID);
-
-                if (list.Where(o => o.Value == regionInfo.Name).Any() == false)
+                var name = culture.NativeName;
+                if (name.Contains('('))
                 {
-                    list.Add(new CountryItem
+                    name = name.Substring(0, name.IndexOf('(')).Trim();
+                }
+
+                if (list.Where(o => o.Value == name).Any() == false)
+                {
+                    list.Add(new LanguageItem
                     {
-                        Text = regionInfo.DisplayName,
-                        Value = regionInfo.Name
+                        Text = name,
+                        Value = name
                     });
                 }
             }

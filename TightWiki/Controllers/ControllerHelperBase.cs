@@ -33,9 +33,9 @@ namespace TightWiki.Controllers
             var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
             var functConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
 
-
             ViewBag.Config = new ViewBagConfig
             {
+                DefaultTimeZone = basicConfig.As<string>("Default TimeZone"),
                 Context = context,
                 PathAndQuery = Request.GetEncodedPathAndQuery(),
                 IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta"),

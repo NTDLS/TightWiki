@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TightWiki.Shared.Library
 {
@@ -17,7 +18,7 @@ namespace TightWiki.Shared.Library
                 list.Add(new TimeZoneItem { Value = item.Id, Text = item.DisplayName });
             }
 
-            return list;
+            return list.OrderBy(o => o.Text).ToList();
         }
     }
 }

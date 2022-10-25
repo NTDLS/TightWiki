@@ -81,24 +81,6 @@
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.TimeZone)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.TimeZone)</strong></td>
-                                    <td>
-                                        <select name="Account.TimeZone" id="Account.TimeZone">
-                                            <option value="" style="color:#ccc !important;">
-                                                Select a time-zone
-                                            </option>
-                                            @foreach (var item in ViewBag.TimeZones)
-                                            {
-                                                <option value="@item.Value" selected=@(Model.Account.TimeZone == item.Value ? "selected" : "")>
-                                                    @item.Text
-                                                </option>
-                                            }
-                                        </select>
-                                    </td>
-                                </tr>
-
                                 <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Country)</div></td></tr>
                                 <tr class="padded">
                                     <td><strong>@Html.LabelFor(m => m.Account.Country)</strong></td>
@@ -110,7 +92,43 @@
                                             </option>
                                             @foreach (var item in ViewBag.Countries)
                                             {
-                                                <option value="@item.Value" selected=@(Model.Account.Country == item.Value ? "selected" : "")>
+                                                <option value="@item.Value" selected=@(Model.Account.Country == item.Value ? "selected" : null)>
+                                                    @item.Text
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Language)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Account.Language)</strong></td>
+                                    <td>
+                                        <select name="Account.Language" id="Account.Language">
+                                            <option value="" style="color:#ccc !important;">
+                                                Select a language
+                                            </option>
+                                            @foreach (var item in ViewBag.Languages)
+                                            {
+                                                <option value="@item.Value" selected=@(Model.Account.Language == item.Value ? "selected" : null)>
+                                                    @item.Text
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.TimeZone)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Account.TimeZone)</strong></td>
+                                    <td>
+                                        <select name="Account.TimeZone" id="Account.TimeZone">
+                                            <option value="" style="color:#ccc !important;">
+                                                Select a time-zone
+                                            </option>
+                                            @foreach (var item in ViewBag.TimeZones)
+                                            {
+                                                <option value="@item.Value" selected=@(Model.Account.TimeZone == item.Value ? "selected" : null)>
                                                     @item.Text
                                                 </option>
                                             }

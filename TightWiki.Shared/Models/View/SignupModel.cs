@@ -34,11 +34,15 @@ namespace TightWiki.Shared.Models.View
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Time Zone")]
-        public string TimeZone { get; set; }
-
-        [Required]
         [Display(Name = "Country")]
         public string Country { get; set; }
+
+        [Required]
+        [Display(Name = "Language")]
+        public string Language { get; set; }
+
+        [Required]
+        [Display(Name = "Time Zone")]
+        public string TimeZone { get; set; }
     }
 }

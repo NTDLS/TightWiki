@@ -43,6 +43,12 @@ namespace TightWiki.Site.Controllers
 
                 if (model.Pages != null && model.Pages.Any())
                 {
+                    model.Pages.ForEach(o =>
+                    {
+                        o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                        o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                    });
+
                     ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                     ViewBag.CurrentPage = page;
 
@@ -83,6 +89,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
+                model.Pages.ForEach(o =>
+                {
+                    o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                });
+
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -119,6 +131,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
+                model.Pages.ForEach(o =>
+                {
+                    o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                });
+
                 ViewBag.Config.Title = $"Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
@@ -156,6 +174,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
+                model.Pages.ForEach(o =>
+                {
+                    o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                });
+
                 ViewBag.Config.Title = $"Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
@@ -298,6 +322,7 @@ namespace TightWiki.Site.Controllers
 
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             navigation = WikiUtility.CleanPartialURI(navigation);
 
@@ -305,6 +330,10 @@ namespace TightWiki.Site.Controllers
             {
                 Account = UserRepository.GetUserByNavigation(navigation)
             };
+
+            model.Account.CreatedDate = context.LocalizeDateTime(model.Account.CreatedDate);
+            model.Account.ModifiedDate = context.LocalizeDateTime(model.Account.ModifiedDate);
+            model.Account.LastLoginDate = context.LocalizeDateTime(model.Account.LastLoginDate);
 
             return View(model);
         }
@@ -325,6 +354,7 @@ namespace TightWiki.Site.Controllers
 
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower());
             var user = UserRepository.GetUserByNavigation(model.Account.Navigation);
@@ -372,6 +402,7 @@ namespace TightWiki.Site.Controllers
                 user.LastName = model.Account.LastName;
                 user.TimeZone = model.Account.TimeZone;
                 user.Country = model.Account.Country;
+                user.Language = model.Account.Language;
                 user.AccountName = model.Account.AccountName;
                 user.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName);
                 user.EmailAddress = model.Account.EmailAddress;
@@ -400,6 +431,13 @@ namespace TightWiki.Site.Controllers
                 Users = UserRepository.GetAllUsers(page)
             };
 
+            model.Users.ForEach(o =>
+            {
+                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                o.LastLoginDate = context.LocalizeDateTime(o.LastLoginDate);
+            });
+
             return View(model);
         }
 
@@ -414,6 +452,7 @@ namespace TightWiki.Site.Controllers
 
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             var model = new ConfigurationModel();
             model.Nest = ConfigurationRepository.GetConfigurationNest();
@@ -431,6 +470,7 @@ namespace TightWiki.Site.Controllers
 
             ViewBag.TimeZones = TimeZoneItem.GetAll();
             ViewBag.Countries = CountryItem.GetAll();
+            ViewBag.Languages = LanguageItem.GetAll();
 
             var flatConfig = ConfigurationRepository.GetFlatConfiguration();
 
