@@ -1,5 +1,6 @@
-﻿@{
+﻿@model TightWiki.Shared.Models.View.DisplayModel
+@{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-@Html.Raw(ViewBag.Body)
+@Html.Raw(Model.Body)

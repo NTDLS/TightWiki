@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class ConfigurationModel
+    public class ConfigurationModel : ModelBase
     {
         public List<ConfigurationNest> Nest { get; set; } = new List<ConfigurationNest>();
 

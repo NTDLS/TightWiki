@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class SignupModel
+    public class SignupModel : ModelBase
     {
         [Required]
         [Display(Name = "Email Address")]

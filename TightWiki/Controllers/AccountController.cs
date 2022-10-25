@@ -66,7 +66,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            return View();
+            var model = new LoginModel();
+            return View(model);
         }
 
         /// <summary>
@@ -99,7 +100,7 @@ namespace TightWiki.Site.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
             }
-            return View();
+            return View(model);
         }
 
         /// <summary>
@@ -110,7 +111,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Forgot()
         {
-            return View();
+            var model = new ForgotModel();
+            return View(model);
         }
 
         [HttpPost]
@@ -145,7 +147,7 @@ namespace TightWiki.Site.Controllers
                 Email.Send(user.EmailAddress, emailSubject, resetPasswordEmailTemplate.ToString());
             }
 
-            return RedirectToAction("PasswordResetEmailSent", "User");
+            return RedirectToAction("PasswordResetEmailSent", "Account");
         }
 
         /// <summary>
@@ -156,13 +158,15 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Reset(string userAccountName, string verificationCode)
         {
+            var model = new ResetModel();
+
             var user = UserRepository.GetUserByNavigation(userAccountName);
 
             if (user != null)
             {
                 if (user.VerificationCode?.ToLower() != verificationCode.ToLower())
                 {
-                    ViewBag.Error = "The verification code you specified can not be found.";
+                    model.ErrorMessage = "The verification code you specified can not be found.";
                 }
                 else
                 {
@@ -175,10 +179,10 @@ namespace TightWiki.Site.Controllers
             }
             else
             {
-                ViewBag.Error = "The email address you specified can not be found.";
+                model.ErrorMessage = "The email address you specified can not be found.";
             }
 
-            return View(new ResetModel());
+            return View(model);
         }
 
         [HttpPost]
@@ -193,18 +197,18 @@ namespace TightWiki.Site.Controllers
                 {
                     if (user.VerificationCode?.ToLower() != model.VerificationCode.ToLower())
                     {
-                        ViewBag.Error = "The verification code you specified can not be found.";
+                        model.ErrorMessage = "The verification code you specified can not be found.";
                         return Reset(userAccountName, verificationCode);
                     }
 
                     UserRepository.UpdateUserPassword(user.Id, model.Password);
                     UserRepository.VerifyUserEmail(user.Id);
 
-                    return RedirectToAction("ResetComplete", "User");
+                    return RedirectToAction("ResetComplete", "Account");
                 }
                 else
                 {
-                    ViewBag.Error = "The email address you specified can not be found.";
+                    model.ErrorMessage = "The email address you specified can not be found.";
                 }
 
                 return View(new ResetModel());
@@ -384,14 +388,14 @@ namespace TightWiki.Site.Controllers
 
                 if (requireEmailVerification)
                 {
-                    return RedirectToAction("SignupPendingVerification", "User");
+                    return RedirectToAction("SignupPendingVerification", "Account");
                 }
                 else if (requestEmailVerification)
                 {
-                    return RedirectToAction("SignupCompleteVerification", "User");
+                    return RedirectToAction("SignupCompleteVerification", "Account");
                 }
                 else {
-                    return RedirectToAction("SignupComplete", "User");
+                    return RedirectToAction("SignupComplete", "Account");
                 }
             }
 
@@ -407,18 +411,20 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Confirm(string userAccountName, string verificationCode)
         {
+            var model = new ConfirmModel();
+
             userAccountName = WikiUtility.CleanPartialURI(userAccountName);
 
             var user = UserRepository.GetUserByNavigationAndVerificationCode(userAccountName, verificationCode);
 
             if (user == null)
             {
-                ViewBag.Error = "The account and verification code you specified could not be found.";
+                model.ErrorMessage = "The account and verification code you specified could not be found.";
             }
             else
             {
                 UserRepository.VerifyUserEmail(user.Id);
-                ViewBag.Success = "Your account has been confirmed, feel free to login!";
+                model.SuccessMessage = "Your account has been confirmed, feel free to login!";
 
                 try
                 {
@@ -440,7 +446,7 @@ namespace TightWiki.Site.Controllers
 
             }
 
-            return View();
+            return View(model);
         }
 
         /// <summary>

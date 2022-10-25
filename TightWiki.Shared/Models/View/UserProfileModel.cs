@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class UserProfileModel
+    public class UserProfileModel : ModelBase
     {
         public int Id { get; set; }
 

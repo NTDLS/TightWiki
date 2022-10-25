@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class PageHistoryModel
+    public class PageHistoryModel : ModelBase
     {
         public List<PageRevisionHistory> History { get; set; }
     }

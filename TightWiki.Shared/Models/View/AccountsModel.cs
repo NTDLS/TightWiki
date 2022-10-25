@@ -7,7 +7,7 @@ using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class AccountsModel
+    public class AccountsModel : ModelBase
     {
         public List<User> Users { get; set; }
     }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class PageDeleteModel : ModelBase
+    public class ModelBase
     {
+        public string SuccessMessage { get; set; }
+        public string ErrorMessage { get; set; }
+
     }
 }

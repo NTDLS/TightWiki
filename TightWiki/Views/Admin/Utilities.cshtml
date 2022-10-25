@@ -25,13 +25,13 @@
                 <tr>
                     <td height="52" valign="middle" align="center">
 
-                        @if (ViewBag.Error != null)
+                        @if (Model.ErrorMessage != null)
                         {
-                            <div class="alert alert-danger">@ViewBag.Error</div>
+                            <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
-                        @if (ViewBag.Success != null)
+                        @if (Model.SuccessMessage!= null)
                         {
-                            <div class="alert alert-success">@ViewBag.Success</div>
+                            <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
 
                         <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">

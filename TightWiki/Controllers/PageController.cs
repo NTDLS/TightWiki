@@ -186,7 +186,7 @@ namespace TightWiki.Site.Controllers
 
             if (context.CanDelete) //This really isnt applicable until after a call to SetPageId().
             {
-                ViewBag.Error = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
+                model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
             }
 
             return View(model);
@@ -250,6 +250,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Display(string pageNavigation, int? pageRevision)
         {
+            var model = new DisplayModel();
+
             if (context.CanView == false)
             {
                 return Unauthorized();
@@ -269,7 +271,7 @@ namespace TightWiki.Site.Controllers
 
                 var wiki = new Wikifier(context, page, pageRevision, Request.Query);
                 ViewBag.Config.Title = page.Name;
-                ViewBag.Body = wiki.ProcessedBody;
+                model.Body = wiki.ProcessedBody;
             }
             else if (pageRevision != null)
             {
@@ -281,7 +283,7 @@ namespace TightWiki.Site.Controllers
 
                 var wiki = new Wikifier(context, notExistsPage, null, Request.Query);
                 ViewBag.Config.Title = notExistsPage.Name;
-                ViewBag.Body = wiki.ProcessedBody;
+                model.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
                 {
@@ -298,7 +300,7 @@ namespace TightWiki.Site.Controllers
 
                 var wiki = new Wikifier(context, notExistsPage, null, Request.Query);
                 ViewBag.Config.Title = notExistsPage.Name;
-                ViewBag.Body = wiki.ProcessedBody;
+                model.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
                 {
@@ -306,7 +308,7 @@ namespace TightWiki.Site.Controllers
                 }
             }
 
-            return View();
+            return View(model);
         }
 
         #endregion
@@ -374,16 +376,8 @@ namespace TightWiki.Site.Controllers
 
             if (string.IsNullOrWhiteSpace(model.Name))
             {
-                ViewBag.Error = "The page name cannot be empty.";
-
-                return View(new EditPageModel()
-                {
-                    Id = model.Id,
-                    Body = model.Body,
-                    Name = model.Name,
-                    Navigation = model.Navigation,
-                    Description = model.Description
-                });
+                model.ErrorMessage = "The page name cannot be empty.";
+                return View(model);
             }
 
             if (ModelState.IsValid)
@@ -406,7 +400,7 @@ namespace TightWiki.Site.Controllers
 
                     if (PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
                     {
-                        ViewBag.Error = "The page name you entered already exists.";
+                        model.ErrorMessage = "The page name you entered already exists.";
                         return View(model);
                     }
 
@@ -416,7 +410,7 @@ namespace TightWiki.Site.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        ViewBag.Success = "The page was successfully created!";
+                        model.SuccessMessage = "The page was successfully created!";
                     }
 
                     return RedirectToAction("Edit", "Page", new { pageNavigation = page.Navigation });
@@ -433,7 +427,7 @@ namespace TightWiki.Site.Controllers
                     {
                         if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
                         {
-                            ViewBag.Error = "The page name you entered already exists.";
+                            model.ErrorMessage = "The page name you entered already exists.";
                             return View(model);
                         }
 
@@ -453,7 +447,7 @@ namespace TightWiki.Site.Controllers
 
                     if (ModelState.IsValid)
                     {
-                        ViewBag.Success = "The page was saved successfully!";
+                        model.SuccessMessage = "The page was saved successfully!";
                     }
 
                     if (page != null && string.IsNullOrWhiteSpace(originalNavigation) == false)
@@ -461,18 +455,11 @@ namespace TightWiki.Site.Controllers
                         Cache.ClearClass($"Page:{originalNavigation}");
                     }
 
-                    return View(new EditPageModel()
-                    {
-                        Id = page.Id,
-                        Body = page.Body,
-                        Name = page.Name,
-                        Navigation = page.Navigation,
-                        Description = page.Description
-                    });
+                    return View(model);
                 }
             }
 
-            return View();
+            return View(model);
         }
 
         #endregion

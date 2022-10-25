@@ -2,7 +2,7 @@
 
 namespace TightWiki.Shared.Models.View
 {
-    public class ChangePasswordModel
+    public class ChangePasswordModel : ModelBase
     {
         [Required]
         [Display(Name = "Password")]

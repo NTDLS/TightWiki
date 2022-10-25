@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TightWiki.Shared.Models.View
 {
-    public class ResetModel
+    public class ResetModel : ModelBase
     {
         [Required]
         [Display(Name = "Email Address")]

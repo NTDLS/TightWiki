@@ -1,16 +1,16 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-tr td {
-    padding: 3px !important;
-    margin: 0 !important;
-}
-
-tr.padded td {
+tr.padded td.padded {
     padding-bottom: 0.5em;
     padding-top: 0.5em;
     padding-left: 0.5em;
     padding-right: 0.5em;
+}
+
+tr td {
+    padding: 5px !important;
+    margin: 0 !important;
 }
 
 a.navbar-brand {
