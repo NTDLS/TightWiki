@@ -9,12 +9,37 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class UserRepository
 	{
+		public static Role GetRoleByName(string name)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				return handler.Connection.Query<Role>("GetRoleByName",
+					new { Name = name }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+			}
+		}
+
 		public static List<Role> GetAllRoles()
 		{
 			using (var handler = new SqlConnectionHandler())
 			{
 				return handler.Connection.Query<Role>("GetAllRoles",
 					null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+			}
+		}
+
+		public static List<User> GetUsersByRoleId(int roleId, int pageNumber, int pageSize = 0)
+		{
+			using (var handler = new SqlConnectionHandler())
+			{
+				var param = new
+				{
+					RoleId = roleId,
+					PageNumber = pageNumber,
+					PageSize = pageSize
+				};
+
+				return handler.Connection.Query<User>("GetUsersByRoleId",
+					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
 			}
 		}
 

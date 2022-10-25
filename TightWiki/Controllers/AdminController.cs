@@ -296,6 +296,36 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpGet]
+        public ActionResult Role(string navigation, int page)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            if (page <= 0) page = 1;
+
+            var role = UserRepository.GetRoleByName(navigation);
+
+            var model = new RoleModel()
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Users = UserRepository.GetUsersByRoleId(role.Id, 1)
+            };
+
+            ViewBag.Config.Title = $"Roles";
+            ViewBag.PaginationCount = model.Users.FirstOrDefault()?.PaginationCount ?? 0;
+            ViewBag.CurrentPage = page;
+
+            if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+            if (page > 1) ViewBag.PreviousPage = page - 1;
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
         public ActionResult Roles()
         {
             if (context.CanAdmin == false)
