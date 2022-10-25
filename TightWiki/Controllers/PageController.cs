@@ -20,9 +20,9 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Search(int page)
         {
-            if (page <= 0) page = 1;
-
             ViewBag.Config.Title = $"Page Search";
+
+            if (page <= 0) page = 1;
 
             string searchTokens = Request.Query["Tokens"];
             if (searchTokens != null)
@@ -59,9 +59,9 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult Search(int page, PageSearchModel model)
         {
-            page = 1;
-
             ViewBag.Config.Title = $"Page Search";
+
+            page = 1;
 
             string searchTokens = null;
             if (model.SearchTokens != null)
@@ -446,6 +446,8 @@ namespace TightWiki.Site.Controllers
                     page.Name = model.Name;
                     page.Navigation = WikiUtility.CleanPartialURI(model.Name);
                     page.Description = model.Description ?? "";
+
+                    ViewBag.Config.Title = page.Name;
 
                     SavePage(page);
 

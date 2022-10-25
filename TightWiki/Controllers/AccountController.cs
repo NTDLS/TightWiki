@@ -22,6 +22,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Logout()
         {
+            ViewBag.Config.Title = $"Logout";
             HttpContext.SignOutAsync();
             return RedirectToAction("Display", "Page", "Home");
         }
@@ -30,6 +31,7 @@ namespace TightWiki.Site.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
+            ViewBag.Config.Title = $"Change Password";
             return View(new ChangePasswordModel());
         }
 
@@ -37,6 +39,8 @@ namespace TightWiki.Site.Controllers
         [Authorize]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
+            ViewBag.Config.Title = $"Change Password";
+
             if ((model.Password?.Length ?? 0) < 5)
             {
                 ModelState.AddModelError("Password", "The password is too short. 5 character minimum.");
@@ -66,6 +70,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            ViewBag.Config.Title = $"Login";
+
             var model = new LoginModel();
             return View(model);
         }
@@ -80,6 +86,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Login(LoginModel model)
         {
+            ViewBag.Config.Title = $"Login";
+
             if (ModelState.IsValid)
             {
                 try
@@ -111,6 +119,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Forgot()
         {
+            ViewBag.Config.Title = $"Forgot";
             var model = new ForgotModel();
             return View(model);
         }
@@ -119,6 +128,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Forgot(ForgotModel model)
         {
+            ViewBag.Config.Title = $"Forgot";
             var user = UserRepository.GetUserByEmail(model.EmailAddress);
 
             if (user != null)
@@ -159,6 +169,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Reset(string userAccountName, string verificationCode)
         {
+            ViewBag.Config.Title = $"Reset";
             var model = new ResetModel();
 
             var user = UserRepository.GetUserByNavigation(userAccountName);
@@ -190,6 +201,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Reset(string userAccountName, string verificationCode, ResetModel model)
         {
+            ViewBag.Config.Title = $"Reset";
             if (ModelState.IsValid)
             {
                 var user = UserRepository.GetUserByEmail(model.EmailAddress);
@@ -226,6 +238,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Signup()
         {
+            ViewBag.Config.Title = $"Signup";
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return Unauthorized();
@@ -250,6 +263,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult ResetComplete()
         {
+            ViewBag.Config.Title = $"Reset Complete";
             return View();
         }
 
@@ -257,6 +271,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult SignupComplete()
         {
+            ViewBag.Config.Title = $"Signup Complete";
             return View();
         }
 
@@ -264,6 +279,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult SignupCompleteVerification()
         {
+            ViewBag.Config.Title = $"Signup Complete";
             return View();
         }
 
@@ -271,6 +287,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult SignupPendingVerification()
         {
+            ViewBag.Config.Title = $"Signup Complete";
             return View();
         }
 
@@ -278,6 +295,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult PasswordResetEmailSent()
         {
+            ViewBag.Config.Title = $"Reset";
             return View();
         }
 
@@ -291,6 +309,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Signup(SignupModel model)
         {
+            ViewBag.Config.Title = $"Signup";
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
@@ -416,6 +435,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Confirm(string userAccountName, string verificationCode)
         {
+            ViewBag.Config.Title = $"Confirm";
             var model = new ConfirmModel();
 
             userAccountName = WikiUtility.CleanPartialURI(userAccountName);
@@ -463,6 +483,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Avatar(string userAccountName)
         {
+            ViewBag.Config.Title = $"Avatar";
             if (context.CanView == false)
             {
                 return Unauthorized();
@@ -538,6 +559,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult UserProfile()
         {
+            ViewBag.Config.Title = $"Profile";
             var user = UserRepository.GetUserById(context.User.Id);
 
             var model = new UserProfileModel()
@@ -571,6 +593,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult UserProfile(UserProfileModel model)
         {
+            ViewBag.Config.Title = $"Profile";
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();

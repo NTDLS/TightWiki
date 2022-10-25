@@ -9,7 +9,7 @@
             var fileName = binaryData.files.item(0).name;
             var lower = fileName.toLowerCase();
 
-            if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff")) {
+            if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".gif") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff")) {
                 window.top.postMessage('image:##Image(' + fileName + ' | 100)', '*')
             }
             else {
@@ -22,17 +22,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Config.Title</title>
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
 
     <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
         <tbody>
             <tr>
-                <td>
+                <td colspan="2">
 
                     <form method="post" enctype="multipart/form-data">
                         <table border="0" width="100%" cellspacing="0" cellpadding="0">
@@ -44,23 +42,25 @@
                     </form>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    @foreach (var x in Model.Files)
-                    {
-                        <div>
-                            <a href="/File/Binary/@ViewBag.Config.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
-
-                            @if (@ViewBag.Config.Context?.CanDelete == true)
-                            {
-                                @: - <a href="/File/Delete/@ViewBag.Config.PageNavigation/@x.FileNavigation" onclick="return window.confirm('Delete the image?');"> Delete </a>
-                            }
-                        </div>
-                    }
-                </td>
-            </tr>
+            @foreach (var x in Model.Files)
+            {
+                <tr>
+                    <td>
+                        <a href="/File/Binary/@ViewBag.Config.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
+                    </td>
+                    <td>
+                        @if (@ViewBag.Config.Context?.CanDelete == true)
+                        {
+                            <a href="/File/Delete/@ViewBag.Config.PageNavigation/@x.FileNavigation" onclick="return window.confirm('Delete the image?');"> Delete </a>
+                        }
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>

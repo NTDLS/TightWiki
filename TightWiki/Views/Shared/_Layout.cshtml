@@ -55,7 +55,7 @@
                                     }
                                     else if (ViewBag.Context.CanCreate && ViewBag.CreatePage == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Config.PageNavigation">Create "@ViewBag.Config.PageNavigation</a>
+                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Config.PageNavigation">Create "@ViewBag.Config.PageNavigation"</a>
                                     }
 
                                     @if (ViewBag.Context.CanCreate)
@@ -135,6 +135,8 @@
     <div class="container">
         @if (ViewBag.Config.FooterBlurb != null || ViewBag.Config.Copyright != null)
         {
+            <hr />
+
             @if (ViewBag.Config.FooterBlurb != null)
             {
                 @Html.Raw(ViewBag.Config.FooterBlurb)

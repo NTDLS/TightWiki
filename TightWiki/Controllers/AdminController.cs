@@ -468,10 +468,6 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            model.TimeZones = TimeZoneItem.GetAll();
-            model.Countries = CountryItem.GetAll();
-            model.Languages = LanguageItem.GetAll();
-
             var flatConfig = ConfigurationRepository.GetFlatConfiguration();
 
             foreach (var fc in flatConfig)
@@ -495,8 +491,13 @@ namespace TightWiki.Site.Controllers
                 model.SuccessMessage = "The configuration has been saved successfully!";
             }
 
-            var newModel = new ConfigurationModel();
-            newModel.Nest = ConfigurationRepository.GetConfigurationNest();
+            var newModel = new ConfigurationModel()
+            {
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll(),
+                Nest = ConfigurationRepository.GetConfigurationNest()
+            };
             return View(newModel);
         }
     }

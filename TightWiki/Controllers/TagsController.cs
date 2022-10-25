@@ -15,6 +15,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Browse()
         {
+            ViewBag.Config.Title = "Tags";
+
             if (context.CanView == false)
             {
                 return Unauthorized();
