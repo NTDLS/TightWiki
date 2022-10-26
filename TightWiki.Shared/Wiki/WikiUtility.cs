@@ -13,6 +13,31 @@ namespace TightWiki.Shared.Wiki
 {
     public static class WikiUtility
     {
+        public static CardStyle GetCardStyle(string style)
+        {
+            switch (style.ToLower())
+            {
+                case "primary":
+                    return new CardStyle("text-white", "bg-primary");
+                case "secondary":
+                    return new CardStyle("text-white", "bg-secondary");
+                case "info":
+                    return new CardStyle("text-white", "bg-info");
+                case "success":
+                    return new CardStyle("text-white", "bg-success");
+                case "warning":
+                    return new CardStyle("bg-warning", ""); //TODO: Whats the fg?
+                case "danger":
+                    return new CardStyle("text-white", "bg-danger");
+                case "light":
+                    return new CardStyle("text-black", "bg-light");
+                case "dark":
+                    return new CardStyle("text-white", "bg-dark");
+            }
+
+            return new CardStyle();
+        }
+
         public static Page GetPageFromPathInfo(string routeData)
         {
             routeData = WikiUtility.CleanFullURI(routeData).Trim(new char[] { '\\', '/' });
@@ -177,7 +202,7 @@ namespace TightWiki.Shared.Wiki
             }
             while (result != original);
 
-            return result;
+            return result.ToLower();
         }
 
         public static string CleanFullURI(string url)

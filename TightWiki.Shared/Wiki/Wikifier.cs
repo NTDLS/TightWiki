@@ -288,39 +288,38 @@ namespace TightWiki.Shared.Wiki
 
                 MethodCallInstance method;
 
+                //We are going to mock up a method call:
+                var originalMatchValue = match.Value;
+                match.Value = "##" + match.Value.Trim(new char[] { ' ', '\t', '{', '}' });
+
                 try
                 {
-                    method = Singletons.ParseMethodCallInfo(match, out paramEndIndex, "PanelScope");
+                    method = Singletons.ParseMethodCallInfo(match, out paramEndIndex);
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, match.Value, ex.Message);
+                    StoreError(pageContent, originalMatchValue, ex.Message);
                     continue;
                 }
 
-                string scopeBody = match.Value.Substring(paramEndIndex, (match.Value.Length - paramEndIndex) - 3).Trim();
-
-                string boxType = method.Parameters.Get<string>("boxType");
-                string title = method.Parameters.Get<string>("title");
+                string scopeBody = match.Value.Substring(paramEndIndex).Trim();
 
                 var html = new StringBuilder();
 
-                switch (boxType.ToLower())
+                switch (method.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "code":
                         {
                             string language = method.Parameters.Get<string>("language");
-                            if (string.IsNullOrEmpty(language))
+                            if (string.IsNullOrEmpty(language) || language?.ToLower() == "auto")
                             {
                                 html.Append($"<pre>");
-                                if (!string.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
                                 html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                             }
                             else
                             {
                                 html.Append($"<pre class=\"language-{language}\">");
-                                if (!string.IsNullOrEmpty(title)) html.Append($"<strong>{title}</strong>{HardBreak}");
                                 html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                             }
                         }
@@ -328,336 +327,116 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "bullets":
                         {
-                            var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+                            string type = method.Parameters.Get<string>("type");
 
-                            int currentLevel = 0;
-
-                            foreach (var line in lines)
+                            if (type == "unordered")
                             {
-                                int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
+                                var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
 
-                                if (newIndent < currentLevel)
+                                int currentLevel = 0;
+
+                                foreach (var line in lines)
                                 {
-                                    for (; currentLevel != newIndent; currentLevel--)
+                                    int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
+
+                                    if (newIndent < currentLevel)
                                     {
-                                        html.Append($"</ul>");
+                                        for (; currentLevel != newIndent; currentLevel--)
+                                        {
+                                            html.Append($"</ul>");
+                                        }
                                     }
-                                }
-                                else if (newIndent > currentLevel)
-                                {
-                                    for (; currentLevel != newIndent; currentLevel++)
+                                    else if (newIndent > currentLevel)
                                     {
-                                        html.Append($"<ul>");
+                                        for (; currentLevel != newIndent; currentLevel++)
+                                        {
+                                            html.Append($"<ul>");
+                                        }
                                     }
+
+                                    html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
                                 }
 
-                                html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                for (; currentLevel > 0; currentLevel--)
+                                {
+                                    html.Append($"</ul>");
+                                }
                             }
-
-                            for (; currentLevel > 0; currentLevel--)
+                            else if (type == "ordered")
                             {
-                                html.Append($"</ul>");
-                            }
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "bullets-ordered":
-                        {
-                            var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+                                var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
 
-                            int currentLevel = 0;
+                                int currentLevel = 0;
 
-                            foreach (var line in lines)
-                            {
-                                int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
-
-                                if (newIndent < currentLevel)
+                                foreach (var line in lines)
                                 {
-                                    for (; currentLevel != newIndent; currentLevel--)
+                                    int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
+
+                                    if (newIndent < currentLevel)
                                     {
-                                        html.Append($"</ol>");
+                                        for (; currentLevel != newIndent; currentLevel--)
+                                        {
+                                            html.Append($"</ol>");
+                                        }
                                     }
-                                }
-                                else if (newIndent > currentLevel)
-                                {
-                                    for (; currentLevel != newIndent; currentLevel++)
+                                    else if (newIndent > currentLevel)
                                     {
-                                        html.Append($"<ol>");
+                                        for (; currentLevel != newIndent; currentLevel++)
+                                        {
+                                            html.Append($"<ol>");
+                                        }
                                     }
+
+                                    html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
                                 }
 
-                                html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
-                            }
-
-                            for (; currentLevel > 0; currentLevel--)
-                            {
-                                html.Append($"</ol>");
+                                for (; currentLevel > 0; currentLevel--)
+                                {
+                                    html.Append($"</ol>");
+                                }
                             }
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert":
-                    case "alert-primary":
                         {
+                            string title = method.Parameters.Get<string>("title");
+                            string style = method.Parameters.Get<string>("style").ToLower();
+                            style = (style == "default" ? ""  : $"alert-{style}");
+
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-primary\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-secondary":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-secondary\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-success":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-success\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-danger":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-danger\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-warning":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-warning\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-info":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-info\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-light":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-light\">{scopeBody}.</div>");
-                        }
-                        break;
-                    case "alert-dark":
-                        {
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert alert-dark\">{scopeBody}.</div>");
+                            html.Append($"<div class=\"alert {style}\">{scopeBody}.</div>");
                         }
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "jumbotron":
                         {
+                            string title = method.Parameters.Get<string>("title", "");
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block":
+                    case "border":
                         {
-                            html.Append("<div class=\"card mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
+                            string style = method.Parameters.Get<string>("style").ToLower();
+                            style = (style == "default" ? "" : $"border-{style}");
+
+                            html.Append($"<span class=\"border {style}\">{scopeBody}</span>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-primary":
+                    case "card":
                         {
-                            html.Append("<div class=\"card text-white bg-primary mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-secondary":
-                        {
-                            html.Append("<div class=\"card text-white bg-secondary mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-info ":
-                        {
-                            html.Append("<div class=\"card text-white bg-info mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-success":
-                        {
-                            html.Append("<div class=\"card text-white bg-success mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-info":
-                        {
-                            html.Append("<div class=\"card text-white bg-info mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-warning":
-                        {
-                            html.Append("<div class=\"card bg-warning mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-danger":
-                        {
-                            html.Append("<div class=\"card text-white bg-danger mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-light":
-                        {
-                            html.Append("<div class=\"card text-black bg-light mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "block-dark":
-                        {
-                            html.Append("<div class=\"card text-white bg-dark mb-3\">");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel":
-                        {
-                            html.Append("<div class=\"card mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-primary":
-                        {
-                            html.Append("<div class=\"card text-white bg-primary mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-secondary":
-                        {
-                            html.Append("<div class=\"card text-white bg-secondary mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-info ":
-                        {
-                            html.Append("<div class=\"card text-white bg-info mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-success":
-                        {
-                            html.Append("<div class=\"card text-white bg-success mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-info":
-                        {
-                            html.Append("<div class=\"card text-white bg-info mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-warning":
-                        {
-                            html.Append("<div class=\"card bg-warning mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-danger":
-                        {
-                            html.Append("<div class=\"card text-white bg-danger mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-light":
-                        {
-                            html.Append("<div class=\"card text-black bg-light mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "panel-dark":
-                        {
-                            html.Append("<div class=\"card text-white bg-dark mb-3\">");
-                            html.Append($"<div class=\"card-header\">{title}</div>");
+                            string title = method.Parameters.Get<string>("title");
+                            var style = WikiUtility.GetCardStyle(method.Parameters.Get<string>("style", "default"));
+
+                            html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
+                            if (string.IsNullOrEmpty(title) == false)
+                            {
+                                html.Append($"<div class=\"card-header\">{title}</div>");
+                            }
                             html.Append("<div class=\"card-body\">");
                             html.Append($"<p class=\"card-text\">{scopeBody}</p>");
                             html.Append("</div>");
@@ -666,7 +445,7 @@ namespace TightWiki.Shared.Wiki
                         break;
                 }
 
-                StoreMatch(WikiMatchType.Block, pageContent, match.Value, html.ToString());
+                StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, html.ToString());
             }
         }
 
@@ -1686,7 +1465,7 @@ namespace TightWiki.Shared.Wiki
         {
             _matchesPerIteration++;
 
-            string identifier = Guid.NewGuid().ToString();
+            string identifier = $"<!--{Guid.NewGuid()}-->";
 
             var matchSet = new MatchSet()
             {
@@ -1703,7 +1482,7 @@ namespace TightWiki.Shared.Wiki
         {
             _matchesPerIteration++;
 
-            string identifier = Guid.NewGuid().ToString();
+            string identifier = $"<!--{Guid.NewGuid()}-->";
 
             var matchSet = new MatchSet()
             {
@@ -1720,7 +1499,7 @@ namespace TightWiki.Shared.Wiki
         {
             _matchesPerIteration++;
 
-            string identifier = Guid.NewGuid().ToString();
+            string identifier = $"<!--{Guid.NewGuid()}-->";
 
             var matchSet = new MatchSet()
             {
@@ -1737,7 +1516,7 @@ namespace TightWiki.Shared.Wiki
 
         private void TransformWhitespace(StringBuilder pageContent)
         {
-            string identifier = Guid.NewGuid().ToString();
+            string identifier = $"<!--{Guid.NewGuid()}-->";
 
             //Replace new-lines with single character new line:
             pageContent.Replace("\r\n", "\n");

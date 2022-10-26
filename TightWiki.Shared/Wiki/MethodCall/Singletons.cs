@@ -28,7 +28,16 @@ namespace TightWiki.Shared.Wiki.MethodCall
                 if (_methodPrototypes == null)
                 {
                     _methodPrototypes = new MethodPrototypeCollection();
-                    _methodPrototypes.Add("PanelScope: <string>[boxType(code,bullets,bullets-ordered,jumbotron,alert,alert-primary,alert-secondary,alert-light,alert-dark,alert-success,alert-info,alert-warning,alert-danger,block,block-primary,block-secondary,block-light,block-dark,block-success,block-info,block-warning,block-danger,panel,panel-primary,panel-secondary,panel-light,panel-dark,panel-success,panel-info,panel-warning,panel-danger)] | <string>{title}='' | <string>{language(cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}=''");
+
+                    _methodPrototypes.Add("code: <string>{language(auto,cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}='auto'");
+                    _methodPrototypes.Add("bullets: <string>{type(unordered,ordered)}='unordered' | <string>{title}=''");
+                    _methodPrototypes.Add("jumbotron:");
+                    _methodPrototypes.Add("border: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default'");
+                    _methodPrototypes.Add("background: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default'");
+                    _methodPrototypes.Add("forefround: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default'");
+                    _methodPrototypes.Add("alert: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
+                    _methodPrototypes.Add("card: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
+
                     _methodPrototypes.Add("Tag: <string:infinite>[tags]");
                     _methodPrototypes.Add("TextList: <string:infinite>[tokens] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("TagList: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
@@ -68,9 +77,18 @@ namespace TightWiki.Shared.Wiki.MethodCall
             }
         }
 
-        public static MethodCallInstance ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex, string methodName = null)
+        public static MethodCallInstance ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex)
         {
             List<string> rawArguments = new List<string>();
+
+            string methodName = null;
+
+            var firstLine = methodMatch.Value.Split('\n')?.FirstOrDefault();
+
+            if (firstLine.Where(x => (x == '(')).Count() != firstLine.Where(x => (x == ')')).Count())
+            {
+                throw new Exception($"Method parentheses mismatch.");
+            }
 
             MatchCollection matches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(methodMatch.Value);
             if (matches.Count > 0)
@@ -79,24 +97,17 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
                 int paramStartIndex = match.Value.IndexOf('(');
 
-                if (methodName == null)
-                {
-                    methodName = match.Value.Substring(0, paramStartIndex).ToLower().TrimStart(new char[] { '{', '#', '@' } );
-                }
-
+                methodName = match.Value.Substring(0, paramStartIndex).ToLower().TrimStart(new char[] { '{', '#', '@' });
                 parseEndIndex = match.Index + match.Length;
 
                 string rawArgTrimmed = match.ToString().Substring(paramStartIndex + 1, (match.ToString().Length - paramStartIndex) - 2);
                 rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
             }
-            else if (methodName == null)
-            {
-                methodName = methodMatch.Value.Substring(2, methodMatch.Value.Length - 2).ToLower(); ; //The match has no parameter.
-                parseEndIndex = methodMatch.Value.Length;
-            }
             else
             {
-                parseEndIndex = -1;
+                int endOfLine = methodMatch.Value.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count();
+                methodName = methodMatch.Value.Substring(2, endOfLine).Trim().ToLower(); //The match has no parameter.
+                parseEndIndex = endOfLine + 2;
             }
 
             var prototype = Singletons.MethodPrototypes.Get(methodName);
