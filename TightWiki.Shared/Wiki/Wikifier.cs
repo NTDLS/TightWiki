@@ -1456,11 +1456,38 @@ namespace TightWiki.Shared.Wiki
                     //Diplays a table of contents for the page based on the header tags.
                     case "toc":
                         {
+                            bool alphabetized = method.Parameters.Get<bool>("alphabetized");
+
                             var html = new StringBuilder();
 
-                            var tags = from t in _tocTags
-                                       orderby t.StartingPosition
-                                       select t;
+                            var tags = (from t in _tocTags
+                                        orderby t.StartingPosition
+                                        select t).ToList();
+
+                            var unordered = new List<TOCTag>();
+                            var ordered = new List<TOCTag>();
+
+                            if (alphabetized)
+                            {
+                                int level = tags.FirstOrDefault()?.Level ?? 0;
+
+                                foreach (var tag in tags)
+                                {
+                                    if (level != tag.Level)
+                                    {
+                                        ordered.AddRange(unordered.OrderBy(o => o.Text));
+                                        unordered.Clear();
+                                        level = tag.Level;
+                                    }
+
+                                    unordered.Add(tag);
+                                }
+
+                                ordered.AddRange(unordered.OrderBy(o => o.Text));
+                                unordered.Clear();
+
+                                tags = ordered.ToList();
+                            }
 
                             int currentLevel = 0;
 
