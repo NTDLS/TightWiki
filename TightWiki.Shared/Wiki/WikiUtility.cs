@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DuoVia.FuzzyStrings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -94,7 +95,14 @@ namespace TightWiki.Shared.Wiki
 
         public static string BuildSearchCloud(List<string> tokens)
         {
-            var pages = PageRepository.PageSearch(string.Join(",", tokens)).OrderByDescending(o => o.Score).ToList();
+            var searchTerms = (from o in tokens
+                               select new PageToken
+                               {
+                                   Token = o,
+                                   DoubleMetaphone = o.ToDoubleMetaphone()
+                               }).ToList();
+
+            var pages = PageRepository.PageSearch(searchTerms).OrderByDescending(o => o.Score).ToList();
 
             int pageCount = pages.Count();
             int fontSize = 7;

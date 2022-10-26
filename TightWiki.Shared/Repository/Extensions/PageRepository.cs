@@ -10,13 +10,13 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class PageRepository
     {
-        public static List<Page> PageSearch(string searchTerms = null)
+        public static List<Page> PageSearch(List<PageToken> items)
         {
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
                 {
-                    SearchTerms = searchTerms
+                    SearchTerms = new { PageTokens = items.ToDataTable() }
                 };
 
                 return handler.Connection.Query<Page>("PageSearchPaged",
@@ -40,7 +40,7 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static List<Page> PageSearchPaged(int pageNumber, int pageSize = 0, string searchTerms = null)
+        public static List<Page> PageSearchPaged(List<PageToken> items, int pageNumber, int pageSize = 0)
         {
             using (var handler = new SqlConnectionHandler())
             {
@@ -48,7 +48,7 @@ namespace TightWiki.Shared.Repository
                 {
                     PageNumber = pageNumber,
                     PageSize = pageSize,
-                    SearchTerms = searchTerms
+                    SearchTerms = items.ToDataTable()
                 };
 
                 return handler.Connection.Query<Page>("PageSearchPaged",

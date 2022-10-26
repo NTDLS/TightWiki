@@ -114,6 +114,11 @@
                                                                         <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
                                                                         <br />
                                                                     }
+                                                                    else if (@entry.DataType == "decimal")
+                                                                    {
+                                                                        <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                        <br />
+                                                                    }
                                                                     else if (@entry.DataType == "boolean")
                                                                     {
                                                                         <label for="html">Yes</label>

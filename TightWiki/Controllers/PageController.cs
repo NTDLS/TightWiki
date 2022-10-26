@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DuoVia.FuzzyStrings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -28,11 +29,17 @@ namespace TightWiki.Site.Controllers
             if (searchTokens != null)
             {
                 var tokens = searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
-                searchTokens = string.Join(",", tokens);
+
+                var searchTerms = (from o in tokens
+                                   select new PageToken
+                                   {
+                                       Token = o,
+                                       DoubleMetaphone = o.ToDoubleMetaphone()
+                                   }).ToList();
 
                 var model = new PageSearchModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(page, 0, searchTokens),
+                    Pages = PageRepository.PageSearchPaged(searchTerms, page, 0),
                     SearchTokens = Request.Query["Tokens"]
                 };
 
@@ -63,16 +70,22 @@ namespace TightWiki.Site.Controllers
 
             page = 1;
 
-            string searchTokens = null;
+            var searchTerms = new List<PageToken>();
             if (model.SearchTokens != null)
             {
                 var tokens = model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
-                searchTokens = string.Join(",", tokens);
+
+                searchTerms.AddRange((from o in tokens
+                                   select new PageToken
+                                   {
+                                       Token = o,
+                                       DoubleMetaphone = o.ToDoubleMetaphone()
+                                   }).ToList());
             }
 
             model = new PageSearchModel()
             {
-                Pages = PageRepository.PageSearchPaged(page, 0, searchTokens),
+                Pages = PageRepository.PageSearchPaged(searchTerms, page, 0),
                 SearchTokens = model.SearchTokens
             };
 

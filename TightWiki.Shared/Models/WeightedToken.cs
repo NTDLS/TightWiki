@@ -4,8 +4,9 @@ namespace TightWiki.Shared.Models
 {
     public class WeightedToken
     {
-        public string Token;
-        public int Weight;
+        public string Token { get; set; }
+        public int Weight { get; set; }
+        public string DoubleMetaphone { get; set; }
 
         public PageToken ToPageToken(int pageId)
         {
@@ -13,6 +14,7 @@ namespace TightWiki.Shared.Models
             {
                 PageId = pageId,
                 Token = Token,
+                DoubleMetaphone = DoubleMetaphone,
                 Weight = Weight
             };
         }

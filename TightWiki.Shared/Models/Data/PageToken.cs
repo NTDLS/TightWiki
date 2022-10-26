@@ -10,6 +10,7 @@ namespace TightWiki.Shared.Models.Data
     {
         public int PageId { get; set; }
         public string Token { get; set; }
+        public string DoubleMetaphone { get; set; }
         public int Weight { get; set; }
     }
 }

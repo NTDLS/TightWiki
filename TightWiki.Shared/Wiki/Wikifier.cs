@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DuoVia.FuzzyStrings;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,9 +66,13 @@ namespace TightWiki.Shared.Wiki
             allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 3));
             allTokens.AddRange(WikiUtility.ParsePageTokens(string.Join(" ", Tags), 3));
 
+            //allTokens.First().Token.ToDoubleMetaphone();
+            //allTokens.First().Token.ToBiGrams
+
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {
                 Token = o.Key,
+                DoubleMetaphone = o.Key.ToDoubleMetaphone(),
                 Weight = o.Sum(g => g.Weight)
             }).ToList();
 
@@ -1305,7 +1310,15 @@ namespace TightWiki.Shared.Wiki
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
                             var searchStrings = method.Parameters.GetList<string>("tokens");
                             var topCount = method.Parameters.Get<int>("top");
-                            var pages = PageRepository.PageSearch(string.Join(",", searchStrings)).Take(topCount).OrderBy(o => o.Name).ToList();
+
+                            var searchTerms = (from o in searchStrings
+                                               select new PageToken
+                                               {
+                                                   Token = o,
+                                                   DoubleMetaphone = o.ToDoubleMetaphone()
+                                               }).ToList();
+
+                            var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
                             string view = method.Parameters.Get<String>("View").ToLower();
@@ -1355,7 +1368,15 @@ namespace TightWiki.Shared.Wiki
                             string view = method.Parameters.Get<String>("View").ToLower();
                             var topCount = method.Parameters.Get<int>("top");
                             var tokens = method.Parameters.GetList<string>("tokens");
-                            var pages = PageRepository.PageSearch(string.Join(",", tokens)).Take(topCount).OrderByDescending(o => o.Score).ToList();
+
+                            var searchTerms = (from o in tokens
+                                               select new PageToken
+                                               {
+                                                   Token = o,
+                                                   DoubleMetaphone = o.ToDoubleMetaphone()
+                                               }).ToList();
+
+                            var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderByDescending(o => o.Score).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
