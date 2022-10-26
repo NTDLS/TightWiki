@@ -418,19 +418,50 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "border":
+                    case "foreground":
                         {
-                            string style = method.Parameters.Get<string>("style").ToLower();
-                            style = (style == "default" ? "" : $"border-{style}");
-
-                            html.Append($"<span class=\"border {style}\">{scopeBody}</span>");
+                            var style = WikiUtility.GetForegroundStyle(method.Parameters.Get<string>("style", "default")).Swap();
+                            html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
                         }
                         break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "background":
+                        {
+                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("style", "default"));
+                            html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "collpase":
+                        {
+                            string linkText = method.Parameters.Get<string>("linktext");
+                            string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
+                            html.Append($"<a data-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
+                            html.Append($"<div class=\"collapse\" id=\"{uid}\">");
+                            html.Append($"<div class=\"card card-body\">{scopeBody}</div></div>");
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+
+                    case "callout":
+                        {
+                            string title = method.Parameters.Get<string>("title");
+                            string style = method.Parameters.Get<string>("style").ToLower();
+                            style = (style == "default" ? "" : style);
+
+                            html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
+                            if(string.IsNullOrWhiteSpace(title) == false) html.Append($"<h4>{title}</h4>");
+                            html.Append($"{scopeBody}");
+                            html.Append($"</div>");
+                        }
+                        break;
+
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "card":
                         {
                             string title = method.Parameters.Get<string>("title");
-                            var style = WikiUtility.GetCardStyle(method.Parameters.Get<string>("style", "default"));
+                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("style", "default"));
 
                             html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
                             if (string.IsNullOrEmpty(title) == false)
@@ -1323,6 +1354,14 @@ namespace TightWiki.Shared.Wiki
                             {
                                 StoreMatch(method, pageContent, match.Value, $"<br />");
                             }
+                        }
+                        break;
+
+                    //Inserts a horizontal rule
+                    case "hr":
+                        {
+                            int size = method.Parameters.Get<int>("height");
+                            StoreMatch(method, pageContent, match.Value, $"<hr class=\"mt-{size} mb-{size}\">");
                         }
                         break;
 

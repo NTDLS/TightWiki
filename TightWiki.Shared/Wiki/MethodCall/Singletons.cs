@@ -32,9 +32,9 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("code: <string>{language(auto,cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}='auto'");
                     _methodPrototypes.Add("bullets: <string>{type(unordered,ordered)}='unordered' | <string>{title}=''");
                     _methodPrototypes.Add("jumbotron:");
-                    _methodPrototypes.Add("border: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default'");
-                    _methodPrototypes.Add("background: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default'");
-                    _methodPrototypes.Add("forefround: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default'");
+                    _methodPrototypes.Add("callout: <string>{style(default,primary,secondary,success,info,warning,danger)}='default' | <string>{title}=''");
+                    _methodPrototypes.Add("background: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger,muted)}='default'");
+                    _methodPrototypes.Add("foreground: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger,muted)}='default'");
                     _methodPrototypes.Add("alert: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
                     _methodPrototypes.Add("card: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
 
@@ -51,9 +51,11 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("Related: <int>{Top}='1000' | <string>{view(List,Flat,Full)}='Full'");
                     _methodPrototypes.Add("Tags: <string>{view(Flat,List)}='List'");
                     _methodPrototypes.Add("EditLink: <string>{linkText}='edit'");
+                    _methodPrototypes.Add("Collpase: <string>{linkText}='Show'");
                     _methodPrototypes.Add("Inject: <string>[pageName]");
                     _methodPrototypes.Add("BR: <int>{Count}='1'");
                     _methodPrototypes.Add("NL: <int>{Count}='1'");
+                    _methodPrototypes.Add("HR: <int>{Height}='1'");
                     _methodPrototypes.Add("NewLine: <int>{Count}='1'");
                     _methodPrototypes.Add("History:<string>{view(Full,List)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true'");
                     _methodPrototypes.Add("TOC:");
@@ -90,7 +92,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                 throw new Exception($"Method parentheses mismatch.");
             }
 
-            MatchCollection matches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(methodMatch.Value);
+            MatchCollection matches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(firstLine);
             if (matches.Count > 0)
             {
                 var match = matches[0];

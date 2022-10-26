@@ -2,18 +2,23 @@
 
 namespace TightWiki.Shared.Wiki
 {
-    public class CardStyle
+    public class BGFGStyle
     {
         public string ForegroundStyle { get; set; } = String.Empty;
         public string BackgroundStyle { get; set; } = String.Empty;
 
-        public CardStyle(string foregroundStyle, string backgroundStyle)
+        public BGFGStyle(string foregroundStyle, string backgroundStyle)
         {
             ForegroundStyle = foregroundStyle;
             BackgroundStyle = backgroundStyle;
         }
 
-        public CardStyle()
+        public BGFGStyle Swap()
+        {
+            return new BGFGStyle(BackgroundStyle, ForegroundStyle);
+        }
+
+        public BGFGStyle()
         {
 
         }

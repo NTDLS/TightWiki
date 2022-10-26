@@ -13,29 +13,60 @@ namespace TightWiki.Shared.Wiki
 {
     public static class WikiUtility
     {
-        public static CardStyle GetCardStyle(string style)
+        public static BGFGStyle GetBackgroundStyle(string style)
+        {
+            switch (style.ToLower())
+            {
+                case "muted":
+                    return new BGFGStyle("text-muted", "");
+                case "primary":
+                    return new BGFGStyle("text-white", "bg-primary");
+                case "secondary":
+                    return new BGFGStyle("text-white", "bg-secondary");
+                case "info":
+                    return new BGFGStyle("text-white", "bg-info");
+                case "success":
+                    return new BGFGStyle("text-white", "bg-success");
+                case "warning":
+                    return new BGFGStyle("bg-warning", "");
+                case "danger":
+                    return new BGFGStyle("text-white", "bg-danger");
+                case "light":
+                    return new BGFGStyle("text-black", "bg-light");
+                case "dark":
+                    return new BGFGStyle("text-white", "bg-dark");
+            }
+
+            return new BGFGStyle();
+        }
+
+        public static BGFGStyle GetForegroundStyle(string style)
         {
             switch (style.ToLower())
             {
                 case "primary":
-                    return new CardStyle("text-white", "bg-primary");
+                    return new BGFGStyle("text-primary", "");
                 case "secondary":
-                    return new CardStyle("text-white", "bg-secondary");
-                case "info":
-                    return new CardStyle("text-white", "bg-info");
+                    return new BGFGStyle("text-secondary", "");
                 case "success":
-                    return new CardStyle("text-white", "bg-success");
-                case "warning":
-                    return new CardStyle("bg-warning", ""); //TODO: Whats the fg?
+                    return new BGFGStyle("text-success", "");
                 case "danger":
-                    return new CardStyle("text-white", "bg-danger");
+                    return new BGFGStyle("text-danger", "");
+                case "warning":
+                    return new BGFGStyle("text-warning", "");
+                case "info":
+                    return new BGFGStyle("text-info", "");
                 case "light":
-                    return new CardStyle("text-black", "bg-light");
+                    return new BGFGStyle("text-light", "");
                 case "dark":
-                    return new CardStyle("text-white", "bg-dark");
+                    return new BGFGStyle("text-dark", "");
+                case "muted":
+                    return new BGFGStyle("text-muted", "");
+                case "white":
+                    return new BGFGStyle("text-white", "bg-dark");
             }
 
-            return new CardStyle();
+            return new BGFGStyle();
         }
 
         public static Page GetPageFromPathInfo(string routeData)
