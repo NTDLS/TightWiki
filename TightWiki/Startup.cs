@@ -145,8 +145,8 @@ namespace TightWiki
 
                 endpoints.MapControllerRoute(
                     name: "Tag_Associations",
-                    pattern: "Tag/Browse/{pageNavigation}",
-                    defaults: new { controller = "Tags", action = "Browse", pageNavigation = "Home" }
+                    pattern: "Tag/Browse/{navigation}",
+                    defaults: new { controller = "Tags", action = "Browse", navigation = "Home" }
                 );
 
                 endpoints.MapControllerRoute(

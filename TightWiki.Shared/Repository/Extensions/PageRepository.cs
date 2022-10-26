@@ -16,7 +16,7 @@ namespace TightWiki.Shared.Repository
             {
                 var param = new
                 {
-                    SearchTerms = new { PageTokens = items.ToDataTable() }
+                    SearchTerms = items.ToDataTable()
                 };
 
                 return handler.Connection.Query<Page>("PageSearchPaged",

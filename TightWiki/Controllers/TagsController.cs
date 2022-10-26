@@ -13,7 +13,7 @@ namespace TightWiki.Site.Controllers
     public class TagsController : ControllerHelperBase
     {
         [AllowAnonymous]
-        public ActionResult Browse()
+        public ActionResult Browse(string navigation)
         {
             ViewBag.Config.Title = "Tags";
 
@@ -22,7 +22,7 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            string navigation = WikiUtility.CleanPartialURI(RouteValue("navigation"));
+            navigation = WikiUtility.CleanPartialURI(navigation);
 
             ViewBag.TagCloud = WikiUtility.BuildTagCloud(navigation);
 

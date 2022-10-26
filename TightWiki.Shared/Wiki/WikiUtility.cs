@@ -113,7 +113,7 @@ namespace TightWiki.Shared.Wiki
 
             foreach (var page in pages)
             {
-                pageList.Add(new TagCoudItem(page.Name, pageIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + page.Navigation + "\">" + page.Name + "</a></font>"));
+                pageList.Add(new TagCoudItem(page.Name, pageIndex, "<font size=\"" + fontSize + "\"><a href=\"/" + page.Navigation + "\">" + page.Name + "</a></font>"));
 
                 if ((pageIndex % sizeStep) == 0)
                 {
