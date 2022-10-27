@@ -1,4 +1,5 @@
 ﻿using DuoVia.FuzzyStrings;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -246,6 +247,47 @@ namespace TightWiki.Shared.Wiki
             }
 
             return result.TrimEnd(new char[] { '/', '\\' });
+        }
+
+        public static string GetPageSelector(string refTag, int totalPages, int currentPage, IQueryCollection query = null)
+        {
+            string existingQueryString = "";
+
+            //The query can be optionally supplied so that the current query string of the current URI can be wholly preserved.
+            if (query != null && query.Count > 0)
+            {
+                existingQueryString = string.Join("&", query.Where(o => o.Key != refTag).Select(o => $"{o.Key}={o.Value}"));
+                if (string.IsNullOrEmpty(existingQueryString) == false)
+                {
+                    existingQueryString += "&" + existingQueryString;
+                }
+            }
+
+            var html = new StringBuilder();
+
+            if (currentPage > 1)
+            {
+                html.Append($"<a href=\"?{refTag}=1{existingQueryString}\">&lt;&lt; First</a>");
+                html.Append("&nbsp; | &nbsp;");
+                html.Append($"<a href=\"?{refTag}={currentPage - 1}{existingQueryString}\"> &lt; Previous</a>");
+            }
+            else
+            {
+                html.Append("&lt;&lt; First &nbsp; | &nbsp; &lt; Previous");
+            }
+            html.Append("&nbsp; | &nbsp;");
+            if (currentPage < totalPages)
+            {
+                html.Append($"<a href=\"?{refTag}={currentPage + 1}{existingQueryString}\"> Next &gt;</a>");
+                html.Append(" &nbsp; | &nbsp;");
+                html.Append($"<a href=\"?{refTag}={totalPages}{existingQueryString}\"> Last &gt;&gt;</a>");
+            }
+            else
+            {
+                html.Append("Next &gt; &nbsp; | &nbsp; Last &gt;&gt;");
+            }
+
+            return html.ToString();
         }
 
         public static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)

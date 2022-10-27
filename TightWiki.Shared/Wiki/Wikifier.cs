@@ -27,6 +27,7 @@ namespace TightWiki.Shared.Wiki
         public List<string> Tags { get; private set; } = new List<string>();
         public Dictionary<string, MatchSet> Matches { get; private set; } = new Dictionary<string, MatchSet>();
 
+        private string _queryTokenState = Security.MachineKey;
         private int _matchesPerIteration = 0;
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new List<TOCTag>();
@@ -224,7 +225,7 @@ namespace TightWiki.Shared.Wiki
             }
         }
 
-        /// <summary>6
+        /// <summary>
         /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
         /// </summary>
         /// <param name="pageContent"></param>
@@ -810,12 +811,15 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "history":
                         {
-                            int pageNumber = int.Parse(_queryString["page"].ToString().IsNullOrEmpty("1"));
+                            string refTag = GenerateQueryToken();
 
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+
+                            var navigation = WikiUtility.CleanPartialURI(method.Parameters.Get<string>("pageName", _page.Navigation));
                             string view = method.Parameters.Get<String>("View").ToLower();
                             var pageSize = method.Parameters.Get<int>("pageSize");
                             var pageSelector = method.Parameters.Get<bool>("pageSelector");
-                            var history = PageRepository.GetPageRevisionHistoryInfoByNavigation(_page.Navigation, pageNumber, pageSize);
+                            var history = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(navigation, pageNumber, pageSize);
                             var html = new StringBuilder();
 
                             if (history.Count() > 0)
@@ -843,33 +847,11 @@ namespace TightWiki.Shared.Wiki
 
                                 if (pageSelector)
                                 {
-                                    int paginationCount = history.First().PaginationCount;
-                                    if (pageNumber > 1)
-                                    {
-                                        html.Append($"<a href=\"?Page=1\">&lt;&lt; First</a>");
-                                        html.Append("&nbsp; | &nbsp;");
-                                        html.Append($"<a href=\"?Page={pageNumber - 1}\"> &lt; Previous</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append("&lt;&lt; First &nbsp; | &nbsp; &lt; Previous");
-                                    }
-                                    html.Append("&nbsp; | &nbsp;");
-                                    if (pageNumber < paginationCount)
-                                    {
-                                        html.Append($"<a href=\"?Page={pageNumber + 1}\"> Next &gt;</a>");
-                                        html.Append(" &nbsp; | &nbsp;");
-                                        html.Append($"<a href=\"?Page={paginationCount}\"> Last &gt;&gt;</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append("Next &gt; &nbsp; | &nbsp; Last &gt;&gt;");
-                                    }
+                                    html.Append(WikiUtility.GetPageSelector(refTag, history.First().PaginationCount, pageNumber, _queryString));
                                 }
                             }
 
                             StoreMatch(method, pageContent, match.Value, html.ToString());
-
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
@@ -1623,6 +1605,16 @@ namespace TightWiki.Shared.Wiki
                 var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
                 StoreMatch(WikiMatchType.Formatting, pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
             }
+        }
+
+        /// <summary>
+        /// Used to generate unique and regenerable query string tokens for page links.
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateQueryToken()
+        {
+            _queryTokenState = Security.Sha256(Security.EncryptString(_queryTokenState, _queryTokenState));
+            return $"H{Security.Crc32(_queryTokenState)}";
         }
 
         void ReplaceInlineHTMLMarker(StringBuilder pageContent, string mark, string htmlTag, bool escape)

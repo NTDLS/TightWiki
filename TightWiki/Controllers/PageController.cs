@@ -117,7 +117,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PageHistoryModel()
             {
-                History = PageRepository.GetPageRevisionHistoryInfoByNavigation(pageNavigation, page)
+                History = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(pageNavigation, page)
             };
 
             model.History.ForEach(o =>

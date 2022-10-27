@@ -44,7 +44,7 @@
                     _methodPrototypes.Add("NL: <int>{Count}='1'");
                     _methodPrototypes.Add("HR: <int>{Height}='1'");
                     _methodPrototypes.Add("NewLine: <int>{Count}='1'");
-                    _methodPrototypes.Add("History:<string>{view(Full,List)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true'");
+                    _methodPrototypes.Add("History:<string>{view(Full,List)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _methodPrototypes.Add("TOC:<bool>{alphabetized}='false'");
                     _methodPrototypes.Add("Title:");
                     _methodPrototypes.Add("Navigation:");

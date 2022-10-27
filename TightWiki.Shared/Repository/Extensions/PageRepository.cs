@@ -195,20 +195,19 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigation(string navigation, int pageNumber, int pageSize = 0)
+        public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigationPaged(string navigation, int pageNumber, int pageSize = 0)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                var param = new
-                {
-                    Navigation = navigation,
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                };
+            using var handler = new SqlConnectionHandler();
 
-                return handler.Connection.Query<PageRevisionHistory>("GetPageRevisionHistoryInfoByNavigation",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            var param = new
+            {
+                Navigation = navigation,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            return handler.Connection.Query<PageRevisionHistory>("GetPageRevisionHistoryInfoByNavigationPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         /// <summary>
@@ -218,16 +217,15 @@ namespace TightWiki.Shared.Repository
         /// <returns></returns>
         public static Page GetPageInfoByNavigation(string navigation)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                var param = new
-                {
-                    Navigation = navigation
-                };
+            using var handler = new SqlConnectionHandler();
 
-                return handler.Connection.Query<Page>("GetPageInfoByNavigation",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            var param = new
+            {
+                Navigation = navigation
+            };
+
+            return handler.Connection.Query<Page>("GetPageInfoByNavigation",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static void DeletePageById(int pageId)

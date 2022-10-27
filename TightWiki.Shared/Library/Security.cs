@@ -31,6 +31,11 @@ namespace TightWiki.Shared.Library
             }
         }
 
+        public static uint Crc32(string text)
+        {
+            return (new Crc32()).Get(Encoding.Unicode.GetBytes(text));
+        }
+
         public static string Sha1(string text)
         {
             byte[] buffer = Encoding.Unicode.GetBytes(text);
