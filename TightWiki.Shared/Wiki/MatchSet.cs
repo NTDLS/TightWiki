@@ -1,5 +1,5 @@
 ﻿using TightWiki.Shared.Wiki.MethodCall;
-using static TightWiki.Shared.Wiki.MethodCall.Singletons;
+using static TightWiki.Shared.Wiki.Constants;
 
 namespace TightWiki.Shared.Wiki
 {

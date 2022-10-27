@@ -13,7 +13,7 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki.MethodCall;
 using static TightWiki.Shared.Library.Constants;
-using static TightWiki.Shared.Wiki.MethodCall.Singletons;
+using static TightWiki.Shared.Wiki.Constants;
 
 namespace TightWiki.Shared.Wiki
 {
@@ -62,12 +62,9 @@ namespace TightWiki.Shared.Wiki
             var allTokens = new List<WeightedToken>();
 
             allTokens.AddRange(WikiUtility.ParsePageTokens(ProcessedBody, 1));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Description, 2));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 3));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(string.Join(" ", Tags), 3));
-
-            //allTokens.First().Token.ToDoubleMetaphone();
-            //allTokens.First().Token.ToBiGrams
+            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Description, 1.2));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(string.Join(" ", Tags), 1.4));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 1.6));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {
@@ -294,7 +291,7 @@ namespace TightWiki.Shared.Wiki
 
                 try
                 {
-                    method = Singletons.ParseMethodCallInfo(match, out paramEndIndex);
+                    method = MethodParser.ParseMethodCallInfo(match, out paramEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -708,7 +705,7 @@ namespace TightWiki.Shared.Wiki
 
                 try
                 {
-                    method = Singletons.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = MethodParser.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -800,7 +797,7 @@ namespace TightWiki.Shared.Wiki
 
                 try
                 {
-                    method = ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = MethodParser.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1395,7 +1392,7 @@ namespace TightWiki.Shared.Wiki
 
                 try
                 {
-                    method = Singletons.ParseMethodCallInfo(match, out int matchEndIndex);
+                    method = MethodParser.ParseMethodCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {

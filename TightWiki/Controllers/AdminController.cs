@@ -11,7 +11,7 @@ using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
 using static TightWiki.Shared.Library.Constants;
-using static TightWiki.Shared.Wiki.MethodCall.Singletons;
+using static TightWiki.Shared.Wiki.Constants;
 
 namespace TightWiki.Site.Controllers
 {

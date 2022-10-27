@@ -248,7 +248,7 @@ namespace TightWiki.Shared.Wiki
             return result.TrimEnd(new char[] { '/', '\\' });
         }
 
-        public static List<WeightedToken> ParsePageTokens(string content, int weightMultiplier)
+        public static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)
         {
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 

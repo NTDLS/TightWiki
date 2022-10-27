@@ -12,7 +12,7 @@ using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
-using static TightWiki.Shared.Wiki.MethodCall.Singletons;
+using static TightWiki.Shared.Wiki.Constants;
 
 namespace TightWiki.Controllers
 {

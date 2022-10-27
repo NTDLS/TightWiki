@@ -1,7 +1,7 @@
-﻿using TightWiki.Shared.Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TightWiki.Shared.Library;
 
 namespace TightWiki.Shared.Wiki.MethodCall
 {

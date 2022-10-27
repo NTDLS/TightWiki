@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace TightWiki.Shared.Wiki.MethodCall
+﻿namespace TightWiki.Shared.Wiki.MethodCall
 {
-    public static class Singletons
+    public static class MethodPrototypeDefinitions
     {
-        public enum WikiMatchType
+        private static MethodPrototypeCollection _methodPrototypes;
+
+        public static MethodPrototype Get(string methodName)
         {
-            Block,
-            Instruction,
-            Formatting,
-            Error,
-            Function,
-            Link,
-            Heading,
-            Literal
+            return Collection.Get(methodName);
         }
 
-        private static MethodPrototypeCollection _methodPrototypes;
-        public static MethodPrototypeCollection MethodPrototypes
+        public static MethodPrototypeCollection Collection
         {
             get
             {
@@ -75,48 +64,5 @@ namespace TightWiki.Shared.Wiki.MethodCall
                 return _methodPrototypes;
             }
         }
-
-        public static MethodCallInstance ParseMethodCallInfo(OrderedMatch methodMatch, out int parseEndIndex)
-        {
-            List<string> rawArguments = new List<string>();
-
-            string methodName = null;
-
-            var firstLine = methodMatch.Value.Split('\n')?.FirstOrDefault();
-
-            if (firstLine.Where(x => (x == '(')).Count() != firstLine.Where(x => (x == ')')).Count())
-            {
-                throw new Exception($"Method parentheses mismatch.");
-            }
-
-            MatchCollection matches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(firstLine);
-            if (matches.Count > 0)
-            {
-                var match = matches[0];
-
-                int paramStartIndex = match.Value.IndexOf('(');
-
-                methodName = match.Value.Substring(0, paramStartIndex).ToLower().TrimStart(new char[] { '{', '#', '@' });
-                parseEndIndex = match.Index + match.Length;
-
-                string rawArgTrimmed = match.ToString().Substring(paramStartIndex + 1, (match.ToString().Length - paramStartIndex) - 2);
-                rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
-            }
-            else
-            {
-                int endOfLine = methodMatch.Value.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count();
-                methodName = methodMatch.Value.Substring(2, endOfLine).Trim().ToLower(); //The match has no parameter.
-                parseEndIndex = endOfLine + 2;
-            }
-
-            var prototype = Singletons.MethodPrototypes.Get(methodName);
-            if (prototype == null)
-            {
-                throw new Exception($"Method ({methodName}) does not have a defined prototype.");
-            }
-
-            return new MethodCallInstance(prototype, rawArguments);
-        }
-
     }
 }
