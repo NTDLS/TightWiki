@@ -40,7 +40,7 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static List<Page> PageSearchPaged(List<PageToken> items, int pageNumber, int pageSize = 0)
+        public static List<Page> PageSearchPaged(List<PageToken> items, int pageNumber, int pageSize = 0, bool? allowFuzzyMatching = null)
         {
             using (var handler = new SqlConnectionHandler())
             {
@@ -48,6 +48,7 @@ namespace TightWiki.Shared.Repository
                 {
                     PageNumber = pageNumber,
                     PageSize = pageSize,
+                    AllowFuzzyMatching = allowFuzzyMatching,
                     SearchTerms = items.ToDataTable()
                 };
 

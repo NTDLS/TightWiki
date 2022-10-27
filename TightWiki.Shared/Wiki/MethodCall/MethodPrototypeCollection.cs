@@ -6,13 +6,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
 {
     public class MethodPrototypeCollection
     {
-        private class PrototypeSet
-        {
-            public string MethodName { get; set; }
-            public MethodPrototype Value { get; set; }
-        }
-
-        private List<PrototypeSet> Items { get; set; } = new List<PrototypeSet>();
+        public List<PrototypeSet> Items { get; set; } = new List<PrototypeSet>();
 
         public void Add(string prototypeString)
         {
@@ -20,6 +14,8 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
             Items.Add(new PrototypeSet()
             {
+                MethodPrefix = prototype.MethodPrefix,
+                ProperName = prototype.ProperName,
                 MethodName = prototype.MethodName.ToLower(),
                 Value = prototype
             });
@@ -34,11 +30,15 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
         private MethodPrototype ParsePrototype(string prototypeString)
         {
+            int nameStartIndex = prototypeString.TakeWhile(c => char.IsLetterOrDigit(c) == false).Count();
             int nameEndIndex = prototypeString.IndexOf(':');
-            string methodName = prototypeString.Substring(0, nameEndIndex).Trim().ToLower();
+            string properName = prototypeString.Substring(nameStartIndex, nameEndIndex - nameStartIndex).Trim();
+            string methodName = properName.ToLower();
+            string pethodPrefix = prototypeString.Substring(0, nameStartIndex).Trim();
+
             prototypeString = prototypeString.Substring(nameEndIndex + 1).Trim();
 
-            var prototype = new MethodPrototype() { MethodName = methodName };
+            var prototype = new MethodPrototype() { MethodPrefix = pethodPrefix, ProperName = properName, MethodName = methodName };
 
             if (prototypeString.Length == 0)
             {

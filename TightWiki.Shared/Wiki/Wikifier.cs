@@ -1188,13 +1188,14 @@ namespace TightWiki.Shared.Wiki
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a list of pages by searching the page body for the specified text.
-                    case "textlist":
+                    case "searchlist":
                         {
                             string view = method.Parameters.Get<String>("View").ToLower();
                             string refTag = GenerateQueryToken();
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
                             var pageSize = method.Parameters.Get<int>("pageSize");
                             var pageSelector = method.Parameters.Get<bool>("pageSelector");
+                            var allowFuzzyMatching = method.Parameters.Get<bool>("allowFuzzyMatching");
 
                             var tokens = method.Parameters.GetList<string>("tokens");
                             var searchTerms = (from o in tokens
@@ -1204,7 +1205,7 @@ namespace TightWiki.Shared.Wiki
                                                    DoubleMetaphone = o.ToDoubleMetaphone()
                                                }).ToList();
 
-                            var pages = PageRepository.PageSearchPaged(searchTerms, pageNumber, pageSize);
+                            var pages = PageRepository.PageSearchPaged(searchTerms, pageNumber, pageSize, allowFuzzyMatching);
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)

@@ -57,7 +57,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     throw new Exception($"Method [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
                 }
             }
-            if (param.Type == "int")
+            if (param.Type == "integer")
             {
                 if (int.TryParse(value, out int val) == false)
                 {
