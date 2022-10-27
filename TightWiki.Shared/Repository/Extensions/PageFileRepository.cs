@@ -10,7 +10,7 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class PageFileRepository
     {
-        public static PageFileAttachment GetPageFileInfoByPageIdPageRevisionAndName(int pageId, string fileName, string pageRevision = null)
+        public static PageFileAttachment GetPageFileInfoByPageIdPageRevisionAndName(int pageId, string fileName, int? pageRevision = null)
         {
             using (var handler = new SqlConnectionHandler())
             {
@@ -24,7 +24,24 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static List<PageFileAttachment> GetPageFilesInfoByPageIdAndPageRevision(int pageId, string pageRevision = null)
+        public static List<PageFileAttachment> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int pageSize = 0, int? pageRevision = null)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    PageNavigation = pageNavigation,
+                    PageRevision = pageRevision
+                };
+
+                return handler.Connection.Query<PageFileAttachment>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged",
+                   param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public static List<PageFileAttachment> GetPageFilesInfoByPageIdAndPageRevision(int pageId, int? pageRevision = null)
         {
             using (var handler = new SqlConnectionHandler())
             {

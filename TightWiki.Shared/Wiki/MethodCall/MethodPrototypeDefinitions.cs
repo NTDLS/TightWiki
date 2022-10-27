@@ -26,7 +26,7 @@
                     _methodPrototypes.Add("alert: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
                     _methodPrototypes.Add("card: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
                     _methodPrototypes.Add("Tag: <string:infinite>[tags]");
-                    _methodPrototypes.Add("TextList: <string:infinite>[tokens] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
+                    _methodPrototypes.Add("TextList: <string:infinite>[tokens] | <string>{view(List,Full)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true'");
                     _methodPrototypes.Add("TagList: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("SearchCloud: <string:infinite>[tokens] | <int>{Top}='1000'");
                     _methodPrototypes.Add("TagGlossary: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
@@ -45,14 +45,14 @@
                     _methodPrototypes.Add("HR: <int>{Height}='1'");
                     _methodPrototypes.Add("NewLine: <int>{Count}='1'");
                     _methodPrototypes.Add("History:<string>{view(Full,List)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
+                    _methodPrototypes.Add("Attachments:<string>{view(Full,List)}='Full' | <int>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _methodPrototypes.Add("TOC:<bool>{alphabetized}='false'");
                     _methodPrototypes.Add("Title:");
                     _methodPrototypes.Add("Navigation:");
                     _methodPrototypes.Add("Name:");
                     _methodPrototypes.Add("Created:");
                     _methodPrototypes.Add("LastModified:");
-                    _methodPrototypes.Add("Files:");
-                    _methodPrototypes.Add("Depreciate:");
+                    _methodPrototypes.Add("Deprecate:");
                     _methodPrototypes.Add("Protect:<bool>{isSilent}='false'");
                     _methodPrototypes.Add("Remplate:");
                     _methodPrototypes.Add("Review:");

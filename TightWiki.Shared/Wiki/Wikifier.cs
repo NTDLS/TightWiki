@@ -42,7 +42,7 @@ namespace TightWiki.Shared.Wiki
         /// </summary>
         private List<WikiMatchType> _omitMatches = new List<WikiMatchType>();
 
-        public Wikifier(StateContext context, Page page, int? revision = null, IQueryCollection queryString = null, WikiMatchType []omitMatches = null, int nestLevel = 0)
+        public Wikifier(StateContext context, Page page, int? revision = null, IQueryCollection queryString = null, WikiMatchType[] omitMatches = null, int nestLevel = 0)
         {
             _nestLevel = nestLevel;
             _queryString = queryString;
@@ -55,7 +55,14 @@ namespace TightWiki.Shared.Wiki
                 _omitMatches.AddRange(omitMatches);
             }
 
-            Transform();
+            try
+            {
+                Transform();
+            }
+            catch (Exception ex)
+            {
+                StoreCriticalError(ex.Message);
+            }
         }
 
         public List<WeightedToken> ParsePageTokens()
@@ -177,7 +184,7 @@ namespace TightWiki.Shared.Wiki
             //ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
             //ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
             //ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
-            
+
             ReplaceInlineHTMLMarker(pageContent, "~~", "strike", true); //inline bold.
             ReplaceInlineHTMLMarker(pageContent, "**", "strong", true); //inline bold.
             ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
@@ -253,6 +260,8 @@ namespace TightWiki.Shared.Wiki
         {
             var content = pageContent.ToString();
 
+            string rawBlock = string.Empty;
+
             while (true)
             {
                 int startPos = content.LastIndexOf("{{{");
@@ -262,7 +271,21 @@ namespace TightWiki.Shared.Wiki
                 }
                 int endPos = content.IndexOf("}}}", startPos);
 
-                string rawBlock = content.Substring(startPos, (endPos - startPos) + 3);
+                if (endPos < 0 || endPos < startPos)
+                {
+                    var exception = new StringBuilder();
+                    exception.AppendLine($"<strong>A parsing error occured after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
+                    if (rawBlock?.Length > 0)
+                    {
+                        exception.AppendLine($"<strong>The last successfully parsed block was:</strong><br /> {rawBlock}");
+                    }
+                    exception.AppendLine($"<strong>The problem occured after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
+                    exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {pageContent}<br /><br />");
+
+                    throw new Exception(exception.ToString());
+                }
+
+                rawBlock = content.Substring(startPos, (endPos - startPos) + 3);
                 var transformBlock = new StringBuilder(rawBlock);
                 TransformBlock(transformBlock);
                 content = content.Replace(rawBlock, transformBlock.ToString());
@@ -400,7 +423,7 @@ namespace TightWiki.Shared.Wiki
                         {
                             string title = method.Parameters.Get<string>("title");
                             string style = method.Parameters.Get<string>("style").ToLower();
-                            style = (style == "default" ? ""  : $"alert-{style}");
+                            style = (style == "default" ? "" : $"alert-{style}");
 
                             if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert {style}\">{scopeBody}.</div>");
@@ -439,9 +462,7 @@ namespace TightWiki.Shared.Wiki
                             html.Append($"<div class=\"card card-body\">{scopeBody}</div></div>");
                         }
                         break;
-
                     //------------------------------------------------------------------------------------------------------------------------------
-
                     case "callout":
                         {
                             string title = method.Parameters.Get<string>("title");
@@ -449,12 +470,11 @@ namespace TightWiki.Shared.Wiki
                             style = (style == "default" ? "" : style);
 
                             html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
-                            if(string.IsNullOrWhiteSpace(title) == false) html.Append($"<h4>{title}</h4>");
+                            if (string.IsNullOrWhiteSpace(title) == false) html.Append($"<h4>{title}</h4>");
                             html.Append($"{scopeBody}");
                             html.Append($"</div>");
                         }
                         break;
-
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "card":
                         {
@@ -719,11 +739,11 @@ namespace TightWiki.Shared.Wiki
                     //We check _nestLevel here because we dont want to include the processing instructions on any parent pages that are injecting this one.
 
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "depreciate":
+                    case "deprecate":
                         if (_nestLevel == 0)
                         {
-                            ProcessingInstructions.Add(WikiInstruction.Depreciate);
-                            pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been depreciate and will be deleted.</div>");
+                            ProcessingInstructions.Add(WikiInstruction.Deprecate);
+                            pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been deprecated and will eventualy be deleted.</div>");
                         }
                         StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
@@ -809,6 +829,52 @@ namespace TightWiki.Shared.Wiki
                 switch (method.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
+                    case "attachments":
+                        {
+                            string refTag = GenerateQueryToken();
+
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+
+                            var navigation = WikiUtility.CleanPartialURI(method.Parameters.Get<string>("pageName", _page.Navigation));
+                            string view = method.Parameters.Get<String>("View").ToLower();
+                            var pageSize = method.Parameters.Get<int>("pageSize");
+                            var pageSelector = method.Parameters.Get<bool>("pageSelector");
+                            var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, _revision);
+                            var html = new StringBuilder();
+
+                            if (attachments.Count() > 0)
+                            {
+                                html.Append("<ul>");
+                                foreach (var file in attachments)
+                                {
+                                    if (_revision != null)
+                                    {
+                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{file.FileNavigation}/r/{_revision}\">{file.Name}</a>");
+                                    }
+                                    else
+                                    {
+                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
+                                    }
+
+                                    if (view == "full")
+                                    {
+                                        html.Append($" - ({file.FriendlySize})");
+                                    }
+
+                                    html.Append("</li>");
+                                }
+                                html.Append("</ul>");
+
+                                if (pageSelector)
+                                {
+                                    html.Append(WikiUtility.GetPageSelector(refTag, attachments.First().PaginationCount, pageNumber, _queryString));
+                                }
+                            }
+
+                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "history":
                         {
                             string refTag = GenerateQueryToken();
@@ -870,7 +936,7 @@ namespace TightWiki.Shared.Wiki
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray(), _nestLevel +1);
+                                var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray(), _nestLevel + 1);
                                 StoreMatch(method, pageContent, match.Value, wikify.ProcessedBody);
                             }
                             else
@@ -973,36 +1039,6 @@ namespace TightWiki.Shared.Wiki
                             }
 
                             StoreError(pageContent, match.Value, $"File not found [{fileName}]");
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays a list of files attached to the page.
-                    case "files": //##Files()
-                        {
-                            var files = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(_page.Id);
-
-                            var html = new StringBuilder();
-
-                            if (files.Count() > 0)
-                            {
-                                html.Append("<ul>");
-                                foreach (var file in files)
-                                {
-                                    if (_revision != null)
-                                    {
-                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{WikiUtility.CleanPartialURI(file.Name)}/r/{_revision}\">{file.Name} ({file.FriendlySize})</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{WikiUtility.CleanPartialURI(file.Name)}\">{file.Name} ({file.FriendlySize})</a>");
-                                    }
-                                    html.Append("</li>");
-                                }
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1155,9 +1191,12 @@ namespace TightWiki.Shared.Wiki
                     case "textlist":
                         {
                             string view = method.Parameters.Get<String>("View").ToLower();
-                            var topCount = method.Parameters.Get<int>("top");
-                            var tokens = method.Parameters.GetList<string>("tokens");
+                            string refTag = GenerateQueryToken();
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+                            var pageSize = method.Parameters.Get<int>("pageSize");
+                            var pageSelector = method.Parameters.Get<bool>("pageSelector");
 
+                            var tokens = method.Parameters.GetList<string>("tokens");
                             var searchTerms = (from o in tokens
                                                select new PageToken
                                                {
@@ -1165,7 +1204,7 @@ namespace TightWiki.Shared.Wiki
                                                    DoubleMetaphone = o.ToDoubleMetaphone()
                                                }).ToList();
 
-                            var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderByDescending(o => o.Score).ToList();
+                            var pages = PageRepository.PageSearchPaged(searchTerms, pageNumber, pageSize);
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1188,6 +1227,11 @@ namespace TightWiki.Shared.Wiki
                                 }
 
                                 html.Append("</ul>");
+                            }
+
+                            if (pageSelector)
+                            {
+                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }
 
                             StoreMatch(method, pageContent, match.Value, html.ToString());
@@ -1506,6 +1550,19 @@ namespace TightWiki.Shared.Wiki
             }
         }
 
+        private void StoreCriticalError(string exceptionText)
+        {
+            var html = new StringBuilder();
+            html.Append("<div class=\"card bg-warning mb-3\">");
+            html.Append($"<div class=\"card-header\"><strong>Wiki Parser Exception</strong></div>");
+            html.Append("<div class=\"card-body\">");
+            html.Append($"<p class=\"card-text\">{exceptionText}");
+            html.Append("</p>");
+            html.Append("</div>");
+            html.Append("</div>");
+            ProcessedBody = html.ToString();
+        }
+
         private void StoreError(StringBuilder pageContent, string match, string value)
         {
             _matchesPerIteration++;
@@ -1548,7 +1605,7 @@ namespace TightWiki.Shared.Wiki
 
             var matchSet = new MatchSet()
             {
-                MatchType =  WikiMatchType.Function,
+                MatchType = WikiMatchType.Function,
                 Content = value,
                 Method = method,
                 AllowNestedDecode = allowNestedDecode

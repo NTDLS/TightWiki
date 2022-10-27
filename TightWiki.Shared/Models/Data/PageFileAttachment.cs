@@ -4,6 +4,8 @@ namespace TightWiki.Shared.Models.Data
 {
 	public partial class PageFileAttachment
 	{
+		public int PaginationSize { get; set; }
+		public int PaginationCount { get; set; }
 		public int Id { get; set; }
 		public int PageId { get; set; }
 		public string Name { get; set; }

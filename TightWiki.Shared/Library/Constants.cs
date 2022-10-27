@@ -4,7 +4,7 @@
     {
         public static class WikiInstruction
         {
-            public static string Depreciate { get; } = "Depreciate";
+            public static string Deprecate { get; } = "Deprecate";
             public static string Protect { get; } = "Protect";
             public static string Template { get; } = "Template";
             public static string Review { get; } = "Review";

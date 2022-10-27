@@ -259,7 +259,7 @@ namespace TightWiki.Shared.Wiki
                 existingQueryString = string.Join("&", query.Where(o => o.Key != refTag).Select(o => $"{o.Key}={o.Value}"));
                 if (string.IsNullOrEmpty(existingQueryString) == false)
                 {
-                    existingQueryString += "&" + existingQueryString;
+                    existingQueryString = "&" + existingQueryString;
                 }
             }
 
@@ -273,18 +273,18 @@ namespace TightWiki.Shared.Wiki
             }
             else
             {
-                html.Append("&lt;&lt; First &nbsp; | &nbsp; &lt; Previous");
+                html.Append("&lt;&lt; First &nbsp;| &nbsp; &lt; Previous");
             }
             html.Append("&nbsp; | &nbsp;");
             if (currentPage < totalPages)
             {
-                html.Append($"<a href=\"?{refTag}={currentPage + 1}{existingQueryString}\"> Next &gt;</a>");
-                html.Append(" &nbsp; | &nbsp;");
-                html.Append($"<a href=\"?{refTag}={totalPages}{existingQueryString}\"> Last &gt;&gt;</a>");
+                html.Append($"<a href=\"?{refTag}={currentPage + 1}{existingQueryString}\">Next &gt;</a>");
+                html.Append("&nbsp; | &nbsp;");
+                html.Append($"<a href=\"?{refTag}={totalPages}{existingQueryString}\">Last &gt;&gt;</a>");
             }
             else
             {
-                html.Append("Next &gt; &nbsp; | &nbsp; Last &gt;&gt;");
+                html.Append("Next &gt; &nbsp;| &nbsp;Last &gt;&gt;");
             }
 
             return html.ToString();

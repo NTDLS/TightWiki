@@ -231,18 +231,21 @@ namespace TightWiki.Site.Controllers
             var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
 
             var file = Request.Form.Files["BinaryData"];
-            var fileSize = file.Length;
-            if (fileSize > 0)
+            if (file != null)
             {
-                PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                var fileSize = file.Length;
+                if (fileSize > 0)
                 {
-                    Data = Utility.ConvertHttpFileToBytes(file),
-                    CreatedDate = DateTime.UtcNow,
-                    PageId = page.Id,
-                    Name = file.FileName,
-                    Size = fileSize,
-                    ContentType = Utility.GetMimeType(file.FileName)
-                });
+                    PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                    {
+                        Data = Utility.ConvertHttpFileToBytes(file),
+                        CreatedDate = DateTime.UtcNow,
+                        PageId = page.Id,
+                        Name = file.FileName,
+                        Size = fileSize,
+                        ContentType = Utility.GetMimeType(file.FileName)
+                    });
+                }
             }
 
             var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
