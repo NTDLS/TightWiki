@@ -1,5 +1,4 @@
-﻿using TightWiki.Shared.Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -37,7 +36,6 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("foreground: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger,muted)}='default'");
                     _methodPrototypes.Add("alert: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
                     _methodPrototypes.Add("card: <string>{style(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{title}=''");
-
                     _methodPrototypes.Add("Tag: <string:infinite>[tags]");
                     _methodPrototypes.Add("TextList: <string:infinite>[tokens] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
                     _methodPrototypes.Add("TagList: <string:infinite>[tags] | <int>{Top}='1000' | <string>{view(List,Full)}='Full'");
@@ -71,7 +69,6 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     _methodPrototypes.Add("Review:");
                     _methodPrototypes.Add("Include:");
                     _methodPrototypes.Add("Draft:");
-
                     _methodPrototypes.Add("AppVersion:");
                 }
 
