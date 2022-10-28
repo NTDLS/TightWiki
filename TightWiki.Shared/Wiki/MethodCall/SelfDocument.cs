@@ -7,19 +7,30 @@ namespace TightWiki.Shared.Wiki.MethodCall
 {
     public static class SelfDocument
     {
+        /// <summary>
+        /// Don't ever look at this. :(
+        /// </summary>
         public static void CreateNotExisting()
         {
             System.Threading.Thread.Sleep(500);
             foreach (var item in Shared.Wiki.MethodCall.MethodPrototypeDefinitions.Collection.Items)
             {
                 string methodType = "Function";
+                string methodPrefix = item.MethodPrefix;
 
                 if (item.MethodPrefix == "##")
+                {
                     methodType = "Standard Function";
+                }
                 if (item.MethodPrefix == "@@")
+                {
                     methodType = "Instruction Function";
+                }
                 if (item.MethodPrefix == "$$")
+                {
                     methodType = "Scope Function";
+                    methodPrefix = string.Empty;
+                }
 
                 string topic = $"{item.ProperName} {methodType} Wiki Help";
                 string navigation = WikiUtility.CleanPartialURI(topic);
@@ -34,46 +45,70 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     html.AppendLine($"##title ##Tag(Official-Help | Help | Wiki | Official | {methodType})");
                     html.AppendLine("{{{Card(Default | Table of Contents) ##toc }}}");
                     html.AppendLine("");
+                    html.AppendLine("@@Set(metaColor | #ee2401)");
+                    html.AppendLine("@@Set(keywordColor | #318000)");
+                    html.AppendLine("@@Set(identifierColor | #c6680e)");
                     html.AppendLine("==Overview");
                     html.AppendLine($"The {item.ProperName} {methodType.ToLower()} is !!FILL_IN_THE_BLANK!!");
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
-                    html.Append($"{item.ProperName}");
+                    html.Append($"##Color(##Get(keywordColor) | **[{{{{ {methodPrefix}{item.ProperName} }}}}]**)");
                     if ((item.Value.Parameters?.Count ?? 0) == 0)
                     {
                         html.AppendLine("()");
                     }
                     else
                     {
-                        html.AppendLine($"({string.Join(" | ", item.Value.Parameters.Select(o => o.Name))})");
+                        html.Append("(");
+                        foreach (var p in item.Value.Parameters)
+                        {
+                            html.Append($"##Color(##Get(keywordColor) | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
+                            if (p.IsRequired)
+                            {
+                                html.Append($" [##Color(##Get(identifierColor) | {p.Name})]");
+                            }
+                            else
+                            {
+                                html.Append($" {{##Color(##Get(identifierColor) | {p.Name})}}");
+                            }
+                            html.Append(" | ");
+                        }
+                        html.Length -= 3;
+                        html.Append(")");
                     }
 
+                    html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("===Parameters");
                     html.AppendLine("{{{Bullets");
 
+                    if (item.Value.Parameters.Count == 0)
+                    {
+                        html.AppendLine($"None.");
+                    }
+
                     foreach (var p in item.Value.Parameters)
                     {
-                        html.AppendLine($"**Name:** {p.Name} //({(p.IsRequired ? "Required" : "Optional")})//");
-                        html.AppendLine($">**Type:** {p.Type} {(p.IsInfinite ? "//(Infinite)//" : "")}");
+                        html.AppendLine($"**Name:** ##Color(##Get(identifierColor) | {p.Name}) ##Color(##Get(metaColor) | {(p.IsRequired ? "[Required]" : "{Optional}")})");
+                        html.AppendLine($">**Type:** ##Color(##Get(keywordColor) | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
                         if (string.IsNullOrEmpty(p.DefaultValue) == false)
                         {
-                            html.AppendLine($">**Default:** {p.DefaultValue}");
+                            html.AppendLine($">**Default:** ##Color(##Get(identifierColor) | {p.DefaultValue})");
                         }
                         if (p.AllowedValues != null)
                         {
-                            html.AppendLine($">**Values:** {string.Join(", ", p.AllowedValues)}");
+                            html.AppendLine($">**Values:** ##Color(##Get(identifierColor) | {string.Join(", ", p.AllowedValues)})");
                         }
                         html.AppendLine($">**Description:** !!FILL_IN_THE_BLANK!!");
                     }
                     html.AppendLine("}}}");
                     html.AppendLine("");
-                    html.AppendLine("");
 
                     html.AppendLine("==Examples");
-                    html.AppendLine("{{{Card [{{");
+                    html.AppendLine("{{{Code(wiki)[{{");
+
 
                     if (item.MethodPrefix == "$$")
                     {

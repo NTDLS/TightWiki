@@ -22,6 +22,8 @@ namespace TightWiki.Shared.Wiki
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
+        private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
+
         public List<string> ProcessingInstructions { get; private set; } = new List<string>();
         public string ProcessedBody { get; private set; }
         public List<string> Tags { get; private set; } = new List<string>();
@@ -87,6 +89,8 @@ namespace TightWiki.Shared.Wiki
         private void Transform()
         {
             var pageContent = new StringBuilder(_page.Body);
+
+            pageContent.Replace("\r\n", "\n");
 
             TransformLiterals(pageContent);
 
@@ -248,7 +252,7 @@ namespace TightWiki.Shared.Wiki
             {
                 string value = match.Value.Substring(3, match.Value.Length - 6);
                 value = HttpUtility.HtmlEncode(value);
-                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />"), false);
+                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />\r\n"), false);
             }
         }
 
@@ -421,11 +425,11 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert":
                         {
-                            string title = method.Parameters.Get<string>("title");
-                            string style = method.Parameters.Get<string>("style").ToLower();
+                            string titleText = method.Parameters.Get<string>("titleText");
+                            string style = method.Parameters.Get<string>("styleName").ToLower();
                             style = (style == "default" ? "" : $"alert-{style}");
 
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
                             html.Append($"<div class=\"alert {style}\">{scopeBody}.</div>");
                         }
                         break;
@@ -433,22 +437,22 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "jumbotron":
                         {
-                            string title = method.Parameters.Get<string>("title", "");
-                            if (!string.IsNullOrEmpty(title)) scopeBody = $"<h1>{title}</h1>{scopeBody}";
+                            string titleText = method.Parameters.Get<string>("titleText", "");
+                            if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
                             html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "foreground":
                         {
-                            var style = WikiUtility.GetForegroundStyle(method.Parameters.Get<string>("style", "default")).Swap();
+                            var style = WikiUtility.GetForegroundStyle(method.Parameters.Get<string>("styleName", "default")).Swap();
                             html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "background":
                         {
-                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("style", "default"));
+                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("styleName", "default"));
                             html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
                         }
                         break;
@@ -465,12 +469,12 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "callout":
                         {
-                            string title = method.Parameters.Get<string>("title");
-                            string style = method.Parameters.Get<string>("style").ToLower();
+                            string titleText = method.Parameters.Get<string>("titleText");
+                            string style = method.Parameters.Get<string>("styleName").ToLower();
                             style = (style == "default" ? "" : style);
 
                             html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
-                            if (string.IsNullOrWhiteSpace(title) == false) html.Append($"<h4>{title}</h4>");
+                            if (string.IsNullOrWhiteSpace(titleText) == false) html.Append($"<h4>{titleText}</h4>");
                             html.Append($"{scopeBody}");
                             html.Append($"</div>");
                         }
@@ -478,13 +482,13 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "card":
                         {
-                            string title = method.Parameters.Get<string>("title");
-                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("style", "default"));
+                            string titleText = method.Parameters.Get<string>("titleText");
+                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("styleName", "default"));
 
                             html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
-                            if (string.IsNullOrEmpty(title) == false)
+                            if (string.IsNullOrEmpty(titleText) == false)
                             {
-                                html.Append($"<div class=\"card-header\">{title}</div>");
+                                html.Append($"<div class=\"card-header\">{titleText}</div>");
                             }
                             html.Append("<div class=\"card-body\">");
                             html.Append($"<p class=\"card-text\">{scopeBody}</p>");
@@ -740,12 +744,15 @@ namespace TightWiki.Shared.Wiki
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "deprecate":
-                        if (_nestLevel == 0)
                         {
-                            ProcessingInstructions.Add(WikiInstruction.Deprecate);
-                            pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been deprecated and will eventualy be deleted.</div>");
+                            if (_nestLevel == 0)
+                            {
+                                ProcessingInstructions.Add(WikiInstruction.Deprecate);
+                                pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been deprecated and will eventualy be deleted.</div>");
+                            }
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
-                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "protect":
@@ -759,44 +766,57 @@ namespace TightWiki.Shared.Wiki
                                     pageContent.Insert(0, "<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
                                 }
                             }
-                            StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "template":
-                        if (_nestLevel == 0)
                         {
-                            ProcessingInstructions.Add(WikiInstruction.Template);
-                            pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
+                            if (_nestLevel == 0)
+                            {
+                                ProcessingInstructions.Add(WikiInstruction.Template);
+                                pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
+                            }
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
-                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "review":
-                        if (_nestLevel == 0)
                         {
-                            ProcessingInstructions.Add(WikiInstruction.Review);
-                            pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
+                            if (_nestLevel == 0)
+                            {
+                                ProcessingInstructions.Add(WikiInstruction.Review);
+                                pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
+                            }
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
-                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "include":
-                        if (_nestLevel == 0)
                         {
-                            ProcessingInstructions.Add(WikiInstruction.Include);
-                            pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
+                            if (_nestLevel == 0)
+                            {
+                                ProcessingInstructions.Add(WikiInstruction.Include);
+                                pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
+                            }
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
-                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "draft":
-                        if (_nestLevel == 0)
                         {
-                            ProcessingInstructions.Add(WikiInstruction.Draft);
-                            pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
+                            if (_nestLevel == 0)
+                            {
+                                ProcessingInstructions.Add(WikiInstruction.Draft);
+                                pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
+                            }
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
-                        StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                         break;
                 }
             }
@@ -836,7 +856,7 @@ namespace TightWiki.Shared.Wiki
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
 
                             var navigation = WikiUtility.CleanPartialURI(method.Parameters.Get<string>("pageName", _page.Navigation));
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var pageSize = method.Parameters.Get<int>("pageSize");
                             var pageSelector = method.Parameters.Get<bool>("pageSelector");
                             var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, _revision);
@@ -856,7 +876,7 @@ namespace TightWiki.Shared.Wiki
                                         html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
                                     }
 
-                                    if (view == "full")
+                                    if (styleName == "full")
                                     {
                                         html.Append($" - ({file.FriendlySize})");
                                     }
@@ -882,7 +902,7 @@ namespace TightWiki.Shared.Wiki
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
 
                             var navigation = WikiUtility.CleanPartialURI(method.Parameters.Get<string>("pageName", _page.Navigation));
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var pageSize = method.Parameters.Get<int>("pageSize");
                             var pageSelector = method.Parameters.Get<bool>("pageSelector");
                             var history = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(navigation, pageNumber, pageSize);
@@ -895,7 +915,7 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     html.Append($"<li><a href=\"/{item.Navigation}/r/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {_context.LocalizeDateTime(item.ModifiedDate)}</a>");
 
-                                    if (view == "full")
+                                    if (styleName == "full")
                                     {
                                         var thisRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision);
                                         var prevRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision - 1);
@@ -937,7 +957,8 @@ namespace TightWiki.Shared.Wiki
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray(), _nestLevel + 1);
-                                StoreMatch(method, pageContent, match.Value, wikify.ProcessedBody);
+                                var identifier = StoreMatch(method, pageContent, match.Value, wikify.ProcessedBody);
+                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                             }
                             else
                             {
@@ -945,15 +966,56 @@ namespace TightWiki.Shared.Wiki
                             }
                         }
                         break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "set":
+                        {
+                            var key = method.Parameters.Get<String>("key");
+                            var value = method.Parameters.Get<String>("value");
 
+                            if (_userVariables.ContainsKey(key))
+                            {
+                                _userVariables[key] = value;
+                            }
+                            else
+                            {
+                                _userVariables.Add(key, value);
+                            }
+                            var identifier = StoreMatch(method, pageContent, match.Value, string.Empty);
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "get":
+                        {
+                            var key = method.Parameters.Get<String>("key");
+
+                            if (_userVariables.ContainsKey(key))
+                            {
+                                StoreMatch(method, pageContent, match.Value, _userVariables[key]);
+                            }
+                            else
+                            {
+                                throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
+                            }
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "color":
+                        {
+                            var color = method.Parameters.Get<String>("color");
+                            var text = method.Parameters.Get<String>("text");
+                            StoreMatch(method, pageContent, match.Value, $"<font color=\"{color}\">{text}</font>");
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Associates tags with a page. These are saved with the page and can also be displayed.
                     case "tag": //##tag(pipe|seperated|list|of|tags)
                         {
-                            var tags = method.Parameters.GetList<string>("tags");
+                            var tags = method.Parameters.GetList<string>("pageTags");
                             Tags.AddRange(tags);
                             Tags = Tags.Distinct().ToList();
-                            StoreMatch(method, pageContent, match.Value, "");
+                            var identifier = StoreMatch(method, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
                         break;
 
@@ -1046,7 +1108,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
                         {
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var takeCount = method.Parameters.Get<int>("top");
 
                             var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
@@ -1061,7 +1123,7 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
 
-                                    if (view == "full")
+                                    if (styleName == "full")
                                     {
                                         if (page?.Description?.Length > 0)
                                         {
@@ -1082,9 +1144,9 @@ namespace TightWiki.Shared.Wiki
                     case "tagglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            var tags = method.Parameters.GetList<string>("tags");
+                            var tags = method.Parameters.GetList<string>("pageTags");
 
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var topCount = method.Parameters.Get<int>("top");
                             var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -1109,7 +1171,7 @@ namespace TightWiki.Shared.Wiki
                                     {
                                         html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
-                                        if (view == "full")
+                                        if (styleName == "full")
                                         {
                                             if (page?.Description?.Length > 0)
                                             {
@@ -1146,7 +1208,7 @@ namespace TightWiki.Shared.Wiki
                             var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
 
                             if (pages.Count() > 0)
                             {
@@ -1167,7 +1229,7 @@ namespace TightWiki.Shared.Wiki
                                     {
                                         html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
-                                        if (view == "full")
+                                        if (styleName == "full")
                                         {
                                             if (page?.Description?.Length > 0)
                                             {
@@ -1190,7 +1252,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page body for the specified text.
                     case "searchlist":
                         {
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             string refTag = GenerateQueryToken();
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
                             var pageSize = method.Parameters.Get<int>("pageSize");
@@ -1216,7 +1278,7 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
-                                    if (view == "full")
+                                    if (styleName == "full")
                                     {
                                         if (page?.Description?.Length > 0)
                                         {
@@ -1243,9 +1305,9 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page tags.
                     case "taglist":
                         {
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var topCount = method.Parameters.Get<int>("top");
-                            var tags = method.Parameters.GetList<string>("tags");
+                            var tags = method.Parameters.GetList<string>("pageTags");
 
                             var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -1258,7 +1320,7 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 
-                                    if (view == "full")
+                                    if (styleName == "full")
                                     {
                                         if (page?.Description?.Length > 0)
                                         {
@@ -1280,12 +1342,12 @@ namespace TightWiki.Shared.Wiki
                     //Displays a list of other related pages based on tags.
                     case "related": //##related
                         {
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var html = new StringBuilder();
                             var topCount = method.Parameters.Get<int>("top");
                             var pages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name).Take(topCount).ToList();
 
-                            if (view == "list")
+                            if (styleName == "list")
                             {
                                 html.Append("<ul>");
                                 foreach (var page in pages)
@@ -1294,7 +1356,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                                 html.Append("</ul>");
                             }
-                            else if (view == "flat")
+                            else if (styleName == "flat")
                             {
                                 foreach (var page in pages)
                                 {
@@ -1302,7 +1364,7 @@ namespace TightWiki.Shared.Wiki
                                     html.Append($"<a href=\"/{page.Navigation}\">{page.Name}</a>");
                                 }
                             }
-                            else if (view == "full")
+                            else if (styleName == "full")
                             {
                                 html.Append("<ul>");
                                 foreach (var page in pages)
@@ -1433,10 +1495,10 @@ namespace TightWiki.Shared.Wiki
                     //Displays a tag link list.
                     case "tags": //##tags
                         {
-                            string view = method.Parameters.Get<String>("View").ToLower();
+                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
                             var html = new StringBuilder();
 
-                            if (view == "list")
+                            if (styleName == "list")
                             {
                                 html.Append("<ul>");
                                 foreach (var tag in Tags)
@@ -1445,7 +1507,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                                 html.Append("</ul>");
                             }
-                            else if (view == "flat")
+                            else if (styleName == "flat")
                             {
                                 foreach (var tag in Tags)
                                 {
@@ -1461,7 +1523,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "tagcloud":
                         {
-                            string seedTag = method.Parameters.Get<String>("tag");
+                            string seedTag = method.Parameters.Get<String>("pageTag");
                             string cloudHtml = WikiUtility.BuildTagCloud(seedTag);
                             StoreMatch(method, pageContent, match.Value, cloudHtml);
                         }
@@ -1564,7 +1626,7 @@ namespace TightWiki.Shared.Wiki
             ProcessedBody = html.ToString();
         }
 
-        private void StoreError(StringBuilder pageContent, string match, string value)
+        private string StoreError(StringBuilder pageContent, string match, string value)
         {
             _matchesPerIteration++;
 
@@ -1579,9 +1641,11 @@ namespace TightWiki.Shared.Wiki
 
             Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
+
+            return identifier;
         }
 
-        private void StoreMatch(WikiMatchType matchType, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreMatch(WikiMatchType matchType, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
             _matchesPerIteration++;
 
@@ -1596,9 +1660,11 @@ namespace TightWiki.Shared.Wiki
 
             Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
+
+            return identifier;
         }
 
-        private void StoreMatch(MethodCallInstance method, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreMatch(MethodCallInstance method, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
             _matchesPerIteration++;
 
@@ -1614,8 +1680,9 @@ namespace TightWiki.Shared.Wiki
 
             Matches.Add(identifier, matchSet);
             pageContent.Replace(match, identifier);
-        }
 
+            return identifier;
+        }
 
         private void TransformWhitespace(StringBuilder pageContent)
         {
