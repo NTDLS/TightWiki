@@ -67,9 +67,9 @@
 
                             if (@ViewBag.PreviousPage != null)
                             {
-                                <a href="/Page/Moderate/1?Instruction=@Model.Instruction">&lt;&lt; First</a>
+                                <a href="/Admin/Moderate/1?Instruction=@Model.Instruction">&lt;&lt; First</a>
                                 @:&nbsp; | &nbsp;
-                                <a href="/Page/Moderate/@ViewBag.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
+                                <a href="/Admin/Moderate/@ViewBag.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
                             }
                             else
                             {
@@ -79,9 +79,9 @@
 
                             if (@ViewBag.NextPage != null)
                             {
-                                <a href="/Page/Moderate/@ViewBag.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
+                                <a href="/Admin/Moderate/@ViewBag.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
                                 @:&nbsp; | &nbsp;
-                                <a href="/Page/Moderate/@ViewBag.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
+                                <a href="/Admin/Moderate/@ViewBag.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
                             }
                             else
                             {
