@@ -11,7 +11,7 @@ using TightWiki.Shared.Library;
 using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
-using TightWiki.Shared.Wiki.MethodCall;
+using TightWiki.Shared.Wiki.Function;
 using static TightWiki.Shared.Library.Constants;
 using static TightWiki.Shared.Wiki.Constants;
 
@@ -19,6 +19,7 @@ namespace TightWiki.Shared.Wiki
 {
     public class Wikifier
     {
+        public int ErrorCount { get; private set; }
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
@@ -311,15 +312,15 @@ namespace TightWiki.Shared.Wiki
             {
                 int paramEndIndex = -1;
 
-                MethodCallInstance method;
+                FunctionCallInstance function;
 
-                //We are going to mock up a method call:
+                //We are going to mock up a function call:
                 var originalMatchValue = match.Value;
                 match.Value = "##" + match.Value.Trim(new char[] { ' ', '\t', '{', '}' });
 
                 try
                 {
-                    method = MethodParser.ParseMethodCallInfo(match, out paramEndIndex);
+                    function = FunctionParser.ParseFunctionCallInfo(match, out paramEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -331,12 +332,12 @@ namespace TightWiki.Shared.Wiki
 
                 var html = new StringBuilder();
 
-                switch (method.Name.ToLower())
+                switch (function.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "code":
                         {
-                            string language = method.Parameters.Get<string>("language");
+                            string language = function.Parameters.Get<string>("language");
                             if (string.IsNullOrEmpty(language) || language?.ToLower() == "auto")
                             {
                                 html.Append($"<pre>");
@@ -352,7 +353,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "bullets":
                         {
-                            string type = method.Parameters.Get<string>("type");
+                            string type = function.Parameters.Get<string>("type");
 
                             if (type == "unordered")
                             {
@@ -425,8 +426,8 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "alert":
                         {
-                            string titleText = method.Parameters.Get<string>("titleText");
-                            string style = method.Parameters.Get<string>("styleName").ToLower();
+                            string titleText = function.Parameters.Get<string>("titleText");
+                            string style = function.Parameters.Get<string>("styleName").ToLower();
                             style = (style == "default" ? "" : $"alert-{style}");
 
                             if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
@@ -437,7 +438,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "jumbotron":
                         {
-                            string titleText = method.Parameters.Get<string>("titleText", "");
+                            string titleText = function.Parameters.Get<string>("titleText", "");
                             if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
                             html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
                         }
@@ -445,21 +446,21 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "foreground":
                         {
-                            var style = WikiUtility.GetForegroundStyle(method.Parameters.Get<string>("styleName", "default")).Swap();
+                            var style = WikiUtility.GetForegroundStyle(function.Parameters.Get<string>("styleName", "default")).Swap();
                             html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "background":
                         {
-                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("styleName", "default"));
+                            var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
                             html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "collpase":
+                    case "collapse":
                         {
-                            string linkText = method.Parameters.Get<string>("linktext");
+                            string linkText = function.Parameters.Get<string>("linktext");
                             string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
                             html.Append($"<a data-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
                             html.Append($"<div class=\"collapse\" id=\"{uid}\">");
@@ -469,8 +470,8 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "callout":
                         {
-                            string titleText = method.Parameters.Get<string>("titleText");
-                            string style = method.Parameters.Get<string>("styleName").ToLower();
+                            string titleText = function.Parameters.Get<string>("titleText");
+                            string style = function.Parameters.Get<string>("styleName").ToLower();
                             style = (style == "default" ? "" : style);
 
                             html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
@@ -482,8 +483,8 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "card":
                         {
-                            string titleText = method.Parameters.Get<string>("titleText");
-                            var style = WikiUtility.GetBackgroundStyle(method.Parameters.Get<string>("styleName", "default"));
+                            string titleText = function.Parameters.Get<string>("titleText");
+                            var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
 
                             html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
                             if (string.IsNullOrEmpty(titleText) == false)
@@ -726,11 +727,11 @@ namespace TightWiki.Shared.Wiki
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                MethodCallInstance method;
+                FunctionCallInstance function;
 
                 try
                 {
-                    method = MethodParser.ParseMethodCallInfo(match, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -738,7 +739,7 @@ namespace TightWiki.Shared.Wiki
                     continue;
                 }
 
-                switch (method.Name.ToLower())
+                switch (function.Name.ToLower())
                 {
                     //We check _nestLevel here because we dont want to include the processing instructions on any parent pages that are injecting this one.
 
@@ -759,7 +760,7 @@ namespace TightWiki.Shared.Wiki
                         {
                             if (_nestLevel == 0)
                             {
-                                bool isSilent = method.Parameters.Get<bool>("isSilent");
+                                bool isSilent = function.Parameters.Get<bool>("isSilent");
                                 ProcessingInstructions.Add(WikiInstruction.Protect);
                                 if (isSilent == false)
                                 {
@@ -834,11 +835,11 @@ namespace TightWiki.Shared.Wiki
 
             foreach (var match in matches)
             {
-                MethodCallInstance method;
+                FunctionCallInstance function;
 
                 try
                 {
-                    method = MethodParser.ParseMethodCallInfo(match, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -846,7 +847,7 @@ namespace TightWiki.Shared.Wiki
                     continue;
                 }
 
-                switch (method.Name.ToLower())
+                switch (function.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "attachments":
@@ -855,10 +856,10 @@ namespace TightWiki.Shared.Wiki
 
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
 
-                            var navigation = WikiUtility.CleanPartialURI(method.Parameters.Get<string>("pageName", _page.Navigation));
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
-                            var pageSize = method.Parameters.Get<int>("pageSize");
-                            var pageSelector = method.Parameters.Get<bool>("pageSelector");
+                            var navigation = WikiUtility.CleanPartialURI(function.Parameters.Get<string>("pageName", _page.Navigation));
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
                             var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, _revision);
                             var html = new StringBuilder();
 
@@ -891,7 +892,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
@@ -901,10 +902,10 @@ namespace TightWiki.Shared.Wiki
 
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
 
-                            var navigation = WikiUtility.CleanPartialURI(method.Parameters.Get<string>("pageName", _page.Navigation));
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
-                            var pageSize = method.Parameters.Get<int>("pageSize");
-                            var pageSelector = method.Parameters.Get<bool>("pageSelector");
+                            var navigation = WikiUtility.CleanPartialURI(function.Parameters.Get<string>("pageName", _page.Navigation));
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
                             var history = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(navigation, pageNumber, pageSize);
                             var html = new StringBuilder();
 
@@ -937,27 +938,27 @@ namespace TightWiki.Shared.Wiki
                                 }
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "editlink": //(##EditLink(link text))
                         {
-                            var linkText = method.Parameters.Get<String>("linkText");
-                            StoreMatch(method, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
+                            var linkText = function.Parameters.Get<String>("linkText");
+                            StoreMatch(function, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Includes/injects a page by it's navigation link.
                     case "inject": //(PageName)
                         {
-                            var navigation = method.Parameters.Get<String>("pageName");
+                            var navigation = function.Parameters.Get<String>("pageName");
 
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray(), _nestLevel + 1);
-                                var identifier = StoreMatch(method, pageContent, match.Value, wikify.ProcessedBody);
+                                var identifier = StoreMatch(function, pageContent, match.Value, wikify.ProcessedBody);
                                 pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                             }
                             else
@@ -969,8 +970,8 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "set":
                         {
-                            var key = method.Parameters.Get<String>("key");
-                            var value = method.Parameters.Get<String>("value");
+                            var key = function.Parameters.Get<String>("key");
+                            var value = function.Parameters.Get<String>("value");
 
                             if (_userVariables.ContainsKey(key))
                             {
@@ -980,18 +981,18 @@ namespace TightWiki.Shared.Wiki
                             {
                                 _userVariables.Add(key, value);
                             }
-                            var identifier = StoreMatch(method, pageContent, match.Value, string.Empty);
+                            var identifier = StoreMatch(function, pageContent, match.Value, string.Empty);
                             pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "get":
                         {
-                            var key = method.Parameters.Get<String>("key");
+                            var key = function.Parameters.Get<String>("key");
 
                             if (_userVariables.ContainsKey(key))
                             {
-                                StoreMatch(method, pageContent, match.Value, _userVariables[key]);
+                                StoreMatch(function, pageContent, match.Value, _userVariables[key]);
                             }
                             else
                             {
@@ -1002,19 +1003,19 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "color":
                         {
-                            var color = method.Parameters.Get<String>("color");
-                            var text = method.Parameters.Get<String>("text");
-                            StoreMatch(method, pageContent, match.Value, $"<font color=\"{color}\">{text}</font>");
+                            var color = function.Parameters.Get<String>("color");
+                            var text = function.Parameters.Get<String>("text");
+                            StoreMatch(function, pageContent, match.Value, $"<font color=\"{color}\">{text}</font>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Associates tags with a page. These are saved with the page and can also be displayed.
                     case "tag": //##tag(pipe|seperated|list|of|tags)
                         {
-                            var tags = method.Parameters.GetList<string>("pageTags");
+                            var tags = function.Parameters.GetList<string>("pageTags");
                             Tags.AddRange(tags);
                             Tags = Tags.Distinct().ToList();
-                            var identifier = StoreMatch(method, pageContent, match.Value, "");
+                            var identifier = StoreMatch(function, pageContent, match.Value, "");
                             pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         }
                         break;
@@ -1023,9 +1024,9 @@ namespace TightWiki.Shared.Wiki
                     //Displays an image that is attached to the page.
                     case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
                         {
-                            string imageName = method.Parameters.Get<String>("name");
-                            string alt = method.Parameters.Get<String>("alttext", imageName);
-                            int scale = method.Parameters.Get<int>("scale");
+                            string imageName = function.Parameters.Get<String>("name");
+                            string alt = function.Parameters.Get<String>("alttext", imageName);
+                            int scale = function.Parameters.Get<int>("scale");
 
                             string navigation = _page.Navigation;
                             if (imageName.Contains("/"))
@@ -1040,13 +1041,13 @@ namespace TightWiki.Shared.Wiki
                             {
                                 string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}/r/{_revision}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(method, pageContent, match.Value, image);
+                                StoreMatch(function, pageContent, match.Value, image);
                             }
                             else
                             {
                                 string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(method, pageContent, match.Value, image);
+                                StoreMatch(function, pageContent, match.Value, image);
                             }
                         }
                         break;
@@ -1057,7 +1058,7 @@ namespace TightWiki.Shared.Wiki
                         {
                             int pageId = _page.Id;
 
-                            string fileName = method.Parameters.Get<String>("name");
+                            string fileName = function.Parameters.Get<String>("name");
                             string navigation = _page.Navigation;
                             if (fileName.Contains("/"))
                             {
@@ -1079,9 +1080,9 @@ namespace TightWiki.Shared.Wiki
                             var attachment = PageFileRepository.GetPageFileInfoByPageIdPageRevisionAndName(pageId, fileName);
                             if (attachment != null)
                             {
-                                string alt = method.Parameters.Get<String>("linkText", fileName);
+                                string alt = function.Parameters.Get<String>("linkText", fileName);
 
-                                if (method.Parameters.Get<bool>("showSize"))
+                                if (function.Parameters.Get<bool>("showSize"))
                                 {
                                     alt += $" ({attachment.FriendlySize})";
                                 }
@@ -1090,13 +1091,13 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}/r/{_revision}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
-                                    StoreMatch(method, pageContent, match.Value, image);
+                                    StoreMatch(function, pageContent, match.Value, image);
                                 }
                                 else
                                 {
                                     string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
-                                    StoreMatch(method, pageContent, match.Value, image);
+                                    StoreMatch(function, pageContent, match.Value, image);
                                 }
                             }
 
@@ -1108,8 +1109,8 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
                         {
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
-                            var takeCount = method.Parameters.Get<int>("top");
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var takeCount = function.Parameters.Get<int>("top");
 
                             var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
                                 .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
@@ -1135,7 +1136,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1144,10 +1145,10 @@ namespace TightWiki.Shared.Wiki
                     case "tagglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            var tags = method.Parameters.GetList<string>("pageTags");
+                            var tags = function.Parameters.GetList<string>("pageTags");
 
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
-                            var topCount = method.Parameters.Get<int>("top");
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var topCount = function.Parameters.Get<int>("top");
                             var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
@@ -1186,7 +1187,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1195,8 +1196,8 @@ namespace TightWiki.Shared.Wiki
                     case "textglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            var searchStrings = method.Parameters.GetList<string>("tokens");
-                            var topCount = method.Parameters.Get<int>("top");
+                            var searchStrings = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                            var topCount = function.Parameters.Get<int>("top");
 
                             var searchTerms = (from o in searchStrings
                                                select new PageToken
@@ -1208,7 +1209,7 @@ namespace TightWiki.Shared.Wiki
                             var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
 
                             if (pages.Count() > 0)
                             {
@@ -1244,7 +1245,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1252,14 +1253,14 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page body for the specified text.
                     case "searchlist":
                         {
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
                             string refTag = GenerateQueryToken();
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
-                            var pageSize = method.Parameters.Get<int>("pageSize");
-                            var pageSelector = method.Parameters.Get<bool>("pageSelector");
-                            var allowFuzzyMatching = method.Parameters.Get<bool>("allowFuzzyMatching");
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
+                            var allowFuzzyMatching = function.Parameters.Get<bool>("allowFuzzyMatching");
+                            var tokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries);
 
-                            var tokens = method.Parameters.GetList<string>("tokens");
                             var searchTerms = (from o in tokens
                                                select new PageToken
                                                {
@@ -1297,7 +1298,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1305,9 +1306,9 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page tags.
                     case "taglist":
                         {
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
-                            var topCount = method.Parameters.Get<int>("top");
-                            var tags = method.Parameters.GetList<string>("pageTags");
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var topCount = function.Parameters.Get<int>("top");
+                            var tags = function.Parameters.GetList<string>("pageTags");
 
                             var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -1334,7 +1335,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1342,9 +1343,9 @@ namespace TightWiki.Shared.Wiki
                     //Displays a list of other related pages based on tags.
                     case "related": //##related
                         {
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
                             var html = new StringBuilder();
-                            var topCount = method.Parameters.Get<int>("top");
+                            var topCount = function.Parameters.Get<int>("top");
                             var pages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name).Take(topCount).ToList();
 
                             if (styleName == "list")
@@ -1374,7 +1375,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
@@ -1386,7 +1387,7 @@ namespace TightWiki.Shared.Wiki
                             lastModified = _page.ModifiedDate;
                             if (lastModified != DateTime.MinValue)
                             {
-                                StoreMatch(method, pageContent, match.Value, _context.LocalizeDateTime(lastModified).ToShortDateString());
+                                StoreMatch(function, pageContent, match.Value, _context.LocalizeDateTime(lastModified).ToShortDateString());
                             }
                         }
                         break;
@@ -1399,7 +1400,7 @@ namespace TightWiki.Shared.Wiki
                             createdDate = _page.CreatedDate;
                             if (createdDate != DateTime.MinValue)
                             {
-                                StoreMatch(method, pageContent, match.Value, _context.LocalizeDateTime(createdDate).ToShortDateString());
+                                StoreMatch(function, pageContent, match.Value, _context.LocalizeDateTime(createdDate).ToShortDateString());
                             }
                         }
                         break;
@@ -1409,7 +1410,7 @@ namespace TightWiki.Shared.Wiki
                     case "appversion":
                         {
                             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                            StoreMatch(method, pageContent, match.Value, version);
+                            StoreMatch(function, pageContent, match.Value, version);
                         }
                         break;
 
@@ -1417,7 +1418,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays the name of the current page.
                     case "name":
                         {
-                            StoreMatch(method, pageContent, match.Value, _page.Name);
+                            StoreMatch(function, pageContent, match.Value, _page.Name);
                         }
                         break;
 
@@ -1425,7 +1426,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays the name of the current page in title form.
                     case "title":
                         {
-                            StoreMatch(method, pageContent, match.Value, $"<h1>{_page.Name}</h1>");
+                            StoreMatch(function, pageContent, match.Value, $"<h1>{_page.Name}</h1>");
                         }
                         break;
 
@@ -1435,10 +1436,10 @@ namespace TightWiki.Shared.Wiki
                     case "nl":
                     case "newline": //##NewLine([optional:default=1]count)
                         {
-                            int count = method.Parameters.Get<int>("Count");
+                            int count = function.Parameters.Get<int>("Count");
                             for (int i = 0; i < count; i++)
                             {
-                                StoreMatch(method, pageContent, match.Value, $"<br />");
+                                StoreMatch(function, pageContent, match.Value, $"<br />");
                             }
                         }
                         break;
@@ -1446,8 +1447,8 @@ namespace TightWiki.Shared.Wiki
                     //Inserts a horizontal rule
                     case "hr":
                         {
-                            int size = method.Parameters.Get<int>("height");
-                            StoreMatch(method, pageContent, match.Value, $"<hr class=\"mt-{size} mb-{size}\">");
+                            int size = function.Parameters.Get<int>("height");
+                            StoreMatch(function, pageContent, match.Value, $"<hr class=\"mt-{size} mb-{size}\">");
                         }
                         break;
 
@@ -1458,7 +1459,7 @@ namespace TightWiki.Shared.Wiki
                             string navigation = _page.Navigation;
                             if (navigation != string.Empty)
                             {
-                                StoreMatch(method, pageContent, match.Value, navigation);
+                                StoreMatch(function, pageContent, match.Value, navigation);
                             }
                         }
                         break;
@@ -1477,11 +1478,11 @@ namespace TightWiki.Shared.Wiki
 
             foreach (var match in matches)
             {
-                MethodCallInstance method;
+                FunctionCallInstance function;
 
                 try
                 {
-                    method = MethodParser.ParseMethodCallInfo(match, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCallInfo(match, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1489,13 +1490,13 @@ namespace TightWiki.Shared.Wiki
                     continue;
                 }
 
-                switch (method.Name.ToLower())
+                switch (function.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a tag link list.
                     case "tags": //##tags
                         {
-                            string styleName = method.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
                             var html = new StringBuilder();
 
                             if (styleName == "list")
@@ -1516,25 +1517,25 @@ namespace TightWiki.Shared.Wiki
                                 }
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "tagcloud":
                         {
-                            string seedTag = method.Parameters.Get<String>("pageTag");
+                            string seedTag = function.Parameters.Get<String>("pageTag");
                             string cloudHtml = WikiUtility.BuildTagCloud(seedTag);
-                            StoreMatch(method, pageContent, match.Value, cloudHtml);
+                            StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "searchcloud":
                         {
-                            var tokens = method.Parameters.GetList<string>("tokens");
+                            var tokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
                             string cloudHtml = WikiUtility.BuildSearchCloud(tokens);
-                            StoreMatch(method, pageContent, match.Value, cloudHtml);
+                            StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
                         break;
 
@@ -1542,7 +1543,7 @@ namespace TightWiki.Shared.Wiki
                     //Diplays a table of contents for the page based on the header tags.
                     case "toc":
                         {
-                            bool alphabetized = method.Parameters.Get<bool>("alphabetized");
+                            bool alphabetized = function.Parameters.Get<bool>("alphabetized");
 
                             var html = new StringBuilder();
 
@@ -1606,7 +1607,7 @@ namespace TightWiki.Shared.Wiki
                                 currentLevel--;
                             }
 
-                            StoreMatch(method, pageContent, match.Value, html.ToString());
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
                 }
@@ -1615,6 +1616,8 @@ namespace TightWiki.Shared.Wiki
 
         private void StoreCriticalError(string exceptionText)
         {
+            ErrorCount++;
+
             var html = new StringBuilder();
             html.Append("<div class=\"card bg-warning mb-3\">");
             html.Append($"<div class=\"card-header\"><strong>Wiki Parser Exception</strong></div>");
@@ -1628,6 +1631,7 @@ namespace TightWiki.Shared.Wiki
 
         private string StoreError(StringBuilder pageContent, string match, string value)
         {
+            ErrorCount++;
             _matchesPerIteration++;
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
@@ -1664,7 +1668,7 @@ namespace TightWiki.Shared.Wiki
             return identifier;
         }
 
-        private string StoreMatch(MethodCallInstance method, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreMatch(FunctionCallInstance function, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
             _matchesPerIteration++;
 
@@ -1674,7 +1678,7 @@ namespace TightWiki.Shared.Wiki
             {
                 MatchType = WikiMatchType.Function,
                 Content = value,
-                Method = method,
+                Function = function,
                 AllowNestedDecode = allowNestedDecode
             };
 

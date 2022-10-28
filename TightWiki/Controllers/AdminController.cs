@@ -277,6 +277,10 @@ namespace TightWiki.Site.Controllers
                 {
                     page.Id = PageRepository.SavePage(page);
                     var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
+                    if (wikifier.ErrorCount > 0)
+                    {
+                    }
+
                     PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
                     PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
                     var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();

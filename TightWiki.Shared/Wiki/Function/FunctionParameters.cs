@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using TightWiki.Shared.Library;
 
-namespace TightWiki.Shared.Wiki.MethodCall
+namespace TightWiki.Shared.Wiki.Function
 {
-    public class MethodParameters
+    public class FunctionParameters
     {
         /// <summary>
         /// Variables set by ordinal.
@@ -16,9 +16,9 @@ namespace TightWiki.Shared.Wiki.MethodCall
         /// </summary>
         public List<NamedParam> Named { get; private set; } = new List<NamedParam>();
 
-        private MethodCallInstance _owner;
+        private FunctionCallInstance _owner;
 
-        public MethodParameters(MethodCallInstance owner)
+        public FunctionParameters(FunctionCallInstance owner)
         {
             _owner = owner;
         }
@@ -38,7 +38,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
             }
             catch (Exception ex)
             {
-                throw new Exception($"Method [{_owner.Name}], {ex.Message}");
+                throw new Exception($"Function [{_owner.Name}], {ex.Message}");
             }
         }
 
@@ -56,7 +56,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
             }
             catch (Exception ex)
             {
-                throw new Exception($"Method [{_owner.Name}], {ex.Message}");
+                throw new Exception($"Function [{_owner.Name}], {ex.Message}");
             }
         }
 
@@ -70,7 +70,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
             }
             catch (Exception ex)
             {
-                throw new Exception($"Method [{_owner.Name}], {ex.Message}");
+                throw new Exception($"Function [{_owner.Name}], {ex.Message}");
             }
         }
     }

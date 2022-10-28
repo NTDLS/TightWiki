@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TightWiki.Shared.Wiki.MethodCall
+namespace TightWiki.Shared.Wiki.Function
 {
-    public class MethodPrototypeCollection
+    public class FunctionPrototypeCollection
     {
         public List<PrototypeSet> Items { get; set; } = new List<PrototypeSet>();
 
@@ -14,31 +14,31 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
             Items.Add(new PrototypeSet()
             {
-                MethodPrefix = prototype.MethodPrefix,
+                FunctionPrefix = prototype.FunctionPrefix,
                 ProperName = prototype.ProperName,
-                MethodName = prototype.MethodName.ToLower(),
+                FunctionName = prototype.FunctionName.ToLower(),
                 Value = prototype
             });
         }
 
-        public MethodPrototype Get(string methodName)
+        public FunctionPrototype Get(string functionName)
         {
-            methodName = methodName.ToLower();
+            functionName = functionName.ToLower();
 
-            return Items.Where(o => o.MethodName == methodName).FirstOrDefault()?.Value;
+            return Items.Where(o => o.FunctionName == functionName).FirstOrDefault()?.Value;
         }
 
-        private MethodPrototype ParsePrototype(string prototypeString)
+        private FunctionPrototype ParsePrototype(string prototypeString)
         {
             int nameStartIndex = prototypeString.TakeWhile(c => char.IsLetterOrDigit(c) == false).Count();
             int nameEndIndex = prototypeString.IndexOf(':');
             string properName = prototypeString.Substring(nameStartIndex, nameEndIndex - nameStartIndex).Trim();
-            string methodName = properName.ToLower();
+            string functionName = properName.ToLower();
             string pethodPrefix = prototypeString.Substring(0, nameStartIndex).Trim();
 
             prototypeString = prototypeString.Substring(nameEndIndex + 1).Trim();
 
-            var prototype = new MethodPrototype() { MethodPrefix = pethodPrefix, ProperName = properName, MethodName = methodName };
+            var prototype = new FunctionPrototype() { FunctionPrefix = pethodPrefix, ProperName = properName, FunctionName = functionName };
 
             if (prototypeString.Length == 0)
             {
@@ -69,12 +69,12 @@ namespace TightWiki.Shared.Wiki.MethodCall
                             prototypeSegment.IsInfinite = true;
                             if (prototype.Parameters.Any(o => o.IsInfinite))
                             {
-                                throw new Exception($"Method [{methodName}], prototype error: cannot contain more than one [infinite] parameter.");
+                                throw new Exception($"Function [{functionName}], prototype error: cannot contain more than one [infinite] parameter.");
                             }
                         }
                         else
                         {
-                            throw new Exception($"Method [{methodName}], prototype error: expected [infinite] got [{splitSeg[1]}].");
+                            throw new Exception($"Function [{functionName}], prototype error: expected [infinite] got [{splitSeg[1]}].");
                         }
                     }
 
@@ -106,7 +106,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     }
                     else
                     {
-                        throw new Exception($"Method [{methodName}], prototype error: expected [{{] or [[].");
+                        throw new Exception($"Function [{functionName}], prototype error: expected [{{] or [[].");
                     }
 
                     SkipWhiteSpace(segment, ref index);
@@ -118,7 +118,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
                         if (segment[index] != '\'')
                         {
-                            throw new Exception($"Method [{methodName}], prototype error: expected [\'].");
+                            throw new Exception($"Function [{functionName}], prototype error: expected [\'].");
                         }
 
                         index++; //Skip the '''
@@ -129,13 +129,13 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
                         if (index < segment.Length && segment[index] != '\'')
                         {
-                            throw new Exception($"Method [{methodName}], prototype error: expected [\'].");
+                            throw new Exception($"Function [{functionName}], prototype error: expected [\'].");
                         }
                     }
                 }
                 else
                 {
-                    throw new Exception($"Method [{methodName}], prototype error: expected [<].");
+                    throw new Exception($"Function [{functionName}], prototype error: expected [<].");
                 }
 
                 prototype.Parameters.Add(prototypeSegment);

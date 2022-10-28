@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Shared.Wiki.MethodCall
+﻿namespace TightWiki.Shared.Wiki.Function
 {
     public class OrdinalParam
     {

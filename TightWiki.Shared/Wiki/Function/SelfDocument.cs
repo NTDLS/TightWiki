@@ -3,7 +3,7 @@ using System.Linq;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 
-namespace TightWiki.Shared.Wiki.MethodCall
+namespace TightWiki.Shared.Wiki.Function
 {
     public static class SelfDocument
     {
@@ -13,26 +13,26 @@ namespace TightWiki.Shared.Wiki.MethodCall
         public static void CreateNotExisting()
         {
             System.Threading.Thread.Sleep(500);
-            foreach (var item in Shared.Wiki.MethodCall.MethodPrototypeDefinitions.Collection.Items)
+            foreach (var item in FunctionPrototypeDefinitions.Collection.Items)
             {
-                string methodType = "Function";
-                string methodPrefix = item.MethodPrefix;
+                string functionType = "Function";
+                string functionPrefix = item.FunctionPrefix;
 
-                if (item.MethodPrefix == "##")
+                if (item.FunctionPrefix == "##")
                 {
-                    methodType = "Standard Function";
+                    functionType = "Standard Function";
                 }
-                if (item.MethodPrefix == "@@")
+                if (item.FunctionPrefix == "@@")
                 {
-                    methodType = "Instruction Function";
+                    functionType = "Instruction Function";
                 }
-                if (item.MethodPrefix == "$$")
+                if (item.FunctionPrefix == "$$")
                 {
-                    methodType = "Scope Function";
-                    methodPrefix = string.Empty;
+                    functionType = "Scope Function";
+                    functionPrefix = string.Empty;
                 }
 
-                string topic = $"{item.ProperName} {methodType} Wiki Help";
+                string topic = $"{item.ProperName} {functionType} Wiki Help";
                 string navigation = WikiUtility.CleanPartialURI(topic);
 
                 var page = PageRepository.GetPageInfoByNavigation(navigation);
@@ -42,18 +42,18 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     html.AppendLine("@@draft");
                     html.AppendLine("@@protect(true)");
                     html.AppendLine("##Image(Wiki Help/TightWiki Logo.png | 15)");
-                    html.AppendLine($"##title ##Tag(Official-Help | Help | Wiki | Official | {methodType})");
+                    html.AppendLine($"##title ##Tag(Official-Help | Help | Wiki | Official | {functionType})");
                     html.AppendLine("{{{Card(Default | Table of Contents) ##toc }}}");
                     html.AppendLine("");
                     html.AppendLine("@@Set(metaColor | #ee2401)");
                     html.AppendLine("@@Set(keywordColor | #318000)");
                     html.AppendLine("@@Set(identifierColor | #c6680e)");
                     html.AppendLine("==Overview");
-                    html.AppendLine($"The {item.ProperName} {methodType.ToLower()} is !!FILL_IN_THE_BLANK!!");
+                    html.AppendLine($"The {item.ProperName} {functionType.ToLower()} is !!FILL_IN_THE_BLANK!!");
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
-                    html.Append($"##Color(##Get(keywordColor) | **[{{{{ {methodPrefix}{item.ProperName} }}}}]**)");
+                    html.Append($"##Color(##Get(keywordColor) | **[{{{{ {functionPrefix}{item.ProperName} }}}}]**)");
                     if ((item.Value.Parameters?.Count ?? 0) == 0)
                     {
                         html.AppendLine("()");
@@ -110,7 +110,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     html.AppendLine("{{{Code(wiki)[{{");
 
 
-                    if (item.MethodPrefix == "$$")
+                    if (item.FunctionPrefix == "$$")
                     {
                         html.Append("{{{ " + $"{item.ProperName}");
                         if ((item.Value.Parameters?.Count ?? 0) == 0)
@@ -128,7 +128,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     }
                     else
                     {
-                        html.Append($"{item.MethodPrefix}{item.ProperName}");
+                        html.Append($"{item.FunctionPrefix}{item.ProperName}");
                         if ((item.Value.Parameters?.Count ?? 0) == 0)
                         {
                             html.AppendLine("()");
@@ -157,7 +157,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                     {
                         Navigation = navigation,
                         Name = topic,
-                        Description = $"Documentation of the built-in {item.ProperName.ToLower()} {methodType.ToLower()}.",
+                        Description = $"Documentation of the built-in {item.ProperName.ToLower()} {functionType.ToLower()}.",
                         CreatedByUserId = 1,
                         CreatedDate = DateTime.UtcNow,
                         ModifiedByUserId = 1,

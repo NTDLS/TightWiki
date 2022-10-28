@@ -5,6 +5,7 @@ using TightWiki.Shared.Models.Data;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using TightWiki.Shared.Wiki;
 
 namespace TightWiki.Shared.Repository
 {
@@ -182,7 +183,7 @@ namespace TightWiki.Shared.Repository
                 {
                     Id = item.Id,
                     Name = item.Name,
-                    Navigation = item.Navigation,
+                    Navigation = WikiUtility.CleanPartialURI(item.Name),
                     Description = item.Description,
                     Body = item.Body,
                     CreatedByUserId = item.CreatedByUserId,

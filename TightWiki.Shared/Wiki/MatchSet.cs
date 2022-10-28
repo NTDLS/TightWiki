@@ -1,4 +1,4 @@
-﻿using TightWiki.Shared.Wiki.MethodCall;
+﻿using TightWiki.Shared.Wiki.Function;
 using static TightWiki.Shared.Wiki.Constants;
 
 namespace TightWiki.Shared.Wiki
@@ -21,8 +21,8 @@ namespace TightWiki.Shared.Wiki
         public bool AllowNestedDecode { get; set; }
 
         /// <summary>
-        /// The method call that resulted in this match.
+        /// The function call that resulted in this match.
         /// </summary>
-        public MethodCallInstance Method { get; set; }
+        public FunctionCallInstance Function { get; set; }
     }
 }

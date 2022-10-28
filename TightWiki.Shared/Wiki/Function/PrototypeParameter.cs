@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TightWiki.Shared.Wiki.MethodCall
+namespace TightWiki.Shared.Wiki.Function
 {
     public class PrototypeParameter
     {

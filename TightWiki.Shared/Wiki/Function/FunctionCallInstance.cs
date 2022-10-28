@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TightWiki.Shared.Wiki.MethodCall
+namespace TightWiki.Shared.Wiki.Function
 {
-    public class MethodCallInstance
+    public class FunctionCallInstance
     {
         /// <summary>
-        /// The name of the method being called.
+        /// The name of the function being called.
         /// </summary>
         public string Name { get; private set; }
-        public MethodPrototype Prototype { get; set; }
+        public FunctionPrototype Prototype { get; set; }
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
-        public MethodParameters Parameters { get; private set; }
+        public FunctionParameters Parameters { get; private set; }
 
-        public MethodCallInstance(MethodPrototype prototype, List<string> args)
+        public FunctionCallInstance(FunctionPrototype prototype, List<string> args)
         {
             Prototype = prototype;
-            Parameters = new MethodParameters(this);
-            Name = prototype.MethodName;
+            Parameters = new FunctionParameters(this);
+            Name = prototype.FunctionName;
 
             foreach (var arg in args)
             {
@@ -43,7 +43,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
         }
 
         /// <summary>
-        /// Checks the passed value agains the method prototype to ensure that the variable is the correct type, value, etc.
+        /// Checks the passed value agains the function prototype to ensure that the variable is the correct type, value, etc.
         /// </summary>
         /// <param name="segment"></param>
         /// <param name="value"></param>
@@ -54,21 +54,21 @@ namespace TightWiki.Shared.Wiki.MethodCall
             {
                 if (bool.TryParse(value, out bool val) == false)
                 {
-                    throw new Exception($"Method [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
+                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
                 }
             }
             if (param.Type == "integer")
             {
                 if (int.TryParse(value, out int val) == false)
                 {
-                    throw new Exception($"Method [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
+                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
                 }
             }
             else if (param.Type == "float")
             {
                 if (double.TryParse(value, out double val) == false)
                 {
-                    throw new Exception($"Method [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
+                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
                 }
             }
 
@@ -76,7 +76,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
             {
                 if (param.AllowedValues.Contains(value.ToLower()) == false)
                 {
-                    throw new Exception($"Method [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", param.AllowedValues)}].");
+                    throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", param.AllowedValues)}].");
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                 }
                 else
                 {
-                    throw new Exception($"Method [{Name}], the required parameter [{param.Name}] was not specified.");
+                    throw new Exception($"Function [{Name}], the required parameter [{param.Name}] was not specified.");
                 }
             }
 
@@ -143,7 +143,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                         }
                         else
                         {
-                            throw new Exception($"Method [{Name}], the required infinite parameter [{param.Name}] was not passed.");
+                            throw new Exception($"Function [{Name}], the required infinite parameter [{param.Name}] was not passed.");
                         }
                     }
 
@@ -166,11 +166,11 @@ namespace TightWiki.Shared.Wiki.MethodCall
 
                 if (param.IsRequired == true && hasEncounteredOptionalParameter)
                 {
-                    throw new Exception($"Method [{Name}], the required parameter [{param.Name}] was found after other optional parameters.");
+                    throw new Exception($"Function [{Name}], the required parameter [{param.Name}] was found after other optional parameters.");
                 }
                 else if (param.IsInfinite == true)
                 {
-                    throw new Exception($"Method [{Name}], encountered an unexpected number of infinite parameters in prototype for [{param.Name}].");
+                    throw new Exception($"Function [{Name}], encountered an unexpected number of infinite parameters in prototype for [{param.Name}].");
                 }
 
                 if (Parameters.Ordinals.Count > index)
@@ -187,7 +187,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
                 var param = Prototype.Parameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
                 if (param == null)
                 {
-                    throw new Exception($"Method [{Name}], the named parameter [{named.Name}] is not defined in the method prototype.");
+                    throw new Exception($"Function [{Name}], the named parameter [{named.Name}] is not defined in the function prototype.");
                 }
                 EnforcePrototypeParamValue(param, named.Value);
             }
@@ -197,7 +197,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
             var unmatchedParams = Parameters.Ordinals.Where(o => o.IsMatched == false).ToList();
             if (unmatchedParams.Any())
             {
-                throw new Exception($"Method [{Name}], unmatched parameter value [{unmatchedParams.First().Value}].");
+                throw new Exception($"Function [{Name}], unmatched parameter value [{unmatchedParams.First().Value}].");
             }
 
             var nonInfiniteParams = Prototype.Parameters.Where(o => o.IsInfinite == false).Select(o => o.Name.ToLower());
@@ -206,7 +206,7 @@ namespace TightWiki.Shared.Wiki.MethodCall
             if (groups.Any())
             {
                 var group = groups.First();
-                throw new Exception($"Method [{Name}], non-infinite parameter specified more than once: [{group.Key}].");
+                throw new Exception($"Function [{Name}], non-infinite parameter specified more than once: [{group.Key}].");
             }
         }
     }
