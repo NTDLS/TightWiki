@@ -263,7 +263,7 @@ namespace TightWiki.Shared.Repository
             if (allowCache)
             {
                 string cacheKey = $"Page:{navigation}:{revision}:GetPageRevisionByNavigation";
-                var result = Cache.Get<Page> (cacheKey);
+                var result = Cache.Get<Page>(cacheKey);
                 if (result == null)
                 {
                     result = GetPageRevisionByNavigation(navigation, revision, false);
@@ -296,6 +296,22 @@ namespace TightWiki.Shared.Repository
                 };
 
                 return handler.Connection.Query<Page>("GetTopRecentlyModifiedPagesInfo",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
+        public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int pageSize = 0)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = pageId,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                return handler.Connection.Query<RelatedPage>("GetRelatedPagesPaged",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }

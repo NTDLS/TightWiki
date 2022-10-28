@@ -20,6 +20,9 @@ namespace TightWiki.Shared.Wiki
     public class Wikifier
     {
         public int ErrorCount { get; private set; }
+        public int MatchCount { get; private set; }
+        public TimeSpan ProcessingTime { get; private set; }
+
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
@@ -47,12 +50,15 @@ namespace TightWiki.Shared.Wiki
 
         public Wikifier(StateContext context, Page page, int? revision = null, IQueryCollection queryString = null, WikiMatchType[] omitMatches = null, int nestLevel = 0)
         {
+            DateTime startTime = DateTime.UtcNow;
+
             _nestLevel = nestLevel;
             _queryString = queryString;
             _page = page;
             _revision = revision;
             Matches = new Dictionary<string, MatchSet>();
             _context = context;
+
             if (omitMatches != null)
             {
                 _omitMatches.AddRange(omitMatches);
@@ -66,6 +72,8 @@ namespace TightWiki.Shared.Wiki
             {
                 StoreCriticalError(ex.Message);
             }
+
+            ProcessingTime = DateTime.UtcNow - startTime;
         }
 
         public List<WeightedToken> ParsePageTokens()
@@ -886,7 +894,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector)
+                                if (pageSelector && attachments.Count > 0)
                                 {
                                     html.Append(WikiUtility.GetPageSelector(refTag, attachments.First().PaginationCount, pageNumber, _queryString));
                                 }
@@ -932,7 +940,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector)
+                                if (pageSelector && history.Count > 0)
                                 {
                                     html.Append(WikiUtility.GetPageSelector(refTag, history.First().PaginationCount, pageNumber, _queryString));
                                 }
@@ -949,8 +957,26 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Includes/injects a page by it's navigation link.
+                    //injects an un-processed wiki body into the calling page.
                     case "inject": //(PageName)
+                        {
+                            var navigation = function.Parameters.Get<String>("pageName");
+
+                            Page page = WikiUtility.GetPageFromPathInfo(navigation);
+                            if (page != null)
+                            {
+                                var identifier = StoreMatch(function, pageContent, match.Value, page.Body);
+                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                            }
+                            else
+                            {
+                                StoreError(pageContent, match.Value, $"The include page was not found: [{navigation}]");
+                            }
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Includes a processed wiki body into the calling page.
+                    case "include": //(PageName)
                         {
                             var navigation = function.Parameters.Get<String>("pageName");
 
@@ -1293,7 +1319,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector)
+                            if (pageSelector && pages.Count > 0)
                             {
                                 html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }
@@ -1343,10 +1369,15 @@ namespace TightWiki.Shared.Wiki
                     //Displays a list of other related pages based on tags.
                     case "related": //##related
                         {
+                            string refTag = GenerateQueryToken();
+
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
                             string styleName = function.Parameters.Get<String>("styleName").ToLower();
                             var html = new StringBuilder();
-                            var topCount = function.Parameters.Get<int>("top");
-                            var pages = PageRepository.GetRelatedPages(_page.Id).OrderBy(o => o.Name).Take(topCount).ToList();
+
+                            var pages = PageRepository.GetRelatedPagesPaged(_page.Id, pageNumber, pageSize);
 
                             if (styleName == "list")
                             {
@@ -1373,6 +1404,11 @@ namespace TightWiki.Shared.Wiki
                                     html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a> - {page.Description}");
                                 }
                                 html.Append("</ul>");
+                            }
+
+                            if (pageSelector && pages.Count > 0)
+                            {
+                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -1651,6 +1687,7 @@ namespace TightWiki.Shared.Wiki
 
         private string StoreMatch(WikiMatchType matchType, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
+            MatchCount++;
             _matchesPerIteration++;
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
@@ -1670,6 +1707,7 @@ namespace TightWiki.Shared.Wiki
 
         private string StoreMatch(FunctionCallInstance function, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
         {
+            MatchCount++;
             _matchesPerIteration++;
 
             string identifier = $"<!--{Guid.NewGuid()}-->";

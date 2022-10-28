@@ -42,10 +42,11 @@
                     _functionPrototypes.Add("##TagCloud: <string>[pageTag] | <integer>{Top}='1000'");
                     _functionPrototypes.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}=''");
                     _functionPrototypes.Add("##File: <string>[name] | <string>[linkText] | <bool>{showSize}='false'");
-                    _functionPrototypes.Add("##Related: <integer>{Top}='1000' | <string>{styleName(List,Flat,Full)}='Full'");
+                    _functionPrototypes.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
                     _functionPrototypes.Add("##Tags: <string>{styleName(Flat,List)}='List'");
                     _functionPrototypes.Add("##EditLink: <string>{linkText}='edit'");
                     _functionPrototypes.Add("##Inject: <string>[pageName]");
+                    _functionPrototypes.Add("##Include: <string>[pageName]");
                     _functionPrototypes.Add("##BR: <integer>{Count}='1'");
                     _functionPrototypes.Add("##HR: <integer>{Height}='1'");
                     _functionPrototypes.Add("##History:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
