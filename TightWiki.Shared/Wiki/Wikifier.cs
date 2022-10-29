@@ -547,7 +547,7 @@ namespace TightWiki.Shared.Wiki
                 if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
                     string tag = _tocName + "_" + _tocTags.Count().ToString();
-                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim(new char[] { '=' }).Trim();
+                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
 
                     int fontSize = 8 - headingMarkers;
                     if (fontSize < 5) fontSize = 5;
@@ -557,6 +557,75 @@ namespace TightWiki.Shared.Wiki
                     _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
             }
+        }
+
+        private string GetLinkImage(string linkText)
+        {
+            string compareString = linkText.ToLower().RemoveWhitespace();
+
+            //Internal page attached image:
+            if (compareString.StartsWith("img="))
+            {
+                if (linkText.Contains("/"))
+                {
+                    linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                    string scale = "100";
+
+                    //Allow loading attacehd images from other pages.
+                    int slashIndex = linkText.IndexOf("/");
+                    string navigation = WikiUtility.CleanPartialURI(linkText.Substring(0, slashIndex));
+                    linkText = linkText.Substring(slashIndex + 1);
+
+                    int scaleIndex = linkText.IndexOf("|");
+                    if (scaleIndex > 0)
+                    {
+                        scale = linkText.Substring(scaleIndex + 1);
+                        linkText = linkText.Substring(0, scaleIndex);
+                    }
+
+                    if (_revision != null)
+                    {
+                        string attachementLink = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(linkText)}/r/{_revision}";
+                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                    }
+                    else
+                    {
+                        string attachementLink = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(linkText)}";
+                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                    }
+                }
+                else
+                {
+                    linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                    string scale = "100";
+
+                    int scaleIndex = linkText.IndexOf("|");
+                    if (scaleIndex > 0)
+                    {
+                        scale = linkText.Substring(scaleIndex + 1);
+                        linkText = linkText.Substring(0, scaleIndex);
+                    }
+
+                    if (_revision != null)
+                    {
+                        string attachementLink = $"/File/Image/{_page.Navigation}/{WikiUtility.CleanPartialURI(linkText)}/r/{_revision}";
+                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                    }
+                    else
+                    {
+                        string attachementLink = $"/File/Image/{_page.Navigation}/{WikiUtility.CleanPartialURI(linkText)}";
+                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                    }
+                }
+            }
+            //External site image:
+            else if (compareString.StartsWith("src="))
+            {
+                linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+                linkText = $"<img src=\"{linkText}\" border=\"0\" />";
+            }
+
+            return linkText;
         }
 
         /// <summary>
@@ -606,120 +675,72 @@ namespace TightWiki.Shared.Wiki
                     keyword = keyword.Substring(0, pipeIndex).Trim();
                 }
 
-                string pageName = keyword;
-                string pageNavigation = WikiUtility.CleanPartialURI(pageName);
-                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-
-                if (page != null)
+                if (keyword.ToLower().StartsWith("https://") || keyword.ToLower().StartsWith("http://"))
                 {
                     if (explicitLinkText.Length == 0)
                     {
-                        linkText = page.Name;
+                        linkText = explicitLinkText;
                     }
                     else
                     {
-                        linkText = explicitLinkText;
-
-                        string compareString = linkText.ToLower().RemoveWhitespace();
-
-                        //Internal page attached image:
-                        if (compareString.StartsWith("img="))
-                        {
-                            if (linkText.Contains("/"))
-                            {
-                                linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                                string scale = "100";
-
-                                //Allow loading attacehd images from other pages.
-                                int slashIndex = linkText.IndexOf("/");
-                                string navigation = WikiUtility.CleanPartialURI(linkText.Substring(0, slashIndex));
-                                linkText = linkText.Substring(slashIndex + 1);
-
-                                int scaleIndex = linkText.IndexOf("|");
-                                if (scaleIndex > 0)
-                                {
-                                    scale = linkText.Substring(scaleIndex + 1);
-                                    linkText = linkText.Substring(0, scaleIndex);
-                                }
-
-                                if (_revision != null)
-                                {
-                                    string attachementLink = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(linkText)}/r/{_revision}";
-                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
-                                }
-                                else
-                                {
-                                    string attachementLink = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(linkText)}";
-                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
-                                }
-                            }
-                            else
-                            {
-                                linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                                string scale = "100";
-
-                                int scaleIndex = linkText.IndexOf("|");
-                                if (scaleIndex > 0)
-                                {
-                                    scale = linkText.Substring(scaleIndex + 1);
-                                    linkText = linkText.Substring(0, scaleIndex);
-                                }
-
-                                if (_revision != null)
-                                {
-                                    string attachementLink = $"/File/Image/{_page.Navigation}/{WikiUtility.CleanPartialURI(linkText)}/r/{_revision}";
-                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
-                                }
-                                else
-                                {
-                                    string attachementLink = $"/File/Image/{_page.Navigation}/{WikiUtility.CleanPartialURI(linkText)}";
-                                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
-                                }
-                            }
-                        }
-                        //External site image:
-                        else if (compareString.StartsWith("src="))
-                        {
-                            linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                            linkText = $"<img src=\"{linkText}\" border=\"0\" />";
-                        }
+                        linkText = GetLinkImage(explicitLinkText);
                     }
 
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
-                }
-                else if (_context?.CanCreate == true)
-                {
-                    if (explicitLinkText.Length == 0)
-                    {
-                        linkText = pageName;
-                    }
-                    else
-                    {
-                        linkText = explicitLinkText;
-                    }
-
-                    linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + $"\">{linkText}</a>");
                 }
                 else
                 {
-                    if (explicitLinkText.Length == 0)
-                    {
-                        linkText = pageName;
-                    }
-                    else
-                    {
-                        linkText = explicitLinkText;
-                    }
+                    string pageName = keyword;
+                    string pageNavigation = WikiUtility.CleanPartialURI(pageName);
+                    var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
-                    //Remove wiki tags for pages which were not found or which we do not have permission to view.
-                    if (linkText.Length > 0)
+                    if (page != null)
                     {
-                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, linkText);
+                        if (explicitLinkText.Length == 0)
+                        {
+                            linkText = page.Name;
+                        }
+                        else
+                        {
+                            linkText = GetLinkImage(explicitLinkText);
+                        }
+
+                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
+                    }
+                    else if (_context?.CanCreate == true)
+                    {
+                        if (explicitLinkText.Length == 0)
+                        {
+                            linkText = pageName;
+                        }
+                        else
+                        {
+                            linkText = explicitLinkText;
+                        }
+
+                        linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
+                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
                     }
                     else
                     {
-                        StoreError(pageContent, match.Value, $"The page has no name for [{keyword}]");
+                        if (explicitLinkText.Length == 0)
+                        {
+                            linkText = pageName;
+                        }
+                        else
+                        {
+                            linkText = explicitLinkText;
+                        }
+
+                        //Remove wiki tags for pages which were not found or which we do not have permission to view.
+                        if (linkText.Length > 0)
+                        {
+                            StoreMatch(WikiMatchType.Link, pageContent, match.Value, linkText);
+                        }
+                        else
+                        {
+                            StoreError(pageContent, match.Value, $"The page has no name for [{keyword}]");
+                        }
                     }
                 }
             }
