@@ -547,7 +547,7 @@ namespace TightWiki.Shared.Wiki
                 if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
                     string tag = _tocName + "_" + _tocTags.Count().ToString();
-                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
+                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim(new char[] { '=' }).Trim();
 
                     int fontSize = 8 - headingMarkers;
                     if (fontSize < 5) fontSize = 5;
