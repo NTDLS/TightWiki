@@ -19,7 +19,7 @@
 
                     //Scope functions:
                     _functionPrototypes.Add("$$Code: <string>{language(auto,wiki,cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}='auto'");
-                    _functionPrototypes.Add("$$Bullets: <string>{type(unordered,ordered)}='unordered' | <string>{titleText}=''");
+                    _functionPrototypes.Add("$$Bullets: <string>{type(unordered,ordered)}='unordered'");
                     _functionPrototypes.Add("$$Jumbotron:");
                     _functionPrototypes.Add("$$Callout: <string>{styleName(default,primary,secondary,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Background: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger,muted)}='default'");
