@@ -35,84 +35,65 @@
 
             var cur = '';
             var ch = stream.next();
-            // comment
-            if (state.blockComment) {
-                if (ch == "-" && stream.match("-;", true)) {
-                    state.blockComment = false;
-                } else if (stream.skipTo("--;")) {
-                    stream.next();
-                    stream.next();
-                    stream.next();
-                    state.blockComment = false;
-                } else {
-                    stream.skipToEnd();
-                }
-                return "comment";
-            }
 
             if (ch == ";") {
-                if (stream.match("--", true)) {
-                    if (!stream.match("-", false)) {  // Except ;--- is not a block comment
-                        state.blockComment = true;
-                        return "comment";
-                    }
-                }
-                stream.skipToEnd();
-                return "comment";
-            }
-
-            if (ch == "*") {
-                stream.eatWhile(/\*/);
-                cur = stream.current();
-                if (cur == "**") {
-                    stream.skipTo("**");
-                    return "strong";
-                }
-            }
-
-            if (ch == "/") {
-                stream.eatWhile(/\//);
-                cur = stream.current();
-                if (cur == "//") {
-                    stream.skipTo("//");
-                    return "italics";
-                }
-                return "";
-            }
-
-            if (ch == "_") {
-                stream.eatWhile(/\_/);
-                cur = stream.current();
-                if (cur == "__") {
-                    stream.skipTo("__");
-                    return "underline";
-                }
-                return "";
-            }
-
-            if (ch == "~") {
-                stream.eatWhile(/\~/);
-                cur = stream.current();
-                if (cur == "~~") {
-                    stream.skipTo("~~");
-                    return "strike";
-                }
-                return "";
-            }
-
-            if (ch == "=") {
-                stream.eatWhile(function (ch) {
-                    if (ch == '=') {
-                        return true;
-                    }
-                    return false;
-                });
-                cur = stream.current();
-                if (cur.startsWith("==")) {
+                var ch1 = stream.peek();
+                if (ch1 == ';') {
                     stream.skipToEnd();
                     return "comment";
                 }
-                return "";
+            }
+            if (ch == "!") {
+                var ch1 = stream.peek();
+                if (ch1 == '!') {
+                    if (stream.skipTo("!!")) {
+                        stream.eatWhile('!');
+                        return "highlight";
+                    }
+                }
+            }
+            if (ch == "!") {
+                var ch1 = stream.peek();
+                if (ch1 == '*') {
+                    if (stream.skipTo("**")) {
+                        stream.eatWhile('*');
+                        return "strong";
+                    }
+                }
+            }
+            if (ch == "/") {
+                var ch1 = stream.peek();
+                if (ch1 == '/') {
+                    if (stream.skipTo("//")) {
+                        stream.eatWhile('/');
+                        return "italics";
+                    }
+                }
+            }
+            if (ch == "_") {
+                var ch1 = stream.peek();
+                if (ch1 == '_') {
+                    if (stream.skipTo("__")) {
+                        stream.eatWhile('_');
+                        return "underline";
+                    }
+                }
+            }
+            if (ch == "~") {
+                var ch1 = stream.peek();
+                if (ch1 == '~') {
+                    if (stream.skipTo("~~")) {
+                        stream.eatWhile('~');
+                        return "strike";
+                    }
+                }
+            }
+            if (ch == "=") {
+                var ch1 = stream.peek();
+                if (ch1 == '=') {
+                    stream.skipToEnd();
+                    return "heading";
+                }
             }
 
             // Links
@@ -135,7 +116,6 @@
                 stream.skipTo("'");
                 return "string-2";
             }
-
 
             // functions
             if (ch == '#') {

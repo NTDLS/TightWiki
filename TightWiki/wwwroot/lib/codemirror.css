@@ -123,9 +123,11 @@
 .cm-s-default .cm-punctuation,
 .cm-s-default .cm-property,
 .cm-s-default .cm-operator {}
+.cm-s-default .cm-heading {color: #17a479; font-weight: bold;}
 .cm-s-default .cm-variable-2 {color: #05a;}
 .cm-s-default .cm-variable-3, .cm-s-default .cm-type {color: #085;}
-.cm-s-default .cm-comment {color: #a50;}
+.cm-s-default .cm-comment {color: #999;  font-style:italic}
+.cm-s-default .cm-highlight {background-color:#e3eb21; color: #000}
 .cm-s-default .cm-string {color: #a11;}
 .cm-s-default .cm-string-2 {color: #f50;}
 .cm-s-default .cm-meta {color: #555;}

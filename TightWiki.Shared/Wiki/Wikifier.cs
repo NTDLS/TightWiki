@@ -155,6 +155,7 @@ namespace TightWiki.Shared.Wiki
         {
             _matchesPerIteration = 0;
 
+            TransformComments(pageContent);
             TransformBlocks(pageContent);
             TransformVariables(pageContent);
             TransformLinks(pageContent);
@@ -627,6 +628,19 @@ namespace TightWiki.Shared.Wiki
             }
 
             return linkText;
+        }
+
+        private void TransformComments(StringBuilder pageContent)
+        {
+            Regex rgx = new Regex(@"\;\;.*", RegexOptions.IgnoreCase);
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
+            {
+                string key = match.Value.Trim(new char[] { '{', '}', ' ', '\t', '$' });
+
+                var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+            }
         }
 
         /// <summary>
