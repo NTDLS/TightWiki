@@ -35,19 +35,18 @@
 
             var cur = '';
             var ch = stream.next();
+            var cc = '';
 
             // Comment (Single-line)
             if (ch == ";") {
-                var ch1 = stream.peek();
-                if (ch1 == ';') {
+                if (stream.peek() == ';') {
                     stream.skipToEnd();
                     return "comment";
                 }
             }
             // Highlight
             if (ch == "!") {
-                var ch1 = stream.peek();
-                if (ch1 == '!') {
+                if (stream.peek() == '!') {
                     if (stream.skipTo("!!")) {
                         stream.eatWhile('!');
                         return "highlight";
@@ -56,8 +55,7 @@
             }
             // Bold
             if (ch == "*") {
-                var ch1 = stream.peek();
-                if (ch1 == '*') {
+                if (stream.peek() == '*') {
                     if (stream.skipTo("**")) {
                         stream.eatWhile('*');
                         return "strong";
@@ -66,8 +64,7 @@
             }
             // Italics
             if (ch == "/") {
-                var ch1 = stream.peek();
-                if (ch1 == '/') {
+                if (stream.peek() == '/') {
                     if (stream.skipTo("//")) {
                         stream.eatWhile('/');
                         return "italics";
@@ -76,8 +73,7 @@
             }
             // Underline
             if (ch == "_") {
-                var ch1 = stream.peek();
-                if (ch1 == '_') {
+                if (stream.peek() == '_') {
                     if (stream.skipTo("__")) {
                         stream.eatWhile('_');
                         return "underline";
@@ -86,8 +82,7 @@
             }
             // Strike though
             if (ch == "~") {
-                var ch1 = stream.peek();
-                if (ch1 == '~') {
+                if (stream.peek() == '~') {
                     if (stream.skipTo("~~")) {
                         stream.eatWhile('~');
                         return "strike";
@@ -96,8 +91,7 @@
             }
             // Headings
             if (ch == "=") {
-                var ch1 = stream.peek();
-                if (ch1 == '=') {
+                if (stream.peek() == '=') {
                     stream.skipToEnd();
                     return "heading";
                 }
@@ -126,48 +120,36 @@
                 return "string-2";
             }
 
-            // Functions
-            if (ch == '#') {
-                stream.eatWhile(function (ch) {
-                    if (/\w/.test(ch) || ch == '#') {
-                        return true;
+            // Instructions
+            cc = '#';
+            if (ch == cc) {
+                if (stream.peek() == cc) {
+                    stream.eat(cc);
+                    stream.eatWhile(/\w/);
+                    cur = stream.current().toLowerCase();
+                    if (functions.indexOf(cur) !== -1) {
+                        return "variable-3 strong";
                     }
-                    return false;
-                });
-
-                cur = stream.current().toLowerCase();
-                if (functions.indexOf(cur) !== -1) {
-                    return "variable-3 strong";
                 }
             }
 
             // Instructions
-            if (ch == '@') {
-                stream.eatWhile(function (ch) {
-                    if (/\w/.test(ch) || ch == '@') {
-                        return true;
+            cc = '@';
+            if (ch == cc) {
+                if (stream.peek() == cc) {
+                    stream.eat(cc);
+                    stream.eatWhile(/\w/);
+                    cur = stream.current().toLowerCase();
+                    if (instructions.indexOf(cur) !== -1) {
+                        return "variable-2 strong";
                     }
-                    return false;
-                });
-
-                cur = stream.current().toLowerCase();
-                if (instructions.indexOf(cur) !== -1) {
-                    return "variable-2 strong";
                 }
             }
 
             //Enter scope
             if (ch == '{') {
-                stream.eatWhile(function (ch) {
-                    if (ch == '{') {
-                        return true;
-                    }
-                    return false;
-                });
-
-                cur = stream.current();
-
-                if (cur == "{{{") {
+                stream.eatWhile('{');
+                if (stream.current() == "{{{") {
                     state.scopeLevel++;
                     state.inScopeFirstLine = true;
                     return "";
@@ -176,16 +158,8 @@
 
             //Exit scope
             if (ch == '}') {
-                stream.eatWhile(function (ch) {
-                    if (ch == '}') {
-                        return true;
-                    }
-                    return false;
-                });
-
-                cur = stream.current();
-
-                if (cur == "}}}") {
+                stream.eatWhile('}');
+                if (stream.current() == "}}}") {
                     state.scopeLevel--;
                     state.inScopeFirstLine = false;
                     return "";
@@ -194,8 +168,7 @@
 
             // Variables
             if (ch == '$') {
-                var ch1 = stream.peek();
-                if (ch1 == '{') {
+                if (stream.peek() == '{') {
                     stream.skipTo('}');
                     stream.eat('}');
                     return "variable-2";
@@ -208,11 +181,6 @@
 
             //Scope functions (must be a scope function and be on the first line of the scrop definition)
             if (state.inScopeFirstLine == true && scopes.indexOf(cur) !== -1) {
-                state.inScopeFirstLine = false;
-                return "variable-2 strong";
-            }
-
-            if (instructions.indexOf(cur) !== -1) {
                 state.inScopeFirstLine = false;
                 return "variable-2 strong";
             }
