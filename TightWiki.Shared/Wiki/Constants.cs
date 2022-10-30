@@ -6,6 +6,7 @@
         {
             Block,
             Instruction,
+            Variable,
             Formatting,
             Error,
             Function,

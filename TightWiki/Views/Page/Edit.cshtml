@@ -3,10 +3,22 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+<link rel=stylesheet href="/doc/docs.css">
+<link rel="stylesheet" href="/lib/codemirror.css">
+<script src="/lib/codemirror.js"></script>
+<script src="/addon/edit/matchbrackets.js"></script>
+<script src="/mode/tightwiki/tightwiki.js"></script>
+
+
 <style type="text/css">
     .iframe {
         box-shadow: none !important;
     }
+.CodeMirror {
+  border: 1px solid #eee;
+  width: auto;
+  height: auto;
+}
 </style>
 
 <script>
@@ -61,7 +73,7 @@
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (Model.SuccessMessage != null)
                         {
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
@@ -104,7 +116,15 @@
                                 </tr>
                                 <tr class="padded">
                                     <td colspan="2">
-                                        @Html.TextAreaFor(x => x.Body, new { style = "width:100%;height:600px", Name = "Body", onkeydown = "if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}" })
+                                        <textarea id=Body name="Body">@Model.Body</textarea>
+                                        <script>
+                                            var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
+                                                lineNumbers: true,
+                                                mode: "text/x-tightwiki",
+                                                matchBrackets: true,
+                                            });
+                                            editor.setSize("1050", "600");
+                                        </script>
                                     </td>
                                 </tr>
                             </table>
@@ -115,6 +135,7 @@
         </table>
     </div>
 </div>
+<br/>
 
 <div class="card">
     <div class="card-header"><h3>Attachments</h3></div>

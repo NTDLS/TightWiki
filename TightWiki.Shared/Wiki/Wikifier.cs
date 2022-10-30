@@ -156,6 +156,7 @@ namespace TightWiki.Shared.Wiki
             _matchesPerIteration = 0;
 
             TransformBlocks(pageContent);
+            TransformVariables(pageContent);
             TransformLinks(pageContent);
             TransformMarkup(pageContent);
             TransformSectionHeadings(pageContent);
@@ -626,6 +627,51 @@ namespace TightWiki.Shared.Wiki
             }
 
             return linkText;
+        }
+
+        /// <summary>
+        /// Transform variables.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        private void TransformVariables(StringBuilder pageContent)
+        {
+            Regex rgx = new Regex(@"(\$\{.+?\})", RegexOptions.IgnoreCase);
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
+            {
+                string key = match.Value.Trim(new char[] { '{', '}', ' ', '\t', '$' });
+                if (key.Contains("="))
+                {
+                    var sections = key.Split('=');
+                    key = sections[0].Trim();
+                    var value = sections[1].Trim();
+
+                    if (_userVariables.ContainsKey(key))
+                    {
+                        _userVariables[key] = value;
+                    }
+                    else
+                    {
+                        _userVariables.Add(key, value);
+                    }
+
+                    var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                    pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                }
+                else
+                {
+                    if (_userVariables.ContainsKey(key))
+                    {
+                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, _userVariables[key]);
+                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+
+                    }
+                    else
+                    {
+                        throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
+                    }
+                }
+            }
         }
 
         /// <summary>
