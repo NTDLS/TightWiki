@@ -189,80 +189,16 @@
         return {
             startState: function () {
                 return {
-                    blockComment: false,
-                    extenStart: false,
-                    extenSame: false,
-                    extenInclude: false,
-                    extenExten: false,
-                    extenPriority: false,
-                    extenApplication: false,
                     scopeLevel: 0,
                     inScopeFirstLine: false
                 };
             },
             token: function (stream, state) {
-
-                var cur = '';
                 if (stream.eatSpace()) return null;
-                // extension started
-                if (state.extenStart) {
-                    stream.eatWhile(/[^\s]/);
-                    cur = stream.current();
-                    if (/^=>?$/.test(cur)) {
-                        state.extenExten = true;
-                        state.extenStart = false;
-                        return "strong";
-                    } else {
-                        state.extenStart = false;
-                        stream.skipToEnd();
-                        return "error";
-                    }
-                } else if (state.extenExten) {
-                    // set exten and priority
-                    state.extenExten = false;
-                    state.extenPriority = true;
-                    stream.eatWhile(/[^,]/);
-                    if (state.extenInclude) {
-                        stream.skipToEnd();
-                        state.extenPriority = false;
-                        state.extenInclude = false;
-                    }
-                    if (state.extenSame) {
-                        state.extenPriority = false;
-                        state.extenSame = false;
-                        state.extenApplication = true;
-                    }
-                    return "tag";
-                } else if (state.extenPriority) {
-                    state.extenPriority = false;
-                    state.extenApplication = true;
-                    stream.next(); // get comma
-                    if (state.extenSame) return null;
-                    stream.eatWhile(/[^,]/);
-                    return "number";
-                } else if (state.extenApplication) {
-                    stream.eatWhile(/,/);
-                    cur = stream.current();
-                    if (cur === ',') return null;
-                    stream.eatWhile(/\w/);
-                    cur = stream.current().toLowerCase();
-                    state.extenApplication = false;
-                    if (instructions.indexOf(cur) !== -1) {
-                        return "strong";
-                    }
-                } else {
-                    return basicToken(stream, state);
-                }
-
-                return null;
-            },
-
-            blockCommentStart: ";--",
-            blockCommentEnd: "--;",
-            lineComment: "=="
+                return basicToken(stream, state);
+            }
         };
     });
 
     CodeMirror.defineMIME("text/x-tightwiki", "tightwiki");
-
 });
