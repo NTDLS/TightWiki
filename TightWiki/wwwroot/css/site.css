@@ -13,10 +13,16 @@ tr td {
     margin: 0 !important;
 }
 
+.fixedTable100 {
+    table-layout: fixed;
+    width: 100%;
+}
+
 a.navbar-brand {
-    white-space: normal;
+    white-space: nowrap;
     text-align: center;
     word-break: break-all;
+    display: block;
 }
 
 /* Provide sufficient contrast against white background */

@@ -20,10 +20,10 @@
             @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
         }
 
-        <table class="table table-bordered" border="0" width="100%" cellspacing="0" cellpadding="0">
+        <table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
             <tbody>
                 <tr>
-                    <td height="52" valign="middle" align="center">
+                    <td height="52" valign="middle" align="left">
 
                         @if (Model.ErrorMessage != null)
                         {
@@ -36,7 +36,7 @@
 
                         @using (Html.BeginForm())
                         {
-                            <table class="table table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                                 <thead>
                                     <tr>
                                         <td><strong>Revision</strong></td>

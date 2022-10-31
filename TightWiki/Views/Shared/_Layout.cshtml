@@ -85,7 +85,7 @@
                         @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administration</a>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true)
                                     {
@@ -106,7 +106,7 @@
                         @if (ViewBag.Context.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item text-dark" href="/Account/UserProfile">Profile</a>
                                     <a class="dropdown-item text-dark" href="/Account/ChangePassword">Change Password</a>
