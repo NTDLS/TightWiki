@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using TightWiki.Shared.Library;
@@ -78,6 +79,8 @@ namespace TightWiki.Controllers
 
         public int SavePage(Page page)
         {
+            bool alreadyExisted = (page.Id != 0);
+
             page.Id = PageRepository.SavePage(page);
 
             var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
@@ -85,6 +88,18 @@ namespace TightWiki.Controllers
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
             var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
             PageRepository.SavePageTokens(pageTokens);
+
+            if (alreadyExisted)
+            {
+                PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
+            }
+            else
+            {
+                //This will update the pageid of referenes that have been saved to the navigation link.
+                PageRepository.UpdateSinglePageReference(page.Navigation);
+            }
+
+            //Debug.WriteLine($"Name {page.Name}, Matches: {wikifier.MatchCount}, Errors:{wikifier.ErrorCount}, Duration: {wikifier.ProcessingTime.TotalMilliseconds}");
 
             Cache.ClearClass($"Page:{page.Navigation}");
 

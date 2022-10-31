@@ -45,15 +45,15 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine($"##title ##Tag(Official-Help | Help | Wiki | Official | {functionType})");
                     html.AppendLine("{{{Card(Default | Table of Contents) ##toc }}}");
                     html.AppendLine("");
-                    html.AppendLine("@@Set(metaColor | #ee2401)");
-                    html.AppendLine("@@Set(keywordColor | #318000)");
-                    html.AppendLine("@@Set(identifierColor | #c6680e)");
+                    html.AppendLine("${metaColor = #ee2401}");
+                    html.AppendLine("${keywordColor = #318000}");
+                    html.AppendLine("${identifierColor = #c6680e}");
                     html.AppendLine("==Overview");
                     html.AppendLine($"The {item.ProperName} {functionType.ToLower()} is !!FILL_IN_THE_BLANK!!");
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
-                    html.Append($"##Color(##Get(keywordColor) | **[{{{{ {functionPrefix}{item.ProperName} }}}}]**)");
+                    html.Append($"##Color(${{keywordColor}} | **[{{{{ {functionPrefix}{item.ProperName} }}}}]**)");
                     if ((item.Value.Parameters?.Count ?? 0) == 0)
                     {
                         html.AppendLine("()");
@@ -63,14 +63,14 @@ namespace TightWiki.Shared.Wiki.Function
                         html.Append("(");
                         foreach (var p in item.Value.Parameters)
                         {
-                            html.Append($"##Color(##Get(keywordColor) | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
+                            html.Append($"##Color(${{keywordColor}} | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
                             if (p.IsRequired)
                             {
-                                html.Append($" [##Color(##Get(identifierColor) | {p.Name})]");
+                                html.Append($" [##Color(${{identifierColor}} | {p.Name})]");
                             }
                             else
                             {
-                                html.Append($" {{##Color(##Get(identifierColor) | {p.Name})}}");
+                                html.Append($" {{##Color(${{identifierColor}} | {p.Name})}}");
                             }
                             html.Append(" | ");
                         }
@@ -91,15 +91,15 @@ namespace TightWiki.Shared.Wiki.Function
 
                     foreach (var p in item.Value.Parameters)
                     {
-                        html.AppendLine($"**Name:** ##Color(##Get(identifierColor) | {p.Name}) ##Color(##Get(metaColor) | {(p.IsRequired ? "[Required]" : "{Optional}")})");
-                        html.AppendLine($">**Type:** ##Color(##Get(keywordColor) | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
+                        html.AppendLine($"**Name:** ##Color(${{identifierColor}} | {p.Name}) ##Color(${{metaColor}} | {(p.IsRequired ? "[Required]" : "{Optional}")})");
+                        html.AppendLine($">**Type:** ##Color(${{keywordColor}} | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
                         if (string.IsNullOrEmpty(p.DefaultValue) == false)
                         {
-                            html.AppendLine($">**Default:** ##Color(##Get(identifierColor) | {p.DefaultValue})");
+                            html.AppendLine($">**Default:** ##Color(${{identifierColor}} | {p.DefaultValue})");
                         }
                         if (p.AllowedValues != null)
                         {
-                            html.AppendLine($">**Values:** ##Color(##Get(identifierColor) | {string.Join(", ", p.AllowedValues)})");
+                            html.AppendLine($">**Values:** ##Color(${{identifierColor}} | {string.Join(", ", p.AllowedValues)})");
                         }
                         html.AppendLine($">**Description:** !!FILL_IN_THE_BLANK!!");
                     }

@@ -43,6 +43,7 @@
                     _functionPrototypes.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}=''");
                     _functionPrototypes.Add("##File: <string>[name] | <string>[linkText] | <bool>{showSize}='false'");
                     _functionPrototypes.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
+                    _functionPrototypes.Add("##Similar: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
                     _functionPrototypes.Add("##Tags: <string>{styleName(Flat,List)}='List'");
                     _functionPrototypes.Add("##EditLink: <string>{linkText}='edit'");
                     _functionPrototypes.Add("##Inject: <string>[pageName]");

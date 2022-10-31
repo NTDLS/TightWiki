@@ -11,6 +11,35 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class PageRepository
     {
+        public static void UpdateSinglePageReference(string pageNavigation)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    @PageNavigation = pageNavigation
+                };
+
+                handler.Connection.Execute("UpdateSinglePageReference",
+                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static void UpdatePageReferences(int pageId, List<string> referencesPageNavigations)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = pageId,
+                    @ReferencesPageNavigations = string.Join(",", referencesPageNavigations)
+                };
+
+                handler.Connection.Execute("UpdatePageReferences",
+                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
         public static List<Page> PageSearch(List<PageToken> items)
         {
             using (var handler = new SqlConnectionHandler())
@@ -299,6 +328,21 @@ namespace TightWiki.Shared.Repository
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
+        public static List<RelatedPage> GetSimilarPagesPaged(int pageId, int pageNumber, int pageSize = 0)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageId = pageId,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                return handler.Connection.Query<RelatedPage>("GetSimilarPagesPaged",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
 
         public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int pageSize = 0)
         {
@@ -312,20 +356,6 @@ namespace TightWiki.Shared.Repository
                 };
 
                 return handler.Connection.Query<RelatedPage>("GetRelatedPagesPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
-        }
-
-        public static List<RelatedPage> GetRelatedPages(int pageId)
-        {
-            using (var handler = new SqlConnectionHandler())
-            {
-                var param = new
-                {
-                    PageId = pageId
-                };
-
-                return handler.Connection.Query<RelatedPage>("GetRelatedPages",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }

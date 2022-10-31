@@ -11,6 +11,7 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
+using TightWiki.Shared.Wiki.Function;
 using static TightWiki.Shared.Library.Constants;
 using static TightWiki.Shared.Wiki.Constants;
 
@@ -276,23 +277,17 @@ namespace TightWiki.Site.Controllers
 
                 foreach (var page in pages)
                 {
-                    page.Id = PageRepository.SavePage(page);
-                    var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
-
-                    Debug.WriteLine($"Name {page.Name}, Matches: {wikifier.MatchCount}, Errors:{wikifier.ErrorCount}, Duration: {wikifier.ProcessingTime.TotalMilliseconds}");
-
-                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
-                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-                    PageRepository.SavePageTokens(pageTokens);
-
-                    Cache.ClearClass($"Page:{page.Navigation}");
+                    base.SavePage(page);
                 }
             }
             else if (action == "truncatepagerevisionhistory")
             {
                 PageRepository.TruncateAllPageHistory("YES");
                 Cache.Clear();
+            }
+            else if (action == "createselfdocumentation")
+            {
+                SelfDocument.CreateNotExisting();
             }
 
             return View(model);

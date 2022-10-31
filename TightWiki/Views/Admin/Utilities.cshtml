@@ -51,6 +51,16 @@
                                 </td>
                             </tr>
                             <tr>
+                                <td>Create Self-Documentation</td>
+                                <td>
+                                    <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="message" value="This will build a wiki page for each built-in wiki function. Existing pages will not be overwritten. Continue?" />
+                                        <button type="submit" class="btn btn-primary rounded-0" name="ActionToConfirm" value="CreateSelfDocumentation">Start</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <tr>
                                 <td>Truncate page revision history</td>
                                 <td>
                                     <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">

@@ -27,7 +27,7 @@ namespace TightWiki.Shared.Wiki
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
         private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
-
+        public List<string> OutgoingLinks { get; set; } = new List<string>();
         public List<string> ProcessingInstructions { get; private set; } = new List<string>();
         public string ProcessedBody { get; private set; }
         public List<string> Tags { get; private set; } = new List<string>();
@@ -735,72 +735,59 @@ namespace TightWiki.Shared.Wiki
                     keyword = keyword.Substring(0, pipeIndex).Trim();
                 }
 
-                if (keyword.ToLower().StartsWith("https://") || keyword.ToLower().StartsWith("http://"))
+
+                string pageName = keyword;
+                string pageNavigation = WikiUtility.CleanPartialURI(pageName);
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+
+                OutgoingLinks.Add(pageNavigation);
+
+                if (page != null)
                 {
                     if (explicitLinkText.Length == 0)
                     {
-                        linkText = explicitLinkText;
+                        linkText = page.Name;
                     }
                     else
                     {
                         linkText = GetLinkImage(explicitLinkText);
                     }
 
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + $"\">{linkText}</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else
+                else if (_context?.CanCreate == true)
                 {
-                    string pageName = keyword;
-                    string pageNavigation = WikiUtility.CleanPartialURI(pageName);
-                    var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-
-                    if (page != null)
+                    if (explicitLinkText.Length == 0)
                     {
-                        if (explicitLinkText.Length == 0)
-                        {
-                            linkText = page.Name;
-                        }
-                        else
-                        {
-                            linkText = GetLinkImage(explicitLinkText);
-                        }
-
-                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
-                    }
-                    else if (_context?.CanCreate == true)
-                    {
-                        if (explicitLinkText.Length == 0)
-                        {
-                            linkText = pageName;
-                        }
-                        else
-                        {
-                            linkText = explicitLinkText;
-                        }
-
-                        linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                        linkText = pageName;
                     }
                     else
                     {
-                        if (explicitLinkText.Length == 0)
-                        {
-                            linkText = pageName;
-                        }
-                        else
-                        {
-                            linkText = explicitLinkText;
-                        }
+                        linkText = explicitLinkText;
+                    }
 
-                        //Remove wiki tags for pages which were not found or which we do not have permission to view.
-                        if (linkText.Length > 0)
-                        {
-                            StoreMatch(WikiMatchType.Link, pageContent, match.Value, linkText);
-                        }
-                        else
-                        {
-                            StoreError(pageContent, match.Value, $"The page has no name for [{keyword}]");
-                        }
+                    linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{pageNavigation}/") + $"?Name={pageName}\">{linkText}</a>");
+                }
+                else
+                {
+                    if (explicitLinkText.Length == 0)
+                    {
+                        linkText = pageName;
+                    }
+                    else
+                    {
+                        linkText = explicitLinkText;
+                    }
+
+                    //Remove wiki tags for pages which were not found or which we do not have permission to view.
+                    if (linkText.Length > 0)
+                    {
+                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, linkText);
+                    }
+                    else
+                    {
+                        StoreError(pageContent, match.Value, $"The page has no name for [{keyword}]");
                     }
                 }
             }
@@ -1445,9 +1432,58 @@ namespace TightWiki.Shared.Wiki
                             StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
-
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Displays a list of other related pages based on tags.
+                    case "similar": //##Similar()
+                        {
+                            string refTag = GenerateQueryToken();
+
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var html = new StringBuilder();
+
+                            var pages = PageRepository.GetSimilarPagesPaged(_page.Id, pageNumber, pageSize);
+
+                            if (styleName == "list")
+                            {
+                                html.Append("<ul>");
+                                foreach (var page in pages)
+                                {
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                }
+                                html.Append("</ul>");
+                            }
+                            else if (styleName == "flat")
+                            {
+                                foreach (var page in pages)
+                                {
+                                    if (html.Length > 0) html.Append(" | ");
+                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                }
+                            }
+                            else if (styleName == "full")
+                            {
+                                html.Append("<ul>");
+                                foreach (var page in pages)
+                                {
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a> - {page.Description}");
+                                }
+                                html.Append("</ul>");
+                            }
+
+                            if (pageSelector && pages.Count > 0)
+                            {
+                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
+                            }
+
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays a list of other related pages based incoming links.
                     case "related": //##related
                         {
                             string refTag = GenerateQueryToken();

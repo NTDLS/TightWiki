@@ -269,8 +269,6 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Display(string pageNavigation, int? pageRevision)
         {
-            //Shared.Wiki.Function.SelfDocument.CreateNotExisting();
-
             var model = new DisplayModel();
 
             if (context.CanView == false)
