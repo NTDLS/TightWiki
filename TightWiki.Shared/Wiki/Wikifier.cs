@@ -255,9 +255,8 @@ namespace TightWiki.Shared.Wiki
         {
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
 
-
             //Transform literal strings, even encodes HTML so that it displays verbatim.
-            Regex rgx = new Regex(@"\[\{\{([\S\s]*?)\}\}\]", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"\#\{([\S\s]*?)\}\#", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {

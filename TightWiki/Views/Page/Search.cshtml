@@ -47,8 +47,7 @@
                                 @foreach (var p in Model.Pages)
                                 {
                                     <tr>
-                                        <td><p class="text-muted">@p.Score.ToString("N0")%</p></td>
-                                        <td><a href="/@p.Navigation">@p.Name</a> @(String.IsNullOrEmpty(@p.Description) ? "" : " : ")  @p.Description</td>
+                                        <td><font class="text-muted">@p.Score.ToString("N0")%</font> <a href="/@p.Navigation">@p.Name</a> @(String.IsNullOrEmpty(@p.Description) ? "" : " : ")  @p.Description</td>
                                     </tr>
                                 }
                             </table>
