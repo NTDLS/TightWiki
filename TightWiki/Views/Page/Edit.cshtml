@@ -5,20 +5,25 @@
 
 <link rel=stylesheet href="/doc/docs.css">
 <link rel="stylesheet" href="/lib/codemirror.css">
+<link rel="stylesheet" href="/addon/scroll/simplescrollbars.css">
 <script src="/lib/codemirror.js"></script>
 <script src="/addon/edit/matchbrackets.js"></script>
 <script src="/mode/tightwiki/tightwiki.js"></script>
-
+<script src="/addon/scroll/simplescrollbars.js"></script>
 
 <style type="text/css">
-    .iframe {
-        box-shadow: none !important;
+         .iframe {
+             box-shadow: none !important;
+         }
+         .bodyDiv {
+            position: realitive;
+            left: 1%;
+            right: 1%;
+        }
+    .CodeMirror {
+      border: 1px solid #eee;
+      height: 50em;
     }
-.CodeMirror {
-  border: 1px solid #eee;
-  width: auto;
-  height: auto;
-}
 </style>
 
 <script>
@@ -56,30 +61,31 @@
 
 </script>
 
-<div class="card">
-    <div class="card-header"><h3>Content</h3></div>
-    <div class="card-body">
-        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-        {
+<div class=bodyDiv">
+    <div class="card">
+        <div class="card-header"><h3>Content</h3></div>
+        <div class="card-body">
+            @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+            {
             @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-        }
+            }
 
-        <table border="0" width="100%" cellpadding="5">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="center">
+            <table border="0" width="100%" cellpadding="5">
+                <tbody>
+                    <tr>
+                        <td height="52" valign="middle" align="center">
 
-                        @if (Model.ErrorMessage != null)
-                        {
+                            @if (Model.ErrorMessage != null)
+                            {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
-                        }
-                        @if (Model.SuccessMessage != null)
-                        {
+                            }
+                            @if (Model.SuccessMessage != null)
+                            {
                             <div class="alert alert-success">@Model.SuccessMessage</div>
-                        }
+                            }
 
-                        @using (Html.BeginForm())
-                        {
+                            @using (Html.BeginForm())
+                            {
                             @Html.HiddenFor(x => x.Id)
 
                             <table border="0" width="100%" cellpadding="5">
@@ -114,40 +120,39 @@
                                         @Html.LabelFor(x => x.Body)
                                     </td>
                                 </tr>
-                                <tr class="padded">
-                                    <td colspan="2">
-                                        <textarea id=Body name="Body">@Model.Body</textarea>
-                                        <script>
-                                            var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
-                                                lineNumbers: true,
-                                                mode: "text/x-tightwiki",
-                                                matchBrackets: true,
-                                                viewportMargin: Infinity
-                                            });
-                                            //editor.setSize("1050", "600");
-                                        </script>
-                                    </td>
-                                </tr>
                             </table>
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<br/>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-<div class="card">
-    <div class="card-header"><h3>Attachments</h3></div>
-    <div class="card-body">
+            <textarea id=Body name="Body">@Model.Body</textarea>
+            <script>
+                var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
+                    lineNumbers: true,
+                    mode: "text/x-tightwiki",
+                    matchBrackets: true,
+                    viewportMargin: Infinity,
+                    scrollbarStyle: "simple"
+                });
+            </script>
+        </div>
+    </div>
+    <br />
+
+    <div class="card">
+        <div class="card-header"><h3>Attachments</h3></div>
+        <div class="card-body">
         @if (Model?.Id > 0 && @ViewBag.Config.Context?.CanCreate == true)
         {
-            <div><iframe src="/File/EditPageAttachment/@ViewBag.Config.PageNavigation" align="left" width="600" frameBorder="0" /></div>
+                <div><iframe src="/File/EditPageAttachment/@ViewBag.Config.PageNavigation" align="left" width="600" frameBorder="0" /></div>
         }
         else
         {
-            <div>Save the page before uploading files.</div>
+                <div>Save the page before uploading files.</div>
         }
+        </div>
     </div>
 </div>
+
