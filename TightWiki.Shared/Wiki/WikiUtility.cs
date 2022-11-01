@@ -324,7 +324,7 @@ namespace TightWiki.Shared.Wiki
                                     Weight = g.Count() * weightMultiplier
                                 }).ToList();
 
-            return searchTokens;
+            return searchTokens.Where(o => string.IsNullOrWhiteSpace(o.Token) == false).ToList();
         }
 
         public static bool IsValidEmail(string email)
