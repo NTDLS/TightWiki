@@ -41,7 +41,7 @@
                     _functionPrototypes.Add("##TextGlossary: <string>[searchPhrase] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
                     _functionPrototypes.Add("##TagCloud: <string>[pageTag] | <integer>{Top}='1000'");
                     _functionPrototypes.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}=''");
-                    _functionPrototypes.Add("##File: <string>[name] | <string>[linkText] | <bool>{showSize}='false'");
+                    _functionPrototypes.Add("##File: <string>[name] | <string>{linkText} | <bool>{showSize}='false'");
                     _functionPrototypes.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
                     _functionPrototypes.Add("##Similar: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
                     _functionPrototypes.Add("##Tags: <string>{styleName(Flat,List)}='List'");

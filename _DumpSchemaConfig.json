@@ -15,8 +15,8 @@
   //Be sure to use two back-slashes when specifying an output path. e.g. "C:\\Temp\\Test.sql"
   //Note that "DestinationPath" can be a directory or a single file depending on the value of "ScriptToIndividualFiles".
   "DestinationOptions": {
-    "DestinationPath": ".\\SchemaDump",
-    "ScriptToIndividualFiles": true,
+    "DestinationPath": ".\\SchemaDump\\TighWikiSchema.sql",
+    "ScriptToIndividualFiles": false,
     "PrependSequentialNumber": true,
     "DeleteExistingFiles": true,
     "RollupTableArtifacts": true,
@@ -66,16 +66,22 @@
   //Alternately, if "ScriptDataExplicitExclude" is enabled then all database tables will have their data scripted by default
   //  and the "ScriptDataList" section instead becomes an exclusion list objects which are to be excluded from being generated.
   "ScriptDataList": [
-	"dbo.Page",
-	"dbo.ConfigurationEntry",
+	"dbo.PageRevisionAttachment",
+	"dbo.PageReference",
+	"dbo.PageFile",
 	"dbo.ConfigurationGroup",
 	"dbo.Role",
+	"dbo.Page",
 	"dbo.UserRole",
+	"dbo.MenuItem",
+	"dbo.ConfigurationEntry",
 	"dbo.User",
-	"dbo.PageFile",
+	"dbo.DataType",
 	"dbo.PageTag",
-	"dbo.ProcessingInstruction",
-	"dbo.PageToken"
+	"dbo.PageProcessingInstruction",
+	"dbo.PageToken",
+	"dbo.PageRevision",
+	"dbo.PageFileRevision"
   ],
   "ScriptDataExplicitExclude": false,
 
