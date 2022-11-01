@@ -73,7 +73,7 @@ namespace TightWiki.Site.Controllers
             var searchTerms = new List<PageToken>();
             if (model.SearchTokens != null)
             {
-                var tokens = model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                var tokens = model.SearchTokens.Split(new char[] { ' ', '\t', '_', '-' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
 
                 searchTerms.AddRange((from o in tokens
                                    select new PageToken
