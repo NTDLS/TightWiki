@@ -230,7 +230,7 @@ namespace TightWiki.Shared.Wiki
             do
             {
                 original = result;
-                result = result.Replace("__", "_").Replace("\\", "/").Replace("//", "/");
+                result = result.Replace("__", "_").Replace("-_", "_").Replace("_-", "_").Replace("\\", "/").Replace("//", "/");
             }
             while (result != original);
 
@@ -296,7 +296,7 @@ namespace TightWiki.Shared.Wiki
 
             var exclusionWords = searchConfig.As<string>("Word Exclusions").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
             var strippedContent = HTML.StripHtml(content).ToLower();
-            var tokens = strippedContent.Split(new char[] { ' ', '\n', '\t' }).ToList<string>().ToList();
+            var tokens = strippedContent.Split(new char[] { ' ', '\n', '\t', '-', '_' }).ToList<string>().ToList();
 
             if (searchConfig.As<bool>("Split Camel Case"))
             {

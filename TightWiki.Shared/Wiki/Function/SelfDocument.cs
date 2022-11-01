@@ -32,7 +32,7 @@ namespace TightWiki.Shared.Wiki.Function
                     functionPrefix = string.Empty;
                 }
 
-                string topic = $"{item.ProperName} {functionType} Wiki Help";
+                string topic = $"{item.ProperName} - {functionType} - Wiki Help";
                 string navigation = WikiUtility.CleanPartialURI(topic);
 
                 var page = PageRepository.GetPageInfoByNavigation(navigation);
@@ -143,10 +143,10 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine("");
 
                     html.AppendLine("==See Also");
-                    html.AppendLine("[[Function Calling Convention Wiki Help]]");
-                    html.AppendLine("[[Scope Function Wiki Help]]");
-                    html.AppendLine("[[Instruction Function Wiki Help]]");
-                    html.AppendLine("[[Standard Function Wiki Help]]");
+                    html.AppendLine("[[Function Calling Convention - Wiki Help]]");
+                    html.AppendLine("[[Scope Function - Wiki Help]]");
+                    html.AppendLine("[[Instruction Function - Wiki Help]]");
+                    html.AppendLine("[[Standard Function - Wiki Help]]");
                     html.AppendLine("");
                     html.AppendLine("");
 

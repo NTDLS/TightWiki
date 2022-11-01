@@ -26,8 +26,8 @@ namespace TightWiki.Shared.Wiki
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
-        private Dictionary<string, string> _userVariables = new Dictionary<string, string>();
-        public List<string> OutgoingLinks { get; set; } = new List<string>();
+        private readonly Dictionary<string, string> _userVariables = new Dictionary<string, string>();
+        public List<NameNav> OutgoingLinks { get; set; } = new List<NameNav>();
         public List<string> ProcessingInstructions { get; private set; } = new List<string>();
         public string ProcessedBody { get; private set; }
         public List<string> Tags { get; private set; } = new List<string>();
@@ -739,7 +739,7 @@ namespace TightWiki.Shared.Wiki
                 string pageNavigation = WikiUtility.CleanPartialURI(pageName);
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
-                OutgoingLinks.Add(pageNavigation);
+                OutgoingLinks.Add(new NameNav(pageName, pageNavigation));
 
                 if (page != null)
                 {
@@ -961,7 +961,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector && attachments.Count > 0)
+                                if (pageSelector && attachments.Count > 0 && attachments.First().PaginationCount > 1)
                                 {
                                     html.Append(WikiUtility.GetPageSelector(refTag, attachments.First().PaginationCount, pageNumber, _queryString));
                                 }
@@ -1007,7 +1007,7 @@ namespace TightWiki.Shared.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector && history.Count > 0)
+                                if (pageSelector && history.Count > 0 && history.First().PaginationCount > 1)
                                 {
                                     html.Append(WikiUtility.GetPageSelector(refTag, history.First().PaginationCount, pageNumber, _queryString));
                                 }
@@ -1386,7 +1386,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0)
+                            if (pageSelector && pages.Count > 0 && pages.First().PaginationCount > 1)
                             {
                                 html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }
@@ -1472,7 +1472,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0)
+                            if (pageSelector && pages.Count > 0 && pages.First().PaginationCount > 1)
                             {
                                 html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }
@@ -1522,7 +1522,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0)
+                            if (pageSelector && pages.Count > 0 && pages.First().PaginationCount > 1)
                             {
                                 html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
                             }

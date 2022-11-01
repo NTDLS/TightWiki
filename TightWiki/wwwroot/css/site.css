@@ -14,7 +14,6 @@ tr td {
 }
 
 .fixedTable100 {
-    table-layout: fixed;
     width: 100%;
 }
 

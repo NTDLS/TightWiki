@@ -28,7 +28,7 @@ namespace TightWiki.Site.Controllers
             string searchTokens = Request.Query["Tokens"];
             if (searchTokens != null)
             {
-                var tokens = searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                var tokens = searchTokens.Split(new char[] { ' ', '\t', '_', '-' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
 
                 var searchTerms = (from o in tokens
                                    select new PageToken
