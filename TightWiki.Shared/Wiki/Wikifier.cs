@@ -1539,7 +1539,8 @@ namespace TightWiki.Shared.Wiki
                             lastModified = _page.ModifiedDate;
                             if (lastModified != DateTime.MinValue)
                             {
-                                StoreMatch(function, pageContent, match.Value, _context.LocalizeDateTime(lastModified).ToShortDateString());
+                                var localized = _context.LocalizeDateTime(lastModified);
+                                StoreMatch(function, pageContent, match.Value, $"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
                             }
                         }
                         break;
@@ -1552,7 +1553,8 @@ namespace TightWiki.Shared.Wiki
                             createdDate = _page.CreatedDate;
                             if (createdDate != DateTime.MinValue)
                             {
-                                StoreMatch(function, pageContent, match.Value, _context.LocalizeDateTime(createdDate).ToShortDateString());
+                                var localized = _context.LocalizeDateTime(createdDate);
+                                StoreMatch(function, pageContent, match.Value, $"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
                             }
                         }
                         break;
