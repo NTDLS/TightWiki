@@ -11,6 +11,21 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class PageRepository
     {
+        public static List<NonexistentPage> GetNonexistentPagesPaged(int pageNumber, int pageSize = 0)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                return handler.Connection.Query<NonexistentPage>("GetNonexistentPagesPaged",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public static void UpdateSinglePageReference(string pageNavigation)
         {
             using (var handler = new SqlConnectionHandler())
@@ -25,14 +40,16 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static void UpdatePageReferences(int pageId, List<string> referencesPageNavigations)
+        public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
         {
             using (var handler = new SqlConnectionHandler())
             {
+                var array = string.Join("\n", referencesPageNavigations.Select(o => $"{o.Navigation}:{o.Name}"));
+
                 var param = new
                 {
                     PageId = pageId,
-                    @ReferencesPageNavigations = string.Join(",", referencesPageNavigations)
+                    @ReferencesPageNavigations = array
                 };
 
                 handler.Connection.Execute("UpdatePageReferences",

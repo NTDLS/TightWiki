@@ -109,6 +109,64 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpGet]
+        public ActionResult MissingPages(int page)
+        {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return Unauthorized();
+            }
+
+            if (page <= 0) page = 1;
+
+            var model = new MissingPagesModel()
+            {
+                Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
+            };
+
+            if (model.Pages != null && model.Pages.Any())
+            {
+                ViewBag.Config.Title = $"Missing Pages";
+                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult MissingPages(int page, MissingPagesModel model)
+        {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return Unauthorized();
+            }
+
+            page = 1;
+
+            model = new MissingPagesModel()
+            {
+                Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
+            };
+
+            if (model.Pages != null && model.Pages.Any())
+            {
+                ViewBag.Config.Title = $"Missing Pages";
+                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
         public ActionResult Pages(int page)
         {
             if (context.CanAdmin == false && context.CanModerate == false)
