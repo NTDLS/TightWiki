@@ -12,21 +12,15 @@ namespace TightWiki.Shared.Library
 
         public static string StripHtml(string html)
         {
+            html = html.Replace("\'", ""); //Compress "don't" -> "dont"
+            html = html.Replace("`", ""); //Compress "don't" -> "dont"
+            html = html.Replace("’", ""); //Compress "don't" -> "dont"
             html = (new Regex("<(.|\n)+?>")).Replace(html, " "); //Remove all text between < and >
             html = (new Regex("\\[\\[(.|\n)+?\\]\\]")).Replace(html, " "); //Remove all text between [[ and ]]
             html = (new Regex("\\&(.|\n)+?\\;")).Replace(html, " "); //Remove all text between & and ;
             html = (new Regex("[^A-Za-z]")).Replace(html, " "); //Remove all non-alpha-numerics
             html = (new Regex(@"\s+")).Replace(html, " "); // compress all whitespace to one space.
 
-            return html.Trim();
-        }
-
-        public static string RemoveHTML(string html)
-        {
-            html = (new Regex("<(.|\n)+?>")).Replace(html, " "); //Remove all text between < and >
-            html = (new Regex("\\[\\[(.|\n)+?\\]\\]")).Replace(html, " "); //Remove all text between [[ and ]]
-            html = (new Regex("\\&(.|\n)+?\\;")).Replace(html, " "); //Remove all text between & and ;
-            html = (new Regex(@"\s+")).Replace(html, " "); // compress all whitespace to one space.
             return html.Trim();
         }
     }
