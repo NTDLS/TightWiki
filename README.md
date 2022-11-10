@@ -3,7 +3,7 @@
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that “checks all the boxes” – so I wrote one.
 
-TightWiki is a .net ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
+TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
 # Default home page:
 ![home](https://user-images.githubusercontent.com/11428567/197877650-810f1c18-fba8-4a63-b1df-15cf5db925fb.png)
