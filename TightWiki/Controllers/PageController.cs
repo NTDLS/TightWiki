@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
@@ -17,6 +18,17 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class PageController : ControllerHelperBase
     {
+        [AllowAnonymous]
+        [Route("/robots.txt")]
+        public ContentResult RobotsTxt()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("User-agent: *")
+                .AppendLine("Allow: /");
+
+            return this.Content(sb.ToString(), "text/plain", Encoding.UTF8);
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Search(int page)
