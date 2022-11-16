@@ -13,9 +13,9 @@
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
-
-    <title>@ViewBag.Config.HTMLHeader</title>
+    @Html.Raw(ViewBag.Config.HTMLHeader)
     <!-- END Syntax Highlighter -->
+
     @if (ViewBag.Config.IncludeWikiDescriptionInMeta)
     {
         <meta name="description" content="@ViewBag.Config.PageDescription">
@@ -128,9 +128,9 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            @ViewBag.Config.HTMLPreBody
+            @Html.Raw(ViewBag.Config.HTMLPreBody)
             @RenderBody()
-            @ViewBag.Config.HTMLPostBody
+            @Html.Raw(ViewBag.Config.HTMLPostBody)
         </main>
     </div>
 
@@ -149,7 +149,7 @@
                 @Html.Raw(ViewBag.Config.Copyright)
             }
         }
-        @ViewBag.Config.HTMLFooter
+        @Html.Raw(ViewBag.Config.HTMLFooter)
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

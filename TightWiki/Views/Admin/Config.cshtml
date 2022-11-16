@@ -109,6 +109,10 @@
                                                                             <input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
                                                                         }
                                                                     }
+                                                                    else if (@entry.DataType == "text")
+                                                                    {
+                                                                        <textarea name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" rows="4" cols="100">@entry.Value</textarea>
+                                                                    }
                                                                     else if (@entry.DataType == "integer")
                                                                     {
                                                                         <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
