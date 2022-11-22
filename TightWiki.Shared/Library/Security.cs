@@ -2,6 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Aes = System.Security.Cryptography.Aes;
 
 namespace TightWiki.Shared.Library
 {
@@ -38,33 +39,26 @@ namespace TightWiki.Shared.Library
 
         public static string Sha1(string text)
         {
-            byte[] buffer = Encoding.Unicode.GetBytes(text);
-            SHA1CryptoServiceProvider cryptoTransformSHA1 = new SHA1CryptoServiceProvider();
-            string hash = BitConverter.ToString(cryptoTransformSHA1.ComputeHash(buffer)).Replace("-", "");
-            return hash;
+            return BitConverter.ToString(SHA1.HashData(Encoding.Unicode.GetBytes(text))).Replace("-", "");
         }
 
         public static string Sha256(string value)
         {
-            using (var crypt = new System.Security.Cryptography.SHA256Managed())
+            var hash = new StringBuilder();
+            byte[] crypto = SHA256.HashData(Encoding.UTF8.GetBytes(value));
+            foreach (byte theByte in crypto)
             {
-                var hash = new StringBuilder();
-                byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(value));
-                foreach (byte theByte in crypto)
-                {
-                    hash.Append(theByte.ToString("x2"));
-                }
-                return hash.ToString();
+                hash.Append(theByte.ToString("x2"));
             }
+            return hash.ToString();
         }
 
         public static string EncryptString(string key, string plainText)
         {
-            using (var hashstring = new SHA256Managed())
-            using (Aes aes = Aes.Create())
+            using (var aes = Aes.Create())
             {
                 byte[] iv = new byte[16];
-                byte[] keyBytes = hashstring.ComputeHash(Encoding.Unicode.GetBytes(key));
+                byte[] keyBytes = SHA256.HashData(Encoding.Unicode.GetBytes(key));
                 byte[] vector = (byte[])keyBytes.Clone();
 
                 for (int i = 0; i < 16; i++)
@@ -94,29 +88,26 @@ namespace TightWiki.Shared.Library
         {
             byte[] buffer = Convert.FromBase64String(cipherText);
 
-            using (var hashstring = new SHA256Managed())
-            using (Aes aes = Aes.Create())
+            using var aes = Aes.Create();
+            byte[] iv = new byte[16];
+            byte[] keyBytes = SHA256.HashData(Encoding.Unicode.GetBytes(key));
+            byte[] vector = (byte[])keyBytes.Clone();
+
+            for (int i = 0; i < 16; i++)
             {
-                byte[] iv = new byte[16];
-                byte[] keyBytes = hashstring.ComputeHash(Encoding.Unicode.GetBytes(key));
-                byte[] vector = (byte[])keyBytes.Clone();
+                iv[i] = vector[i];
+            }
 
-                for (int i = 0; i < 16; i++)
-                {
-                    iv[i] = vector[i];
-                }
+            aes.Key = keyBytes;
+            aes.IV = iv;
 
-                aes.Key = keyBytes;
-                aes.IV = iv;
+            ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
-                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-                using (StreamReader streamReader = new StreamReader(cryptoStream))
-                {
-                    return streamReader.ReadToEnd();
-                }
+            using (MemoryStream memoryStream = new MemoryStream(buffer))
+            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
+            using (StreamReader streamReader = new StreamReader(cryptoStream))
+            {
+                return streamReader.ReadToEnd();
             }
         }
     }
