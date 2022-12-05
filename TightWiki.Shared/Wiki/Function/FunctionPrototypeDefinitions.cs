@@ -29,6 +29,7 @@
                     _functionPrototypes.Add("$$Collapse: <string>{linkText}='Show'");
 
                     //Standard functions:
+                    _functionPrototypes.Add("##Seq: <string>{key}='Default'");
                     _functionPrototypes.Add("##Set: <string>[key] | <string>[value]");
                     _functionPrototypes.Add("##Get: <string>[key]");
                     _functionPrototypes.Add("##Color: <string>[color] | <string>[text]");

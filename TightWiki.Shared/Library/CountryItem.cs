@@ -17,7 +17,7 @@ namespace TightWiki.Shared.Library
 
             foreach (var culture in cultureInfo)
             {
-                var regionInfo = new RegionInfo(culture.LCID);
+                var regionInfo = new RegionInfo(culture.Name);
 
                 if (list.Where(o => o.Value == regionInfo.Name).Any() == false)
                 {

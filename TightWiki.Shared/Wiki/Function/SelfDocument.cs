@@ -53,7 +53,7 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
-                    html.Append($"##Color(${{keywordColor}} | **[{{{{ {functionPrefix}{item.ProperName} }}}}]**)");
+                    html.Append($"##Color(${{keywordColor}} | **#{{ {functionPrefix}{item.ProperName} }}#**)");
                     if ((item.Value.Parameters?.Count ?? 0) == 0)
                     {
                         html.AppendLine("()");

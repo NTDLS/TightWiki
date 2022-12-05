@@ -11,6 +11,7 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
+using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Shared.Library.Constants;
 
 namespace TightWiki.Site.Controllers
@@ -337,6 +338,21 @@ namespace TightWiki.Site.Controllers
                 {
                     ViewBag.CreatePage = true;
                 }
+            }
+
+            if (UserRepository.IsAdminPasswordDefault())
+            {
+                StringBuilder text = new StringBuilder();
+                text.Append("The admin password is set to its default value, it is recommended that you change it immediately!<br />");
+                text.Append("By default, the password is set to the name of your SQL server. You can change this password by logging");
+                text.Append(" in and changing the password on the My-&gt;Profile page or by running script called '0001 - SetAdminPassword.sql'");
+                text.Append(" which can be found in the 'Database Scripts' folder.<br />");
+                text.Append(" <strong>Current admin login</strong><br />");
+                text.Append(" &nbsp;&nbsp;&nbsp;<strong>Username:</strong> admin<br />");
+                text.Append(" &nbsp;&nbsp;&nbsp;<strong>Password:</strong> &lt;the name of your SQL Server&gt;<br /> ");
+                text.Append("<br />");
+
+                model.Body = Utility.WarningCard("Default password has not been changed", text.ToString()) + model.Body;
             }
 
             return View(model);

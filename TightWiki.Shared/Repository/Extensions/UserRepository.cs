@@ -9,7 +9,16 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class UserRepository
 	{
-		public static Role GetRoleByName(string name)
+        public static bool IsAdminPasswordDefault()
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+				return handler.Connection.ExecuteScalar<bool>("IsAdminPasswordDefault",
+					null, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static Role GetRoleByName(string name)
 		{
 			using (var handler = new SqlConnectionHandler())
 			{
@@ -211,33 +220,33 @@ namespace TightWiki.Shared.Repository
 			}
 		}
 
-		public static User GetUserByEmailAndPasswordHash(string emailAddress, string passwordHash)
+		public static User GetUserByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash)
 		{
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new
 				{
-					EmailAddress = emailAddress,
-					PasswordHash = passwordHash
+                    AccountNameOrEmail = accountNameOrEmail,
+                    PasswordHash = passwordHash
 				};
 
-				return handler.Connection.Query<User>("GetUserByEmailAndPasswordHash",
+				return handler.Connection.Query<User>("GetUserByAccountNameOrEmailAndPasswordHash",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 			}
 		}
 
-		public static User GetUserByEmailAndPassword(string emailAddress, string password)
+		public static User GetUserByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password)
 		{
 			string passwordHash = Library.Security.Sha256(password);
 			using (var handler = new SqlConnectionHandler())
 			{
 				var param = new
 				{
-					EmailAddress = emailAddress,
-					PasswordHash = passwordHash
+                    AccountNameOrEmail = accountNameOrEmail,
+                    PasswordHash = passwordHash
 				};
 
-				return handler.Connection.Query<User>("GetUserByEmailAndPasswordHash",
+				return handler.Connection.Query<User>("GetUserByAccountNameOrEmailAndPasswordHash",
 					param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 			}
 		}

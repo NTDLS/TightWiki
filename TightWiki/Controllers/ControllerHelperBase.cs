@@ -106,7 +106,7 @@ namespace TightWiki.Controllers
             return page.Id;
         }
 
-        public void PerformLogin(string emailAddress, string password, bool isPasswordHash)
+        public void PerformLogin(string accountNameOrEmail, string password, bool isPasswordHash)
         {
             var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Require Email Verification");
 
@@ -114,11 +114,11 @@ namespace TightWiki.Controllers
 
             if (isPasswordHash)
             {
-                user = UserRepository.GetUserByEmailAndPasswordHash(emailAddress, password);
+                user = UserRepository.GetUserByAccountNameOrEmailAndPasswordHash(accountNameOrEmail, password);
             }
             else
             {
-                user = UserRepository.GetUserByEmailAndPassword(emailAddress, password);
+                user = UserRepository.GetUserByAccountNameOrEmailAndPassword(accountNameOrEmail, password);
             }
 
             if (user != null)

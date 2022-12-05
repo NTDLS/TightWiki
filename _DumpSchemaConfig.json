@@ -15,7 +15,7 @@
   //Be sure to use two back-slashes when specifying an output path. e.g. "C:\\Temp\\Test.sql"
   //Note that "DestinationPath" can be a directory or a single file depending on the value of "ScriptToIndividualFiles".
   "DestinationOptions": {
-    "DestinationPath": ".\\SchemaDump\\TighWikiSchema.sql",
+    "DestinationPath": ".\\Database Scripts\\0000 - TighWikiSchema.sql",
     "ScriptToIndividualFiles": false,
     "PrependSequentialNumber": true,
     "DeleteExistingFiles": true,

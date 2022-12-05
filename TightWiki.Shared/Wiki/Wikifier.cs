@@ -12,6 +12,7 @@ using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki.Function;
+using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Shared.Library.Constants;
 using static TightWiki.Shared.Wiki.Constants;
 
@@ -33,6 +34,7 @@ namespace TightWiki.Shared.Wiki
         public List<string> Tags { get; private set; } = new List<string>();
         public Dictionary<string, MatchSet> Matches { get; private set; } = new Dictionary<string, MatchSet>();
 
+        private Dictionary<string, int> _sequences = new Dictionary<string, int>();
         private string _queryTokenState = Security.MachineKey;
         private int _matchesPerIteration = 0;
         private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
@@ -1034,6 +1036,21 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
+                    case "seq": //##Seq({Key})   Inserts a sequence into the document.
+                        {
+                            var key = function.Parameters.Get<String>("Key");
+
+                            if (_sequences.ContainsKey(key) == false)
+                            {
+                                _sequences.Add(key, 0);
+                            }
+
+                            _sequences[key]++;
+
+                            StoreFirstMatch(function, pageContent, match.Value, _sequences[key].ToString());
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "editlink": //(##EditLink(link text))
                         {
                             var linkText = function.Parameters.Get<String>("linkText");
@@ -1788,16 +1805,7 @@ namespace TightWiki.Shared.Wiki
         private void StoreCriticalError(string exceptionText)
         {
             ErrorCount++;
-
-            var html = new StringBuilder();
-            html.Append("<div class=\"card bg-warning mb-3\">");
-            html.Append($"<div class=\"card-header\"><strong>Wiki Parser Exception</strong></div>");
-            html.Append("<div class=\"card-body\">");
-            html.Append($"<p class=\"card-text\">{exceptionText}");
-            html.Append("</p>");
-            html.Append("</div>");
-            html.Append("</div>");
-            ProcessedBody = html.ToString();
+            ProcessedBody = Utility.WarningCard("Wiki Parser Exception", exceptionText);
         }
 
         private string StoreError(StringBuilder pageContent, string match, string value)
@@ -1861,6 +1869,29 @@ namespace TightWiki.Shared.Wiki
             return identifier;
         }
 
+        private string StoreFirstMatch(FunctionCallInstance function, StringBuilder pageContent, string match, string value, bool allowNestedDecode = true)
+        {
+            MatchCount++;
+            _matchesPerIteration++;
+
+            string identifier = $"<!--{Guid.NewGuid()}-->";
+
+            var matchSet = new MatchSet()
+            {
+                MatchType = WikiMatchType.Function,
+                Content = value,
+                Function = function,
+                AllowNestedDecode = allowNestedDecode
+            };
+            Matches.Add(identifier, matchSet);
+
+            var pageContentCopy = Utility.ReplaceFirst(pageContent.ToString(), match, identifier);
+            pageContent.Clear();
+            pageContent.Append(pageContentCopy);
+
+            return identifier;
+        }
+    
         private void TransformWhitespace(StringBuilder pageContent)
         {
             string identifier = $"<!--{Guid.NewGuid()}-->";
