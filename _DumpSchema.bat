@@ -14,4 +14,6 @@ del "TightWiki Database Scripts.zip"
 Echo Creatng new archive...
 7z.exe a -tzip -mx9 "TightWiki Database Scripts.zip" "Database Scripts\*.*"
 
+RD "Database Scripts" /Q /S
+
 Pause

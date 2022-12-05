@@ -585,6 +585,7 @@ namespace TightWiki.Site.Controllers
                 Languages = LanguageItem.GetAll(),
                 Nest = ConfigurationRepository.GetConfigurationNest()
             };
+
             return View(newModel);
         }
     }

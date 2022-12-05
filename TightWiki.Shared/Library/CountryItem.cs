@@ -13,17 +13,14 @@ namespace TightWiki.Shared.Library
         {
             var list = new List<CountryItem>();
 
-            var cultureInfo = CultureInfo.GetCultures(CultureTypes.SpecificCultures);
-
-            foreach (var culture in cultureInfo)
+            foreach (var ci in CultureInfo.GetCultures(CultureTypes.SpecificCultures))
             {
-                var regionInfo = new RegionInfo(culture.Name);
-
+                var regionInfo = new RegionInfo(ci.Name);
                 if (list.Where(o => o.Value == regionInfo.Name).Any() == false)
                 {
                     list.Add(new CountryItem
                     {
-                        Text = regionInfo.DisplayName,
+                        Text = regionInfo.EnglishName,
                         Value = regionInfo.Name
                     });
                 }

@@ -10,7 +10,31 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class ConfigurationRepository
 	{
-		public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
+        public static bool IsFirstRun(string content, string passphrase)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    Content = content,
+                    Passphrase = passphrase
+                };
+
+				return handler.Connection.ExecuteScalar<bool>("IsFirstRun",
+					param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static bool IsAdminPasswordDefault(string plainTextPassword)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.ExecuteScalar<bool>("IsAdminPasswordDefault",
+                    new { PlainTextPassword = plainTextPassword }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
+        public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
 		{
 			using (var handler = new SqlConnectionHandler())
 			{

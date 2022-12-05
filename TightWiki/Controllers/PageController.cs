@@ -282,6 +282,8 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Display(string pageNavigation, int? pageRevision)
         {
+            Utility.DoFirstRun();
+
             var model = new DisplayModel();
 
             if (context.CanView == false)
@@ -340,27 +342,29 @@ namespace TightWiki.Site.Controllers
                 }
             }
 
-            if (UserRepository.IsAdminPasswordDefault())
+#if !DEBUG
+            if (ConfigurationRepository.IsAdminPasswordDefault(DEFAULTPASSWORD))
             {
                 StringBuilder text = new StringBuilder();
                 text.Append("The admin password is set to its default value, it is recommended that you change it immediately!<br />");
-                text.Append("By default, the password is set to the name of your SQL server. You can change this password by logging");
-                text.Append(" in and changing the password on the My-&gt;Profile page or by running script called '0001 - SetAdminPassword.sql'");
-                text.Append(" which can be found in the 'Database Scripts' folder.<br />");
-                text.Append(" <strong>Current admin login</strong><br />");
-                text.Append(" &nbsp;&nbsp;&nbsp;<strong>Username:</strong> admin<br />");
-                text.Append(" &nbsp;&nbsp;&nbsp;<strong>Password:</strong> &lt;the name of your SQL Server&gt;<br /> ");
+                text.Append("<br />");
+                text.Append("You can change this password by logging in and changing the password on the My-&gt;Profile page or by running stored procedure <i>SetUserPasswordHash</i> in the TightWiki database.<br />");
+                text.Append("<br />");
+                text.Append("<strong>Current admin login</strong><br />");
+                text.Append("&nbsp;&nbsp;&nbsp;<strong>Username:</strong> admin<br />");
+                text.Append($"&nbsp;&nbsp;&nbsp;<strong>Password:</strong> \"{DEFAULTPASSWORD}\"<br /> ");
                 text.Append("<br />");
 
                 model.Body = Utility.WarningCard("Default password has not been changed", text.ToString()) + model.Body;
             }
+#endif
 
             return View(model);
         }
 
-        #endregion
+#endregion
 
-        #region Edit.
+#region Edit.
 
         [Authorize]
         [HttpGet]
@@ -511,6 +515,6 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-        #endregion
+#endregion
     }
 }

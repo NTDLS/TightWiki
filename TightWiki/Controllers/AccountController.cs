@@ -493,7 +493,7 @@ namespace TightWiki.Site.Controllers
             string scale = Request.Query["Scale"].ToString().ToString().IsNullOrEmpty("100");
             string max = Request.Query["max"];
 
-            byte[] imageBytes = UserRepository.GetUserAvatarBynavigation(userAccountName);
+            byte[] imageBytes = UserRepository.GetUserAvatarByNavigation(userAccountName);
             if (imageBytes != null && imageBytes.Count() > 0)
             {
                 var img = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));

@@ -2,6 +2,9 @@
 {
     public static class Constants
     {
+        public const string CRYPTOCHECK = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public const string DEFAULTPASSWORD = "2Tight2Wiki!";
+
         public static class WikiInstruction
         {
             public static string Deprecate { get; } = "Deprecate";
