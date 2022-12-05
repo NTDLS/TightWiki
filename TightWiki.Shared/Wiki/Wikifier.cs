@@ -737,6 +737,31 @@ namespace TightWiki.Shared.Wiki
                 }
             }
 
+            //Parse external explicit links. eg. [[https://test.net]].
+            rgx = new Regex(@"(\[\[https\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
+            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
+            {
+                string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
+                int pipeIndex = keyword.IndexOf("|");
+                if (pipeIndex > 0)
+                {
+                    string linkText = keyword.Substring(pipeIndex + 1).Trim();
+                    if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        linkText = $"<img {linkText} border =\"0\" > ";
+                    }
+
+                    keyword = keyword.Substring(0, pipeIndex).Trim();
+
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
+                }
+                else
+                {
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>");
+                }
+            }
+
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
             matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));

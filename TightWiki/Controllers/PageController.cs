@@ -348,7 +348,7 @@ namespace TightWiki.Site.Controllers
                 StringBuilder text = new StringBuilder();
                 text.Append("The admin password is set to its default value, it is recommended that you change it immediately!<br />");
                 text.Append("<br />");
-                text.Append("You can change this password by logging in and changing the password on the My-&gt;Profile page or by running stored procedure <i>SetUserPasswordHash</i> in the TightWiki database.<br />");
+                text.Append("You can change this password by logging in and changing the password on the My-&gt;Change Password page or by running the stored procedure <i>SetUserPasswordHash</i> in the TightWiki database.<br />");
                 text.Append("<br />");
                 text.Append("<strong>Current admin login</strong><br />");
                 text.Append("&nbsp;&nbsp;&nbsp;<strong>Username:</strong> admin<br />");
