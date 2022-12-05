@@ -260,7 +260,7 @@ namespace TightWiki.Shared.Wiki
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string value = match.Value.Substring(3, match.Value.Length - 6);
+                string value = match.Value.Substring(2, match.Value.Length - 4);
                 value = HttpUtility.HtmlEncode(value);
                 StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />\r\n"), false);
             }
@@ -270,6 +270,7 @@ namespace TightWiki.Shared.Wiki
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
         /// <param name="pageContent"></param>
+        /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlocks(StringBuilder pageContent)
         {
             var content = pageContent.ToString();
@@ -301,7 +302,8 @@ namespace TightWiki.Shared.Wiki
 
                 rawBlock = content.Substring(startPos, (endPos - startPos) + 3);
                 var transformBlock = new StringBuilder(rawBlock);
-                TransformBlock(transformBlock);
+                TransformBlock(transformBlock, true);
+                TransformBlock(transformBlock, false);
                 content = content.Replace(rawBlock, transformBlock.ToString());
             }
 
@@ -313,7 +315,8 @@ namespace TightWiki.Shared.Wiki
         /// Transform blocks or sections of code, these are thinks like panels and alerts.
         /// </summary>
         /// <param name="pageContent"></param>
-        private void TransformBlock(StringBuilder pageContent)
+        /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
+        private void TransformBlock(StringBuilder pageContent, bool firstBlocks)
         {
             Regex rgx = new Regex(@"{{{([\S\s]*)}}}", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
@@ -341,174 +344,188 @@ namespace TightWiki.Shared.Wiki
 
                 var html = new StringBuilder();
 
-                switch (function.Name.ToLower())
+                bool allowNestedDecode = true;
+
+                if (firstBlocks == true)//Process early blocks, like code because they need to be processed first.
                 {
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "code":
-                        {
-                            string language = function.Parameters.Get<string>("language");
-                            if (string.IsNullOrEmpty(language) || language?.ToLower() == "auto")
+                    switch (function.Name.ToLower())
+                    {
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "code":
                             {
-                                html.Append($"<pre>");
-                                html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
-                            }
-                            else
-                            {
-                                html.Append($"<pre class=\"language-{language}\">");
-                                html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
-                            }
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "bullets":
-                        {
-                            string type = function.Parameters.Get<string>("type");
-
-                            if (type == "unordered")
-                            {
-                                var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                int currentLevel = 0;
-
-                                foreach (var line in lines)
+                                string language = function.Parameters.Get<string>("language");
+                                if (string.IsNullOrEmpty(language) || language?.ToLower() == "auto")
                                 {
-                                    int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
-
-                                    if (newIndent < currentLevel)
-                                    {
-                                        for (; currentLevel != newIndent; currentLevel--)
-                                        {
-                                            html.Append($"</ul>");
-                                        }
-                                    }
-                                    else if (newIndent > currentLevel)
-                                    {
-                                        for (; currentLevel != newIndent; currentLevel++)
-                                        {
-                                            html.Append($"<ul>");
-                                        }
-                                    }
-
-                                    html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                    html.Append($"<pre>");
+                                    html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                                 }
-
-                                for (; currentLevel > 0; currentLevel--)
+                                else
                                 {
-                                    html.Append($"</ul>");
+                                    html.Append($"<pre class=\"language-{language}\">");
+                                    html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
                                 }
+                                allowNestedDecode = false;
                             }
-                            else if (type == "ordered")
-                            {
-                                var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                int currentLevel = 0;
-
-                                foreach (var line in lines)
-                                {
-                                    int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
-
-                                    if (newIndent < currentLevel)
-                                    {
-                                        for (; currentLevel != newIndent; currentLevel--)
-                                        {
-                                            html.Append($"</ol>");
-                                        }
-                                    }
-                                    else if (newIndent > currentLevel)
-                                    {
-                                        for (; currentLevel != newIndent; currentLevel++)
-                                        {
-                                            html.Append($"<ol>");
-                                        }
-                                    }
-
-                                    html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
-                                }
-
-                                for (; currentLevel > 0; currentLevel--)
-                                {
-                                    html.Append($"</ol>");
-                                }
-                            }
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "alert":
-                        {
-                            string titleText = function.Parameters.Get<string>("titleText");
-                            string style = function.Parameters.Get<string>("styleName").ToLower();
-                            style = (style == "default" ? "" : $"alert-{style}");
-
-                            if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
-                            html.Append($"<div class=\"alert {style}\">{scopeBody}.</div>");
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "jumbotron":
-                        {
-                            string titleText = function.Parameters.Get<string>("titleText", "");
-                            if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
-                            html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "foreground":
-                        {
-                            var style = WikiUtility.GetForegroundStyle(function.Parameters.Get<string>("styleName", "default")).Swap();
-                            html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "background":
-                        {
-                            var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
-                            html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "collapse":
-                        {
-                            string linkText = function.Parameters.Get<string>("linktext");
-                            string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
-                            html.Append($"<a data-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
-                            html.Append($"<div class=\"collapse\" id=\"{uid}\">");
-                            html.Append($"<div class=\"card card-body\">{scopeBody}</div></div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "callout":
-                        {
-                            string titleText = function.Parameters.Get<string>("titleText");
-                            string style = function.Parameters.Get<string>("styleName").ToLower();
-                            style = (style == "default" ? "" : style);
-
-                            html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
-                            if (string.IsNullOrWhiteSpace(titleText) == false) html.Append($"<h4>{titleText}</h4>");
-                            html.Append($"{scopeBody}");
-                            html.Append($"</div>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "card":
-                        {
-                            string titleText = function.Parameters.Get<string>("titleText");
-                            var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
-
-                            html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
-                            if (string.IsNullOrEmpty(titleText) == false)
-                            {
-                                html.Append($"<div class=\"card-header\">{titleText}</div>");
-                            }
-                            html.Append("<div class=\"card-body\">");
-                            html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                            html.Append("</div>");
-                            html.Append("</div>");
-                        }
-                        break;
+                            break;
+                        default:
+                            continue; //We don't want to replace tags that we cant match because we are only partially matching the possible functions with earlyt matching.
+                    }
+                    StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, html.ToString(), allowNestedDecode);
                 }
+                else if (firstBlocks == false)
+                {
+                    switch (function.Name.ToLower())
+                    {
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "bullets":
+                            {
+                                string type = function.Parameters.Get<string>("type");
 
-                StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, html.ToString());
+                                if (type == "unordered")
+                                {
+                                    var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                                    int currentLevel = 0;
+
+                                    foreach (var line in lines)
+                                    {
+                                        int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
+
+                                        if (newIndent < currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel--)
+                                            {
+                                                html.Append($"</ul>");
+                                            }
+                                        }
+                                        else if (newIndent > currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel++)
+                                            {
+                                                html.Append($"<ul>");
+                                            }
+                                        }
+
+                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                    }
+
+                                    for (; currentLevel > 0; currentLevel--)
+                                    {
+                                        html.Append($"</ul>");
+                                    }
+                                }
+                                else if (type == "ordered")
+                                {
+                                    var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                                    int currentLevel = 0;
+
+                                    foreach (var line in lines)
+                                    {
+                                        int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
+
+                                        if (newIndent < currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel--)
+                                            {
+                                                html.Append($"</ol>");
+                                            }
+                                        }
+                                        else if (newIndent > currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel++)
+                                            {
+                                                html.Append($"<ol>");
+                                            }
+                                        }
+
+                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                    }
+
+                                    for (; currentLevel > 0; currentLevel--)
+                                    {
+                                        html.Append($"</ol>");
+                                    }
+                                }
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "alert":
+                            {
+                                string titleText = function.Parameters.Get<string>("titleText");
+                                string style = function.Parameters.Get<string>("styleName").ToLower();
+                                style = (style == "default" ? "" : $"alert-{style}");
+
+                                if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
+                                html.Append($"<div class=\"alert {style}\">{scopeBody}.</div>");
+                            }
+                            break;
+
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "jumbotron":
+                            {
+                                string titleText = function.Parameters.Get<string>("titleText", "");
+                                if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
+                                html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "foreground":
+                            {
+                                var style = WikiUtility.GetForegroundStyle(function.Parameters.Get<string>("styleName", "default")).Swap();
+                                html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "background":
+                            {
+                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
+                                html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "collapse":
+                            {
+                                string linkText = function.Parameters.Get<string>("linktext");
+                                string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
+                                html.Append($"<a data-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
+                                html.Append($"<div class=\"collapse\" id=\"{uid}\">");
+                                html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "callout":
+                            {
+                                string titleText = function.Parameters.Get<string>("titleText");
+                                string style = function.Parameters.Get<string>("styleName").ToLower();
+                                style = (style == "default" ? "" : style);
+
+                                html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
+                                if (string.IsNullOrWhiteSpace(titleText) == false) html.Append($"<h4>{titleText}</h4>");
+                                html.Append($"{scopeBody}");
+                                html.Append($"</div>");
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "card":
+                            {
+                                string titleText = function.Parameters.Get<string>("titleText");
+                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
+
+                                html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
+                                if (string.IsNullOrEmpty(titleText) == false)
+                                {
+                                    html.Append($"<div class=\"card-header\">{titleText}</div>");
+                                }
+                                html.Append("<div class=\"card-body\">");
+                                html.Append($"<p class=\"card-text\">{scopeBody}</p>");
+                                html.Append("</div>");
+                                html.Append("</div>");
+                            }
+                            break;
+                    }
+                    StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, html.ToString(), allowNestedDecode);
+                }
             }
         }
 
