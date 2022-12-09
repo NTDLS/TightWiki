@@ -51,7 +51,8 @@
     "DependencyHeuristics": false,
     "DetectDependencies": true,
     "IncludeSetOptions": true,
-    "IncludeIndexOptions": true
+    "IncludeIndexOptions": true,
+	"UseIdentityInsert": true
   },
 
   //The "ScriptSchemaList" section specifies which database objects will have their schema scripts generated.

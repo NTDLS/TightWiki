@@ -459,7 +459,7 @@ namespace TightWiki.Shared.Wiki
                                 style = (style == "default" ? "" : $"alert-{style}");
 
                                 if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
-                                html.Append($"<div class=\"alert {style}\">{scopeBody}.</div>");
+                                html.Append($"<div class=\"alert {style}\">{scopeBody}</div>");
                             }
                             break;
 
