@@ -11,7 +11,6 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
-using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Shared.Library.Constants;
 
 namespace TightWiki.Site.Controllers

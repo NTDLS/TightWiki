@@ -2,32 +2,22 @@
 
 <html>
 <head>
-    <script>
-        function PostToParent() {
-            var binaryData = document.getElementById('binaryData');
-            var fileName = binaryData.files.item(0).name;
-            var lower = fileName.toLowerCase();
-
-            if (lower.endsWith(".png") || lower.endsWith(".bmp") || lower.endsWith(".gif") || lower.endsWith(".jpg") || lower.endsWith(".jpeg") || lower.endsWith(".ico") || lower.endsWith(".tif") || lower.endsWith(".tiff")) {
-                window.top.postMessage('image:##Image(' + fileName + ' | 100)', '*')
-            }
-            else {
-                window.top.postMessage('file:##File(' + fileName + ')', '*')
-            }
-        }
-    </script>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/deleteAttach.js"></script>
 </head>
 <body>
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
         <tbody>
+            <!--
             <tr>
                 <td colspan="2">
-
                     <form method="post" enctype="multipart/form-data">
                         <table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
                             <tr>
@@ -38,6 +28,7 @@
                     </form>
                 </td>
             </tr>
+            -->
             @foreach (var x in Model.Files)
             {
                 <tr>
@@ -47,16 +38,12 @@
                     <td>
                         @if (@ViewBag.Config.Context?.CanDelete == true)
                         {
-                            <a href="/File/Delete/@ViewBag.Config.PageNavigation/@x.FileNavigation" onclick="return window.confirm('Delete the image?');"> Delete </a>
+                            <a href="#deleteLink" id="@x.FileNavigation"> Delete </a>
                         }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>

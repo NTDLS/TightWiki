@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,11 +19,94 @@ namespace TightWiki.Site.Controllers
     public class FileController : ControllerHelperBase
     {
         /// <summary>
+        /// Uploads a file by drag drop.
+        /// </summary>
+        /// <param name="pageNavigation"></param>
+        /// <param name="postedFiles"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public IActionResult Upload(string pageNavigation, List<IFormFile> postedFiles)
+        {
+            if (context.CanCreate == false)
+            {
+                return Unauthorized();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
+
+            foreach (IFormFile file in postedFiles)
+            {
+                if (file != null)
+                {
+                    var fileSize = file.Length;
+                    if (fileSize > 0)
+                    {
+                        PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                        {
+                            Data = Utility.ConvertHttpFileToBytes(file),
+                            CreatedDate = DateTime.UtcNow,
+                            PageId = page.Id,
+                            Name = file.FileName,
+                            Size = fileSize,
+                            ContentType = Utility.GetMimeType(file.FileName)
+                        });
+                    }
+                }
+            }
+
+            return Content("Success");
+        }
+
+        /// <summary>
+        /// Uploads a file by manually selecting it for upload.
+        /// </summary>
+        /// <param name="postData"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult EditPageAttachment(string pageNavigation, object postData)
+        {
+            if (context.CanCreate == false)
+            {
+                return Unauthorized();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
+
+            var file = Request.Form.Files["BinaryData"];
+            if (file != null)
+            {
+                var fileSize = file.Length;
+                if (fileSize > 0)
+                {
+                    PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                    {
+                        Data = Utility.ConvertHttpFileToBytes(file),
+                        CreatedDate = DateTime.UtcNow,
+                        PageId = page.Id,
+                        Name = file.FileName,
+                        Size = fileSize,
+                        ContentType = Utility.GetMimeType(file.FileName)
+                    });
+                }
+            }
+
+            var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
+            return View(new FileAttachmentModel()
+            {
+                Files = pageFiles
+            });
+        }
+
+        /// <summary>
         /// Allows a user to delete a page attachment from a page.
         /// </summary>
         /// <param name="navigation"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         public ActionResult Delete(string pageNavigation, string fileNavigation)
         {
             if (context.CanDelete == false)
@@ -35,7 +119,7 @@ namespace TightWiki.Site.Controllers
 
             PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation, fileNavigation);
 
-            return RedirectToAction("EditPageAttachment", "File", new { pageNavigation = pageNavigation });
+            return Content("Success");
         }
 
         /// <summary>
@@ -211,48 +295,6 @@ namespace TightWiki.Site.Controllers
             {
                 return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
-        }
-
-        /// <summary>
-        /// Allows the use to upload a file/attachemnt to a page.
-        /// </summary>
-        /// <param name="postData"></param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpPost]
-        public ActionResult EditPageAttachment(string pageNavigation, object postData)
-        {
-            if (context.CanCreate == false)
-            {
-                return Unauthorized();
-            }
-
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
-
-            var file = Request.Form.Files["BinaryData"];
-            if (file != null)
-            {
-                var fileSize = file.Length;
-                if (fileSize > 0)
-                {
-                    PageFileRepository.UpsertPageFile(new PageFileAttachment()
-                    {
-                        Data = Utility.ConvertHttpFileToBytes(file),
-                        CreatedDate = DateTime.UtcNow,
-                        PageId = page.Id,
-                        Name = file.FileName,
-                        Size = fileSize,
-                        ContentType = Utility.GetMimeType(file.FileName)
-                    });
-                }
-            }
-
-            var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
-            return View(new FileAttachmentModel()
-            {
-                Files = pageFiles
-            });
         }
 
         /// <summary>

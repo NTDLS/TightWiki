@@ -15,7 +15,6 @@
 
     @Html.Raw(ViewBag.Config.HTMLHeader)
     <!-- END Syntax Highlighter -->
-
     @if (ViewBag.Config.IncludeWikiDescriptionInMeta)
     {
         <meta name="description" content="@ViewBag.Config.PageDescription">
@@ -25,6 +24,11 @@
     {
         <meta name="keywords" content="@ViewBag.Config.PageTags">
     }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
 </head>
 
 <body>
@@ -152,10 +156,5 @@
         @Html.Raw(ViewBag.Config.HTMLFooter)
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    @RenderSection("Scripts", required: false)
 </body>
 </html>

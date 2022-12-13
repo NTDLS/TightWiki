@@ -11,47 +11,84 @@
 <script src="/addon/scroll/simplescrollbars.js"></script>
 
 <style type="text/css">
-         .iframe {
-             box-shadow: none !important;
-         }
     .CodeMirror {
-      border: 1px solid #eee;
-      height: 50em;
+        border: 1px solid #eee;
+        height: 50em;
+    }
+
+    #dropSection {
+        height: 100px;
+        width: 100%;
+        background-color: #f6f8fa;
+        overflow: hidden;
+        text-align: center;
+    }
+
+    #btnUpload {
+        display: none;
+    }
+
+    .active {
+        background-color: yellow !important;
     }
 </style>
 
 <script>
-    window.onmessage = function(e) {
-        var argument = (e.data + '');
+function insertTextAtCursor(editor, text) {
+    var doc = editor.getDoc();
+    var cursor = doc.getCursor();
+    doc.replaceRange(text, cursor);
+}
+</script>
 
-        if (argument.startsWith('image:')) {
-            argument = argument.substring(6, argument.length);
-            insertAtCursor(document.getElementById('Body'), argument)
-        }
-        else if (argument.startsWith('file:')) {
-            argument = argument.substring(5, argument.length);
-            insertAtCursor(document.getElementById('Body'), argument)
-        }
-    };
+<script src="~/js/filedrop.js"></script>
+<script type="text/javascript">
 
-    function insertAtCursor(myField, myValue) {
-        //IE support
-        if (document.selection) {
-            myField.focus();
-            sel = document.selection.createRange();
-            sel.text = myValue;
-        }
-        //MOZILLA and others
-        else if (myField.selectionStart || myField.selectionStart == '0') {
-            var startPos = myField.selectionStart;
-            var endPos = myField.selectionEnd;
-            myField.value = myField.value.substring(0, startPos)
-                + myValue
-                + myField.value.substring(endPos, myField.value.length);
-        } else {
-            myField.value += myValue;
-        }
+    function readyFn(jQuery) {
+        $("#uploadedFiles").load("/File/EditPageAttachment/" + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
     }
+
+    $(document).ready(readyFn);
+
+    $(function () {
+        $("#dropSection").filedrop({
+            fallback_id: 'btnUpload',
+            fallback_dropzoneClick: true,
+            url: '@Url.Action("Upload", "File")/' + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),
+            allowedfileextensions: ['.doc', '.docx', '.pdf', '.jpg', '.jpeg', '.png', '.gif', '.txt', '.json'],
+            paramname: 'postedFiles',
+            maxfiles: 5, //Maximum Number of Files allowed at a time.
+            maxfilesize: 25, //Maximum File Size in MB.
+            dragOver: function () {
+                $('#dropSection').addClass('active');
+            },
+            dragLeave: function () {
+                $('#dropSection').removeClass('active');
+            },
+            drop: function () {
+                $('#dropSection').removeClass('active');
+            },
+            uploadFinished: function (i, file, response, time) {
+                //To do some task after one upload is done.
+                var editor = document.querySelector('.CodeMirror').CodeMirror;
+
+                var ext = file.name.split('.').pop().toLowerCase();
+
+                if(ext.includes("png") || ext.includes("jpg") || ext.includes('jpeg') || ext.includes('gif') || ext.includes('bmp'))
+                {
+                    insertTextAtCursor(editor, '##Image(' + file.name + ')');
+                }
+                else{
+                    insertTextAtCursor(editor, '##File(' + file.name + ')');
+                }
+            },
+            afterAll: function (e) {
+                //To do some task after all uploads done.
+                $("#uploadedFiles").load("/File/EditPageAttachment/" + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+            }
+        })
+    })
+
 
 </script>
 
@@ -63,8 +100,6 @@
             {
                 @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
             }
-
-
 
             @if (Model.ErrorMessage != null)
             {
@@ -83,13 +118,25 @@
                 <div class="form-group">
                     <a href="/@ViewBag.Config.PageNavigation" target="_blank" rel="noopener">View in new Tab</a>
                 </div>
-                <strong>@Html.LabelFor(x => x.Name)</strong><br />
-                @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })<br /><br />
+                <strong>@Html.LabelFor(x => x.Name)</strong>
 
-                <strong>@Html.LabelFor(x => x.Description)</strong><br />
-                @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })<br /><br />
+                <br />
+                @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })
 
-                <strong>@Html.LabelFor(x => x.Body)</strong><br />
+                <br />
+                <br />
+
+                <strong>@Html.LabelFor(x => x.Description)</strong>
+
+                <br />
+                @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
+
+                <br />
+                <br />
+
+                <strong>@Html.LabelFor(x => x.Body)</strong>
+
+                <br />
                 <textarea id=Body name="Body">@Model.Body</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
@@ -102,7 +149,6 @@
                     });
                 </script>
             }
-
         </div>
     </div>
     <br />
@@ -110,15 +156,12 @@
     <div class="card">
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @ViewBag.Config.Context?.CanCreate == true)
-            {
-                <div><iframe src="/File/EditPageAttachment/@ViewBag.Config.PageNavigation" align="left" style='height: 100%; width: 100%;' frameBorder="0" /></div>
-            }
-            else
-            {
-                <div>Save the page before uploading files.</div>
-            }
+            <div id="dropSection" class="dropSection">
+                <br /><strong>Attach files by dropping them here...</strong>
+            </div>
+            <div id="uploadedFiles">
+            </div>
+            <input type="button" id="btnUpload" value="Upload" />
         </div>
     </div>
 </div>
-
