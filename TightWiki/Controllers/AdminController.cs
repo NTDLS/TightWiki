@@ -414,14 +414,16 @@ namespace TightWiki.Site.Controllers
 
             navigation = WikiUtility.CleanPartialURI(navigation);
 
-            var model = new AccountModel()
+            var model = new AccountAdminModel()
             {
                 Account = UserRepository.GetUserByNavigation(navigation),
+                Credential = new Credential(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
                 Roles = UserRepository.GetAllRoles()
             };
+
 
             model.Account.CreatedDate = context.LocalizeDateTime(model.Account.CreatedDate);
             model.Account.ModifiedDate = context.LocalizeDateTime(model.Account.ModifiedDate);
@@ -437,7 +439,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public ActionResult Account(AccountModel model)
+        public ActionResult Account(AccountAdminModel model)
         {
             if (context.CanAdmin == false)
             {
@@ -503,6 +505,15 @@ namespace TightWiki.Site.Controllers
                 user.ModifiedDate = DateTime.UtcNow;
                 UserRepository.UpdateUser(user);
 
+                //Only set the password if it has changed.
+                if (string.IsNullOrEmpty(model.Credential.Password) == false
+                    && string.IsNullOrEmpty(model.Credential.ComparePassword) == false
+                    && model.Credential.Password == model.Credential.ComparePassword
+                    && model.Credential.Password != Credential.NOTSET)
+                {
+                    UserRepository.UpdateUserPassword(user.Id, model.Credential.Password);
+                }
+
                 model.SuccessMessage = "Your profile has been saved successfully!.";
             }
 
@@ -522,7 +533,7 @@ namespace TightWiki.Site.Controllers
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
 
-            var model = new AccountModel()
+            var model = new AccountAdminModel()
             {
                 Account = new User()
                 {
@@ -531,6 +542,7 @@ namespace TightWiki.Site.Controllers
                     Language = basicConfig.As<string>("Default Language"),
                     Role = defaultSignupRole,
                 },
+                Credential = new Credential(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
@@ -547,7 +559,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public ActionResult AddAccount(AccountModel model)
+        public ActionResult AddAccount(AccountAdminModel model)
         {
             if (context.CanAdmin == false)
             {
@@ -586,6 +598,25 @@ namespace TightWiki.Site.Controllers
                 if (checkEmail != null)
                 {
                     ModelState.AddModelError("Account.EmailAddress", "Email address is already in use.");
+                    return View(model);
+                }
+
+                if (string.IsNullOrEmpty(model.Credential.Password) || model.Credential.Password == Credential.NOTSET)
+                {
+                    ModelState.AddModelError("Credential.Password", "You must enter a password.");
+                    return View(model);
+                }
+
+                if (string.IsNullOrEmpty(model.Credential.ComparePassword) || model.Credential.ComparePassword == Credential.NOTSET)
+                {
+                    ModelState.AddModelError("Credential.ComparePassword", "You must enter a password.");
+                    return View(model);
+                }
+
+                if (string.IsNullOrEmpty(model.Credential.ComparePassword) || model.Credential.ComparePassword == Credential.NOTSET)
+                {
+                    ModelState.AddModelError("Credential.Password", "Passwords do not match.");
+                    ModelState.AddModelError("Credential.ComparePassword", "Passwords do not match.");
                     return View(model);
                 }
 
@@ -648,6 +679,7 @@ namespace TightWiki.Site.Controllers
                     Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
                 }
 
+                UserRepository.UpdateUserPassword(user.Id, model.Credential.Password);
 
                 model.SuccessMessage = "The account was created successfully!.";
             }

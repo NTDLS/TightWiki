@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.AccountModel
+﻿@model TightWiki.Shared.Models.View.AccountAdminModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -146,6 +146,21 @@
                                                 </option>
                                             }
                                         </select>
+                                    </td>
+                                </tr>
+
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.Password)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Credential.Password)</strong></td>
+                                    <td>
+                                        @Html.PasswordFor(m => m.Credential.Password, new { @class = "input-control", value = Model.Credential.Password })
+                                    </td>
+                                </tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.ComparePassword)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Credential.ComparePassword)</strong></td>
+                                    <td>
+                                        @Html.PasswordFor(m => m.Credential.ComparePassword, new { @class = "input-control", value = Model.Credential.Password })
                                     </td>
                                 </tr>
 
