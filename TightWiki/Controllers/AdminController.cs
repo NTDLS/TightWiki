@@ -786,5 +786,51 @@ namespace TightWiki.Site.Controllers
 
             return View(newModel);
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult DeleteAccount(string userAccountName, UserProfileModel model)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var user = UserRepository.GetUserByNavigation(userAccountName);
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true && user != null)
+            {
+                UserRepository.DeleteById(user.Id);
+                Cache.ClearClass($"User:{user.Navigation}");
+            }
+
+            return RedirectToAction("Display", "Page", new { pageNavigation = "Home" });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult DeleteAccount(string userAccountName)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var user = UserRepository.GetUserByNavigation(userAccountName);
+
+            ViewBag.AccountName = user.AccountName;
+
+            var model = new PageDeleteModel()
+            {
+            };
+
+            if (user != null)
+            {
+                ViewBag.Config.Title = $"{userAccountName} Delete";
+            }
+
+            return View(model);
+        }
     }
 }

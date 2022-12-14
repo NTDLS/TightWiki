@@ -12,6 +12,7 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
+using static TightWiki.Shared.Library.Constants;
 
 namespace TightWiki.Site.Controllers
 {
@@ -661,5 +662,55 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Delete(AccountModel model)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var user = UserRepository.GetUserById(context.User.Id);
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true && user != null)
+            {
+                UserRepository.DeleteById(user.Id);
+                Cache.ClearClass($"User:{user.Navigation}");
+
+                HttpContext.SignOutAsync();
+                return RedirectToAction("Display", "Page", "Home");
+            }
+
+            return RedirectToAction("UserProfile", "Account");
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var user = UserRepository.GetUserById(context.User.Id);
+
+            ViewBag.AccountName = user.AccountName;
+
+            var model = new AccountModel()
+            {
+            };
+
+            if (user != null)
+            {
+                ViewBag.Config.Title = $"{user.AccountName} Delete";
+            }
+
+            return View(model);
+        }
+
     }
 }

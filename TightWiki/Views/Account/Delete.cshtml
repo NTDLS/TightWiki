@@ -1,0 +1,47 @@
+﻿@model TightWiki.Shared.Models.View.AccountModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+{
+    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+}
+
+<table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+
+                @if (Model.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                }
+                @if (Model.SuccessMessage!= null)
+                {
+                    <div class="alert alert-success">@Model.SuccessMessage</div>
+                }
+
+                @if (ViewBag.Error == null)
+                {
+                    <div class="panel panel-danger">
+                        <div class="card-header">Delete account "@ViewBag.AccountName"?</div>
+                        <div class="card-body">
+
+                            <strong>Deleting "@ViewBag.AccountName" will permanently remove the account. All pages created or modifed by this user will be attributed to a default account.</strong><br />
+                            You will not be able to revert this deletion.
+
+                            Are you sure you want to continue with this deletion?<br /><br />
+
+                            @using (Html.BeginForm())
+                            {
+                                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="Action" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="Action" value="false">No</button></div>
+                            }
+                        </div>
+                    </div>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+

@@ -9,6 +9,20 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class UserRepository
     {
+         public static void DeleteById(int userId)
+        {
+            var param = new
+            {
+                UserId = userId
+            };
+
+            using (var handler = new SqlConnectionHandler())
+            {
+                handler.Connection.Execute("DeleteById",
+                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+            }
+        }
+
         public static Role GetRoleByName(string name)
         {
             using (var handler = new SqlConnectionHandler())
