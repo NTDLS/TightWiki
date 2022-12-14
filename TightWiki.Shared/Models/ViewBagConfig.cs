@@ -1,6 +1,6 @@
-﻿using TightWiki.Shared.Library;
+﻿using System.Collections.Generic;
+using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
-using System.Collections.Generic;
 
 namespace TightWiki.Shared.Models
 {

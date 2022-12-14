@@ -1,5 +1,5 @@
-﻿using TightWiki.Shared.Models.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Shared.Models.View
 {

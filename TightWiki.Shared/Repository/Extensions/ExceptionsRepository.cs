@@ -1,5 +1,5 @@
-using System;
 using Dapper;
+using System;
 using System.Data;
 using TightWiki.Shared.ADO;
 

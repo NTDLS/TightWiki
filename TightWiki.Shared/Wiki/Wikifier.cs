@@ -12,7 +12,6 @@ using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki.Function;
-using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Shared.Library.Constants;
 using static TightWiki.Shared.Wiki.Constants;
 
@@ -1916,7 +1915,7 @@ namespace TightWiki.Shared.Wiki
 
             return identifier;
         }
-    
+
         private void TransformWhitespace(StringBuilder pageContent)
         {
             string identifier = $"<!--{Guid.NewGuid()}-->";

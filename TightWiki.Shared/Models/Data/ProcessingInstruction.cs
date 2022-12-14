@@ -1,45 +1,42 @@
-using System;
-using System.Runtime.Serialization;
-
 namespace TightWiki.Shared.Models.Data
 {
-	public partial class ProcessingInstruction
-	{
-		#region Properties
+    public partial class ProcessingInstruction
+    {
+        #region Properties
 
-		private int _pageId;
-		public int PageId
-		{
-			get
-			{
-				return this._pageId;
-			}
-			set
-			{
-				if (this._pageId != value)
-				{
-					this._pageId = value;
-				}
-			}
-		}
+        private int _pageId;
+        public int PageId
+        {
+            get
+            {
+                return this._pageId;
+            }
+            set
+            {
+                if (this._pageId != value)
+                {
+                    this._pageId = value;
+                }
+            }
+        }
 
-		private string _instruction;
-		public string Instruction
-		{
-			get
-			{
-				return this._instruction;
-			}
-			set
-			{
-				if (this._instruction != value)
-				{
-					this._instruction = value;
-				}
-			}
-		}
+        private string _instruction;
+        public string Instruction
+        {
+            get
+            {
+                return this._instruction;
+            }
+            set
+            {
+                if (this._instruction != value)
+                {
+                    this._instruction = value;
+                }
+            }
+        }
 
 
-		#endregion
-	}
+        #endregion
+    }
 }

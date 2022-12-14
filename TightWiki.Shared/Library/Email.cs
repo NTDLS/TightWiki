@@ -1,7 +1,7 @@
 ﻿using System;
-using TightWiki.Shared.Repository;
 using System.Net;
 using System.Net.Mail;
+using TightWiki.Shared.Repository;
 
 namespace TightWiki.Shared.Library
 {

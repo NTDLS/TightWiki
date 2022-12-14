@@ -18,7 +18,7 @@ namespace TightWiki.Shared.Models.Data
         }
 
         public T As<T>(string name)
-         {
+        {
             var value = Collection.Where(o => o.Name == name).FirstOrDefault();
             if (value == null)
             {

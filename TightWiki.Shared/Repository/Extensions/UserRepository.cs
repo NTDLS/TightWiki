@@ -1,9 +1,9 @@
 using Dapper;
-using TightWiki.Shared.ADO;
-using TightWiki.Shared.Models.Data;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using TightWiki.Shared.ADO;
+using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Shared.Repository
 {
@@ -308,6 +308,7 @@ namespace TightWiki.Shared.Repository
                     Language = item.Language,
                     Country = item.Country,
                     AboutMe = item.AboutMe,
+                    Role = item.Role,
                     ModifiedDate = item.ModifiedDate
                 };
 

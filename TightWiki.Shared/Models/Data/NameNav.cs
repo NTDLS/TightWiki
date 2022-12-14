@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TightWiki.Shared.Models.Data
+﻿namespace TightWiki.Shared.Models.Data
 {
     public class NameNav
     {

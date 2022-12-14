@@ -76,6 +76,25 @@
                                     </td>
                                 </tr>
 
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Role)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Account.Role)</strong></td>
+                                    <td>
+
+                                        <select name="Account.Role" id="Account.Role">
+                                            <option value="" style="color:#ccc !important;">
+                                                Select a role
+                                            </option>
+                                            @foreach (var item in Model.Roles)
+                                            {
+                                                <option value="@item.Name" selected=@(Model.Account.Role == item.Name ? "selected" : null)>
+                                                    @item.Name
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+
                                 <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Country)</div></td></tr>
                                 <tr class="padded">
                                     <td><strong>@Html.LabelFor(m => m.Account.Country)</strong></td>

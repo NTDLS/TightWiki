@@ -1,10 +1,10 @@
 using Dapper;
-using TightWiki.Shared.ADO;
-using TightWiki.Shared.Models.Data;
-using TightWiki.Shared.Wiki;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using TightWiki.Shared.ADO;
+using TightWiki.Shared.Models.Data;
+using TightWiki.Shared.Wiki;
 
 namespace TightWiki.Shared.Repository
 {

@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-
-namespace TightWiki.Shared.ADO
+﻿namespace TightWiki.Shared.ADO
 {
     public static class Singletons
     {

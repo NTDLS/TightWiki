@@ -3,14 +3,14 @@
 namespace TightWiki.Shared.Models.Data
 {
     public partial class ConfigurationEntry
-	{
-		public int Id { get; set; }
-		public int ConfigurationGroupId { get; set; }
-		public string Name { get; set; }
-		public string Value { get; set; }
-		public int DataTypeId { get; set; }
-		public string Description { get; set; }
-		public bool IsEncrypted { get; set; }
+    {
+        public int Id { get; set; }
+        public int ConfigurationGroupId { get; set; }
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public int DataTypeId { get; set; }
+        public string Description { get; set; }
+        public bool IsEncrypted { get; set; }
 
         public T As<T>()
         {

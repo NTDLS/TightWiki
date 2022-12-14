@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
@@ -416,7 +414,8 @@ namespace TightWiki.Site.Controllers
                 Account = UserRepository.GetUserByNavigation(navigation),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
-                Languages = LanguageItem.GetAll()
+                Languages = LanguageItem.GetAll(),
+                Roles = UserRepository.GetAllRoles()
             };
 
             model.Account.CreatedDate = context.LocalizeDateTime(model.Account.CreatedDate);
@@ -443,6 +442,7 @@ namespace TightWiki.Site.Controllers
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
+            model.Roles = UserRepository.GetAllRoles();
 
             model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower());
             var user = UserRepository.GetUserByNavigation(model.Account.Navigation);
@@ -490,6 +490,7 @@ namespace TightWiki.Site.Controllers
                 user.LastName = model.Account.LastName;
                 user.TimeZone = model.Account.TimeZone;
                 user.Country = model.Account.Country;
+                user.Role = model.Account.Role;
                 user.Language = model.Account.Language;
                 user.AccountName = model.Account.AccountName;
                 user.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName);

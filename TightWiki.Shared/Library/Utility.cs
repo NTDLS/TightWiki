@@ -15,7 +15,7 @@ namespace TightWiki.Shared.Library
         /// </summary>
         public static void DoFirstRun()
         {
-            if(ConfigurationRepository.IsFirstRun(Constants.CRYPTOCHECK, Security.MachineKey))
+            if (ConfigurationRepository.IsFirstRun(Constants.CRYPTOCHECK, Security.MachineKey))
             {
                 //If this is the first time we have ever run on this server, set the password to default.
                 var adminUser = UserRepository.GetUserByNavigation("admin");
@@ -58,7 +58,7 @@ namespace TightWiki.Shared.Library
         }
         public static byte[] ConvertHttpFileToBytes(IFormFile image)
         {
-            using(var stream = image.OpenReadStream())
+            using (var stream = image.OpenReadStream())
             using (BinaryReader reader = new BinaryReader(stream))
             {
                 byte[] imageBytes = reader.ReadBytes((int)image.Length);

@@ -88,11 +88,11 @@ namespace TightWiki.Site.Controllers
                 var tokens = model.SearchTokens.Split(new char[] { ' ', '\t', '_', '-' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
 
                 searchTerms.AddRange((from o in tokens
-                                   select new PageToken
-                                   {
-                                       Token = o,
-                                       DoubleMetaphone = o.ToDoubleMetaphone()
-                                   }).ToList());
+                                      select new PageToken
+                                      {
+                                          Token = o,
+                                          DoubleMetaphone = o.ToDoubleMetaphone()
+                                      }).ToList());
             }
 
             model = new PageSearchModel()
@@ -153,7 +153,7 @@ namespace TightWiki.Site.Controllers
                 ViewBag.CurrentPage = page;
 
                 if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if(page > 1) ViewBag.PreviousPage = page - 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -172,7 +172,7 @@ namespace TightWiki.Site.Controllers
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-            if (instructions.Select(o=>o.Instruction == WikiInstruction.Protect).Any())
+            if (instructions.Select(o => o.Instruction == WikiInstruction.Protect).Any())
             {
                 return Unauthorized();
             }
@@ -214,9 +214,12 @@ namespace TightWiki.Site.Controllers
                 ViewBag.Config.Title = $"{page.Name} Delete";
             }
 
-            if (context.CanDelete) //This really isnt applicable until after a call to SetPageId().
+            var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+
+            if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
             {
                 model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
+                return View(model);
             }
 
             return View(model);
@@ -361,9 +364,9 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-#endregion
+        #endregion
 
-#region Edit.
+        #region Edit.
 
         [Authorize]
         [HttpGet]
@@ -514,6 +517,6 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-#endregion
+        #endregion
     }
 }

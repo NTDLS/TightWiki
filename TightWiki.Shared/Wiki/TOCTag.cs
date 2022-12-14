@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TightWiki.Shared.Wiki
+﻿namespace TightWiki.Shared.Wiki
 {
     //Table of contense tag.
     public class TOCTag

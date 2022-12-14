@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TightWiki.Shared.Models.View
+﻿namespace TightWiki.Shared.Models.View
 {
     public class ModelBase
     {

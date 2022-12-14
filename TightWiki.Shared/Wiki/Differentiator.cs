@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TightWiki.Shared.Wiki
 {
@@ -26,7 +24,7 @@ namespace TightWiki.Shared.Wiki
             int linesAdded = prevRevLines.Except(thisRevLines).Count();
             int linesDeleted = thisRevLines.Except(prevRevLines).Count();
 
-            if(thisRevLineCount != prevRevLinesCount)
+            if (thisRevLineCount != prevRevLinesCount)
             {
                 summary.Append($"{Math.Abs(thisRevLineCount - prevRevLinesCount):N0} lines changed.");
             }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TightWiki.Shared.Models.View
+﻿namespace TightWiki.Shared.Models.View
 {
     public class PageDeleteModel : ModelBase
     {

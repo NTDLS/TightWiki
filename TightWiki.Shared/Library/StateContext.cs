@@ -28,7 +28,7 @@ namespace TightWiki.Shared.Library
 
         public TimeZoneInfo GetTimeZone()
         {
-            if(User == null)
+            if (User == null)
             {
                 return TimeZoneInfo.FindSystemTimeZoneById(Config.DefaultTimeZone);
             }

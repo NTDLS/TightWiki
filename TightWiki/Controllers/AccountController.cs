@@ -421,7 +421,8 @@ namespace TightWiki.Site.Controllers
                 {
                     return RedirectToAction("SignupCompleteVerification", "Account");
                 }
-                else {
+                else
+                {
                     return RedirectToAction("SignupComplete", "Account");
                 }
             }
@@ -648,6 +649,7 @@ namespace TightWiki.Site.Controllers
                 user.TimeZone = model.TimeZone;
                 user.Language = model.Language;
                 user.Country = model.Country;
+                user.Role = user.Role; //We don't allow this to be changed here.
                 user.AccountName = model.AccountName;
                 user.Navigation = WikiUtility.CleanPartialURI(model.AccountName);
                 user.EmailAddress = model.EmailAddress;
