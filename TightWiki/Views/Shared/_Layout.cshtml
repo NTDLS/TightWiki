@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Config.Title</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- BEGIN Syntax Highlighter -->
     <link rel="stylesheet" href="/syntax/styles/default.min.css">
@@ -27,7 +26,9 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @RenderSection("Scripts", required: false)
 </head>
 
@@ -35,7 +36,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@ViewBag.Config.BrandImageSmall" /></span> @ViewBag.Config.Name</a>
@@ -52,7 +53,7 @@
                         )
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (ViewBag.Context.CanEdit && ViewBag.Context.IsPageLoaded == true && ViewBag.Context.IsViewingOldVersion == false)
                                     {
@@ -89,7 +90,7 @@
                         @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator)
                                     {
@@ -111,7 +112,7 @@
                         @if (ViewBag.Context.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
+                                <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item text-dark" href="/Account/UserProfile">Profile</a>
                                     <a class="dropdown-item text-dark" href="/Account/ChangePassword">Change Password</a>
