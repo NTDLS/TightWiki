@@ -27,6 +27,7 @@ namespace TightWiki.Shared.Models.Data
 		public bool EmailVerified { get; set; }
 		public int PaginationSize { get; set; }
         public int PaginationCount { get; set; }
-    }
+		public string Role { get; set; }
+	}
 }
 

@@ -4,10 +4,10 @@
 }
 
 <div class="card">
-    <div class="card-header"><h3>Accounts</h3></div>
+    <div class="card-header"><h3>Add Account</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
-            Configuration for user account.<br /><br />
+            Create new user account.<br /><br />
         </font>
 
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -73,6 +73,25 @@
                                     <td><strong>@Html.LabelFor(m => m.Account.LastName)</strong></td>
                                     <td>
                                         @Html.TextBoxFor(m => m.Account.LastName, new { @class = "input-control" })
+                                    </td>
+                                </tr>
+
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Role)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Account.Role)</strong></td>
+                                    <td>
+
+                                        <select name="Account.Role" id="Account.Role">
+                                            <option value="" style="color:#ccc !important;">
+                                                Select a role
+                                            </option>
+                                            @foreach (var item in Model.Roles)
+                                            {
+                                                <option value="@item.Name" selected=@(Model.Account.Role == item.Name ? "selected" : null)>
+                                                    @item.Name
+                                                </option>
+                                            }
+                                        </select>
                                     </td>
                                 </tr>
 

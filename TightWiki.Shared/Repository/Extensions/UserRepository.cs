@@ -72,6 +72,7 @@ namespace TightWiki.Shared.Repository
                 TimeZone = user.TimeZone,
                 Language = user.Language,
                 Country = user.Country,
+                Role = user.Role,
                 VerificationCode = user.VerificationCode
             };
 
@@ -92,21 +93,6 @@ namespace TightWiki.Shared.Repository
             using (var handler = new SqlConnectionHandler())
             {
                 handler.Connection.Execute("VerifyUserEmail",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
-        }
-
-        public static void UpdateUserRoles(int userId, string roles)
-        {
-            var param = new
-            {
-                UserId = userId,
-                Roles = roles
-            };
-
-            using (var handler = new SqlConnectionHandler())
-            {
-                handler.Connection.Execute("UpdateUserRoles",
                     param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
             }
         }
@@ -152,15 +138,6 @@ namespace TightWiki.Shared.Repository
                 var result = handler.Connection.ExecuteScalar<int?>("DoesAccountNameExist",
                     new { accountName = accountName }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
                 return (result ?? 0) != 0;
-            }
-        }
-
-        public static List<Role> GetUserRolesByUserId(int userID)
-        {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<Role>("GetUserRolesByUserId",
-                    new { UserID = userID }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
 

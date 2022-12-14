@@ -29,6 +29,8 @@
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
 
+                        <form action="/Admin/AddAccount"><input type="submit" value="Add new Account" /></form> <br/>
+
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
@@ -94,6 +96,7 @@
                             }
                         }
 
+                        <br />
                         <form action="/Admin/AddAccount"><input type="submit" value="Add new Account" /></form>
                     </td>
                 </tr>

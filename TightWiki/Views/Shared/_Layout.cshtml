@@ -86,12 +86,12 @@
                             </li>
                         }
 
-                        @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true))
+                        @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @if (ViewBag.Context.Roles?.Contains(TightWiki.Shared.Library.Constants.Roles.Administrator) == true)
+                                    @if (ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/Config">Configuration</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>

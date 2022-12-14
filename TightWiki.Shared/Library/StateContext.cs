@@ -16,7 +16,7 @@ namespace TightWiki.Shared.Library
         public ViewBagConfig Config { get; set; }
         public bool IsAuthenticated { get; set; }
         public User User { get; set; }
-        public List<string> Roles { get; set; }
+        public string Role { get; set; }
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new List<ProcessingInstruction>();
@@ -72,13 +72,13 @@ namespace TightWiki.Shared.Library
                 {
                     if (ProcessingInstructions.Where(o => o.Instruction == WikiInstruction.Protect).Any())
                     {
-                        return (Roles.Contains(Constants.Roles.Administrator)
-                            || Roles.Contains(Constants.Roles.Moderator));
+                        return (Role == Roles.Administrator
+                            || Role == Roles.Moderator);
                     }
 
-                    return (Roles.Contains(Constants.Roles.Administrator)
-                        || Roles.Contains(Constants.Roles.Contributor)
-                        || Roles.Contains(Constants.Roles.Moderator));
+                    return (Role == Roles.Administrator
+                        || Role == Roles.Contributor
+                        || Role == Roles.Moderator);
                 }
 
                 return false;
@@ -87,18 +87,18 @@ namespace TightWiki.Shared.Library
 
         public bool CanAdmin =>
             IsAuthenticated
-                && Roles.Contains(Constants.Roles.Administrator);
+                && Role == Roles.Administrator;
 
         public bool CanModerate =>
             IsAuthenticated
-                && (Roles.Contains(Constants.Roles.Administrator)
-                || Roles.Contains(Constants.Roles.Moderator));
+                && (Role == Roles.Administrator
+                || Role == Roles.Moderator);
 
         public bool CanCreate =>
             IsAuthenticated
-                && (Roles.Contains(Constants.Roles.Administrator)
-                || Roles.Contains(Constants.Roles.Contributor)
-                || Roles.Contains(Constants.Roles.Moderator));
+                && (Role == Roles.Administrator
+                || Role == Roles.Contributor
+                || Role == Roles.Moderator);
 
         public bool CanDelete
         {
@@ -111,8 +111,8 @@ namespace TightWiki.Shared.Library
                         return false;
                     }
 
-                    return (Roles.Contains(Constants.Roles.Administrator)
-                        || Roles.Contains(Constants.Roles.Moderator));
+                    return (Role == Roles.Administrator
+                        || Role == Roles.Moderator);
                 }
 
                 return false;

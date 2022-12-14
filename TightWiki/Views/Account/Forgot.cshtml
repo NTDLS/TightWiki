@@ -48,7 +48,10 @@
                             </table>
                         }
                         <font size="3" face="ARIAL,HELVETICA">
-                            Not a member? @Html.ActionLink("Signup.", "Signup", "Account").<br />
+                            @if (ViewBag.AllowSignup == true)
+                            {
+                                @:Not a member? @Html.ActionLink("Signup", "Signup", "Account").<br />
+                            }
                             Already a member? <a href="/Account/Login">Login</a>.<br />
                         </font>
                     </td>

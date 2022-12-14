@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
@@ -457,7 +459,7 @@ namespace TightWiki.Site.Controllers
                 }
                 catch
                 {
-                    ModelState.AddModelError("Avatar", "Could not save the attached image.");
+                    ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
                 }
             }
 
@@ -468,7 +470,7 @@ namespace TightWiki.Site.Controllers
                     var checkName = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower()));
                     if (checkName != null)
                     {
-                        ModelState.AddModelError("AccountName", "Account name is already in use.");
+                        ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
                         return View(model);
                     }
                 }
@@ -478,7 +480,7 @@ namespace TightWiki.Site.Controllers
                     var checkName = UserRepository.GetUserByEmail(model.Account.EmailAddress.ToLower());
                     if (checkName != null)
                     {
-                        ModelState.AddModelError("EmailAddress", "Email address is already in use.");
+                        ModelState.AddModelError("Account.EmailAddress", "Email address is already in use.");
                         return View(model);
                     }
                 }
@@ -500,6 +502,153 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult AddAccount()
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
+
+            var model = new AccountModel()
+            {
+                Account = new User()
+                {
+                    Country = basicConfig.As<string>("Default Country"),
+                    TimeZone = basicConfig.As<string>("Default TimeZone"),
+                    Language = basicConfig.As<string>("Default Language"),
+                    Role = defaultSignupRole,
+                },
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll(),
+                Roles = UserRepository.GetAllRoles()
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save user profile.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddAccount(AccountModel model)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            model.TimeZones = TimeZoneItem.GetAll();
+            model.Countries = CountryItem.GetAll();
+            model.Languages = LanguageItem.GetAll();
+            model.Roles = UserRepository.GetAllRoles();
+
+            model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName?.ToLower());
+
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrWhiteSpace(model.Account.Navigation))
+                {
+                    ModelState.AddModelError("Account.AccountName", "Account name is required.");
+                    return View(model);
+                }
+
+                var checkAccount = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower()));
+                if (checkAccount != null)
+                {
+                    ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
+                    return View(model);
+                }
+
+                if (string.IsNullOrWhiteSpace(model.Account.EmailAddress))
+                {
+                    ModelState.AddModelError("Account.EmailAddress", "Email address is required.");
+                    return View(model);
+                }
+
+                var checkEmail = UserRepository.GetUserByEmail(model.Account.EmailAddress?.ToLower());
+                if (checkEmail != null)
+                {
+                    ModelState.AddModelError("Account.EmailAddress", "Email address is already in use.");
+                    return View(model);
+                }
+
+                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                var siteName = basicConfig.As<string>("Name");
+                var address = basicConfig.As<string>("Address");
+
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+                //var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
+                var requestEmailVerification = membershipConfig.As<bool>("Request Email Verification");
+                var requireEmailVerification = membershipConfig.As<bool>("Require Email Verification");
+                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
+
+                var user = new User()
+                {
+                    AboutMe = model.Account.AboutMe,
+                    FirstName = model.Account.FirstName,
+                    LastName = model.Account.LastName,
+                    TimeZone = model.Account.TimeZone,
+                    Country = model.Account.Country,
+                    Language = model.Account.Language,
+                    AccountName = model.Account.AccountName,
+                    Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName),
+                    EmailAddress = model.Account.EmailAddress,
+                    Role = model.Account.Role,
+                    ModifiedDate = DateTime.UtcNow
+                };
+                user.Id = UserRepository.CreateUser(user);
+
+                var file = Request.Form.Files["Avatar"];
+                if (file != null && file.Length > 0)
+                {
+                    try
+                    {
+                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                        //This is just to ensure this is a valid image:
+                        var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                        UserRepository.UpdateUserAvatar(user.Id, imageBytes);
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                    }
+                }
+
+                if (requestEmailVerification || requireEmailVerification)
+                {
+                    var emailSubject = "Account Verification";
+                    accountVerificationEmailTemplate.Replace("##SUBJECT##", emailSubject);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTLANGUAGE##", user.Language);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
+                    accountVerificationEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
+                    accountVerificationEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
+                    accountVerificationEmailTemplate.Replace("##CODE##", user.VerificationCode);
+                    accountVerificationEmailTemplate.Replace("##SITENAME##", siteName);
+                    accountVerificationEmailTemplate.Replace("##SITEADDRESS##", address);
+
+                    Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
+                }
+
+
+                model.SuccessMessage = "The account was created successfully!.";
+            }
+
+            return View(model);
+        }
+
 
         [Authorize]
         [HttpGet]

@@ -71,7 +71,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Login()
         {
             ViewBag.Config.Title = $"Login";
-
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
             var model = new LoginModel();
             return View(model);
         }
@@ -87,6 +87,8 @@ namespace TightWiki.Site.Controllers
         public ActionResult Login(LoginModel model)
         {
             ViewBag.Config.Title = $"Login";
+
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
 
             if (ModelState.IsValid)
             {
@@ -121,6 +123,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Config.Title = $"Forgot";
             var model = new ForgotModel();
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
             return View(model);
         }
 
@@ -130,6 +133,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Config.Title = $"Forgot";
             var user = UserRepository.GetUserByEmail(model.EmailAddress);
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
 
             if (user != null)
             {
@@ -386,6 +390,7 @@ namespace TightWiki.Site.Controllers
                     Language = model.Language,
                     Country = model.Country,
                     AboutMe = string.Empty,
+                    Role = defaultSignupRole,
                     VerificationCode = Security.GenerateRandomString(6)
                 };
 
@@ -407,8 +412,6 @@ namespace TightWiki.Site.Controllers
 
                     Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
                 }
-
-                UserRepository.UpdateUserRoles(userId, defaultSignupRole);
 
                 if (requireEmailVerification)
                 {

@@ -66,12 +66,12 @@ namespace TightWiki.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-                var roles = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role).Value.Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+                var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString();
 
                 context.IsAuthenticated = User.Identity.IsAuthenticated;
                 if (context.IsAuthenticated)
                 {
-                    context.Roles = roles.ToList();
+                    context.Role = role;
                     context.User = UserRepository.GetUserById(userId);
                 }
             }
@@ -128,15 +128,12 @@ namespace TightWiki.Controllers
                     throw new Exception("Email address has not been verified. Check your email or use the password reset link to confirm your email address.");
                 }
 
-                var roles = UserRepository.GetUserRolesByUserId(user.Id);
-                string arrayOfRoles = string.Join("|", roles.Select(o => o.Name));
-
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Email, user.EmailAddress),
                     new Claim(ClaimTypes.Name, user.AccountName),
                     new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, arrayOfRoles)
+                    new Claim(ClaimTypes.Role, user.Role)
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, "Login");
