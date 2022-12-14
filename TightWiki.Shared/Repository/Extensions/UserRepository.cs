@@ -43,17 +43,18 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static List<User> GetAllUsers(int pageNumber, int pageSize = 0)
+        public static List<User> GetAllUsersPaged(int pageNumber, int pageSize = 0, string searchToken = null)
         {
             using (var handler = new SqlConnectionHandler())
             {
                 var param = new
                 {
                     PageNumber = pageNumber,
-                    PageSize = pageSize
+                    PageSize = pageSize,
+                    SearchToken = searchToken
                 };
 
-                return handler.Connection.Query<User>("GetAllUsers",
+                return handler.Connection.Query<User>("GetAllUsersPaged",
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }

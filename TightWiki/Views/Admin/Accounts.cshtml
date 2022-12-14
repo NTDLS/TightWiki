@@ -33,7 +33,17 @@
                         {
                             @Html.AntiForgeryToken()
 
+                            <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
+                                <tr>
+                                    <td width="80%">
+                                        @Html.TextBoxFor(x => x.SearchToken, new { style = "width:100%" })
+                                    </td>
+                                    <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
+                                </tr>
+                            </table>
+
                             <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+
                                 <thead>
                                     <tr>
                                         <td><strong>Account</strong></td>
@@ -59,7 +69,32 @@
                                     </tr>
                                 }
                             </table>
+
+                            if (@ViewBag.PreviousPage != null)
+                            {
+                                <a href="/Admin/Accounts/1?Token=@Model.SearchToken">&lt;&lt; First</a>
+                                @:&nbsp; | &nbsp;
+                                <a href="/Admin/Accounts/@ViewBag.PreviousPage?Token=@Model.SearchToken">&lt; Previous</a>
+                            }
+                            else
+                            {
+                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                            }
+                            @:&nbsp; | &nbsp;
+
+                            if (@ViewBag.NextPage != null)
+                            {
+                                <a href="/Admin/Accounts/@ViewBag.NextPage?Token=@Model.SearchToken">Next &gt;</a>
+                                @:&nbsp; | &nbsp;
+                                <a href="/Admin/Accounts/@ViewBag.PaginationCount?Token=@Model.SearchToken">Last &gt;&gt;</a>
+                            }
+                            else
+                            {
+                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                            }
                         }
+
+                        <form action="/Admin/AddAccount"><input type="submit" value="Add new Account" /></form>
                     </td>
                 </tr>
             </tbody>

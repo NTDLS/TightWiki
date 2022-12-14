@@ -512,17 +512,65 @@ namespace TightWiki.Site.Controllers
 
             if (page <= 0) page = 1;
 
+            string searchToken = Request.Query["Token"];
+
             var model = new AccountsModel()
             {
-                Users = UserRepository.GetAllUsers(page)
+                Users = UserRepository.GetAllUsersPaged(page, 0, searchToken)
             };
 
-            model.Users.ForEach(o =>
+            if (model.Users != null && model.Users.Any())
             {
-                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
-                o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
-                o.LastLoginDate = context.LocalizeDateTime(o.LastLoginDate);
-            });
+                model.Users.ForEach(o =>
+                {
+                    o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                    o.LastLoginDate = context.LocalizeDateTime(o.LastLoginDate);
+                });
+
+                ViewBag.PaginationCount = model.Users.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Accounts(int page, AccountsModel model)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            page = 1;
+
+            string searchToken = model.SearchToken;
+
+            model = new AccountsModel()
+            {
+                Users = UserRepository.GetAllUsersPaged(page, 0, searchToken)
+            };
+
+            if (model.Users != null && model.Users.Any())
+            {
+                model.Users.ForEach(o =>
+                {
+                    o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                    o.LastLoginDate = context.LocalizeDateTime(o.LastLoginDate);
+                });
+
+                ViewBag.PaginationCount = model.Users.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
 
             return View(model);
         }
