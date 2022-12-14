@@ -552,6 +552,17 @@ namespace TightWiki.Site.Controllers
             }
             else
             {
+                try
+                {
+                    var bmp = System.Drawing.Image.FromFile("Avatar.png") as System.Drawing.Bitmap;
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        bmp.Save(ms, ImageFormat.Png);
+                        return File(ms.ToArray(), "image/png");
+                    }
+                }
+                catch{ }
+
                 return NotFound();
             }
         }

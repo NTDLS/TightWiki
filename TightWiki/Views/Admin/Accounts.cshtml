@@ -29,7 +29,7 @@
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
 
-                        <form action="/Admin/AddAccount"><input type="submit" value="Add new Account" /></form> <br/>
+                        <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
 
                         @using (Html.BeginForm())
                         {
@@ -97,7 +97,7 @@
                         }
 
                         <br />
-                        <form action="/Admin/AddAccount"><input type="submit" value="Add new Account" /></form>
+                        <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form>
                     </td>
                 </tr>
             </tbody>

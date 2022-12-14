@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -293,6 +294,8 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
+            ViewBag.IsDebug = Debugger.IsAttached;
+
             var model = new UtilitiesModel()
             {
             };
@@ -308,6 +311,8 @@ namespace TightWiki.Site.Controllers
             {
                 return Unauthorized();
             }
+
+            ViewBag.IsDebug = Debugger.IsAttached;
 
             string action = Request.Form["ActionToConfirm"].ToString()?.ToLower();
             if (bool.Parse(Request.Form["ConfirmAction"]) != true)
