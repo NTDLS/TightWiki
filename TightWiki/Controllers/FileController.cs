@@ -26,7 +26,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public IActionResult Upload(string pageNavigation, List<IFormFile> postedFiles)
+        public IActionResult UploadDragDrop(string pageNavigation, List<IFormFile> postedFiles)
         {
             if (context.CanCreate == false)
             {
@@ -52,11 +52,12 @@ namespace TightWiki.Site.Controllers
                             Size = fileSize,
                             ContentType = Utility.GetMimeType(file.FileName)
                         });
+                        return Content("Success");
                     }
                 }
             }
 
-            return Content("Success");
+            return Content("Failure");
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost]
-        public ActionResult EditPageAttachment(string pageNavigation, object postData)
+        public IActionResult UploadManual(string pageNavigation, IFormFile formFile)
         {
             if (context.CanCreate == false)
             {
@@ -91,14 +92,12 @@ namespace TightWiki.Site.Controllers
                         Size = fileSize,
                         ContentType = Utility.GetMimeType(file.FileName)
                     });
+
+                    return Content("Success");
                 }
             }
 
-            var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
-            return View(new FileAttachmentModel()
-            {
-                Files = pageFiles
-            });
+            return Content("Failure");
         }
 
         /// <summary>

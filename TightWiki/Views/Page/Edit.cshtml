@@ -17,7 +17,7 @@
     }
 
     #dropSection {
-        height: 100px;
+        height: 150px;
         width: 100%;
         background-color: #f6f8fa;
         overflow: hidden;
@@ -29,16 +29,16 @@
     }
 
     .active {
-        background-color: yellow !important;
+        background-color: lightgreen !important;
     }
 </style>
 
 <script>
-function insertTextAtCursor(editor, text) {
-    var doc = editor.getDoc();
-    var cursor = doc.getCursor();
-    doc.replaceRange(text, cursor);
-}
+    function insertTextAtCursor(editor, text) {
+        var doc = editor.getDoc();
+        var cursor = doc.getCursor();
+        doc.replaceRange(text, cursor);
+    }
 </script>
 
 <script src="~/js/filedrop.js"></script>
@@ -54,8 +54,7 @@ function insertTextAtCursor(editor, text) {
         $("#dropSection").filedrop({
             fallback_id: 'btnUpload',
             fallback_dropzoneClick: true,
-            url: '@Url.Action("Upload", "File")/' + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),
-            allowedfileextensions: ['.doc', '.docx', '.pdf', '.jpg', '.jpeg', '.png', '.gif', '.txt', '.json'],
+            url: '@Url.Action("UploadDragDrop", "File")/' + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),
             paramname: 'postedFiles',
             maxfiles: 5, //Maximum Number of Files allowed at a time.
             maxfilesize: 25, //Maximum File Size in MB.
@@ -74,11 +73,10 @@ function insertTextAtCursor(editor, text) {
 
                 var ext = file.name.split('.').pop().toLowerCase();
 
-                if(ext.includes("png") || ext.includes("jpg") || ext.includes('jpeg') || ext.includes('gif') || ext.includes('bmp'))
-                {
+                if (ext.includes("png") || ext.includes("jpg") || ext.includes('jpeg') || ext.includes('gif') || ext.includes('bmp')) {
                     insertTextAtCursor(editor, '##Image(' + file.name + ')');
                 }
-                else{
+                else {
                     insertTextAtCursor(editor, '##File(' + file.name + ')');
                 }
             },
@@ -89,7 +87,29 @@ function insertTextAtCursor(editor, text) {
         })
     })
 
+    $(document).ready(function () {
+        var frm = $('#manualUpload');
+        frm.submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(e[0]);
+            formData.append('BinaryData', $('input[type=file]')[0].files[0]);
 
+            $.ajax({
+                url: '@Url.Action("UploadManual", "File")/' + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),
+                type: 'POST',
+                data: formData,
+                async: false,
+                cache: false,
+                contentType: false,
+                enctype: 'multipart/form-data',
+                processData: false,
+                success: function (response) {
+                    $("#uploadedFiles").load("/File/EditPageAttachment/" + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+                }
+            });
+            return false;
+        });
+    });
 </script>
 
 <div class="bodyDiv">
@@ -148,6 +168,10 @@ function insertTextAtCursor(editor, text) {
                         scrollbarStyle: "simple"
                     });
                 </script>
+
+                <br />
+
+                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save</button></div>
             }
         </div>
     </div>
@@ -157,7 +181,11 @@ function insertTextAtCursor(editor, text) {
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
             <div id="dropSection" class="dropSection">
-                <br /><strong>Attach files by dropping them here...</strong>
+                <br />Attach files by dropping them here or by manually selcting them below:<br /><br />
+                <div id="manualUpload">
+                    <form id="manualUpload" action="/upload" enctype="multipart/form-data" method="post"><input type="file" name="BinaryData"><input type="submit" value="Upload"></form>
+                </div>
+
             </div>
             <div id="uploadedFiles">
             </div>
