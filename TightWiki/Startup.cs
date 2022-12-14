@@ -175,6 +175,12 @@ namespace TightWiki
 
                 endpoints.MapControllerRoute(
                     name: "Admin_Account",
+                    pattern: "Admin/DeleteAccount/{navigation}",
+                    defaults: new { controller = "Admin", action = "DeleteAccount", navigation = "undefined" }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "Admin_Account",
                     pattern: "Admin/Role/{navigation}/{page}",
                     defaults: new { controller = "Admin", action = "Role", navigation = "member", page = "1" }
                 );

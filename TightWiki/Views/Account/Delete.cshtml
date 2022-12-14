@@ -25,10 +25,9 @@
                 @if (ViewBag.Error == null)
                 {
                     <div class="panel panel-danger">
-                        <div class="card-header">Delete account "@ViewBag.AccountName"?</div>
+                        <div class="card-header"><strong>Delete account "@ViewBag.AccountName"?</strong></div>
                         <div class="card-body">
-
-                            <strong>Deleting "@ViewBag.AccountName" will permanently remove the account. All pages created or modifed by this user will be attributed to a default account.</strong><br />
+                            <strong>Deleting "@ViewBag.AccountName" will permanently remove the account. All pages created or modifed by this user will be attributed to a stand-in account.</strong><br />
                             You will not be able to revert this deletion.
 
                             Are you sure you want to continue with this deletion?<br /><br />

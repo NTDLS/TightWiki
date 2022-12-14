@@ -789,45 +789,46 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult DeleteAccount(string userAccountName, UserProfileModel model)
+        public ActionResult DeleteAccount(string navigation, AccountModel model)
         {
             if (context.CanDelete == false)
             {
                 return Unauthorized();
             }
 
-            var user = UserRepository.GetUserByNavigation(userAccountName);
+            var user = UserRepository.GetUserByNavigation(navigation);
 
             bool confirmAction = bool.Parse(Request.Form["Action"]);
             if (confirmAction == true && user != null)
             {
                 UserRepository.DeleteById(user.Id);
                 Cache.ClearClass($"User:{user.Navigation}");
+                return RedirectToAction("Accounts", "Admin");
             }
 
-            return RedirectToAction("Display", "Page", new { pageNavigation = "Home" });
+            return RedirectToAction("Account", "Admin", new { navigation = navigation });
         }
 
         [Authorize]
         [HttpGet]
-        public ActionResult DeleteAccount(string userAccountName)
+        public ActionResult DeleteAccount(string navigation)
         {
             if (context.CanDelete == false)
             {
                 return Unauthorized();
             }
 
-            var user = UserRepository.GetUserByNavigation(userAccountName);
+            var user = UserRepository.GetUserByNavigation(navigation);
 
             ViewBag.AccountName = user.AccountName;
 
-            var model = new PageDeleteModel()
+            var model = new AccountModel()
             {
             };
 
             if (user != null)
             {
-                ViewBag.Config.Title = $"{userAccountName} Delete";
+                ViewBag.Config.Title = $"{user.AccountName} Delete";
             }
 
             return View(model);
