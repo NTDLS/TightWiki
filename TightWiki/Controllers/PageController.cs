@@ -172,7 +172,7 @@ namespace TightWiki.Site.Controllers
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-            if (instructions.Select(o => o.Instruction == WikiInstruction.Protect).Any())
+            if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
             {
                 return Unauthorized();
             }

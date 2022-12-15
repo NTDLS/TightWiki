@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -578,8 +579,20 @@ namespace TightWiki.Shared.Wiki
             }
         }
 
-        private string GetLinkImage(string linkText)
+        private string GetLinkImage(List<string> arguments)
         {
+            //This function excpects an argument array with up to three argumens:
+            //[0] link text.
+            //[1] image link, which starts with "img=".
+            //[2] scale of image.
+
+            if (arguments.Count < 1 || arguments.Count > 3)
+            {
+                throw new Exception($"The link parameters are invalid. Expected: [[page, text/image, scale.]], found :[[\"{string.Join("\",\"", arguments)}]]\"");
+            }
+
+            var linkText = arguments[1];
+
             string compareString = linkText.ToLower().RemoveWhitespace();
 
             //Internal page attached image:
@@ -590,16 +603,14 @@ namespace TightWiki.Shared.Wiki
                     linkText = linkText.Substring(linkText.IndexOf("=") + 1);
                     string scale = "100";
 
-                    //Allow loading attacehd images from other pages.
+                    //Allow loading attached images from other pages.
                     int slashIndex = linkText.IndexOf("/");
                     string navigation = WikiUtility.CleanPartialURI(linkText.Substring(0, slashIndex));
                     linkText = linkText.Substring(slashIndex + 1);
 
-                    int scaleIndex = linkText.IndexOf("|");
-                    if (scaleIndex > 0)
+                    if(arguments.Count > 2)
                     {
-                        scale = linkText.Substring(scaleIndex + 1);
-                        linkText = linkText.Substring(0, scaleIndex);
+                        scale = arguments[2];
                     }
 
                     if (_revision != null)
@@ -617,12 +628,11 @@ namespace TightWiki.Shared.Wiki
                 {
                     linkText = linkText.Substring(linkText.IndexOf("=") + 1);
                     string scale = "100";
-
-                    int scaleIndex = linkText.IndexOf("|");
-                    if (scaleIndex > 0)
+                   
+                    if (arguments.Count > 2)
                     {
-                        scale = linkText.Substring(scaleIndex + 1);
-                        linkText = linkText.Substring(0, scaleIndex);
+                        linkText = arguments[1].Substring(arguments[1].IndexOf("=") + 1);
+                        scale = arguments[2];
                     }
 
                     if (_revision != null)
@@ -717,22 +727,23 @@ namespace TightWiki.Shared.Wiki
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                int pipeIndex = keyword.IndexOf("|");
-                if (pipeIndex > 0)
+                var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
+
+                if (args.Count > 1)
                 {
-                    string linkText = keyword.Substring(pipeIndex + 1).Trim();
+                    string linkText = args[1];
                     if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
                     {
                         linkText = $"<img {linkText} border =\"0\" > ";
                     }
 
-                    keyword = keyword.Substring(0, pipeIndex).Trim();
+                    keyword = args[0];
 
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>", false);
                 }
                 else
                 {
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>", false);
                 }
             }
 
@@ -742,22 +753,23 @@ namespace TightWiki.Shared.Wiki
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                int pipeIndex = keyword.IndexOf("|");
-                if (pipeIndex > 0)
+                var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
+
+                if (args.Count > 1)
                 {
-                    string linkText = keyword.Substring(pipeIndex + 1).Trim();
+                    string linkText = args[1];
                     if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
                     {
                         linkText = $"<img {linkText} border =\"0\" > ";
                     }
 
-                    keyword = keyword.Substring(0, pipeIndex).Trim();
+                    keyword = args[0];
 
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>", false);
                 }
                 else
                 {
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>", false);
                 }
             }
 
@@ -770,13 +782,17 @@ namespace TightWiki.Shared.Wiki
                 string explicitLinkText = "";
                 string linkText;
 
-                int pipeIndex = keyword.IndexOf("|");
-                if (pipeIndex > 0)
-                {
-                    explicitLinkText = keyword.Substring(pipeIndex + 1).Trim();
-                    keyword = keyword.Substring(0, pipeIndex).Trim();
-                }
+                var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
 
+                if (args.Count == 1)
+                {
+                    //Text only.
+                }
+                else if (args.Count >= 2)
+                {
+                    keyword = args[0];
+                    explicitLinkText = args[1];
+                }
 
                 string pageName = keyword;
                 string pageNavigation = WikiUtility.CleanPartialURI(pageName);
@@ -792,7 +808,7 @@ namespace TightWiki.Shared.Wiki
                     }
                     else
                     {
-                        linkText = GetLinkImage(explicitLinkText);
+                        linkText = GetLinkImage(args);
                     }
 
                     StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
@@ -805,7 +821,14 @@ namespace TightWiki.Shared.Wiki
                     }
                     else
                     {
-                        linkText = explicitLinkText;
+                        if (explicitLinkText.ToLower().Contains("img="))
+                        {
+                            linkText = pageName;
+                        }
+                        else
+                        {
+                            linkText = explicitLinkText;
+                        }
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
@@ -819,7 +842,14 @@ namespace TightWiki.Shared.Wiki
                     }
                     else
                     {
-                        linkText = explicitLinkText;
+                        if (explicitLinkText.ToLower().Contains("img="))
+                        {
+                            linkText = pageName;
+                        }
+                        else
+                        {
+                            linkText = explicitLinkText;
+                        }
                     }
 
                     //Remove wiki tags for pages which were not found or which we do not have permission to view.

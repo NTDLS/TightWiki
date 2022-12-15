@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace TightWiki.Shared.Wiki.Function
@@ -31,8 +32,8 @@ namespace TightWiki.Shared.Wiki.Function
 
                 parseEndIndex = match.Index + match.Length;
 
-                string rawArgTrimmed = match.ToString().Substring(paramStartIndex + 1, (match.ToString().Length - paramStartIndex) - 2);
-                rawArguments = rawArgTrimmed.ToString().Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).ToList();
+                string rawArgTrimmed = match.ToString().Substring(paramStartIndex, (match.ToString().Length - paramStartIndex));
+                rawArguments = ParseRawArguments(rawArgTrimmed);
             }
             else //The function call has no parameters.
             {
@@ -48,6 +49,147 @@ namespace TightWiki.Shared.Wiki.Function
             }
 
             return new FunctionCallInstance(prototype, rawArguments);
+        }
+
+        public static List<string> ParseRawArgumentsAddParens(string paramString)
+        {
+            return ParseRawArguments($"({paramString})");
+        }
+
+        public static List<string> ParseRawArguments(string paramString)
+        {
+            List<string> ps = new();
+
+            int iRpos = 0;
+
+            var singleParam = new StringBuilder();
+
+            if (paramString[iRpos] != '(')
+            {
+                throw new Exception($"Expected '('.");
+            }
+
+            int parenNest = 1;
+
+                //https://localhost:44349/get_standard_function_wiki_help
+
+            iRpos++; //Skip the (
+
+            while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+
+            while (true)
+            {
+                if (paramString[iRpos] == '(')
+                {
+                    parenNest++;
+                }
+                else if (paramString[iRpos] == ')')
+                {
+                    parenNest--;
+                }
+
+                if (iRpos == paramString.Length)
+                {
+                    throw new Exception($"Expected ')'.");
+                }
+                else if (paramString[iRpos] == ')' && parenNest == 0)
+                {
+                    iRpos++; //Skip the )
+
+                    if (parenNest == 0 && iRpos != paramString.Length)
+                    {
+                        throw new Exception($"Expected end of statement.");
+                    }
+
+                    if (singleParam.Length > 0)
+                    {
+                        ps.Add(singleParam.ToString());
+                    }
+                    singleParam.Clear();
+
+                    if (parenNest == 0)
+                    {
+                        break;
+                    }
+                }
+                else if (paramString[iRpos] == '\"')
+                {
+                    iRpos++; //Skip the ".
+
+                    bool escapeChar = false;
+                    for (; ; iRpos++)
+                    {
+                        if (iRpos == paramString.Length)
+                        {
+                            throw new Exception($"Expected end of string.");
+                        }
+                        else if (paramString[iRpos] == '\\')
+                        {
+                            escapeChar = true;
+                            continue;
+                        }
+                        else if (paramString[iRpos] == '\"' && escapeChar == false)
+                        {
+                            //Found the end of the string:
+                            /*
+
+                            Regex rgx = new Regex(@"\{.+\}", RegexOptions.IgnoreCase);
+                            var matches = rgx.Matches(singleParam.ToString());
+                            foreach (Match match in matches.Cast<Match>())
+                            {
+                            }
+                            */
+
+                            iRpos++; //Skip the ".
+                            break;
+                        }
+                        else
+                        {
+                            singleParam.Append(paramString[iRpos]);
+                        }
+                        escapeChar = false;
+                    }
+
+                    while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                }
+                else if (paramString[iRpos] == ',')
+                {
+                    iRpos++; //Skip the ,
+                    while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+
+                    ps.Add(singleParam.ToString());
+                    singleParam.Clear();
+                    continue;
+                }
+                else
+                {
+                    singleParam.Append(paramString[iRpos]);
+
+                    if (paramString[iRpos] == '(')
+                    {
+                        iRpos++;
+                        while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                    }
+                    else if (paramString[iRpos] == ')')
+                    {
+                        iRpos++;
+                        while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                    }
+                    else
+                    {
+                        iRpos++;
+                    }
+                }
+
+
+            }
+
+            for (int i = 0; i < ps.Count; i++)
+            {
+                ps[i] = ps[i].Trim();
+            }
+
+            return ps;
         }
     }
 }
