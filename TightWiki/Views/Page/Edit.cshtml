@@ -180,16 +180,24 @@
     <div class="card">
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
-            <div id="dropSection" class="dropSection">
-                <br />Attach files by dropping them here or by manually selcting them below:<br /><br />
-                <div id="manualUpload">
-                    <form id="manualUpload" action="/upload" enctype="multipart/form-data" method="post"><input type="file" name="BinaryData"><input type="submit" value="Upload"></form>
-                </div>
+            @if (Model?.Id > 0 && @ViewBag.Config.Context?.CanCreate == true)
+            {
 
-            </div>
-            <div id="uploadedFiles">
-            </div>
-            <input type="button" id="btnUpload" value="Upload" />
+                <div id="dropSection" class="dropSection">
+                    <br />Attach files by dropping them here or by manually selcting them below:<br /><br />
+                    <div id="manualUpload">
+                        <form id="manualUpload" action="/upload" enctype="multipart/form-data" method="post"><input type="file" name="BinaryData"><input type="submit" value="Upload"></form>
+                    </div>
+
+                </div>
+                <div id="uploadedFiles">
+                </div>
+                <input type="button" id="btnUpload" value="Upload" />
+            }
+            else
+            {
+                <div>Save the page before uploading files.</div>
+            }
         </div>
     </div>
 </div>

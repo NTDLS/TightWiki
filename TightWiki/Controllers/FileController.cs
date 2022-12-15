@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Web;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
@@ -43,14 +44,16 @@ namespace TightWiki.Site.Controllers
                     var fileSize = file.Length;
                     if (fileSize > 0)
                     {
+                        var fileName = HttpUtility.UrlDecode(file.FileName);
+
                         PageFileRepository.UpsertPageFile(new PageFileAttachment()
                         {
                             Data = Utility.ConvertHttpFileToBytes(file),
                             CreatedDate = DateTime.UtcNow,
                             PageId = page.Id,
-                            Name = file.FileName,
+                            Name = fileName,
                             Size = fileSize,
-                            ContentType = Utility.GetMimeType(file.FileName)
+                            ContentType = Utility.GetMimeType(fileName)
                         });
                         return Content("Success");
                     }
@@ -83,14 +86,16 @@ namespace TightWiki.Site.Controllers
                 var fileSize = file.Length;
                 if (fileSize > 0)
                 {
+                    var fileName = HttpUtility.UrlDecode(file.FileName);
+
                     PageFileRepository.UpsertPageFile(new PageFileAttachment()
                     {
                         Data = Utility.ConvertHttpFileToBytes(file),
                         CreatedDate = DateTime.UtcNow,
                         PageId = page.Id,
-                        Name = file.FileName,
+                        Name = fileName,
                         Size = fileSize,
-                        ContentType = Utility.GetMimeType(file.FileName)
+                        ContentType = Utility.GetMimeType(fileName)
                     });
 
                     return Content("Success");
