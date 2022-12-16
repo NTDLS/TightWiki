@@ -379,6 +379,63 @@ namespace TightWiki.Shared.Wiki
                     switch (function.Name.ToLower())
                     {
                         //------------------------------------------------------------------------------------------------------------------------------
+                        case "table":
+                            {
+                                var hasBorder = function.Parameters.Get<bool>("hasBorder");
+                                var firstRowIsHeader = function.Parameters.Get<bool>("firstRowIsHeader");
+                                var isStriped = function.Parameters.Get<bool>("isStriped");
+
+                                html.Append($"<table class=\"table");
+
+                                if (isStriped)
+                                {
+                                    html.Append(" table-striped");
+                                }
+                                if (hasBorder)
+                                {
+                                    html.Append(" table-bordered");
+                                }
+
+                                html.Append($"\">");
+
+                                var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                                int rowNumber = 0;
+
+                                foreach (var lineText in lines)
+                                {
+                                    var columns = lineText.Split("||");
+
+                                    if (rowNumber == 0 && firstRowIsHeader)
+                                    {
+                                        html.Append($"<thead>");
+                                    }
+                                    else if ((rowNumber == 1 && firstRowIsHeader) || (rowNumber == 0 && firstRowIsHeader == false))
+                                    {
+                                        html.Append($"<tbody>");
+                                    }
+
+                                    html.Append($"<tr>");
+                                    foreach (var columnText in columns)
+                                    {
+                                        html.Append($"<td>{columnText}</td>");
+                                    }
+
+                                    if (rowNumber == 0 && firstRowIsHeader)
+                                    {
+                                        html.Append($"</thead>");
+                                    }
+                                    html.Append($"</tr>");
+
+                                    rowNumber++;
+                                }
+
+                                html.Append($"</tbody>");
+                                html.Append($"</table>");
+
+                                break;
+                            }
+                        //------------------------------------------------------------------------------------------------------------------------------
                         case "bullets":
                             {
                                 string type = function.Parameters.Get<string>("type");

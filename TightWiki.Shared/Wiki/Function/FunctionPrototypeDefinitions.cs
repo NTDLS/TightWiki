@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Shared.Wiki.Function
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace TightWiki.Shared.Wiki.Function
 {
     public static class FunctionPrototypeDefinitions
     {
@@ -27,6 +29,7 @@
                     _functionPrototypes.Add("$$Alert: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Card: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Collapse: <string>{linkText}='Show'");
+                    _functionPrototypes.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isStriped}='false' | <boolean>{firstRowIsHeader}='true'");
 
                     //Standard functions:
                     _functionPrototypes.Add("##Seq: <string>{key}='Default'");
