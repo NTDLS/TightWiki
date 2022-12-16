@@ -24,7 +24,7 @@
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (Model.SuccessMessage != null)
                         {
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
@@ -47,7 +47,12 @@
                                 @foreach (var p in Model.Pages)
                                 {
                                     <tr>
-                                        <td><font class="text-muted">@p.Score.ToString("N0")%</font> <a href="/@p.Navigation">@p.Name</a> @(String.IsNullOrEmpty(@p.Description) ? "" : " : ")  @p.Description</td>
+                                        <td>
+                                            @if ((p.Namespace ?? "") != "")
+                                            {
+                                                <font class="text-muted">@p.Namespace ::</font>
+                                            }<a href="/@p.Navigation">@p.Title</a>@(String.IsNullOrEmpty(@p.Description) ? "" : " : ")  @p.Description
+                                        </td>
                                     </tr>
                                 }
                             </table>

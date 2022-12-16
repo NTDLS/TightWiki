@@ -306,7 +306,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id, pageRevision);
 
                 var wiki = new Wikifier(context, page, pageRevision, Request.Query);
-                ViewBag.Config.Title = page.Name;
+                ViewBag.Config.Title = page.Title;
                 model.Body = wiki.ProcessedBody;
             }
             else if (pageRevision != null)
@@ -385,7 +385,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id);
 
                 //Editing an existing page.
-                ViewBag.Config.Title = page.Name;
+                ViewBag.Config.Title = page.Title;
 
                 return View(new EditPageModel()
                 {
@@ -494,7 +494,7 @@ namespace TightWiki.Site.Controllers
                     page.Navigation = WikiUtility.CleanPartialURI(model.Name);
                     page.Description = model.Description ?? "";
 
-                    ViewBag.Config.Title = page.Name;
+                    ViewBag.Config.Title = page.Title;
 
                     SavePage(page);
 
