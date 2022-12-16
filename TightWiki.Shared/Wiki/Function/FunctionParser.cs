@@ -21,15 +21,15 @@ namespace TightWiki.Shared.Wiki.Function
                 throw new Exception($"Function parentheses mismatch.");
             }
 
-            MatchCollection matches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(firstLine);
-            if (matches.Count > 0)
-            {
-                var match = matches[0];
+            string functionPrefix = orderedMatch.Value.Substring(0, 2);
 
+            MatchCollection parameterMatches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(firstLine);
+            if (parameterMatches.Count > 0)
+            {
+                var match = parameterMatches[0];
                 int paramStartIndex = match.Value.IndexOf('(');
 
                 functionName = match.Value[..paramStartIndex].ToLower().TrimStart(new char[] { '{', '#', '@' }).Trim();
-
                 parseEndIndex = match.Index + match.Length;
 
                 string rawArgTrimmed = match.ToString().Substring(paramStartIndex, (match.ToString().Length - paramStartIndex));
@@ -42,7 +42,7 @@ namespace TightWiki.Shared.Wiki.Function
                 parseEndIndex = endOfLine + 2;
             }
 
-            var prototype = FunctionPrototypeDefinitions.Get(functionName);
+            var prototype = FunctionPrototypeDefinitions.Get(functionPrefix, functionName);
             if (prototype == null)
             {
                 throw new Exception($"Function ({functionName}) does not have a defined prototype.");

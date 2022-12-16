@@ -21,11 +21,13 @@ namespace TightWiki.Shared.Wiki.Function
             });
         }
 
-        public FunctionPrototype Get(string functionName)
+        public FunctionPrototype Get(string functionPrefix, string functionName)
         {
             functionName = functionName.ToLower();
 
-            return Items.Where(o => o.FunctionName == functionName).FirstOrDefault()?.Value;
+            //$$ are scope functions and are not called by prefix, we only have prefixes to make it easier to parse
+            //  the functions in the wikitext and scope functions are easy enough since they start with curly braces.
+            return Items.Where(o => (o.FunctionPrefix == functionPrefix || o.FunctionPrefix == "$$") && o.FunctionName == functionName).FirstOrDefault()?.Value;
         }
 
         private FunctionPrototype ParsePrototype(string prototypeString)

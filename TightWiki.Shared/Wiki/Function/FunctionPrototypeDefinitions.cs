@@ -4,9 +4,9 @@
     {
         private static FunctionPrototypeCollection _functionPrototypes;
 
-        public static FunctionPrototype Get(string functionName)
+        public static FunctionPrototype Get(string functionPrefix, string functionName)
         {
-            return Collection.Get(functionName);
+            return Collection.Get(functionPrefix, functionName);
         }
 
         public static FunctionPrototypeCollection Collection
