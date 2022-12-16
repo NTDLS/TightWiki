@@ -779,8 +779,14 @@ namespace TightWiki.Shared.Wiki
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
+
                 string explicitLinkText = "";
                 string linkText;
+
+                if (keyword.Contains("::"))
+                {
+                    explicitLinkText = keyword.Substring(keyword.IndexOf("::") + 2).Trim();
+                }
 
                 var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
 
@@ -802,33 +808,30 @@ namespace TightWiki.Shared.Wiki
 
                 if (page != null)
                 {
-                    if (explicitLinkText.Length == 0)
+                    if (explicitLinkText.Length > 0 && explicitLinkText.Contains("img="))
                     {
-                        linkText = page.Name;
+                        linkText = GetLinkImage(args);
+                    }
+                    else if (explicitLinkText.Length > 0)
+                    {
+                        linkText = explicitLinkText;
                     }
                     else
                     {
-                        linkText = GetLinkImage(args);
+                        linkText = page.Name;
                     }
 
                     StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_context?.CanCreate == true)
                 {
-                    if (explicitLinkText.Length == 0)
+                    if (explicitLinkText.Length > 0)
                     {
-                        linkText = pageName;
+                        linkText = explicitLinkText;
                     }
                     else
                     {
-                        if (explicitLinkText.ToLower().Contains("img="))
-                        {
-                            linkText = pageName;
-                        }
-                        else
-                        {
-                            linkText = explicitLinkText;
-                        }
+                        linkText = pageName;
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
@@ -836,20 +839,13 @@ namespace TightWiki.Shared.Wiki
                 }
                 else
                 {
-                    if (explicitLinkText.Length == 0)
+                    if (explicitLinkText.Length > 0)
                     {
-                        linkText = pageName;
+                        linkText = explicitLinkText;
                     }
                     else
                     {
-                        if (explicitLinkText.ToLower().Contains("img="))
-                        {
-                            linkText = pageName;
-                        }
-                        else
-                        {
-                            linkText = explicitLinkText;
-                        }
+                        linkText = pageName;
                     }
 
                     //Remove wiki tags for pages which were not found or which we do not have permission to view.
@@ -1321,18 +1317,19 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
 
+
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary of pages with the specified comma seperated tags.
-                    case "tagglossary":
+                    //Creates a glossary of pages in the specified namespace.
+                    case "namespaceglossary":
                         {
                             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-                            var tags = function.Parameters.GetList<string>("pageTags");
+                            var namespaces = function.Parameters.GetList<string>("namespaces");
 
                             string styleName = function.Parameters.Get<String>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
-                            var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var pages = PageTagRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
-                            var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
+                            var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
 
                             if (pages.Count() > 0)
                             {
@@ -1349,9 +1346,97 @@ namespace TightWiki.Shared.Wiki
                                     html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                                     html.Append("<ul>");
-                                    foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
+                                    foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Title + "</a>");
+
+                                        if (styleName == "full")
+                                        {
+                                            if (page?.Description?.Length > 0)
+                                            {
+                                                html.Append(" - " + page.Description);
+                                            }
+                                        }
+                                        html.Append("</li>");
+                                    }
+                                    html.Append("</ul>");
+                                }
+
+                                html.Append("</ul>");
+                            }
+
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Creates a list of pages by searching the page tags.
+                    case "namespacelist":
+                        {
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var topCount = function.Parameters.Get<int>("top");
+                            var namespaces = function.Parameters.GetList<string>("namespaces");
+
+                            var pages = PageTagRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var html = new StringBuilder();
+
+                            if (pages.Count() > 0)
+                            {
+                                html.Append("<ul>");
+
+                                foreach (var page in pages)
+                                {
+                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Title + "</a>");
+
+                                    if (styleName == "full")
+                                    {
+                                        if (page?.Description?.Length > 0)
+                                        {
+                                            html.Append(" - " + page.Description);
+                                        }
+                                    }
+
+                                    html.Append("</li>");
+                                }
+
+                                html.Append("</ul>");
+                            }
+
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Creates a glossary of pages with the specified comma seperated tags.
+                    case "tagglossary":
+                        {
+                            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                            var tags = function.Parameters.GetList<string>("pageTags");
+
+                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var topCount = function.Parameters.Get<int>("top");
+                            var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var html = new StringBuilder();
+                            var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
+
+                            if (pages.Count() > 0)
+                            {
+                                html.Append("<center>");
+                                foreach (var alpha in alphabet)
+                                {
+                                    html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
+                                }
+                                html.Append("</center>");
+
+                                html.Append("<ul>");
+                                foreach (var alpha in alphabet)
+                                {
+                                    html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
+
+                                    html.Append("<ul>");
+                                    foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
+                                    {
+                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Title + "</a>");
 
                                         if (styleName == "full")
                                         {
@@ -1389,7 +1474,7 @@ namespace TightWiki.Shared.Wiki
 
                             var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
-                            var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
+                            var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
                             string styleName = function.Parameters.Get<String>("styleName").ToLower();
 
                             if (pages.Count() > 0)
@@ -1407,9 +1492,9 @@ namespace TightWiki.Shared.Wiki
                                     html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                                     html.Append("<ul>");
-                                    foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
+                                    foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
+                                        html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Title + "</a>");
 
                                         if (styleName == "full")
                                         {
@@ -1458,7 +1543,7 @@ namespace TightWiki.Shared.Wiki
 
                                 foreach (var page in pages)
                                 {
-                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
+                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Title + "</a>");
 
                                     if (styleName == "full")
                                     {
@@ -1500,7 +1585,7 @@ namespace TightWiki.Shared.Wiki
 
                                 foreach (var page in pages)
                                 {
-                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
+                                    html.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Title + "</a>");
 
                                     if (styleName == "full")
                                     {
@@ -1538,7 +1623,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1547,7 +1632,7 @@ namespace TightWiki.Shared.Wiki
                                 foreach (var page in pages)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Title}</a>");
                                 }
                             }
                             else if (styleName == "full")
@@ -1555,7 +1640,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a> - {page.Description}");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a> - {page.Description}");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1588,7 +1673,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1597,7 +1682,7 @@ namespace TightWiki.Shared.Wiki
                                 foreach (var page in pages)
                                 {
                                     if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Title}</a>");
                                 }
                             }
                             else if (styleName == "full")
@@ -1605,7 +1690,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a> - {page.Description}");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a> - {page.Description}");
                                 }
                                 html.Append("</ul>");
                             }
@@ -1657,18 +1742,26 @@ namespace TightWiki.Shared.Wiki
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the name of the current page.
+                    //Displays the title of the current page.
                     case "name":
                         {
-                            StoreMatch(function, pageContent, match.Value, _page.Name);
+                            StoreMatch(function, pageContent, match.Value, _page.Title);
                         }
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the name of the current page in title form.
+                    //Displays the title of the current page in title form.
                     case "title":
                         {
-                            StoreMatch(function, pageContent, match.Value, $"<h1>{_page.Name}</h1>");
+                            StoreMatch(function, pageContent, match.Value, $"<h1>{_page.Title}</h1>");
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the namespace of the current page.
+                    case "namespace":
+                        {
+                            StoreMatch(function, pageContent, match.Value, _page.Namespace);
                         }
                         break;
 

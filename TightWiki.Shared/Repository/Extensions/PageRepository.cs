@@ -232,6 +232,7 @@ namespace TightWiki.Shared.Repository
                     Navigation = WikiUtility.CleanPartialURI(item.Name),
                     Description = item.Description,
                     Body = item.Body,
+                    Namespace = item.Namespace,
                     CreatedByUserId = item.CreatedByUserId,
                     CreatedDate = item.CreatedDate,
                     ModifiedByUserId = item.ModifiedByUserId,

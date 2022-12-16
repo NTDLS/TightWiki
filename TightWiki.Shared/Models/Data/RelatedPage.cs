@@ -1,3 +1,5 @@
+using System.Xml.Linq;
+
 namespace TightWiki.Shared.Models.Data
 {
     public partial class RelatedPage
@@ -9,6 +11,19 @@ namespace TightWiki.Shared.Models.Data
         public int Matches { get; set; }
         public int PaginationSize { get; set; }
         public int PaginationCount { get; set; }
+
+        public string Title
+        {
+            get
+            {
+                if (Name.Contains("::"))
+                {
+                    return Name.Substring(Name.IndexOf("::") + 2).Trim();
+                }
+
+                return Name;
+            }
+        }
 
     }
 }

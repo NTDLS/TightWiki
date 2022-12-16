@@ -37,6 +37,8 @@
                     _functionPrototypes.Add("##SearchList: <string>[searchPhrase] | <string>{styleName(List,Full)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <bool>{allowFuzzyMatching}='false'");
                     _functionPrototypes.Add("##TagList: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
                     _functionPrototypes.Add("##SearchCloud: <string>[searchPhrase] | <integer>{Top}='1000'");
+                    _functionPrototypes.Add("##NamespaceGlossary: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
+                    _functionPrototypes.Add("##NamespaceList: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
                     _functionPrototypes.Add("##TagGlossary: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
                     _functionPrototypes.Add("##RecentlyModified: <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
                     _functionPrototypes.Add("##TextGlossary: <string>[searchPhrase] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full'");
@@ -57,6 +59,7 @@
                     _functionPrototypes.Add("##Title:");
                     _functionPrototypes.Add("##Navigation:");
                     _functionPrototypes.Add("##Name:");
+                    _functionPrototypes.Add("##Namespace:");
                     _functionPrototypes.Add("##Created:");
                     _functionPrototypes.Add("##LastModified:");
                     _functionPrototypes.Add("##AppVersion:");

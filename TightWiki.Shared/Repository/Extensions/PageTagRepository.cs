@@ -30,6 +30,20 @@ namespace TightWiki.Shared.Repository
             return GetPageInfoByTags(tags);
         }
 
+        public static List<Page> GetPageInfoByNamespaces(List<string> namespaces)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    Namespaces = string.Join(",", namespaces.Select(o => o.Trim()))
+                };
+
+                return handler.Connection.Query<Page>("GetPageInfoByNamespaces",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public static List<Page> GetPageInfoByTags(List<string> tags)
         {
             using (var handler = new SqlConnectionHandler())

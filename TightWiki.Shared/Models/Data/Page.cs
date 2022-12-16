@@ -22,6 +22,32 @@ namespace TightWiki.Shared.Models.Data
             }
         }
 
+        public string Title
+        {
+            get
+            {
+                if (_name.Contains("::"))
+                {
+                    return _name.Substring(_name.IndexOf("::") + 2).Trim();
+                }
+
+                return _name;
+            }
+        }
+
+        public string Namespace
+        {
+            get
+            {
+                if (_name.Contains("::"))
+                {
+                    return _name.Substring(0, _name.IndexOf("::")).Trim();
+                }
+                return null;
+            }
+        }
+
+
         private string _name;
         public string Name
         {
