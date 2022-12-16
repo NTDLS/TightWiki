@@ -32,7 +32,7 @@ namespace TightWiki.Shared.Wiki.Function
                     functionPrefix = string.Empty;
                 }
 
-                string topic = $"{item.ProperName} - {functionType} - Wiki Help";
+                string topic = $"Wiki Help :: {item.ProperName} - {functionType}";
                 string navigation = WikiUtility.CleanPartialURI(topic);
 
                 var page = PageRepository.GetPageInfoByNavigation(navigation);
@@ -41,9 +41,9 @@ namespace TightWiki.Shared.Wiki.Function
                     var html = new System.Text.StringBuilder();
                     html.AppendLine("@@draft");
                     html.AppendLine("@@protect(true)");
-                    html.AppendLine("##Image(Wiki Help/TightWiki Logo.png | 15)");
-                    html.AppendLine($"##title ##Tag(Official-Help | Help | Wiki | Official | {functionType})");
-                    html.AppendLine("{{{Card(Default | Table of Contents) ##toc }}}");
+                    html.AppendLine("##Image(Wiki Help :: Wiki Help/TightWiki Logo.png, 15)");
+                    html.AppendLine($"##title ##Tag(Official-Help, Help, Wiki, Official, {functionType})");
+                    html.AppendLine("{{{Card(Default, Table of Contents) ##toc }}}");
                     html.AppendLine("");
                     html.AppendLine("${metaColor = #ee2401}");
                     html.AppendLine("${keywordColor = #318000}");
@@ -53,7 +53,7 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
-                    html.Append($"##Color(${{keywordColor}} | **#{{ {functionPrefix}{item.ProperName} }}#**)");
+                    html.Append($"##Color(${{keywordColor}}, **#{{ {functionPrefix}{item.ProperName} }}#**)");
                     if ((item.Value.Parameters?.Count ?? 0) == 0)
                     {
                         html.AppendLine("()");
@@ -63,16 +63,16 @@ namespace TightWiki.Shared.Wiki.Function
                         html.Append("(");
                         foreach (var p in item.Value.Parameters)
                         {
-                            html.Append($"##Color(${{keywordColor}} | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
+                            html.Append($"##Color(${{keywordColor}}, {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
                             if (p.IsRequired)
                             {
-                                html.Append($" [##Color(${{identifierColor}} | {p.Name})]");
+                                html.Append($" [##Color(${{identifierColor}}, {p.Name})]");
                             }
                             else
                             {
-                                html.Append($" {{##Color(${{identifierColor}} | {p.Name})}}");
+                                html.Append($" {{##Color(${{identifierColor}}, {p.Name})}}");
                             }
-                            html.Append(" | ");
+                            html.Append(", ");
                         }
                         html.Length -= 3;
                         html.Append(")");
@@ -91,15 +91,15 @@ namespace TightWiki.Shared.Wiki.Function
 
                     foreach (var p in item.Value.Parameters)
                     {
-                        html.AppendLine($"**Name:** ##Color(${{identifierColor}} | {p.Name}) ##Color(${{metaColor}} | {(p.IsRequired ? "[Required]" : "{Optional}")})");
-                        html.AppendLine($">**Type:** ##Color(${{keywordColor}} | {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
+                        html.AppendLine($"**Name:** ##Color(${{identifierColor}}, {p.Name}) ##Color(${{metaColor}}, {(p.IsRequired ? "[Required]" : "{Optional}")})");
+                        html.AppendLine($">**Type:** ##Color(${{keywordColor}}, {p.Type}{(p.IsInfinite ? ":Infinite" : "")})");
                         if (string.IsNullOrEmpty(p.DefaultValue) == false)
                         {
-                            html.AppendLine($">**Default:** ##Color(${{identifierColor}} | {p.DefaultValue})");
+                            html.AppendLine($">**Default:** ##Color(${{identifierColor}}, {p.DefaultValue})");
                         }
                         if (p.AllowedValues != null)
                         {
-                            html.AppendLine($">**Values:** ##Color(${{identifierColor}} | {string.Join(", ", p.AllowedValues)})");
+                            html.AppendLine($">**Values:** ##Color(${{identifierColor}}, \"{string.Join(", ", p.AllowedValues)}\")");
                         }
                         html.AppendLine($">**Description:** !!FILL_IN_THE_BLANK!!");
                     }
@@ -119,7 +119,7 @@ namespace TightWiki.Shared.Wiki.Function
                         }
                         else
                         {
-                            html.AppendLine($"({string.Join(" | ", item.Value.Parameters.Select(o => o.Name))})");
+                            html.AppendLine($"({string.Join(", ", item.Value.Parameters.Select(o => o.Name))})");
                         }
 
                         html.AppendLine("This is the body content of the function scope.");
@@ -135,7 +135,7 @@ namespace TightWiki.Shared.Wiki.Function
                         }
                         else
                         {
-                            html.AppendLine($"({string.Join(" | ", item.Value.Parameters.Select(o => o.Name))})");
+                            html.AppendLine($"({string.Join(", ", item.Value.Parameters.Select(o => o.Name))})");
                         }
                     }
 
@@ -143,10 +143,10 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine("");
 
                     html.AppendLine("==See Also");
-                    html.AppendLine("[[Function Calling Convention - Wiki Help]]");
-                    html.AppendLine("[[Scope Function - Wiki Help]]");
-                    html.AppendLine("[[Instruction Function - Wiki Help]]");
-                    html.AppendLine("[[Standard Function - Wiki Help]]");
+                    html.AppendLine("[[Wiki Help :: Function Calling Convention]]");
+                    html.AppendLine("[[Wiki Help :: Scope Function]]");
+                    html.AppendLine("[[Wiki Help :: Instruction Function]]");
+                    html.AppendLine("[[Wiki Help :: Standard Function]]");
                     html.AppendLine("");
                     html.AppendLine("");
 
