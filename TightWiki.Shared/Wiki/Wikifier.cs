@@ -1290,7 +1290,7 @@ namespace TightWiki.Shared.Wiki
                             var takeCount = function.Parameters.Get<int>("top");
 
                             var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
-                                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
+                                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
 
                             var html = new StringBuilder();
 
@@ -1299,7 +1299,7 @@ namespace TightWiki.Shared.Wiki
                                 html.Append("<ul>");
                                 foreach (var page in pages)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
 
                                     if (styleName == "full")
                                     {
