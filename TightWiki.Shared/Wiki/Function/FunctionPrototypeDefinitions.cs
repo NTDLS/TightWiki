@@ -29,9 +29,12 @@ namespace TightWiki.Shared.Wiki.Function
                     _functionPrototypes.Add("$$Alert: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Card: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Collapse: <string>{linkText}='Show'");
-                    _functionPrototypes.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isStriped}='true' | <boolean>{isFirstRowHeader}='true'");
+                    _functionPrototypes.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
+                    _functionPrototypes.Add("$$StripedTable: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
+                    _functionPrototypes.Add("$$DefineSnippet: <string>[name]");
 
                     //Standard functions:
+                    _functionPrototypes.Add("##Snippet: <string>[name]");
                     _functionPrototypes.Add("##Seq: <string>{key}='Default'");
                     _functionPrototypes.Add("##Set: <string>[key] | <string>[value]");
                     _functionPrototypes.Add("##Get: <string>[key]");

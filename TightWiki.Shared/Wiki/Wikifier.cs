@@ -27,7 +27,8 @@ namespace TightWiki.Shared.Wiki
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
-        private readonly Dictionary<string, string> _userVariables = new Dictionary<string, string>();
+        public readonly Dictionary<string, string> UserVariables = new Dictionary<string, string>();
+        public readonly Dictionary<string, string> Snippets = new Dictionary<string, string>();
         public List<NameNav> OutgoingLinks { get; set; } = new List<NameNav>();
         public List<string> ProcessingInstructions { get; private set; } = new List<string>();
         public string ProcessedBody { get; private set; }
@@ -163,7 +164,8 @@ namespace TightWiki.Shared.Wiki
             TransformLinks(pageContent);
             TransformMarkup(pageContent);
             TransformSectionHeadings(pageContent);
-            TransformFunctions(pageContent);
+            TransformFunctions(pageContent, true);
+            TransformFunctions(pageContent, false);
             TransformProcessingInstructions(pageContent);
 
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
@@ -379,15 +381,15 @@ namespace TightWiki.Shared.Wiki
                     switch (function.Name.ToLower())
                     {
                         //------------------------------------------------------------------------------------------------------------------------------
+                        case "stripedtable":
                         case "table":
                             {
                                 var hasBorder = function.Parameters.Get<bool>("hasBorder");
                                 var isFirstRowHeader = function.Parameters.Get<bool>("isFirstRowHeader");
-                                var isStriped = function.Parameters.Get<bool>("isStriped");
 
                                 html.Append($"<table class=\"table");
 
-                                if (isStriped)
+                                if (function.Name.ToLower() == "stripedtable")
                                 {
                                     html.Append(" table-striped");
                                 }
@@ -512,6 +514,21 @@ namespace TightWiki.Shared.Wiki
                                     {
                                         html.Append($"</ol>");
                                     }
+                                }
+                            }
+                            break;
+                        //------------------------------------------------------------------------------------------------------------------------------
+                        case "definesnippet":
+                            {
+                                string name = function.Parameters.Get<string>("name");
+
+                                if (Snippets.ContainsKey(name))
+                                {
+                                    Snippets[name] = scopeBody;
+                                }
+                                else
+                                {
+                                    Snippets.Add(name, scopeBody);
                                 }
                             }
                             break;
@@ -672,7 +689,7 @@ namespace TightWiki.Shared.Wiki
                     string navigation = WikiUtility.CleanPartialURI(linkText.Substring(0, slashIndex));
                     linkText = linkText.Substring(slashIndex + 1);
 
-                    if(arguments.Count > 2)
+                    if (arguments.Count > 2)
                     {
                         scale = arguments[2];
                     }
@@ -692,7 +709,7 @@ namespace TightWiki.Shared.Wiki
                 {
                     linkText = linkText.Substring(linkText.IndexOf("=") + 1);
                     string scale = "100";
-                   
+
                     if (arguments.Count > 2)
                     {
                         linkText = arguments[1].Substring(arguments[1].IndexOf("=") + 1);
@@ -751,13 +768,13 @@ namespace TightWiki.Shared.Wiki
                     key = sections[0].Trim();
                     var value = sections[1].Trim();
 
-                    if (_userVariables.ContainsKey(key))
+                    if (UserVariables.ContainsKey(key))
                     {
-                        _userVariables[key] = value;
+                        UserVariables[key] = value;
                     }
                     else
                     {
-                        _userVariables.Add(key, value);
+                        UserVariables.Add(key, value);
                     }
 
                     var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
@@ -765,9 +782,9 @@ namespace TightWiki.Shared.Wiki
                 }
                 else
                 {
-                    if (_userVariables.ContainsKey(key))
+                    if (UserVariables.ContainsKey(key))
                     {
-                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, _userVariables[key]);
+                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, UserVariables[key]);
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
 
                     }
@@ -1035,7 +1052,7 @@ namespace TightWiki.Shared.Wiki
         /// Transform functions is used to call wiki functions such as including template pages, setting tags and displaying images.
         /// </summary>
         /// <param name="pageContent"></param>
-        private void TransformFunctions(StringBuilder pageContent)
+        private void TransformFunctions(StringBuilder pageContent, bool isFirstChance)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
@@ -1052,6 +1069,12 @@ namespace TightWiki.Shared.Wiki
                 catch (Exception ex)
                 {
                     StoreError(pageContent, match.Value, ex.Message);
+                    continue;
+                }
+
+                var firstChanceFunctions = new string[] { "include", "inject" }; //Process these the first time though.
+                if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
+                {
                     continue;
                 }
 
@@ -1180,8 +1203,7 @@ namespace TightWiki.Shared.Wiki
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var identifier = StoreMatch(function, pageContent, match.Value, page.Body);
-                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                                pageContent.Replace($"{match.Value}\n", page.Body);
                             }
                             else
                             {
@@ -1199,6 +1221,10 @@ namespace TightWiki.Shared.Wiki
                             if (page != null)
                             {
                                 var wikify = new Wikifier(_context, page, null, _queryString, _omitMatches.ToArray(), _nestLevel + 1);
+
+                                MergeUserVariables(wikify.UserVariables);
+                                MergeSnippets(wikify.Snippets);
+
                                 var identifier = StoreMatch(function, pageContent, match.Value, wikify.ProcessedBody);
                                 pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                             }
@@ -1214,13 +1240,13 @@ namespace TightWiki.Shared.Wiki
                             var key = function.Parameters.Get<String>("key");
                             var value = function.Parameters.Get<String>("value");
 
-                            if (_userVariables.ContainsKey(key))
+                            if (UserVariables.ContainsKey(key))
                             {
-                                _userVariables[key] = value;
+                                UserVariables[key] = value;
                             }
                             else
                             {
-                                _userVariables.Add(key, value);
+                                UserVariables.Add(key, value);
                             }
                             var identifier = StoreMatch(function, pageContent, match.Value, string.Empty);
                             pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
@@ -1231,9 +1257,9 @@ namespace TightWiki.Shared.Wiki
                         {
                             var key = function.Parameters.Get<String>("key");
 
-                            if (_userVariables.ContainsKey(key))
+                            if (UserVariables.ContainsKey(key))
                             {
-                                StoreMatch(function, pageContent, match.Value, _userVariables[key]);
+                                StoreMatch(function, pageContent, match.Value, UserVariables[key]);
                             }
                             else
                             {
@@ -1830,6 +1856,24 @@ namespace TightWiki.Shared.Wiki
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Displays the namespace of the current page.
+                    case "snippet":
+                        {
+                            string name = function.Parameters.Get<String>("name");
+
+                            if (Snippets.ContainsKey(name))
+                            {
+                                StoreMatch(function, pageContent, match.Value, Snippets[name]);
+                            }
+                            else
+                            {
+                                StoreMatch(function, pageContent, match.Value, string.Empty);
+                            }
+                        }
+                        break;
+
+
+                    //------------------------------------------------------------------------------------------------------------------------------
                     //Inserts empty lines into the page.
                     case "br":
                     case "nl":
@@ -2183,6 +2227,36 @@ namespace TightWiki.Shared.Wiki
                 string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
 
                 StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
+            }
+        }
+
+        private void MergeUserVariables(Dictionary<string, string> items)
+        {
+            foreach (var item in items)
+            {
+                if (UserVariables.ContainsKey(item.Key))
+                {
+                    UserVariables[item.Key] = item.Value;
+                }
+                else
+                {
+                    UserVariables.Add(item.Key, item.Value);
+                }
+            }
+        }
+
+        private void MergeSnippets(Dictionary<string, string> items)
+        {
+            foreach (var item in items)
+            {
+                if (Snippets.ContainsKey(item.Key))
+                {
+                    Snippets[item.Key] = item.Value;
+                }
+                else
+                {
+                    Snippets.Add(item.Key, item.Value);
+                }
             }
         }
     }
