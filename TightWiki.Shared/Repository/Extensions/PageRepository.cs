@@ -128,6 +128,21 @@ namespace TightWiki.Shared.Repository
             }
         }
 
+        public static List<NamespaceStat> GetAllNamespacesPaged(int pageNumber, int pageSize = 0)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                var param = new
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize
+                };
+
+                return handler.Connection.Query<NamespaceStat>("GetAllNamespacesPaged",
+                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+            }
+        }
+
         public static List<Page> GetAllPages()
         {
             using (var handler = new SqlConnectionHandler())

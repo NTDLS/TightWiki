@@ -1,0 +1,81 @@
+﻿@model TightWiki.Shared.Models.View.NamespacesModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header"><h3>Pages</h3></div>
+    <div class="card-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            All pages contained in the wiki.<br /><br />
+        </font>
+
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+
+        <table class="fixedTable100" border="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="left">
+
+                        @if (Model.ErrorMessage != null)
+                        {
+                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                        }
+                        @if (Model.SuccessMessage!= null)
+                        {
+                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                        }
+
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <td><strong>Name</strong></td>
+                                        <td><strong>Pages</strong></td>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var p in Model.Namespaces)
+                                {
+                                    <tr>
+                                        <td>@(p.Namespace ?? "(Default)")</td>
+                                        <td>@p.CountOfPages.ToString("N0")</td>
+                                    </tr>
+                                }
+                            </table>
+
+                            if (@ViewBag.PreviousPage != null)
+                            {
+                                <a href="/Admin/Namespaces/1">&lt;&lt; First</a>
+                                @:&nbsp; | &nbsp;
+                                <a href="/Admin/Namespaces/@ViewBag.PreviousPage">&lt; Previous</a>
+                            }
+                            else
+                            {
+                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                            }
+                            @:&nbsp; | &nbsp;
+
+                            if (@ViewBag.NextPage != null)
+                            {
+                                <a href="/Admin/Namespaces/@ViewBag.NextPage">Next &gt;</a>
+                                @:&nbsp; | &nbsp;
+                                <a href="/Admin/Namespaces/@ViewBag.PaginationCount">Last &gt;&gt;</a>
+                            }
+                            else
+                            {
+                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                            }
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

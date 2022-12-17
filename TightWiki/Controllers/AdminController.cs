@@ -168,6 +168,36 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpGet]
+        public ActionResult Namespaces(int page)
+        {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return Unauthorized();
+            }
+
+            if (page <= 0) page = 1;
+
+
+            var model = new NamespacesModel()
+            {
+                Namespaces = PageRepository.GetAllNamespacesPaged(page, 0),
+            };
+
+            if (model.Namespaces != null && model.Namespaces.Any())
+            {
+                ViewBag.Config.Title = $"Namespaces";
+                ViewBag.PaginationCount = model.Namespaces.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
         public ActionResult Pages(int page)
         {
             if (context.CanAdmin == false && context.CanModerate == false)
