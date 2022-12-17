@@ -43,7 +43,7 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine("@@protect(true)");
                     html.AppendLine("##Image(Wiki Help :: Wiki Help/TightWiki Logo.png, 15)");
                     html.AppendLine($"##title ##Tag(Official-Help, Help, Wiki, Official, {functionType})");
-                    html.AppendLine("{{{Card(Default, Table of Contents) ##toc }}}");
+                    html.AppendLine("{{Card(Default, Table of Contents) ##toc }}");
                     html.AppendLine("");
                     html.AppendLine("${metaColor = #ee2401}");
                     html.AppendLine("${keywordColor = #318000}");
@@ -82,7 +82,7 @@ namespace TightWiki.Shared.Wiki.Function
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("===Parameters");
-                    html.AppendLine("{{{Bullets");
+                    html.AppendLine("{{Bullets");
 
                     if (item.Value.Parameters.Count == 0)
                     {
@@ -103,16 +103,16 @@ namespace TightWiki.Shared.Wiki.Function
                         }
                         html.AppendLine($">**Description:** !!FILL_IN_THE_BLANK!!");
                     }
-                    html.AppendLine("}}}");
+                    html.AppendLine("}}");
                     html.AppendLine("");
 
                     html.AppendLine("==Examples");
-                    html.AppendLine("{{{Code(wiki)[{{");
+                    html.AppendLine("{{Code(wiki)#{");
 
 
                     if (item.FunctionPrefix == "$$")
                     {
-                        html.Append("{{{ " + $"{item.ProperName}");
+                        html.Append("{{ " + $"{item.ProperName}");
                         if ((item.Value.Parameters?.Count ?? 0) == 0)
                         {
                             html.AppendLine("()");
@@ -124,7 +124,7 @@ namespace TightWiki.Shared.Wiki.Function
 
                         html.AppendLine("This is the body content of the function scope.");
 
-                        html.AppendLine("}}}");
+                        html.AppendLine("}}");
                     }
                     else
                     {
@@ -139,7 +139,7 @@ namespace TightWiki.Shared.Wiki.Function
                         }
                     }
 
-                    html.AppendLine("}}]}}}");
+                    html.AppendLine("}#}}");
                     html.AppendLine("");
 
                     html.AppendLine("==See Also");

@@ -29,7 +29,7 @@
     CodeMirror.defineMode("tightwiki", function () {
         var functions = ["##set", "##get", "##color", "##tag", "##searchlist", "##taglist", "##searchcloud", "##tagglossary", "##recentlymodified", "##textglossary", "##tagcloud", "##image", "##file", "##related", "##tags", "##editlink", "##inject", "##include", "##br", "##hr", "##history", "##attachments", "##toc", "##title", "##navigation", "##name", "##created", "##lastmodified", "##appversion", "##namespaceglossary", "##namespacelist","##namespace"],
             instructions = ["@@protect", "@@draft", "@@review", "@@deprecate", "@@include", "@@template"],
-            scopes = ["bullets", "alert", "background", "collapse", "callout", "code", "foreground", "jumbotron", "card"];
+            scopes = ["bullets", "alert", "background", "collapse", "callout", "code", "foreground", "jumbotron", "card", "table"];
 
         function basicToken(stream, state) {
 
@@ -149,7 +149,7 @@
             //Enter scope
             if (ch == '{') {
                 stream.eatWhile('{');
-                if (stream.current() == "{{{") {
+                if (stream.current() == "{{") {
                     state.scopeLevel++;
                     state.inScopeFirstLine = true;
                     return "";
@@ -159,7 +159,7 @@
             //Exit scope
             if (ch == '}') {
                 stream.eatWhile('}');
-                if (stream.current() == "}}}") {
+                if (stream.current() == "}}") {
                     state.scopeLevel--;
                     state.inScopeFirstLine = false;
                     return "";

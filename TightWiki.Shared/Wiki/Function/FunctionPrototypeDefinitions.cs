@@ -29,7 +29,7 @@ namespace TightWiki.Shared.Wiki.Function
                     _functionPrototypes.Add("$$Alert: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Card: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
                     _functionPrototypes.Add("$$Collapse: <string>{linkText}='Show'");
-                    _functionPrototypes.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isStriped}='false' | <boolean>{firstRowIsHeader}='true'");
+                    _functionPrototypes.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isStriped}='true' | <boolean>{isFirstRowHeader}='true'");
 
                     //Standard functions:
                     _functionPrototypes.Add("##Seq: <string>{key}='Default'");

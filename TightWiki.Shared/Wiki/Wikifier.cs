@@ -281,12 +281,12 @@ namespace TightWiki.Shared.Wiki
 
             while (true)
             {
-                int startPos = content.LastIndexOf("{{{");
+                int startPos = content.LastIndexOf("{{");
                 if (startPos < 0)
                 {
                     break;
                 }
-                int endPos = content.IndexOf("}}}", startPos);
+                int endPos = content.IndexOf("}}", startPos);
 
                 if (endPos < 0 || endPos < startPos)
                 {
@@ -302,7 +302,7 @@ namespace TightWiki.Shared.Wiki
                     throw new Exception(exception.ToString());
                 }
 
-                rawBlock = content.Substring(startPos, (endPos - startPos) + 3);
+                rawBlock = content.Substring(startPos, (endPos - startPos) + 2);
                 var transformBlock = new StringBuilder(rawBlock);
                 TransformBlock(transformBlock, true);
                 TransformBlock(transformBlock, false);
@@ -320,7 +320,7 @@ namespace TightWiki.Shared.Wiki
         /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlock(StringBuilder pageContent, bool firstBlocks)
         {
-            Regex rgx = new Regex(@"{{{([\S\s]*)}}}", RegexOptions.IgnoreCase);
+            Regex rgx = new Regex(@"{{([\S\s]*)}}", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -382,7 +382,7 @@ namespace TightWiki.Shared.Wiki
                         case "table":
                             {
                                 var hasBorder = function.Parameters.Get<bool>("hasBorder");
-                                var firstRowIsHeader = function.Parameters.Get<bool>("firstRowIsHeader");
+                                var isFirstRowHeader = function.Parameters.Get<bool>("isFirstRowHeader");
                                 var isStriped = function.Parameters.Get<bool>("isStriped");
 
                                 html.Append($"<table class=\"table");
@@ -406,11 +406,11 @@ namespace TightWiki.Shared.Wiki
                                 {
                                     var columns = lineText.Split("||");
 
-                                    if (rowNumber == 0 && firstRowIsHeader)
+                                    if (rowNumber == 0 && isFirstRowHeader)
                                     {
                                         html.Append($"<thead>");
                                     }
-                                    else if ((rowNumber == 1 && firstRowIsHeader) || (rowNumber == 0 && firstRowIsHeader == false))
+                                    else if ((rowNumber == 1 && isFirstRowHeader) || (rowNumber == 0 && isFirstRowHeader == false))
                                     {
                                         html.Append($"<tbody>");
                                     }
@@ -418,10 +418,17 @@ namespace TightWiki.Shared.Wiki
                                     html.Append($"<tr>");
                                     foreach (var columnText in columns)
                                     {
-                                        html.Append($"<td>{columnText}</td>");
+                                        if (rowNumber == 0 && isFirstRowHeader)
+                                        {
+                                            html.Append($"<td><strong>{columnText}</strong></td>");
+                                        }
+                                        else
+                                        {
+                                            html.Append($"<td>{columnText}</td>");
+                                        }
                                     }
 
-                                    if (rowNumber == 0 && firstRowIsHeader)
+                                    if (rowNumber == 0 && isFirstRowHeader)
                                     {
                                         html.Append($"</thead>");
                                     }
