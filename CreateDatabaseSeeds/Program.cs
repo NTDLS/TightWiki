@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -20,7 +19,6 @@ namespace CreateDatabaseSeeds
             string scriptPath = args[0];
             string outputPath = args[1];
 
-
             var appSettingsJson = AppSettingsJson.GetAppSettings();
             Singletons.ConnectionString = ConfigurationExtensions.GetConnectionString(appSettingsJson, "TightWikiADO");
 
@@ -32,7 +30,7 @@ namespace CreateDatabaseSeeds
                 Console.WriteLine("Writing: " + Path.GetFileNameWithoutExtension(scriptFile));
 
                 string scriptText = File.ReadAllText(scriptFile);
-                using SqlCommand command = new SqlCommand(scriptText, handler.Connection);
+                using SqlCommand command = new(scriptText, handler.Connection);
                 using SqlDataReader reader = command.ExecuteReader();
                 using StreamWriter sw = File.CreateText(Path.Combine(outputPath, Path.GetFileName(scriptFile)));
                 while (reader.Read())

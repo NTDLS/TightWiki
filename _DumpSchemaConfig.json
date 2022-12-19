@@ -15,7 +15,7 @@
   //Be sure to use two back-slashes when specifying an output path. e.g. "C:\\Temp\\Test.sql"
   //Note that "DestinationPath" can be a directory or a single file depending on the value of "ScriptToIndividualFiles".
   "DestinationOptions": {
-    "DestinationPath": ".\\Database Scripts\\0000 - Wiki Schema.sql",
+    "DestinationPath": ".\\Database Scripts\\0001 - Wiki Schema.sql",
     "ScriptToIndividualFiles": false,
     "PrependSequentialNumber": true,
     "DeleteExistingFiles": true,

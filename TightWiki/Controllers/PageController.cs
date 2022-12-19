@@ -284,7 +284,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Display(string pageNavigation, int? pageRevision)
         {
-            Utility.DoFirstRun();
+            Singletons.DoFirstRun(this);
 
             var model = new DisplayModel();
 
