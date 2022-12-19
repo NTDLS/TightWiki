@@ -5,7 +5,9 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki", "TightWiki\TightWiki.csproj", "{D21C2842-5294-4892-97C4-E8564BA4323C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TightWiki.Shared", "TightWiki.Shared\TightWiki.Shared.csproj", "{525FD31E-132F-4515-9171-7F3054548EFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Shared", "TightWiki.Shared\TightWiki.Shared.csproj", "{525FD31E-132F-4515-9171-7F3054548EFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateDatabaseSeeds", "CreateDatabaseSeeds\CreateDatabaseSeeds.csproj", "{18595784-976D-4B1D-83CF-2BD5A419D9F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{525FD31E-132F-4515-9171-7F3054548EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{525FD31E-132F-4515-9171-7F3054548EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{525FD31E-132F-4515-9171-7F3054548EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18595784-976D-4B1D-83CF-2BD5A419D9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18595784-976D-4B1D-83CF-2BD5A419D9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18595784-976D-4B1D-83CF-2BD5A419D9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18595784-976D-4B1D-83CF-2BD5A419D9F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

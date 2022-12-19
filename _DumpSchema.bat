@@ -5,6 +5,8 @@ SET PATH=%PATH%;C:\Program Files\Vroom Performance Technologies\SQL Script Gener
 Echo Creating new schema dump directory...
 MD "Database Scripts"
 
+CreateDatabaseSeeds\bin\Debug\net7.0-windows\CreateDatabaseSeeds.exe "@SchemaExtractionScripts" "Database Scripts"
+
 Echo Dumping database schema...
 SSGC.exe /Config:_DumpSchemaConfig.json
 

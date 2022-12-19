@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 namespace TightWiki.Shared.ADO
 {
-    class SqlConnectionHandler : IDisposable
+    public class SqlConnectionHandler : IDisposable
     {
         private bool disposed = false;
         private SqlConnection connection = null;

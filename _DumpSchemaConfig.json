@@ -15,7 +15,7 @@
   //Be sure to use two back-slashes when specifying an output path. e.g. "C:\\Temp\\Test.sql"
   //Note that "DestinationPath" can be a directory or a single file depending on the value of "ScriptToIndividualFiles".
   "DestinationOptions": {
-    "DestinationPath": ".\\Database Scripts\\CreateTighWikiSchema.sql",
+    "DestinationPath": ".\\Database Scripts\\0000 - Wiki Schema.sql",
     "ScriptToIndividualFiles": false,
     "PrependSequentialNumber": true,
     "DeleteExistingFiles": true,
@@ -67,22 +67,13 @@
   //Alternately, if "ScriptDataExplicitExclude" is enabled then all database tables will have their data scripted by default
   //  and the "ScriptDataList" section instead becomes an exclusion list objects which are to be excluded from being generated.
   "ScriptDataList": [
-	"dbo.PageRevisionAttachment",
-	"dbo.PageReference",
-	"dbo.PageFile",
 	"dbo.ConfigurationGroup",
 	"dbo.Role",
-	"dbo.Page",
 	"dbo.UserRole",
 	"dbo.MenuItem",
 	"dbo.ConfigurationEntry",
 	"dbo.User",
 	"dbo.DataType",
-	"dbo.PageTag",
-	"dbo.PageProcessingInstruction",
-	"dbo.PageToken",
-	"dbo.PageRevision",
-	"dbo.PageFileRevision"
   ],
   "ScriptDataExplicitExclude": false,
 

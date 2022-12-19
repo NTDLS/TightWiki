@@ -14,3 +14,7 @@ CodeGeneration/obj/
 TightWiki/bin/
 
 TightWiki/obj/
+
+CreateDatabaseSeeds/bin/
+
+CreateDatabaseSeeds/obj/
