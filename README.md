@@ -5,6 +5,30 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 
 TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
+**Be sure to check out the screenshots below**
+
+# Features (some of them anyway)
+* LGPL license , you can use it for free at home or at your business.
+* Open source, you can make changes, submit fixes or just make suggestions.
+* Completely customizable and rebrandable including name, title, footer, copyright and all images.
+* User signup can be disabled, enabled and can require users to verify email before logging in.
+* Multiple user roles are supported for admin, moderators, contributors and basic members.
+* Easy page linking. Can even link to pages that do not exist and the link will subtly prompt you to create the page when logged in with a role that has page creation support.
+* Admin shows missing pages, namespace metrics, users, roles, etc.
+* Manual account creation, editing and deletion.
+* All dates/times are stored in UTC and localized for logged in users.
+* Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
+* Page versioning. Revisions can be viewed by the original page URL with a /r/number route or by logging in a viewing the full page history.
+* Revertible page history.
+* Drag-drop fie uploads / page attachments, images.
+* Versioned file uploads.
+* Namespace support so you can have multiple pages with the same name in different namespaces.
+* Fully baked in documentation of all wiki functions.
+* Wiki Markup allows you post non-formatted code and even auto-syntax highlighting for things like C#, PHP, SQL, etc. Can also explicitly specify language.
+* Wiki markup supports basic formatting, headings and sub-headings, tagging, tables, callouts, alerts, variables, bullets lists, dynamic glossaries, inline search results, dynamic tag clouds, related linking, expanding sections, auto-table of contents, and much more.
+* Wiki page editing is syntax highlighted.
+* Built in search supports fuzzy matching to support even mild misspellings.
+
 # Default home page:
 ![Clipd1](https://user-images.githubusercontent.com/11428567/208712815-a82532c8-e13c-451f-a590-b0ff8bca09d9.png)
 
@@ -17,16 +41,19 @@ TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a S
 # Example edit page:
 ![Clip1](https://user-images.githubusercontent.com/11428567/208712847-7f15a68d-d373-49a2-a8f0-e2d8074b3413.png)
 
-# Build in documentation sample:
+# Build in documentation list:
 ![Clip7](https://user-images.githubusercontent.com/11428567/208712860-a92ba44d-28b2-4e36-9735-6c1f3bf78e3e.png)
+
+# Build in documentation sample:
 ![Clip8](https://user-images.githubusercontent.com/11428567/208712889-9cf8eeca-7e0c-4019-af72-293f1ac50bc1.png)
 
 # Configuration
 ![Clip3](https://user-images.githubusercontent.com/11428567/208712916-2659d535-9b73-4ba9-bd4b-ccd003d365da.png)
 
-# Admin
+# Admin page list
 ![Clip6](https://user-images.githubusercontent.com/11428567/208712947-b75dd885-0a40-4bcf-bb3c-afcea2194a38.png)
-![Clip4](https://user-images.githubusercontent.com/11428567/208712960-70b13aff-0f0c-4b04-bbd7-3c8a66dbe70c.png)
-![Clip5](https://user-images.githubusercontent.com/11428567/208713019-661fab89-469c-4838-9922-8046115ff4a5.png)
 
-Its like a modern retelling of Sisyphus, only this time the stone is RegEx.
+# Admin role list
+![Clip4](https://user-images.githubusercontent.com/11428567/208712960-70b13aff-0f0c-4b04-bbd7-3c8a66dbe70c.png)
+
+Its been like a modern retelling of Sisyphus, only this time the stone is RegEx.
