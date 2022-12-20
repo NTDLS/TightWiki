@@ -1,6 +1,7 @@
 ﻿using DuoVia.FuzzyStrings;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -295,7 +296,7 @@ namespace TightWiki.Shared.Wiki
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
             var exclusionWords = searchConfig.As<string>("Word Exclusions").Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct();
-            var strippedContent = HTML.StripHtml(content).ToLower();
+            var strippedContent = HTML.StripHtml(content);
             var tokens = strippedContent.Split(new char[] { ' ', '\n', '\t', '-', '_' }).ToList<string>().ToList();
 
             if (searchConfig.As<bool>("Split Camel Case"))
@@ -304,15 +305,20 @@ namespace TightWiki.Shared.Wiki
 
                 foreach (var token in tokens)
                 {
-                    var spkitTokens = WikiUtility.SplitCamelCase(token).Split(' ');
-                    if (spkitTokens.Count() > 1)
+                    var splitTokens = WikiUtility.SplitCamelCase(token).Split(' ');
+                    if (splitTokens.Count() > 1)
                     {
-                        casedTokens.AddRange(spkitTokens);
+                        foreach (var lowerToken in splitTokens)
+                        {
+                            casedTokens.Add(lowerToken.ToLower());
+                        }
                     }
                 }
 
                 tokens.AddRange(casedTokens);
             }
+
+            tokens = tokens.ConvertAll(d => d.ToLower());
 
             tokens.RemoveAll(o => exclusionWords.Contains(o));
 

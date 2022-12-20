@@ -44,7 +44,7 @@ namespace TightWiki.Shared.Repository
         {
             using (var handler = new SqlConnectionHandler())
             {
-                var array = string.Join("\n", referencesPageNavigations.Select(o => $"{o.Navigation}:{o.Name}"));
+                var array = string.Join("\n", referencesPageNavigations.Select(o => $"{o.Navigation}/{o.Name}"));
 
                 var param = new
                 {
