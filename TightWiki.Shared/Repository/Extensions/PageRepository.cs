@@ -361,6 +361,7 @@ namespace TightWiki.Shared.Repository
                     param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
             }
         }
+
         public static List<RelatedPage> GetSimilarPagesPaged(int pageId, int pageNumber, int pageSize = 0)
         {
             using (var handler = new SqlConnectionHandler())

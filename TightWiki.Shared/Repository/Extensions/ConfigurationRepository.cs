@@ -25,15 +25,6 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static bool IsAdminPasswordDefault(string plainTextPassword)
-        {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.ExecuteScalar<bool>("IsAdminPasswordDefault",
-                    new { PlainTextPassword = plainTextPassword }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
-        }
-
         public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
         {
             using (var handler = new SqlConnectionHandler())

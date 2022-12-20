@@ -9,7 +9,7 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class UserRepository
     {
-         public static void DeleteById(int userId)
+        public static void DeleteById(int userId)
         {
             var param = new
             {
@@ -111,30 +111,6 @@ namespace TightWiki.Shared.Repository
             }
         }
 
-        public static bool UpdateUserRoles(User user)
-        {
-            var param = new
-            {
-                EmailAddress = user.EmailAddress,
-                AccountName = user.AccountName,
-                Navigation = user.Navigation,
-                PasswordHash = user.PasswordHash,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                TimeZone = user.TimeZone,
-                Language = user.Language,
-                Country = user.Country,
-                VerificationCode = user.VerificationCode
-            };
-
-            using (var handler = new SqlConnectionHandler())
-            {
-                var result = handler.Connection.ExecuteScalar<int?>("CreateUser",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-                return (result ?? 0) != 0;
-            }
-        }
-
         public static bool DoesEmailAddressExist(string emailAddress)
         {
             using (var handler = new SqlConnectionHandler())
@@ -163,7 +139,6 @@ namespace TightWiki.Shared.Repository
                     new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
             }
         }
-
 
         public static User GetUserByNavigationAndVerificationCode(string navigation, string verificationCode)
         {
