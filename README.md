@@ -8,10 +8,10 @@ TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a S
 # Default home page:
 ![Clipd1](https://user-images.githubusercontent.com/11428567/208712815-a82532c8-e13c-451f-a590-b0ff8bca09d9.png)
 
-#Page search
+# Page search
 ![Clip9](https://user-images.githubusercontent.com/11428567/208713076-118d981c-5cc3-4e33-a971-f63518da01ad.png)
 
-#Page History
+# Page History
 ![Clip2](https://user-images.githubusercontent.com/11428567/208713101-04646bf0-994a-423c-91bd-691d2e2e71fa.png)
 
 # Example edit page:
