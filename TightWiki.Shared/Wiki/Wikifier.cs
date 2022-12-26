@@ -571,7 +571,7 @@ namespace TightWiki.Shared.Wiki
                             {
                                 string linkText = function.Parameters.Get<string>("linktext");
                                 string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
-                                html.Append($"<a data-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
+                                html.Append($"<a data-bs-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
                                 html.Append($"<div class=\"collapse\" id=\"{uid}\">");
                                 html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
                             }
