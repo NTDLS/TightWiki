@@ -1312,6 +1312,10 @@ namespace TightWiki.Shared.Wiki
                             string alt = function.Parameters.Get<String>("alttext", imageName);
                             int scale = function.Parameters.Get<int>("scale");
 
+                            if (alt == "3")
+                            {
+                            }
+
                             string navigation = _page.Navigation;
                             if (imageName.Contains("/"))
                             {
