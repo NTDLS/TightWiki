@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -541,6 +542,22 @@ namespace TightWiki.Shared.Wiki
 
                                 if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
                                 html.Append($"<div class=\"alert {style}\">{scopeBody}</div>");
+                            }
+                            break;
+
+                        case "order":
+                            {
+                                string direction = function.Parameters.Get<string>("direction");
+                                var lines = scopeBody.Split("\n").Select(o=>o.Trim()).ToList(); 
+
+                                if (direction == "ascending")
+                                {
+                                    html.Append(string.Join("\r\n", lines.OrderBy(o => o))); 
+                                }
+                                else
+                                {
+                                    html.Append(string.Join("\r\n", lines.OrderByDescending(o => o)));
+                                }
                             }
                             break;
 
