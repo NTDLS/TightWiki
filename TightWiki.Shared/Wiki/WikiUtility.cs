@@ -1,7 +1,6 @@
 ﻿using DuoVia.FuzzyStrings;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -199,6 +198,8 @@ namespace TightWiki.Shared.Wiki
 
         public static string CleanPartialURI(string url)
         {
+            url = url.Replace("::", "_");
+
             if (url == null) return null;
 
             var sb = new StringBuilder();

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Xml.Linq;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
 

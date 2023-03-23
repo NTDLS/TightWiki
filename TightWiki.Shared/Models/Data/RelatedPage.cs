@@ -1,5 +1,3 @@
-using System.Xml.Linq;
-
 namespace TightWiki.Shared.Models.Data
 {
     public partial class RelatedPage

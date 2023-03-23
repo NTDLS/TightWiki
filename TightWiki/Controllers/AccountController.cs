@@ -12,7 +12,6 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
-using static TightWiki.Shared.Library.Constants;
 
 namespace TightWiki.Site.Controllers
 {
@@ -561,7 +560,7 @@ namespace TightWiki.Site.Controllers
                         return File(ms.ToArray(), "image/png");
                     }
                 }
-                catch{ }
+                catch { }
 
                 return NotFound();
             }

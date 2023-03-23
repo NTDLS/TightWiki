@@ -77,6 +77,20 @@ namespace TightWiki.Shared.Repository
             }
         }
 
+        public static PageFileAttachment GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        {
+            using (var handler = new SqlConnectionHandler())
+            {
+                return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation",
+                    new
+                    {
+                        PageNavigation = pageNavigation,
+                        FileNavigation = fileNavigation,
+                        PageRevision = pageRevision
+                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            }
+        }
+
         public static int UpsertPageFile(PageFileAttachment item)
         {
             using (var handler = new SqlConnectionHandler())

@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace TightWiki.Shared.Wiki.Function
+﻿namespace TightWiki.Shared.Wiki.Function
 {
     public static class FunctionPrototypeDefinitions
     {

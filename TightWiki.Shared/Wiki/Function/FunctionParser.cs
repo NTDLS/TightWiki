@@ -71,7 +71,7 @@ namespace TightWiki.Shared.Wiki.Function
 
             int parenNest = 1;
 
-                //https://localhost:44349/get_standard_function_wiki_help
+            //https://localhost:44349/get_standard_function_wiki_help
 
             iRpos++; //Skip the (
 

@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -548,11 +546,11 @@ namespace TightWiki.Shared.Wiki
                         case "order":
                             {
                                 string direction = function.Parameters.Get<string>("direction");
-                                var lines = scopeBody.Split("\n").Select(o=>o.Trim()).ToList(); 
+                                var lines = scopeBody.Split("\n").Select(o => o.Trim()).ToList();
 
                                 if (direction == "ascending")
                                 {
-                                    html.Append(string.Join("\r\n", lines.OrderBy(o => o))); 
+                                    html.Append(string.Join("\r\n", lines.OrderBy(o => o)));
                                 }
                                 else
                                 {
@@ -878,12 +876,22 @@ namespace TightWiki.Shared.Wiki
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
+                bool explicitNamespace = false;
+
                 string explicitLinkText = "";
                 string linkText;
 
                 if (keyword.Contains("::"))
                 {
                     explicitLinkText = keyword.Substring(keyword.IndexOf("::") + 2).Trim();
+                    string ns = keyword.Substring(0, keyword.IndexOf("::")).Trim();
+                    explicitNamespace = true;
+
+                    if (ns.IsNullOrEmpty())
+                    {
+                        //The user explicitly specified an empty namespace, they want this link to go to the root "unnamed" namespace.
+                        keyword = keyword.Trim().Trim(':').Trim(); //Trim off the empty namespace name.
+                    }
                 }
 
                 var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
@@ -901,6 +909,20 @@ namespace TightWiki.Shared.Wiki
                 string pageName = keyword;
                 string pageNavigation = WikiUtility.CleanPartialURI(pageName);
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+
+                if (page == null && explicitNamespace == false && this._page.Namespace != null)
+                {
+                    if (explicitLinkText.IsNullOrEmpty())
+                    {
+                        explicitLinkText = keyword;
+                    }
+
+                    pageName = $"{_page.Namespace} :: {keyword}";
+
+                    //If the page does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
+                    pageNavigation = WikiUtility.CleanPartialURI($"{_page.Namespace} :: {pageNavigation}");
+                    page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
+                }
 
                 OutgoingLinks.Add(new NameNav(pageName, pageNavigation));
 
@@ -1312,17 +1334,24 @@ namespace TightWiki.Shared.Wiki
                             string alt = function.Parameters.Get<String>("alttext", imageName);
                             int scale = function.Parameters.Get<int>("scale");
 
-                            if (alt == "3")
-                            {
-                            }
+                            bool explicitNamespace = imageName.Contains("::");
 
                             string navigation = _page.Navigation;
-                            if (imageName.Contains("/"))
+                            if (imageName.Contains('/'))
                             {
                                 //Allow loading attacehd images from other pages.
                                 int slashIndex = imageName.IndexOf("/");
                                 navigation = WikiUtility.CleanPartialURI(imageName.Substring(0, slashIndex));
                                 imageName = imageName.Substring(slashIndex + 1);
+                            }
+
+                            if (explicitNamespace == false && this._page.Namespace != null)
+                            {
+                                if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, WikiUtility.CleanPartialURI(imageName), _revision) == null)
+                                {
+                                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
+                                    navigation = WikiUtility.CleanPartialURI($"{_page.Namespace}::{navigation}");
+                                }
                             }
 
                             if (_revision != null)
@@ -1344,28 +1373,29 @@ namespace TightWiki.Shared.Wiki
                     //Displays an file download link
                     case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
                         {
-                            int pageId = _page.Id;
-
                             string fileName = function.Parameters.Get<String>("name");
+
+                            bool explicitNamespace = fileName.Contains("::");
+
                             string navigation = _page.Navigation;
-                            if (fileName.Contains("/"))
+                            if (fileName.Contains('/'))
                             {
-                                //Allow loading attacehd files from other pages.
+                                //Allow loading attacehd images from other pages.
                                 int slashIndex = fileName.IndexOf("/");
                                 navigation = WikiUtility.CleanPartialURI(fileName.Substring(0, slashIndex));
-
-                                var page = PageRepository.GetPageInfoByNavigation(navigation);
-                                if (page == null)
-                                {
-                                    StoreError(pageContent, match.Value, $"Page [{navigation}] not found for file [{fileName}]");
-                                    break;
-                                }
-
-                                pageId = page.Id;
                                 fileName = fileName.Substring(slashIndex + 1);
                             }
 
-                            var attachment = PageFileRepository.GetPageFileInfoByPageIdPageRevisionAndName(pageId, fileName);
+                            if (explicitNamespace == false && this._page.Namespace != null)
+                            {
+                                if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, WikiUtility.CleanPartialURI(fileName), _revision) == null)
+                                {
+                                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
+                                    navigation = WikiUtility.CleanPartialURI($"{_page.Namespace}::{navigation}");
+                                }
+                            }
+
+                            var attachment = PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, WikiUtility.CleanPartialURI(fileName), _revision);
                             if (attachment != null)
                             {
                                 string alt = function.Parameters.Get<String>("linkText", fileName);
@@ -1388,8 +1418,10 @@ namespace TightWiki.Shared.Wiki
                                     StoreMatch(function, pageContent, match.Value, image);
                                 }
                             }
-
-                            StoreError(pageContent, match.Value, $"File not found [{fileName}]");
+                            else
+                            {
+                                StoreError(pageContent, match.Value, $"File not found [{fileName}]");
+                            }
                         }
                         break;
 

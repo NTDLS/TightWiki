@@ -4,7 +4,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using TightWiki.Shared.Repository;
 
 namespace TightWiki.Shared.Library
 {
