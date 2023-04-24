@@ -198,6 +198,11 @@ namespace TightWiki.Shared.Wiki
 
         public static string CleanPartialURI(string url)
         {
+            if (url == null)
+            {
+                return string.Empty;
+            }
+
             url = url.Replace("::", "_");
 
             if (url == null) return null;
