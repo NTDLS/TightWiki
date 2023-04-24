@@ -158,11 +158,11 @@ namespace TightWiki.Shared.Wiki
             _matchesPerIteration = 0;
 
             TransformComments(pageContent);
+            TransformSectionHeadings(pageContent);
             TransformBlocks(pageContent);
             TransformVariables(pageContent);
             TransformLinks(pageContent);
             TransformMarkup(pageContent);
-            TransformSectionHeadings(pageContent);
             TransformFunctions(pageContent, true);
             TransformFunctions(pageContent, false);
             TransformProcessingInstructions(pageContent);
@@ -211,15 +211,15 @@ namespace TightWiki.Shared.Wiki
 
             var regEx = new StringBuilder();
             regEx.Append(@"(\^\^\^\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\^\^\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\^\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\^\^\^\^.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\^\^\^.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\^\^.*?\n)");
 
             var rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
@@ -238,7 +238,6 @@ namespace TightWiki.Shared.Wiki
                 }
                 if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
-                    string tag = _tocName + "_" + _tocTags.Count().ToString();
                     string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
 
                     int fontSize = 1 + headingMarkers;
@@ -259,7 +258,7 @@ namespace TightWiki.Shared.Wiki
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
 
             //Transform literal strings, even encodes HTML so that it displays verbatim.
-            Regex rgx = new Regex(@"\#\{([\S\s]*?)\}\#", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"\#\{([\S\s]*?)\}\#", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -321,7 +320,7 @@ namespace TightWiki.Shared.Wiki
         /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlock(StringBuilder pageContent, bool firstBlocks)
         {
-            Regex rgx = new Regex(@"{{([\S\s]*)}}", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"{{([\S\s]*)}}", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -635,18 +634,18 @@ namespace TightWiki.Shared.Wiki
         {
             var regEx = new StringBuilder();
             regEx.Append(@"(\=\=\=\=\=\=\=.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\=\=\=\=\=\=.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\=\=\=\=\=.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\=\=\=\=.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\=\=\=.*?\n)");
-            regEx.Append(@"|");
+            regEx.Append('|');
             regEx.Append(@"(\=\=.*?\n)");
 
-            Regex rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
+            var rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
@@ -755,12 +754,10 @@ namespace TightWiki.Shared.Wiki
 
         private void TransformComments(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"\;\;.*", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"\;\;.*", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string key = match.Value.Trim(new char[] { '{', '}', ' ', '\t', '$' });
-
                 var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                 pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
             }
@@ -772,7 +769,7 @@ namespace TightWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformVariables(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\$\{.+?\})", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(\$\{.+?\})", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -818,7 +815,7 @@ namespace TightWiki.Shared.Wiki
         private void TransformLinks(StringBuilder pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
-            Regex rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -987,7 +984,7 @@ namespace TightWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformProcessingInstructions(StringBuilder pageContent)
         {
-            Regex rgx = new Regex(@"(\@\@[\w-]+\(\))|(\@\@[\w-]+\(.*?\))|(\@\@[\w-]+)", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(\@\@[\w-]+\(\))|(\@\@[\w-]+\(.*?\))|(\@\@[\w-]+)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -1094,7 +1091,7 @@ namespace TightWiki.Shared.Wiki
         private void TransformFunctions(StringBuilder pageContent, bool isFirstChance)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
@@ -1969,7 +1966,7 @@ namespace TightWiki.Shared.Wiki
         private void TransformPostProcess(StringBuilder pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            Regex rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
 
             foreach (var match in matches)
@@ -2237,7 +2234,7 @@ namespace TightWiki.Shared.Wiki
                 marker = mark;
             }
 
-            Regex rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            var rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
             foreach (var match in matches)
@@ -2273,7 +2270,7 @@ namespace TightWiki.Shared.Wiki
                 marker = mark;
             }
 
-            Regex rgx = new Regex($@"{marker}([\S\s]*?){marker}", RegexOptions.IgnoreCase);
+            var rgx = new Regex($@"{marker}([\S\s]*?){marker}", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
