@@ -491,7 +491,7 @@ namespace TightWiki.Site.Controllers
                 {
                     var imageBytes = Utility.ConvertHttpFileToBytes(file);
                     //This is just to ensure this is a valid image:
-                    var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
                     UserRepository.UpdateUserAvatar(user.Id, imageBytes);
                 }
                 catch
@@ -683,7 +683,7 @@ namespace TightWiki.Site.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         //This is just to ensure this is a valid image:
-                        var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
                         UserRepository.UpdateUserAvatar(user.Id, imageBytes);
                     }
                     catch

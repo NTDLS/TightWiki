@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -13,6 +13,7 @@ using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;
+using static TightWiki.Shared.Library.Images;
 
 namespace TightWiki.Site.Controllers
 {
@@ -179,11 +180,11 @@ namespace TightWiki.Site.Controllers
 
             if (file != null)
             {
-                var img = System.Drawing.Image.FromStream(new MemoryStream(file.Data));
+                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
                 string contentType = file.ContentType;
 
-                ImageFormat format = ImageFormat.Png;
+                ImageFormat format;
                 switch (file.ContentType.ToLower())
                 {
                     case "image/png":
@@ -195,20 +196,8 @@ namespace TightWiki.Site.Controllers
                     case "image/bmp":
                         format = ImageFormat.Bmp;
                         break;
-                    case "image/icon":
-                        format = ImageFormat.Icon;
-                        break;
                     case "image/tiff":
                         format = ImageFormat.Tiff;
-                        break;
-                    case "image/emf":
-                        format = ImageFormat.Emf;
-                        break;
-                    case "image/exif":
-                        format = ImageFormat.Exif;
-                        break;
-                    case "image/wmf":
-                        format = ImageFormat.Wmf;
                         break;
                     default:
                         contentType = "image/png";
@@ -221,23 +210,16 @@ namespace TightWiki.Site.Controllers
                 {
                     int width = (int)(img.Width * (iscale / 100.0));
                     int height = (int)(img.Height * (iscale / 100.0));
-                    using (var bmp = Images.ResizeImage(img, width, height))
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            bmp.Save(ms, format);
-                            return File(ms.ToArray(), contentType);
-                        }
-                    }
+                    using var bmp = Images.ResizeImage(img, width, height);
+                    using MemoryStream ms = new MemoryStream();
+                    ChangeImageType(bmp, format, ms);
+                    return File(ms.ToArray(), contentType);
                 }
                 else
                 {
-                    var bmp = img as System.Drawing.Bitmap;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        bmp.Save(ms, format);
-                        return File(ms.ToArray(), contentType);
-                    }
+                    using MemoryStream ms = new MemoryStream();
+                    ChangeImageType(img, format, ms);
+                    return File(ms.ToArray(), contentType);
                 }
             }
             else
@@ -268,7 +250,7 @@ namespace TightWiki.Site.Controllers
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
             if (file != null)
             {
-                var img = System.Drawing.Image.FromStream(new MemoryStream(file.Data));
+                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
                 int iscale = int.Parse(scale);
                 if (iscale != 100)
@@ -276,23 +258,16 @@ namespace TightWiki.Site.Controllers
                     int width = (int)(img.Width * (iscale / 100.0));
                     int height = (int)(img.Height * (iscale / 100.0));
 
-                    using (var bmp = Images.ResizeImage(img, width, height))
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            bmp.Save(ms, ImageFormat.Png);
-                            return File(ms.ToArray(), "image/png");
-                        }
-                    }
+                    using var bmp = Images.ResizeImage(img, width, height);
+                    using MemoryStream ms = new MemoryStream();
+                    bmp.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
                 }
                 else
                 {
-                    var bmp = img as System.Drawing.Bitmap;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        bmp.Save(ms, ImageFormat.Png);
-                        return File(ms.ToArray(), "image/png");
-                    }
+                    using MemoryStream ms = new MemoryStream();
+                    img.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
                 }
             }
             else

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.ImageSharp;
 using System;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -500,7 +500,7 @@ namespace TightWiki.Site.Controllers
             byte[] imageBytes = UserRepository.GetUserAvatarByNavigation(userAccountName);
             if (imageBytes != null && imageBytes.Count() > 0)
             {
-                var img = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                var img = Image.Load(new MemoryStream(imageBytes));
 
                 int iScale = int.Parse(scale);
                 int iMax = int.Parse(max);
@@ -515,14 +515,10 @@ namespace TightWiki.Site.Controllers
                         height = iMax;
                     }
 
-                    using (var bmp = Images.ResizeImage(img, width, height))
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            bmp.Save(ms, ImageFormat.Png);
-                            return File(ms.ToArray(), "image/png");
-                        }
-                    }
+                    using var bmp = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    bmp.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
 
                 }
                 else if (iScale != 100)
@@ -530,35 +526,26 @@ namespace TightWiki.Site.Controllers
                     int width = (int)(img.Width * (iScale / 100.0));
                     int height = (int)(img.Height * (iScale / 100.0));
 
-                    using (var bmp = Images.ResizeImage(img, width, height))
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            bmp.Save(ms, ImageFormat.Png);
-                            return File(ms.ToArray(), "image/png");
-                        }
-                    }
+                    using var bmp = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    bmp.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
                 }
                 else
                 {
-                    var bmp = img as System.Drawing.Bitmap;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        bmp.Save(ms, ImageFormat.Png);
-                        return File(ms.ToArray(), "image/png");
-                    }
+                    using var ms = new MemoryStream();
+                    img.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
                 }
             }
             else
             {
                 try
                 {
-                    var bmp = System.Drawing.Image.FromFile("Avatar.png") as System.Drawing.Bitmap;
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        bmp.Save(ms, ImageFormat.Png);
-                        return File(ms.ToArray(), "image/png");
-                    }
+                    var bmp = Image.Load("Avatar.png");
+                    using var ms = new MemoryStream();
+                    bmp.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
                 }
                 catch { }
 
@@ -623,7 +610,7 @@ namespace TightWiki.Site.Controllers
                 {
                     var imageBytes = Utility.ConvertHttpFileToBytes(file);
                     //This is just to ensure this is a valid image:
-                    var image = System.Drawing.Image.FromStream(new MemoryStream(imageBytes));
+                    var image = Image.Load(new MemoryStream(imageBytes));
                     UserRepository.UpdateUserAvatar(user.Id, imageBytes);
                 }
                 catch
