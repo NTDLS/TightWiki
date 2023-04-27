@@ -5,7 +5,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 
 TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
-**Be sure to check out the screenshots below**
+**Be sure to check out the screenshots below and also http://TightWiki.com/**
 
 # Features (some of them anyway)
 * LGPL license , you can use it for free at home or at your business.
