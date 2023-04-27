@@ -12,42 +12,36 @@ namespace TightWiki.Shared.Repository
     {
         public static bool IsFirstRun(string content, string passphrase)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    Content = content,
-                    Passphrase = passphrase
-                };
+                Content = content,
+                Passphrase = passphrase
+            };
 
-                return handler.Connection.ExecuteScalar<bool>("IsFirstRun",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            return handler.Connection.ExecuteScalar<bool>("IsFirstRun",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static bool IsAdminPasswordDefault(string plainTextPassword)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.ExecuteScalar<bool>("IsAdminPasswordDefault",
-                    new { PlainTextPassword = plainTextPassword }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.ExecuteScalar<bool>("IsAdminPasswordDefault",
+                new { PlainTextPassword = plainTextPassword }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    GroupName = groupName,
-                    EntryName = entryName,
-                    Value = value
-                };
+                GroupName = groupName,
+                EntryName = entryName,
+                Value = value
+            };
 
-                handler.Connection.Execute("SaveConfigurationEntryValueByGroupAndEntry",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            handler.Connection.Execute("SaveConfigurationEntryValueByGroupAndEntry",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static List<ConfigurationNest> GetConfigurationNest()
@@ -103,11 +97,9 @@ namespace TightWiki.Shared.Repository
 
         public static List<ConfigurationFlat> GetFlatConfiguration()
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<ConfigurationFlat>("GetFlatConfiguration",
-                    null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<ConfigurationFlat>("GetFlatConfiguration",
+                null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
@@ -166,55 +158,49 @@ namespace TightWiki.Shared.Repository
                 return result;
             }
 
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    GroupName = groupName,
-                    EntryName = entryName
-                };
+                GroupName = groupName,
+                EntryName = entryName
+            };
 
-                var configEntry = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+            var configEntry = handler.Connection.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
 
-                if (configEntry?.IsEncrypted == true)
+            if (configEntry?.IsEncrypted == true)
+            {
+                try
                 {
-                    try
-                    {
-                        configEntry.Value = Security.DecryptString(Security.MachineKey, configEntry.Value);
-                    }
-                    catch
-                    {
-                        configEntry.Value = "";
-                    }
+                    configEntry.Value = Security.DecryptString(Security.MachineKey, configEntry.Value);
                 }
-
-                return configEntry?.Value?.ToString();
+                catch
+                {
+                    configEntry.Value = "";
+                }
             }
+
+            return configEntry?.Value?.ToString();
         }
 
         public static T Get<T>(string groupName, string entryName)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                string value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
-                return Utility.ConvertTo<T>(value);
-            }
+            using var handler = new SqlConnectionHandler();
+            string value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
+            return Utility.ConvertTo<T>(value);
         }
 
         public static T Get<T>(string groupName, string entryName, T defaultValue)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            string value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
+
+            if (value == null)
             {
-                string value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
-
-                if (value == null)
-                {
-                    return defaultValue;
-                }
-
-                return Utility.ConvertTo<T>(value);
+                return defaultValue;
             }
+
+            return Utility.ConvertTo<T>(value);
         }
     }
 }

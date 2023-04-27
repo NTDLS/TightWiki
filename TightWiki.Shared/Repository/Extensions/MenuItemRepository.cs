@@ -24,11 +24,9 @@ namespace TightWiki.Shared.Repository
                 return result;
             }
 
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<MenuItem>("GetAllMenuItems",
-                    null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<MenuItem>("GetAllMenuItems",
+                null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
     }
 }

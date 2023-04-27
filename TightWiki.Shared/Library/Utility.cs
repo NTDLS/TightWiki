@@ -41,12 +41,10 @@ namespace TightWiki.Shared.Library
         }
         public static byte[] ConvertHttpFileToBytes(IFormFile image)
         {
-            using (var stream = image.OpenReadStream())
-            using (BinaryReader reader = new BinaryReader(stream))
-            {
-                byte[] imageBytes = reader.ReadBytes((int)image.Length);
-                return imageBytes;
-            }
+            using var stream = image.OpenReadStream();
+            using BinaryReader reader = new BinaryReader(stream);
+            byte[] imageBytes = reader.ReadBytes((int)image.Length);
+            return imageBytes;
         }
 
         public static T ConvertTo<T>(string value)

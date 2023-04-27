@@ -13,95 +13,83 @@ namespace TightWiki.Shared.Repository
     {
         public static List<NonexistentPage> GetNonexistentPagesPaged(int pageNumber, int pageSize = 0)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                };
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-                return handler.Connection.Query<NonexistentPage>("GetNonexistentPagesPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<NonexistentPage>("GetNonexistentPagesPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static void UpdateSinglePageReference(string pageNavigation)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    @PageNavigation = pageNavigation
-                };
+                @PageNavigation = pageNavigation
+            };
 
-                handler.Connection.Execute("UpdateSinglePageReference",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            handler.Connection.Execute("UpdateSinglePageReference",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var array = string.Join("\n", referencesPageNavigations.Select(o => $"{o.Navigation}/{o.Name}"));
+
+            var param = new
             {
-                var array = string.Join("\n", referencesPageNavigations.Select(o => $"{o.Navigation}/{o.Name}"));
+                PageId = pageId,
+                @ReferencesPageNavigations = array
+            };
 
-                var param = new
-                {
-                    PageId = pageId,
-                    @ReferencesPageNavigations = array
-                };
-
-                handler.Connection.Execute("UpdatePageReferences",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            handler.Connection.Execute("UpdatePageReferences",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static List<Page> PageSearch(List<PageToken> items)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    SearchTerms = items.ToDataTable()
-                };
+                SearchTerms = items.ToDataTable()
+            };
 
-                return handler.Connection.Query<Page>("PageSearchPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<Page>("PageSearchPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<Page> GetAllPagesByInstructionPaged(int pageNumber, int pageSize = 0, string instruction = null)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    Instruction = instruction
-                };
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Instruction = instruction
+            };
 
-                return handler.Connection.Query<Page>("GetAllPagesByInstructionPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<Page>("GetAllPagesByInstructionPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<Page> PageSearchPaged(List<PageToken> items, int pageNumber, int pageSize = 0, bool? allowFuzzyMatching = null)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    AllowFuzzyMatching = allowFuzzyMatching,
-                    SearchTerms = items.ToDataTable()
-                };
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                AllowFuzzyMatching = allowFuzzyMatching,
+                SearchTerms = items.ToDataTable()
+            };
 
-                return handler.Connection.Query<Page>("PageSearchPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<Page>("PageSearchPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         /// <summary>
@@ -114,149 +102,125 @@ namespace TightWiki.Shared.Repository
         /// <returns></returns>
         public static List<Page> GetAllPagesPaged(int pageNumber, int pageSize = 0, string searchTerms = null)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    SearchTerms = searchTerms
-                };
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                SearchTerms = searchTerms
+            };
 
-                return handler.Connection.Query<Page>("GetAllPagesPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<Page>("GetAllPagesPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<NamespaceStat> GetAllNamespacesPaged(int pageNumber, int pageSize = 0)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                };
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-                return handler.Connection.Query<NamespaceStat>("GetAllNamespacesPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<NamespaceStat>("GetAllNamespacesPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<Page> GetAllPages()
         {
-            using (var handler = new SqlConnectionHandler())
-            {
+            using var handler = new SqlConnectionHandler();
 
-                return handler.Connection.Query<Page>("GetAllPages",
-                    null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<Page>("GetAllPages",
+                null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = pageId,
-                    Instructions = string.Join(",", instructions)
-                };
+                PageId = pageId,
+                Instructions = string.Join(",", instructions)
+            };
 
-                handler.Connection.Execute("UpdatePageProcessingInstructions",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            handler.Connection.Execute("UpdatePageProcessingInstructions",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = pageId
-                };
+                PageId = pageId
+            };
 
-                return handler.Connection.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static Page GetPageRevisionInfoById(int pageId, int? revision = null)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<Page>("GetPageRevisionInfoById",
-                    new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<Page>("GetPageRevisionInfoById",
+                new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static List<PageTag> GetPageTagsById(int pageId)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<PageTag>("GetPageTagsById",
-                    new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<PageTag>("GetPageTagsById",
+                new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static Page GetPageInfoById(int pageId)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<Page>("GetPageInfoById",
-                    new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<Page>("GetPageInfoById",
+                new { PageId = pageId }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static Page GetPageRevisionById(int pageId, int? revision = null)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<Page>("GetPageRevisionById",
-                    new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<Page>("GetPageRevisionById",
+                new { PageId = pageId, Revision = revision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static void SavePageTokens(List<PageToken> items)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                handler.Connection.Execute("SavePageTokens",
-                    new { PageTokens = items.ToDataTable() }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            using var handler = new SqlConnectionHandler();
+            handler.Connection.Execute("SavePageTokens",
+                new { PageTokens = items.ToDataTable() }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static void TruncateAllPageHistory(string confirm)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                handler.Connection.Execute("TruncateAllPageHistory",
-                    new { Confirm = confirm }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            using var handler = new SqlConnectionHandler();
+            handler.Connection.Execute("TruncateAllPageHistory",
+                new { Confirm = confirm }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static int SavePage(Page item)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Navigation = WikiUtility.CleanPartialURI(item.Name),
-                    Description = item.Description,
-                    Body = item.Body,
-                    Namespace = item.Namespace,
-                    CreatedByUserId = item.CreatedByUserId,
-                    CreatedDate = item.CreatedDate,
-                    ModifiedByUserId = item.ModifiedByUserId,
-                    ModifiedDate = item.ModifiedDate
-                };
+                Id = item.Id,
+                Name = item.Name,
+                Navigation = WikiUtility.CleanPartialURI(item.Name),
+                Description = item.Description,
+                Body = item.Body,
+                Namespace = item.Namespace,
+                CreatedByUserId = item.CreatedByUserId,
+                CreatedDate = item.CreatedDate,
+                ModifiedByUserId = item.ModifiedByUserId,
+                ModifiedDate = item.ModifiedDate
+            };
 
-                return handler.Connection.ExecuteScalar<int>("SavePage",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            return handler.Connection.ExecuteScalar<int>("SavePage",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigationPaged(string navigation, int pageNumber, int pageSize = 0)
@@ -294,30 +258,26 @@ namespace TightWiki.Shared.Repository
 
         public static void DeletePageById(int pageId)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = pageId
-                };
+                PageId = pageId
+            };
 
-                handler.Connection.Execute("DeletePageById",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            handler.Connection.Execute("DeletePageById",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static int GetCountOfPageAttachmentsById(int pageId)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = pageId
-                };
+                PageId = pageId
+            };
 
-                return handler.Connection.Query<int?>("GetCountOfPageAttachmentsById",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault() ?? 0;
-            }
+            return handler.Connection.Query<int?>("GetCountOfPageAttachmentsById",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault() ?? 0;
         }
 
         public static Page GetPageRevisionByNavigation(string navigation, int? revision = null, bool allowCache = true)
@@ -335,63 +295,55 @@ namespace TightWiki.Shared.Repository
                 return result;
             }
 
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    Navigation = navigation,
-                    Revision = revision
-                };
+                Navigation = navigation,
+                Revision = revision
+            };
 
-                return handler.Connection.Query<Page>("GetPageRevisionByNavigation",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            return handler.Connection.Query<Page>("GetPageRevisionByNavigation",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    TopCount = topCount
-                };
+                TopCount = topCount
+            };
 
-                return handler.Connection.Query<Page>("GetTopRecentlyModifiedPagesInfo",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<Page>("GetTopRecentlyModifiedPagesInfo",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<RelatedPage> GetSimilarPagesPaged(int pageId, int pageNumber, int pageSize = 0)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = pageId,
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                };
+                PageId = pageId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-                return handler.Connection.Query<RelatedPage>("GetSimilarPagesPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<RelatedPage>("GetSimilarPagesPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int pageSize = 0)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = pageId,
-                    PageNumber = pageNumber,
-                    PageSize = pageSize
-                };
+                PageId = pageId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
 
-                return handler.Connection.Query<RelatedPage>("GetRelatedPagesPaged",
-                    param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<RelatedPage>("GetRelatedPagesPaged",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
     }
 }

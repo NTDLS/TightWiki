@@ -12,103 +12,89 @@ namespace TightWiki.Shared.Repository
     {
         public static PageFileAttachment GetPageFileInfoByPageIdPageRevisionAndName(int pageId, string fileName, int? pageRevision = null)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<PageFileAttachment>("GetPageFileInfoByPageIdPageRevisionAndName",
-                    new
-                    {
-                        PageId = pageId,
-                        FileName = fileName,
-                        PageRevision = pageRevision
-                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<PageFileAttachment>("GetPageFileInfoByPageIdPageRevisionAndName",
+                new
+                {
+                    PageId = pageId,
+                    FileName = fileName,
+                    PageRevision = pageRevision
+                }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static List<PageFileAttachment> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int pageSize = 0, int? pageRevision = null)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    PageNavigation = pageNavigation,
-                    PageRevision = pageRevision
-                };
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                PageNavigation = pageNavigation,
+                PageRevision = pageRevision
+            };
 
-                return handler.Connection.Query<PageFileAttachment>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged",
-                   param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            return handler.Connection.Query<PageFileAttachment>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged",
+               param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static List<PageFileAttachment> GetPageFilesInfoByPageIdAndPageRevision(int pageId, int? pageRevision = null)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<PageFileAttachment>("GetPageFilesInfoByPageIdAndPageRevision",
-                    new { PageId = pageId, PageRevision = pageRevision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<PageFileAttachment>("GetPageFilesInfoByPageIdAndPageRevision",
+                new { PageId = pageId, PageRevision = pageRevision }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
         public static void DeletePageFileByPageNavigationAndFileName(string pageNavigation, string fileNavigation)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                handler.Connection.Execute("DeletePageFileByPageNavigationAndFileName",
-                    new
-                    {
-                        PageNavigation = pageNavigation,
-                        FileNavigation = fileNavigation
-                    }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            using var handler = new SqlConnectionHandler();
+            handler.Connection.Execute("DeletePageFileByPageNavigationAndFileName",
+                new
+                {
+                    PageNavigation = pageNavigation,
+                    FileNavigation = fileNavigation
+                }, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
         public static PageFileAttachment GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation",
-                    new
-                    {
-                        PageNavigation = pageNavigation,
-                        FileNavigation = fileNavigation,
-                        PageRevision = pageRevision
-                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation",
+                new
+                {
+                    PageNavigation = pageNavigation,
+                    FileNavigation = fileNavigation,
+                    PageRevision = pageRevision
+                }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static PageFileAttachment GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
-            using (var handler = new SqlConnectionHandler())
-            {
-                return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation",
-                    new
-                    {
-                        PageNavigation = pageNavigation,
-                        FileNavigation = fileNavigation,
-                        PageRevision = pageRevision
-                    }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
-            }
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<PageFileAttachment>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation",
+                new
+                {
+                    PageNavigation = pageNavigation,
+                    FileNavigation = fileNavigation,
+                    PageRevision = pageRevision
+                }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
         public static int UpsertPageFile(PageFileAttachment item)
         {
-            using (var handler = new SqlConnectionHandler())
+            using var handler = new SqlConnectionHandler();
+            var param = new
             {
-                var param = new
-                {
-                    PageId = item.PageId,
-                    Name = item.Name,
-                    FileNavigation = WikiUtility.CleanPartialURI(item.Name),
-                    ContentType = item.ContentType,
-                    Size = item.Size,
-                    CreatedDate = item.CreatedDate,
-                    Data = item.Data
-                };
+                PageId = item.PageId,
+                Name = item.Name,
+                FileNavigation = WikiUtility.CleanPartialURI(item.Name),
+                ContentType = item.ContentType,
+                Size = item.Size,
+                CreatedDate = item.CreatedDate,
+                Data = item.Data
+            };
 
-                return handler.Connection.ExecuteScalar<int>("UpsertPageFile",
-                    param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
-            }
+            return handler.Connection.ExecuteScalar<int>("UpsertPageFile",
+                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
     }
 }

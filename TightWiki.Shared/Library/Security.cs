@@ -18,18 +18,16 @@ namespace TightWiki.Shared.Library
 
         public static string GenerateRandomString(int maxLength = 10)
         {
-            using (var crypto = Aes.Create())
+            using var crypto = Aes.Create();
+            crypto.GenerateKey();
+            var result = Convert.ToBase64String(crypto.Key).Replace("/", "").Replace("=", "").Replace("+", "");
+
+            if (result.Length > maxLength)
             {
-                crypto.GenerateKey();
-                var result = Convert.ToBase64String(crypto.Key).Replace("/", "").Replace("=", "").Replace("+", "");
-
-                if (result.Length > maxLength)
-                {
-                    result = result.Substring(0, maxLength);
-                }
-
-                return result.ToUpper();
+                result = result.Substring(0, maxLength);
             }
+
+            return result.ToUpper();
         }
 
         public static uint Crc32(string text)
@@ -55,33 +53,29 @@ namespace TightWiki.Shared.Library
 
         public static string EncryptString(string key, string plainText)
         {
-            using (var aes = Aes.Create())
+            using var aes = Aes.Create();
+            byte[] iv = new byte[16];
+            byte[] keyBytes = SHA256.HashData(Encoding.Unicode.GetBytes(key));
+            byte[] vector = (byte[])keyBytes.Clone();
+
+            for (int i = 0; i < 16; i++)
             {
-                byte[] iv = new byte[16];
-                byte[] keyBytes = SHA256.HashData(Encoding.Unicode.GetBytes(key));
-                byte[] vector = (byte[])keyBytes.Clone();
-
-                for (int i = 0; i < 16; i++)
-                {
-                    iv[i] = vector[i];
-                }
-
-                aes.Key = keyBytes;
-                aes.IV = iv;
-
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
-                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
-                    {
-                        streamWriter.Write(plainText);
-                    }
-
-                    return Convert.ToBase64String(memoryStream.ToArray());
-                }
+                iv[i] = vector[i];
             }
+
+            aes.Key = keyBytes;
+            aes.IV = iv;
+
+            ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+            using MemoryStream memoryStream = new MemoryStream();
+            using CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write);
+            using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
+            {
+                streamWriter.Write(plainText);
+            }
+
+            return Convert.ToBase64String(memoryStream.ToArray());
         }
 
         public static string DecryptString(string key, string cipherText)
@@ -103,12 +97,10 @@ namespace TightWiki.Shared.Library
 
             ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
-            using (MemoryStream memoryStream = new MemoryStream(buffer))
-            using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
-            using (StreamReader streamReader = new StreamReader(cryptoStream))
-            {
-                return streamReader.ReadToEnd();
-            }
+            using MemoryStream memoryStream = new MemoryStream(buffer);
+            using CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            using StreamReader streamReader = new StreamReader(cryptoStream);
+            return streamReader.ReadToEnd();
         }
     }
 }
