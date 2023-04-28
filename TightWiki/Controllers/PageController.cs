@@ -306,7 +306,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id, pageRevision);
                 ViewBag.Config.Title = page.Title;
 
-                bool allowCache = false;
+                bool allowCache = true;
 
                 if (allowCache)
                 {

@@ -39,12 +39,11 @@ namespace TightWiki.Shared.Repository
         public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
         {
             using var handler = new SqlConnectionHandler();
-            var array = string.Join("\n", referencesPageNavigations.Select(o => $"{o.Navigation}/{o.Name}"));
 
             var param = new
             {
                 PageId = pageId,
-                @ReferencesPageNavigations = array
+                References = referencesPageNavigations.ToDataTable()
             };
 
             handler.Connection.Execute("UpdatePageReferences",
