@@ -317,6 +317,7 @@ namespace TightWiki.Site.Controllers
                 if (result != null)
                 {
                     model.Body = result;
+                    Cache.Put(cacheKey, result); //Update the cache expiration.
                 }
                 else
                 {
