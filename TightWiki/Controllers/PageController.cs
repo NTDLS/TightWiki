@@ -306,24 +306,34 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id, pageRevision);
                 ViewBag.Config.Title = page.Title;
 
-                string queryKey = string.Empty;
-                foreach (var query in Request.Query)
-                {
-                    queryKey += $"{query.Key}:{query.Value}";
-                }
+                bool allowCache = false;
 
-                string cacheKey = $"Page:{page.Navigation}:{page.Revision}:{queryKey}";
-                var result = Cache.Get<string>(cacheKey);
-                if (result != null)
+                if (allowCache)
                 {
-                    model.Body = result;
-                    Cache.Put(cacheKey, result); //Update the cache expiration.
+                    string queryKey = string.Empty;
+                    foreach (var query in Request.Query)
+                    {
+                        queryKey += $"{query.Key}:{query.Value}";
+                    }
+
+                    string cacheKey = $"Page:{page.Navigation}:{page.Revision}:{queryKey}";
+                    var result = Cache.Get<string>(cacheKey);
+                    if (result != null)
+                    {
+                        model.Body = result;
+                        Cache.Put(cacheKey, result); //Update the cache expiration.
+                    }
+                    else
+                    {
+                        var wiki = new Wikifier(context, page, pageRevision, Request.Query);
+                        model.Body = wiki.ProcessedBody;
+                        Cache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                    }
                 }
                 else
                 {
                     var wiki = new Wikifier(context, page, pageRevision, Request.Query);
                     model.Body = wiki.ProcessedBody;
-                    Cache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
                 }
             }
             else if (pageRevision != null)

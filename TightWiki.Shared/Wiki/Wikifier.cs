@@ -137,7 +137,7 @@ namespace TightWiki.Shared.Wiki
                 var html = new StringBuilder();
 
                 html.Append("<div class=\"card bg-warning mb-3\">");
-                html.Append($"<div class=\"card-header\">Viewing a historical revision</div>");
+                html.Append($"<div class=\"card-header\"><strong>Viewing a historical revision</strong></div>");
                 html.Append("<div class=\"card-body\">");
                 html.Append($"<p class=\"card-text\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision.ModifiedByUserName}\" on {_context.LocalizeDateTime(revision.ModifiedDate)}. <br />");
                 html.Append($"<a href=\"/{_page.Navigation}\">View the latest revision {pageInfo.Revision:0}.</a>");
@@ -1332,14 +1332,16 @@ namespace TightWiki.Shared.Wiki
                             int scale = function.Parameters.Get<int>("scale");
 
                             bool explicitNamespace = imageName.Contains("::");
+                            bool isPageForeignImage = false;
 
                             string navigation = _page.Navigation;
                             if (imageName.Contains('/'))
                             {
-                                //Allow loading attacehd images from other pages.
+                                //Allow loading attacehed images from other pages.
                                 int slashIndex = imageName.IndexOf("/");
                                 navigation = WikiUtility.CleanPartialURI(imageName.Substring(0, slashIndex));
                                 imageName = imageName.Substring(slashIndex + 1);
+                                isPageForeignImage = true;
                             }
 
                             if (explicitNamespace == false && this._page.Namespace != null)
@@ -1351,8 +1353,9 @@ namespace TightWiki.Shared.Wiki
                                 }
                             }
 
-                            if (_revision != null)
+                            if (_revision != null && isPageForeignImage == false)
                             {
+                                //Check for isPageForeignImage because we don't version foreign page files.
                                 string link = $"/File/Image/{navigation}/{WikiUtility.CleanPartialURI(imageName)}/r/{_revision}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                                 StoreMatch(function, pageContent, match.Value, image);
@@ -1373,6 +1376,7 @@ namespace TightWiki.Shared.Wiki
                             string fileName = function.Parameters.Get<String>("name");
 
                             bool explicitNamespace = fileName.Contains("::");
+                            bool isPageForeignFile = false;
 
                             string navigation = _page.Navigation;
                             if (fileName.Contains('/'))
@@ -1381,6 +1385,7 @@ namespace TightWiki.Shared.Wiki
                                 int slashIndex = fileName.IndexOf("/");
                                 navigation = WikiUtility.CleanPartialURI(fileName.Substring(0, slashIndex));
                                 fileName = fileName.Substring(slashIndex + 1);
+                                isPageForeignFile = true;
                             }
 
                             if (explicitNamespace == false && this._page.Namespace != null)
@@ -1402,8 +1407,9 @@ namespace TightWiki.Shared.Wiki
                                     alt += $" ({attachment.FriendlySize})";
                                 }
 
-                                if (_revision != null)
+                                if (_revision != null && isPageForeignFile == false)
                                 {
+                                    //Check for isPageForeignImage because we don't version foreign page files.
                                     string link = $"/File/Binary/{navigation}/{WikiUtility.CleanPartialURI(fileName)}/r/{_revision}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
                                     StoreMatch(function, pageContent, match.Value, image);
