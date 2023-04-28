@@ -304,10 +304,26 @@ namespace TightWiki.Site.Controllers
                 }
 
                 context.SetPageId(page.Id, pageRevision);
-
-                var wiki = new Wikifier(context, page, pageRevision, Request.Query);
                 ViewBag.Config.Title = page.Title;
-                model.Body = wiki.ProcessedBody;
+
+                string queryKey = string.Empty;
+                foreach (var query in Request.Query)
+                {
+                    queryKey += $"{query.Key}:{query.Value}";
+                }
+
+                string cacheKey = $"Page:{page.Navigation}:{page.Revision}:{queryKey}";
+                var result = Cache.Get<string>(cacheKey);
+                if (result != null)
+                {
+                    model.Body = result;
+                }
+                else
+                {
+                    var wiki = new Wikifier(context, page, pageRevision, Request.Query);
+                    model.Body = wiki.ProcessedBody;
+                    Cache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                }
             }
             else if (pageRevision != null)
             {
