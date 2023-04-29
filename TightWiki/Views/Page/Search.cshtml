@@ -57,27 +57,30 @@
                                 }
                             </table>
 
-                            if (@ViewBag.PreviousPage != null)
+                            if (@ViewBag.PaginationCount > 1)
                             {
-                                <a href="/Page/Search/1?Tokens=@Model.SearchTokens">&lt;&lt; First</a>
+                                if (@ViewBag.PreviousPage != null)
+                                {
+                                    <a href="/Page/Search/1?Tokens=@Model.SearchTokens">&lt;&lt; First</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Page/Search/@ViewBag.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
+                                }
+                                else
+                                {
+                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                                }
                                 @:&nbsp; | &nbsp;
-                                <a href="/Page/Search/@ViewBag.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
-                            }
-                            else
-                            {
-                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                            }
-                            @:&nbsp; | &nbsp;
 
-                            if (@ViewBag.NextPage != null)
-                            {
-                                <a href="/Page/Search/@ViewBag.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
-                                @:&nbsp; | &nbsp;
-                                <a href="/Page/Search/@ViewBag.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
-                            }
-                            else
-                            {
-                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                if (@ViewBag.NextPage != null)
+                                {
+                                    <a href="/Page/Search/@ViewBag.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Page/Search/@ViewBag.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
+                                }
+                                else
+                                {
+                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                }
                             }
                         }
                     </td>
@@ -86,3 +89,9 @@
         </table>
     </div>
 </div>
+
+<script>
+    window.onload = function () {
+        document.getElementById("SearchTokens").focus();
+    }
+</script>
