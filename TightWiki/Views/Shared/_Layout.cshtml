@@ -126,6 +126,15 @@
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="/Account/Login?ReturnUrl=@ViewBag.Config.PathAndQuery">Login</a></li>
                         }
+
+                        <li class="nav-item ms-auto">
+                            <div class="collapse navbar-collapse justify-content-end">
+                                <form class="d-flex" role="search" method="POST" action="/Page/Search">
+                                    <input class="form-control me-2" type="search" placeholder="Search" name="SearchTokens" aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
