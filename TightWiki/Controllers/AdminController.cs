@@ -803,6 +803,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new ConfigurationModel()
             {
+                Roles = UserRepository.GetAllRoles(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
@@ -845,6 +846,7 @@ namespace TightWiki.Site.Controllers
 
             var newModel = new ConfigurationModel()
             {
+                Roles = UserRepository.GetAllRoles(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),

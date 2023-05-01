@@ -4,7 +4,7 @@
 }
 
 <div class="card">
-    <div class="card-header"><h3>Wiki configuration</h3></div>
+    <div class="card-header"><h3>Wiki Configuration</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
             Global configuration values for the wiki, its functionality, behavior, formatting and branding.<br /><br />
@@ -59,7 +59,21 @@
                                                                     <strong>@entry.Name</strong><br />
                                                                     @entry.Description<br />
 
-                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
+                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
+                                                                    {
+                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                            <option value="" style="color:#ccc !important;">
+                                                                                Select a role
+                                                                            </option>
+                                                                            @foreach (var item in Model.Roles)
+                                                                            {
+                                                                                <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>
+                                                                                    @item.Name
+                                                                                </option>
+                                                                            }
+                                                                        </select>
+                                                                    }
+                                                                   else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
                                                                    || $"{group.Name}:{entry.Name}" == "Basic:Default TimeZone")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">

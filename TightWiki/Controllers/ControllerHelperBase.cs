@@ -40,6 +40,7 @@ namespace TightWiki.Controllers
                 PathAndQuery = Request.GetEncodedPathAndQuery(),
                 IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta"),
                 IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta"),
+                IncludeSearchOnNavbar = functConfig.As<bool>("Include Search on Navbar"),
                 HTMLHeader = htmlConfig.As<string>("Header"),
                 HTMLFooter = htmlConfig.As<string>("Footer"),
                 HTMLPreBody = htmlConfig.As<string>("Pre-Body"),
