@@ -15,6 +15,11 @@ namespace TightWiki.Shared.Library
         /// </summary>
         public ViewBagConfig Config { get; set; }
         public bool IsAuthenticated { get; set; }
+
+        /// <summary>
+        /// This is used when we are authenticated with a 3rd party oauth provider but do not yet have a TightWiki account.
+        /// </summary>
+        public bool IsPartiallyAuthenticated { get; set; } = false;
         public User User { get; set; }
         public string Role { get; set; }
         public int? PageId { get; private set; } = null;

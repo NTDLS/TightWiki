@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
@@ -15,22 +18,57 @@ using TightWiki.Shared.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    [AllowAnonymous]
     public class AccountController : ControllerHelperBase
     {
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult GoogleSignup()
+        {
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("Signup", "Account") };
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult GoogleLogin()
+        {
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("Display", "Page", "Home") };
+
+            if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
+            {
+                properties.RedirectUri = Request.Query["ReturnUrl"];
+            }
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Logout()
         {
             ViewBag.Config.Title = $"Logout";
             HttpContext.SignOutAsync();
-            return RedirectToAction("Display", "Page", "Home");
+
+            if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
+            {
+                return Redirect(Request.Query["ReturnUrl"]);
+            }
+            else
+            {
+                return RedirectToAction("Display", "Page", "Home");
+            }
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult ChangePassword()
         {
+            if (context.User.Provider != "Login")
+            {
+                throw new NotSupportedException();
+            }
             ViewBag.Config.Title = $"Change Password";
             return View(new ChangePasswordModel());
         }
@@ -39,6 +77,11 @@ namespace TightWiki.Site.Controllers
         [Authorize]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
+            if (context.User.Provider != "Login")
+            {
+                throw new NotSupportedException();
+            }
+
             ViewBag.Config.Title = $"Change Password";
 
             if ((model.Password?.Length ?? 0) < 5)
@@ -73,6 +116,12 @@ namespace TightWiki.Site.Controllers
             ViewBag.Config.Title = $"Login";
             ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
             var model = new LoginModel();
+
+            if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
+            {
+                ViewBag.ReturnUrl = Request.Query["ReturnUrl"];
+            }
+
             return View(model);
         }
 
@@ -141,6 +190,12 @@ namespace TightWiki.Site.Controllers
                 var siteName = basicConfig.As<string>("Name");
                 var address = basicConfig.As<string>("Address");
 
+                if (user.Provider != "Login")
+                {
+                    //TODO: This should send an email to the user to let them know what their provider is.
+                    throw new NotImplementedException();
+                }
+
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
                 var resetPasswordEmailTemplate = new StringBuilder(membershipConfig.As<string>("Reset Password Email Template"));
 
@@ -180,6 +235,12 @@ namespace TightWiki.Site.Controllers
 
             if (user != null)
             {
+                if (user.Provider != "Login")
+                {
+                    //TODO: This should send an email to the user to let them know what their provider is.
+                    throw new NotImplementedException();
+                }
+
                 if (user.VerificationCode?.ToLower() != verificationCode.ToLower())
                 {
                     model.ErrorMessage = "The verification code you specified can not be found.";
@@ -212,6 +273,12 @@ namespace TightWiki.Site.Controllers
 
                 if (user != null)
                 {
+                    if (user.Provider != "Login")
+                    {
+                        //TODO: This should send an email to the user to let them know what their provider is.
+                        throw new NotImplementedException();
+                    }
+
                     if (user.VerificationCode?.ToLower() != model.VerificationCode.ToLower())
                     {
                         model.ErrorMessage = "The verification code you specified can not be found.";
@@ -248,6 +315,11 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
+            if (context.IsAuthenticated) //No need to create an account.
+            {
+                return RedirectToAction("UserProfile", "Account");
+            }
+
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
 
             var model = new SignupModel()
@@ -259,6 +331,20 @@ namespace TightWiki.Site.Controllers
                 TimeZone = basicConfig.As<string>("Default TimeZone"),
                 Language = basicConfig.As<string>("Default Language"),
             };
+
+            if (context.IsPartiallyAuthenticated)
+            {
+                var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
+                var firstIdentity = result.Principal.Identities.FirstOrDefault();
+
+                model.EmailAddress = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Email)?.FirstOrDefault().Value;
+                model.LastName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Surname)?.FirstOrDefault().Value;
+                model.FirstName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.GivenName)?.FirstOrDefault().Value;
+
+                //If we are using an external provider, generate a nonsense password just because I am uncomfortable with empty passwords.
+                model.Password = Guid.NewGuid().ToString();
+                model.ComparePassword = model.Password;
+            }
 
             return View(model);
         }
@@ -321,6 +407,11 @@ namespace TightWiki.Site.Controllers
             if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
             {
                 return Unauthorized();
+            }
+
+            if (context.IsAuthenticated) //No need to create an account.
+            {
+                return RedirectToAction("UserProfile", "Account");
             }
 
             model.EmailAddress = HTML.StripHTML(model.EmailAddress);
@@ -391,39 +482,51 @@ namespace TightWiki.Site.Controllers
                     Country = model.Country,
                     AboutMe = string.Empty,
                     Role = defaultSignupRole,
-                    VerificationCode = Security.GenerateRandomString(6)
+                    VerificationCode = Security.GenerateRandomString(6),
+                    Provider = "Login"
                 };
 
+                if (context.IsPartiallyAuthenticated)
+                {
+                    user.Provider = User.Identity.AuthenticationType;
+                }
+
                 int userId = UserRepository.CreateUser(user);
-
-                if (requestEmailVerification || requireEmailVerification)
+                if (context.IsPartiallyAuthenticated == true)
                 {
-                    var emailSubject = "Account Verification";
-                    accountVerificationEmailTemplate.Replace("##SUBJECT##", emailSubject);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTLANGUAGE##", user.Language);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
-                    accountVerificationEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
-                    accountVerificationEmailTemplate.Replace("##CODE##", user.VerificationCode);
-                    accountVerificationEmailTemplate.Replace("##SITENAME##", siteName);
-                    accountVerificationEmailTemplate.Replace("##SITEADDRESS##", address);
-
-                    Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
-                }
-
-                if (requireEmailVerification)
-                {
-                    return RedirectToAction("SignupPendingVerification", "Account");
-                }
-                else if (requestEmailVerification)
-                {
-                    return RedirectToAction("SignupCompleteVerification", "Account");
+                    return RedirectToAction("SignupComplete", "Account");
                 }
                 else
                 {
-                    return RedirectToAction("SignupComplete", "Account");
+                    if (requestEmailVerification || requireEmailVerification)
+                    {
+                        var emailSubject = "Account Verification";
+                        accountVerificationEmailTemplate.Replace("##SUBJECT##", emailSubject);
+                        accountVerificationEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
+                        accountVerificationEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
+                        accountVerificationEmailTemplate.Replace("##ACCOUNTLANGUAGE##", user.Language);
+                        accountVerificationEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
+                        accountVerificationEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
+                        accountVerificationEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
+                        accountVerificationEmailTemplate.Replace("##CODE##", user.VerificationCode);
+                        accountVerificationEmailTemplate.Replace("##SITENAME##", siteName);
+                        accountVerificationEmailTemplate.Replace("##SITEADDRESS##", address);
+
+                        Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
+                    }
+
+                    if (requireEmailVerification)
+                    {
+                        return RedirectToAction("SignupPendingVerification", "Account");
+                    }
+                    else if (requestEmailVerification)
+                    {
+                        return RedirectToAction("SignupCompleteVerification", "Account");
+                    }
+                    else
+                    {
+                        return RedirectToAction("SignupComplete", "Account");
+                    }
                 }
             }
 

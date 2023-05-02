@@ -77,6 +77,7 @@ namespace TightWiki.Shared.Repository
                 Language = user.Language,
                 Country = user.Country,
                 Role = user.Role,
+                Provider = user.Provider,
                 VerificationCode = user.VerificationCode
             };
 

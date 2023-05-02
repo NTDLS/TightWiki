@@ -1,0 +1,62 @@
+﻿@model TightWiki.Shared.Models.View.ExternalLoginModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header"><h3>ExternalLogin</h3></div>
+    <div class="card-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            We all forget sometimes.... drop in your email address and we'll promptly dispatch a reset code.<br /><br />
+        </font>
+
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+
+        <table class="fixedTable100" border="0" cellpadding="5">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="left">
+
+                        @if (Model.ErrorMessage != null)
+                        {
+                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                        }
+                        @if (Model.SuccessMessage!= null)
+                        {
+                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                        }
+
+                        @using (Html.BeginForm())
+                        {
+                            <table border="0">
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.Email)</strong></td>
+                                    <td>
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "input-control" })
+                                    </td>
+                                </tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Email)</div></td></tr>
+                                <tr class="padded">
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Get Code</button></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        }
+                        <font size="3" face="ARIAL,HELVETICA">
+                            @if (ViewBag.AllowSignup == true)
+                            {
+                                @:Not a member? @Html.ActionLink("Signup", "Signup", "Account").<br />
+                            }
+                            Already a member? <a href="/Account/Login">Login</a>.<br />
+                        </font>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -21,14 +21,34 @@ namespace TightWiki
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+
+            //Manage oauth credentials:
+            //https://console.cloud.google.com/apis/credentials
+
+            IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+
+            Singletons.GoogleAuthenticationClientId = googleAuthNSection["ClientId"];
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                        .AddCookie(options =>
-                        {
-                            options.LoginPath = "/Account/Login";
+                .AddGoogle(options =>
+                {
+                    options.ClientId = Singletons.GoogleAuthenticationClientId;
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                })
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Account/Login";
 
-                        });
+                });
+
+            /*
+            //Microsoft.AspNetCore.Authentication.MicrosoftAccount
+               .AddMicrosoftAccount(microsoftOptions =>
+               {
+                   microsoftOptions.ClientId = Configuration["Authentication:Microsoft:ClientId"];
+                   microsoftOptions.ClientSecret = Configuration["Authentication:Microsoft:ClientSecret"];
+               });
+            */
 
             services.ConfigureApplicationCookie(options =>
             {

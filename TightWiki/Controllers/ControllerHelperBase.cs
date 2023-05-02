@@ -32,9 +32,12 @@ namespace TightWiki.Controllers
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
             var functConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
 
             ViewBag.Config = new ViewBagConfig
             {
+                Address = basicConfig.As<string>("Address"),
+                AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication"),
                 DefaultTimeZone = basicConfig.As<string>("Default TimeZone"),
                 Context = context,
                 PathAndQuery = Request.GetEncodedPathAndQuery(),
@@ -65,14 +68,41 @@ namespace TightWiki.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-                var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString();
+                int? userId = null;
 
-                context.IsAuthenticated = User.Identity.IsAuthenticated;
-                if (context.IsAuthenticated)
+                if (User.Identity.AuthenticationType == "Google")
                 {
-                    context.Role = role;
-                    context.User = UserRepository.GetUserById(userId);
+                    var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
+                    var firstIdentity = result.Principal.Identities.FirstOrDefault();
+                    var emailddress = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Email)?.FirstOrDefault().Value;
+                    var lastName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Surname)?.FirstOrDefault().Value;
+                    var firstName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.GivenName)?.FirstOrDefault().Value;
+                    context.IsPartiallyAuthenticated = true;
+
+                    var user = UserRepository.GetUserByEmail(emailddress);
+                    if (user != null)
+                    {
+                        firstIdentity.AddClaim(new Claim(ClaimTypes.Name, user.AccountName));
+                        firstIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+                        firstIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+                        userId = user.Id;
+                    }
+                }
+                else
+                {
+                    userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
+                }
+
+                var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString();
+                if (userId != null && role != null)
+                {
+                    context.IsAuthenticated = User.Identity.IsAuthenticated;
+                    context.IsPartiallyAuthenticated = false;
+                    if (context.IsAuthenticated)
+                    {
+                        context.Role = role;
+                        context.User = UserRepository.GetUserById((int)userId);
+                    }
                 }
             }
         }

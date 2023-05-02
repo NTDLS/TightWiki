@@ -116,7 +116,10 @@
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item text-dark" href="/Account/UserProfile">Profile</a>
-                                    <a class="dropdown-item text-dark" href="/Account/ChangePassword">Change Password</a>
+                                    @if(ViewBag.Context?.User?.Provider == "Login")
+                                    {
+                                        <a class="dropdown-item text-dark" href="/Account/ChangePassword">Change Password</a>
+                                    }
                                     <a class="dropdown-item text-dark" href="/Account/Logout">Logout</a>
                                 </div>
                             </li>

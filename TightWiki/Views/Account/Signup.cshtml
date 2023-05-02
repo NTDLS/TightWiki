@@ -24,7 +24,7 @@
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (Model.SuccessMessage != null)
                         {
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
@@ -35,13 +35,50 @@
 
                             <table border="0">
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                                @if (ViewBag.Config.AllowGoogleAuthentication == true && ViewBag.Context.IsPartiallyAuthenticated == false)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>Signup with Google?</strong><br />
+                                            <script src="https://accounts.google.com/gsi/client" async defer></script>
+                                            <div id="g_id_onload"
+                                         data-client_id="@Singletons.GoogleAuthenticationClientId"
+                                         data-login_uri="@ViewBag.Config.Address/Account/GoogleSignup?ReturnUrl=@ViewBag.ReturnUrl"
+                                         data-auto_prompt="false">
+                                            </div>
+                                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong><a href="/Account/Logout?ReturnUrl=/Account/Signup">Signup with username and password instead?</a></strong>
+                                        </td>
+                                    </tr>
+                                }
+
+                                @if (ViewBag.Context.IsPartiallyAuthenticated == false)
+                                {
+                                    <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
+                                    <tr class="padded">
+                                        <td><strong>@Html.LabelFor(m => m.EmailAddress)</strong></td>
+                                        <td>
+                                            @Html.TextBoxFor(m => m.EmailAddress, new { @class = "input-control" })
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(m => m.EmailAddress,  new { @class = "input-control" })
+                                    <script>
+                                        window.onload = function () {
+                                            document.getElementById("AccountName").focus();
+                                        }
+                                    </script>
+                                }
 
                                 <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountName)</div></td></tr>
                                 <tr class="padded">
@@ -122,25 +159,33 @@
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
-                                    <td>
-                                        @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
-                                    </td>
-                                </tr>
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
-                                    <td>
-                                        @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                                @if (ViewBag.Context.IsPartiallyAuthenticated == false)
+                                {
+                                    <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Password)</div></td></tr>
+                                    <tr class="padded">
+                                        <td><strong>@Html.LabelFor(m => m.Password)</strong></td>
+                                        <td>
+                                            @Html.PasswordFor(m => m.Password, new { @class = "input-control" })
+                                        </td>
+                                    </tr>
+                                    <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.ComparePassword)</div></td></tr>
+                                    <tr class="padded">
+                                        <td><strong>@Html.LabelFor(m => m.ComparePassword)</strong></td>
+                                        <td>
+                                            @Html.PasswordFor(m => m.ComparePassword, new { @class = "input-control" })
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    @Html.HiddenFor(m => m.Password,  new { @class = "input-control" })
+                                    @Html.HiddenFor(m => m.ComparePassword, new { @class = "input-control" })
+                                }
 
                                 <tr class="padded">
                                     <td>&nbsp;</td>
                                     <td>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Signup!</button></div>
                                     </td>
                                 </tr>
                             </table>

@@ -3,6 +3,19 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<meta name="google-signin-client_id" content="775768872451-csafs2mfptsp96u96mcg6ab6a93dvmsn.apps.googleusercontent.com">
+
+<script>
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+}
+</script>
+
 <div class="card">
     <div class="card-header"><h3>Existing Account Login</h3></div>
     <div class="card-body">
@@ -54,8 +67,28 @@
                                         <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Login</button></div>
                                     </td>
                                 </tr>
+
+                                @if (ViewBag.Config.AllowGoogleAuthentication == true)
+                                {
+                                    <tr class="padded">
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <br />
+                                            <strong>Sign in another way?</strong><br />
+                                            <script src="https://accounts.google.com/gsi/client" async defer></script>
+                                            <div id="g_id_onload"
+                                         data-client_id="@Singletons.GoogleAuthenticationClientId"
+                                         data-login_uri="@ViewBag.Config.Address/Account/GoogleLogin?ReturnUrl=@ViewBag.ReturnUrl"
+                                         data-auto_prompt="false">
+                                            </div>
+                                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
                             </table>
                         }
+                        <br />
                         <font size="3" face="ARIAL,HELVETICA">
                             @if (ViewBag.AllowSignup == true)
                             {

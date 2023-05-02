@@ -6,6 +6,8 @@ namespace TightWiki
 {
     public static class Singletons
     {
+        public static string GoogleAuthenticationClientId { get; set; }
+
         /// <summary>
         /// Detect whether this is the first time the WIKI has ever been run and do some initilization.
         /// </summary>

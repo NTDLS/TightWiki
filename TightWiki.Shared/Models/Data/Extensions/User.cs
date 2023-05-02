@@ -32,6 +32,7 @@ namespace TightWiki.Shared.Models.Data
         public int PaginationSize { get; set; }
         public int PaginationCount { get; set; }
         public string Role { get; set; }
+        public string Provider { get; set; }
     }
 }
 

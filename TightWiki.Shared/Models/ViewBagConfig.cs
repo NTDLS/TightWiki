@@ -26,5 +26,7 @@ namespace TightWiki.Shared.Models
         public string PageDescription { get; set; }
         public string PathAndQuery { get; set; }
         public string DefaultTimeZone { get; set; }
+        public string Address { get; set; }
+        public bool AllowGoogleAuthentication { get; set; }
     }
 }
