@@ -136,7 +136,7 @@ namespace TightWiki.Controllers
             return page.Id;
         }
 
-        public void PerformLogin(string accountNameOrEmail, string password, bool isPasswordHash)
+        public void PerformLogin(string accountNameOrEmail, string password, bool isPasswordHash, bool persist = false)
         {
             var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Require Email Verification");
 
@@ -166,8 +166,14 @@ namespace TightWiki.Controllers
                     new Claim(ClaimTypes.Role, user.Role)
                 };
 
-                var claimsIdentity = new ClaimsIdentity(claims, "Login");
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = persist, // Set the authentication cookie to be persistent
+                };
+
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
                 UserRepository.UpdateUserLastLoginDateByUserId(user.Id);
             }
             else

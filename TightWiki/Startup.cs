@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,12 +37,14 @@ namespace TightWiki
                     options.ClientId = Singletons.GoogleAuthenticationClientId;
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
                 })
-                .AddCookie(options =>
+                .AddCookie("Cookies", options =>
                 {
+                    options.Cookie.Name = "RememberMeTightWiki";
                     options.LoginPath = "/Account/Login";
-
+                    options.ExpireTimeSpan = TimeSpan.FromDays(7);
+                    options.SlidingExpiration = true;
                 });
-
+;
             /*
             //Microsoft.AspNetCore.Authentication.MicrosoftAccount
                .AddMicrosoftAccount(microsoftOptions =>
@@ -52,7 +56,11 @@ namespace TightWiki
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.ExpireTimeSpan = TimeSpan.FromDays(30); //Login timeout.
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(7); // Keep the user logged in for 7 days
+                options.SlidingExpiration = true; // Renew the cookie if it's halfway to expiring
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
             });
 
             /* https://khalidabuhakmeh.com/how-to-map-a-route-in-an-aspnet-core-mvc-application

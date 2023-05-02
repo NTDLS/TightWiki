@@ -143,7 +143,7 @@ namespace TightWiki.Site.Controllers
             {
                 try
                 {
-                    PerformLogin(model.EmailAddress, model.Password, false);
+                    PerformLogin(model.EmailAddress, model.Password, false, model.RememberMe);
 
                     if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
                     {

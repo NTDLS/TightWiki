@@ -11,5 +11,7 @@ namespace TightWiki.Shared.Models.View
         [Required]
         [Display(Name = "Password")]
         public string Password { get; set; }
+
+        public bool RememberMe { get; set; }
     }
 }
