@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
@@ -34,14 +35,47 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public IActionResult GoogleLogin()
         {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("Display", "Page", "Home") };
-
+            var returnUrl = Url.Action("Display", "Page", "Home");
             if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
             {
-                properties.RedirectUri = Request.Query["ReturnUrl"];
+                returnUrl = Request.Query["ReturnUrl"];
             }
 
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleLoginCallback", new { ReturnUrl = returnUrl }) };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> GoogleLoginCallback(string returnUrl)
+        {
+            var authenticateResult = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+
+            if (!authenticateResult.Succeeded)
+            {
+                return RedirectToAction("Login", "Account", new { ReturnUrl = returnUrl });
+            }
+
+            var claims = authenticateResult.Principal.Claims.ToList();
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true,
+                RedirectUri = returnUrl
+            };
+
+            var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
+            var firstIdentity = result.Principal.Identities.FirstOrDefault();
+            var emailddress = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Email)?.FirstOrDefault().Value;
+
+            var user = UserRepository.GetUserByEmail(emailddress);
+            if (user == null)
+            {
+                await HttpContext.SignOutAsync();
+                return RedirectToAction("AccountNotFound", "Account");
+            }
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+            return LocalRedirect(returnUrl);
         }
 
         [HttpGet]
@@ -65,7 +99,7 @@ namespace TightWiki.Site.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
-            if (context.User.Provider != "Login")
+            if (context.User.Provider != "Native")
             {
                 throw new NotSupportedException();
             }
@@ -77,7 +111,7 @@ namespace TightWiki.Site.Controllers
         [Authorize]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
-            if (context.User.Provider != "Login")
+            if (context.User.Provider != "Native")
             {
                 throw new NotSupportedException();
             }
@@ -190,7 +224,7 @@ namespace TightWiki.Site.Controllers
                 var siteName = basicConfig.As<string>("Name");
                 var address = basicConfig.As<string>("Address");
 
-                if (user.Provider != "Login")
+                if (user.Provider != "Native")
                 {
                     //TODO: This should send an email to the user to let them know what their provider is.
                     throw new NotImplementedException();
@@ -235,7 +269,7 @@ namespace TightWiki.Site.Controllers
 
             if (user != null)
             {
-                if (user.Provider != "Login")
+                if (user.Provider != "Native")
                 {
                     //TODO: This should send an email to the user to let them know what their provider is.
                     throw new NotImplementedException();
@@ -273,7 +307,7 @@ namespace TightWiki.Site.Controllers
 
                 if (user != null)
                 {
-                    if (user.Provider != "Login")
+                    if (user.Provider != "Native")
                     {
                         //TODO: This should send an email to the user to let them know what their provider is.
                         throw new NotImplementedException();
@@ -348,6 +382,18 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult AccountNotFound()
+        {
+            ViewBag.Config.Title = $"Account not found";
+
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+
+            return View();
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
@@ -483,7 +529,7 @@ namespace TightWiki.Site.Controllers
                     AboutMe = string.Empty,
                     Role = defaultSignupRole,
                     VerificationCode = Security.GenerateRandomString(6),
-                    Provider = "Login"
+                    Provider = "Native"
                 };
 
                 if (context.IsPartiallyAuthenticated)

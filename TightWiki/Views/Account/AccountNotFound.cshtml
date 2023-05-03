@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <table class="fixedTable100" border="0" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="left">
+                    <h3>Account not found!</h3>
+                    The email address associated with the idendity you provided could not be matched to a wiki account.<br /><br />
+                    Instead of logging in, you'll need to create an account.
+
+                    <br /><br />
+                    @if (ViewBag.AllowSignup == true)
+                    {
+                        @:Not a member? @Html.ActionLink("Signup", "Signup", "Account").<br />
+                    }
+                    Already a member? <a href="/Account/Login">Login</a>.<br />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -47,7 +47,7 @@
                                     </td>
                                 </tr>
 
-                                @if (ViewBag.Context.User.Provider == "Login")
+                                @if (ViewBag.Context.User.Provider == "Native")
                                 {
                                     <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.EmailAddress)</div></td></tr>
                                     <tr class="padded">

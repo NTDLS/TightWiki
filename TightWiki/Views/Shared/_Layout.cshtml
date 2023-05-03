@@ -116,7 +116,7 @@
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item text-dark" href="/Account/UserProfile">Profile</a>
-                                    @if(ViewBag.Context?.User?.Provider == "Login")
+                                    @if (ViewBag.Context?.User?.Provider == "Native")
                                     {
                                         <a class="dropdown-item text-dark" href="/Account/ChangePassword">Change Password</a>
                                     }

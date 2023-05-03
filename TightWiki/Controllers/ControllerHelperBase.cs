@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models;
@@ -68,41 +69,50 @@ namespace TightWiki.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                int? userId = null;
-
-                if (User.Identity.AuthenticationType == "Google")
+                try
                 {
-                    var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
-                    var firstIdentity = result.Principal.Identities.FirstOrDefault();
-                    var emailddress = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Email)?.FirstOrDefault().Value;
-                    var lastName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Surname)?.FirstOrDefault().Value;
-                    var firstName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.GivenName)?.FirstOrDefault().Value;
-                    context.IsPartiallyAuthenticated = true;
+                    int? userId = null;
 
-                    var user = UserRepository.GetUserByEmail(emailddress);
-                    if (user != null)
+                    if (User.Identity.AuthenticationType == "Google")
                     {
-                        firstIdentity.AddClaim(new Claim(ClaimTypes.Name, user.AccountName));
-                        firstIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
-                        firstIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
-                        userId = user.Id;
+                        var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
+                        var firstIdentity = result.Principal.Identities.FirstOrDefault();
+                        var emailddress = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Email)?.FirstOrDefault().Value;
+                        var lastName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Surname)?.FirstOrDefault().Value;
+                        var firstName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.GivenName)?.FirstOrDefault().Value;
+                        context.IsPartiallyAuthenticated = true;
+
+                        var user = UserRepository.GetUserByEmail(emailddress);
+                        if (user != null)
+                        {
+                            firstIdentity.AddClaim(new Claim(ClaimTypes.Name, user.AccountName));
+                            firstIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
+                            firstIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
+                            userId = user.Id;
+                        }
+                    }
+                    else
+                    {
+                        userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
+                    }
+
+                    var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString();
+                    if (userId != null && role != null)
+                    {
+                        context.IsAuthenticated = User.Identity.IsAuthenticated;
+                        context.IsPartiallyAuthenticated = false;
+                        if (context.IsAuthenticated)
+                        {
+                            context.Role = role;
+                            context.User = UserRepository.GetUserById((int)userId);
+                        }
                     }
                 }
-                else
+                catch
                 {
-                    userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-                }
-
-                var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString();
-                if (userId != null && role != null)
-                {
-                    context.IsAuthenticated = User.Identity.IsAuthenticated;
-                    context.IsPartiallyAuthenticated = false;
-                    if (context.IsAuthenticated)
-                    {
-                        context.Role = role;
-                        context.User = UserRepository.GetUserById((int)userId);
-                    }
+                    HttpContext.SignOutAsync();
+                    HttpContext.SignOutAsync(User.Identity.AuthenticationType);
+                    //throw;
                 }
             }
         }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,11 +32,11 @@ namespace TightWiki
 
             Singletons.GoogleAuthenticationClientId = googleAuthNSection["ClientId"];
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddGoogle(options =>
+            services.AddAuthentication(options =>
                 {
-                    options.ClientId = Singletons.GoogleAuthenticationClientId;
-                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
                 })
                 .AddCookie("Cookies", options =>
                 {
@@ -43,6 +44,12 @@ namespace TightWiki
                     options.LoginPath = "/Account/Login";
                     options.ExpireTimeSpan = TimeSpan.FromDays(7);
                     options.SlidingExpiration = true;
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = Singletons.GoogleAuthenticationClientId;
+                    options.ClientSecret = googleAuthNSection["ClientSecret"];
+
                 });
 ;
             /*
@@ -54,14 +61,6 @@ namespace TightWiki
                });
             */
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromDays(7); // Keep the user logged in for 7 days
-                options.SlidingExpiration = true; // Renew the cookie if it's halfway to expiring
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-            });
 
             /* https://khalidabuhakmeh.com/how-to-map-a-route-in-an-aspnet-core-mvc-application
              * First, since all controllers are built (newed up) by the service locator within ASP.NET Core,
