@@ -20,3 +20,5 @@ CreateDatabaseSeeds/bin/
 CreateDatabaseSeeds/obj/
 
 TightWiki.Shared/Properties/PublishProfiles/
+
+TightWiki/appsettings.json
