@@ -327,7 +327,10 @@ namespace TightWiki.Site.Controllers
                     {
                         var wiki = new Wikifier(context, page, pageRevision, Request.Query);
                         model.Body = wiki.ProcessedBody;
-                        Cache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                        if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                        {
+                            Cache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                        }
                     }
                 }
                 else

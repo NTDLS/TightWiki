@@ -1005,6 +1005,14 @@ namespace TightWiki.Shared.Wiki
                     //We check _nestLevel here because we dont want to include the processing instructions on any parent pages that are injecting this one.
 
                     //------------------------------------------------------------------------------------------------------------------------------
+                    case "nocache":
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.NoCache);
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "deprecate":
                         {
                             if (_nestLevel == 0)

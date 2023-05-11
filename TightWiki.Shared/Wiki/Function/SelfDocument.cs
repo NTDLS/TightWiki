@@ -24,7 +24,7 @@ namespace TightWiki.Shared.Wiki.Function
                 }
                 if (item.FunctionPrefix == "@@")
                 {
-                    functionType = "Instruction Function";
+                    functionType = "Instruction";
                 }
                 if (item.FunctionPrefix == "$$")
                 {

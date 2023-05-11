@@ -74,6 +74,7 @@
                     _functionPrototypes.Add("@@Protect:<bool>{isSilent}='false'");
                     _functionPrototypes.Add("@@Template:");
                     _functionPrototypes.Add("@@Review:");
+                    _functionPrototypes.Add("@@NoCache:");
                     _functionPrototypes.Add("@@Include:");
                     _functionPrototypes.Add("@@Draft:");
                 }

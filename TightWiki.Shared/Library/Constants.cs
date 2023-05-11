@@ -13,6 +13,7 @@
             public static string Review { get; } = "Review";
             public static string Include { get; } = "Include";
             public static string Draft { get; } = "Draft";
+            public static string NoCache { get; } = "NoCache";
         }
 
         public static class Roles
