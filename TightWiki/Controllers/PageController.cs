@@ -306,7 +306,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id, pageRevision);
                 ViewBag.Config.Title = page.Title;
 
-                bool allowCache = true;
+                bool allowCache = context.Config.PageCacheSeconds > 0;
 
                 if (allowCache)
                 {
@@ -329,7 +329,7 @@ namespace TightWiki.Site.Controllers
                         model.Body = wiki.ProcessedBody;
                         if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            Cache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                            Cache.Put(cacheKey, wiki.ProcessedBody, context.Config.PageCacheSeconds); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
                         }
                     }
                 }

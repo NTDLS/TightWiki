@@ -45,6 +45,7 @@ namespace TightWiki.Controllers
                 IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta"),
                 IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta"),
                 IncludeSearchOnNavbar = functConfig.As<bool>("Include Search on Navbar"),
+                PageCacheSeconds = functConfig.As<int>("Page Cache Time (Seconds)"),
                 HTMLHeader = htmlConfig.As<string>("Header"),
                 HTMLFooter = htmlConfig.As<string>("Footer"),
                 HTMLPreBody = htmlConfig.As<string>("Pre-Body"),

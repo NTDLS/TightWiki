@@ -6,7 +6,7 @@ namespace TightWiki.Shared.Library
 {
     public class Cache
     {
-        const int DefaultCacheMinutes = 5;
+        const int DefaultCacheSeconds = 5 * 60;
 
         public static MemoryCache Memcache { get; set; } = new MemoryCache("RepositoryBase");
 
@@ -15,7 +15,7 @@ namespace TightWiki.Shared.Library
             return (T)Memcache.Get(key);
         }
 
-        public static void Put(string key, object value, int minutes = DefaultCacheMinutes)
+        public static void Put(string key, object value, int seconds = DefaultCacheSeconds)
         {
             if (value == null)
             {
@@ -24,7 +24,7 @@ namespace TightWiki.Shared.Library
 
             var policy = new CacheItemPolicy()
             {
-                AbsoluteExpiration = System.DateTimeOffset.Now.AddMinutes(minutes)
+                AbsoluteExpiration = System.DateTimeOffset.Now.AddSeconds(seconds)
             };
             Memcache.Add(key, value, policy);
         }
