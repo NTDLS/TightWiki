@@ -24,7 +24,7 @@ namespace TightWiki.Shared.Wiki.Function
                 }
                 if (item.FunctionPrefix == "@@")
                 {
-                    functionType = "Instruction";
+                    functionType = "Instruction Function";
                 }
                 if (item.FunctionPrefix == "$$")
                 {
@@ -32,7 +32,13 @@ namespace TightWiki.Shared.Wiki.Function
                     functionPrefix = string.Empty;
                 }
 
-                string topic = $"Wiki Help :: {item.ProperName} - {functionType}";
+                string topic = $"Wiki Help :: {item.ProperName}";
+
+                if (functionType == "Instruction Function")
+                {
+                    topic = $"Wiki Help :: {item.ProperName} - Instruction";
+                }
+
                 string navigation = WikiUtility.CleanPartialURI(topic);
 
                 var page = PageRepository.GetPageInfoByNavigation(navigation);
@@ -157,7 +163,7 @@ namespace TightWiki.Shared.Wiki.Function
                     {
                         Navigation = navigation,
                         Name = topic,
-                        Description = $"Documentation of the built-in {item.ProperName.ToLower()} {functionType.ToLower()}.",
+                        Description = $"Documentation of the built-in {item.ProperName.ToLower()} {functionType.ToLower()} !!FILL_IN_THE_BLANK!!.",
                         CreatedByUserId = 1,
                         CreatedDate = DateTime.UtcNow,
                         ModifiedByUserId = 1,

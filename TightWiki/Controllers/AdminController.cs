@@ -23,6 +23,27 @@ namespace TightWiki.Site.Controllers
     {
         [Authorize]
         [HttpGet]
+        public ActionResult Stats()
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = new StatsModel()
+            {
+                DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats(),
+                CachedItemCount = Cache.Memcache.Count(),
+                CacheMemoryLimit = Cache.Memcache.CacheMemoryLimit
+            };
+
+            ViewBag.Config.Title = $"Statistics";
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
         public ActionResult Moderate(int page)
         {
             if (context.CanAdmin == false && context.CanModerate == false)

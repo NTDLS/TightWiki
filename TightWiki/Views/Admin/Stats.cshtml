@@ -1,0 +1,81 @@
+﻿@model TightWiki.Shared.Models.View.StatsModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-header"><h3>Statistics</h3></div>
+    <div class="card-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            All pages contained in the wiki.<br /><br />
+        </font>
+
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+
+        <table class="fixedTable100" border="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="left">
+
+                        @if (Model.ErrorMessage != null)
+                        {
+                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                        }
+                        @if (Model.SuccessMessage != null)
+                        {
+                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                        }
+
+                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><strong>Pages</strong></td>
+                                <td><strong>Page Revisions</strong></td>
+                                <td><strong>Page Attachments</strong></td>
+                                <td><strong>Inter-Page Links</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>@Model.DatabaseStats.Pages</td>
+                                <td>@Model.DatabaseStats.PageRevisions</td>
+                                <td>@Model.DatabaseStats.PageAttachments</td>
+                                <td>@Model.DatabaseStats.IntraLinks</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Page Tags</strong></td>
+                                <td><strong>Page Attachment Revisions</strong></td>
+                                <td><strong>Page Search Tokens</strong></td>
+                                <td><strong>Users</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>@Model.DatabaseStats.PageTags</td>
+                                <td>@Model.DatabaseStats.PageAttachmentRevisions</td>
+                                <td>@Model.DatabaseStats.PageSearchTokens</td>
+                                <td>@Model.DatabaseStats.Users</td>
+                            </tr>
+
+                            <tr>
+                                <td><strong>Exceptions</strong></td>
+                                <td><strong>Cached Items</strong></td>
+                                <td><strong>Cache Memory Limit</strong></td>
+                                <td><strong>&nbsp;</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>@Model.DatabaseStats.Exceptions</td>
+                                <td>@Model.CachedItemCount</td>
+                                <td>@Model.CacheMemoryLimit</td>
+                                <td>&nbsp;</td>
+                            </tr>
+
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
