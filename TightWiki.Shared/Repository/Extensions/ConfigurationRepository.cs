@@ -10,6 +10,13 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class ConfigurationRepository
     {
+        public static WikiDatabaseStats GetWikiDatabaseStats()
+        {
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<WikiDatabaseStats>("GetWikiDatabaseStats",
+                null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+        }
+
         public static bool IsFirstRun(string content, string passphrase)
         {
             using var handler = new SqlConnectionHandler();
