@@ -3,11 +3,14 @@
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that “checks all the boxes” – so I wrote one.
 
-TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
+:yum: TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
-**Be sure to check out the screenshots below and also http://TightWiki.com/**
+# :crossed_fingers:	Play with the latest dev build at http://TightWiki.com/
+:boom: You can play with the demo by signing up with with google auth or native TightWiki login.
 
-# Features (some of them anyway)
+:boom: Also be sure to check out the screenshots below the feature list...
+
+# :astonished: Features (some of them anyway)
 * LGPL license , you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
 * Completely customizable and rebrandable including name, title, footer, copyright and all images.
