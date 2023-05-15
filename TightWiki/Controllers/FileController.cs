@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting.Internal;
 using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
@@ -8,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using TightWiki.Controllers;
+using TightWiki.Shared;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
@@ -20,6 +24,13 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class FileController : ControllerHelperBase
     {
+        private IWebHostEnvironment _env;
+
+        public FileController(IWebHostEnvironment env)
+        {
+            _env = env;
+        }
+
         /// <summary>
         /// Uploads a file by drag drop.
         /// </summary>
@@ -226,6 +237,50 @@ namespace TightWiki.Site.Controllers
             {
                 return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
+        }
+
+        /// <summary>
+        /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Emoji(string pageNavigation)
+        {
+            if (context.CanView == false)
+            {
+                return Unauthorized();
+            }
+
+            string shortcut = $"::{pageNavigation.ToLower()}::";
+            var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+            if (emoji != null)
+            {
+                string filePath = Path.Combine(_env.WebRootPath, "images\\emoji", emoji.Path.TrimStart('/'));
+                string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
+                var img = SixLabors.ImageSharp.Image.Load(filePath);
+
+                int iscale = int.Parse(scale);
+                if (iscale != 100)
+                {
+                    int width = (int)(img.Width * (iscale / 100.0));
+                    int height = (int)(img.Height * (iscale / 100.0));
+
+                    using var bmp = Images.ResizeImage(img, width, height);
+                    using MemoryStream ms = new MemoryStream();
+                    bmp.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
+                }
+                else
+                {
+                    using MemoryStream ms = new MemoryStream();
+                    img.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
+                }
+            }
+
+            return NotFound($"Emoji {pageNavigation} was not found");
         }
 
         /// <summary>

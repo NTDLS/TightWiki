@@ -163,6 +163,7 @@ namespace TightWiki.Shared.Wiki
             TransformVariables(pageContent);
             TransformLinks(pageContent);
             TransformMarkup(pageContent);
+            TransformEmoji(pageContent);
             TransformFunctions(pageContent, true);
             TransformFunctions(pageContent, false);
             TransformProcessingInstructions(pageContent);
@@ -760,6 +761,49 @@ namespace TightWiki.Shared.Wiki
             {
                 var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                 pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+            }
+        }
+
+        private void TransformEmoji(WikiString pageContent)
+        {
+            var rgx = new Regex(@"(::.+?::)", RegexOptions.IgnoreCase);
+            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in matches)
+            {
+                string key = match.Value.Trim().ToLower().Trim(':');
+                int scale = 100;
+
+                var parts = key.Split(',');
+                if (parts.Length > 1)
+                {
+                    key = parts[0]; //Image key;
+                    scale = int.Parse(parts[1]); //Image scale.
+                }
+
+                key = $"::{key}::";
+
+                var emoji = Global.Emojis.FirstOrDefault(o => o.Shortcut == key);
+
+                if (Global.Emojis.Exists(o=>o.Shortcut == key))
+                {
+                    if (scale != 100 && scale > 0 && scale <= 500)
+                    {
+                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim(':')}?Scale={scale}\" alt=\"{emoji.Name}\" />";
+                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
+                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                    }
+                    else
+                    {
+                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim(':')}\" alt=\"{emoji.Name}\" />";
+                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
+                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                    }
+                }
+                else
+                {
+                    var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, string.Empty);
+                    pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                }
             }
         }
 

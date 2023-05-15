@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using TightWiki.Shared;
 
 namespace TightWiki
 {
@@ -224,6 +225,8 @@ namespace TightWiki
             });
 
             Shared.ADO.Singletons.ConnectionString = ConfigurationExtensions.GetConnectionString(this.Configuration, "TightWikiADO");
+
+            Global.PreloadSingletons();
         }
     }
 }

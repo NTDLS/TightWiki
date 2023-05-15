@@ -10,6 +10,13 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class ConfigurationRepository
     {
+        public static List<Emoji>GetAllEmojis()
+        {
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<Emoji>("GetAllEmojis",
+               null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+        }
+
         public static WikiDatabaseStats GetWikiDatabaseStats()
         {
             using var handler = new SqlConnectionHandler();

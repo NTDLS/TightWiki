@@ -18,10 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\images\TightWiki Icon 128.png" />
     <None Include="wwwroot\images\TightWiki Icon 16.png" />
     <None Include="wwwroot\images\TightWiki Icon 32.png" />
