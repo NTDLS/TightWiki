@@ -25,18 +25,14 @@ namespace TightWiki
         {
             services.AddRazorPages();
 
-            //Manage oauth credentials:
-            //https://console.cloud.google.com/apis/credentials
-
             IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-
             Singletons.GoogleAuthenticationClientId = googleAuthNSection["ClientId"];
 
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
                 .AddCookie("Cookies", options =>
                 {
@@ -45,13 +41,15 @@ namespace TightWiki
                     options.ExpireTimeSpan = TimeSpan.FromDays(7);
                     options.SlidingExpiration = true;
                 })
+                //https://console.cloud.google.com/apis/credentials
+                //"/Page/Edit/development_notes"
                 .AddGoogle(options =>
                 {
                     options.ClientId = Singletons.GoogleAuthenticationClientId;
                     options.ClientSecret = googleAuthNSection["ClientSecret"];
 
                 });
-;
+
             /*
             //Microsoft.AspNetCore.Authentication.MicrosoftAccount
                .AddMicrosoftAccount(microsoftOptions =>
@@ -61,14 +59,12 @@ namespace TightWiki
                });
             */
 
-
             /* https://khalidabuhakmeh.com/how-to-map-a-route-in-an-aspnet-core-mvc-application
              * First, since all controllers are built (newed up) by the service locator within ASP.NET Core,
              * we need to have the framework scan our project and register all Controller types. Registering
              * controllers is accomplished in the ConfigureServices method in our Startup class.
              */
             services.AddControllersWithViews();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -228,7 +224,6 @@ namespace TightWiki
             });
 
             Shared.ADO.Singletons.ConnectionString = ConfigurationExtensions.GetConnectionString(this.Configuration, "TightWikiADO");
-
         }
     }
 }
