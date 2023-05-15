@@ -10,6 +10,21 @@ namespace TightWiki.Shared.Repository
 {
     public static partial class ConfigurationRepository
     {
+        public static List<EmojiCategory> GetEmojiCategoriesGrouped()
+        {
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<EmojiCategory>("GetEmojiCategoriesGrouped",
+               null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+        }
+
+        public static List<Emoji> GetEmojisByCategory(string category)
+        {
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<Emoji>("GetEmojisByCategory",
+               new { Category = category }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+        }
+
+
         public static List<Emoji>GetAllEmojis()
         {
             using var handler = new SqlConnectionHandler();

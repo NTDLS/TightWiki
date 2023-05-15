@@ -784,7 +784,7 @@ namespace TightWiki.Shared.Wiki
 
                 var emoji = Global.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
-                if (Global.Emojis.Exists(o=>o.Shortcut == key))
+                if (Global.Emojis.Exists(o => o.Shortcut == key))
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {
@@ -1047,6 +1047,90 @@ namespace TightWiki.Shared.Wiki
                 switch (function.Name.ToLower())
                 {
                     //We check _nestLevel here because we dont want to include the processing instructions on any parent pages that are injecting this one.
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "systememojilist":
+                        {
+                            StringBuilder html = new();
+
+                            html.Append($"<table class=\"table table-striped table-bordered \">");
+
+                            int rowNumber = 0;
+
+                            html.Append($"<thead>");
+                            html.Append($"<tr>");
+                            html.Append($"<td><strong>Name</strong></td>");
+                            html.Append($"<td><strong>Image</strong></td>");
+                            html.Append($"<td><strong>Shortcut</strong></td>");
+                            html.Append($"</tr>");
+                            html.Append($"</thead>");
+
+                            string category = _queryString["Category"].ToString();
+
+                            var emojis = ConfigurationRepository.GetEmojisByCategory(category);
+
+                            foreach (var emoji in emojis)
+                            {
+                                if (rowNumber == 1)
+                                {
+                                    html.Append($"<tbody>");
+                                }
+
+                                html.Append($"<tr>");
+                                html.Append($"<td>{emoji.Name}</td>");
+                                html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
+                                html.Append($"<td>{emoji.Shortcut}</td>");
+                                html.Append($"</tr>");
+
+                                rowNumber++;
+                            }
+
+                            html.Append($"</tbody>");
+                            html.Append($"</table>");
+
+
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, html.ToString(), false);
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "systememojicategorylist":
+                        {
+                            var categories = ConfigurationRepository.GetEmojiCategoriesGrouped();
+
+                            StringBuilder html = new();
+
+                            html.Append($"<table class=\"table table-striped table-bordered \">");
+
+                            int rowNumber = 0;
+
+                            html.Append($"<thead>");
+                            html.Append($"<tr>");
+                            html.Append($"<td><strong>Name</strong></td>");
+                            html.Append($"<td><strong>Count of Emojis</strong></td>");
+                            html.Append($"</tr>");
+                            html.Append($"</thead>");
+
+                            foreach (var category in categories)
+                            {
+                                if (rowNumber == 1)
+                                {
+                                    html.Append($"<tbody>");
+                                }
+
+                                html.Append($"<tr>");
+                                html.Append($"<td><a href=\"/wiki_help_list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
+                                html.Append($"<td>{category.EmojiCount:N0}</td>");
+                                html.Append($"</tr>");
+                                rowNumber++;
+                            }
+
+                            html.Append($"</tbody>");
+                            html.Append($"</table>");
+
+
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, html.ToString(), false);
+                        }
+                        break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "nocache":

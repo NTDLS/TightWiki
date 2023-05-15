@@ -77,6 +77,10 @@
                     _functionPrototypes.Add("@@NoCache:");
                     _functionPrototypes.Add("@@Include:");
                     _functionPrototypes.Add("@@Draft:");
+
+                    //System functions:
+                    _functionPrototypes.Add("@@SystemEmojiCategoryList:");
+                    _functionPrototypes.Add("@@SystemEmojiList:");
                 }
 
                 return _functionPrototypes;
