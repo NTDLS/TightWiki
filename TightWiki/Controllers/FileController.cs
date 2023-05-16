@@ -254,40 +254,43 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            string shortcut = $":{pageNavigation.ToLower()}:";
-            var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
-            if (emoji != null)
+            if (string.IsNullOrEmpty(pageNavigation) == false)
             {
-                emoji.ImageData = Cache.Get<byte[]>($"Emoji::{shortcut}");
-                if (emoji.ImageData == null)
+                string shortcut = $":{pageNavigation.ToLower()}:";
+                var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+                if (emoji != null)
                 {
-                    //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
-                    emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
-                    Cache.Put($"Emoji::{shortcut}", emoji.ImageData);
-                }
+                    emoji.ImageData = Cache.Get<byte[]>($"Emoji::{shortcut}");
+                    if (emoji.ImageData == null)
+                    {
+                        //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
+                        emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+                        Cache.Put($"Emoji::{shortcut}", emoji.ImageData);
+                    }
 
-                if (emoji.ImageData != null)
-                {
-                    string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
-                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                    if (emoji.ImageData != null)
+                    {
+                        string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
+                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
 
-                    int iscale = int.Parse(scale);
-                    int defaultHeight = Global.DefaultEmojiHeight;
-                    int height = img.Height;
-                    int width = img.Width;
+                        int iscale = int.Parse(scale);
+                        int defaultHeight = Global.DefaultEmojiHeight;
+                        int height = img.Height;
+                        int width = img.Width;
 
-                    int difference = height - defaultHeight;
+                        int difference = height - defaultHeight;
 
-                    height -= difference;
-                    width -= difference;
+                        height -= difference;
+                        width -= difference;
 
-                    height = (int)(height * (iscale / 100.0));
-                    width = (int)(width * (iscale / 100.0));
+                        height = (int)(height * (iscale / 100.0));
+                        width = (int)(width * (iscale / 100.0));
 
-                    using var bmp = Images.ResizeImage(img, width, height);
-                    using MemoryStream ms = new MemoryStream();
-                    bmp.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
+                        using var bmp = Images.ResizeImage(img, width, height);
+                        using MemoryStream ms = new MemoryStream();
+                        bmp.SaveAsPng(ms);
+                        return File(ms.ToArray(), "image/png");
+                    }
                 }
             }
 

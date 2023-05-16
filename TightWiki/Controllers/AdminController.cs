@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1010,7 +1011,7 @@ namespace TightWiki.Site.Controllers
             var model = new EmojiModel()
             {
                 Emoji = EmojiRepository.GetEmojiByName(name),
-                Categories = String.Join(", ", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
+                Categories = String.Join(",", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
             };
 
             model.OriginalName = model.Emoji.Name;
@@ -1031,24 +1032,6 @@ namespace TightWiki.Site.Controllers
             {
                 return Unauthorized();
             }
-
-            /*
-            var file = Request.Form.Files["Avatar"];
-            if (file != null && file.Length > 0)
-            {
-                try
-                {
-                    var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                    //This is just to ensure this is a valid image:
-                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                    UserRepository.UpdateUserAvatar(user.Id, imageBytes);
-                }
-                catch
-                {
-                    ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
-                }
-            }
-            */
 
             if (ModelState.IsValid)
             {
@@ -1089,11 +1072,146 @@ namespace TightWiki.Site.Controllers
 
                 model.OriginalName = model.Emoji.Name;
                 model.SuccessMessage = "The emoji has been saved successfully!.";
-
-                Cache.ClearClass("Emoji::");
+                model.Emoji.Id = emoji.Id;
+                ModelState.Clear();
             }
 
             return View(model);
         }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult AddEmoji()
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = new AddEmojiModel()
+            {
+                Name = string.Empty,
+                OriginalName = string.Empty,
+                Categories = string.Empty
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save user profile.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult AddEmoji(AddEmojiModel model)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (string.IsNullOrEmpty(model.OriginalName) == false && model.OriginalName.ToLower() != model.Name.ToLower())
+                {
+                    var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
+                    if (checkName != null)
+                    {
+                        ModelState.AddModelError("Name", "Emoji name is already in use.");
+                        return View(model);
+                    }
+                }
+
+                var categories = model.Categories.ToLower().Split(',').ToList();
+                categories.Add(model.Name);
+                categories.AddRange(model.Name.Split('_'));
+                categories.AddRange(model.Name.Split(' '));
+                categories.AddRange(model.Name.Split('-'));
+                categories = categories.Select(c => c.ToLowerInvariant().Trim()).Distinct().OrderBy(o => o).ToList();
+
+                var emoji = new Emoji
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                    Categories = string.Join(",", categories)
+                };
+
+                emoji.Id = EmojiRepository.SaveEmoji(emoji);
+
+                var file = Request.Form.Files["ImageData"];
+                if (file != null && file.Length > 0)
+                {
+                    try
+                    {
+                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                        //This is just to ensure this is a valid image:
+                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
+                        EmojiRepository.UpdatEmojiImage(emoji.Id, imageBytes);
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("Name", "Could not save the attached image.");
+                    }
+                }
+
+                model.Id = emoji.Id;
+                model.OriginalName = model.Name;
+                model.Categories = emoji.Categories;
+                model.SuccessMessage = "The emoji has been saved successfully!.";
+                ModelState.Clear();
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult DeleteEmoji(string name, EmojiModel model)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var emoji = EmojiRepository.GetEmojiByName(name);
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true && emoji != null)
+            {
+                EmojiRepository.DeleteById(emoji.Id);
+                Cache.ClearClass($"Emoj::");
+                return RedirectToAction("Emojis", "Admin");
+            }
+
+            return RedirectToAction("Emoji", "Admin", new { name = name });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult DeleteEmoji(string name)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var emoji = EmojiRepository.GetEmojiByName(name);
+
+            ViewBag.Name = emoji.Name;
+
+            var model = new EmojiModel()
+            {
+            };
+
+            if (emoji != null)
+            {
+                ViewBag.Context.Title = $"{emoji.Name} Delete";
+            }
+
+            return View(model);
+        }
+
     }
 }

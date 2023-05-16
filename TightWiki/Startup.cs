@@ -200,17 +200,23 @@ namespace TightWiki
                 endpoints.MapControllerRoute(
                     name: "Admin_Emoji",
                     pattern: "Admin/Emoji/{name}",
-                    defaults: new { controller = "Admin", action = "Emoji", name = "admin" }
+                    defaults: new { controller = "Admin", action = "Emoji", name = "undefined" }
                 );
 
                 endpoints.MapControllerRoute(
-                    name: "Admin_Account",
+                    name: "Admin_DeleteEmoji",
+                    pattern: "Admin/DeleteEmoji/{name}",
+                    defaults: new { controller = "Admin", action = "DeleteEmoji", name = "undefined" }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "Admin_DeleteAccount",
                     pattern: "Admin/DeleteAccount/{navigation}",
                     defaults: new { controller = "Admin", action = "DeleteAccount", navigation = "undefined" }
                 );
 
                 endpoints.MapControllerRoute(
-                    name: "Admin_Account",
+                    name: "Admin_Account_Page",
                     pattern: "Admin/Role/{navigation}/{page}",
                     defaults: new { controller = "Admin", action = "Role", navigation = "member", page = "1" }
                 );
