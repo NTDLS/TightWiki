@@ -66,9 +66,9 @@
 
                             if (@ViewBag.PreviousPage != null)
                             {
-                                <a href="/Admin/Emojis/1?Token=@Model.Categories">&lt;&lt; First</a>
+                                <a href="/Admin/Emojis/1?Categories=@Model.Categories">&lt;&lt; First</a>
                                 @:&nbsp; | &nbsp;
-                                <a href="/Admin/Emojis/@ViewBag.PreviousPage?Token=@Model.Categories">&lt; Previous</a>
+                                <a href="/Admin/Emojis/@ViewBag.PreviousPage?Categories=@Model.Categories">&lt; Previous</a>
                             }
                             else
                             {
@@ -78,9 +78,9 @@
 
                             if (@ViewBag.NextPage != null)
                             {
-                                <a href="/Admin/Emojis/@ViewBag.NextPage?Token=@Model.Categories">Next &gt;</a>
+                                <a href="/Admin/Emojis/@ViewBag.NextPage?Categories=@Model.Categories">Next &gt;</a>
                                 @:&nbsp; | &nbsp;
-                                <a href="/Admin/Emojis/@ViewBag.PaginationCount?Token=@Model.Categories">Last &gt;&gt;</a>
+                                <a href="/Admin/Emojis/@ViewBag.PaginationCount?Categories=@Model.Categories">Last &gt;&gt;</a>
                             }
                             else
                             {

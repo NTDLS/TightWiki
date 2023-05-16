@@ -3,6 +3,21 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+<script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', (event) => {
+
+        const imageData = document.getElementById('ImageData');
+        const categories = document.getElementById('Categories');
+        const name = document.getElementById('Name');
+
+        imageData.addEventListener('change', (event) => {
+            const selectedFile = event.target.files[0];
+            name.value = selectedFile.name.substr(0, selectedFile.name.lastIndexOf('.')).replace(/ /g, '-').replace(/_/g, '-');
+            categories.value = name.value.replace(/-/g, ',');
+        });
+    });
+</script>
+
 <div class="card">
     <div class="card-header"><h3>Add Emoji</h3></div>
     <div class="card-body">
@@ -24,7 +39,7 @@
                         {
                             <div class="alert alert-danger">@Model.ErrorMessage</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (Model.SuccessMessage != null)
                         {
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
@@ -42,9 +57,13 @@
                                     <td>
                                         @if (@Model.Name != "")
                                         {
-                                            <img src="/File/Emoji/@Model.Name" /><br /><br />
+                                            <img src="/File/Emoji/@Model.Name" />
+
+                                            <br />
+
+                                            <br />
                                         }
-                                        <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" />
+                                        <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
                                     </td>
                                 </tr>
 

@@ -8,5 +8,6 @@
         public int PaginationCount { get; set; }
         public string Categories { get; set; }
         public byte[] ImageData { get; set; }
+        public string MimeType { get; set; }
     }
 }

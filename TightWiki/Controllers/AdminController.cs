@@ -1062,7 +1062,7 @@ namespace TightWiki.Site.Controllers
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         //This is just to ensure this is a valid image:
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        EmojiRepository.UpdatEmojiImage(emoji.Id, imageBytes);
+                        EmojiRepository.UpdatEmojiImage(emoji.Id, file.ContentType, imageBytes);
                     }
                     catch
                     {
@@ -1114,7 +1114,7 @@ namespace TightWiki.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(model.OriginalName) == false && model.OriginalName.ToLower() != model.Name.ToLower())
+                if (string.IsNullOrEmpty(model.OriginalName) == true || model.OriginalName.ToLower() != model.Name.ToLower())
                 {
                     var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
                     if (checkName != null)
@@ -1124,7 +1124,7 @@ namespace TightWiki.Site.Controllers
                     }
                 }
 
-                var categories = model.Categories.ToLower().Split(',').ToList();
+                var categories = model.Categories?.ToLower()?.Split(',')?.ToList() ?? new List<string>();
                 categories.Add(model.Name);
                 categories.AddRange(model.Name.Split('_'));
                 categories.AddRange(model.Name.Split(' '));
@@ -1148,7 +1148,7 @@ namespace TightWiki.Site.Controllers
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         //This is just to ensure this is a valid image:
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        EmojiRepository.UpdatEmojiImage(emoji.Id, imageBytes);
+                        EmojiRepository.UpdatEmojiImage(emoji.Id, file.ContentType, imageBytes);
                     }
                     catch
                     {

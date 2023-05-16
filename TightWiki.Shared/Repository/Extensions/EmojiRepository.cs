@@ -2,25 +2,28 @@ using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Xml.Linq;
 using TightWiki.Shared.ADO;
+using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Shared.Repository
 {
     public static partial class EmojiRepository
     {
-        public static void UpdatEmojiImage(int emojiId, byte[] imageData)
+        public static void UpdatEmojiImage(int emojiId, string mimeType, byte[] imageData)
         {
             using var handler = new SqlConnectionHandler();
             var param = new
             {
                 EmojiId = emojiId,
+                MimeType = mimeType,
                 ImageData = imageData,
             };
 
             handler.Connection.Execute("UpdatEmojiImage",
                 param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+
+            Cache.ClearClass("Emoji:");
         }
 
         public static List<EmojiCategory> GetEmojiCategoriesGrouped()
@@ -44,6 +47,13 @@ namespace TightWiki.Shared.Repository
                new { Name = name }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
+        public static Emoji DeleteById(int id)
+        {
+            using var handler = new SqlConnectionHandler();
+            return handler.Connection.Query<Emoji>("DeleteEmojiById",
+               new { Id = id }, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
+        }
+
         public static Emoji GetEmojiByName(string name)
         {
             using var handler = new SqlConnectionHandler();
@@ -58,18 +68,23 @@ namespace TightWiki.Shared.Repository
                null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
-        public static int SaveEmoji(Emoji model)
+        public static int SaveEmoji(Emoji emoji)
         {
             using var handler = new SqlConnectionHandler();
 
             var param = new
             {
-                Name = model.Name,
-                Categories = model.Categories
+                Name = emoji.Name,
+                Categories = emoji.Categories,
+                Id = emoji.Id
             };
 
-            return handler.Connection.ExecuteScalar<int>("SaveEmoji",
+            var result = handler.Connection.ExecuteScalar<int>("SaveEmoji",
                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+
+            Global.ReloadAllEmojis();
+
+            return result;
         }
 
         public static List<Emoji> GetAllEmojisPaged(int pageNumber, int pageSize, string categories)

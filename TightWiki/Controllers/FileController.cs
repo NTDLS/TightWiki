@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Web;
 using TightWiki.Controllers;
 using TightWiki.Shared;
@@ -260,12 +261,12 @@ namespace TightWiki.Site.Controllers
                 var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
-                    emoji.ImageData = Cache.Get<byte[]>($"Emoji::{shortcut}");
+                    emoji.ImageData = Cache.Get<byte[]>($"Emoji:{shortcut}");
                     if (emoji.ImageData == null)
                     {
                         //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
                         emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
-                        Cache.Put($"Emoji::{shortcut}", emoji.ImageData);
+                        Cache.Put($"Emoji:{shortcut}", emoji.ImageData);
                     }
 
                     if (emoji.ImageData != null)
@@ -278,18 +279,46 @@ namespace TightWiki.Site.Controllers
                         int height = img.Height;
                         int width = img.Width;
 
+                        //Get the difference in between the default image height and the image height.
                         int difference = height - defaultHeight;
 
+                        //Apply the new size to the height and width to keep the ratio the same.
                         height -= difference;
                         width -= difference;
 
+                        //Adjust to any specified scaling.
                         height = (int)(height * (iscale / 100.0));
                         width = (int)(width * (iscale / 100.0));
 
-                        using var bmp = Images.ResizeImage(img, width, height);
-                        using MemoryStream ms = new MemoryStream();
-                        bmp.SaveAsPng(ms);
-                        return File(ms.ToArray(), "image/png");
+                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                        //  deminsion to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both demensions.
+                        if (height < 16)
+                        {
+                            difference = 16 - height;
+                            height += difference;
+                            width += difference;
+                        }
+                        if (width < 16)
+                        {
+                            difference = 16 - width;
+                            height += difference;
+                            width += difference;
+                        }
+
+                        if (emoji.MimeType?.ToLower() == "image/gif")
+                        {
+                            var imageBytes = Images.ResizeImageBytes(emoji.ImageData, width, height);
+                            //For the time begin, we do not support resizing gif animations.
+                            return File(imageBytes, emoji.MimeType);
+                        }
+                        else
+                        {
+                            using var bmp = Images.ResizeImage(img, width, height);
+                            using MemoryStream ms = new MemoryStream();
+                            bmp.SaveAsPng(ms);
+                            return File(ms.ToArray(), "image/png");
+                        }
                     }
                 }
             }

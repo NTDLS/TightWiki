@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using PhotoSauce.MagicScaler;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
 
@@ -12,6 +13,22 @@ namespace TightWiki.Shared.Library
             Jpeg,
             Bmp,
             Tiff
+        }
+
+        public static byte[] ResizeImageBytes(byte[] imageBytes, int newWidth, int newHeight)
+        {
+            using (MemoryStream outStream = new())
+            {
+                ProcessImageSettings processImageSettings = new()
+                {
+                    Width = newWidth,
+                    Height = newHeight,
+                    ResizeMode = CropScaleMode.Stretch,
+                    HybridMode = HybridScaleMode.Turbo
+                };
+                MagicImageProcessor.ProcessImage(imageBytes, outStream, processImageSettings);
+                return outStream.ToArray();
+            }
         }
 
         public static Image ResizeImage(Image image, int width, int height)
