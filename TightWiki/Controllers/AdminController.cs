@@ -1095,7 +1095,5 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
-
-
     }
 }
