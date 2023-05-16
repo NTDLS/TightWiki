@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TightWiki.Controllers;
+using TightWiki.Shared;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
@@ -33,7 +34,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet]
         public ActionResult Search(int page)
         {
-            ViewBag.Config.Title = $"Page Search";
+            ViewBag.Context.Title = $"Page Search";
 
             if (page <= 0) page = 1;
 
@@ -78,7 +79,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost]
         public ActionResult Search(int page, PageSearchModel model)
         {
-            ViewBag.Config.Title = $"Page Search";
+            ViewBag.Context.Title = $"Page Search";
 
             page = 1;
 
@@ -148,7 +149,7 @@ namespace TightWiki.Site.Controllers
             if (model.History != null && model.History.Any())
             {
                 context.SetPageId(model.History.First().PageId);
-                ViewBag.Config.Title = $"{model.History.First().Name} History";
+                ViewBag.Context.Title = $"{model.History.First().Name} History";
                 ViewBag.PaginationCount = model.History.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -211,7 +212,7 @@ namespace TightWiki.Site.Controllers
             if (page != null)
             {
                 context.SetPageId(page.Id);
-                ViewBag.Config.Title = $"{page.Name} Delete";
+                ViewBag.Context.Title = $"{page.Name} Delete";
             }
 
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
@@ -275,7 +276,7 @@ namespace TightWiki.Site.Controllers
             if (revisionPage != null)
             {
                 context.SetPageId(revisionPage.Id, pageRevision);
-                ViewBag.Config.Title = $"{revisionPage.Name} Revert";
+                ViewBag.Context.Title = $"{revisionPage.Name} Revert";
             }
 
             return View(model);
@@ -304,9 +305,9 @@ namespace TightWiki.Site.Controllers
                 }
 
                 context.SetPageId(page.Id, pageRevision);
-                ViewBag.Config.Title = page.Title;
+                ViewBag.Context.Title = page.Title;
 
-                bool allowCache = context.Config.PageCacheSeconds > 0;
+                bool allowCache = Global.PageCacheSeconds > 0;
 
                 if (allowCache)
                 {
@@ -329,7 +330,7 @@ namespace TightWiki.Site.Controllers
                         model.Body = wiki.ProcessedBody;
                         if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            Cache.Put(cacheKey, wiki.ProcessedBody, context.Config.PageCacheSeconds); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                            Cache.Put(cacheKey, wiki.ProcessedBody, Global.PageCacheSeconds); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
                         }
                     }
                 }
@@ -348,7 +349,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(null, pageRevision);
 
                 var wiki = new Wikifier(context, notExistsPage, null, Request.Query);
-                ViewBag.Config.Title = notExistsPage.Name;
+                ViewBag.Context.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
@@ -365,7 +366,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(null, null);
 
                 var wiki = new Wikifier(context, notExistsPage, null, Request.Query);
-                ViewBag.Config.Title = notExistsPage.Name;
+                ViewBag.Context.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
                 if (context.IsAuthenticated && context.CanCreate)
@@ -415,7 +416,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id);
 
                 //Editing an existing page.
-                ViewBag.Config.Title = page.Title;
+                ViewBag.Context.Title = page.Title;
 
                 return View(new EditPageModel()
                 {
@@ -524,7 +525,7 @@ namespace TightWiki.Site.Controllers
                     page.Navigation = WikiUtility.CleanPartialURI(model.Name);
                     page.Description = model.Description ?? "";
 
-                    ViewBag.Config.Title = page.Title;
+                    ViewBag.Context.Title = page.Title;
 
                     SavePage(page);
 

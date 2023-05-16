@@ -10,10 +10,12 @@ namespace TightWiki.Shared.Library
 {
     public class StateContext
     {
-        /// <summary>
-        /// A more accesible code frendly reference to what's in the viewbag.
-        /// </summary>
-        public ViewBagConfig Config { get; set; }
+        public string PageNavigation { get; set; }
+        public string PageRevision { get; set; }
+        public string PathAndQuery { get; set; }
+        public string PageTags { get; set; }
+        public string PageDescription { get; set; }
+        public string Title { get; set; }
         public bool IsAuthenticated { get; set; }
 
         /// <summary>
@@ -35,7 +37,7 @@ namespace TightWiki.Shared.Library
         {
             if (User == null)
             {
-                return TimeZoneInfo.FindSystemTimeZoneById(Config.DefaultTimeZone);
+                return TimeZoneInfo.FindSystemTimeZoneById(Global.DefaultTimeZone);
             }
             return TimeZoneInfo.FindSystemTimeZoneById(User.TimeZone);
         }
@@ -50,13 +52,13 @@ namespace TightWiki.Shared.Library
 
                 ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
 
-                if (Config.IncludeWikiDescriptionInMeta)
+                if (Global.IncludeWikiDescriptionInMeta)
                 {
-                    Config.PageDescription = page.Description;
+                    PageDescription = page.Description;
                 }
-                if (Config.IncludeWikiTagsInMeta)
+                if (Global.IncludeWikiTagsInMeta)
                 {
-                    Config.PageTags = string.Join(",", PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag));
+                    PageTags = string.Join(",", PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag));
                 }
             }
             else

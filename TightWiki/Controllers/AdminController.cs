@@ -37,7 +37,7 @@ namespace TightWiki.Site.Controllers
                 CacheMemoryLimit = Cache.Memcache.CacheMemoryLimit
             };
 
-            ViewBag.Config.Title = $"Statistics";
+            ViewBag.Context.Title = $"Statistics";
 
             return View(model);
         }
@@ -53,7 +53,7 @@ namespace TightWiki.Site.Controllers
 
             if (page <= 0) page = 1;
 
-            ViewBag.Config.Title = $"Page Moderation";
+            ViewBag.Context.Title = $"Page Moderation";
 
             string instruction = Request.Query["Instruction"];
             if (instruction != null)
@@ -102,7 +102,7 @@ namespace TightWiki.Site.Controllers
 
             page = 1;
 
-            ViewBag.Config.Title = $"Page Moderation";
+            ViewBag.Context.Title = $"Page Moderation";
 
             model = new PageModerateModel()
             {
@@ -147,7 +147,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
-                ViewBag.Config.Title = $"Missing Pages";
+                ViewBag.Context.Title = $"Missing Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -176,7 +176,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
-                ViewBag.Config.Title = $"Missing Pages";
+                ViewBag.Context.Title = $"Missing Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -206,7 +206,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.Namespaces != null && model.Namespaces.Any())
             {
-                ViewBag.Config.Title = $"Namespaces";
+                ViewBag.Context.Title = $"Namespaces";
                 ViewBag.PaginationCount = model.Namespaces.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -249,7 +249,7 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.Config.Title = $"Pages";
+                ViewBag.Context.Title = $"Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -292,7 +292,7 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.Config.Title = $"Pages";
+                ViewBag.Context.Title = $"Pages";
                 ViewBag.PaginationCount = model.Pages.First().PaginationCount;
                 ViewBag.CurrentPage = page;
 
@@ -427,7 +427,7 @@ namespace TightWiki.Site.Controllers
                 Users = UserRepository.GetUsersByRoleId(role.Id, 1)
             };
 
-            ViewBag.Config.Title = $"Roles";
+            ViewBag.Context.Title = $"Roles";
             ViewBag.PaginationCount = model.Users.FirstOrDefault()?.PaginationCount ?? 0;
             ViewBag.CurrentPage = page;
 
@@ -918,7 +918,7 @@ namespace TightWiki.Site.Controllers
 
             if (user != null)
             {
-                ViewBag.Config.Title = $"{user.AccountName} Delete";
+                ViewBag.Context.Title = $"{user.AccountName} Delete";
             }
 
             return View(model);

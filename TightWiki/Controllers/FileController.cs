@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.Extensions.Hosting.Internal;
 using SixLabors.ImageSharp;
 using System;
@@ -253,7 +254,7 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            string shortcut = $"::{pageNavigation.ToLower()}::";
+            string shortcut = $":{pageNavigation.ToLower()}:";
             var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
             if (emoji != null)
             {
@@ -262,22 +263,23 @@ namespace TightWiki.Site.Controllers
                 var img = SixLabors.ImageSharp.Image.Load(filePath);
 
                 int iscale = int.Parse(scale);
-                if (iscale != 100)
-                {
-                    int width = (int)(img.Width * (iscale / 100.0));
-                    int height = (int)(img.Height * (iscale / 100.0));
+                int defaultHeight = Global.DefaultEmojiHeight;
+                int height = img.Height;
+                int width = img.Width;
 
-                    using var bmp = Images.ResizeImage(img, width, height);
-                    using MemoryStream ms = new MemoryStream();
-                    bmp.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
-                }
-                else
-                {
-                    using MemoryStream ms = new MemoryStream();
-                    img.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
-                }
+                int difference = height - defaultHeight;
+
+                height -= difference;
+                width -= difference;
+
+                height = (int)(height * (iscale / 100.0));
+                width = (int)(width * (iscale / 100.0));
+
+                using var bmp = Images.ResizeImage(img, width, height);
+                using MemoryStream ms = new MemoryStream();
+                bmp.SaveAsPng(ms);
+                return File(ms.ToArray(), "image/png");
+
             }
 
             return NotFound($"Emoji {pageNavigation} was not found");

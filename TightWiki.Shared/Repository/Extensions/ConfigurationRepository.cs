@@ -71,6 +71,8 @@ namespace TightWiki.Shared.Repository
 
             handler.Connection.Execute("SaveConfigurationEntryValueByGroupAndEntry",
                 param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+
+            Global.PreloadSingletons();
         }
 
         public static List<ConfigurationNest> GetConfigurationNest()

@@ -29,10 +29,10 @@
             {
                 <tr>
                     <td>
-                        <a href="/File/Binary/@ViewBag.Config.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
+                        <a href="/File/Binary/@ViewBag.Context.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
                     </td>
                     <td>
-                        @if (@ViewBag.Config.Context?.CanDelete == true)
+                        @if (@ViewBag.Context?.CanDelete == true)
                         {
                             <a href="#deleteLink" id="@x.FileNavigation"> Delete </a>
                         }

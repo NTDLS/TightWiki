@@ -15,7 +15,7 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
         {
-            ViewBag.Config.Title = "Tags";
+            ViewBag.Context.Title = "Tags";
 
             if (context.CanView == false)
             {

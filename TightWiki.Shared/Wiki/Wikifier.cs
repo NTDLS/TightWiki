@@ -766,7 +766,7 @@ namespace TightWiki.Shared.Wiki
 
         private void TransformEmoji(WikiString pageContent)
         {
-            var rgx = new Regex(@"(::.+?::)", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(:.+?:)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
@@ -780,7 +780,7 @@ namespace TightWiki.Shared.Wiki
                     scale = int.Parse(parts[1]); //Image scale.
                 }
 
-                key = $"::{key}::";
+                key = $":{key}:";
 
                 var emoji = Global.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
@@ -1078,7 +1078,8 @@ namespace TightWiki.Shared.Wiki
 
                                 html.Append($"<tr>");
                                 html.Append($"<td>{emoji.Name}</td>");
-                                html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
+                                //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
+                                html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
                                 html.Append($"<td>{emoji.Shortcut}</td>");
                                 html.Append($"</tr>");
 

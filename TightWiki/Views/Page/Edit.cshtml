@@ -136,7 +136,7 @@
 
                 <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save</button></div>
                 <div class="form-group">
-                    <a href="/@ViewBag.Config.PageNavigation" target="_blank" rel="noopener">View in new Tab</a>
+                    <a href="/@ViewBag.Context.PageNavigation" target="_blank" rel="noopener">View in new Tab</a>
                 </div>
                 <strong>@Html.LabelFor(x => x.Name)</strong>
 
@@ -180,7 +180,7 @@
     <div class="card">
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @ViewBag.Config.Context?.CanCreate == true)
+            @if (Model?.Id > 0 && @ViewBag.Context?.CanCreate == true)
             {
 
                 <div id="dropSection" class="dropSection">

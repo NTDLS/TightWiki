@@ -68,7 +68,7 @@ function onSignIn(googleUser) {
                                     </td>
                                 </tr>
 
-                                @if (ViewBag.Config.AllowGoogleAuthentication == true)
+                                @if (ViewBag.Context.AllowGoogleAuthentication == true)
                                 {
                                     <tr class="padded">
                                         <td>&nbsp;</td>
@@ -78,7 +78,7 @@ function onSignIn(googleUser) {
                                             <script src="https://accounts.google.com/gsi/client" async defer></script>
                                             <div id="g_id_onload"
                                          data-client_id="@Singletons.GoogleAuthenticationClientId"
-                                         data-login_uri="@ViewBag.Config.Address/Account/GoogleLogin?ReturnUrl=@ViewBag.ReturnUrl"
+                                         data-login_uri="@ViewBag.Context.Address/Account/GoogleLogin?ReturnUrl=@ViewBag.ReturnUrl"
                                          data-auto_prompt="false">
                                             </div>
                                             <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">

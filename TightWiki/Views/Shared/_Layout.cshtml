@@ -1,27 +1,29 @@
-﻿<!DOCTYPE html>
+﻿@using TightWiki.Shared;
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Config.Title</title>
+    <title>@ViewBag.Context.Title</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- BEGIN Syntax Highlighter -->
     <link rel="stylesheet" href="/syntax/styles/default.min.css">
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
-    @Html.Raw(ViewBag.Config.HTMLHeader)
+    @Html.Raw(Global.HTMLHeader)
     <!-- END Syntax Highlighter -->
-    @if (ViewBag.Config.IncludeWikiDescriptionInMeta)
+    @if (Global.IncludeWikiDescriptionInMeta)
     {
-        <meta name="description" content="@ViewBag.Config.PageDescription">
+        <meta name="description" content="@ViewBag.Context.PageDescription">
     }
 
-    @if (ViewBag.Config.IncludeWikiTagsInMeta)
+    @if (Global.IncludeWikiTagsInMeta)
     {
-        <meta name="keywords" content="@ViewBag.Config.PageTags">
+        <meta name="keywords" content="@ViewBag.Context.PageTags">
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -39,10 +41,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@ViewBag.Config.BrandImageSmall" /></span> @ViewBag.Config.Name</a>
+                <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@Global.BrandImageSmall" /></span> @Global.Name</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (TightWiki.Shared.Models.Data.MenuItem item in ViewBag.Config.MenuItems)
+                        @foreach (TightWiki.Shared.Models.Data.MenuItem item in Global.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
@@ -57,11 +59,11 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (ViewBag.Context.CanEdit && ViewBag.Context.IsPageLoaded == true && ViewBag.Context.IsViewingOldVersion == false)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Config.PageNavigation">Edit</a>
+                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Context.PageNavigation">Edit</a>
                                     }
                                     else if (ViewBag.Context.CanCreate && ViewBag.CreatePage == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Config.PageNavigation">Create "@ViewBag.Config.PageNavigation"</a>
+                                        <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Context.PageNavigation">Create "@ViewBag.Context.PageNavigation"</a>
                                     }
 
                                     @if (ViewBag.Context.CanCreate)
@@ -71,17 +73,17 @@
 
                                     @if (ViewBag.Context.CanDelete && ViewBag.Context.IsPageLoaded == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Page/Delete/@ViewBag.Config.PageNavigation">Delete this page</a>
+                                        <a class="dropdown-item text-dark" href="/Page/Delete/@ViewBag.Context.PageNavigation">Delete this page</a>
                                     }
 
                                     @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/@ViewBag.Config.PageNavigation/History">History</a>
+                                        <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/History">History</a>
                                     }
 
                                     @if (ViewBag.Context.CanModerate && ViewBag.Context.IsViewingOldVersion && ViewBag.Context.IsPageLoaded == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/@ViewBag.Config.PageNavigation/revert/@ViewBag.Config.PageRevision">Revert to revision @ViewBag.Config.PageRevision</a>
+                                        <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/revert/@ViewBag.Context.PageRevision">Revert to revision @ViewBag.Context.PageRevision</a>
                                     }
                                 </div>
                             </li>
@@ -128,10 +130,10 @@
 
                         @if (ViewBag.Context.IsAuthenticated == false)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="/Account/Login?ReturnUrl=@ViewBag.Config.PathAndQuery">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="/Account/Login?ReturnUrl=@ViewBag.Context.PathAndQuery">Login</a></li>
                         }
 
-                        @if (ViewBag.Config.IncludeSearchOnNavbar)
+                        @if (Global.IncludeSearchOnNavbar)
                         {
                             <li class="nav-item ms-auto">
                                 <div class="collapse navbar-collapse justify-content-end">
@@ -150,28 +152,28 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            @Html.Raw(ViewBag.Config.HTMLPreBody)
+            @Html.Raw(Global.HTMLPreBody)
             @RenderBody()
-            @Html.Raw(ViewBag.Config.HTMLPostBody)
+            @Html.Raw(Global.HTMLPostBody)
         </main>
     </div>
 
     <div class="container">
-        @if (ViewBag.Config.FooterBlurb != null || ViewBag.Config.Copyright != null)
+        @if (Global.FooterBlurb != null || Global.Copyright != null)
         {
             <hr class="mt-5 mb-5">
 
-            @if (ViewBag.Config.FooterBlurb != null)
+            @if (Global.FooterBlurb != null)
             {
-                @Html.Raw(ViewBag.Config.FooterBlurb)
+                @Html.Raw(Global.FooterBlurb)
             }
-            @if (ViewBag.Config.Copyright != null)
+            @if (Global.Copyright != null)
             {
                 <br />
-                @Html.Raw(ViewBag.Config.Copyright)
+                @Html.Raw(Global.Copyright)
             }
         }
-        @Html.Raw(ViewBag.Config.HTMLFooter)
+        @Html.Raw(Global.HTMLFooter)
     </div>
 
 </body>

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
+using TightWiki.Shared;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
@@ -30,37 +30,10 @@ namespace TightWiki.Controllers
         {
             HydrateSecurityContext();
 
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-            var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
-            var functConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-
-            ViewBag.Config = new ViewBagConfig
-            {
-                Address = basicConfig.As<string>("Address"),
-                AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication"),
-                DefaultTimeZone = basicConfig.As<string>("Default TimeZone"),
-                Context = context,
-                PathAndQuery = Request.GetEncodedPathAndQuery(),
-                IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta"),
-                IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta"),
-                IncludeSearchOnNavbar = functConfig.As<bool>("Include Search on Navbar"),
-                PageCacheSeconds = functConfig.As<int>("Page Cache Time (Seconds)"),
-                HTMLHeader = htmlConfig.As<string>("Header"),
-                HTMLFooter = htmlConfig.As<string>("Footer"),
-                HTMLPreBody = htmlConfig.As<string>("Pre-Body"),
-                HTMLPostBody = htmlConfig.As<string>("Post-Body"),
-                BrandImageSmall = basicConfig.As<string>("Brand Image (Small)"),
-                Name = basicConfig.As<string>("Name"),
-                Title = basicConfig.As<string>("Name"), //Default the title to the name. This will be replaced when the page is found and loaded.
-                FooterBlurb = basicConfig.As<string>("FooterBlurb"),
-                Copyright = basicConfig.As<string>("Copyright"),
-                PageNavigation = RouteValue("pageNavigation"),
-                PageRevision = RouteValue("pageRevision"),
-                MenuItems = MenuItemRepository.GetAllMenuItems()
-            };
-
-            context.Config = ViewBag.Config;
+            context.PathAndQuery = Request.GetEncodedPathAndQuery();
+            context.PageNavigation = RouteValue("pageNavigation");
+            context.PageRevision = RouteValue("pageRevision");
+            context.Title = Global.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             ViewBag.Context = context;
         }
 
