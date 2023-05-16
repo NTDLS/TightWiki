@@ -9,7 +9,6 @@ using System.Linq;
 using System.Security.Claims;
 using TightWiki.Shared;
 using TightWiki.Shared.Library;
-using TightWiki.Shared.Models;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Repository;
 using TightWiki.Shared.Wiki;

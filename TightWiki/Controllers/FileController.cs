@@ -1,16 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
-using Microsoft.Extensions.Hosting.Internal;
 using SixLabors.ImageSharp;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Mime;
 using System.Web;
 using TightWiki.Controllers;
 using TightWiki.Shared;
@@ -257,7 +253,7 @@ namespace TightWiki.Site.Controllers
 
             if (string.IsNullOrEmpty(pageNavigation) == false)
             {
-                string shortcut = $":{pageNavigation.ToLower()}:";
+                string shortcut = $"::{pageNavigation.ToLower()}::";
                 var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
