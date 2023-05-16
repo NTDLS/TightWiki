@@ -258,28 +258,37 @@ namespace TightWiki.Site.Controllers
             var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
             if (emoji != null)
             {
-                string filePath = Path.Combine(_env.WebRootPath, "images\\emoji", emoji.Path.TrimStart('/'));
-                string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
-                var img = SixLabors.ImageSharp.Image.Load(filePath);
+                emoji.ImageData = Cache.Get<byte[]>($"Emoji::{shortcut}");
+                if (emoji.ImageData == null)
+                {
+                    //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
+                    emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+                    Cache.Put($"Emoji::{shortcut}", emoji.ImageData);
+                }
 
-                int iscale = int.Parse(scale);
-                int defaultHeight = Global.DefaultEmojiHeight;
-                int height = img.Height;
-                int width = img.Width;
+                if (emoji.ImageData != null)
+                {
+                    string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
+                    var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
 
-                int difference = height - defaultHeight;
+                    int iscale = int.Parse(scale);
+                    int defaultHeight = Global.DefaultEmojiHeight;
+                    int height = img.Height;
+                    int width = img.Width;
 
-                height -= difference;
-                width -= difference;
+                    int difference = height - defaultHeight;
 
-                height = (int)(height * (iscale / 100.0));
-                width = (int)(width * (iscale / 100.0));
+                    height -= difference;
+                    width -= difference;
 
-                using var bmp = Images.ResizeImage(img, width, height);
-                using MemoryStream ms = new MemoryStream();
-                bmp.SaveAsPng(ms);
-                return File(ms.ToArray(), "image/png");
+                    height = (int)(height * (iscale / 100.0));
+                    width = (int)(width * (iscale / 100.0));
 
+                    using var bmp = Images.ResizeImage(img, width, height);
+                    using MemoryStream ms = new MemoryStream();
+                    bmp.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
+                }
             }
 
             return NotFound($"Emoji {pageNavigation} was not found");

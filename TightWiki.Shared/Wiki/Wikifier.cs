@@ -1067,7 +1067,7 @@ namespace TightWiki.Shared.Wiki
 
                             string category = _queryString["Category"].ToString();
 
-                            var emojis = ConfigurationRepository.GetEmojisByCategory(category);
+                            var emojis = EmojiRepository.GetEmojisByCategory(category);
 
                             foreach (var emoji in emojis)
                             {
@@ -1096,7 +1096,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "systememojicategorylist":
                         {
-                            var categories = ConfigurationRepository.GetEmojiCategoriesGrouped();
+                            var categories = EmojiRepository.GetEmojiCategoriesGrouped();
 
                             StringBuilder html = new();
 

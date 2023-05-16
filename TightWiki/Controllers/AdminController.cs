@@ -923,5 +923,179 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Emojis(int page)
+        {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return Unauthorized();
+            }
+
+            if (page <= 0) page = 1;
+
+            string searchTokens = Request.Query["Categories"];
+            if (searchTokens != null)
+            {
+                var tokens = searchTokens.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                searchTokens = string.Join(",", tokens);
+            }
+
+            var model = new EmojisModel()
+            {
+                Emojis = EmojiRepository.GetAllEmojisPaged(page, 0, searchTokens),
+                Categories = Request.Query["Categories"]
+            };
+
+            if (model.Emojis != null && model.Emojis.Any())
+            {
+                ViewBag.Context.Title = $"Emojis";
+                ViewBag.PaginationCount = model.Emojis.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Emojis(int page, EmojisModel model)
+        {
+            if (context.CanAdmin == false && context.CanModerate == false)
+            {
+                return Unauthorized();
+            }
+
+            page = 1;
+
+            string searchTokens = null;
+            if (model.Categories != null)
+            {
+                var tokens = model.Categories.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
+                searchTokens = string.Join(",", tokens);
+            }
+
+            model = new EmojisModel()
+            {
+                Emojis = EmojiRepository.GetAllEmojisPaged(page, 0, searchTokens),
+                Categories = model.Categories
+            };
+
+            if (model.Emojis != null && model.Emojis.Any())
+            {
+                ViewBag.Context.Title = $"Emojis";
+                ViewBag.PaginationCount = model.Emojis.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Emoji(string name)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = new EmojiModel()
+            {
+                Emoji = EmojiRepository.GetEmojiByName(name),
+                Categories = String.Join(", ", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
+            };
+
+            model.OriginalName = model.Emoji.Name;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save user profile.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult Emoji(EmojiModel model)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            /*
+            var file = Request.Form.Files["Avatar"];
+            if (file != null && file.Length > 0)
+            {
+                try
+                {
+                    var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                    //This is just to ensure this is a valid image:
+                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
+                    UserRepository.UpdateUserAvatar(user.Id, imageBytes);
+                }
+                catch
+                {
+                    ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                }
+            }
+            */
+
+            if (ModelState.IsValid)
+            {
+                if (model.OriginalName.ToLower() != model.Emoji.Name.ToLower())
+                {
+                    var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLower());
+                    if (checkName != null)
+                    {
+                        ModelState.AddModelError("Emoji.Name", "Emoji name is already in use.");
+                        return View(model);
+                    }
+                }
+
+                var emoji = new Emoji
+                {
+                    Id = model.Emoji.Id,
+                    Name = model.Emoji.Name,
+                    Categories = model.Categories
+                };
+
+                emoji.Id = EmojiRepository.SaveEmoji(emoji);
+
+                var file = Request.Form.Files["ImageData"];
+                if (file != null && file.Length > 0)
+                {
+                    try
+                    {
+                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                        //This is just to ensure this is a valid image:
+                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
+                        EmojiRepository.UpdatEmojiImage(emoji.Id, imageBytes);
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                    }
+                }
+
+                model.OriginalName = model.Emoji.Name;
+                model.SuccessMessage = "The emoji has been saved successfully!.";
+
+                Cache.ClearClass("Emoji::");
+            }
+
+            return View(model);
+        }
+
+
     }
 }

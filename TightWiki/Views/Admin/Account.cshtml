@@ -4,7 +4,7 @@
 }
 
 <div class="card">
-    <div class="card-header"><h3>Accounts</h3></div>
+    <div class="card-header"><h3>Account</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
             Configuration for user account.<br /><br />
@@ -41,7 +41,7 @@
                                         @Html.HiddenFor(m => m.Account.Navigation)
                                         @if (@Model.Account.Navigation != "")
                                         {
-                                            <img src="/Account/@Model.Account.Navigation/Avatar?max=150" /><br />
+                                            <img src="/Account/@Model.Account.Navigation/Avatar?max=150" /><br /><br />
                                         }
                                         <input type="file" id="Avatar" name="Avatar" onchange="fileCheck(this);" />
                                     </td>

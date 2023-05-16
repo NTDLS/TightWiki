@@ -27,7 +27,7 @@ namespace TightWiki.Shared
 
         public static void ReloadAllEmojis()
         {
-            Emojis = ConfigurationRepository.GetAllEmojis();
+            Emojis = EmojiRepository.GetAllEmojis();
         }
 
         public static void PreloadSingletons()
