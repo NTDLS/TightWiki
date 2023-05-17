@@ -82,6 +82,11 @@
   //Alternately, if "DoNotUpdateExistingDataExplicitExclude" is enabled then all database tables will have this
   //  option by default and tables listed here will be exlcuded from this option
   "DoNotUpdateExistingDataList": [
+	"dbo.ConfigurationGroup",
+	"dbo.UserRole",
+	"dbo.MenuItem",
+	"dbo.ConfigurationEntry",
+	"dbo.User"
   ],
   "DoNotUpdateExistingDataExplicitExclude": false
 }
