@@ -29,6 +29,7 @@
                             <div class="alert alert-success">@Model.SuccessMessage</div>
                         }
 
+                        <h2>General</h2>
                         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td><strong>Pages</strong></td>
@@ -60,18 +61,39 @@
 
                             <tr>
                                 <td><strong>Exceptions</strong></td>
-                                <td><strong>Cached Items</strong></td>
-                                <td><strong>Cache Memory Limit</strong></td>
+                                <td><strong>&nbsp;</strong></td>
+                                <td><strong>&nbsp;</strong></td>
                                 <td><strong>&nbsp;</strong></td>
                             </tr>
 
                             <tr>
                                 <td>@Model.DatabaseStats.Exceptions</td>
-                                <td>@Model.CachedItemCount</td>
-                                <td>@Model.CacheMemoryLimit</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>
+                        </table>
 
+                        <h2>Cache</h2>
+                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><strong>Items</strong></td>
+                                <td><strong>Puts</strong></td>
+                                <td><strong>Gets</strong></td>
+                                <td><strong>Hits</strong></td>
+                                <td><strong>Misses</strong></td>
+                                <td><strong>Limit(MB)</strong></td>
+                            </tr>
+
+
+                            <tr>
+                                <td>@TightWiki.Shared.Library.Cache.CacheItemCount.ToString("N0")</td>
+                                <td>@TightWiki.Shared.Library.Cache.CachePuts.ToString("N0")</td>
+                                <td>@TightWiki.Shared.Library.Cache.CacheGets.ToString("N0")</td>
+                                <td>@TightWiki.Shared.Library.Cache.CacheHits.ToString("N0")</td>
+                                <td>@TightWiki.Shared.Library.Cache.CacheMisses.ToString("N0")</td>
+                                <td>@TightWiki.Shared.Library.Cache.CacheMemoryLimitMB.ToString("N0")</td>
+                            </tr>
                         </table>
                     </td>
                 </tr>

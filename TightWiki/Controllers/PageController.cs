@@ -327,7 +327,21 @@ namespace TightWiki.Site.Controllers
                     else
                     {
                         var wiki = new Wikifier(context, page, pageRevision, Request.Query);
+
+                        if (Global.WritePageStatistics)
+                        {
+                            PageRepository.InsertPageStatistics(page.Id,
+                            wiki.ProcessingTime.TotalMilliseconds,
+                            wiki.MatchCount,
+                            wiki.ErrorCount,
+                            wiki.OutgoingLinks.Count,
+                            wiki.Tags.Count,
+                            wiki.ProcessedBody.Length,
+                            page.Body.Length);
+                        }
+
                         model.Body = wiki.ProcessedBody;
+
                         if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
                             Cache.Put(cacheKey, wiki.ProcessedBody, Global.PageCacheSeconds); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
@@ -337,6 +351,18 @@ namespace TightWiki.Site.Controllers
                 else
                 {
                     var wiki = new Wikifier(context, page, pageRevision, Request.Query);
+
+                    if (Global.WritePageStatistics)
+                    {
+                        PageRepository.InsertPageStatistics(page.Id,
+                            wiki.ProcessingTime.TotalMilliseconds,
+                            wiki.MatchCount,
+                            wiki.ErrorCount,
+                            wiki.OutgoingLinks.Count,
+                            wiki.Tags.Count,
+                            wiki.ProcessedBody.Length,
+                            page.Body.Length);
+                    }
                     model.Body = wiki.ProcessedBody;
                 }
             }

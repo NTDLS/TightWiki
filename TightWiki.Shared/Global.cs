@@ -20,6 +20,8 @@ namespace TightWiki.Shared
         public static bool IncludeWikiTagsInMeta { get; set; }
         public static bool IncludeSearchOnNavbar { get; set; }
         public static int PageCacheSeconds { get; set; }
+        public static int CacheMemoryLimitMB { get; set; }
+        public static bool WritePageStatistics { get; set; }
         public static string DefaultTimeZone { get; set; }
         public static string Address { get; set; }
         public static int DefaultEmojiHeight { get; set; }
@@ -32,6 +34,11 @@ namespace TightWiki.Shared
 
         public static void PreloadSingletons()
         {
+            var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
+            PageCacheSeconds = performanceConfig.As<int>("Page Cache Time (Seconds)");
+            WritePageStatistics = performanceConfig.As<bool>("Write Page Statistics");
+            CacheMemoryLimitMB = performanceConfig.As<int>("Cache Memory Limit MB");
+
             Library.Cache.Clear();
 
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
@@ -46,7 +53,6 @@ namespace TightWiki.Shared
             IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta");
             IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta");
             IncludeSearchOnNavbar = functConfig.As<bool>("Include Search on Navbar");
-            PageCacheSeconds = functConfig.As<int>("Page Cache Time (Seconds)");
             HTMLHeader = htmlConfig.As<string>("Header");
             HTMLFooter = htmlConfig.As<string>("Footer");
             HTMLPreBody = htmlConfig.As<string>("Pre-Body");

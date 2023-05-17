@@ -32,9 +32,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new StatsModel()
             {
-                DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats(),
-                CachedItemCount = Cache.Memcache.Count(),
-                CacheMemoryLimit = Cache.Memcache.CacheMemoryLimit
+                DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats()
             };
 
             ViewBag.Context.Title = $"Statistics";

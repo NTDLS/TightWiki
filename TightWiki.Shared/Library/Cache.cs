@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Caching;
 
@@ -7,16 +8,53 @@ namespace TightWiki.Shared.Library
     public class Cache
     {
         const int DefaultCacheSeconds = 5 * 60;
+        private static MemoryCache _memcache;
+        public static ulong CachePuts { get; set; }
+        public static ulong CacheGets { get; set; }
+        public static ulong CacheHits { get; set; }
+        public static ulong CacheMisses { get; set; }
+        public static int CacheItemCount => Memcache.Count();
+        public static double CacheMemoryLimitMB => Memcache.CacheMemoryLimit / 1024.0 / 1024.0;
 
-        public static MemoryCache Memcache { get; set; } = new MemoryCache("RepositoryBase");
+        public static MemoryCache Memcache
+        {
+            get
+            {
+                if (_memcache == null)
+                {
+                    var config = new NameValueCollection();
+                    //config.Add("pollingInterval", "00:05:00");
+                    //config.Add("physicalMemoryLimitPercentage", "0");
+                    config.Add("CacheMemoryLimitMegabytes", Global.CacheMemoryLimitMB.ToString());
+                    _memcache = new MemoryCache("TightWikiCache", config);
+                }
+                return _memcache;
+            }
+        }
+
+
 
         public static T Get<T>(string key)
         {
-            return (T)Memcache.Get(key);
+            CacheGets++;
+            var result = (T)Memcache.Get(key);
+
+            if (result == null)
+            {
+                CacheMisses++;
+            }
+            else
+            {
+                CacheHits++;
+            }
+
+            return result;
         }
 
         public static void Put(string key, object value, int seconds = DefaultCacheSeconds)
         {
+            CachePuts++;
+
             if (value == null)
             {
                 return;
