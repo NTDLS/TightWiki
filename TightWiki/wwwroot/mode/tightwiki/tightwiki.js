@@ -53,6 +53,15 @@
                     }
                 }
             }
+            // Emoji
+            if (ch == ":") {
+                if (stream.peek() == ':') {
+                    if (stream.skipTo("::")) {
+                        stream.eatWhile(':');
+                        return "strong";
+                    }
+                }
+            }
             // Bold
             if (ch == "*") {
                 if (stream.peek() == '*') {
