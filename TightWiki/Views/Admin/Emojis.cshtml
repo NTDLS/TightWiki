@@ -64,27 +64,30 @@
                                 }
                             </table>
 
-                            if (@ViewBag.PreviousPage != null)
+                            if (@ViewBag.PaginationCount > 1)
                             {
-                                <a href="/Admin/Emojis/1?Categories=@Model.Categories">&lt;&lt; First</a>
+                                if (@ViewBag.PreviousPage != null)
+                                {
+                                    <a href="/Admin/Emojis/1?Categories=@Model.Categories">&lt;&lt; First</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Admin/Emojis/@ViewBag.PreviousPage?Categories=@Model.Categories">&lt; Previous</a>
+                                }
+                                else
+                                {
+                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                                }
                                 @:&nbsp; | &nbsp;
-                                <a href="/Admin/Emojis/@ViewBag.PreviousPage?Categories=@Model.Categories">&lt; Previous</a>
-                            }
-                            else
-                            {
-                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                            }
-                            @:&nbsp; | &nbsp;
 
-                            if (@ViewBag.NextPage != null)
-                            {
-                                <a href="/Admin/Emojis/@ViewBag.NextPage?Categories=@Model.Categories">Next &gt;</a>
-                                @:&nbsp; | &nbsp;
-                                <a href="/Admin/Emojis/@ViewBag.PaginationCount?Categories=@Model.Categories">Last &gt;&gt;</a>
-                            }
-                            else
-                            {
-                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                if (@ViewBag.NextPage != null)
+                                {
+                                    <a href="/Admin/Emojis/@ViewBag.NextPage?Categories=@Model.Categories">Next &gt;</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Admin/Emojis/@ViewBag.PaginationCount?Categories=@Model.Categories">Last &gt;&gt;</a>
+                                }
+                                else
+                                {
+                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                }
                             }
                         }
 

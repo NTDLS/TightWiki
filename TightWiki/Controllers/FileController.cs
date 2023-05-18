@@ -184,7 +184,6 @@ namespace TightWiki.Site.Controllers
             fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
 
             string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
-
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
 
             if (file != null)
@@ -215,18 +214,39 @@ namespace TightWiki.Site.Controllers
                 }
 
                 int iscale = int.Parse(scale);
+                if (iscale > 500)
+                {
+                    iscale = 500;
+                }
                 if (iscale != 100)
                 {
                     int width = (int)(img.Width * (iscale / 100.0));
                     int height = (int)(img.Height * (iscale / 100.0));
-                    using var bmp = Images.ResizeImage(img, width, height);
-                    using MemoryStream ms = new MemoryStream();
-                    ChangeImageType(bmp, format, ms);
+
+                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                    //  deminsion to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    if (height < 16)
+                    {
+                        int difference = 16 - height;
+                        height += difference;
+                        width += difference;
+                    }
+                    if (width < 16)
+                    {
+                        int difference = 16 - width;
+                        height += difference;
+                        width += difference;
+                    }
+
+                    using var image = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    ChangeImageType(image, format, ms);
                     return File(ms.ToArray(), contentType);
                 }
                 else
                 {
-                    using MemoryStream ms = new MemoryStream();
+                    using var ms = new MemoryStream();
                     ChangeImageType(img, format, ms);
                     return File(ms.ToArray(), contentType);
                 }
@@ -271,6 +291,11 @@ namespace TightWiki.Site.Controllers
                         var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
 
                         int iscale = int.Parse(scale);
+                        if (iscale > 500)
+                        {
+                            iscale = 500;
+                        }
+
                         int defaultHeight = Global.DefaultEmojiHeight;
                         int height = img.Height;
                         int width = img.Width;
@@ -310,9 +335,9 @@ namespace TightWiki.Site.Controllers
                         }
                         else
                         {
-                            using var bmp = Images.ResizeImage(img, width, height);
-                            using MemoryStream ms = new MemoryStream();
-                            bmp.SaveAsPng(ms);
+                            using var image = Images.ResizeImage(img, width, height);
+                            using var ms = new MemoryStream();
+                            image.SaveAsPng(ms);
                             return File(ms.ToArray(), "image/png");
                         }
                     }
@@ -347,19 +372,40 @@ namespace TightWiki.Site.Controllers
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
                 int iscale = int.Parse(scale);
+                if (iscale > 500)
+                {
+                    iscale = 500;
+                }
+
                 if (iscale != 100)
                 {
                     int width = (int)(img.Width * (iscale / 100.0));
                     int height = (int)(img.Height * (iscale / 100.0));
 
-                    using var bmp = Images.ResizeImage(img, width, height);
-                    using MemoryStream ms = new MemoryStream();
-                    bmp.SaveAsPng(ms);
+                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                    //  deminsion to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    if (height < 16)
+                    {
+                        int difference = 16 - height;
+                        height += difference;
+                        width += difference;
+                    }
+                    if (width < 16)
+                    {
+                        int difference = 16 - width;
+                        height += difference;
+                        width += difference;
+                    }
+
+                    using var image = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    image.SaveAsPng(ms);
                     return File(ms.ToArray(), "image/png");
                 }
                 else
                 {
-                    using MemoryStream ms = new MemoryStream();
+                    using var ms = new MemoryStream();
                     img.SaveAsPng(ms);
                     return File(ms.ToArray(), "image/png");
                 }

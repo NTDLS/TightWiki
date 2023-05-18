@@ -114,6 +114,112 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        //[Authorize]
+        [HttpGet]
+        public ActionResult Comments(string pageNavigation, int page)
+        {
+            if (context.CanView == false)
+            {
+                return Unauthorized();
+            }
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
+            var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
+            if (pageInfo == null)
+            {
+                return NotFound();
+            }
+
+            if (page <= 0) page = 1;
+
+            var deleteAction = Request.Query["Delete"].ToString();
+            if (string.IsNullOrEmpty(deleteAction) == false)
+            {
+                PageRepository.DeletePageCommentById(pageInfo.Id, context.User.Id, int.Parse(deleteAction));
+            }
+
+            var model = new PageCommentsModel()
+            {
+                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, page)
+            };
+
+            model.Comments.ForEach(o =>
+            {
+                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+            });
+
+            context.SetPageId(pageInfo.Id);
+            ViewBag.Context.Title = $"{pageInfo.Name} Comments";
+
+            if (model.Comments != null && model.Comments.Any())
+            {
+                ViewBag.PaginationCount = model.Comments.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Comments(PageCommentsModel model, string pageNavigation, int page)
+        {
+            if (context.CanEdit == false)
+            {
+                return Unauthorized();
+            }
+
+            string errorMessage = null;
+
+            var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
+            if (pageInfo == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid && string.IsNullOrWhiteSpace(model.Comment) == false && model.Comment.Trim().Length > 1)
+            {
+                PageRepository.InsetPageComment(pageInfo.Id, context.User.Id, model.Comment);
+            }
+            else
+            {
+                errorMessage = "A valid comment is over 1 character, not including whitespace.";
+            }
+
+            if (page <= 0) page = 1;
+
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
+            model = new PageCommentsModel()
+            {
+                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, page),
+                ErrorMessage = errorMessage
+            };
+
+            model.Comments.ForEach(o =>
+            {
+                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+            });
+
+            context.SetPageId(pageInfo.Id);
+            ViewBag.Context.Title = $"{pageInfo.Name} Comments";
+
+            if (model.Comments != null && model.Comments.Any())
+            {
+                ViewBag.PaginationCount = model.Comments.First().PaginationCount;
+                ViewBag.CurrentPage = page;
+
+                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
+                if (page > 1) ViewBag.PreviousPage = page - 1;
+            }
+
+            return View(model);
+        }
+
         #region Content.
         [Authorize]
         [HttpGet]

@@ -50,27 +50,30 @@
                                 }
                             </table>
 
-                            if (@ViewBag.PreviousPage != null)
+                            if (@ViewBag.PaginationCount > 1)
                             {
-                                <a href="/Admin/MissingPages/1">&lt;&lt; First</a>
+                                if (@ViewBag.PreviousPage != null)
+                                {
+                                    <a href="/Admin/MissingPages/1">&lt;&lt; First</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Admin/MissingPages/@ViewBag.PreviousPage">&lt; Previous</a>
+                                }
+                                else
+                                {
+                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                                }
                                 @:&nbsp; | &nbsp;
-                                <a href="/Admin/MissingPages/@ViewBag.PreviousPage">&lt; Previous</a>
-                            }
-                            else
-                            {
-                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                            }
-                            @:&nbsp; | &nbsp;
 
-                            if (@ViewBag.NextPage != null)
-                            {
-                                <a href="/Admin/MissingPages/@ViewBag.NextPage">Next &gt;</a>
-                                @:&nbsp; | &nbsp;
-                                <a href="/Admin/MissingPages/@ViewBag.PaginationCount">Last &gt;&gt;</a>
-                            }
-                            else
-                            {
-                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                if (@ViewBag.NextPage != null)
+                                {
+                                    <a href="/Admin/MissingPages/@ViewBag.NextPage">Next &gt;</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Admin/MissingPages/@ViewBag.PaginationCount">Last &gt;&gt;</a>
+                                }
+                                else
+                                {
+                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                }
                             }
                         }
                     </td>

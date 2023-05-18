@@ -25,4 +25,11 @@
     <None Include="wwwroot\images\TightWiki Logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Page\Comments.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

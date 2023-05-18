@@ -135,6 +135,12 @@ namespace TightWiki
                 );
 
                 endpoints.MapControllerRoute(
+                    name: "Page_Comments",
+                    pattern: "{pageNavigation}/Comments/{page}",
+                    defaults: new { pageNavigation = "Home", controller = "Page", action = "Comments", pageRevision = string.Empty, page = 1 }
+                );
+
+                endpoints.MapControllerRoute(
                     name: "Page_Revert_History",
                     pattern: "{pageNavigation}/Revert/{pageRevision}",
                     defaults: new { pageNavigation = "Home", controller = "Page", action = "Revert" }

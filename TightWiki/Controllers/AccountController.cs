@@ -645,8 +645,24 @@ namespace TightWiki.Site.Controllers
             userAccountName = WikiUtility.CleanPartialURI(userAccountName);
             string scale = Request.Query["Scale"].ToString().ToString().IsNullOrEmpty("100");
             string max = Request.Query["max"];
+            string exact = Request.Query["exact"];
+
+            if (string.IsNullOrWhiteSpace(max))
+            {
+                max = "512"; //A safe default?
+            }
 
             byte[] imageBytes = UserRepository.GetUserAvatarByNavigation(userAccountName);
+
+            if (imageBytes == null || imageBytes.Count() == 0)
+            {
+                //Load the default avatar.
+                var image = Image.Load("Avatar.png");
+                using var ms = new MemoryStream();
+                image.SaveAsPng(ms);
+                imageBytes = ms.ToArray();
+            }
+
             if (imageBytes != null && imageBytes.Count() > 0)
             {
                 var img = Image.Load(new MemoryStream(imageBytes));
@@ -654,19 +670,68 @@ namespace TightWiki.Site.Controllers
                 int iScale = int.Parse(scale);
                 int iMax = int.Parse(max);
 
-                if (iMax != 0 && (img.Width > iMax || img.Height > iMax))
+                if (string.IsNullOrEmpty(exact) == false)
+                {
+                    int iexact = int.Parse(exact);
+                    if (iexact > 1024)
+                    {
+                        iexact = 1024;
+                    }
+                    else if (iexact < 16)
+                    {
+                        iexact = 16;
+                    }
+
+                    int diff = img.Width - iexact;
+                    int width = (int)(img.Width - diff);
+                    int height = (int)(img.Height - diff);
+
+                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                    //  deminsion to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    if (height < 16)
+                    {
+                        int difference = 16 - height;
+                        height += difference;
+                        width += difference;
+                    }
+                    if (width < 16)
+                    {
+                        int difference = 16 - width;
+                        height += difference;
+                        width += difference;
+                    }
+
+                    using var image = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    image.SaveAsPng(ms);
+                    return File(ms.ToArray(), "image/png");
+                }
+                else if (iMax != 0 && (img.Width > iMax || img.Height > iMax))
                 {
                     int diff = img.Width - iMax;
                     int width = (int)(img.Width - diff);
                     int height = (int)(img.Height - diff);
-                    if (height < 1)
+
+                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                    //  deminsion to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    if (height < 16)
                     {
-                        height = iMax;
+                        int difference = 16 - height;
+                        height += difference;
+                        width += difference;
+                    }
+                    if (width < 16)
+                    {
+                        int difference = 16 - width;
+                        height += difference;
+                        width += difference;
                     }
 
-                    using var bmp = Images.ResizeImage(img, width, height);
+                    using var image = Images.ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    bmp.SaveAsPng(ms);
+                    image.SaveAsPng(ms);
                     return File(ms.ToArray(), "image/png");
 
                 }
@@ -675,9 +740,25 @@ namespace TightWiki.Site.Controllers
                     int width = (int)(img.Width * (iScale / 100.0));
                     int height = (int)(img.Height * (iScale / 100.0));
 
-                    using var bmp = Images.ResizeImage(img, width, height);
+                    //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                    //  deminsion to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    if (height < 16)
+                    {
+                        int difference = 16 - height;
+                        height += difference;
+                        width += difference;
+                    }
+                    if (width < 16)
+                    {
+                        int difference = 16 - width;
+                        height += difference;
+                        width += difference;
+                    }
+
+                    using var image = Images.ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    bmp.SaveAsPng(ms);
+                    image.SaveAsPng(ms);
                     return File(ms.ToArray(), "image/png");
                 }
                 else
@@ -689,15 +770,6 @@ namespace TightWiki.Site.Controllers
             }
             else
             {
-                try
-                {
-                    var bmp = Image.Load("Avatar.png");
-                    using var ms = new MemoryStream();
-                    bmp.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
-                }
-                catch { }
-
                 return NotFound();
             }
         }

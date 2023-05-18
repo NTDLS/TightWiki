@@ -65,27 +65,30 @@
                                 }
                             </table>
 
-                            if (@ViewBag.PreviousPage != null)
+                            if (@ViewBag.PaginationCount > 1)
                             {
-                                <a href="/Admin/Moderate/1?Instruction=@Model.Instruction">&lt;&lt; First</a>
+                                if (@ViewBag.PreviousPage != null)
+                                {
+                                    <a href="/Admin/Moderate/1?Instruction=@Model.Instruction">&lt;&lt; First</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Admin/Moderate/@ViewBag.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
+                                }
+                                else
+                                {
+                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                                }
                                 @:&nbsp; | &nbsp;
-                                <a href="/Admin/Moderate/@ViewBag.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
-                            }
-                            else
-                            {
-                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                            }
-                            @:&nbsp; | &nbsp;
 
-                            if (@ViewBag.NextPage != null)
-                            {
-                                <a href="/Admin/Moderate/@ViewBag.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
-                                @:&nbsp; | &nbsp;
-                                <a href="/Admin/Moderate/@ViewBag.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
-                            }
-                            else
-                            {
-                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                if (@ViewBag.NextPage != null)
+                                {
+                                    <a href="/Admin/Moderate/@ViewBag.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/Admin/Moderate/@ViewBag.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
+                                }
+                                else
+                                {
+                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                }
                             }
                         }
                     </td>
