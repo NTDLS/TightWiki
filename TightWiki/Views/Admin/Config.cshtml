@@ -59,7 +59,7 @@
                                                                     <strong>@entry.Name</strong><br />
                                                                     @entry.Description<br />
 
-                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
+                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Authorization: Default Signup Role")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">
@@ -73,8 +73,8 @@
                                                                             }
                                                                         </select>
                                                                     }
-                                                                   else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
-                                                                   || $"{group.Name}:{entry.Name}" == "Basic:Default TimeZone")
+                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Localization: Default TimeZone"
+                                                                    || $"{group.Name}:{entry.Name}" == "Customization:Localization: Default TimeZone")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">
@@ -88,8 +88,8 @@
                                                                             }
                                                                         </select>
                                                                     }
-                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language"
-                                                                    || $"{group.Name}:{entry.Name}" == "Basic:Default Language")
+                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Localization: Default Language"
+                                                                    || $"{group.Name}:{entry.Name}" == "Customization:Localization: Default Language")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">
@@ -103,8 +103,8 @@
                                                                             }
                                                                         </select>
                                                                     }
-                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country"
-                                                                    || $"{group.Name}:{entry.Name}" == "Basic:Default Country")
+                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Localization: Default Country"
+                                                                    || $"{group.Name}:{entry.Name}" == "Customization:Localization: Default Country")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">

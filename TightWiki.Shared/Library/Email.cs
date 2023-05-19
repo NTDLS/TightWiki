@@ -12,13 +12,13 @@ namespace TightWiki.Shared.Library
             try
             {
                 var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Email");
-                var smtpPassword = values.As<string>("Password");
-                var smtpUsername = values.As<string>("Username");
-                var smtpAddress = values.As<string>("Address");
-                var smtpFromDisplayName = values.As<string>("From Display Name");
-                var smtpUseSSL = values.As<bool>("Use SSL");
+                var smtpPassword = values.As<string>("SMTP: Password");
+                var smtpUsername = values.As<string>("SMTP: Username");
+                var smtpAddress = values.As<string>("SMTP: Address");
+                var smtpFromDisplayName = values.As<string>("SMTP: From Display Name");
+                var smtpUseSSL = values.As<bool>("SMTP: Use SSL");
 
-                int smtpPort = values.As<int>("Port");
+                int smtpPort = values.As<int>("SMTP: Port");
 
                 var smtpClient = new SmtpClient
                 {

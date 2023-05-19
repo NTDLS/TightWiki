@@ -148,7 +148,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Login()
         {
             ViewBag.Context.Title = $"Login";
-            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == true);
             var model = new LoginModel();
 
             if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
@@ -171,7 +171,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Context.Title = $"Login";
 
-            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == true);
 
             if (ModelState.IsValid)
             {
@@ -206,7 +206,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Context.Title = $"Forgot";
             var model = new ForgotModel();
-            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == true);
             return View(model);
         }
 
@@ -216,7 +216,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Context.Title = $"Forgot";
             var user = UserRepository.GetUserByEmail(model.EmailAddress);
-            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == true);
 
             if (user != null)
             {
@@ -344,7 +344,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Signup()
         {
             ViewBag.Context.Title = $"Signup";
-            if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
+            if (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == false)
             {
                 return Unauthorized();
             }
@@ -354,16 +354,16 @@ namespace TightWiki.Site.Controllers
                 return RedirectToAction("UserProfile", "Account");
             }
 
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
 
             var model = new SignupModel()
             {
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
-                Country = basicConfig.As<string>("Default Country"),
-                TimeZone = basicConfig.As<string>("Default TimeZone"),
-                Language = basicConfig.As<string>("Default Language"),
+                Country = customizationConfig.As<string>("Localization: Default Country"),
+                TimeZone = customizationConfig.As<string>("Localization: Default TimeZone"),
+                Language = customizationConfig.As<string>("Localization: Default Language"),
             };
 
             if (context.IsPartiallyAuthenticated)
@@ -389,7 +389,7 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Context.Title = $"Account not found";
 
-            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == true);
 
             return View();
         }
@@ -450,7 +450,7 @@ namespace TightWiki.Site.Controllers
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
 
-            if (ConfigurationRepository.Get("Membership", "Allow Signup", false) == false)
+            if (ConfigurationRepository.Get("Membership", "Authorization: Allow Signup", false) == false)
             {
                 return Unauthorized();
             }
@@ -510,10 +510,10 @@ namespace TightWiki.Site.Controllers
                 var address = basicConfig.As<string>("Address");
 
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
-                var requestEmailVerification = membershipConfig.As<bool>("Request Email Verification");
-                var requireEmailVerification = membershipConfig.As<bool>("Require Email Verification");
-                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
+                var defaultSignupRole = membershipConfig.As<string>("Authorization: Default Signup Role");
+                var requestEmailVerification = membershipConfig.As<bool>("Authorization: Request Email Verification");
+                var requireEmailVerification = membershipConfig.As<bool>("Authorization: Require Email Verification");
+                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Template: Account Verification Email Template"));
 
                 var user = new User()
                 {

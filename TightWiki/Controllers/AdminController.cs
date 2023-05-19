@@ -578,17 +578,17 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-            var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
+            var defaultSignupRole = membershipConfig.As<string>("Authorization: Default Signup Role");
+            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
 
             var model = new AccountAdminModel()
             {
                 Account = new User()
                 {
-                    Country = basicConfig.As<string>("Default Country"),
-                    TimeZone = basicConfig.As<string>("Default TimeZone"),
-                    Language = basicConfig.As<string>("Default Language"),
+                    Country = customizationConfig.As<string>("Localization: Default Country"),
+                    TimeZone = customizationConfig.As<string>("Localization: Default TimeZone"),
+                    Language = customizationConfig.As<string>("Localization: Default Language"),
                     Role = defaultSignupRole,
                 },
                 Credential = new Credential(),
@@ -674,10 +674,10 @@ namespace TightWiki.Site.Controllers
                 var address = basicConfig.As<string>("Address");
 
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                //var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
-                var requestEmailVerification = membershipConfig.As<bool>("Request Email Verification");
-                var requireEmailVerification = membershipConfig.As<bool>("Require Email Verification");
-                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
+                //var defaultSignupRole = membershipConfig.As<string>("Authorization: Default Signup Role");
+                var requestEmailVerification = membershipConfig.As<bool>("Authorization: Request Email Verification");
+                var requireEmailVerification = membershipConfig.As<bool>("Authorization: Require Email Verification");
+                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Template: Account Verification Email Template"));
 
                 var user = new User()
                 {

@@ -114,7 +114,7 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-        //[Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public ActionResult Comments(string pageNavigation, int page)
         {
@@ -134,7 +134,7 @@ namespace TightWiki.Site.Controllers
             if (page <= 0) page = 1;
 
             var deleteAction = Request.Query["Delete"].ToString();
-            if (string.IsNullOrEmpty(deleteAction) == false)
+            if (string.IsNullOrEmpty(deleteAction) == false && context.IsAuthenticated)
             {
                 PageRepository.DeletePageCommentById(pageInfo.Id, context.User.Id, int.Parse(deleteAction));
             }
@@ -482,7 +482,7 @@ namespace TightWiki.Site.Controllers
             }
             else if (pageRevision != null)
             {
-                var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Revision Does Not Exists Page");
+                var notExistPageName = ConfigurationRepository.Get<string>("Customization", "Template: Revision Does Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
@@ -499,7 +499,7 @@ namespace TightWiki.Site.Controllers
             }
             else
             {
-                var notExistPageName = ConfigurationRepository.Get<string>("Basic", "Page Not Exists Page");
+                var notExistPageName = ConfigurationRepository.Get<string>("Customization", "Template: Page Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
@@ -571,7 +571,7 @@ namespace TightWiki.Site.Controllers
             {
                 var pageName = Request.Query["Name"].ToString().IsNullOrEmpty(pageNavigation);
 
-                string templateName = ConfigurationRepository.Get<string>("Basic", "New Page Template");
+                string templateName = ConfigurationRepository.Get<string>("Customization", "Template: New Page Template");
                 string templateNavigation = WikiUtility.CleanPartialURI(templateName);
                 var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
 

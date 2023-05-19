@@ -121,7 +121,7 @@ namespace TightWiki.Controllers
 
         public void PerformLogin(string accountNameOrEmail, string password, bool isPasswordHash, bool persist = false)
         {
-            var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Require Email Verification");
+            var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Authorization: Require Email Verification");
 
             User user;
 

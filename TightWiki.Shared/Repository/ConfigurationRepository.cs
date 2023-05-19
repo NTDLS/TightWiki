@@ -58,7 +58,7 @@ namespace TightWiki.Shared.Repository
             var result = new List<ConfigurationNest>();
             var flatConfig = GetFlatConfiguration();
 
-            var groups = flatConfig.GroupBy(o => o.GroupId).OrderBy(o => o.Key).ToList();
+            var groups = flatConfig.GroupBy(o => o.GroupId).ToList();
             foreach (var group in groups)
             {
                 var nest = new ConfigurationNest
