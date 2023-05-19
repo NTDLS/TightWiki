@@ -175,6 +175,8 @@ namespace TightWiki.Site.Controllers
 
             string errorMessage = null;
 
+            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+
             var pageInfo = PageRepository.GetPageInfoByNavigation(pageNavigation);
             if (pageInfo == null)
             {
@@ -191,8 +193,6 @@ namespace TightWiki.Site.Controllers
             }
 
             if (page <= 0) page = 1;
-
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
 
             model = new PageCommentsModel()
             {
