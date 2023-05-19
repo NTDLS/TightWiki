@@ -579,7 +579,7 @@ namespace TightWiki.Site.Controllers
             }
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-            var defaultSignupRole = membershipConfig.As<string>("Authorization: Default Signup Role");
+            var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
 
             var model = new AccountAdminModel()
@@ -674,9 +674,9 @@ namespace TightWiki.Site.Controllers
                 var address = basicConfig.As<string>("Address");
 
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                //var defaultSignupRole = membershipConfig.As<string>("Authorization: Default Signup Role");
-                var requestEmailVerification = membershipConfig.As<bool>("Authorization: Request Email Verification");
-                var requireEmailVerification = membershipConfig.As<bool>("Authorization: Require Email Verification");
+                //var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
+                var requestEmailVerification = membershipConfig.As<bool>("Request Email Verification");
+                var requireEmailVerification = membershipConfig.As<bool>("Require Email Verification");
                 var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
 
                 var user = new User()

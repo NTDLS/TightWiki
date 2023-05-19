@@ -58,7 +58,7 @@ namespace TightWiki.Shared
 
             DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Profile: Default Profile Recently Modified Count");
             DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
-            AllowGoogleAuthentication = membershipConfig.As<bool>("Authorization: Allow Google Authentication");
+            AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication");
             DefaultTimeZone = customizationConfig.As<string>("Default TimeZone");
             IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta");
             IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta");

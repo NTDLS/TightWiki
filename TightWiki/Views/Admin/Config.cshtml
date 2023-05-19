@@ -59,7 +59,7 @@
                                                                     <strong>@entry.Name</strong><br />
                                                                     @entry.Description<br />
 
-                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Authorization: Default Signup Role")
+                                                                    @if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
                                                                     {
                                                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
                                                                             <option value="" style="color:#ccc !important;">
