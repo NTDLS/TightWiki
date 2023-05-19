@@ -39,9 +39,9 @@ namespace TightWiki.Shared
         public static void PreloadSingletons()
         {
             var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
-            PageCacheSeconds = performanceConfig.As<int>("Cache: Page Cache Time (Seconds)");
+            PageCacheSeconds = performanceConfig.As<int>("Page Cache Time (Seconds)");
             WritePageStatistics = performanceConfig.As<bool>("Performance: Write Page Statistics");
-            CacheMemoryLimitMB = performanceConfig.As<int>("Cache: Cache Memory Limit MB");
+            CacheMemoryLimitMB = performanceConfig.As<int>("Cache Memory Limit MB");
 
             Library.Cache.Clear();
 
@@ -52,26 +52,26 @@ namespace TightWiki.Shared
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
-            Address = basicConfig.As<string>("Site: Address");
-            Name = basicConfig.As<string>("Site: Name");
-            Copyright = basicConfig.As<string>("Site: Copyright");
+            Address = basicConfig.As<string>("Address");
+            Name = basicConfig.As<string>("Name");
+            Copyright = basicConfig.As<string>("Copyright");
 
             DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Profile: Default Profile Recently Modified Count");
-            DefaultEmojiHeight = customizationConfig.As<int>("Images: Default Emoji Height");
+            DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.As<bool>("Authorization: Allow Google Authentication");
-            DefaultTimeZone = customizationConfig.As<string>("Localization: Default TimeZone");
-            IncludeWikiDescriptionInMeta = functConfig.As<bool>("Meta: Include wiki Description in Meta");
-            IncludeWikiTagsInMeta = functConfig.As<bool>("Meta: Include wiki Tags in Meta");
-            EnablePageComments = functConfig.As<bool>("Comments: Enable Page Comments");
-            ShowCommentsOnPageFooter = functConfig.As<bool>("Comments: Show Comments on Page Footer");
-            ShowLastModifiedOnPageFooter = functConfig.As<bool>("Comments: Show Last Modified on Page Footer");
+            DefaultTimeZone = customizationConfig.As<string>("Default TimeZone");
+            IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta");
+            IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta");
+            EnablePageComments = functConfig.As<bool>("Enable Page Comments");
+            ShowCommentsOnPageFooter = functConfig.As<bool>("Show Comments on Page Footer");
+            ShowLastModifiedOnPageFooter = functConfig.As<bool>("Show Last Modified on Page Footer");
             IncludeSearchOnNavbar = searchConfig.As<bool>("Include Search on Navbar");
-            HTMLHeader = htmlConfig.As<string>("Format: Header");
-            HTMLFooter = htmlConfig.As<string>("Format: Footer");
-            HTMLPreBody = htmlConfig.As<string>("Format: Pre-Body");
-            HTMLPostBody = htmlConfig.As<string>("Format: Post-Body");
-            BrandImageSmall = customizationConfig.As<string>("Site: Brand Image (Small)");
-            FooterBlurb = customizationConfig.As<string>("Site: FooterBlurb");
+            HTMLHeader = htmlConfig.As<string>("Header");
+            HTMLFooter = htmlConfig.As<string>("Footer");
+            HTMLPreBody = htmlConfig.As<string>("Pre-Body");
+            HTMLPostBody = htmlConfig.As<string>("Post-Body");
+            BrandImageSmall = customizationConfig.As<string>("Brand Image (Small)");
+            FooterBlurb = customizationConfig.As<string>("FooterBlurb");
             MenuItems = MenuItemRepository.GetAllMenuItems();
 
             ReloadAllEmojis();

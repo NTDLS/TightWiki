@@ -586,9 +586,9 @@ namespace TightWiki.Site.Controllers
             {
                 Account = new User()
                 {
-                    Country = customizationConfig.As<string>("Localization: Default Country"),
-                    TimeZone = customizationConfig.As<string>("Localization: Default TimeZone"),
-                    Language = customizationConfig.As<string>("Localization: Default Language"),
+                    Country = customizationConfig.As<string>("Default Country"),
+                    TimeZone = customizationConfig.As<string>("Default TimeZone"),
+                    Language = customizationConfig.As<string>("Default Language"),
                     Role = defaultSignupRole,
                 },
                 Credential = new Credential(),
@@ -677,7 +677,7 @@ namespace TightWiki.Site.Controllers
                 //var defaultSignupRole = membershipConfig.As<string>("Authorization: Default Signup Role");
                 var requestEmailVerification = membershipConfig.As<bool>("Authorization: Request Email Verification");
                 var requireEmailVerification = membershipConfig.As<bool>("Authorization: Require Email Verification");
-                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Template: Account Verification Email Template"));
+                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
 
                 var user = new User()
                 {

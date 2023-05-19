@@ -482,7 +482,7 @@ namespace TightWiki.Site.Controllers
             }
             else if (pageRevision != null)
             {
-                var notExistPageName = ConfigurationRepository.Get<string>("Customization", "Template: Revision Does Not Exists Page");
+                var notExistPageName = ConfigurationRepository.Get<string>("Customization", "Revision Does Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
@@ -499,7 +499,7 @@ namespace TightWiki.Site.Controllers
             }
             else
             {
-                var notExistPageName = ConfigurationRepository.Get<string>("Customization", "Template: Page Not Exists Page");
+                var notExistPageName = ConfigurationRepository.Get<string>("Customization", "Page Not Exists Page");
                 string notExistPageNavigation = WikiUtility.CleanPartialURI(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation);
 
@@ -577,7 +577,7 @@ namespace TightWiki.Site.Controllers
             {
                 var pageName = Request.Query["Name"].ToString().IsNullOrEmpty(pageNavigation);
 
-                string templateName = ConfigurationRepository.Get<string>("Customization", "Template: New Page Template");
+                string templateName = ConfigurationRepository.Get<string>("Customization", "New Page Template");
                 string templateNavigation = WikiUtility.CleanPartialURI(templateName);
                 var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
 
