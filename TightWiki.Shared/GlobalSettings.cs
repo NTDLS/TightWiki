@@ -40,7 +40,7 @@ namespace TightWiki.Shared
         {
             var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
             PageCacheSeconds = performanceConfig.As<int>("Page Cache Time (Seconds)");
-            WritePageStatistics = performanceConfig.As<bool>("Performance: Write Page Statistics");
+            WritePageStatistics = performanceConfig.As<bool>("Write Page Statistics");
             CacheMemoryLimitMB = performanceConfig.As<int>("Cache Memory Limit MB");
 
             Library.Cache.Clear();
@@ -56,7 +56,7 @@ namespace TightWiki.Shared
             Name = basicConfig.As<string>("Name");
             Copyright = basicConfig.As<string>("Copyright");
 
-            DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Profile: Default Profile Recently Modified Count");
+            DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Default Profile Recently Modified Count");
             DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication");
             DefaultTimeZone = customizationConfig.As<string>("Default TimeZone");
