@@ -416,7 +416,7 @@ namespace TightWiki.Site.Controllers
                 context.SetPageId(page.Id, pageRevision);
                 ViewBag.Context.Title = page.Title;
 
-                bool allowCache = Global.PageCacheSeconds > 0;
+                bool allowCache = GlobalSettings.PageCacheSeconds > 0;
 
                 if (allowCache)
                 {
@@ -437,7 +437,7 @@ namespace TightWiki.Site.Controllers
                     {
                         var wiki = new Wikifier(context, page, pageRevision, Request.Query);
 
-                        if (Global.WritePageStatistics)
+                        if (GlobalSettings.WritePageStatistics)
                         {
                             PageRepository.InsertPageStatistics(page.Id,
                             wiki.ProcessingTime.TotalMilliseconds,
@@ -453,7 +453,7 @@ namespace TightWiki.Site.Controllers
 
                         if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            Cache.Put(cacheKey, wiki.ProcessedBody, Global.PageCacheSeconds); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
+                            Cache.Put(cacheKey, wiki.ProcessedBody, GlobalSettings.PageCacheSeconds); //This is cleared with the call to Cache.ClearClass($"Page:{page.Navigation}");
                         }
                     }
                 }
@@ -461,7 +461,7 @@ namespace TightWiki.Site.Controllers
                 {
                     var wiki = new Wikifier(context, page, pageRevision, Request.Query);
 
-                    if (Global.WritePageStatistics)
+                    if (GlobalSettings.WritePageStatistics)
                     {
                         PageRepository.InsertPageStatistics(page.Id,
                             wiki.ProcessingTime.TotalMilliseconds,
@@ -475,7 +475,7 @@ namespace TightWiki.Site.Controllers
                     model.Body = wiki.ProcessedBody;
                 }
 
-                if (Global.EnablePageComments && Global.ShowCommentsOnPageFooter && ViewBag.HideFooterComments == false)
+                if (GlobalSettings.EnablePageComments && GlobalSettings.ShowCommentsOnPageFooter && ViewBag.HideFooterComments == false)
                 {
                     model.Comments = PageRepository.GetPageCommentsPaged(pageNavigation, 1);
                 }

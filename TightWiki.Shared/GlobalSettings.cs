@@ -4,7 +4,7 @@ using TightWiki.Shared.Repository;
 
 namespace TightWiki.Shared
 {
-    public static class Global
+    public static class GlobalSettings
     {
         public static List<Emoji> Emojis { get; set; } = new();
         public static string BrandImageSmall { get; set; }

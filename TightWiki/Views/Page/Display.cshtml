@@ -5,12 +5,12 @@
 @Html.Raw(Model.Body)
 @if (ViewBag.HideFooterComments == false)
 {
-    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter)
+    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter)
     {
         <hr class="mt-5 mb-5">
         <h2>Comments</h2>
     }
-    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter)
+    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter)
     {
         if (ViewBag.Context.IsAuthenticated == true)
         {
@@ -28,7 +28,7 @@
             @:<a href="/Account/Login">Login to leave a comment</a>.
         }
     }
-    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
     {
         @foreach (var h in Model.Comments)
         {
@@ -51,7 +51,7 @@
             </div>
         }
     }
-    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter)
+    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter)
     {
         <a href="/@ViewBag.Context.PageNavigation/Comments">View all comments</a>
     }

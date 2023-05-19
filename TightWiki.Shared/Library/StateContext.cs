@@ -36,7 +36,7 @@ namespace TightWiki.Shared.Library
         {
             if (User == null)
             {
-                return TimeZoneInfo.FindSystemTimeZoneById(Global.DefaultTimeZone);
+                return TimeZoneInfo.FindSystemTimeZoneById(GlobalSettings.DefaultTimeZone);
             }
             return TimeZoneInfo.FindSystemTimeZoneById(User.TimeZone);
         }
@@ -51,11 +51,11 @@ namespace TightWiki.Shared.Library
 
                 ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
 
-                if (Global.IncludeWikiDescriptionInMeta)
+                if (GlobalSettings.IncludeWikiDescriptionInMeta)
                 {
                     PageDescription = page.Description;
                 }
-                if (Global.IncludeWikiTagsInMeta)
+                if (GlobalSettings.IncludeWikiTagsInMeta)
                 {
                     PageTags = string.Join(",", PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag));
                 }

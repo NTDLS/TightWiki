@@ -25,7 +25,7 @@ namespace TightWiki.Shared.Library
                     var config = new NameValueCollection();
                     //config.Add("pollingInterval", "00:05:00");
                     //config.Add("physicalMemoryLimitPercentage", "0");
-                    config.Add("CacheMemoryLimitMegabytes", Global.CacheMemoryLimitMB.ToString());
+                    config.Add("CacheMemoryLimitMegabytes", GlobalSettings.CacheMemoryLimitMB.ToString());
                     _memcache = new MemoryCache("TightWikiCache", config);
                 }
                 return _memcache;

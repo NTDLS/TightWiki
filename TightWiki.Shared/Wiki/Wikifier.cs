@@ -782,9 +782,9 @@ namespace TightWiki.Shared.Wiki
 
                 key = $"::{key}::";
 
-                var emoji = Global.Emojis.FirstOrDefault(o => o.Shortcut == key);
+                var emoji = GlobalSettings.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
-                if (Global.Emojis.Exists(o => o.Shortcut == key))
+                if (GlobalSettings.Emojis.Exists(o => o.Shortcut == key))
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {

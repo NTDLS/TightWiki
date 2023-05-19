@@ -241,7 +241,7 @@ namespace TightWiki
 
             Shared.ADO.Singletons.ConnectionString = ConfigurationExtensions.GetConnectionString(this.Configuration, "TightWikiADO");
 
-            Global.PreloadSingletons();
+            GlobalSettings.PreloadSingletons();
         }
     }
 }

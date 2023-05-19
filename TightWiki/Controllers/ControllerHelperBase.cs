@@ -32,7 +32,7 @@ namespace TightWiki.Controllers
             context.PathAndQuery = Request.GetEncodedPathAndQuery();
             context.PageNavigation = RouteValue("pageNavigation");
             context.PageRevision = RouteValue("pageRevision");
-            context.Title = Global.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            context.Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             ViewBag.Context = context;
         }
 

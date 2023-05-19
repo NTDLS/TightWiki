@@ -14,14 +14,14 @@
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
-    @Html.Raw(Global.HTMLHeader)
+    @Html.Raw(GlobalSettings.HTMLHeader)
     <!-- END Syntax Highlighter -->
-    @if (Global.IncludeWikiDescriptionInMeta)
+    @if (GlobalSettings.IncludeWikiDescriptionInMeta)
     {
         <meta name="description" content="@ViewBag.Context.PageDescription">
     }
 
-    @if (Global.IncludeWikiTagsInMeta)
+    @if (GlobalSettings.IncludeWikiTagsInMeta)
     {
         <meta name="keywords" content="@ViewBag.Context.PageTags">
     }
@@ -41,10 +41,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@Global.BrandImageSmall" /></span> @Global.Name</a>
+                <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@GlobalSettings.BrandImageSmall" /></span> @GlobalSettings.Name</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (TightWiki.Shared.Models.Data.MenuItem item in Global.MenuItems)
+                        @foreach (TightWiki.Shared.Models.Data.MenuItem item in GlobalSettings.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
@@ -66,7 +66,7 @@
                                         <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Context.PageNavigation">Create "@ViewBag.Context.PageNavigation"</a>
                                     }
 
-                                    @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true && Global.EnablePageComments)
+                                    @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true && GlobalSettings.EnablePageComments)
                                     {
                                         <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation">View</a>
                                     }
@@ -86,7 +86,7 @@
                                         <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/History">History</a>
                                     }
 
-                                    @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true && Global.EnablePageComments)
+                                    @if (ViewBag.Context.CanView && @ViewBag.Context.IsPageLoaded == true && GlobalSettings.EnablePageComments)
                                     {
                                         <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/Comments">Comments</a>
                                     }
@@ -144,7 +144,7 @@
                             <li class="nav-item"><a class="nav-link text-dark" href="/Account/Login?ReturnUrl=@ViewBag.Context.PathAndQuery">Login</a></li>
                         }
 
-                        @if (Global.IncludeSearchOnNavbar)
+                        @if (GlobalSettings.IncludeSearchOnNavbar)
                         {
                             <li class="nav-item ms-auto">
                                 <div class="collapse navbar-collapse justify-content-end">
@@ -163,28 +163,28 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            @Html.Raw(Global.HTMLPreBody)
+            @Html.Raw(GlobalSettings.HTMLPreBody)
             @RenderBody()
-            @Html.Raw(Global.HTMLPostBody)
+            @Html.Raw(GlobalSettings.HTMLPostBody)
         </main>
     </div>
 
     <div class="container">
-        @if (Global.FooterBlurb != null || Global.Copyright != null)
+        @if (GlobalSettings.FooterBlurb != null || GlobalSettings.Copyright != null)
         {
             <hr class="mt-5 mb-5">
 
-            @if (Global.FooterBlurb != null)
+            @if (GlobalSettings.FooterBlurb != null)
             {
-                @Html.Raw(Global.FooterBlurb)
+                @Html.Raw(GlobalSettings.FooterBlurb)
             }
-            @if (Global.Copyright != null)
+            @if (GlobalSettings.Copyright != null)
             {
                 <br />
-                @Html.Raw(Global.Copyright)
+                @Html.Raw(GlobalSettings.Copyright)
             }
         }
-        @Html.Raw(Global.HTMLFooter)
+        @Html.Raw(GlobalSettings.HTMLFooter)
     </div>
 
 </body>

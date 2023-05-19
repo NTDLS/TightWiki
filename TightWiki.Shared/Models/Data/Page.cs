@@ -4,34 +4,34 @@ namespace TightWiki.Shared.Models.Data
 {
     public partial class Page
     {
-        #region Properties
-
-        private int _id;
-        public int Id
-        {
-            get
-            {
-                return this._id;
-            }
-            set
-            {
-                if (this._id != value)
-                {
-                    this._id = value;
-                }
-            }
-        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Navigation { get; set; }
+        public string Description { get; set; }
+        public int Revision { get; set; }
+        public int CreatedByUserId { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public int ModifiedByUserId { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public int TokenWeight { get; set; }
+        public string Body { get; set; }
+        public string CreatedByUserName { get; set; }
+        public string ModifiedByUserName { get; set; }
+        public int LatestRevision { get; set; }
+        public int PaginationCount { get; set; }
+        public decimal Match { get; set; }
+        public decimal Weight { get; set; }
+        public decimal Score { get; set; }
 
         public string Title
         {
             get
             {
-                if (_name.Contains("::"))
+                if (Name.Contains("::"))
                 {
-                    return _name.Substring(_name.IndexOf("::") + 2).Trim();
+                    return Name.Substring(Name.IndexOf("::") + 2).Trim();
                 }
-
-                return _name;
+                return Name;
             }
         }
 
@@ -39,143 +39,12 @@ namespace TightWiki.Shared.Models.Data
         {
             get
             {
-                if (_name.Contains("::"))
+                if (Name.Contains("::"))
                 {
-                    return _name.Substring(0, _name.IndexOf("::")).Trim();
+                    return Name.Substring(0, Name.IndexOf("::")).Trim();
                 }
                 return null;
             }
         }
-
-
-        private string _name;
-        public string Name
-        {
-            get
-            {
-                return this._name;
-            }
-            set
-            {
-                if (this._name != value)
-                {
-                    this._name = value;
-                }
-            }
-        }
-
-        private string _navigation;
-        public string Navigation
-        {
-            get
-            {
-                return this._navigation;
-            }
-            set
-            {
-                if (this._navigation != value)
-                {
-                    this._navigation = value;
-                }
-            }
-        }
-
-        private string _description;
-        public string Description
-        {
-            get
-            {
-                return this._description;
-            }
-            set
-            {
-                if (this._description != value)
-                {
-                    this._description = value;
-                }
-            }
-        }
-
-        private int _revision;
-        public int Revision
-        {
-            get
-            {
-                return this._revision;
-            }
-            set
-            {
-                if (this._revision != value)
-                {
-                    this._revision = value;
-                }
-            }
-        }
-
-        private int _createdByUserId;
-        public int CreatedByUserId
-        {
-            get
-            {
-                return this._createdByUserId;
-            }
-            set
-            {
-                if (this._createdByUserId != value)
-                {
-                    this._createdByUserId = value;
-                }
-            }
-        }
-
-        private DateTime _createdDate;
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return this._createdDate;
-            }
-            set
-            {
-                if (this._createdDate != value)
-                {
-                    this._createdDate = value;
-                }
-            }
-        }
-
-        private int _modifiedByUserId;
-        public int ModifiedByUserId
-        {
-            get
-            {
-                return this._modifiedByUserId;
-            }
-            set
-            {
-                if (this._modifiedByUserId != value)
-                {
-                    this._modifiedByUserId = value;
-                }
-            }
-        }
-
-        private DateTime _modifiedDate;
-        public DateTime ModifiedDate
-        {
-            get
-            {
-                return this._modifiedDate;
-            }
-            set
-            {
-                if (this._modifiedDate != value)
-                {
-                    this._modifiedDate = value;
-                }
-            }
-        }
-
-        #endregion
     }
 }

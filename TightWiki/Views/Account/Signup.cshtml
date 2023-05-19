@@ -35,7 +35,7 @@
 
                             <table border="0">
 
-                                @if (TightWiki.Shared.Global.AllowGoogleAuthentication == true && ViewBag.Context.IsPartiallyAuthenticated == false)
+                                @if (TightWiki.Shared.GlobalSettings.AllowGoogleAuthentication == true && ViewBag.Context.IsPartiallyAuthenticated == false)
                                 {
                                     <tr>
                                         <td>
@@ -43,7 +43,7 @@
                                             <script src="https://accounts.google.com/gsi/client" async defer></script>
                                             <div id="g_id_onload"
                                          data-client_id="@Singletons.GoogleAuthenticationClientId"
-                                         data-login_uri="@TightWiki.Shared.Global.Address/Account/GoogleSignup?ReturnUrl=@ViewBag.ReturnUrl"
+                                         data-login_uri="@TightWiki.Shared.GlobalSettings.Address/Account/GoogleSignup?ReturnUrl=@ViewBag.ReturnUrl"
                                          data-auto_prompt="false">
                                             </div>
                                             <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">

@@ -274,7 +274,7 @@ namespace TightWiki.Site.Controllers
             if (string.IsNullOrEmpty(pageNavigation) == false)
             {
                 string shortcut = $"::{pageNavigation.ToLower()}::";
-                var emoji = Global.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+                var emoji = GlobalSettings.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
                     emoji.ImageData = Cache.Get<byte[]>($"Emoji:{shortcut}");
@@ -296,7 +296,7 @@ namespace TightWiki.Site.Controllers
                             iscale = 500;
                         }
 
-                        int defaultHeight = Global.DefaultEmojiHeight;
+                        int defaultHeight = GlobalSettings.DefaultEmojiHeight;
                         int height = img.Height;
                         int width = img.Width;
 

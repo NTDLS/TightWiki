@@ -82,7 +82,7 @@ namespace TightWiki.Shared.Repository
             var result = handler.Connection.ExecuteScalar<int>("SaveEmoji",
                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
 
-            Global.ReloadAllEmojis();
+            GlobalSettings.ReloadAllEmojis();
 
             return result;
         }
