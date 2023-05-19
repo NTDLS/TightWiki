@@ -25,6 +25,7 @@ namespace TightWiki.Shared
         public static int CacheMemoryLimitMB { get; set; }
         public static int DefaultProfileRecentlyModifiedCount { get; set; }
         public static bool WritePageStatistics { get; set; }
+        public static bool ShowLastModifiedOnPageFooter { get; set; }
         public static string DefaultTimeZone { get; set; }
         public static string Address { get; set; }
         public static int DefaultEmojiHeight { get; set; }
@@ -63,6 +64,7 @@ namespace TightWiki.Shared
             IncludeWikiTagsInMeta = functConfig.As<bool>("Meta: Include wiki Tags in Meta");
             EnablePageComments = functConfig.As<bool>("Comments: Enable Page Comments");
             ShowCommentsOnPageFooter = functConfig.As<bool>("Comments: Show Comments on Page Footer");
+            ShowLastModifiedOnPageFooter = functConfig.As<bool>("Comments: Show Last Modified on Page Footer");
             IncludeSearchOnNavbar = searchConfig.As<bool>("Include Search on Navbar");
             HTMLHeader = htmlConfig.As<string>("Format: Header");
             HTMLFooter = htmlConfig.As<string>("Format: Footer");

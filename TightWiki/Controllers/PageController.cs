@@ -440,13 +440,13 @@ namespace TightWiki.Site.Controllers
                         if (GlobalSettings.WritePageStatistics)
                         {
                             PageRepository.InsertPageStatistics(page.Id,
-                            wiki.ProcessingTime.TotalMilliseconds,
-                            wiki.MatchCount,
-                            wiki.ErrorCount,
-                            wiki.OutgoingLinks.Count,
-                            wiki.Tags.Count,
-                            wiki.ProcessedBody.Length,
-                            page.Body.Length);
+                                wiki.ProcessingTime.TotalMilliseconds,
+                                wiki.MatchCount,
+                                wiki.ErrorCount,
+                                wiki.OutgoingLinks.Count,
+                                wiki.Tags.Count,
+                                wiki.ProcessedBody.Length,
+                                page.Body.Length);
                         }
 
                         model.Body = wiki.ProcessedBody;
@@ -531,6 +531,12 @@ namespace TightWiki.Site.Controllers
                 model.Body = Utility.WarningCard("Default password has not been changed", text.ToString()) + model.Body;
             }
 #endif
+
+            if (page != null)
+            {
+                model.ModifiedByUserName = page.ModifiedByUserName;
+                model.ModifiedDate = context.LocalizeDateTime(page.ModifiedDate);
+            }
 
             return View(model);
         }
