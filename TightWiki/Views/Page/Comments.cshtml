@@ -4,7 +4,7 @@
 }
 
 <div class="card">
-    <div class="card-header"><h3>@ViewBag.Context.Title</h3></div>
+    <div class="card-header"><h3><a href="/@ViewBag.Context.PageNavigation">@ViewBag.Context.Title</a> Comments</h3></div>
     <div class="card-body">
 
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -33,44 +33,41 @@
 
                         @using (Html.BeginForm())
                         {
-                            <div class="row d-flex justify-content-center">
-                                <div class="col-md-8 col-lg-6">
-                                    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
-                                        <div class="card-body p-4">
+                            if (ViewBag.Context.IsAuthenticated == true)
+                            {
+                                <div class="form-outline mb-4">
+                                    <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
+                                    <div style="overflow: hidden; padding-right: .5em;">
+                                        <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                @:<a href="/Account/Login">Login to leave a comment</a>.
+                            }
 
-                                            <div class="form-outline mb-4">
+                            @foreach (var h in Model.Comments)
+                            {
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <p>@Html.DisplayTextFor(x => h.Body)</p>
 
-                                                <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
-                                                <div style="overflow: hidden; padding-right: .5em;">
-                                                    <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
-                                                </div>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center">
+                                                <img src="/Account/@h.UserName/Avatar?Exact=16" />
+                                                <p class="small mb-0 ms-2"><cite>@Html.DisplayTextFor(x => h.UserName) @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                                             </div>
-
-                                            @foreach (var h in Model.Comments)
+                                            @if (h.UserId == ViewBag.Context.User.Id)
                                             {
-                                                <div class="card mb-4">
-                                                    <div class="card-body">
-                                                        <p>@Html.DisplayTextFor(x => h.Body)</p>
-
-                                                        <div class="d-flex justify-content-between">
-                                                            <div class="d-flex flex-row align-items-center">
-                                                                <img src="/Account/@h.UserName/Avatar?Exact=16" />
-                                                                <p class="small mb-0 ms-2"><cite>@Html.DisplayTextFor(x => h.UserName) @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
-                                                            </div>
-                                                            @if (h.UserId == ViewBag.Context.User.Id)
-                                                            {
-                                                                <div class="d-flex flex-row align-items-center">
-                                                                    <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')" >Delete</a></p>
-                                                                </div>
-                                                            }
-                                                        </div>
-                                                    </div>
+                                                <div class="d-flex flex-row align-items-center">
+                                                    <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')" >Delete</a></p>
                                                 </div>
                                             }
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
 
                             @:<center>
                             if (@ViewBag.PaginationCount > 1)

@@ -77,6 +77,7 @@
                     _functionPrototypes.Add("@@NoCache:");
                     _functionPrototypes.Add("@@Include:");
                     _functionPrototypes.Add("@@Draft:");
+                    _functionPrototypes.Add("@@HideFooterComments:");
 
                     //System functions:
                     _functionPrototypes.Add("@@SystemEmojiCategoryList:");

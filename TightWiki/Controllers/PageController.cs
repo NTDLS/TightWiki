@@ -150,7 +150,7 @@ namespace TightWiki.Site.Controllers
             });
 
             context.SetPageId(pageInfo.Id);
-            ViewBag.Context.Title = $"{pageInfo.Name} Comments";
+            ViewBag.Context.Title = $"{pageInfo.Name}";
 
             if (model.Comments != null && model.Comments.Any())
             {
@@ -405,6 +405,9 @@ namespace TightWiki.Site.Controllers
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
             if (page != null)
             {
+                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                ViewBag.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
+
                 if (page.Revision == page.LatestRevision)
                 {
                     pageRevision = null;
@@ -470,6 +473,11 @@ namespace TightWiki.Site.Controllers
                             page.Body.Length);
                     }
                     model.Body = wiki.ProcessedBody;
+                }
+
+                if (Global.EnablePageComments && Global.ShowCommentsOnPageFooter && ViewBag.HideFooterComments == false)
+                {
+                    model.Comments = PageRepository.GetPageCommentsPaged(pageNavigation, 1);
                 }
             }
             else if (pageRevision != null)

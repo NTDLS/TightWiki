@@ -1132,7 +1132,14 @@ namespace TightWiki.Shared.Wiki
                             var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, html.ToString(), false);
                         }
                         break;
-
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    case "hidefootercomments":
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                        }
+                        break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "nocache":
                         {
@@ -1142,7 +1149,7 @@ namespace TightWiki.Shared.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "deprecate":
+                    case "HideFooterComments":
                         {
                             if (_nestLevel == 0)
                             {

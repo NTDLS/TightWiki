@@ -14,6 +14,7 @@
             public static string Include { get; } = "Include";
             public static string Draft { get; } = "Draft";
             public static string NoCache { get; } = "NoCache";
+            public static string HideFooterComments { get; } = "HideFooterComments";
         }
 
         public static class Roles

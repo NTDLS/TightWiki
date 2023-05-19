@@ -3,3 +3,56 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 @Html.Raw(Model.Body)
+@if (ViewBag.HideFooterComments == false)
+{
+    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter)
+    {
+        <hr class="mt-5 mb-5">
+        <h2>Comments</h2>
+    }
+    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter)
+    {
+        if (ViewBag.Context.IsAuthenticated == true)
+        {
+            <form method="post" action="/@ViewBag.Context.PageNavigation/Comments">
+                <div class="form-outline mb-4">
+                    <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
+                    <div style="overflow: hidden; padding-right: .5em;">
+                        <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+                    </div>
+                </div>
+            </form>
+        }
+        else
+        {
+            @:<a href="/Account/Login">Login to leave a comment</a>.
+        }
+    }
+    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    {
+        @foreach (var h in Model.Comments)
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <p>@Html.DisplayTextFor(x => h.Body)</p>
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                            <img src="/Account/@h.UserName/Avatar?Exact=16" />
+                            <p class="small mb-0 ms-2"><cite>@Html.DisplayTextFor(x => h.UserName) @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
+                        </div>
+                        @if (h.UserId == ViewBag?.Context?.User?.Id)
+                        {
+                            <div class="d-flex flex-row align-items-center">
+                                <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a></p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (TightWiki.Shared.Global.EnablePageComments && TightWiki.Shared.Global.ShowCommentsOnPageFooter)
+    {
+        <a href="/@ViewBag.Context.PageNavigation/Comments">View all comments</a>
+    }
+}

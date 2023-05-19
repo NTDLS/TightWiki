@@ -59,27 +59,30 @@
                                 </tbody>
                             </table>
 
-                            if (@ViewBag.PreviousPage != null)
+                            if (@ViewBag.PaginationCount > 1)
                             {
-                                <a href="/@ViewBag.Context.PageNavigation/History/1">&lt;&lt; First</a>
+                                if (@ViewBag.PreviousPage != null)
+                                {
+                                    <a href="/@ViewBag.Context.PageNavigation/History/1">&lt;&lt; First</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.PreviousPage">&lt; Previous</a>
+                                }
+                                else
+                                {
+                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                                }
                                 @:&nbsp; | &nbsp;
-                                <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.PreviousPage">&lt; Previous</a>
-                            }
-                            else
-                            {
-                                @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                            }
-                            @:&nbsp; | &nbsp;
 
-                            if (@ViewBag.NextPage != null)
-                            {
-                                <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.NextPage">Next &gt;</a>
-                                @:&nbsp; | &nbsp;
-                                <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.PaginationCount">Last &gt;&gt;</a>
-                            }
-                            else
-                            {
-                                @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                if (@ViewBag.NextPage != null)
+                                {
+                                    <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.NextPage">Next &gt;</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.PaginationCount">Last &gt;&gt;</a>
+                                }
+                                else
+                                {
+                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                }
                             }
                         }
                     </td>

@@ -18,6 +18,8 @@ namespace TightWiki.Shared
         public static string HTMLPostBody { get; set; }
         public static bool IncludeWikiDescriptionInMeta { get; set; }
         public static bool IncludeWikiTagsInMeta { get; set; }
+        public static bool EnablePageComments { get; set; }
+        public static bool ShowCommentsOnPageFooter { get; set; }
         public static bool IncludeSearchOnNavbar { get; set; }
         public static int PageCacheSeconds { get; set; }
         public static int CacheMemoryLimitMB { get; set; }
@@ -52,6 +54,8 @@ namespace TightWiki.Shared
             DefaultTimeZone = basicConfig.As<string>("Default TimeZone");
             IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta");
             IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta");
+            EnablePageComments = functConfig.As<bool>("Enable Page Comments");
+            ShowCommentsOnPageFooter = functConfig.As<bool>("Show Comments on Page Footer");
             IncludeSearchOnNavbar = functConfig.As<bool>("Include Search on Navbar");
             HTMLHeader = htmlConfig.As<string>("Header");
             HTMLFooter = htmlConfig.As<string>("Footer");
