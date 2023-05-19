@@ -177,6 +177,30 @@ namespace TightWiki
                 );
 
                 endpoints.MapControllerRoute(
+                    name: "Account_Login",
+                    pattern: "Account/Login",
+                    defaults: new { controller = "Account", action = "Login" }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "Account_UserProfile",
+                    pattern: "Account/Profile",
+                    defaults: new { controller = "Account", action = "UserProfile" }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "Account_Logout",
+                    pattern: "Account/Logout",
+                    defaults: new { controller = "Account", action = "Logout" }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "Account_PublicProfile",
+                    pattern: "Account/{userAccountName}",
+                    defaults: new { controller = "Account", action = "PublicProfile" }
+                );
+
+                endpoints.MapControllerRoute(
                     name: "Account_Avatar",
                     pattern: "Account/{userAccountName}/Avatar",
                     defaults: new { controller = "Account", action = "Avatar" }

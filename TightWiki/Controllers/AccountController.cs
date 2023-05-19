@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TightWiki.Controllers;
+using TightWiki.Shared;
 using TightWiki.Shared.Library;
 using TightWiki.Shared.Models.Data;
 using TightWiki.Shared.Models.View;
@@ -772,6 +773,45 @@ namespace TightWiki.Site.Controllers
             {
                 return NotFound();
             }
+        }
+
+        /// <summary>
+        /// Get user profile.
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult PublicProfile(string userAccountName)
+        {
+            ViewBag.Context.Title = $"Public Profile";
+
+            userAccountName = WikiUtility.CleanPartialURI(userAccountName);
+            var user = UserRepository.GetUserByNavigation(userAccountName);
+
+            if (user == null)
+            {
+                return View(new PublicProfileModel
+                {
+                    ErrorMessage = "The specified user was not found."
+                });
+            }
+
+            var model = new PublicProfileModel()
+            {
+                AccountName = user.AccountName,
+                Navigation = user.Navigation,
+                Id = user.Id,
+                TimeZone = user.TimeZone,
+                Language = user.Language,
+                Country = user.Country,
+                AboutMe = user.AboutMe,
+                Avatar = user.Avatar
+            };
+
+            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(user.Id, GlobalSettings.DefaultProfileRecentlyModifiedCount)
+                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
+
+            return View(model);
         }
 
         /// <summary>

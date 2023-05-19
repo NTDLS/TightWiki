@@ -23,6 +23,7 @@ namespace TightWiki.Shared
         public static bool IncludeSearchOnNavbar { get; set; }
         public static int PageCacheSeconds { get; set; }
         public static int CacheMemoryLimitMB { get; set; }
+        public static int DefaultProfileRecentlyModifiedCount { get; set; }
         public static bool WritePageStatistics { get; set; }
         public static string DefaultTimeZone { get; set; }
         public static string Address { get; set; }
@@ -54,6 +55,7 @@ namespace TightWiki.Shared
             Name = basicConfig.As<string>("Site: Name");
             Copyright = basicConfig.As<string>("Site: Copyright");
 
+            DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Profile: Default Profile Recently Modified Count");
             DefaultEmojiHeight = customizationConfig.As<int>("Images: Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.As<bool>("Authorization: Allow Google Authentication");
             DefaultTimeZone = customizationConfig.As<string>("Localization: Default TimeZone");

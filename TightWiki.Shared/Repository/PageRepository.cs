@@ -369,6 +369,19 @@ namespace TightWiki.Shared.Repository
                 param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).FirstOrDefault();
         }
 
+        public static List<Page> GetTopRecentlyModifiedPagesInfoByUserId(int userId, int topCount)
+        {
+            using var handler = new SqlConnectionHandler();
+            var param = new
+            {
+                UserId = userId,
+                TopCount = topCount
+            };
+
+            return handler.Connection.Query<Page>("GetTopRecentlyModifiedPagesInfoByUserId",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+        }
+
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
         {
             using var handler = new SqlConnectionHandler();
