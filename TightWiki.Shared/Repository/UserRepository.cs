@@ -17,7 +17,7 @@ namespace TightWiki.Shared.Repository
             };
 
             using var handler = new SqlConnectionHandler();
-            handler.Connection.Execute("DeleteById",
+            handler.Connection.Execute("DeleteUserById",
                 param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
         }
 
@@ -46,6 +46,20 @@ namespace TightWiki.Shared.Repository
             };
 
             return handler.Connection.Query<User>("GetUsersByRoleId",
+                param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
+        }
+
+        public static List<User> GetAllPublicProfilesPaged(int pageNumber, int pageSize = 0, string searchToken = null)
+        {
+            using var handler = new SqlConnectionHandler();
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                SearchToken = searchToken
+            };
+
+            return handler.Connection.Query<User>("GetAllPublicProfilesPaged",
                 param, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 

@@ -69,6 +69,10 @@
                     _functionPrototypes.Add("##LastModified:");
                     _functionPrototypes.Add("##AppVersion:");
 
+                    _functionPrototypes.Add("##ProfileGlossary: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
+                    _functionPrototypes.Add("##ProfileList: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
+
+
                     //Processing instructions:
                     _functionPrototypes.Add("@@Deprecate:");
                     _functionPrototypes.Add("@@Protect:<bool>{isSilent}='false'");

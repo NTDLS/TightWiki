@@ -146,6 +146,7 @@ namespace TightWiki.Site.Controllers
 
             model.Comments.ForEach(o =>
             {
+                o.Body = WikifierLite.Process(o.Body);
                 o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
             });
 
@@ -536,6 +537,15 @@ namespace TightWiki.Site.Controllers
             {
                 model.ModifiedByUserName = page.ModifiedByUserName;
                 model.ModifiedDate = context.LocalizeDateTime(page.ModifiedDate);
+
+                if (model.Comments != null)
+                {
+                    model.Comments.ForEach(o =>
+                    {
+                        o.Body = WikifierLite.Process(o.Body);
+                        o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                    });
+                }
             }
 
             return View(model);

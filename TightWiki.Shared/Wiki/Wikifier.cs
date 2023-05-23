@@ -1261,6 +1261,84 @@ namespace TightWiki.Shared.Wiki
                 switch (function.Name.ToLower())
                 {
                     //------------------------------------------------------------------------------------------------------------------------------
+                    //Creates a glossary all user profiles.
+                    case "profileglossary":
+                        {
+                            var html = new StringBuilder();
+                            string refTag = GenerateQueryToken();
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var searchToken = function.Parameters.Get<string>("searchToken");
+                            var topCount = function.Parameters.Get<int>("top");
+                            var profiles = UserRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+
+                            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                            var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpper()).Distinct();
+
+                            if (profiles.Count() > 0)
+                            {
+                                html.Append("<center>");
+                                foreach (var alpha in alphabet)
+                                {
+                                    html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
+                                }
+                                html.Append("</center>");
+
+                                html.Append("<ul>");
+                                foreach (var alpha in alphabet)
+                                {
+                                    html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
+
+                                    html.Append("<ul>");
+                                    foreach (var profile in profiles.Where(p => p.AccountName.ToLower().StartsWith(alpha.ToLower())))
+                                    {
+                                        html.Append($"<li><a href=\"/Account/{profile.Navigation}/Profile\">{profile.AccountName}</a>");
+                                        html.Append("</li>");
+                                    }
+                                    html.Append("</ul>");
+                                }
+
+                                html.Append("</ul>");
+                            }
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
+                        }
+                        break;
+
+
+                    //------------------------------------------------------------------------------------------------------------------------------
+                    //Creates a list of all user profiles.
+                    case "profilelist":
+                        {
+                            var html = new StringBuilder();
+                            string refTag = GenerateQueryToken();
+                            int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
+                            var pageSize = function.Parameters.Get<int>("pageSize");
+                            var searchToken = function.Parameters.Get<string>("searchToken");
+                            var profiles = UserRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+
+                            if (profiles.Count() > 0)
+                            {
+                                html.Append("<ul>");
+
+                                foreach (var profile in profiles)
+                                {
+                                    html.Append($"<li><a href=\"/Account/{profile.Navigation}/Profile\">{profile.AccountName}</a>");
+                                    html.Append("</li>");
+                                }
+
+                                html.Append("</ul>");
+                            }
+
+                            if (profiles.Count > 0 && profiles.First().PaginationCount > 1)
+                            {
+                                html.Append(WikiUtility.GetPageSelector(refTag, profiles.First().PaginationCount, pageNumber, _queryString));
+                            }
+
+                            StoreMatch(function, pageContent, match.Value, html.ToString());
+                        }
+                        break;
+
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "attachments":
                         {
                             string refTag = GenerateQueryToken();
@@ -1614,7 +1692,6 @@ namespace TightWiki.Shared.Wiki
                             StoreMatch(function, pageContent, match.Value, html.ToString());
                         }
                         break;
-
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Creates a glossary of pages in the specified namespace.

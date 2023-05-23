@@ -51,12 +51,11 @@
                             {
                                 <div class="card mb-4">
                                     <div class="card-body">
-                                        <p>@Html.DisplayTextFor(x => h.Body)</p>
-
+                                        <p>@Html.Raw(h.Body)</p>
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
-                                                <img src="/Account/@h.UserName/Avatar?Exact=16" />
-                                                <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserName/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
+                                                <img src="/Account/@h.UserNavigation/Avatar?Exact=16" />
+                                                <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                                             </div>
                                             @if (h.UserId == ViewBag?.Context?.User?.Id)
                                             {

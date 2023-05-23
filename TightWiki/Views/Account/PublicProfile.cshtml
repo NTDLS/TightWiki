@@ -46,7 +46,7 @@
                         <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AboutMe)</div></td></tr>
                         <tr class="padded">
                             <td><strong>@Html.LabelFor(m => m.AboutMe)</strong></td>
-                            <td>@Html.DisplayFor(x => x.AboutMe, new { style = "word-wrap: break-word;" })</td>
+                            <td><div style="word-wrap: break-word;">@Html.Raw(Model.AboutMe)</div></td>
                         </tr>
                     </table>
                 }

@@ -804,7 +804,7 @@ namespace TightWiki.Site.Controllers
                 TimeZone = user.TimeZone,
                 Language = user.Language,
                 Country = user.Country,
-                AboutMe = user.AboutMe,
+                AboutMe = WikifierLite.Process(user.AboutMe),
                 Avatar = user.Avatar
             };
 
