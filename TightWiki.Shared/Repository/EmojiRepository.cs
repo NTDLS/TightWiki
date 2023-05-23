@@ -68,7 +68,7 @@ namespace TightWiki.Shared.Repository
                null, null, true, Singletons.CommandTimeout, CommandType.StoredProcedure).ToList();
         }
 
-        public static int SaveEmoji(Emoji emoji)
+        public static int SaveEmoji(Emoji emoji, byte[] imageBytes)
         {
             using var handler = new SqlConnectionHandler();
 
@@ -81,6 +81,11 @@ namespace TightWiki.Shared.Repository
 
             var result = handler.Connection.ExecuteScalar<int>("SaveEmoji",
                param, null, Singletons.CommandTimeout, CommandType.StoredProcedure);
+
+            if (imageBytes != null && imageBytes.Length != 0)
+            {
+                UpdatEmojiImage(result, emoji.MimeType, imageBytes);
+            }
 
             GlobalSettings.ReloadAllEmojis();
 

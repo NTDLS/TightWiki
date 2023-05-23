@@ -1032,9 +1032,9 @@ namespace TightWiki.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                if (model.OriginalName.ToLower() != model.Emoji.Name.ToLower())
+                if (model.OriginalName.ToLowerInvariant() != model.Emoji.Name.ToLowerInvariant())
                 {
-                    var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLower());
+                    var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLowerInvariant());
                     if (checkName != null)
                     {
                         ModelState.AddModelError("Emoji.Name", "Emoji name is already in use.");
@@ -1045,21 +1045,21 @@ namespace TightWiki.Site.Controllers
                 var emoji = new Emoji
                 {
                     Id = model.Emoji.Id,
-                    Name = model.Emoji.Name,
+                    Name = model.Emoji.Name.ToLowerInvariant(),
                     Categories = model.Categories
                 };
 
-                emoji.Id = EmojiRepository.SaveEmoji(emoji);
+                byte[] imageBytes = null;
 
                 var file = Request.Form.Files["ImageData"];
                 if (file != null && file.Length > 0)
                 {
                     try
                     {
-                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                        imageBytes = Utility.ConvertHttpFileToBytes(file);
                         //This is just to ensure this is a valid image:
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        EmojiRepository.UpdatEmojiImage(emoji.Id, file.ContentType, imageBytes);
+                        emoji.MimeType = file.ContentType;
                     }
                     catch
                     {
@@ -1067,6 +1067,7 @@ namespace TightWiki.Site.Controllers
                     }
                 }
 
+                emoji.Id = EmojiRepository.SaveEmoji(emoji, imageBytes);
                 model.OriginalName = model.Emoji.Name;
                 model.SuccessMessage = "The emoji has been saved successfully!.";
                 model.Emoji.Id = emoji.Id;
@@ -1111,7 +1112,7 @@ namespace TightWiki.Site.Controllers
 
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(model.OriginalName) == true || model.OriginalName.ToLower() != model.Name.ToLower())
+                if (string.IsNullOrEmpty(model.OriginalName) == true || model.OriginalName.ToLowerInvariant() != model.Name.ToLowerInvariant())
                 {
                     var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
                     if (checkName != null)
@@ -1128,24 +1129,26 @@ namespace TightWiki.Site.Controllers
                 categories.AddRange(model.Name.Split('-'));
                 categories = categories.Select(c => c.ToLowerInvariant().Trim()).Distinct().OrderBy(o => o).ToList();
 
+                string finalCategoryList = string.Join(",", string.Join(",", categories).Split(",").Distinct());
+
                 var emoji = new Emoji
                 {
                     Id = model.Id,
-                    Name = model.Name,
-                    Categories = string.Join(",", categories)
+                    Name = model.Name.ToLowerInvariant(),
+                    Categories = finalCategoryList
                 };
 
-                emoji.Id = EmojiRepository.SaveEmoji(emoji);
+                byte[] imageBytes = null;
 
                 var file = Request.Form.Files["ImageData"];
                 if (file != null && file.Length > 0)
                 {
                     try
                     {
-                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                        imageBytes = Utility.ConvertHttpFileToBytes(file);
                         //This is just to ensure this is a valid image:
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        EmojiRepository.UpdatEmojiImage(emoji.Id, file.ContentType, imageBytes);
+                        emoji.MimeType = file.ContentType;
                     }
                     catch
                     {
@@ -1153,6 +1156,7 @@ namespace TightWiki.Site.Controllers
                     }
                 }
 
+                emoji.Id = EmojiRepository.SaveEmoji(emoji, imageBytes);
                 model.Id = emoji.Id;
                 model.OriginalName = model.Name;
                 model.Categories = emoji.Categories;
