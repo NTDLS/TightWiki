@@ -196,7 +196,7 @@ namespace TightWiki
 
                 endpoints.MapControllerRoute(
                     name: "Account_PublicProfile",
-                    pattern: "Account/{userAccountName}",
+                    pattern: "Account/{userAccountName}/Profile",
                     defaults: new { controller = "Account", action = "PublicProfile" }
                 );
 
