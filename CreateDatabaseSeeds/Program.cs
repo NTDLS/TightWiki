@@ -25,7 +25,7 @@ namespace CreateDatabaseSeeds
             using var handler = new SqlConnectionHandler();
             var scriptFiles = Directory.GetFiles(scriptPath, "*.sql").ToList();
 
-            int maxFileSize = 1024 * 1024 * 5;
+            int maxFileSize = 1024 * 1024 * 1;
 
             foreach (var scriptFile in scriptFiles)
             {
