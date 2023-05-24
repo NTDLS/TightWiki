@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using TightWiki.Controllers;
 using TightWiki.Shared.Library;
@@ -30,10 +31,16 @@ namespace TightWiki.Site.Controllers
                 return Unauthorized();
             }
 
+            Assembly assembly = Assembly.GetEntryAssembly();
+            Version version = assembly.GetName().Version;
+
             var model = new StatsModel()
             {
-                DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats()
+                DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats(),
+                ApplicationVerson = version.ToString()
             };
+
+
 
             ViewBag.Context.Title = $"Statistics";
 
