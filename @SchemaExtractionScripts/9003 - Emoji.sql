@@ -54,10 +54,10 @@ BEGIN--WHILE
 	CLOSE Categories DEALLOCATE Categories
 
 	INSERT INTO @Text SELECT 'DECLARE @Discard TABLE (Id INT)'
-	INSERT INTO @Text SELECT 'INSERT INTO @Discard EXEC SaveEmoji @Name=''' + @Name + ''', @Categories= ''' + @Categories + ''', @MimeType= ''' + @MimeType + ''''
+	INSERT INTO @Text SELECT 'INSERT INTO @Discard EXEC SaveEmoji @Name=''' + @Name + ''', @Categories= ''' + @Categories + ''''
 	INSERT INTO @Text SELECT 'DECLARE @EmojiId INT = (SELECT Id FROM Emoji WHERE Name = ''' + @Name + ''')'
 	INSERT INTO @Text SELECT 'DECLARE @Data varbinary(max) = DECOMPRESS(' + Convert(varchar(MAX), @ImageData, 1) + ')'
-	INSERT INTO @Text SELECT 'EXEC UpdatEmojiImage @EmojiId=@EmojiId, @ImageData=@Data'
+	INSERT INTO @Text SELECT 'EXEC UpdatEmojiImage @EmojiId=@EmojiId, @ImageData=@Data, @MimeType= ''' + @MimeType + ''''
 	INSERT INTO @Text SELECT 'GO'
 
 	--------------------------------------------------------------------------------------------------
