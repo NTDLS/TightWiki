@@ -5,8 +5,9 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 
 :yum: TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
-# :crossed_fingers:	Play with the latest dev build at http://TightWiki.com/
-:boom: You can play with the demo by signing up with with google auth or native TightWiki login.
+:crossed_fingers: Play with the latest dev build at http://TightWiki.com/. If you want to edit, you can signup using google auth or native TightWiki login.
+
+:eyes: Or check out the full wiki [documentation](https://tightwiki.com/Wiki%20Help%20::%20Wiki%20Help) to learn about the engine functionality.
 
 :boom: Also be sure to check out the screenshots below the feature list...
 
