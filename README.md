@@ -1,7 +1,7 @@
 # TightWiki
 
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
-The first thing that comes to mind is a Wiki but for some reason I can never find anything that “checks all the boxes” – so I wrote one.
+The first thing that comes to mind is a Wiki but for some reason I can never find anything that "checks all the boxes". Hopefully you'll find this one does for you.
 
 :yum: TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
 
