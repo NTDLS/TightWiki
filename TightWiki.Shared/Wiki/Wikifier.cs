@@ -801,7 +801,7 @@ namespace TightWiki.Shared.Wiki
                 }
                 else
                 {
-                    var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, string.Empty);
+                    var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, match.Value, false);
                     pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                 }
             }
