@@ -766,11 +766,11 @@ namespace TightWiki.Shared.Wiki
 
         private void TransformEmoji(WikiString pageContent)
         {
-            var rgx = new Regex(@"(::.+?::)", RegexOptions.IgnoreCase);
+            var rgx = new Regex(@"(\%\%.+?\%\%)", RegexOptions.IgnoreCase);
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string key = match.Value.Trim().ToLower().Trim(':');
+                string key = match.Value.Trim().ToLower().Trim('%');
                 int scale = 100;
 
                 var parts = key.Split(',');
@@ -780,7 +780,7 @@ namespace TightWiki.Shared.Wiki
                     scale = int.Parse(parts[1]); //Image scale.
                 }
 
-                key = $"::{key}::";
+                key = $"%%{key}%%";
 
                 var emoji = GlobalSettings.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
@@ -788,13 +788,13 @@ namespace TightWiki.Shared.Wiki
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {
-                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim(':')}?Scale={scale}\" alt=\"{emoji.Name}\" />";
+                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji.Name}\" />";
                         var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                     }
                     else
                     {
-                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim(':')}\" alt=\"{emoji.Name}\" />";
+                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}\" alt=\"{emoji.Name}\" />";
                         var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                     }
@@ -1119,7 +1119,7 @@ namespace TightWiki.Shared.Wiki
                                 }
 
                                 html.Append($"<tr>");
-                                html.Append($"<td><a href=\"/wiki_help_list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
+                                html.Append($"<td><a href=\"/wiki_help::list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
                                 html.Append($"<td>{category.EmojiCount:N0}</td>");
                                 html.Append($"</tr>");
                                 rowNumber++;

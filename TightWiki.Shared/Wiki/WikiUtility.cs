@@ -203,11 +203,17 @@ namespace TightWiki.Shared.Wiki
                 return string.Empty;
             }
 
-            url = url.Replace("::", "_");
-
             if (url == null) return null;
 
-            var sb = new StringBuilder();
+            if (url.Contains("::"))
+            {
+                var parts = url.Split("::");
+                if (parts.Length != 2)
+                {
+                    throw new Exception("URL can not contain more than one namespace.");
+                }
+                return $"{CleanPartialURI(parts[0].Trim())}::{CleanPartialURI(parts[1].Trim())}";
+            }
 
             url = url.Replace('\\', '/');
             url = url.Replace("&quot;", "\"");
@@ -216,6 +222,7 @@ namespace TightWiki.Shared.Wiki
             url = url.Replace("&gt;", ">");
             url = url.Replace("&nbsp;", " ");
 
+            var sb = new StringBuilder();
             foreach (char c in url)
             {
                 if (c == ' ' || c == '.')

@@ -1,7 +1,6 @@
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics.Metrics;
 using System.Linq;
 using TightWiki.Shared.ADO;
 using TightWiki.Shared.Library;

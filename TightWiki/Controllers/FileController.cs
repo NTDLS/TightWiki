@@ -273,7 +273,7 @@ namespace TightWiki.Site.Controllers
 
             if (string.IsNullOrEmpty(pageNavigation) == false)
             {
-                string shortcut = $"::{pageNavigation.ToLower()}::";
+                string shortcut = $"%%{pageNavigation.ToLower()}%%";
                 var emoji = GlobalSettings.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
