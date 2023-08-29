@@ -54,10 +54,10 @@
                 }
             }
             // Emoji
-            if (ch == ":") {
-                if (stream.peek() == ':') {
-                    if (stream.skipTo("::")) {
-                        stream.eatWhile(':');
+            if (ch == "%") {
+                if (stream.peek() == '%') {
+                    if (stream.skipTo("%%")) {
+                        stream.eatWhile('%');
                         return "strong";
                     }
                 }
