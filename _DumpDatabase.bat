@@ -14,10 +14,10 @@ MD "Database Setup Scripts\Data"
 CreateDatabaseSeeds\bin\Debug\net7.0-windows\CreateDatabaseSeeds.exe "@SchemaExtractionScripts" "Database Setup Scripts\Data"
 
 Echo Deleting existing archive...
-del "Database Setup Scripts.zip"
+del "TightWiki.Release.Database.zip"
 
 Echo Creatng new archive...
-7z.exe a -tzip -mx9 -r "Database Setup Scripts.zip" "Database Setup Scripts\*.*"
+7z.exe a -tzip -mx9 -r "TightWiki.Release.Database.zip" "Database Setup Scripts\*.*"
 
 RD "Database Setup Scripts" /Q /S
 pause
