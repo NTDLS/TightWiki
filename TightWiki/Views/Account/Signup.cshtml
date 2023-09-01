@@ -3,6 +3,15 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+@if (ViewBag.Context.IsPartiallyAuthenticated == true)
+{
+    <script>
+        window.onload = function () {
+            document.getElementById("AccountName").focus();
+        }
+    </script>
+}
+
 <div class="card">
     <div class="card-header"><h3>New Account Signup</h3></div>
     <div class="card-body">
@@ -34,29 +43,41 @@
                             @Html.AntiForgeryToken()
 
                             <table border="0">
-
                                 @if (TightWiki.Shared.GlobalSettings.AllowGoogleAuthentication == true && ViewBag.Context.IsPartiallyAuthenticated == false)
                                 {
                                     <tr>
-                                        <td>
+                                        <td bgcolor="#ffffff">&nbsp;</td>
+                                        <td bgcolor="#ECFEEB">
                                             <strong>Signup with Google?</strong><br />
+                                            If you have a Google account, you can click here to start signing up using Google.<br />
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td bgcolor="#ffffff">&nbsp;</td>
+                                        <td bgcolor="#ECFEEB">
                                             <script src="https://accounts.google.com/gsi/client" async defer></script>
                                             <div id="g_id_onload"
-                                         data-client_id="@Singletons.GoogleAuthenticationClientId"
-                                         data-login_uri="@TightWiki.Shared.GlobalSettings.Address/Account/GoogleSignup?ReturnUrl=@ViewBag.ReturnUrl"
-                                         data-auto_prompt="false">
+                                                 data-client_id="@Singletons.GoogleAuthenticationClientId"
+                                                 data-login_uri="@TightWiki.Shared.GlobalSettings.Address/Account/GoogleSignup?ReturnUrl=@ViewBag.ReturnUrl"
+                                                 data-auto_prompt="false">
                                             </div>
-                                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_up_with" data-shape="rectangular" data-logo_alignment="left">
+                                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="signup_with" data-shape="rectangular" data-logo_alignment="left">
                                             </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>
+                                            <strong>Or, you can signup with a username and password below.</strong><br />
                                         </td>
                                     </tr>
                                 }
                                 else
                                 {
                                     <tr>
-                                        <td>
-                                            <a href="/Account/Logout?ReturnUrl=/Account/Signup">Signup with username and password instead?</a>
-                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td><a href="/Account/Logout?ReturnUrl=/Account/Signup">Signup with username and password instead?</a></td>
                                     </tr>
                                 }
 
@@ -73,11 +94,6 @@
                                 else
                                 {
                                     @Html.HiddenFor(m => m.EmailAddress,  new { @class = "input-control" })
-                                    <script>
-                                        window.onload = function () {
-                                            document.getElementById("AccountName").focus();
-                                        }
-                                    </script>
                                 }
 
                                 <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountName)</div></td></tr>

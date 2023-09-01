@@ -25,7 +25,7 @@ namespace TightWiki.Shared.Library
         public string Role { get; set; }
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
-        public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new List<ProcessingInstruction>();
+        public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new();
 
         public DateTime LocalizeDateTime(DateTime datetime)
         {
