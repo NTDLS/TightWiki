@@ -92,31 +92,37 @@ namespace TightWiki.Controllers
 
         public int SavePage(Page page)
         {
-            bool alreadyExisted = (page.Id != 0);
+            bool isNewlyCreated = (page.Id == 0);
 
             page.Id = PageRepository.SavePage(page);
 
-            var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
-            PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
-            var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-            PageRepository.SavePageTokens(pageTokens);
+            RefreshPageProperties(page);
 
-            if (alreadyExisted)
-            {
-                PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
-            }
-            else
+            if (isNewlyCreated)
             {
                 //This will update the pageid of referenes that have been saved to the navigation link.
                 PageRepository.UpdateSinglePageReference(page.Navigation);
             }
 
-            //Debug.WriteLine($"Name {page.Name}, Matches: {wikifier.MatchCount}, Errors:{wikifier.ErrorCount}, Duration: {wikifier.ProcessingTime.TotalMilliseconds}");
-
-            Cache.ClearClass($"Page:{page.Navigation}");
-
             return page.Id;
+        }
+
+        public void RefreshPageProperties(string pageNavigation)
+        {
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
+            RefreshPageProperties(page);
+        }
+
+        public void RefreshPageProperties(Page page)
+        {
+            var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
+            PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+
+            var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+            PageRepository.SavePageTokens(pageTokens);
+            PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
+            Cache.ClearClass($"Page:{page.Navigation}");
         }
 
         public void PerformLogin(string accountNameOrEmail, string password, bool isPasswordHash, bool persist = false)

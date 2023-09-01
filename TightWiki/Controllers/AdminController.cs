@@ -399,7 +399,7 @@ namespace TightWiki.Site.Controllers
                 return View(model);
             }
 
-            if (action == "rebuildsearchcache")
+            if (action == "RebuildPageSearchIndex")
             {
                 var pages = PageRepository.GetAllPages();
 
@@ -419,12 +419,16 @@ namespace TightWiki.Site.Controllers
 
                 foreach (var page in pages)
                 {
-                    base.SavePage(page);
+                    base.RefreshPageProperties(page);
                 }
             }
             else if (action == "truncatepagerevisionhistory")
             {
                 PageRepository.TruncateAllPageHistory("YES");
+                Cache.Clear();
+            }
+            else if (action == "flushmemorycache")
+            {
                 Cache.Clear();
             }
             else if (action == "createselfdocumentation")

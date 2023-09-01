@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using TightWiki.Shared.Library;
-using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Shared.Models.View
 {

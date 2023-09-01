@@ -17,7 +17,7 @@ using static TightWiki.Shared.Wiki.Constants;
 
 namespace TightWiki.Shared.Wiki
 {
-    public class Wikifier
+    public partial class Wikifier
     {
         public int ErrorCount { get; private set; }
         public int MatchCount { get; private set; }
@@ -26,29 +26,25 @@ namespace TightWiki.Shared.Wiki
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
-        public readonly Dictionary<string, string> UserVariables = new Dictionary<string, string>();
-        public readonly Dictionary<string, string> Snippets = new Dictionary<string, string>();
-        public List<NameNav> OutgoingLinks { get; set; } = new List<NameNav>();
-        public List<string> ProcessingInstructions { get; private set; } = new List<string>();
+        public readonly Dictionary<string, string> UserVariables = new();
+        public readonly Dictionary<string, string> Snippets = new();
+        public List<NameNav> OutgoingLinks { get; private set; } = new();
+        public List<string> ProcessingInstructions { get; private set; } = new();
         public string ProcessedBody { get; private set; }
-        public List<string> Tags { get; private set; } = new List<string>();
-        public Dictionary<string, MatchSet> Matches { get; private set; } = new Dictionary<string, MatchSet>();
+        public List<string> Tags { get; private set; } = new();
+        public Dictionary<string, MatchSet> Matches { get; private set; } = new();
 
-        private Dictionary<string, int> _sequences = new Dictionary<string, int>();
+        private readonly Dictionary<string, int> _sequences = new();
         private string _queryTokenState = Security.MachineKey;
         private int _matchesPerIteration = 0;
-        private readonly string _tocName = "TOC_" + (new Random()).Next(0, 1000000).ToString();
-        private readonly List<TOCTag> _tocTags = new List<TOCTag>();
+        private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
+        private readonly List<TOCTag> _tocTags = new();
         private readonly Page _page;
         private readonly int? _revision;
-        readonly IQueryCollection _queryString;
+        private readonly IQueryCollection _queryString;
         private readonly StateContext _context;
         private readonly int _nestLevel;
-
-        /// <summary>
-        /// When matches are omitted, the entire match will be removed from the resulting wiki text.
-        /// </summary>
-        private HashSet<WikiMatchType> _omitMatches = new HashSet<WikiMatchType>();
+        private readonly HashSet<WikiMatchType> _omitMatches = new();
 
         public Wikifier(StateContext context, Page page, int? revision = null, IQueryCollection queryString = null, WikiMatchType[] omitMatches = null, int nestLevel = 0)
         {
@@ -120,6 +116,7 @@ namespace TightWiki.Shared.Wiki
                 {
                     if (_omitMatches.Contains(v.Value.MatchType))
                     {
+                        /// When matches are omitted, the entire match will be removed from the resulting wiki text.
                         pageContent.Replace(v.Key, string.Empty);
                     }
                     else
@@ -179,6 +176,7 @@ namespace TightWiki.Shared.Wiki
                     {
                         if (_omitMatches.Contains(v.Value.MatchType))
                         {
+                            /// When matches are omitted, the entire match will be removed from the resulting wiki text.
                             pageContent.Replace(v.Key, string.Empty);
                         }
                         else
@@ -210,21 +208,8 @@ namespace TightWiki.Shared.Wiki
             ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
             ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
 
-            var regEx = new StringBuilder();
-            regEx.Append(@"(\^\^\^\^\^\^\^.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\^\^\^\^\^\^.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\^\^\^\^\^.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\^\^\^\^.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\^\^\^.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\^\^.*?\n)");
-
-            var rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -259,8 +244,9 @@ namespace TightWiki.Shared.Wiki
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
 
             //Transform literal strings, even encodes HTML so that it displays verbatim.
-            var rgx = new Regex(@"\#\{([\S\s]*?)\}\#", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformLiterals().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 string value = match.Value.Substring(2, match.Value.Length - 4);
@@ -303,7 +289,7 @@ namespace TightWiki.Shared.Wiki
                     throw new Exception(exception.ToString());
                 }
 
-                rawBlock = content.Substring(startPos, (endPos - startPos) + 2);
+                rawBlock = content.Substring(startPos, endPos - startPos + 2);
                 var transformBlock = new WikiString(rawBlock);
                 TransformBlock(transformBlock, true);
                 TransformBlock(transformBlock, false);
@@ -321,8 +307,9 @@ namespace TightWiki.Shared.Wiki
         /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlock(WikiString pageContent, bool firstBlocks)
         {
-            var rgx = new Regex(@"{{([\S\s]*)}}", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 int paramEndIndex = -1;
@@ -411,7 +398,7 @@ namespace TightWiki.Shared.Wiki
                                     {
                                         html.Append($"<thead>");
                                     }
-                                    else if ((rowNumber == 1 && isFirstRowHeader) || (rowNumber == 0 && isFirstRowHeader == false))
+                                    else if (rowNumber == 1 && isFirstRowHeader || rowNumber == 0 && isFirstRowHeader == false)
                                     {
                                         html.Append($"<tbody>");
                                     }
@@ -536,7 +523,7 @@ namespace TightWiki.Shared.Wiki
                             {
                                 string titleText = function.Parameters.Get<string>("titleText");
                                 string style = function.Parameters.Get<string>("styleName").ToLower();
-                                style = (style == "default" ? "" : $"alert-{style}");
+                                style = style == "default" ? "" : $"alert-{style}";
 
                                 if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
                                 html.Append($"<div class=\"alert {style}\">{scopeBody}</div>");
@@ -562,7 +549,7 @@ namespace TightWiki.Shared.Wiki
                         //------------------------------------------------------------------------------------------------------------------------------
                         case "jumbotron":
                             {
-                                string titleText = function.Parameters.Get<string>("titleText", "");
+                                string titleText = function.Parameters.Get("titleText", "");
                                 if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
                                 html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
                             }
@@ -570,14 +557,14 @@ namespace TightWiki.Shared.Wiki
                         //------------------------------------------------------------------------------------------------------------------------------
                         case "foreground":
                             {
-                                var style = WikiUtility.GetForegroundStyle(function.Parameters.Get<string>("styleName", "default")).Swap();
+                                var style = WikiUtility.GetForegroundStyle(function.Parameters.Get("styleName", "default")).Swap();
                                 html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
                             }
                             break;
                         //------------------------------------------------------------------------------------------------------------------------------
                         case "background":
                             {
-                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
+                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
                                 html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
                             }
                             break;
@@ -596,7 +583,7 @@ namespace TightWiki.Shared.Wiki
                             {
                                 string titleText = function.Parameters.Get<string>("titleText");
                                 string style = function.Parameters.Get<string>("styleName").ToLower();
-                                style = (style == "default" ? "" : style);
+                                style = style == "default" ? "" : style;
 
                                 html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
                                 if (string.IsNullOrWhiteSpace(titleText) == false) html.Append($"<h4>{titleText}</h4>");
@@ -608,7 +595,7 @@ namespace TightWiki.Shared.Wiki
                         case "card":
                             {
                                 string titleText = function.Parameters.Get<string>("titleText");
-                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get<string>("styleName", "default"));
+                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
 
                                 html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
                                 if (string.IsNullOrEmpty(titleText) == false)
@@ -633,21 +620,8 @@ namespace TightWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         void TransformSectionHeadings(WikiString pageContent)
         {
-            var regEx = new StringBuilder();
-            regEx.Append(@"(\=\=\=\=\=\=\=.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\=\=\=\=\=\=.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\=\=\=\=\=.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\=\=\=\=.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\=\=\=.*?\n)");
-            regEx.Append('|');
-            regEx.Append(@"(\=\=.*?\n)");
-
-            var rgx = new Regex(regEx.ToString(), RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -755,8 +729,9 @@ namespace TightWiki.Shared.Wiki
 
         private void TransformComments(WikiString pageContent)
         {
-            var rgx = new Regex(@"\;\;.*", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformComments().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
@@ -766,8 +741,9 @@ namespace TightWiki.Shared.Wiki
 
         private void TransformEmoji(WikiString pageContent)
         {
-            var rgx = new Regex(@"(\%\%.+?\%\%)", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformEmoji().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 string key = match.Value.Trim().ToLower().Trim('%');
@@ -813,8 +789,9 @@ namespace TightWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformVariables(WikiString pageContent)
         {
-            var rgx = new Regex(@"(\$\{.+?\})", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformVariables().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 string key = match.Value.Trim(new char[] { '{', '}', ' ', '\t', '$' });
@@ -859,8 +836,9 @@ namespace TightWiki.Shared.Wiki
         private void TransformLinks(WikiString pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
-            var rgx = new Regex(@"(\[\[http\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformExplicitHTTPLinks().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
@@ -885,8 +863,9 @@ namespace TightWiki.Shared.Wiki
             }
 
             //Parse external explicit links. eg. [[https://test.net]].
-            rgx = new Regex(@"(\[\[https\:\/\/.+?\]\])", RegexOptions.IgnoreCase);
-            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformExplicitHTTPsLinks().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
@@ -911,8 +890,9 @@ namespace TightWiki.Shared.Wiki
             }
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
-            rgx = new Regex(@"(\[\[.+?\]\])", RegexOptions.IgnoreCase);
-            matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransfomInternalDynamicLinks().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
@@ -951,7 +931,7 @@ namespace TightWiki.Shared.Wiki
                 string pageNavigation = WikiUtility.CleanPartialURI(pageName);
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
-                if (page == null && explicitNamespace == false && this._page.Namespace != null)
+                if (page == null && explicitNamespace == false && _page.Namespace != null)
                 {
                     if (explicitLinkText.IsNullOrEmpty())
                     {
@@ -1028,8 +1008,9 @@ namespace TightWiki.Shared.Wiki
         /// <param name="pageContent"></param>
         private void TransformProcessingInstructions(WikiString pageContent)
         {
-            var rgx = new Regex(@"(\@\@[\w-]+\(\))|(\@\@[\w-]+\(.*?\))|(\@\@[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
+
             foreach (var match in matches)
             {
                 FunctionCallInstance function;
@@ -1235,8 +1216,8 @@ namespace TightWiki.Shared.Wiki
         private void TransformFunctions(WikiString pageContent, bool isFirstChance)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -1272,7 +1253,7 @@ namespace TightWiki.Shared.Wiki
                             var topCount = function.Parameters.Get<int>("top");
                             var profiles = UserRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
-                            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                             var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpper()).Distinct();
 
                             if (profiles.Count() > 0)
@@ -1345,8 +1326,8 @@ namespace TightWiki.Shared.Wiki
 
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
 
-                            var navigation = WikiUtility.CleanPartialURI(function.Parameters.Get<string>("pageName", _page.Navigation));
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var navigation = WikiUtility.CleanPartialURI(function.Parameters.Get("pageName", _page.Navigation));
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
                             var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, _revision);
@@ -1391,8 +1372,8 @@ namespace TightWiki.Shared.Wiki
 
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
 
-                            var navigation = WikiUtility.CleanPartialURI(function.Parameters.Get<string>("pageName", _page.Navigation));
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            var navigation = WikiUtility.CleanPartialURI(function.Parameters.Get("pageName", _page.Navigation));
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
                             var history = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(navigation, pageNumber, pageSize);
@@ -1433,7 +1414,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "seq": //##Seq({Key})   Inserts a sequence into the document.
                         {
-                            var key = function.Parameters.Get<String>("Key");
+                            var key = function.Parameters.Get<string>("Key");
 
                             if (_sequences.ContainsKey(key) == false)
                             {
@@ -1448,7 +1429,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "editlink": //(##EditLink(link text))
                         {
-                            var linkText = function.Parameters.Get<String>("linkText");
+                            var linkText = function.Parameters.Get<string>("linkText");
                             StoreMatch(function, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/Page/Edit/{_page.Navigation}") + $"\">{linkText}</a>");
                         }
                         break;
@@ -1456,7 +1437,7 @@ namespace TightWiki.Shared.Wiki
                     //injects an un-processed wiki body into the calling page.
                     case "inject": //(PageName)
                         {
-                            var navigation = function.Parameters.Get<String>("pageName");
+                            var navigation = function.Parameters.Get<string>("pageName");
 
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
@@ -1473,7 +1454,7 @@ namespace TightWiki.Shared.Wiki
                     //Includes a processed wiki body into the calling page.
                     case "include": //(PageName)
                         {
-                            var navigation = function.Parameters.Get<String>("pageName");
+                            var navigation = function.Parameters.Get<string>("pageName");
 
                             Page page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
@@ -1495,8 +1476,8 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "set":
                         {
-                            var key = function.Parameters.Get<String>("key");
-                            var value = function.Parameters.Get<String>("value");
+                            var key = function.Parameters.Get<string>("key");
+                            var value = function.Parameters.Get<string>("value");
 
                             if (UserVariables.ContainsKey(key))
                             {
@@ -1513,7 +1494,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "get":
                         {
-                            var key = function.Parameters.Get<String>("key");
+                            var key = function.Parameters.Get<string>("key");
 
                             if (UserVariables.ContainsKey(key))
                             {
@@ -1528,8 +1509,8 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "color":
                         {
-                            var color = function.Parameters.Get<String>("color");
-                            var text = function.Parameters.Get<String>("text");
+                            var color = function.Parameters.Get<string>("color");
+                            var text = function.Parameters.Get<string>("text");
                             StoreMatch(function, pageContent, match.Value, $"<font color=\"{color}\">{text}</font>");
                         }
                         break;
@@ -1549,8 +1530,8 @@ namespace TightWiki.Shared.Wiki
                     //Displays an image that is attached to the page.
                     case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
                         {
-                            string imageName = function.Parameters.Get<String>("name");
-                            string alt = function.Parameters.Get<String>("alttext", imageName);
+                            string imageName = function.Parameters.Get<string>("name");
+                            string alt = function.Parameters.Get("alttext", imageName);
                             int scale = function.Parameters.Get<int>("scale");
 
                             bool explicitNamespace = imageName.Contains("::");
@@ -1566,7 +1547,7 @@ namespace TightWiki.Shared.Wiki
                                 isPageForeignImage = true;
                             }
 
-                            if (explicitNamespace == false && this._page.Namespace != null)
+                            if (explicitNamespace == false && _page.Namespace != null)
                             {
                                 if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, WikiUtility.CleanPartialURI(imageName), _revision) == null)
                                 {
@@ -1595,7 +1576,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays an file download link
                     case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
                         {
-                            string fileName = function.Parameters.Get<String>("name");
+                            string fileName = function.Parameters.Get<string>("name");
 
                             bool explicitNamespace = fileName.Contains("::");
                             bool isPageForeignFile = false;
@@ -1610,7 +1591,7 @@ namespace TightWiki.Shared.Wiki
                                 isPageForeignFile = true;
                             }
 
-                            if (explicitNamespace == false && this._page.Namespace != null)
+                            if (explicitNamespace == false && _page.Namespace != null)
                             {
                                 if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, WikiUtility.CleanPartialURI(fileName), _revision) == null)
                                 {
@@ -1622,7 +1603,7 @@ namespace TightWiki.Shared.Wiki
                             var attachment = PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, WikiUtility.CleanPartialURI(fileName), _revision);
                             if (attachment != null)
                             {
-                                string alt = function.Parameters.Get<String>("linkText", fileName);
+                                string alt = function.Parameters.Get("linkText", fileName);
 
                                 if (function.Parameters.Get<bool>("showSize"))
                                 {
@@ -1654,7 +1635,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages that have been recently modified.
                     case "recentlymodified": //##RecentlyModified(TopCount)
                         {
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var takeCount = function.Parameters.Get<int>("top");
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
@@ -1697,10 +1678,10 @@ namespace TightWiki.Shared.Wiki
                     //Creates a glossary of pages in the specified namespace.
                     case "namespaceglossary":
                         {
-                            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                             var namespaces = function.Parameters.GetList<string>("namespaces");
 
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
                             var pages = PageTagRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -1756,7 +1737,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page tags.
                     case "namespacelist":
                         {
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
                             var namespaces = function.Parameters.GetList<string>("namespaces");
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -1801,10 +1782,10 @@ namespace TightWiki.Shared.Wiki
                     //Creates a glossary of pages with the specified comma seperated tags.
                     case "tagglossary":
                         {
-                            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                             var tags = function.Parameters.GetList<string>("pageTags");
 
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
                             var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
@@ -1860,7 +1841,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a glossary by searching page's body text for the specified comma seperated list of words.
                     case "textglossary":
                         {
-                            string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
+                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                             var searchStrings = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries);
                             var topCount = function.Parameters.Get<int>("top");
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -1875,7 +1856,7 @@ namespace TightWiki.Shared.Wiki
                             var pages = PageRepository.PageSearch(searchTerms).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
 
                             if (pages.Count() > 0)
                             {
@@ -1926,7 +1907,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page body for the specified text.
                     case "searchlist":
                         {
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             string refTag = GenerateQueryToken();
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
                             var pageSize = function.Parameters.Get<int>("pageSize");
@@ -1987,7 +1968,7 @@ namespace TightWiki.Shared.Wiki
                     //Creates a list of pages by searching the page tags.
                     case "taglist":
                         {
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
                             var tags = function.Parameters.GetList<string>("pageTags");
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -2036,7 +2017,7 @@ namespace TightWiki.Shared.Wiki
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var html = new StringBuilder();
 
                             var pages = PageRepository.GetSimilarPagesPaged(_page.Id, pageNumber, pageSize);
@@ -2086,7 +2067,7 @@ namespace TightWiki.Shared.Wiki
                             int pageNumber = int.Parse(_queryString[refTag].ToString().IsNullOrEmpty("1"));
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var html = new StringBuilder();
 
                             var pages = PageRepository.GetRelatedPagesPaged(_page.Id, pageNumber, pageSize);
@@ -2192,7 +2173,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays the namespace of the current page.
                     case "snippet":
                         {
-                            string name = function.Parameters.Get<String>("name");
+                            string name = function.Parameters.Get<string>("name");
 
                             if (Snippets.ContainsKey(name))
                             {
@@ -2249,8 +2230,8 @@ namespace TightWiki.Shared.Wiki
         private void TransformPostProcess(WikiString pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var rgx = new Regex(@"(\#\#[\w-]+\(\))|(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)|(\#\#[\w-]+)", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var matches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -2272,7 +2253,7 @@ namespace TightWiki.Shared.Wiki
                     //Displays a tag link list.
                     case "tags": //##tags
                         {
-                            string styleName = function.Parameters.Get<String>("styleName").ToLower();
+                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var html = new StringBuilder();
 
                             if (styleName == "list")
@@ -2300,7 +2281,7 @@ namespace TightWiki.Shared.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "tagcloud":
                         {
-                            string seedTag = function.Parameters.Get<String>("pageTag");
+                            string seedTag = function.Parameters.Get<string>("pageTag");
                             string cloudHtml = WikiUtility.BuildTagCloud(seedTag);
                             StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
@@ -2557,7 +2538,7 @@ namespace TightWiki.Shared.Wiki
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string value = match.Value.Substring(mark.Length, match.Value.Length - (mark.Length * 2));
+                string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
 
                 StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
             }

@@ -222,6 +222,15 @@ namespace TightWiki.Site.Controllers
         }
 
         #region Content.
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult Refresh(string pageNavigation)
+        {
+            RefreshPageProperties(pageNavigation);
+            return RedirectToAction("Display", "Page", new { pageNavigation = pageNavigation });
+        }
+
         [Authorize]
         [HttpGet]
         public ActionResult History(string pageNavigation, int page)

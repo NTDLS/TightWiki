@@ -135,6 +135,12 @@ namespace TightWiki
                 );
 
                 endpoints.MapControllerRoute(
+                    name: "Page_Display_Refresh",
+                    pattern: "{pageNavigation}/Refresh",
+                    defaults: new { pageNavigation = "Home", controller = "Page", action = "Refresh" }
+                );
+
+                endpoints.MapControllerRoute(
                     name: "Page_Comments",
                     pattern: "{pageNavigation}/Comments/{page}",
                     defaults: new { pageNavigation = "Home", controller = "Page", action = "Comments", pageRevision = string.Empty, page = 1 }
