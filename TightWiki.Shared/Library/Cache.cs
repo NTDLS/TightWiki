@@ -32,8 +32,6 @@ namespace TightWiki.Shared.Library
             }
         }
 
-
-
         public static T Get<T>(string key)
         {
             CacheGets++;

@@ -20,10 +20,11 @@ using TightWiki.Shared.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
-    //[Authorize]
     [AllowAnonymous]
     public class AccountController : ControllerHelperBase
     {
+        #region Google auth.
+
         [HttpPost]
         [AllowAnonymous]
         public IActionResult GoogleSignup()
@@ -79,22 +80,9 @@ namespace TightWiki.Site.Controllers
             return LocalRedirect(returnUrl);
         }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult Logout()
-        {
-            ViewBag.Context.Title = $"Logout";
-            HttpContext.SignOutAsync();
+        #endregion
 
-            if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
-            {
-                return Redirect(Request.Query["ReturnUrl"]);
-            }
-            else
-            {
-                return RedirectToAction("Display", "Page", "Home");
-            }
-        }
+        #region Change Password.
 
         [HttpGet]
         [Authorize]
@@ -143,7 +131,14 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
-        //Populate login form.
+        #endregion
+
+        #region Login / Logout.
+
+        /// <summary>
+        /// Populate login form.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public ActionResult Login()
@@ -196,6 +191,27 @@ namespace TightWiki.Site.Controllers
             }
             return View(model);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult Logout()
+        {
+            ViewBag.Context.Title = $"Logout";
+            HttpContext.SignOutAsync();
+
+            if (Request.Query["ReturnUrl"].ToString().IsNullOrEmpty() == false && Request.Query["ReturnUrl"] != "/")
+            {
+                return Redirect(Request.Query["ReturnUrl"]);
+            }
+            else
+            {
+                return RedirectToAction("Display", "Page", "Home");
+            }
+        }
+
+        #endregion
+
+        #region Forgot password.
 
         /// <summary>
         /// Populate forgot password form.
@@ -336,6 +352,10 @@ namespace TightWiki.Site.Controllers
             return Reset(userAccountName, verificationCode);
         }
 
+        #endregion
+
+        #region Signup.
+
         /// <summary>
         /// Populate signup page.
         /// </summary>
@@ -382,58 +402,6 @@ namespace TightWiki.Site.Controllers
             }
 
             return View(model);
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult AccountNotFound()
-        {
-            ViewBag.Context.Title = $"Account not found";
-
-            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
-
-            return View();
-        }
-
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult ResetComplete()
-        {
-            ViewBag.Context.Title = $"Reset Complete";
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult SignupComplete()
-        {
-            ViewBag.Context.Title = $"Signup Complete";
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult SignupCompleteVerification()
-        {
-            ViewBag.Context.Title = $"Signup Complete";
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult SignupPendingVerification()
-        {
-            ViewBag.Context.Title = $"Signup Complete";
-            return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public ActionResult PasswordResetEmailSent()
-        {
-            ViewBag.Context.Title = $"Reset";
-            return View();
         }
 
         /// <summary>
@@ -627,6 +595,10 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region User Profile.
 
         /// <summary>
         /// //Gets a users avatar.
@@ -824,28 +796,8 @@ namespace TightWiki.Site.Controllers
         {
             ViewBag.Context.Title = $"Profile";
             var user = UserRepository.GetUserById(context.User.Id);
-
-            var model = new UserProfileModel()
-            {
-                TimeZones = TimeZoneItem.GetAll(),
-                Countries = CountryItem.GetAll(),
-                Languages = LanguageItem.GetAll(),
-                AccountName = user.AccountName,
-                EmailAddress = user.EmailAddress,
-                Navigation = user.Navigation,
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                TimeZone = user.TimeZone,
-                Language = user.Language,
-                Country = user.Country,
-                AboutMe = user.AboutMe,
-                Avatar = user.Avatar
-            };
-
-            return View(model);
+            return View(user.ToViewModel());
         }
-
 
         /// <summary>
         /// Save user profile.
@@ -921,6 +873,10 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Delete.
+
         [Authorize]
         [HttpPost]
         public ActionResult Delete(AccountModel model)
@@ -970,5 +926,55 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult AccountNotFound()
+        {
+            ViewBag.Context.Title = $"Account not found";
+            ViewBag.AllowSignup = (ConfigurationRepository.Get("Membership", "Allow Signup", false) == true);
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ResetComplete()
+        {
+            ViewBag.Context.Title = $"Reset Complete";
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SignupComplete()
+        {
+            ViewBag.Context.Title = $"Signup Complete";
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SignupCompleteVerification()
+        {
+            ViewBag.Context.Title = $"Signup Complete";
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult SignupPendingVerification()
+        {
+            ViewBag.Context.Title = $"Signup Complete";
+            return View();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult PasswordResetEmailSent()
+        {
+            ViewBag.Context.Title = $"Reset";
+            return View();
+        }
     }
 }

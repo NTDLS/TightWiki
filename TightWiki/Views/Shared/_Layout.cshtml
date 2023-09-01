@@ -106,19 +106,20 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Admin/Config">Configuration</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Config">Configuration</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Emojis">Emojis</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Utilities">Utilities</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/MenuItems">Site Menu</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Stats">Statistics</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Utilities">Utilities</a>
                                     }
                                     @if (ViewBag.Context.CanModerate == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Namespaces">Namespaces</a>
                                         <a class="dropdown-item text-dark" href="/Admin/MissingPages">Missing Pages</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Moderate">Moderate</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Namespaces">Namespaces</a>
+                                        <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
                                     }
                                 </div>
                             </li>

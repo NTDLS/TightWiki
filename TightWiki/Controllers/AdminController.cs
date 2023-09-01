@@ -22,6 +22,8 @@ namespace TightWiki.Site.Controllers
     [Authorize]
     public class AdminController : ControllerHelperBase
     {
+        #region Stats.
+
         [Authorize]
         [HttpGet]
         public ActionResult Stats()
@@ -40,12 +42,14 @@ namespace TightWiki.Site.Controllers
                 ApplicationVerson = version.ToString()
             };
 
-
-
             ViewBag.Context.Title = $"Statistics";
 
             return View(model);
         }
+
+        #endregion
+
+        #region Moderate.
 
         [Authorize]
         [HttpGet]
@@ -134,6 +138,10 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Missing Pages.
+
         [Authorize]
         [HttpGet]
         public ActionResult MissingPages(int page)
@@ -192,6 +200,10 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Namespaces.
+
         [Authorize]
         [HttpGet]
         public ActionResult Namespaces(int page)
@@ -202,7 +214,6 @@ namespace TightWiki.Site.Controllers
             }
 
             if (page <= 0) page = 1;
-
 
             var model = new NamespacesModel()
             {
@@ -221,6 +232,10 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region Pages.
 
         [Authorize]
         [HttpGet]
@@ -308,6 +323,10 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Confirm Action.
+
         [Authorize]
         [HttpGet]
         public ActionResult ConfirmAction()
@@ -339,6 +358,10 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region Utilities.
 
 
         [Authorize]
@@ -412,6 +435,132 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Menu Items.
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult MenuItem(int? id)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            if (id != null)
+            {
+                var menuItem = MenuItemRepository.GetMenuItemById((int)id);
+                ViewBag.Context.Title = $"Menu Item";
+                return View(menuItem.ToViewModel());
+            }
+            else
+            {
+                var model = new MenuItemModel
+                {
+                    Link = "/"
+                };
+                return View(model);
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult MenuItems()
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = new MenuItemsModel()
+            {
+                Items = MenuItemRepository.GetAllMenuItems()
+            };
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Save site menu item.
+        /// </summary>
+        /// <param name="profile"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost]
+        public ActionResult MenuItem(MenuItemModel model)
+        {
+            if (context.CanAdmin == false)
+            {
+                return Unauthorized();
+            }
+
+            if (ModelState.IsValid)
+            {
+                if (MenuItemRepository.GetAllMenuItems().Where(o => o.Name.ToLower() == model.Name.ToLower() && o.Id != model.Id).Any())
+                {
+                    ModelState.AddModelError("Name", $"The menu name '{model.Name}' is already in use.");
+                    return View(model);
+                }
+
+                if (model.Id == null)
+                {
+                    model.Id = MenuItemRepository.InsertMenuItem(model.ToDataModel());
+                    ModelState.Clear();
+                }
+                else
+                {
+                    MenuItemRepository.UpdateMenuItemById(model.ToDataModel());
+                }
+
+                model.SuccessMessage = "The menu item has been saved successfully!.";
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult DeleteMenuItem(int id)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = MenuItemRepository.GetMenuItemById(id);
+            if (model != null)
+            {
+                ViewBag.Context.Title = $"{model.Name} Delete";
+            }
+
+            return View(model.ToViewModel());
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult DeleteMenuItem(MenuItemModel model)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true)
+            {
+                MenuItemRepository.DeleteMenuItemById((int)model.Id);
+                return RedirectToAction("MenuItems", "Admin");
+            }
+
+            return RedirectToAction("MenuItem", "Admin", new { Id = model.Id });
+        }
+
+        #endregion
+
+        #region Roles.
+
         [Authorize]
         [HttpGet]
         public ActionResult Role(string navigation, int page)
@@ -458,6 +607,10 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        #endregion
+
+        #region Accounts
 
         [Authorize]
         [HttpGet]
@@ -819,6 +972,57 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public ActionResult DeleteAccount(string navigation, AccountModel model)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var user = UserRepository.GetUserByNavigation(navigation);
+
+            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            if (confirmAction == true && user != null)
+            {
+                UserRepository.DeleteById(user.Id);
+                Cache.ClearClass($"User:{user.Navigation}");
+                return RedirectToAction("Accounts", "Admin");
+            }
+
+            return RedirectToAction("Account", "Admin", new { navigation = navigation });
+        }
+
+        [Authorize]
+        [HttpGet]
+        public ActionResult DeleteAccount(string navigation)
+        {
+            if (context.CanDelete == false)
+            {
+                return Unauthorized();
+            }
+
+            var user = UserRepository.GetUserByNavigation(navigation);
+
+            ViewBag.AccountName = user.AccountName;
+
+            var model = new AccountModel()
+            {
+            };
+
+            if (user != null)
+            {
+                ViewBag.Context.Title = $"{user.AccountName} Delete";
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Config.
+
+        [Authorize]
         [HttpGet]
         public ActionResult Config()
         {
@@ -882,52 +1086,9 @@ namespace TightWiki.Site.Controllers
             return View(newModel);
         }
 
-        [Authorize]
-        [HttpPost]
-        public ActionResult DeleteAccount(string navigation, AccountModel model)
-        {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
+        #endregion
 
-            var user = UserRepository.GetUserByNavigation(navigation);
-
-            bool confirmAction = bool.Parse(Request.Form["Action"]);
-            if (confirmAction == true && user != null)
-            {
-                UserRepository.DeleteById(user.Id);
-                Cache.ClearClass($"User:{user.Navigation}");
-                return RedirectToAction("Accounts", "Admin");
-            }
-
-            return RedirectToAction("Account", "Admin", new { navigation = navigation });
-        }
-
-        [Authorize]
-        [HttpGet]
-        public ActionResult DeleteAccount(string navigation)
-        {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
-
-            var user = UserRepository.GetUserByNavigation(navigation);
-
-            ViewBag.AccountName = user.AccountName;
-
-            var model = new AccountModel()
-            {
-            };
-
-            if (user != null)
-            {
-                ViewBag.Context.Title = $"{user.AccountName} Delete";
-            }
-
-            return View(model);
-        }
+        #region Emojis.
 
         [Authorize]
         [HttpGet]
@@ -1221,5 +1382,6 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        #endregion
     }
 }

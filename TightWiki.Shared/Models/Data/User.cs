@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Shared.Library;
+using TightWiki.Shared.Models.View;
 
 namespace TightWiki.Shared.Models.Data
 {
@@ -32,6 +34,27 @@ namespace TightWiki.Shared.Models.Data
         public int PaginationCount { get; set; }
         public string Role { get; set; }
         public string Provider { get; set; }
+
+        public UserProfileModel ToViewModel()
+        {
+            return new UserProfileModel()
+            {
+                TimeZones = TimeZoneItem.GetAll(),
+                Countries = CountryItem.GetAll(),
+                Languages = LanguageItem.GetAll(),
+                AccountName = AccountName,
+                EmailAddress = EmailAddress,
+                Navigation = Navigation,
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                TimeZone = TimeZone,
+                Language = Language,
+                Country = Country,
+                AboutMe = AboutMe,
+                Avatar = Avatar
+            };
+        }
     }
 }
 

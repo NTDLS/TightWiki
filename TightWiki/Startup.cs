@@ -249,6 +249,18 @@ namespace TightWiki
                 );
 
                 endpoints.MapControllerRoute(
+                    name: "Admin_MenuItem_Page",
+                    pattern: "Admin/MenuItem/{id}",
+                    defaults: new { controller = "Admin", action = "MenuItem", id = (int?)null }
+                );
+
+                endpoints.MapControllerRoute(
+                    name: "Admin_DeleteMenuItem",
+                    pattern: "Admin/DeleteMenuItem/{id}",
+                    defaults: new { controller = "Admin", action = "DeleteMenuItem" }
+                );
+
+                endpoints.MapControllerRoute(
                     name: "Admin_Generic",
                     pattern: "Admin/{action}/{page}",
                     defaults: new { controller = "Admin", action = "Config", page = 1 }
