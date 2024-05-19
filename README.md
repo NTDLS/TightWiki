@@ -34,7 +34,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Built in search supports fuzzy matching to support even mild misspellings.
 
 # Default home page:
-![Clipd1](https://user-images.githubusercontent.com/11428567/208712815-a82532c8-e13c-451f-a590-b0ff8bca09d9.png)
+![image](https://github.com/NTDLS/TightWiki/assets/11428567/a1d272c7-c942-455f-b07e-8a99d102616e)
 
 # Page search
 ![Clip9](https://user-images.githubusercontent.com/11428567/208713076-118d981c-5cc3-4e33-a971-f63518da01ad.png)
