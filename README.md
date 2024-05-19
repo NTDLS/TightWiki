@@ -1,11 +1,9 @@
 # TightWiki
 
-❗ Please note: we are currently working on [TightWikiV2](https://github.com/NTDLS/TightWikiV2) which will fully replace this wiki. We will move the code to a branch of this project and merge it once complete. Don't worry, all of your content is still compatibile but you will need to import your data using our migration tool. The promary goal of this new version is to remove the dependency of SQL Server and make this wiki MUCH easer to get up and running. The secondary goal is to make identity integration easer so you can (optionally) use Google, Facebook, Microsoft, "Twitter" etc to sign in. 👀
-
 For years I’ve worked at places where we just needed a simple to use, searchable, unobtrusive, no-nonsense, collaborative and free place to dump documentation.
 The first thing that comes to mind is a Wiki but for some reason I can never find anything that "checks all the boxes". Hopefully you'll find this one does for you.
 
-:yum: TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQL Server database.
+:yum: TightWiki is a .netcore ASP MVC razor WIKI written in C# that sits on top of a SQLite database (zero configuration required).
 
 :crossed_fingers: Play with the latest dev build at http://TightWiki.com/. If you want to edit, you can signup using google auth or native TightWiki login.
 
