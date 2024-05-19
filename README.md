@@ -11,6 +11,8 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 
 :boom: Also be sure to check out the screenshots below the feature list...
 
+:anguished: Its been like a modern retelling of Sisyphus, only this time the stone is RegEx.
+
 # :astonished: Features (some of them anyway)
 * LGPL license , you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
