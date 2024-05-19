@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.EmojiModel
+﻿@model TightWiki.Library.ViewModels.Admin.EmojiViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -13,13 +13,13 @@
         <tr>
             <td height="52" valign="middle" align="left">
 
-                @if (Model.ErrorMessage != null)
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                 {
-                    <div class="alert alert-danger">@Model.ErrorMessage</div>
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
                 }
-                @if (Model.SuccessMessage!= null)
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                 {
-                    <div class="alert alert-success">@Model.SuccessMessage</div>
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
                 @if (ViewBag.Error == null)

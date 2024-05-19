@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.RoleModel
+﻿@model TightWiki.Library.ViewModels.Admin.RoleViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -7,7 +7,7 @@
     <div class="card-header"><h3>Role : @Model.Name</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
-            Single role membership configuration.<br /><br />
+            Role membership.<br /><br />
         </font>
 
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -20,13 +20,13 @@
                 <tr>
                     <td height="52" valign="middle" align="left">
 
-                        @if (Model.ErrorMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
-                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                         {
-                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
                         @using (Html.BeginForm())

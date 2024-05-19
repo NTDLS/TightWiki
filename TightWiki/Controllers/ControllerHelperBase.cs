@@ -1,18 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using TightWiki.Shared;
-using TightWiki.Shared.Library;
-using TightWiki.Shared.Models.Data;
-using TightWiki.Shared.Repository;
-using TightWiki.Shared.Wiki;
-using static TightWiki.Shared.Wiki.Constants;
+using TightWiki.Library;
+using TightWiki.Library.DataModels;
+using TightWiki.Library.Library;
+using TightWiki.Library.Repository;
+using TightWiki.Library.Wiki;
+using static TightWiki.Library.Wiki.Constants;
 
 namespace TightWiki.Controllers
 {
@@ -20,77 +17,72 @@ namespace TightWiki.Controllers
     {
         public StateContext context = new StateContext();
 
+        public readonly SignInManager<IdentityUser> SignInManager;
+        public readonly UserManager<IdentityUser> UserManager;
+
+        public ControllerHelperBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        {
+            SignInManager = signInManager;
+            UserManager = userManager;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             Configure();
         }
 
-        public void Configure()
+        protected void Configure()
         {
             HydrateSecurityContext();
 
             context.PathAndQuery = Request.GetEncodedPathAndQuery();
-            context.PageNavigation = RouteValue("pageNavigation");
+            context.PageNavigation = RouteValue("givenCanonical", "Home");
             context.PageRevision = RouteValue("pageRevision");
             context.Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             ViewBag.Context = context;
         }
 
-        public void HydrateSecurityContext()
+        protected string RouteValue(string key, string defaultValue = "")
+        {
+            if (RouteData.Values.ContainsKey(key))
+            {
+                return RouteData.Values[key]?.ToString() ?? defaultValue;
+            }
+            return defaultValue;
+        }
+
+        protected void HydrateSecurityContext()
         {
             context.IsAuthenticated = false;
 
-            if (User.Identity.IsAuthenticated)
+            if (SignInManager.IsSignedIn(User))
             {
                 try
                 {
-                    int? userId = null;
+                    string emailAddress = (User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
 
-                    if (User.Identity.AuthenticationType == "Google")
+                    context.IsAuthenticated = User.Identity?.IsAuthenticated == true;
+                    if (context.IsAuthenticated)
                     {
-                        var result = HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme).Result;
-                        var firstIdentity = result.Principal.Identities.FirstOrDefault();
-                        var emailddress = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Email)?.FirstOrDefault().Value;
-                        var lastName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.Surname)?.FirstOrDefault().Value;
-                        var firstName = firstIdentity.Claims.Where(o => o.Type == ClaimTypes.GivenName)?.FirstOrDefault().Value;
-                        context.IsPartiallyAuthenticated = true;
+                        var userId = Guid.Parse((User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
-                        var user = UserRepository.GetUserByEmail(emailddress);
-                        if (user != null)
-                        {
-                            firstIdentity.AddClaim(new Claim(ClaimTypes.Name, user.AccountName));
-                            firstIdentity.AddClaim(new Claim(ClaimTypes.Sid, user.Id.ToString()));
-                            firstIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
-                            userId = user.Id;
-                        }
-                    }
-                    else
-                    {
-                        userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Sid).Value);
-                    }
-
-                    var role = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString();
-                    if (userId != null && role != null)
-                    {
-                        context.IsAuthenticated = User.Identity.IsAuthenticated;
-                        context.IsPartiallyAuthenticated = false;
-                        if (context.IsAuthenticated)
-                        {
-                            context.Role = role;
-                            context.User = UserRepository.GetUserById((int)userId);
-                        }
+                        context.User = ProfileRepository.GetBasicProfileByUserId(userId);
+                        context.Role = (User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString()).EnsureNotNull();
                     }
                 }
                 catch
                 {
                     HttpContext.SignOutAsync();
-                    HttpContext.SignOutAsync(User.Identity.AuthenticationType);
-                    //throw;
+                    if (User.Identity != null)
+                    {
+                        HttpContext.SignOutAsync(User.Identity.AuthenticationType);
+                    }
+                    throw;
                 }
             }
         }
 
-        public int SavePage(Page page)
+        protected int SavePage(Page page)
         {
             bool isNewlyCreated = (page.Id == 0);
 
@@ -101,19 +93,22 @@ namespace TightWiki.Controllers
             if (isNewlyCreated)
             {
                 //This will update the pageid of referenes that have been saved to the navigation link.
-                PageRepository.UpdateSinglePageReference(page.Navigation);
+                PageRepository.UpdateSinglePageReference(page.Navigation, page.Id);
             }
 
             return page.Id;
         }
 
-        public void RefreshPageProperties(string pageNavigation)
+        protected void RefreshPageProperties(string pageNavigation)
         {
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
-            RefreshPageProperties(page);
+            if (page != null)
+            {
+                RefreshPageProperties(page);
+            }
         }
 
-        public void RefreshPageProperties(Page page)
+        protected void RefreshPageProperties(Page page)
         {
             var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
             PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
@@ -122,62 +117,36 @@ namespace TightWiki.Controllers
             var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
             PageRepository.SavePageTokens(pageTokens);
             PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
-            Cache.ClearClass($"Page:{page.Navigation}");
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
-        public void PerformLogin(string accountNameOrEmail, string password, bool isPasswordHash, bool persist = false)
+        public override RedirectResult Redirect(string? url)
         {
-            var requireEmailVerification = ConfigurationRepository.Get<bool>("Membership", "Require Email Verification");
-
-            User user;
-
-            if (isPasswordHash)
-            {
-                user = UserRepository.GetUserByAccountNameOrEmailAndPasswordHash(accountNameOrEmail, password);
-            }
-            else
-            {
-                user = UserRepository.GetUserByAccountNameOrEmailAndPassword(accountNameOrEmail, password);
-            }
-
-            if (user != null)
-            {
-                if (requireEmailVerification == true && user.EmailVerified == false)
-                {
-                    throw new Exception("Email address has not been verified. Check your email or use the password reset link to confirm your email address.");
-                }
-
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Email, user.EmailAddress),
-                    new Claim(ClaimTypes.Name, user.AccountName),
-                    new Claim(ClaimTypes.Sid, user.Id.ToString()),
-                    new Claim(ClaimTypes.Role, user.Role)
-                };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-                var authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = persist, // Set the authentication cookie to be persistent
-                };
-
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
-                UserRepository.UpdateUserLastLoginDateByUserId(user.Id);
-            }
-            else
-            {
-                throw new Exception("Invalid Username or Password");
-            }
+            return base.Redirect(url.EnsureNotNull());
         }
 
-        public string RouteValue(string key, string defaultValue = "")
+        protected string? GetQueryString(string key)
         {
-            if (RouteData.Values.ContainsKey(key))
-            {
-                return RouteData.Values[key]?.ToString();
-            }
-            return defaultValue;
+            string? value = Request.Query[key];
+            return value;
+        }
+
+        protected string GetQueryString(string key, string defaultValue)
+        {
+            string? value = Request.Query[key];
+            return value ?? defaultValue;
+        }
+
+        protected string? GetFormString(string key)
+        {
+            string? value = Request.Form[key];
+            return value;
+        }
+
+        protected string GetFormString(string key, string defaultValue)
+        {
+            string? value = Request.Form[key];
+            return value ?? defaultValue;
         }
     }
 }

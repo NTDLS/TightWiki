@@ -1,24 +1,24 @@
-﻿@model TightWiki.Shared.Models.View.DisplayModel
+﻿@model TightWiki.Library.ViewModels.Page.PageDisplayViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 @Html.Raw(Model.Body)
 
-@if (TightWiki.Shared.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false)
+@if (TightWiki.Library.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false)
 {
-    <br /><small><cite title="Modified By">Last modified by <a href="/Account/@Model.ModifiedByUserName/Profile">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small><br />
+    <br /><small><cite title="Modified By">Last modified by <a href="/Profile/Public/@Model.ModifiedByUserName">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small><br />
 }
 
 @if (ViewBag.HideFooterComments == false)
 {
-    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter)
     {
         <hr class="mt-5 mb-5">
         <h2>Comments</h2>
     }
-    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter)
     {
-        if (ViewBag.Context.IsAuthenticated == true)
+        if (@ViewBag.Context.IsAuthenticated == true)
         {
             <form method="post" action="/@ViewBag.Context.PageNavigation/Comments">
                 <div class="form-outline mb-4">
@@ -34,7 +34,7 @@
             @:<a href="/Account/Login">Login to leave a comment</a>.
         }
     }
-    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
     {
         @foreach (var h in Model.Comments)
         {
@@ -43,10 +43,10 @@
                     <p>@Html.Raw(h.Body)</p>
                     <div class="d-flex justify-content-between">
                         <div class="d-flex flex-row align-items-center">
-                            <img src="/Account/@h.UserNavigation/Avatar?Exact=16" />
+                            <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
                             <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                         </div>
-                        @if (ViewBag.Context.CanModerate == true || h.UserId == ViewBag?.Context?.User?.Id)
+                        @if (ViewBag.Context.CanModerate == true || h.UserId == ViewBag.Context.User?.Id)
                         {
                             <div class="d-flex flex-row align-items-center">
                                 <p class="small text-muted mb-0"><a href="/@ViewBag.Context.PageNavigation/Comments?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a></p>
@@ -57,7 +57,7 @@
             </div>
         }
     }
-    @if (TightWiki.Shared.GlobalSettings.EnablePageComments && TightWiki.Shared.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter)
     {
         <a href="/@ViewBag.Context.PageNavigation/Comments">View all comments</a>
     }

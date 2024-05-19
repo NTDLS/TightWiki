@@ -1,24 +1,28 @@
-packages/
-*.user
-.vs/
-
-TightWiki.Shared/bin/
-TightWiki.Shared/obj/
-
-TightWiki.Site/bin/
-TightWiki.Site/obj/
-
-CodeGeneration/bin/
-CodeGeneration/obj/
 
 TightWiki/bin/
 
 TightWiki/obj/
 
-CreateDatabaseSeeds/bin/
+*.user
 
-CreateDatabaseSeeds/obj/
+TightWiki.Library/obj/
 
-TightWiki.Shared/Properties/PublishProfiles/
+.vs/
 
-TightWiki/appsettings.json
+TightWiki.Library/bin/
+
+DatabaseMigration/bin/
+
+DatabaseMigration/obj/
+
+TightWiki.DataModel/bin/
+
+TightWiki.DataModel/obj/
+
+TightWiki.Shared/bin/
+
+TightWiki.Shared/obj/
+
+TightWiki.Repository/bin/
+
+TightWiki.Repository/obj/

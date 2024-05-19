@@ -1,14 +1,14 @@
-﻿@model TightWiki.Shared.Models.View.EditPageModel
+﻿@model TightWiki.Library.ViewModels.Page.PageEditViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="/lib/codemirror.css">
-<link rel="stylesheet" href="/addon/scroll/simplescrollbars.css">
-<script src="/lib/codemirror.js"></script>
-<script src="/addon/edit/matchbrackets.js"></script>
-<script src="/mode/tightwiki/tightwiki.js"></script>
-<script src="/addon/scroll/simplescrollbars.js"></script>
+<link rel="stylesheet" href="/codemirror/codemirror.css">
+<link rel="stylesheet" href="/codemirror/addon/scroll/simplescrollbars.css">
+<script src="/codemirror/codemirror.js"></script>
+<script src="/codemirror/addon/edit/matchbrackets.js"></script>
+<script src="/codemirror/mode/tightwiki/tightwiki.js"></script>
+<script src="/codemirror/addon/scroll/simplescrollbars.js"></script>
 
 <style type="text/css">
     .CodeMirror {
@@ -41,11 +41,11 @@
     }
 </script>
 
-<script src="~/js/filedrop.js"></script>
+<script src="~/js/filedropAttachment.js"></script>
 <script type="text/javascript">
 
     function readyFn(jQuery) {
-        $("#uploadedFiles").load("/File/EditPageAttachment/" + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+        $("#uploadedFiles").load("/File/EditPageAttachment/@ViewBag.Context.PageNavigation");
     }
 
     $(document).ready(readyFn);
@@ -54,7 +54,7 @@
         $("#dropSection").filedrop({
             fallback_id: 'btnUpload',
             fallback_dropzoneClick: true,
-            url: '@Url.Action("UploadDragDrop", "File")/' + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),
+            url: '@Url.Action("UploadDragDrop", "File")/@ViewBag.Context.PageNavigation',
             paramname: 'postedFiles',
             maxfiles: 5, //Maximum Number of Files allowed at a time.
             maxfilesize: 25, //Maximum File Size in MB.
@@ -82,7 +82,7 @@
             },
             afterAll: function (e) {
                 //To do some task after all uploads done.
-                $("#uploadedFiles").load("/File/EditPageAttachment/" + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+                $("#uploadedFiles").load("/File/EditPageAttachment/@ViewBag.Context.PageNavigation");
             }
         })
     })
@@ -92,10 +92,10 @@
         frm.submit(function (e) {
             e.preventDefault();
             var formData = new FormData(e[0]);
-            formData.append('BinaryData', $('input[type=file]')[0].files[0]);
+            formData.append('fileData', $('input[type=file]')[0].files[0]);
 
             $.ajax({
-                url: '@Url.Action("UploadManual", "File")/' + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1),
+                url: '@Url.Action("ManualUpload", "File")/@ViewBag.Context.PageNavigation',
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -104,7 +104,7 @@
                 enctype: 'multipart/form-data',
                 processData: false,
                 success: function (response) {
-                    $("#uploadedFiles").load("/File/EditPageAttachment/" + window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1));
+                    $("#uploadedFiles").load("/File/EditPageAttachment/@ViewBag.Context.PageNavigation");
                 }
             });
             return false;
@@ -121,13 +121,13 @@
                 @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
             }
 
-            @if (Model.ErrorMessage != null)
+            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
             {
-                <div class="alert alert-danger">@Model.ErrorMessage</div>
+                <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
             }
-            @if (Model.SuccessMessage != null)
+            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
             {
-                <div class="alert alert-success">@Model.SuccessMessage</div>
+                <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
             }
 
             @using (Html.BeginForm())
@@ -184,9 +184,9 @@
             {
 
                 <div id="dropSection" class="dropSection">
-                    <br />Attach files by dropping them here or by manually selcting them below:<br /><br />
+                    <br />Attach files by dropping them here or by manually selecting them below:<br /><br />
                     <div id="manualUpload">
-                        <form id="manualUpload" action="/upload" enctype="multipart/form-data" method="post"><input type="file" name="BinaryData"><input type="submit" value="Upload"></form>
+                        <form id="manualUpload" action="/manualUpload" enctype="multipart/form-data" method="post"><input type="file" name="fileData"><input type="submit" value="Upload"></form>
                     </div>
 
                 </div>

@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.FileAttachmentModel
+﻿@model TightWiki.Library.ViewModels.File.FileAttachmentViewModel
 
 <html>
 <head>
@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <script src="~/js/deleteAttach.js"></script>
+    <script src="~/js/deleteAttachment.js"></script>
 </head>
 <body>
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -29,7 +29,7 @@
             {
                 <tr>
                     <td>
-                        <a href="/File/Binary/@ViewBag.Context.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
+                        <a href="/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
                     </td>
                     <td>
                         @if (@ViewBag.Context?.CanDelete == true)

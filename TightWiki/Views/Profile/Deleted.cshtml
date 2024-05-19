@@ -1,0 +1,24 @@
+﻿@model TightWiki.Library.ViewModels.Profile.DeletedViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <table class="fixedTable100" border="0" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="left">
+                    <h3>Account Deleted!</h3>
+                    The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile..<br /><br />
+
+                    <br /><br />
+                    @if (ViewBag.AllowSignup == true)
+                    {
+                        @:Not a member? @Html.ActionLink("Signup", "Signup", "Account").<br />
+                    }
+                    Already a member? <a href="/Identity/Account/Login">Login</a>.<br />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

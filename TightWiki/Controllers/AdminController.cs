@@ -1,42 +1,45 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
+using System.Security.Claims;
 using TightWiki.Controllers;
-using TightWiki.Shared.Library;
-using TightWiki.Shared.Models.Data;
-using TightWiki.Shared.Models.View;
-using TightWiki.Shared.Repository;
-using TightWiki.Shared.Wiki;
-using TightWiki.Shared.Wiki.Function;
-using static TightWiki.Shared.Library.Constants;
-using static TightWiki.Shared.Wiki.Constants;
+using TightWiki.Library;
+using TightWiki.Library.DataModels;
+using TightWiki.Library.Library;
+using TightWiki.Library.Repository;
+using TightWiki.Library.ViewModels.Admin;
+using TightWiki.Library.ViewModels.Profile;
+using TightWiki.Library.ViewModels.Shared;
+using TightWiki.Library.Wiki;
+using TightWiki.Library.Wiki.Function;
+using static TightWiki.Library.Library.Constants;
+using static TightWiki.Library.Wiki.Constants;
 
 namespace TightWiki.Site.Controllers
 {
     [Authorize]
+    [Route("[controller]")]
     public class AdminController : ControllerHelperBase
     {
+        public AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+            : base(signInManager, userManager)
+        {
+        }
+
         #region Stats.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Stats")]
         public ActionResult Stats()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            Assembly assembly = Assembly.GetEntryAssembly();
-            Version version = assembly.GetName().Version;
+            Assembly assembly = Assembly.GetEntryAssembly().EnsureNotNull();
+            Version version = assembly.GetName().Version.EnsureNotNull();
 
-            var model = new StatsModel()
+            var model = new StatsViewModel()
             {
                 DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats(),
                 ApplicationVerson = version.ToString()
@@ -52,24 +55,19 @@ namespace TightWiki.Site.Controllers
         #region Moderate.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Moderate/{page=1}")]
         public ActionResult Moderate(int page)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
-
-            if (page <= 0) page = 1;
+            context.RequireModeratePermission();
 
             ViewBag.Context.Title = $"Page Moderation";
 
-            string instruction = Request.Query["Instruction"];
+            var instruction = GetQueryString("Instruction");
             if (instruction != null)
             {
-                var model = new PageModerateModel()
+                var model = new PageModerateViewModel()
                 {
-                    Pages = PageRepository.GetAllPagesByInstructionPaged(page, 0, instruction),
+                    Pages = PageRepository.GetAllPagesByInstructionPaged(page, null, instruction),
                     Instruction = instruction,
                     Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
                 };
@@ -92,7 +90,7 @@ namespace TightWiki.Site.Controllers
                 return View(model);
             }
 
-            return View(new PageModerateModel()
+            return View(new PageModerateViewModel()
             {
                 Pages = new List<Page>(),
                 Instruction = String.Empty,
@@ -101,21 +99,16 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Moderate(int page, PageModerateModel model)
+        [HttpPost("Moderate/{page=1}")]
+        public ActionResult Moderate(int page, PageModerateViewModel model)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
-
-            page = 1;
+            context.RequireModeratePermission();
 
             ViewBag.Context.Title = $"Page Moderation";
 
-            model = new PageModerateModel()
+            model = new PageModerateViewModel()
             {
-                Pages = PageRepository.GetAllPagesByInstructionPaged(page, 0, model.Instruction),
+                Pages = PageRepository.GetAllPagesByInstructionPaged(page, null, model.Instruction),
                 Instruction = model.Instruction,
                 Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
             };
@@ -143,17 +136,12 @@ namespace TightWiki.Site.Controllers
         #region Missing Pages.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("MissingPages/{page=1}")]
         public ActionResult MissingPages(int page)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            if (page <= 0) page = 1;
-
-            var model = new MissingPagesModel()
+            var model = new MissingPagesViewModel()
             {
                 Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
             };
@@ -172,17 +160,14 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult MissingPages(int page, MissingPagesModel model)
+        [HttpPost("MissingPages/{page=1}")]
+        public ActionResult MissingPages(int page, MissingPagesViewModel model)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
             page = 1;
 
-            model = new MissingPagesModel()
+            model = new MissingPagesViewModel()
             {
                 Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
             };
@@ -205,19 +190,14 @@ namespace TightWiki.Site.Controllers
         #region Namespaces.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Namespaces/{page=1}")]
         public ActionResult Namespaces(int page)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            if (page <= 0) page = 1;
-
-            var model = new NamespacesModel()
+            var model = new NamespacesViewModel()
             {
-                Namespaces = PageRepository.GetAllNamespacesPaged(page, 0),
+                Namespaces = PageRepository.GetAllNamespacesPaged(page, null),
             };
 
             if (model.Namespaces != null && model.Namespaces.Any())
@@ -238,27 +218,17 @@ namespace TightWiki.Site.Controllers
         #region Pages.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Pages/{page=1}")]
         public ActionResult Pages(int page)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            if (page <= 0) page = 1;
+            var searchTokens = Utility.SplitToTokens(GetQueryString("Tokens"));
 
-            string searchTokens = Request.Query["Tokens"];
-            if (searchTokens != null)
+            var model = new PagesViewModel()
             {
-                var tokens = searchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
-                searchTokens = string.Join(",", tokens);
-            }
-
-            var model = new PagesModel()
-            {
-                Pages = PageRepository.GetAllPagesPaged(page, 0, searchTokens),
-                SearchTokens = Request.Query["Tokens"]
+                Pages = PageRepository.GetAllPagesPaged(page, null, searchTokens),
+                SearchTokens = GetQueryString("Tokens", string.Empty)
             };
 
             if (model.Pages != null && model.Pages.Any())
@@ -281,27 +251,17 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Pages(int page, PagesModel model)
+        [HttpPost("Pages/{page=1}")]
+        public ActionResult Pages(int page, PagesViewModel model)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            page = 1;
+            var searchTokens = Utility.SplitToTokens(model.SearchTokens);
 
-            string searchTokens = null;
-            if (model.SearchTokens != null)
+            model = new PagesViewModel()
             {
-                var tokens = model.SearchTokens.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
-                searchTokens = string.Join(",", tokens);
-            }
-
-            model = new PagesModel()
-            {
-                Pages = PageRepository.GetAllPagesPaged(page, 0, searchTokens),
-                SearchTokens = model.SearchTokens
+                Pages = PageRepository.GetAllPagesPaged(page, null, searchTokens),
+                SearchTokens = model.SearchTokens ?? string.Empty
             };
 
             if (model.Pages != null && model.Pages.Any())
@@ -328,15 +288,12 @@ namespace TightWiki.Site.Controllers
         #region Confirm Action.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("ConfirmAction")]
         public ActionResult ConfirmAction()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            var model = new UtilitiesModel()
+            var model = new UtilitiesViewModel()
             {
             };
 
@@ -344,17 +301,14 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult ConfirmAction(ConfirmActionModel model)
+        [HttpPost("ConfirmAction")]
+        public ActionResult ConfirmAction(ConfirmActionViewModel model)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            model.ActionToConfirm = Request.Form["ActionToConfirm"];
-            model.PostBackURL = Request.Query["PostBack"];
-            model.Message = Request.Form["message"];
+            model.ActionToConfirm = GetFormString("ActionToConfirm").EnsureNotNull();
+            model.PostBackURL = GetQueryString("PostBack").EnsureNotNull();
+            model.Message = GetFormString("message").EnsureNotNull();
 
             return View(model);
         }
@@ -363,19 +317,15 @@ namespace TightWiki.Site.Controllers
 
         #region Utilities.
 
-
         [Authorize]
-        [HttpGet]
+        [HttpGet("Utilities")]
         public ActionResult Utilities()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             ViewBag.IsDebug = Debugger.IsAttached;
 
-            var model = new UtilitiesModel()
+            var model = new UtilitiesViewModel()
             {
             };
 
@@ -383,57 +333,63 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Utilities(UtilitiesModel model)
+        [HttpPost("Utilities")]
+        public ActionResult Utilities(UtilitiesViewModel model)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             ViewBag.IsDebug = Debugger.IsAttached;
 
-            string action = Request.Form["ActionToConfirm"].ToString()?.ToLower();
-            if (bool.Parse(Request.Form["ConfirmAction"]) != true)
+            string action = (GetFormString("ActionToConfirm")?.ToString()?.ToLower()).EnsureNotNull();
+            if (bool.Parse(GetFormString("ConfirmAction").EnsureNotNull()) != true)
             {
                 return View(model);
             }
 
-            if (action == "RebuildPageSearchIndex")
+            switch (action)
             {
-                var pages = PageRepository.GetAllPages();
+                case "rebuildpagesearchindex":
+                    {
+                        var pages = PageRepository.GetAllPages();
 
-                foreach (var page in pages)
-                {
-                    var wikifier = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
-                    PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
-                    PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
-                    var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-                    PageRepository.SavePageTokens(pageTokens);
-                    Cache.ClearClass($"Page:{page.Navigation}");
-                }
-            }
-            else if (action == "rebuildallpages")
-            {
-                var pages = PageRepository.GetAllPages();
+                        foreach (var page in pages)
+                        {
+                            var wiki = new Wikifier(context, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
 
-                foreach (var page in pages)
-                {
-                    base.RefreshPageProperties(page);
-                }
-            }
-            else if (action == "truncatepagerevisionhistory")
-            {
-                PageRepository.TruncateAllPageHistory("YES");
-                Cache.Clear();
-            }
-            else if (action == "flushmemorycache")
-            {
-                Cache.Clear();
-            }
-            else if (action == "createselfdocumentation")
-            {
-                SelfDocument.CreateNotExisting();
+                            PageTagRepository.UpdatePageTags(page.Id, wiki.Tags);
+                            PageRepository.UpdatePageProcessingInstructions(page.Id, wiki.ProcessingInstructions);
+                            var pageTokens = wiki.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+                            PageRepository.SavePageTokens(pageTokens);
+                            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+                        }
+                    }
+                    break;
+                case "rebuildallpages":
+                    {
+                        var pages = PageRepository.GetAllPages();
+
+                        foreach (var page in pages)
+                        {
+                            base.RefreshPageProperties(page);
+                        }
+                    }
+                    break;
+                case "truncatepagerevisionhistory":
+                    {
+                        PageRepository.TruncateAllPageHistory("YES");
+                        WikiCache.Clear();
+                    }
+                    break;
+                case "flushmemorycache":
+                    {
+                        WikiCache.Clear();
+                    }
+                    break;
+                case "createselfdocumentation":
+                    {
+                        SelfDocument.CreateNotExisting();
+                    }
+                    break;
             }
 
             return View(model);
@@ -444,13 +400,24 @@ namespace TightWiki.Site.Controllers
         #region Menu Items.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("MenuItems")]
+        public ActionResult MenuItems()
+        {
+            context.RequireAdminPermission();
+
+            var model = new MenuItemsViewModel()
+            {
+                Items = MenuItemRepository.GetAllMenuItems()
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet("MenuItem/{id:int?}")]
         public ActionResult MenuItem(int? id)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             if (id != null)
             {
@@ -460,7 +427,7 @@ namespace TightWiki.Site.Controllers
             }
             else
             {
-                var model = new MenuItemModel
+                var model = new MenuItemViewModel
                 {
                     Link = "/"
                 };
@@ -469,96 +436,70 @@ namespace TightWiki.Site.Controllers
 
         }
 
-        [Authorize]
-        [HttpGet]
-        public ActionResult MenuItems()
-        {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
-
-            var model = new MenuItemsModel()
-            {
-                Items = MenuItemRepository.GetAllMenuItems()
-            };
-
-            return View(model);
-        }
-
         /// <summary>
         /// Save site menu item.
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost]
-        public ActionResult MenuItem(MenuItemModel model)
+        [HttpPost("MenuItem/{id:int?}")]
+        public ActionResult MenuItem(int? id, MenuItemViewModel model)
         {
-            if (context.CanAdmin == false)
+            context.RequireAdminPermission();
+
+            if (!model.ValidateModelAndSetErrors(ModelState))
             {
-                return Unauthorized();
+                return View(model);
             }
 
-            if (ModelState.IsValid)
+            if (MenuItemRepository.GetAllMenuItems().Where(o => o.Name.ToLower() == model.Name.ToLower() && o.Id != model.Id).Any())
             {
-                if (MenuItemRepository.GetAllMenuItems().Where(o => o.Name.ToLower() == model.Name.ToLower() && o.Id != model.Id).Any())
-                {
-                    ModelState.AddModelError("Name", $"The menu name '{model.Name}' is already in use.");
-                    return View(model);
-                }
-
-                if (model.Id == null)
-                {
-                    model.Id = MenuItemRepository.InsertMenuItem(model.ToDataModel());
-                    ModelState.Clear();
-                }
-                else
-                {
-                    MenuItemRepository.UpdateMenuItemById(model.ToDataModel());
-                }
-
-                model.SuccessMessage = "The menu item has been saved successfully!.";
+                ModelState.AddModelError("Name", $"The menu name '{model.Name}' is already in use.");
+                return View(model);
             }
 
+            if (id.DefaultWhenNull(0) == 0)
+            {
+                model.Id = MenuItemRepository.InsertMenuItem(model.ToDataModel());
+                ModelState.Clear();
+
+                return Redirect($"/Admin/MenuItem/{model.Id}");
+            }
+            else
+            {
+                MenuItemRepository.UpdateMenuItemById(model.ToDataModel());
+            }
+
+            model.SuccessMessage = "The menu item has been saved successfully!";
             return View(model);
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("DeleteMenuItem/{id}")]
         public ActionResult DeleteMenuItem(int id)
         {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             var model = MenuItemRepository.GetMenuItemById(id);
-            if (model != null)
-            {
-                ViewBag.Context.Title = $"{model.Name} Delete";
-            }
+            ViewBag.Context.Title = $"{model.Name} Delete";
 
             return View(model.ToViewModel());
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult DeleteMenuItem(MenuItemModel model)
+        [HttpPost("DeleteMenuItem/{id}")]
+        public ActionResult DeleteMenuItem(MenuItemViewModel model)
         {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
             if (confirmAction == true)
             {
-                MenuItemRepository.DeleteMenuItemById((int)model.Id);
-                return RedirectToAction("MenuItems", "Admin");
+                MenuItemRepository.DeleteMenuItemById(model.Id);
+                return Redirect($"/Admin/MenuItems");
             }
 
-            return RedirectToAction("MenuItem", "Admin", new { Id = model.Id });
+            return Redirect($"/Admin/MenuItem/{model.Id}");
         }
 
         #endregion
@@ -566,23 +507,20 @@ namespace TightWiki.Site.Controllers
         #region Roles.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Role/{navigation}/{page=1}")]
         public ActionResult Role(string navigation, int page)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            if (page <= 0) page = 1;
+            navigation = Navigation.Clean(navigation);
 
-            var role = UserRepository.GetRoleByName(navigation);
+            var role = ProfileRepository.GetRoleByName(navigation);
 
-            var model = new RoleModel()
+            var model = new RoleViewModel()
             {
                 Id = role.Id,
                 Name = role.Name,
-                Users = UserRepository.GetUsersByRoleId(role.Id, 1)
+                Users = ProfileRepository.GetProfilesByRoleIdPaged(role.Id, page)
             };
 
             ViewBag.Context.Title = $"Roles";
@@ -596,17 +534,14 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Roles")]
         public ActionResult Roles()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            var model = new RolesModel()
+            var model = new RolesViewModel()
             {
-                Roles = UserRepository.GetAllRoles()
+                Roles = ProfileRepository.GetAllRoles()
             };
 
             return View(model);
@@ -617,30 +552,24 @@ namespace TightWiki.Site.Controllers
         #region Accounts
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Account/{navigation}")]
         public ActionResult Account(string navigation)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            navigation = WikiUtility.CleanPartialURI(navigation);
-
-            var model = new AccountAdminModel()
+            var model = new Library.ViewModels.Admin.AccountProfileViewModel()
             {
-                Account = UserRepository.GetUserByNavigation(navigation),
-                Credential = new Credential(),
+                AccountProfile = Library.ViewModels.Admin.AccountProfileAccountViewModel.FromDataModel(
+                    ProfileRepository.GetAccountProfileByNavigation(Navigation.Clean(navigation))),
+                Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
-                Roles = UserRepository.GetAllRoles()
+                Roles = ProfileRepository.GetAllRoles()
             };
 
-
-            model.Account.CreatedDate = context.LocalizeDateTime(model.Account.CreatedDate);
-            model.Account.ModifiedDate = context.LocalizeDateTime(model.Account.ModifiedDate);
-            model.Account.LastLoginDate = context.LocalizeDateTime(model.Account.LastLoginDate);
+            model.AccountProfile.CreatedDate = context.LocalizeDateTime(model.AccountProfile.CreatedDate);
+            model.AccountProfile.ModifiedDate = context.LocalizeDateTime(model.AccountProfile.ModifiedDate);
 
             return View(model);
         }
@@ -651,21 +580,65 @@ namespace TightWiki.Site.Controllers
         /// <param name="profile"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost]
-        public ActionResult Account(AccountAdminModel model)
+        [HttpPost("Account/{navigation}")]
+        public ActionResult Account(string navigation, Library.ViewModels.Admin.AccountProfileViewModel model)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
-            model.Roles = UserRepository.GetAllRoles();
+            model.Roles = ProfileRepository.GetAllRoles();
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
 
-            model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower());
-            var user = UserRepository.GetUserByNavigation(model.Account.Navigation);
+            if (!model.ValidateModelAndSetErrors(ModelState))
+            {
+                return View(model);
+            }
+
+            var user = UserManager.FindByIdAsync(model.AccountProfile.UserId.ToString()).Result.EnsureNotNull();
+
+            if (model.Credential.Password != CredentialViewModel.NOTSET && model.Credential.Password == model.Credential.ComparePassword)
+            {
+                try
+                {
+                    var token = UserManager.GeneratePasswordResetTokenAsync(user).Result.EnsureNotNull();
+                    var result = UserManager.ResetPasswordAsync(user, token, model.Credential.Password).Result.EnsureNotNull();
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
+                    }
+
+                    if (model.AccountProfile.AccountName.Equals("admin", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        ConfigurationRepository.SetAdminPasswordIsChanged();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("Credential.Password", ex.Message);
+                    return View(model);
+                }
+            }
+
+            var profile = ProfileRepository.GetAccountProfileByUserId(model.AccountProfile.UserId);
+            if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.CurrentCultureIgnoreCase))
+            {
+                if (ProfileRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
+                {
+                    ModelState.AddModelError("AccountProfile.AccountName", "Account name is already in use.");
+                    return View(model);
+                }
+            }
+
+            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.CurrentCultureIgnoreCase))
+            {
+                if (ProfileRepository.DoesEmailAddressExist(model.AccountProfile.EmailAddress))
+                {
+                    ModelState.AddModelError("AccountProfile.EmailAddress", "Email address is already in use.");
+                    return View(model);
+                }
+            }
 
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
@@ -673,250 +646,221 @@ namespace TightWiki.Site.Controllers
                 try
                 {
                     var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                    //This is just to ensure this is a valid image:
                     var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                    UserRepository.UpdateUserAvatar(user.Id, imageBytes);
+                    ProfileRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
                 }
                 catch
                 {
-                    ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                    model.ErrorMessage += "Could not save the attached image.";
                 }
             }
 
-            if (ModelState.IsValid)
+            profile.AccountName = model.AccountProfile.AccountName;
+            profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
+            profile.Biography = model.AccountProfile.Biography;
+            profile.ModifiedDate = DateTime.UtcNow;
+            ProfileRepository.UpdateProfile(profile);
+
+            var claims = new List<Claim>
+                    {
+                        new (ClaimTypes.Role, model.AccountProfile.Role),
+                        new ("timezone", model.AccountProfile.TimeZone),
+                        new (ClaimTypes.Country, model.AccountProfile.Country),
+                        new ("language", model.AccountProfile.Language),
+                        new ("firstname", model.AccountProfile.FirstName ?? ""),
+                        new ("lastname", model.AccountProfile.LastName ?? ""),
+                    };
+            SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
+
+            //Allow the administrator to confirm/unconfirm the email address.
+            bool emailConfirmChanged = profile.EmailConfirmed != model.AccountProfile.EmailConfirmed;
+            if (emailConfirmChanged)
             {
-                if (user.Navigation.ToLower() != model.Account.Navigation.ToLower())
+                user.EmailConfirmed = model.AccountProfile.EmailConfirmed;
+                var updateResult = UserManager.UpdateAsync(user).Result;
+                if (!updateResult.Succeeded)
                 {
-                    var checkName = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower()));
-                    if (checkName != null)
-                    {
-                        ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
-                        return View(model);
-                    }
+                    throw new Exception(string.Join("<br />\r\n", updateResult.Errors.Select(o => o.Description)));
                 }
-
-                if (user.EmailAddress.ToLower() != model.Account.EmailAddress.ToLower())
-                {
-                    var checkName = UserRepository.GetUserByEmail(model.Account.EmailAddress.ToLower());
-                    if (checkName != null)
-                    {
-                        ModelState.AddModelError("Account.EmailAddress", "Email address is already in use.");
-                        return View(model);
-                    }
-                }
-
-                user.AboutMe = model.Account.AboutMe;
-                user.FirstName = model.Account.FirstName;
-                user.LastName = model.Account.LastName;
-                user.TimeZone = model.Account.TimeZone;
-                user.Country = model.Account.Country;
-                user.Role = model.Account.Role;
-                user.Language = model.Account.Language;
-                user.AccountName = model.Account.AccountName;
-                user.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName);
-                user.EmailAddress = model.Account.EmailAddress;
-                user.ModifiedDate = DateTime.UtcNow;
-                UserRepository.UpdateUser(user);
-
-                //Only set the password if it has changed.
-                if (string.IsNullOrEmpty(model.Credential.Password) == false
-                    && string.IsNullOrEmpty(model.Credential.ComparePassword) == false
-                    && model.Credential.Password == model.Credential.ComparePassword
-                    && model.Credential.Password != Credential.NOTSET)
-                {
-                    UserRepository.UpdateUserPassword(user.Id, model.Credential.Password);
-                }
-
-                model.SuccessMessage = "Your profile has been saved successfully!.";
             }
+
+            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.CurrentCultureIgnoreCase))
+            {
+                bool wasEmailAlreadyConfirmed = user.EmailConfirmed;
+
+                var setEmailResult = UserManager.SetEmailAsync(user, model.AccountProfile.EmailAddress).Result;
+                if (!setEmailResult.Succeeded)
+                {
+                    throw new Exception(string.Join("<br />\r\n", setEmailResult.Errors.Select(o => o.Description)));
+                }
+
+                var setUserNameResult = UserManager.SetUserNameAsync(user, model.AccountProfile.EmailAddress).Result;
+                if (!setUserNameResult.Succeeded)
+                {
+                    throw new Exception(string.Join("<br />\r\n", setUserNameResult.Errors.Select(o => o.Description)));
+                }
+
+                //If the email address was already confirmed, just keep the status. Afterall, this is an admin making the change.
+                if (wasEmailAlreadyConfirmed && emailConfirmChanged == false)
+                {
+                    user.EmailConfirmed = true;
+                    var updateResult = UserManager.UpdateAsync(user).Result;
+                    if (!updateResult.Succeeded)
+                    {
+                        throw new Exception(string.Join("<br />\r\n", updateResult.Errors.Select(o => o.Description)));
+                    }
+                }
+            }
+
+            model.SuccessMessage = "Your profile has been saved successfully!";
 
             return View(model);
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("AddAccount")]
         public ActionResult AddAccount()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-            var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
+            var defaultSignupRole = membershipConfig.As<string>("Default Signup Role").EnsureNotNull();
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
 
-            var model = new AccountAdminModel()
+            var model = new Library.ViewModels.Admin.AccountProfileViewModel()
             {
-                Account = new User()
+                AccountProfile = new Library.ViewModels.Admin.AccountProfileAccountViewModel
                 {
-                    Country = customizationConfig.As<string>("Default Country"),
-                    TimeZone = customizationConfig.As<string>("Default TimeZone"),
-                    Language = customizationConfig.As<string>("Default Language"),
-                    Role = defaultSignupRole,
+                    AccountName = ProfileRepository.GetRandomUnusedAccountName(),
+                    Country = customizationConfig.As<string>("Default Country", string.Empty),
+                    TimeZone = customizationConfig.As<string>("Default TimeZone", string.Empty),
+                    Language = customizationConfig.As<string>("Default Language", string.Empty),
+                    Role = defaultSignupRole
                 },
-                Credential = new Credential(),
+                Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
-                Roles = UserRepository.GetAllRoles()
+                Roles = ProfileRepository.GetAllRoles()
             };
 
             return View(model);
         }
 
         /// <summary>
-        /// Save user profile.
+        /// Create a new user profile.
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost]
-        public ActionResult AddAccount(AccountAdminModel model)
+        [HttpPost("AddAccount")]
+        public ActionResult AddAccount(Library.ViewModels.Admin.AccountProfileViewModel model)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
-            model.Roles = UserRepository.GetAllRoles();
+            model.Roles = ProfileRepository.GetAllRoles();
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
 
-            model.Account.Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName?.ToLower());
-
-            if (ModelState.IsValid)
+            if (!model.ValidateModelAndSetErrors(ModelState))
             {
-                if (string.IsNullOrWhiteSpace(model.Account.Navigation))
-                {
-                    ModelState.AddModelError("Account.AccountName", "Account name is required.");
-                    return View(model);
-                }
-
-                var checkAccount = UserRepository.GetUserByNavigation(WikiUtility.CleanPartialURI(model.Account.AccountName.ToLower()));
-                if (checkAccount != null)
-                {
-                    ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
-                    return View(model);
-                }
-
-                if (string.IsNullOrWhiteSpace(model.Account.EmailAddress))
-                {
-                    ModelState.AddModelError("Account.EmailAddress", "Email address is required.");
-                    return View(model);
-                }
-
-                var checkEmail = UserRepository.GetUserByEmail(model.Account.EmailAddress?.ToLower());
-                if (checkEmail != null)
-                {
-                    ModelState.AddModelError("Account.EmailAddress", "Email address is already in use.");
-                    return View(model);
-                }
-
-                if (string.IsNullOrEmpty(model.Credential.Password) || model.Credential.Password == Credential.NOTSET)
-                {
-                    ModelState.AddModelError("Credential.Password", "You must enter a password.");
-                    return View(model);
-                }
-
-                if (string.IsNullOrEmpty(model.Credential.ComparePassword) || model.Credential.ComparePassword == Credential.NOTSET)
-                {
-                    ModelState.AddModelError("Credential.ComparePassword", "You must enter a password.");
-                    return View(model);
-                }
-
-                if (string.IsNullOrEmpty(model.Credential.ComparePassword) || model.Credential.ComparePassword == Credential.NOTSET)
-                {
-                    ModelState.AddModelError("Credential.Password", "Passwords do not match.");
-                    ModelState.AddModelError("Credential.ComparePassword", "Passwords do not match.");
-                    return View(model);
-                }
-
-                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-                var siteName = basicConfig.As<string>("Name");
-                var address = basicConfig.As<string>("Address");
-
-                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                //var defaultSignupRole = membershipConfig.As<string>("Default Signup Role");
-                var requestEmailVerification = membershipConfig.As<bool>("Request Email Verification");
-                var requireEmailVerification = membershipConfig.As<bool>("Require Email Verification");
-                var accountVerificationEmailTemplate = new StringBuilder(membershipConfig.As<string>("Account Verification Email Template"));
-
-                var user = new User()
-                {
-                    AboutMe = model.Account.AboutMe,
-                    FirstName = model.Account.FirstName,
-                    LastName = model.Account.LastName,
-                    TimeZone = model.Account.TimeZone,
-                    Country = model.Account.Country,
-                    Language = model.Account.Language,
-                    AccountName = model.Account.AccountName,
-                    Navigation = WikiUtility.CleanPartialURI(model.Account.AccountName),
-                    EmailAddress = model.Account.EmailAddress,
-                    Role = model.Account.Role,
-                    ModifiedDate = DateTime.UtcNow
-                };
-                user.Id = UserRepository.CreateUser(user);
-
-                var file = Request.Form.Files["Avatar"];
-                if (file != null && file.Length > 0)
-                {
-                    try
-                    {
-                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        //This is just to ensure this is a valid image:
-                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UserRepository.UpdateUserAvatar(user.Id, imageBytes);
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
-                    }
-                }
-
-                if (requestEmailVerification || requireEmailVerification)
-                {
-                    var emailSubject = "Account Verification";
-                    accountVerificationEmailTemplate.Replace("##SUBJECT##", emailSubject);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTCOUNTRY##", user.Country);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTTIMEZONE##", user.TimeZone);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTLANGUAGE##", user.Language);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTEMAIL##", user.EmailAddress);
-                    accountVerificationEmailTemplate.Replace("##ACCOUNTNAME##", user.AccountName);
-                    accountVerificationEmailTemplate.Replace("##PERSONNAME##", $"{user.FirstName} {user.LastName}");
-                    accountVerificationEmailTemplate.Replace("##CODE##", user.VerificationCode);
-                    accountVerificationEmailTemplate.Replace("##SITENAME##", siteName);
-                    accountVerificationEmailTemplate.Replace("##SITEADDRESS##", address);
-
-                    Email.Send(user.EmailAddress, emailSubject, accountVerificationEmailTemplate.ToString());
-                }
-
-                UserRepository.UpdateUserPassword(user.Id, model.Credential.Password);
-
-                model.SuccessMessage = "The account was created successfully!.";
+                return View(model);
             }
 
-            return View(model);
+            if (ProfileRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
+            {
+                ModelState.AddModelError("AccountProfile.AccountName", "Account name is already in use.");
+                return View(model);
+            }
+
+            if (ProfileRepository.DoesEmailAddressExist(model.AccountProfile.EmailAddress))
+            {
+                ModelState.AddModelError("AccountProfile.EmailAddress", "Email address is already in use.");
+                return View(model);
+            }
+
+            Guid? userId;
+
+            try
+            {
+                //Define the new user:
+                var identityUser = new IdentityUser(model.AccountProfile.EmailAddress)
+                {
+                    Email = model.AccountProfile.EmailAddress,
+                    EmailConfirmed = true
+                };
+
+                //Create the new user:
+                var creationResult = UserManager.CreateAsync(identityUser, model.Credential.Password).Result;
+                if (!creationResult.Succeeded)
+                {
+                    throw new Exception(string.Join("<br />\r\n", creationResult.Errors.Select(o => o.Description)));
+                }
+                identityUser = UserManager.FindByEmailAsync(model.AccountProfile.EmailAddress).Result.EnsureNotNull();
+
+                userId = Guid.Parse(identityUser.Id);
+
+                //Insert the claims.
+                var claims = new List<Claim>
+                    {
+                        new (ClaimTypes.Role, model.AccountProfile.Role),
+                        new ("timezone", model.AccountProfile.TimeZone),
+                        new (ClaimTypes.Country, model.AccountProfile.Country),
+                        new ("language", model.AccountProfile.Language),
+                        new ("firstname", model.AccountProfile.FirstName ?? ""),
+                        new ("lastname", model.AccountProfile.LastName ?? ""),
+                    };
+                SecurityHelpers.UpsertUserClaims(UserManager, identityUser, claims);
+            }
+            catch (Exception ex)
+            {
+                model.ErrorMessage = ex.Message;
+                return View(model);
+            }
+
+            ProfileRepository.CreateProfile((Guid)userId, model.AccountProfile.AccountName);
+            var profile = ProfileRepository.GetAccountProfileByUserId((Guid)userId);
+
+            profile.AccountName = model.AccountProfile.AccountName;
+            profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
+            profile.Biography = model.AccountProfile.Biography;
+            profile.ModifiedDate = DateTime.UtcNow;
+            ProfileRepository.UpdateProfile(profile);
+
+            var file = Request.Form.Files["Avatar"];
+            if (file != null && file.Length > 0)
+            {
+                try
+                {
+                    var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
+                    ProfileRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                }
+                catch
+                {
+                    model.ErrorMessage += "Could not save the attached image.";
+                }
+            }
+
+            model.SuccessMessage = "The account has been created successfully!";
+
+            return Redirect($"/Admin/Account/{profile.Navigation}");
         }
 
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Accounts/{page=1}")]
         public ActionResult Accounts(int page)
         {
-            if (context.CanAdmin == false)
+            context.RequireAdminPermission();
+
+            var searchToken = GetQueryString("Token");
+
+            var model = new AccountsViewModel()
             {
-                return Unauthorized();
-            }
-
-            if (page <= 0) page = 1;
-
-            string searchToken = Request.Query["Token"];
-
-            var model = new AccountsModel()
-            {
-                Users = UserRepository.GetAllUsersPaged(page, 0, searchToken)
+                Users = ProfileRepository.GetAllUsersPaged(page, null, searchToken)
             };
 
             if (model.Users != null && model.Users.Any())
@@ -925,7 +869,6 @@ namespace TightWiki.Site.Controllers
                 {
                     o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
-                    o.LastLoginDate = context.LocalizeDateTime(o.LastLoginDate);
                 });
 
                 ViewBag.PaginationCount = model.Users.First().PaginationCount;
@@ -939,21 +882,16 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Accounts(int page, AccountsModel model)
+        [HttpPost("Accounts/{page=1}")]
+        public ActionResult Accounts(int page, AccountsViewModel model)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
-
-            page = 1;
+            context.RequireAdminPermission();
 
             string searchToken = model.SearchToken;
 
-            model = new AccountsModel()
+            model = new AccountsViewModel()
             {
-                Users = UserRepository.GetAllUsersPaged(page, 0, searchToken)
+                Users = ProfileRepository.GetAllUsersPaged(page, null, searchToken)
             };
 
             if (model.Users != null && model.Users.Any())
@@ -962,7 +900,6 @@ namespace TightWiki.Site.Controllers
                 {
                     o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
-                    o.LastLoginDate = context.LocalizeDateTime(o.LastLoginDate);
                 });
 
                 ViewBag.PaginationCount = model.Users.First().PaginationCount;
@@ -976,47 +913,61 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult DeleteAccount(string navigation, AccountModel model)
+        [HttpPost("DeleteAccount/{navigation}")]
+        public ActionResult DeleteAccount(string navigation, AccountViewModel model)
         {
-            if (context.CanDelete == false)
+            context.RequireAdminPermission();
+
+            var profile = ProfileRepository.GetAccountProfileByNavigation(navigation);
+
+            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
+            if (confirmAction == true && profile != null)
             {
-                return Unauthorized();
+                var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
+                if (user == null)
+                {
+                    return NotFound("User not found.");
+                }
+
+                var result = UserManager.DeleteAsync(user).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
+                }
+
+                ProfileRepository.AnonymizeProfile(profile.UserId);
+                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
+
+                if (profile.UserId == context.User?.UserId)
+                {
+                    //We're deleting our own account. Oh boy...
+                    SignInManager.SignOutAsync();
+                    return Redirect($"/Profile/Deleted");
+                }
+
+                return Redirect($"/Admin/Accounts");
             }
 
-            var user = UserRepository.GetUserByNavigation(navigation);
-
-            bool confirmAction = bool.Parse(Request.Form["Action"]);
-            if (confirmAction == true && user != null)
-            {
-                UserRepository.DeleteById(user.Id);
-                Cache.ClearClass($"User:{user.Navigation}");
-                return RedirectToAction("Accounts", "Admin");
-            }
-
-            return RedirectToAction("Account", "Admin", new { navigation = navigation });
+            return Redirect($"/Admin/Accounts/{navigation}");
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("DeleteAccount/{navigation}")]
         public ActionResult DeleteAccount(string navigation)
         {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            var user = UserRepository.GetUserByNavigation(navigation);
+            var profile = ProfileRepository.GetAccountProfileByNavigation(navigation);
 
-            ViewBag.AccountName = user.AccountName;
+            ViewBag.AccountName = profile.AccountName;
 
-            var model = new AccountModel()
+            var model = new AccountViewModel()
             {
             };
 
-            if (user != null)
+            if (profile != null)
             {
-                ViewBag.Context.Title = $"{user.AccountName} Delete";
+                ViewBag.Context.Title = $"{profile.AccountName} Delete";
             }
 
             return View(model);
@@ -1027,17 +978,14 @@ namespace TightWiki.Site.Controllers
         #region Config.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Config")]
         public ActionResult Config()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            var model = new ConfigurationModel()
+            var model = new ConfigurationViewModel()
             {
-                Roles = UserRepository.GetAllRoles(),
+                Roles = ProfileRepository.GetAllRoles(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
@@ -1047,12 +995,14 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Config(ConfigurationModel model)
+        [HttpPost("Config")]
+        public ActionResult Config(ConfigurationViewModel model)
         {
-            if (context.CanAdmin == false)
+            context.RequireAdminPermission();
+
+            if (!model.ValidateModelAndSetErrors(ModelState))
             {
-                return Unauthorized();
+                return View(model);
             }
 
             var flatConfig = ConfigurationRepository.GetFlatConfiguration();
@@ -1061,7 +1011,7 @@ namespace TightWiki.Site.Controllers
             {
                 string key = $"{fc.GroupId}:{fc.EntryId}";
 
-                var value = Request.Form[key];
+                var value = GetFormString(key, string.Empty);
 
                 if (fc.IsEncrypted)
                 {
@@ -1071,16 +1021,13 @@ namespace TightWiki.Site.Controllers
                 ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
             }
 
-            Cache.ClearClass("Config:");
+            WikiCache.ClearCategory(WikiCache.Category.Configuration);
 
-            if (ModelState.IsValid)
-            {
-                model.SuccessMessage = "The configuration has been saved successfully!";
-            }
+            model.SuccessMessage = "The configuration has been saved successfully!";
 
-            var newModel = new ConfigurationModel()
+            var newModel = new ConfigurationViewModel()
             {
-                Roles = UserRepository.GetAllRoles(),
+                Roles = ProfileRepository.GetAllRoles(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
@@ -1095,27 +1042,17 @@ namespace TightWiki.Site.Controllers
         #region Emojis.
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Emojis/{page=1}")]
         public ActionResult Emojis(int page)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            if (page <= 0) page = 1;
+            var searchTokens = Utility.SplitToTokens(GetQueryString("Categories"));
 
-            string searchTokens = Request.Query["Categories"];
-            if (searchTokens != null)
+            var model = new EmojisViewModel()
             {
-                var tokens = searchTokens.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
-                searchTokens = string.Join(",", tokens);
-            }
-
-            var model = new EmojisModel()
-            {
-                Emojis = EmojiRepository.GetAllEmojisPaged(page, 0, searchTokens),
-                Categories = Request.Query["Categories"]
+                Emojis = EmojiRepository.GetAllEmojisPaged(page, null, searchTokens),
+                Categories = GetQueryString("Categories", string.Empty)
             };
 
             if (model.Emojis != null && model.Emojis.Any())
@@ -1132,27 +1069,17 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult Emojis(int page, EmojisModel model)
+        [HttpPost("Emojis/{page=1}")]
+        public ActionResult Emojis(int page, EmojisViewModel model)
         {
-            if (context.CanAdmin == false && context.CanModerate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            page = 1;
+            var searchTokens = Utility.SplitToTokens(model.Categories);
 
-            string searchTokens = null;
-            if (model.Categories != null)
+            model = new EmojisViewModel()
             {
-                var tokens = model.Categories.Split(new char[] { ' ', '\t' }, System.StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct();
-                searchTokens = string.Join(",", tokens);
-            }
-
-            model = new EmojisModel()
-            {
-                Emojis = EmojiRepository.GetAllEmojisPaged(page, 0, searchTokens),
-                Categories = model.Categories
+                Emojis = EmojiRepository.GetAllEmojisPaged(page, null, searchTokens),
+                Categories = model.Categories ?? string.Empty
             };
 
             if (model.Emojis != null && model.Emojis.Any())
@@ -1169,96 +1096,96 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Emoji/{name}")]
         public ActionResult Emoji(string name)
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireModeratePermission();
 
-            var model = new EmojiModel()
+            var emoji = EmojiRepository.GetEmojiByName(name);
+
+            var model = new EmojiViewModel()
             {
-                Emoji = EmojiRepository.GetEmojiByName(name),
+                Emoji = emoji ?? new Emoji(),
                 Categories = String.Join(",", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
             };
 
-            model.OriginalName = model.Emoji.Name;
+            model.OriginalName = emoji?.Name ?? string.Empty;
 
             return View(model);
         }
 
         /// <summary>
-        /// Save user profile.
+        /// Update an existing emoji.
         /// </summary>
         /// <param name="profile"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost]
-        public ActionResult Emoji(EmojiModel model)
+        [HttpPost("Emoji/{name}")]
+        public ActionResult Emoji(EmojiViewModel model)
         {
-            if (context.CanAdmin == false)
+            context.RequireAdminPermission();
+
+            if (!model.ValidateModelAndSetErrors(ModelState))
             {
-                return Unauthorized();
+                return View(model);
             }
 
-            if (ModelState.IsValid)
+            bool nameChanged = false;
+
+            if (model.OriginalName.ToLowerInvariant() != model.Emoji.Name.ToLowerInvariant())
             {
-                if (model.OriginalName.ToLowerInvariant() != model.Emoji.Name.ToLowerInvariant())
+                nameChanged = true;
+                var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLowerInvariant());
+                if (checkName != null)
                 {
-                    var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLowerInvariant());
-                    if (checkName != null)
-                    {
-                        ModelState.AddModelError("Emoji.Name", "Emoji name is already in use.");
-                        return View(model);
-                    }
+                    ModelState.AddModelError("Emoji.Name", "Emoji name is already in use.");
+                    return View(model);
                 }
+            }
 
-                var emoji = new Emoji
+            var emoji = new UpsertEmoji
+            {
+                Id = model.Emoji.Id,
+                Name = model.Emoji.Name.ToLowerInvariant(),
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {WikiUtility.SplitCamelCase(model.Emoji.Name)}")
+            };
+
+            var file = Request.Form.Files["ImageData"];
+            if (file != null && file.Length > 0)
+            {
+                try
                 {
-                    Id = model.Emoji.Id,
-                    Name = model.Emoji.Name.ToLowerInvariant(),
-                    Categories = model.Categories
-                };
-
-                byte[] imageBytes = null;
-
-                var file = Request.Form.Files["ImageData"];
-                if (file != null && file.Length > 0)
-                {
-                    try
-                    {
-                        imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        //This is just to ensure this is a valid image:
-                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        emoji.MimeType = file.ContentType;
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
-                    }
+                    emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
+                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                    emoji.MimeType = file.ContentType;
                 }
+                catch
+                {
+                    model.ErrorMessage += "Could not save the attached image.";
+                }
+            }
 
-                emoji.Id = EmojiRepository.SaveEmoji(emoji, imageBytes);
-                model.OriginalName = model.Emoji.Name;
-                model.SuccessMessage = "The emoji has been saved successfully!.";
-                model.Emoji.Id = emoji.Id;
-                ModelState.Clear();
+            emoji.Id = EmojiRepository.UpsertEmoji(emoji);
+            model.OriginalName = model.Emoji.Name;
+            model.SuccessMessage = "The emoji has been saved successfully!";
+            model.Emoji.Id = (int)emoji.Id;
+            ModelState.Clear();
+
+            if (nameChanged)
+            {
+                return Redirect($"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
 
             return View(model);
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("AddEmoji")]
         public ActionResult AddEmoji()
         {
-            if (context.CanAdmin == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
-            var model = new AddEmojiModel()
+            var model = new AddEmojiViewModel()
             {
                 Name = string.Empty,
                 OriginalName = string.Empty,
@@ -1274,107 +1201,82 @@ namespace TightWiki.Site.Controllers
         /// <param name="profile"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost]
-        public ActionResult AddEmoji(AddEmojiModel model)
+        [HttpPost("AddEmoji")]
+        public ActionResult AddEmoji(AddEmojiViewModel model)
         {
-            if (context.CanAdmin == false)
+            context.RequireAdminPermission();
+
+            if (!model.ValidateModelAndSetErrors(ModelState))
             {
-                return Unauthorized();
+                return View(model);
             }
 
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(model.OriginalName) == true || model.OriginalName.ToLowerInvariant() != model.Name.ToLowerInvariant())
             {
-                if (string.IsNullOrEmpty(model.OriginalName) == true || model.OriginalName.ToLowerInvariant() != model.Name.ToLowerInvariant())
+                var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
+                if (checkName != null)
                 {
-                    var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
-                    if (checkName != null)
-                    {
-                        ModelState.AddModelError("Name", "Emoji name is already in use.");
-                        return View(model);
-                    }
+                    ModelState.AddModelError("Name", "Emoji name is already in use.");
+                    return View(model);
                 }
-
-                var categories = model.Categories?.ToLower()?.Split(',')?.ToList() ?? new List<string>();
-                categories.Add(model.Name);
-                categories.AddRange(model.Name.Split('_'));
-                categories.AddRange(model.Name.Split(' '));
-                categories.AddRange(model.Name.Split('-'));
-                categories = categories.Select(c => c.ToLowerInvariant().Trim()).Distinct().OrderBy(o => o).ToList();
-
-                string finalCategoryList = string.Join(",", string.Join(",", categories).Split(",").Distinct());
-
-                var emoji = new Emoji
-                {
-                    Id = model.Id,
-                    Name = model.Name.ToLowerInvariant(),
-                    Categories = finalCategoryList
-                };
-
-                byte[] imageBytes = null;
-
-                var file = Request.Form.Files["ImageData"];
-                if (file != null && file.Length > 0)
-                {
-                    try
-                    {
-                        imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        //This is just to ensure this is a valid image:
-                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        emoji.MimeType = file.ContentType;
-                    }
-                    catch
-                    {
-                        ModelState.AddModelError("Name", "Could not save the attached image.");
-                    }
-                }
-
-                emoji.Id = EmojiRepository.SaveEmoji(emoji, imageBytes);
-                model.Id = emoji.Id;
-                model.OriginalName = model.Name;
-                model.Categories = emoji.Categories;
-                model.SuccessMessage = "The emoji has been saved successfully!.";
-                ModelState.Clear();
             }
 
-            return View(model);
+            var emoji = new UpsertEmoji
+            {
+                Id = model.Id,
+                Name = model.Name.ToLowerInvariant(),
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {WikiUtility.SplitCamelCase(model.Name)}")
+            };
+
+            var file = Request.Form.Files["ImageData"];
+            if (file != null && file.Length > 0)
+            {
+                try
+                {
+                    emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
+                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                    emoji.MimeType = file.ContentType;
+                }
+                catch
+                {
+                    ModelState.AddModelError("Name", "Could not save the attached image.");
+                }
+            }
+
+            EmojiRepository.UpsertEmoji(emoji);
+
+            return Redirect($"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
         }
 
         [Authorize]
-        [HttpPost]
-        public ActionResult DeleteEmoji(string name, EmojiModel model)
+        [HttpPost("DeleteEmoji/{name}")]
+        public ActionResult DeleteEmoji(string name, EmojiViewModel model)
         {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            bool confirmAction = bool.Parse(Request.Form["Action"]);
+            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
             if (confirmAction == true && emoji != null)
             {
                 EmojiRepository.DeleteById(emoji.Id);
-                Cache.ClearClass($"Emoj::");
-                return RedirectToAction("Emojis", "Admin");
+                return Redirect($"/Admin/Emojis");
             }
 
-            return RedirectToAction("Emoji", "Admin", new { name = name });
+            return Redirect($"/Admin/Emoji/{name}");
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("DeleteEmoji/{name}")]
         public ActionResult DeleteEmoji(string name)
         {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireAdminPermission();
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            ViewBag.Name = emoji.Name;
+            ViewBag.Name = emoji?.Name ?? string.Empty;
 
-            var model = new EmojiModel()
+            var model = new EmojiViewModel()
             {
             };
 

@@ -1,4 +1,4 @@
-﻿@using TightWiki.Shared;
+﻿@using TightWiki.Library;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,10 +7,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Context.Title</title>
+    <title>@ViewBag.Context?.Title</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- BEGIN Syntax Highlighter -->
-    <link rel="stylesheet" href="/syntax/styles/default.min.css">
+    <link rel="stylesheet" href="/syntax/styles/default.css">
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
 
@@ -18,12 +18,12 @@
     <!-- END Syntax Highlighter -->
     @if (GlobalSettings.IncludeWikiDescriptionInMeta)
     {
-        <meta name="description" content="@ViewBag.Context.PageDescription">
+        <meta name="description" content="@ViewBag.Context?.PageDescription">
     }
 
     @if (GlobalSettings.IncludeWikiTagsInMeta)
     {
-        <meta name="keywords" content="@ViewBag.Context.PageTags">
+        <meta name="keywords" content="@ViewBag.Context?.PageTags">
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -44,75 +44,75 @@
                 <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@GlobalSettings.BrandImageSmall" /></span> @GlobalSettings.Name</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (TightWiki.Shared.Models.Data.MenuItem item in GlobalSettings.MenuItems)
+                        @foreach (TightWiki.Library.DataModels.MenuItem item in GlobalSettings.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
 
-                        @if (ViewBag.Context.CanCreate
-                        || (ViewBag.CreatePage == true && ViewBag.Context.CanCreate)
-                        || (ViewBag.Context.IsPageLoaded == true && (ViewBag.Context.CanEdit || ViewBag.Context.CanModerate || ViewBag.Context.CanDelete))
+                        @if (ViewBag.Context?.CanCreate == true
+                        || (ViewBag.CreatePage == true && ViewBag.Context?.CanCreate == true)
+                        || (ViewBag.Context?.IsPageLoaded == true && (ViewBag.Context?.CanEdit == true || ViewBag.Context?.CanModerate == true || ViewBag.Context?.CanDelete == true))
                         )
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                                    @if (ViewBag.Context.CanCreate)
+                                    @if (ViewBag.Context?.CanCreate == true)
                                     {
                                         if (ViewBag.CreatePage == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Context.PageNavigation">Create "@ViewBag.Context.PageNavigation"</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/Page/Create">Create "@ViewBag.Context?.PageNavigation"</a>
                                         }
 
-                                        <a class="dropdown-item text-dark" href="/Page/Edit/">Create new page</a>
+                                        <a class="dropdown-item text-dark" href="/Page/Create">Create new page</a>
                                     }
 
-                                    @if (ViewBag.Context.IsPageLoaded == true)
+                                    @if (ViewBag.Context?.IsPageLoaded == true)
                                     {
-                                        @if (ViewBag.Context.CanCreate)
+                                        @if (ViewBag.Context?.CanCreate == true)
                                         {
                                             <div class="dropdown-divider"></div>
                                         }
-                                        if (ViewBag.Context.CanView && GlobalSettings.EnablePageComments)
+                                        if (ViewBag.Context?.CanView == true && GlobalSettings.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/Comments">Comments</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/Comments">Comments</a>
                                         }
-                                        if (ViewBag.Context.CanDelete)
+                                        if (ViewBag.Context?.CanDelete == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/Page/Delete/@ViewBag.Context.PageNavigation">Delete this page</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/Delete">Delete this page</a>
                                         }
-                                        if (ViewBag.Context.CanEdit && ViewBag.Context.IsViewingOldVersion == false)
+                                        if (ViewBag.Context?.CanEdit == true && ViewBag.Context?.IsViewingOldVersion == false)
                                         {
-                                            <a class="dropdown-item text-dark" href="/Page/Edit/@ViewBag.Context.PageNavigation">Edit</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/Edit">Edit</a>
                                         }
-                                        if (ViewBag.Context.CanView)
+                                        if (ViewBag.Context?.CanView == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/History">History</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/History">History</a>
                                         }
-                                        if (ViewBag.Context.CanCreate)
+                                        if (ViewBag.Context?.CanCreate == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/Refresh">Refresh</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/Refresh">Refresh</a>
                                         }
-                                        if (ViewBag.Context.CanModerate && ViewBag.Context.IsViewingOldVersion)
+                                        if (ViewBag.Context?.CanModerate == true && ViewBag.Context?.IsViewingOldVersion == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation/revert/@ViewBag.Context.PageRevision">Revert to revision @ViewBag.Context.PageRevision</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation/revert/@ViewBag.Context?.PageRevision">Revert to revision @ViewBag.Context?.PageRevision</a>
                                         }
-                                        if (ViewBag.Context.CanView && GlobalSettings.EnablePageComments)
+                                        if (ViewBag.Context?.CanView == true && GlobalSettings.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context.PageNavigation">View</a>
+                                            <a class="dropdown-item text-dark" href="/@ViewBag.Context?.PageNavigation">View</a>
                                         }
                                     }
                                 </div>
                             </li>
                         }
 
-                        @if (ViewBag.Context.IsAuthenticated == true && (ViewBag.Context.CanModerate || ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator))
+                        @if (ViewBag.Context?.IsAuthenticated == true && (ViewBag.Context?.CanModerate == true || ViewBag.Context?.Role == TightWiki.Library.Library.Constants.Roles.Administrator))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @if (ViewBag.Context.Role == TightWiki.Shared.Library.Constants.Roles.Administrator)
+                                    @if (ViewBag.Context?.Role == TightWiki.Library.Library.Constants.Roles.Administrator)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
@@ -129,7 +129,7 @@
                                         <a class="dropdown-item text-dark" href="/Admin/Namespaces">Namespaces</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
                                     }
-                                    else if (ViewBag.Context.CanModerate == true)
+                                    else if (ViewBag.Context?.CanModerate == true)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/MissingPages">Missing Pages</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Moderate">Moderate</a>
@@ -140,25 +140,22 @@
                             </li>
                         }
 
-                        @if (ViewBag.Context.IsAuthenticated == true)
+                        @if (ViewBag.Context?.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item text-dark" href="/Account/Profile">Profile</a>
-                                    @if (ViewBag.Context?.User?.Provider == "Native")
-                                    {
-                                        <a class="dropdown-item text-dark" href="/Account/ChangePassword">Change Password</a>
-                                    }
+                                    <a class="dropdown-item text-dark" href="/Profile/My">Profile</a>
+                                    <a class="dropdown-item text-dark" href="/Identity/Account/ForgotPassword">Change Password</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-dark" href="/Account/Logout">Logout</a>
+                                    <a class="dropdown-item text-dark" href="/Identity/Account/Logout?returnUrl=@ViewBag.Context?.PathAndQuery">Logout</a>
                                 </div>
                             </li>
                         }
 
-                        @if (ViewBag.Context.IsAuthenticated == false)
+                        @if (ViewBag.Context?.IsAuthenticated == false)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="/Account/Login?ReturnUrl=@ViewBag.Context.PathAndQuery">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="/Identity/Account/Login?returnUrl=@ViewBag.Context?.PathAndQuery">Login</a></li>
                         }
 
                         @if (GlobalSettings.IncludeSearchOnNavbar)
@@ -181,6 +178,26 @@
     <div class="container">
         <main role="main" class="pb-3">
             @Html.Raw(GlobalSettings.HTMLPreBody)
+
+            @if (TightWiki.Library.Repository.ConfigurationRepository.IsAdminPasswordChanged() == false)
+            {
+                <div class="card bg-warning mb-3">
+                    <div class="card-header"><strong>Default password has not been changed</strong></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            The admin password is set to its default value, it is <i>recommended</i> that you change it immediately!<br />
+                            <br />
+                            You can change this password by logging in, navigating to Admin -&gt; Accounts. Then setting the password and clicking save.<br />
+                            <br />
+                            <strong>Current admin login:</strong><br />
+                            &nbsp;&nbsp;&nbsp;<strong>Username:</strong>"admin@tightwiki.com"<br />
+                            &nbsp;&nbsp;&nbsp;<strong>Password:</strong>"@TightWiki.Library.Library.Constants.DEFAULTPASSWORD"<br />
+                            <br />
+                        </p>
+                    </div>
+                </div>
+            }
+
             @RenderBody()
             @Html.Raw(GlobalSettings.HTMLPostBody)
         </main>

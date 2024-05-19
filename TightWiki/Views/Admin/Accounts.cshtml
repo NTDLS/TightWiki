@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.AccountsModel
+﻿@model TightWiki.Library.ViewModels.Admin.AccountsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -20,13 +20,13 @@
                 <tr>
                     <td height="52" valign="middle" align="left">
 
-                        @if (Model.ErrorMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
-                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                         {
-                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
                         <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
@@ -54,7 +54,6 @@
                                         <td><strong>Time Zone</strong></td>
                                         <td><strong>Email Address</strong></td>
                                         <td><strong>Created</strong></td>
-                                        <td><strong>Last Login</strong></td>
                                     </tr>
                                 </thead>
 
@@ -65,9 +64,8 @@
                                         <td>@user.FirstName @user.LastName</td>
                                         <td>@user.Country</td>
                                         <td>@user.TimeZone</td>
-                                        <td>@user.EmailAddress  @Html.Raw(((user.EmailVerified == true) ? "&check;" : ""))   </td>
+                                        <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
                                         <td>@user.CreatedDate</td>
-                                        <td>@user.LastLoginDate</td>
                                     </tr>
                                 }
                             </table>

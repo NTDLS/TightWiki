@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.StatsModel
+﻿@model TightWiki.Library.ViewModels.Admin.StatsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -20,13 +20,13 @@
                 <tr>
                     <td height="52" valign="middle" align="left">
 
-                        @if (Model.ErrorMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
-                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
                         }
-                        @if (Model.SuccessMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                         {
-                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
                         <h2>General</h2>
@@ -60,15 +60,15 @@
                             </tr>
 
                             <tr>
+                                <td><strong>Profiles</strong></td>
                                 <td><strong>Exceptions</strong></td>
-                                <td><strong>&nbsp;</strong></td>
                                 <td><strong>&nbsp;</strong></td>
                                 <td><strong>&nbsp;</strong></td>
                             </tr>
 
                             <tr>
+                                <td>@Model.DatabaseStats.Profiles</td>
                                 <td>@Model.DatabaseStats.Exceptions</td>
-                                <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                             </tr>
@@ -87,12 +87,12 @@
 
 
                             <tr>
-                                <td>@TightWiki.Shared.Library.Cache.CacheItemCount.ToString("N0")</td>
-                                <td>@TightWiki.Shared.Library.Cache.CachePuts.ToString("N0")</td>
-                                <td>@TightWiki.Shared.Library.Cache.CacheGets.ToString("N0")</td>
-                                <td>@TightWiki.Shared.Library.Cache.CacheHits.ToString("N0")</td>
-                                <td>@TightWiki.Shared.Library.Cache.CacheMisses.ToString("N0")</td>
-                                <td>@TightWiki.Shared.Library.Cache.CacheMemoryLimitMB.ToString("N0")</td>
+                                <td>@TightWiki.Library.Library.WikiCache.CacheItemCount.ToString("N0")</td>
+                                <td>@TightWiki.Library.Library.WikiCache.CachePuts.ToString("N0")</td>
+                                <td>@TightWiki.Library.Library.WikiCache.CacheGets.ToString("N0")</td>
+                                <td>@TightWiki.Library.Library.WikiCache.CacheHits.ToString("N0")</td>
+                                <td>@TightWiki.Library.Library.WikiCache.CacheMisses.ToString("N0")</td>
+                                <td>@TightWiki.Library.Library.WikiCache.CacheMemoryLimitMB.ToString("N0")</td>
                             </tr>
                         </table>
                     </td>
