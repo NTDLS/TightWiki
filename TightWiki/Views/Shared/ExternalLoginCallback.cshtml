@@ -1,0 +1,17 @@
+﻿@model TightWiki.Library.ViewModels.ExternalLoginCallbackViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h3>External Login Exception</h3>
+    <table class="fixedTable100" border="0" cellpadding="5">
+        <tbody>
+            <tr>
+                <td height="52" valign="middle" align="left">
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

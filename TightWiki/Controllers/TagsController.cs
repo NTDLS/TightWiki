@@ -1,28 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
 using System.Text;
 using TightWiki.Controllers;
-using TightWiki.Shared.Repository;
-using TightWiki.Shared.Wiki;
+using TightWiki.Library;
+using TightWiki.Library.Repository;
+using TightWiki.Library.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
     [Authorize]
     public class TagsController : ControllerHelperBase
     {
+        public TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+            : base(signInManager, userManager)
+        {
+        }
+
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
         {
+            context.RequireViewPermission();
+
             ViewBag.Context.Title = "Tags";
 
-            if (context.CanView == false)
-            {
-                return Unauthorized();
-            }
-
-            navigation = WikiUtility.CleanPartialURI(navigation);
+            navigation = NamespaceNavigation.CleanAndValidate(navigation);
 
             ViewBag.TagCloud = WikiUtility.BuildTagCloud(navigation);
 

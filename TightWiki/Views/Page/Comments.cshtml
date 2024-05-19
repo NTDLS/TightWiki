@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.PageCommentsModel
+﻿@model TightWiki.Library.ViewModels.Page.PageCommentsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -22,13 +22,13 @@
                 <tr>
                     <td height="52" valign="top" align="left">
 
-                        @if (Model.ErrorMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
-                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
                         }
-                        @if (Model.SuccessMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                         {
-                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
                         @using (Html.BeginForm())
@@ -54,10 +54,10 @@
                                         <p>@Html.Raw(h.Body)</p>
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
-                                                <img src="/Account/@h.UserNavigation/Avatar?Exact=16" />
+                                                <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
                                                 <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                                             </div>
-                                            @if (ViewBag.Context.CanModerate == true || h.UserId == ViewBag?.Context?.User?.Id)
+                                            @if (ViewBag.Context.CanModerate == true || h.UserId == ViewBag.Context.User?.Id)
                                             {
                                                 <div class="d-flex flex-row align-items-center">
                                                     <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')" >Delete</a></p>

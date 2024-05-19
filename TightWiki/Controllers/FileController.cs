@@ -1,190 +1,33 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Web;
-using TightWiki.Controllers;
-using TightWiki.Shared;
-using TightWiki.Shared.Library;
-using TightWiki.Shared.Models.Data;
-using TightWiki.Shared.Models.View;
-using TightWiki.Shared.Repository;
-using TightWiki.Shared.Wiki;
-using static TightWiki.Shared.Library.Images;
+using TightWiki.Library;
+using TightWiki.Library.DataModels;
+using TightWiki.Library.Library;
+using TightWiki.Library.Repository;
+using TightWiki.Library.ViewModels.File;
+using static TightWiki.Library.Library.Images;
 
-namespace TightWiki.Site.Controllers
+namespace TightWiki.Controllers
 {
-    [Authorize]
+    [Route("File")]
     public class FileController : ControllerHelperBase
     {
-        private IWebHostEnvironment _env;
-
-        public FileController(IWebHostEnvironment env)
+        public FileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+            : base(signInManager, userManager)
         {
-            _env = env;
         }
 
-        /// <summary>
-        /// Uploads a file by drag drop.
-        /// </summary>
-        /// <param name="pageNavigation"></param>
-        /// <param name="postedFiles"></param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpPost]
-        public IActionResult UploadDragDrop(string pageNavigation, List<IFormFile> postedFiles)
+        [HttpGet("Image/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
+        public ActionResult Image(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
         {
-            if (context.CanCreate == false)
-            {
-                return Unauthorized();
-            }
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
-
-            foreach (IFormFile file in postedFiles)
-            {
-                if (file != null)
-                {
-                    var fileSize = file.Length;
-                    if (fileSize > 0)
-                    {
-                        var fileName = HttpUtility.UrlDecode(file.FileName);
-
-                        PageFileRepository.UpsertPageFile(new PageFileAttachment()
-                        {
-                            Data = Utility.ConvertHttpFileToBytes(file),
-                            CreatedDate = DateTime.UtcNow,
-                            PageId = page.Id,
-                            Name = fileName,
-                            Size = fileSize,
-                            ContentType = Utility.GetMimeType(fileName)
-                        });
-                        return Content("Success");
-                    }
-                }
-            }
-
-            return Content("Failure");
-        }
-
-        /// <summary>
-        /// Uploads a file by manually selecting it for upload.
-        /// </summary>
-        /// <param name="postData"></param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpPost]
-        public IActionResult UploadManual(string pageNavigation, IFormFile formFile)
-        {
-            if (context.CanCreate == false)
-            {
-                return Unauthorized();
-            }
-
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
-
-            var file = Request.Form.Files["BinaryData"];
-            if (file != null)
-            {
-                var fileSize = file.Length;
-                if (fileSize > 0)
-                {
-                    var fileName = HttpUtility.UrlDecode(file.FileName);
-
-                    PageFileRepository.UpsertPageFile(new PageFileAttachment()
-                    {
-                        Data = Utility.ConvertHttpFileToBytes(file),
-                        CreatedDate = DateTime.UtcNow,
-                        PageId = page.Id,
-                        Name = fileName,
-                        Size = fileSize,
-                        ContentType = Utility.GetMimeType(fileName)
-                    });
-
-                    return Content("Success");
-                }
-            }
-
-            return Content("Failure");
-        }
-
-        /// <summary>
-        /// Allows a user to delete a page attachment from a page.
-        /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult Delete(string pageNavigation, string fileNavigation)
-        {
-            if (context.CanDelete == false)
-            {
-                return Unauthorized();
-            }
-
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
-
-            PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation, fileNavigation);
-
-            return Content("Success");
-        }
-
-        /// <summary>
-        /// Gets a file from the database and returns it to the client.
-        /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Binary(string pageNavigation, string fileNavigation, int? pageRevision = null)
-        {
-            if (context.CanView == false)
-            {
-                return Unauthorized();
-            }
-
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
-
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
-
-            if (file != null)
-            {
-                return File(file.Data.ToArray(), file.ContentType);
-            }
-            else
-            {
-                HttpContext.Response.StatusCode = 404;
-                return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
-            }
-        }
-
-        /// <summary>
-        /// Gets a image from the database, performs optional scaling and returns it to the client.
-        /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Image(string pageNavigation, string fileNavigation, int? pageRevision = null)
-        {
-            if (context.CanView == false)
-            {
-                return Unauthorized();
-            }
-
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
-
-            string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
+            string scale = GetQueryString("Scale", "100");
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 
             if (file != null)
             {
@@ -263,13 +106,12 @@ namespace TightWiki.Site.Controllers
         /// <param name="navigation"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Emoji(string pageNavigation)
+        [HttpGet("Emoji/{givenPageNavigation}")]
+        public ActionResult Emoji(string givenPageNavigation)
         {
-            if (context.CanView == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireViewPermission();
+
+            var pageNavigation = Navigation.Clean(givenPageNavigation);
 
             if (string.IsNullOrEmpty(pageNavigation) == false)
             {
@@ -277,18 +119,22 @@ namespace TightWiki.Site.Controllers
                 var emoji = GlobalSettings.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
-                    emoji.ImageData = Cache.Get<byte[]>($"Emoji:{shortcut}");
+                    var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
+                    emoji.ImageData = WikiCache.Get<byte[]>(cacheKey);
                     if (emoji.ImageData == null)
                     {
                         //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
                         emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
-                        Cache.Put($"Emoji:{shortcut}", emoji.ImageData);
+                        if (emoji.ImageData != null)
+                        {
+                            WikiCache.Put(cacheKey, emoji.ImageData);
+                        }
                     }
 
                     if (emoji.ImageData != null)
                     {
-                        string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
-                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                        string scale = GetQueryString("Scale", "100");
+                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(emoji.ImageData)));
 
                         int iscale = int.Parse(scale);
                         if (iscale > 500)
@@ -353,23 +199,20 @@ namespace TightWiki.Site.Controllers
         /// <param name="navigation"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Png(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        [HttpGet("Png/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
+        public ActionResult Png(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
         {
-            if (context.CanView == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireViewPermission();
 
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
-            fileNavigation = WikiUtility.CleanPartialURI(fileNavigation);
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
-            string scale = Request.Query["Scale"].ToString().IsNullOrEmpty("100");
+            string scale = GetQueryString("Scale", "100");
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
             if (file != null)
             {
-                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
+                var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
                 int iscale = int.Parse(scale);
                 if (iscale > 500)
@@ -417,34 +260,153 @@ namespace TightWiki.Site.Controllers
         }
 
         /// <summary>
+        /// Gets a file from the database and returns it to the client.
+        /// </summary>
+        [AllowAnonymous]
+        [HttpGet("Binary/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
+        public ActionResult Binary(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        {
+            context.RequireViewPermission();
+
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+
+            if (file != null)
+            {
+                return File(file.Data.ToArray(), file.ContentType);
+            }
+            else
+            {
+                HttpContext.Response.StatusCode = 404;
+                return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
+            }
+        }
+
+        /// <summary>
         /// Populate the upload page. Shows the attachments.
         /// </summary>
-        /// <returns></returns>
         [Authorize]
-        [HttpGet]
-        public ActionResult EditPageAttachment(string pageNavigation)
+        [HttpGet("EditPageAttachment/{givenPageNavigation}")]
+        public ActionResult EditPageAttachment(string givenPageNavigation)
         {
-            if (context.CanCreate == false)
-            {
-                return Unauthorized();
-            }
+            context.RequireCreatePermission();
 
-            pageNavigation = WikiUtility.CleanPartialURI(pageNavigation);
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
                 var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
 
-                return View(new FileAttachmentModel()
+                return View(new FileAttachmentViewModel()
                 {
                     Files = pageFiles
                 });
             }
 
-            return View(new FileAttachmentModel()
+            return View(new FileAttachmentViewModel()
             {
                 Files = new List<PageFileAttachment>()
             });
+        }
+
+        /// <summary>
+        /// Uploads a file by drag drop.
+        /// </summary>
+
+        [Authorize]
+        [HttpPost("UploadDragDrop/{givenPageNavigation}")]
+        public IActionResult UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
+        {
+            context.RequireCreatePermission();
+
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+
+            var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+
+            foreach (IFormFile file in postedFiles)
+            {
+                if (file != null)
+                {
+                    var fileSize = file.Length;
+                    if (fileSize > 0)
+                    {
+                        var fileName = HttpUtility.UrlDecode(file.FileName);
+
+                        PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                        {
+                            Data = Utility.ConvertHttpFileToBytes(file),
+                            CreatedDate = DateTime.UtcNow,
+                            PageId = page.Id,
+                            Name = fileName,
+                            Size = fileSize,
+                            ContentType = Utility.GetMimeType(fileName)
+                        });
+                        return Content("Success");
+                    }
+                }
+            }
+
+            return Content("Failure");
+        }
+
+        /// <summary>
+        /// Uploads a file by manually selecting it for upload.
+        /// </summary>
+        /// <param name="postData"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpPost("ManualUpload/{givenPageNavigation}")]
+        public IActionResult ManualUpload(string givenPageNavigation, IFormFile fileData)
+        {
+            context.RequireCreatePermission();
+
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+
+            var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+
+            if (fileData != null)
+            {
+                var fileSize = fileData.Length;
+                if (fileSize > 0)
+                {
+                    var fileName = HttpUtility.UrlDecode(fileData.FileName);
+
+                    PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                    {
+                        Data = Utility.ConvertHttpFileToBytes(fileData),
+                        CreatedDate = DateTime.UtcNow,
+                        PageId = page.Id,
+                        Name = fileName,
+                        Size = fileSize,
+                        ContentType = Utility.GetMimeType(fileName)
+                    }); ;
+
+                    return Content("Success");
+                }
+            }
+
+            return Content("Failure");
+        }
+
+        /// <summary>
+        /// Allows a user to delete a page attachment from a page.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        [HttpPost("Delete/{givenPageNavigation}/{givenfileNavigation}")]
+        public ActionResult Delete(string givenPageNavigation, string givenfileNavigation)
+        {
+            context.RequireDeletePermission();
+
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+
+            PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation.Canonical, fileNavigation.Canonical);
+
+            return Content("Success");
         }
     }
 }

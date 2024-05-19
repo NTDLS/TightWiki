@@ -1,20 +1,142 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using Dapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Data;
+using TightWiki.Library;
+using TightWiki.Library.DataStorage;
+using TightWiki.Library.Repository;
+using YourApplication.Data;
 
 namespace TightWiki
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public class GuidTypeHandler : SqlMapper.TypeHandler<Guid>
         {
-            CreateHostBuilder(args).Build().Run();
+            public override void SetValue(IDbDataParameter parameter, Guid value)
+            {
+                parameter.Value = value.ToString();
+            }
+
+            public override Guid Parse(object value)
+            {
+                return Guid.Parse((string)value);
+            }
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+        public static void Main(string[] args)
+        {
+            SqlMapper.AddTypeHandler(new GuidTypeHandler());
+
+            var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("PrimaryConnection")));
+
+            ManagedDataStorage.Default.SetConnectionString(builder.Configuration.GetConnectionString("PrimaryConnection"));
+            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetConnectionString("StatisticsConnection"));
+            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetConnectionString("EmojiConnection"));
+            ManagedDataStorage.Exceptions.SetConnectionString(builder.Configuration.GetConnectionString("ExceptionsConnection"));
+
+            GlobalSettings.ReloadEverything();
+
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var requireConfirmedAccount = membershipConfig.As<bool>("Require Email Verification");
+
+            // Add services to the container.
+            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+            builder.Services.AddControllersWithViews(); // Adds support for controllers and views
+
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            var ExternalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("External Authentication");
+
+            if (ExternalAuthenticationConfig.As<bool>("Google : Use Google Authentication"))
+            {
+                var clientId = ExternalAuthenticationConfig.As<string>("Google : ClientId");
+                var clientSecret = ExternalAuthenticationConfig.As<string>("Google : ClientSecret");
+
+                if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    builder.Services.AddAuthentication().AddGoogle(options =>
+                    {
+                        options.ClientId = clientId;
+                        options.ClientSecret = clientSecret;
+                    });
+                }
+            }
+            if (ExternalAuthenticationConfig.As<bool>("Microsoft : Use Microsoft Authentication"))
+            {
+                var clientId = ExternalAuthenticationConfig.As<string>("Microsoft : ClientId");
+                var clientSecret = ExternalAuthenticationConfig.As<string>("Microsoft : ClientSecret");
+
+                if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
+                {
+                    builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
+                    {
+                        options.ClientId = clientId;
+                        options.ClientSecret = clientSecret;
+                    });
+                }
+            }
+
+            builder.Services.AddControllersWithViews();
+
+            builder.Services.AddRazorPages();
+
+            var app = builder.Build();
+
+            //Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseMigrationsEndPoint();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication(); // Ensures the authentication middleware is configured
+            app.UseAuthorization();
+
+            app.MapRazorPages();
+
+            app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Page}/{action=Display}");
+
+            app.MapControllerRoute(
+                name: "Page_Edit",
+                pattern: "Page/{givenCanonical}/Edit");
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                    SecurityHelpers.ValidateEncryptionAndCreateAdminUser(userManager);
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
+
+            app.Run();
+        }
     }
 }

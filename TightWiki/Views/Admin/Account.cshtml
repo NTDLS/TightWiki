@@ -1,4 +1,4 @@
-﻿@model TightWiki.Shared.Models.View.AccountAdminModel
+﻿@model TightWiki.Library.ViewModels.Admin.AccountProfileViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -20,16 +20,16 @@
                 <tr>
                     <td height="52" valign="middle" align="left">
 
-                        @if (Model.ErrorMessage != null)
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
-                            <div class="alert alert-danger">@Model.ErrorMessage</div>
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
                         }
-                        @if (Model.SuccessMessage!= null)
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                         {
-                            <div class="alert alert-success">@Model.SuccessMessage</div>
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @using (Html.BeginForm(null, null, new { navigation = Model.Account.Navigation }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm(null, null, new { navigation = Model.AccountProfile.Navigation }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
 
@@ -38,59 +38,66 @@
                                 <tr class="padded">
                                     <td width="200"><strong>Avatar</strong></td>
                                     <td>
-                                        @Html.HiddenFor(m => m.Account.Navigation)
-                                        @if (@Model.Account.Navigation != "")
+                                        @Html.HiddenFor(m => m.AccountProfile.UserId)
+                                        @Html.HiddenFor(m => m.AccountProfile.Navigation)
+                                        @if (@Model.AccountProfile.Navigation != "")
                                         {
-                                            <img src="/Account/@Model.Account.Navigation/Avatar?max=150" /><br /><br />
+                                            <img src="/Profile/@Model.AccountProfile.Navigation/Avatar?max=150" /><br /><br />
                                         }
                                         <input type="file" id="Avatar" name="Avatar" onchange="fileCheck(this);" />
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.EmailAddress)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.EmailAddress)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.EmailAddress)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.EmailAddress)</strong></td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.Account.EmailAddress, new { @class = "input-control" })
+                                        @Html.TextBoxFor(m => m.AccountProfile.EmailAddress, new { @class = "input-control" })
+                                    </td>
+                                </tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.EmailConfirmed)</strong></td>
+                                    <td>
+                                        @Html.CheckBoxFor(m => m.AccountProfile.EmailConfirmed, new { @class = "input-control" })
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.AccountName)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.AccountName)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.AccountName)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.AccountName)</strong></td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.Account.AccountName, new { @class = "input-control" })
+                                        @Html.TextBoxFor(m => m.AccountProfile.AccountName, new { @class = "input-control" })
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.FirstName)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.FirstName)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.FirstName)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.FirstName)</strong></td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.Account.FirstName, new { @class = "input-control" })
+                                        @Html.TextBoxFor(m => m.AccountProfile.FirstName, new { @class = "input-control" })
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.LastName)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.LastName)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.LastName)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.LastName)</strong></td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.Account.LastName, new { @class = "input-control" })
+                                        @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "input-control" })
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Role)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Role)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.Role)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.Role)</strong></td>
                                     <td>
 
-                                        <select name="Account.Role" id="Account.Role">
+                                        <select name="AccountProfile.Role" id="AccountProfile.Role">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a role
                                             </option>
                                             @foreach (var item in Model.Roles)
                                             {
-                                                <option value="@item.Name" selected=@(Model.Account.Role == item.Name ? "selected" : null)>
+                                                <option value="@item.Name" selected=@(Model.AccountProfile.Role == item.Name ? "selected" : null)>
                                                     @item.Name
                                                 </option>
                                             }
@@ -98,18 +105,18 @@
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Country)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Country)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.Country)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.Country)</strong></td>
                                     <td>
 
-                                        <select name="Account.Country" id="Account.Country">
+                                        <select name="AccountProfile.Country" id="AccountProfile.Country">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a country
                                             </option>
                                             @foreach (var item in Model.Countries)
                                             {
-                                                <option value="@item.Value" selected=@(Model.Account.Country == item.Value ? "selected" : null)>
+                                                <option value="@item.Value" selected=@(Model.AccountProfile.Country == item.Value ? "selected" : null)>
                                                     @item.Text
                                                 </option>
                                             }
@@ -117,17 +124,17 @@
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.Language)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Language)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.Language)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.Language)</strong></td>
                                     <td>
-                                        <select name="Account.Language" id="Account.Language">
+                                        <select name="AccountProfile.Language" id="AccountProfile.Language">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a language
                                             </option>
                                             @foreach (var item in Model.Languages)
                                             {
-                                                <option value="@item.Value" selected=@(Model.Account.Language == item.Value ? "selected" : null)>
+                                                <option value="@item.Value" selected=@(Model.AccountProfile.Language == item.Value ? "selected" : null)>
                                                     @item.Text
                                                 </option>
                                             }
@@ -135,17 +142,17 @@
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.TimeZone)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.TimeZone)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.TimeZone)</strong></td>
                                     <td>
-                                        <select name="Account.TimeZone" id="Account.TimeZone">
+                                        <select name="AccountProfile.TimeZone" id="AccountProfile.TimeZone">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a time-zone
                                             </option>
                                             @foreach (var item in Model.TimeZones)
                                             {
-                                                <option value="@item.Value" selected=@(Model.Account.TimeZone == item.Value ? "selected" : null)>
+                                                <option value="@item.Value" selected=@(Model.AccountProfile.TimeZone == item.Value ? "selected" : null)>
                                                     @item.Text
                                                 </option>
                                             }
@@ -168,11 +175,11 @@
                                     </td>
                                 </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Account.AboutMe)</div></td></tr>
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Biography)</div></td></tr>
                                 <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Account.AboutMe)</strong></td>
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.Biography)</strong></td>
                                     <td>
-                                        @Html.TextAreaFor(m => m.Account.AboutMe, new { style = "width:100%;height:200px", Name = "AboutMe" })
+                                        @Html.TextAreaFor(m => m.AccountProfile.Biography, new { style = "width:100%;height:200px", Name = "Biography" })
                                     </td>
                                 </tr>
 
@@ -186,7 +193,7 @@
                         }
                         <br />
 
-                        <form action="/Admin/DeleteAccount/@Model.Account.Navigation"><button type="submit" class="btn btn-danger">Delete Account</button></form>
+                        <form action="/Admin/DeleteAccount/@Model.AccountProfile.Navigation"><button type="submit" class="btn btn-danger">Delete Account</button></form>
                     </td>
                 </tr>
             </tbody>
