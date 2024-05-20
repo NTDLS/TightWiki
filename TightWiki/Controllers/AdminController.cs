@@ -1272,10 +1272,9 @@ namespace TightWiki.Site.Controllers
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            WikiContext.EmojiName = emoji?.Name ?? string.Empty;
-
             var model = new EmojiViewModel()
             {
+                OriginalName = emoji?.Name ?? string.Empty
             };
 
             if (emoji != null)

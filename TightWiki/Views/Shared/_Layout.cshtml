@@ -3,7 +3,6 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,7 +21,7 @@
     <!-- END Syntax Highlighter -->
     @if (GlobalSettings.IncludeWikiDescriptionInMeta)
     {
-        <meta name="description" content="@ViewData["WikiContext"])?.PageDescription">
+        <meta name="description" content="@wikiContext?.PageDescription">
     }
 
     @if (GlobalSettings.IncludeWikiTagsInMeta)

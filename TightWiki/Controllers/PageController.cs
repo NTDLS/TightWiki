@@ -50,7 +50,7 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                WikiContext.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
+                model.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
 
                 if (page.Revision == page.LatestRevision)
                 {
@@ -95,7 +95,7 @@ namespace TightWiki.Controllers
                     model.Body = wiki.ProcessedBody;
                 }
 
-                if (GlobalSettings.EnablePageComments && GlobalSettings.ShowCommentsOnPageFooter && WikiContext.HideFooterComments == false)
+                if (GlobalSettings.EnablePageComments && GlobalSettings.ShowCommentsOnPageFooter && model.HideFooterComments == false)
                 {
                     model.Comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
                 }
@@ -431,10 +431,10 @@ namespace TightWiki.Controllers
 
             WikiContext.PageName = page.Name;
             WikiContext.MostCurrentRevision = page.Revision;
-            WikiContext.CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id);
 
             var model = new PageDeleteViewModel()
             {
+                CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id)
             };
 
             WikiContext.SetPageId(page.Id);

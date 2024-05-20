@@ -26,10 +26,10 @@
                 @if (string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="panel panel-danger">
-                        <div class="card-header"><strong>Delete emoji "@wikiContext?.EmojiName"?</strong></div>
+                        <div class="card-header"><strong>Delete emoji "@Model?.OriginalName"?</strong></div>
                         <div class="card-body">
 
-                            <strong>Deleting the emoji "@wikiContext?.EmojiName" will permanently remove the image. Any references to it will be orphaned.</strong><br />
+                            <strong>Deleting the emoji "@Model?.OriginalName" will permanently remove the image. Any references to it will be orphaned.</strong><br />
                             You will not be able to revert this deletion.
 
                             Are you sure you want to continue with this deletion?<br /><br />

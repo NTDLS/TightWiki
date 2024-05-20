@@ -14,28 +14,24 @@ namespace TightWiki
 {
     public class WikiContextState
     {
-        //Recently moved properties:
-        public bool AllowSignup { get; set; }
-        public bool IsDebug { get; set; }
-        public bool HideFooterComments { get; set; }
+        #region Paging.
+
         public int PaginationCount { get; set; }
         public int CurrentPage { get; set; }
         public int NextPage { get; set; }
         public int PreviousPage { get; set; }
 
-        public bool CreatePage { get; set; }
-        public int CountOfAttachments { get; set; }
+        #endregion
 
-        public string? PageName { get; set; }
-        public string? TagCloud { get; set; }
-        public string? Pages { get; set; } //Rename to Associated Pages
-        public string? EmojiName { get; set; } //Move to emoji model.
-        public string? AccountName { get; set; } //Move to account model.
+        #region Authentication.
 
-        public int MostCurrentRevision { get; set; }
-        public int CountOfRevisions { get; set; }
+        public bool IsAuthenticated { get; set; }
+        public AccountProfile? Profile { get; set; }
+        public string Role { get; set; } = string.Empty;
 
-        //Recently moved properties: ↑↑
+        #endregion
+
+        #region Current Page.
 
         public string PageNavigation { get; set; } = string.Empty;
         public string PageRevision { get; set; } = string.Empty;
@@ -43,16 +39,27 @@ namespace TightWiki
         public string PageTags { get; set; } = string.Empty;
         public string PageDescription { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
-        public bool IsAuthenticated { get; set; }
-        public AccountProfile? Profile { get; set; }
-        public string Role { get; set; } = string.Empty;
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new();
         public bool IsViewingOldVersion => ((Revision ?? 0) > 0);
         public bool IsPageLoaded => ((PageId ?? 0) > 0);
 
-        private Controller? _controller;
+        #endregion
+
+        //Recently moved properties:
+        public bool AllowSignup { get; set; } //TODO: This seems to be broken.
+        public bool IsDebug { get; set; }
+
+        public bool CreatePage { get; set; }
+
+        public string? PageName { get; set; }//TODO: Move to ViewModel?????
+        public string? AccountName { get; set; } //TODO: Move to ViewModel?????
+
+        public int MostCurrentRevision { get; set; }//TODO: Move to ViewModel?????
+        public int CountOfRevisions { get; set; }//TODO: Move to ViewModel?????
+
+        //Recently moved properties: ↑↑
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
@@ -66,13 +73,21 @@ namespace TightWiki
         {
             Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
 
-            _controller = controller;
-
             PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageRevision = RouteValue("pageRevision");
 
             HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
+
+            string RouteValue(string key, string defaultValue = "")
+            {
+                if (controller.RouteData.Values.ContainsKey(key))
+                {
+                    return controller.RouteData.Values[key]?.ToString() ?? defaultValue;
+                }
+                return defaultValue;
+            }
+
             return this;
         }
 
@@ -105,15 +120,6 @@ namespace TightWiki
                     throw;
                 }
             }
-        }
-
-        protected string RouteValue(string key, string defaultValue = "")
-        {
-            if (_controller.EnsureNotNull().RouteData.Values.ContainsKey(key))
-            {
-                return _controller.RouteData.Values[key]?.ToString() ?? defaultValue;
-            }
-            return defaultValue;
         }
 
         public DateTime LocalizeDateTime(DateTime datetime)

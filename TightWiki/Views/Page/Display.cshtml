@@ -10,7 +10,7 @@
     <br /><small><cite title="Modified By">Last modified by <a href="/Profile/Public/@Model.ModifiedByUserName">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small><br />
 }
 
-@if (wikiContext?.HideFooterComments == false)
+@if (Model.HideFooterComments == false)
 {
     @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
     {

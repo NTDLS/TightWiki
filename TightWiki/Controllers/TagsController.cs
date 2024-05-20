@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using TightWiki.Repository;
+using TightWiki.ViewModels.Page;
 using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers
@@ -23,8 +24,6 @@ namespace TightWiki.Site.Controllers
             WikiContext.Title = "Tags";
 
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
-
-            WikiContext.TagCloud = WikiUtility.BuildTagCloud(navigation);
 
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
             var pages = PageTagRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
@@ -62,9 +61,13 @@ namespace TightWiki.Site.Controllers
                 glossaryHtml.Append("</ul>");
             }
 
-            WikiContext.Pages = glossaryHtml.ToString();
+            var model = new BrowseViewModel
+            {
+                AssociatedPages = glossaryHtml.ToString(),
+                TagCloud = WikiUtility.BuildTagCloud(navigation)
+            };
 
-            return View();
+            return View(model);
         }
     }
 }
