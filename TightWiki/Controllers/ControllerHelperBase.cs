@@ -15,7 +15,7 @@ namespace TightWiki.Controllers
 {
     public class ControllerHelperBase : Controller
     {
-        public StateContext context = new StateContext();
+        public StateContext context = new();
 
         public readonly SignInManager<IdentityUser> SignInManager;
         public readonly UserManager<IdentityUser> UserManager;
@@ -39,7 +39,8 @@ namespace TightWiki.Controllers
             context.PageNavigation = RouteValue("givenCanonical", "Home");
             context.PageRevision = RouteValue("pageRevision");
             context.Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
-            ViewBag.Context = context;
+
+            ViewData["Context"] = context;
         }
 
         protected string RouteValue(string key, string defaultValue = "")

@@ -1,6 +1,7 @@
 ﻿@model TightWiki.Library.ViewModels.Page.PageHistoryViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
 }
 
 <div class="card">
@@ -50,7 +51,7 @@
                                     @foreach (var h in Model.History)
                                     {
                                         <tr>
-                                            <td><a href="/@ViewBag.Context.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                            <td><a href="/@context?.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                                             <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                                             <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                             <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
@@ -59,13 +60,13 @@
                                 </tbody>
                             </table>
 
-                            if (@ViewBag.PaginationCount > 1)
+                            if (@context?.PaginationCount > 1)
                             {
-                                if (@ViewBag.PreviousPage != null)
+                                if (@context?.PreviousPage != null)
                                 {
-                                    <a href="/@ViewBag.Context.PageNavigation/History/1">&lt;&lt; First</a>
+                                    <a href="/@context?.PageNavigation/History/1">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.PreviousPage">&lt; Previous</a>
+                                    <a href="/@context?.PageNavigation/History/@context?.PreviousPage">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -73,11 +74,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@ViewBag.NextPage != null)
+                                if (@context?.NextPage != null)
                                 {
-                                    <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.NextPage">Next &gt;</a>
+                                    <a href="/@context?.PageNavigation/History/@context?.NextPage">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/@ViewBag.Context.PageNavigation/History/@ViewBag.PaginationCount">Last &gt;&gt;</a>
+                                    <a href="/@context?.PageNavigation/History/@context?.PaginationCount">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

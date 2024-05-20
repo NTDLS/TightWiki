@@ -1,6 +1,7 @@
 ﻿@model TightWiki.Library.ViewModels.Admin.ConfirmActionViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
 }
 
 @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())

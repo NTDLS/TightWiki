@@ -38,7 +38,7 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireViewPermission();
 
-            ViewBag.Context.Title = $"Avatar";
+            context.Title = $"Avatar";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             string scale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
@@ -175,7 +175,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Public/{userAccountName}")]
         public ActionResult Public(string userAccountName)
         {
-            ViewBag.Context.Title = $"Public Profile";
+            context.Title = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             var profile = ProfileRepository.GetAccountProfileByNavigation(userAccountName);
@@ -223,7 +223,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult My()
         {
             context.RequireAuthorizedPermission();
-            ViewBag.Context.Title = $"Profile";
+            context.Title = $"Profile";
 
             var model = new AccountProfileViewModel()
             {
@@ -252,7 +252,7 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireAuthorizedPermission();
 
-            ViewBag.Context.Title = $"Profile";
+            context.Title = $"Profile";
 
             //Get the UserId from the logged in context because we do not trust anyhting from the model.
             var userId = context.User.EnsureNotNull().UserId;
@@ -414,7 +414,7 @@ namespace TightWiki.Site.Controllers
 
             var profile = ProfileRepository.GetBasicProfileByUserId(context.User.EnsureNotNull().UserId);
 
-            ViewBag.AccountName = profile.AccountName;
+            context.AccountName = profile.AccountName;
 
             var model = new AccountViewModel()
             {
@@ -422,7 +422,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                ViewBag.Context.Title = $"{profile.AccountName} Delete";
+                context.Title = $"{profile.AccountName} Delete";
             }
 
             return View(model);

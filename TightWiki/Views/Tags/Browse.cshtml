@@ -1,14 +1,14 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
 }
 
 <div class="card">
     <div class="card-header"><strong>Associated Tags</strong></div>
-    <div class="card-body">@Html.Raw(ViewBag.TagCloud)</div>
+    <div class="card-body">@Html.Raw(context?.TagCloud)</div>
 </div>
 
 <div class="card">
     <div class="card-header"><strong>Associated Pages</strong></div>
-    <div class="card-body">@Html.Raw(ViewBag.Pages)</div>
+    <div class="card-body">@Html.Raw(context?.Pages)</div>
 </div>
-

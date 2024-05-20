@@ -45,7 +45,7 @@ namespace TightWiki.Site.Controllers
                 ApplicationVerson = version.ToString()
             };
 
-            ViewBag.Context.Title = $"Statistics";
+            context.Title = $"Statistics";
 
             return View(model);
         }
@@ -60,7 +60,7 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireModeratePermission();
 
-            ViewBag.Context.Title = $"Page Moderation";
+            context.Title = $"Page Moderation";
 
             var instruction = GetQueryString("Instruction");
             if (instruction != null)
@@ -80,11 +80,11 @@ namespace TightWiki.Site.Controllers
                         o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                     });
 
-                    ViewBag.PaginationCount = model.Pages.First().PaginationCount;
-                    ViewBag.CurrentPage = page;
+                    context.PaginationCount = model.Pages.First().PaginationCount;
+                    context.CurrentPage = page;
 
-                    if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                    if (page > 1) ViewBag.PreviousPage = page - 1;
+                    if (page < context.PaginationCount) context.NextPage = page + 1;
+                    if (page > 1) context.PreviousPage = page - 1;
                 }
 
                 return View(model);
@@ -104,7 +104,7 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireModeratePermission();
 
-            ViewBag.Context.Title = $"Page Moderation";
+            context.Title = $"Page Moderation";
 
             model = new PageModerateViewModel()
             {
@@ -121,11 +121,11 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.PaginationCount = model.Pages.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -148,12 +148,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
-                ViewBag.Context.Title = $"Missing Pages";
-                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Missing Pages";
+                context.PaginationCount = model.Pages.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -174,12 +174,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Pages != null && model.Pages.Any())
             {
-                ViewBag.Context.Title = $"Missing Pages";
-                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Missing Pages";
+                context.PaginationCount = model.Pages.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -202,12 +202,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Namespaces != null && model.Namespaces.Any())
             {
-                ViewBag.Context.Title = $"Namespaces";
-                ViewBag.PaginationCount = model.Namespaces.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Namespaces";
+                context.PaginationCount = model.Namespaces.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -239,12 +239,12 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.Context.Title = $"Pages";
-                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Pages";
+                context.PaginationCount = model.Pages.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -272,12 +272,12 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.Context.Title = $"Pages";
-                ViewBag.PaginationCount = model.Pages.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Pages";
+                context.PaginationCount = model.Pages.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -323,7 +323,7 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireAdminPermission();
 
-            ViewBag.IsDebug = Debugger.IsAttached;
+            context.IsDebug = Debugger.IsAttached;
 
             var model = new UtilitiesViewModel()
             {
@@ -338,7 +338,7 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireAdminPermission();
 
-            ViewBag.IsDebug = Debugger.IsAttached;
+            context.IsDebug = Debugger.IsAttached;
 
             string action = (GetFormString("ActionToConfirm")?.ToString()?.ToLower()).EnsureNotNull();
             if (bool.Parse(GetFormString("ConfirmAction").EnsureNotNull()) != true)
@@ -422,7 +422,7 @@ namespace TightWiki.Site.Controllers
             if (id != null)
             {
                 var menuItem = MenuItemRepository.GetMenuItemById((int)id);
-                ViewBag.Context.Title = $"Menu Item";
+                context.Title = $"Menu Item";
                 return View(menuItem.ToViewModel());
             }
             else
@@ -481,7 +481,7 @@ namespace TightWiki.Site.Controllers
             context.RequireAdminPermission();
 
             var model = MenuItemRepository.GetMenuItemById(id);
-            ViewBag.Context.Title = $"{model.Name} Delete";
+            context.Title = $"{model.Name} Delete";
 
             return View(model.ToViewModel());
         }
@@ -523,12 +523,12 @@ namespace TightWiki.Site.Controllers
                 Users = ProfileRepository.GetProfilesByRoleIdPaged(role.Id, page)
             };
 
-            ViewBag.Context.Title = $"Roles";
-            ViewBag.PaginationCount = model.Users.FirstOrDefault()?.PaginationCount ?? 0;
-            ViewBag.CurrentPage = page;
+            context.Title = $"Roles";
+            context.PaginationCount = model.Users.FirstOrDefault()?.PaginationCount ?? 0;
+            context.CurrentPage = page;
 
-            if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-            if (page > 1) ViewBag.PreviousPage = page - 1;
+            if (page < context.PaginationCount) context.NextPage = page + 1;
+            if (page > 1) context.PreviousPage = page - 1;
 
             return View(model);
         }
@@ -871,11 +871,11 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.PaginationCount = model.Users.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.PaginationCount = model.Users.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -902,11 +902,11 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                ViewBag.PaginationCount = model.Users.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.PaginationCount = model.Users.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -959,7 +959,7 @@ namespace TightWiki.Site.Controllers
 
             var profile = ProfileRepository.GetAccountProfileByNavigation(navigation);
 
-            ViewBag.AccountName = profile.AccountName;
+            context.AccountName = profile.AccountName;
 
             var model = new AccountViewModel()
             {
@@ -967,7 +967,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                ViewBag.Context.Title = $"{profile.AccountName} Delete";
+                context.Title = $"{profile.AccountName} Delete";
             }
 
             return View(model);
@@ -1057,12 +1057,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Emojis != null && model.Emojis.Any())
             {
-                ViewBag.Context.Title = $"Emojis";
-                ViewBag.PaginationCount = model.Emojis.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Emojis";
+                context.PaginationCount = model.Emojis.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -1084,12 +1084,12 @@ namespace TightWiki.Site.Controllers
 
             if (model.Emojis != null && model.Emojis.Any())
             {
-                ViewBag.Context.Title = $"Emojis";
-                ViewBag.PaginationCount = model.Emojis.First().PaginationCount;
-                ViewBag.CurrentPage = page;
+                context.Title = $"Emojis";
+                context.PaginationCount = model.Emojis.First().PaginationCount;
+                context.CurrentPage = page;
 
-                if (page < ViewBag.PaginationCount) ViewBag.NextPage = page + 1;
-                if (page > 1) ViewBag.PreviousPage = page - 1;
+                if (page < context.PaginationCount) context.NextPage = page + 1;
+                if (page > 1) context.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -1274,7 +1274,7 @@ namespace TightWiki.Site.Controllers
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            ViewBag.Name = emoji?.Name ?? string.Empty;
+            context.EmojiName = emoji?.Name ?? string.Empty;
 
             var model = new EmojiViewModel()
             {
@@ -1282,7 +1282,7 @@ namespace TightWiki.Site.Controllers
 
             if (emoji != null)
             {
-                ViewBag.Context.Title = $"{emoji.Name} Delete";
+                context.Title = $"{emoji.Name} Delete";
             }
 
             return View(model);

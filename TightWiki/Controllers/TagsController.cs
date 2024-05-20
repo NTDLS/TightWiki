@@ -22,11 +22,11 @@ namespace TightWiki.Site.Controllers
         {
             context.RequireViewPermission();
 
-            ViewBag.Context.Title = "Tags";
+            context.Title = "Tags";
 
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
 
-            ViewBag.TagCloud = WikiUtility.BuildTagCloud(navigation);
+            context.TagCloud = WikiUtility.BuildTagCloud(navigation);
 
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
             var pages = PageTagRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
@@ -64,7 +64,7 @@ namespace TightWiki.Site.Controllers
                 glossaryHtml.Append("</ul>");
             }
 
-            ViewBag.Pages = glossaryHtml.ToString();
+            context.Pages = glossaryHtml.ToString();
 
             return View();
         }

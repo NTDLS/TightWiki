@@ -1,6 +1,7 @@
 ﻿@model TightWiki.Library.ViewModels.Admin.PageModerateViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
 }
 
 <div class="card">
@@ -65,13 +66,13 @@
                                 }
                             </table>
 
-                            if (@ViewBag.PaginationCount > 1)
+                            if (@context?.PaginationCount > 1)
                             {
-                                if (@ViewBag.PreviousPage != null)
+                                if (@context?.PreviousPage != null)
                                 {
                                     <a href="/Admin/Moderate/1?Instruction=@Model.Instruction">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Moderate/@ViewBag.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
+                                    <a href="/Admin/Moderate/@context?.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -79,11 +80,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@ViewBag.NextPage != null)
+                                if (@context?.NextPage != null)
                                 {
-                                    <a href="/Admin/Moderate/@ViewBag.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
+                                    <a href="/Admin/Moderate/@context?.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Moderate/@ViewBag.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
+                                    <a href="/Admin/Moderate/@context?.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

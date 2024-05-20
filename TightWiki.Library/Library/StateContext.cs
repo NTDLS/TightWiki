@@ -10,6 +10,29 @@ namespace TightWiki.Library.Library
 {
     public class StateContext
     {
+        //Recently moved properties:
+        public bool AllowSignup { get; set; }
+        public bool IsDebug { get; set; }
+        public bool HideFooterComments { get; set; }
+        public int PaginationCount { get; set; }
+        public int CurrentPage { get; set; }
+        public int NextPage { get; set; }
+        public int PreviousPage { get; set; }
+
+        public bool CreatePage { get; set; }
+        public int CountOfAttachments { get; set; }
+
+        public string? PageName { get; set; }
+        public string? TagCloud { get; set; }
+        public string? Pages { get; set; } //Rename to Associated Pages
+        public string? EmojiName { get; set; } //Move to emoji model.
+        public string? AccountName { get; set; } //Move to account model.
+
+        public int MostCurrentRevision { get; set; }
+        public int CountOfRevisions { get; set; }
+
+        //Recently moved properties: ↑↑
+
         public string PageNavigation { get; set; } = string.Empty;
         public string PageRevision { get; set; } = string.Empty;
         public string PathAndQuery { get; set; } = string.Empty;

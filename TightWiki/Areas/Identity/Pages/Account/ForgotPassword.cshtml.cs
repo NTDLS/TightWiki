@@ -13,15 +13,28 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using TightWiki.Library.Library;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
-    public class ForgotPasswordModel : PageModel
+    public class PageModelBase : PageModel //BLAHBLAH
+    {
+        public StateContext context = new StateContext();
+
+        public PageModelBase()
+        {
+            ViewData["Message"] = "Please enter your email to reset your password.";
+        }
+
+    }
+
+    public class ForgotPasswordModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _emailSender;
 
         public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+            : base()
         {
             _userManager = userManager;
             _emailSender = emailSender;

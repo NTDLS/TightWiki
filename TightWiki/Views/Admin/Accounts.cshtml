@@ -1,6 +1,7 @@
 ﻿@model TightWiki.Library.ViewModels.Admin.AccountsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
 }
 
 <div class="card">
@@ -70,13 +71,13 @@
                                 }
                             </table>
 
-                            if (@ViewBag.PaginationCount > 1)
+                            if (@context?.PaginationCount > 1)
                             {
-                                if (@ViewBag.PreviousPage != null)
+                                if (@context?.PreviousPage != null)
                                 {
                                     <a href="/Admin/Accounts/1?Token=@Model.SearchToken">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Accounts/@ViewBag.PreviousPage?Token=@Model.SearchToken">&lt; Previous</a>
+                                    <a href="/Admin/Accounts/@context?.PreviousPage?Token=@Model.SearchToken">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -84,11 +85,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@ViewBag.NextPage != null)
+                                if (@context?.NextPage != null)
                                 {
-                                    <a href="/Admin/Accounts/@ViewBag.NextPage?Token=@Model.SearchToken">Next &gt;</a>
+                                    <a href="/Admin/Accounts/@context?.NextPage?Token=@Model.SearchToken">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Accounts/@ViewBag.PaginationCount?Token=@Model.SearchToken">Last &gt;&gt;</a>
+                                    <a href="/Admin/Accounts/@context?.PaginationCount?Token=@Model.SearchToken">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

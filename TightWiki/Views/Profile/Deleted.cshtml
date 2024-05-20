@@ -1,6 +1,7 @@
 ﻿@model TightWiki.Library.ViewModels.Profile.DeletedViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
 }
 
 <div class="jumbotron">
@@ -12,7 +13,7 @@
                     The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile..<br /><br />
 
                     <br /><br />
-                    @if (ViewBag.AllowSignup == true)
+                    @if (context?.AllowSignup == true)
                     {
                         @:Not a member? @Html.ActionLink("Signup", "Signup", "Account").<br />
                     }
