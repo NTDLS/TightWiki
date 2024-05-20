@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.PagesViewModel
+﻿@model TightWiki.ViewModels.Admin.PagesViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
@@ -64,13 +64,13 @@
                                 }
                             </table>
 
-                            if (@context?.PaginationCount > 1)
+                            if (@wikiContext?.PaginationCount > 1)
                             {
-                                if (@context?.PreviousPage != null)
+                                if (@wikiContext?.PreviousPage != null)
                                 {
                                     <a href="/Admin/Pages/1?Tokens=@Model.SearchTokens">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Pages/@context?.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
+                                    <a href="/Admin/Pages/@wikiContext?.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -78,11 +78,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@context?.NextPage != null)
+                                if (@wikiContext?.NextPage != null)
                                 {
-                                    <a href="/Admin/Pages/@context?.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
+                                    <a href="/Admin/Pages/@wikiContext?.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Pages/@context?.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
+                                    <a href="/Admin/Pages/@wikiContext?.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Library;
-using TightWiki.Library.Repository;
+using TightWiki.DataModels;
+using TightWiki.Library;
+using TightWiki.Repository;
 
-namespace TightWiki.Library
+namespace TightWiki
 {
     public static class GlobalSettings
     {

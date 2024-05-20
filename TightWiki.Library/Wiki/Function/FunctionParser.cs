@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace TightWiki.Library.Wiki.Function
+namespace TightWiki.Wiki.Function
 {
     public static class FunctionParser
     {

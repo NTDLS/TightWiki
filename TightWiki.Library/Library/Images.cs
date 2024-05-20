@@ -3,7 +3,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
 
-namespace TightWiki.Library.Library
+namespace TightWiki.Library
 {
     public static class Images
     {

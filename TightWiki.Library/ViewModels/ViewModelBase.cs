@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
 
-namespace TightWiki.Library.ViewModels
+namespace TightWiki.ViewModels
 {
     public class ViewModelBase
     {

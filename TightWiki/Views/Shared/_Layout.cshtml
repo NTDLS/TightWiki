@@ -1,6 +1,6 @@
-﻿@using TightWiki.Library;
+﻿@using TightWiki;
 @{
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 
@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@context?.Title</title>
+    <title>@wikiContext?.Title</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- BEGIN Syntax Highlighter -->
     <link rel="stylesheet" href="/syntax/styles/default.css">
@@ -22,12 +22,12 @@
     <!-- END Syntax Highlighter -->
     @if (GlobalSettings.IncludeWikiDescriptionInMeta)
     {
-        <meta name="description" content="@ViewData["Context"])?.PageDescription">
+        <meta name="description" content="@ViewData["WikiContext"])?.PageDescription">
     }
 
     @if (GlobalSettings.IncludeWikiTagsInMeta)
     {
-        <meta name="keywords" content="@context?.PageTags">
+        <meta name="keywords" content="@wikiContext?.PageTags">
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -48,75 +48,75 @@
                 <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@GlobalSettings.BrandImageSmall" /></span> @GlobalSettings.Name</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (TightWiki.Library.DataModels.MenuItem item in GlobalSettings.MenuItems)
+                        @foreach (TightWiki.DataModels.MenuItem item in GlobalSettings.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
 
-                        @if (context?.CanCreate == true
-                        || (context?.CreatePage == true && context?.CanCreate == true)
-                        || (context?.IsPageLoaded == true && (context?.CanEdit == true || context?.CanModerate == true || context?.CanDelete == true))
+                        @if (wikiContext?.CanCreate == true
+                        || (wikiContext?.CreatePage == true && wikiContext?.CanCreate == true)
+                        || (wikiContext?.IsPageLoaded == true && (wikiContext?.CanEdit == true || wikiContext?.CanModerate == true || wikiContext?.CanDelete == true))
                         )
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                                    @if (context?.CanCreate == true)
+                                    @if (wikiContext?.CanCreate == true)
                                     {
-                                        if (context?.CreatePage == true)
+                                        if (wikiContext?.CreatePage == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/Page/Create">Create "@context?.PageNavigation"</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/Page/Create">Create "@wikiContext?.PageNavigation"</a>
                                         }
 
                                         <a class="dropdown-item text-dark" href="/Page/Create">Create new page</a>
                                     }
 
-                                    @if (context?.IsPageLoaded == true)
+                                    @if (wikiContext?.IsPageLoaded == true)
                                     {
-                                        @if (context?.CanCreate == true)
+                                        @if (wikiContext?.CanCreate == true)
                                         {
                                             <div class="dropdown-divider"></div>
                                         }
-                                        if (context?.CanView == true && GlobalSettings.EnablePageComments)
+                                        if (wikiContext?.CanView == true && GlobalSettings.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/Comments">Comments</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/Comments">Comments</a>
                                         }
-                                        if (context?.CanDelete == true)
+                                        if (wikiContext?.CanDelete == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/Delete">Delete this page</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/Delete">Delete this page</a>
                                         }
-                                        if (context?.CanEdit == true && context?.IsViewingOldVersion == false)
+                                        if (wikiContext?.CanEdit == true && wikiContext?.IsViewingOldVersion == false)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/Edit">Edit</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/Edit">Edit</a>
                                         }
-                                        if (context?.CanView == true)
+                                        if (wikiContext?.CanView == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/History">History</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/History">History</a>
                                         }
-                                        if (context?.CanCreate == true)
+                                        if (wikiContext?.CanCreate == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/Refresh">Refresh</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/Refresh">Refresh</a>
                                         }
-                                        if (context?.CanModerate == true && context?.IsViewingOldVersion == true)
+                                        if (wikiContext?.CanModerate == true && wikiContext?.IsViewingOldVersion == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation/revert/@context?.PageRevision">Revert to revision @context?.PageRevision</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/revert/@wikiContext?.PageRevision">Revert to revision @wikiContext?.PageRevision</a>
                                         }
-                                        if (context?.CanView == true && GlobalSettings.EnablePageComments)
+                                        if (wikiContext?.CanView == true && GlobalSettings.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@context?.PageNavigation">View</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation">View</a>
                                         }
                                     }
                                 </div>
                             </li>
                         }
 
-                        @if (context?.IsAuthenticated == true && (context?.CanModerate == true || context?.Role == TightWiki.Library.Library.Constants.Roles.Administrator))
+                        @if (wikiContext?.IsAuthenticated == true && (wikiContext?.CanModerate == true || wikiContext?.Role == TightWiki.Library.Constants.Roles.Administrator))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @if (context?.Role == TightWiki.Library.Library.Constants.Roles.Administrator)
+                                    @if (wikiContext?.Role == TightWiki.Library.Constants.Roles.Administrator)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
@@ -133,7 +133,7 @@
                                         <a class="dropdown-item text-dark" href="/Admin/Namespaces">Namespaces</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
                                     }
-                                    else if (context?.CanModerate == true)
+                                    else if (wikiContext?.CanModerate == true)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/MissingPages">Missing Pages</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Moderate">Moderate</a>
@@ -144,7 +144,7 @@
                             </li>
                         }
 
-                        @if (context?.IsAuthenticated == true)
+                        @if (wikiContext?.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
@@ -152,14 +152,14 @@
                                     <a class="dropdown-item text-dark" href="/Profile/My">Profile</a>
                                     <a class="dropdown-item text-dark" href="/Identity/Account/ForgotPassword">Change Password</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-dark" href="/Identity/Account/Logout?returnUrl=@context?.PathAndQuery">Logout</a>
+                                    <a class="dropdown-item text-dark" href="/Identity/Account/Logout?returnUrl=@wikiContext?.PathAndQuery">Logout</a>
                                 </div>
                             </li>
                         }
 
-                        @if (context?.IsAuthenticated == false)
+                        @if (wikiContext?.IsAuthenticated == false)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="/Identity/Account/Login?returnUrl=@context?.PathAndQuery">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="/Identity/Account/Login?returnUrl=@wikiContext?.PathAndQuery">Login</a></li>
                         }
 
                         @if (GlobalSettings.IncludeSearchOnNavbar)
@@ -183,7 +183,7 @@
         <main role="main" class="pb-3">
             @Html.Raw(GlobalSettings.HTMLPreBody)
 
-            @if (TightWiki.Library.Repository.ConfigurationRepository.IsAdminPasswordChanged() == false)
+            @if (TightWiki.Repository.ConfigurationRepository.IsAdminPasswordChanged() == false)
             {
                 <div class="card bg-warning mb-3">
                     <div class="card-header"><strong>Default password has not been changed</strong></div>
@@ -195,7 +195,7 @@
                             <br />
                             <strong>Current admin login:</strong><br />
                             &nbsp;&nbsp;&nbsp;<strong>Username:</strong>"admin@tightwiki.com"<br />
-                            &nbsp;&nbsp;&nbsp;<strong>Password:</strong>"@TightWiki.Library.Library.Constants.DEFAULTPASSWORD"<br />
+                            &nbsp;&nbsp;&nbsp;<strong>Password:</strong>"@TightWiki.Library.Constants.DEFAULTPASSWORD"<br />
                             <br />
                         </p>
                     </div>

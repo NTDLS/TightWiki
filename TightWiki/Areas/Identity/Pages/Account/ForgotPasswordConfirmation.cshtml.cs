@@ -3,7 +3,7 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -12,7 +12,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
     [AllowAnonymous]
-    public class ForgotPasswordConfirmation : PageModel
+    public class ForgotPasswordConfirmation : PageModelBase
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -20,6 +20,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+        }
+        public ForgotPasswordConfirmation(SignInManager<IdentityUser> signInManager)
+                        : base(signInManager)
+        {
+
         }
     }
 }

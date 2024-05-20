@@ -2,18 +2,17 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using TightWiki.DataModels;
 using TightWiki.Library;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Library;
-using TightWiki.Library.Repository;
-using TightWiki.Library.ViewModels.Page;
-using TightWiki.Library.Wiki;
-using static TightWiki.Library.Library.Constants;
+using TightWiki.Repository;
+using TightWiki.ViewModels.Page;
+using TightWiki.Wiki;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController : ControllerHelperBase
+    public class PageController : ControllerBase
     {
         public PageController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)
@@ -42,7 +41,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/{pageRevision:int?}")]
         public IActionResult Display(string givenCanonical, int? pageRevision)
         {
-            context.RequireViewPermission();
+            WikiContext.RequireViewPermission();
 
             var model = new PageDisplayViewModel();
             var navigation = new NamespaceNavigation(givenCanonical);
@@ -51,15 +50,15 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                context.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
+                WikiContext.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
 
                 if (page.Revision == page.LatestRevision)
                 {
                     pageRevision = null;
                 }
 
-                context.SetPageId(page.Id, pageRevision);
-                context.Title = page.Title;
+                WikiContext.SetPageId(page.Id, pageRevision);
+                WikiContext.Title = page.Title;
 
                 bool allowCache = GlobalSettings.PageCacheSeconds > 0;
 
@@ -80,7 +79,7 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        var wiki = new Wikifier(context, page, pageRevision, Request.Query);
+                        var wiki = new Wikifier(WikiContext, page, pageRevision, Request.Query);
 
                         model.Body = wiki.ProcessedBody;
 
@@ -92,11 +91,11 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var wiki = new Wikifier(context, page, pageRevision, Request.Query);
+                    var wiki = new Wikifier(WikiContext, page, pageRevision, Request.Query);
                     model.Body = wiki.ProcessedBody;
                 }
 
-                if (GlobalSettings.EnablePageComments && GlobalSettings.ShowCommentsOnPageFooter && context.HideFooterComments == false)
+                if (GlobalSettings.EnablePageComments && GlobalSettings.ShowCommentsOnPageFooter && WikiContext.HideFooterComments == false)
                 {
                     model.Comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
                 }
@@ -107,15 +106,15 @@ namespace TightWiki.Controllers
                 string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation).EnsureNotNull();
 
-                context.SetPageId(null, pageRevision);
+                WikiContext.SetPageId(null, pageRevision);
 
-                var wiki = new Wikifier(context, notExistsPage, null, Request.Query);
-                context.Title = notExistsPage.Name;
+                var wiki = new Wikifier(WikiContext, notExistsPage, null, Request.Query);
+                WikiContext.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
-                if (context.IsAuthenticated && context.CanCreate)
+                if (WikiContext.IsAuthenticated && WikiContext.CanCreate)
                 {
-                    context.CreatePage = false;
+                    WikiContext.CreatePage = false;
                 }
             }
             else
@@ -124,29 +123,29 @@ namespace TightWiki.Controllers
                 string notExistPageNavigation = NamespaceNavigation.CleanAndValidate(notExistPageName);
                 var notExistsPage = PageRepository.GetPageRevisionByNavigation(notExistPageNavigation).EnsureNotNull();
 
-                context.SetPageId(null, null);
+                WikiContext.SetPageId(null, null);
 
-                var wiki = new Wikifier(context, notExistsPage, null, Request.Query);
-                context.Title = notExistsPage.Name;
+                var wiki = new Wikifier(WikiContext, notExistsPage, null, Request.Query);
+                WikiContext.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
-                if (context.IsAuthenticated && context.CanCreate)
+                if (WikiContext.IsAuthenticated && WikiContext.CanCreate)
                 {
-                    context.CreatePage = true;
+                    WikiContext.CreatePage = true;
                 }
             }
 
             if (page != null)
             {
                 model.ModifiedByUserName = page.ModifiedByUserName;
-                model.ModifiedDate = context.LocalizeDateTime(page.ModifiedDate);
+                model.ModifiedDate = WikiContext.LocalizeDateTime(page.ModifiedDate);
 
                 if (model.Comments != null)
                 {
                     model.Comments.ForEach(o =>
                     {
                         o.Body = WikifierLite.Process(o.Body);
-                        o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                        o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
                     });
                 }
             }
@@ -158,7 +157,7 @@ namespace TightWiki.Controllers
         [HttpGet("/Page/Search/{page=1}")]
         public ActionResult Search(int page)
         {
-            context.Title = $"Page Search";
+            WikiContext.Title = $"Page Search";
 
             if (page <= 0) page = 1;
 
@@ -176,11 +175,11 @@ namespace TightWiki.Controllers
 
                 if (model.Pages != null && model.Pages.Any())
                 {
-                    context.PaginationCount = model.Pages.First().PaginationCount;
-                    context.CurrentPage = page;
+                    WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                    WikiContext.CurrentPage = page;
 
-                    if (page < context.PaginationCount) context.NextPage = page + 1;
-                    if (page > 1) context.PreviousPage = page - 1;
+                    if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
+                    if (page > 1) WikiContext.PreviousPage = page - 1;
                 }
 
                 return View(model);
@@ -197,7 +196,7 @@ namespace TightWiki.Controllers
         [HttpPost("/Page/Search/{page=1}")]
         public ActionResult Search(int page, PageSearchViewModel model)
         {
-            context.Title = $"Page Search";
+            WikiContext.Title = $"Page Search";
 
             if (page <= 0) page = 1;
 
@@ -214,11 +213,11 @@ namespace TightWiki.Controllers
 
                 if (model.Pages != null && model.Pages.Any())
                 {
-                    context.PaginationCount = model.Pages.First().PaginationCount;
-                    context.CurrentPage = page;
+                    WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                    WikiContext.CurrentPage = page;
 
-                    if (page < context.PaginationCount) context.NextPage = page + 1;
-                    if (page > 1) context.PreviousPage = page - 1;
+                    if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
+                    if (page > 1) WikiContext.PreviousPage = page - 1;
                 }
 
                 return View(model);
@@ -237,7 +236,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Comments")]
         public ActionResult Comments(string givenCanonical, int page = 0)
         {
-            context.RequireViewPermission();
+            WikiContext.RequireViewPermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -250,16 +249,16 @@ namespace TightWiki.Controllers
             if (page <= 0) page = 1;
 
             var deleteAction = GetQueryString("Delete");
-            if (string.IsNullOrEmpty(deleteAction) == false && context.IsAuthenticated)
+            if (string.IsNullOrEmpty(deleteAction) == false && WikiContext.IsAuthenticated)
             {
-                if (context.CanModerate)
+                if (WikiContext.CanModerate)
                 {
                     //Moderators and administrators can delete comments that they do not own.
                     PageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
                 }
                 else
                 {
-                    PageRepository.DeletePageCommentByUserAndId(pageInfo.Id, context.User.EnsureNotNull().UserId, int.Parse(deleteAction));
+                    PageRepository.DeletePageCommentByUserAndId(pageInfo.Id, WikiContext.Profile.EnsureNotNull().UserId, int.Parse(deleteAction));
                 }
             }
 
@@ -271,19 +270,19 @@ namespace TightWiki.Controllers
             model.Comments.ForEach(o =>
             {
                 o.Body = WikifierLite.Process(o.Body);
-                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
             });
 
-            context.SetPageId(pageInfo.Id);
-            context.Title = $"{pageInfo.Name}";
+            WikiContext.SetPageId(pageInfo.Id);
+            WikiContext.Title = $"{pageInfo.Name}";
 
             if (model.Comments != null && model.Comments.Any())
             {
-                context.PaginationCount = model.Comments.First().PaginationCount;
-                context.CurrentPage = page;
+                WikiContext.PaginationCount = model.Comments.First().PaginationCount;
+                WikiContext.CurrentPage = page;
 
-                if (page < context.PaginationCount) context.NextPage = page + 1;
-                if (page > 1) context.PreviousPage = page - 1;
+                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
+                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -294,7 +293,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Comments")]
         public ActionResult Comments(PageCommentsViewModel model, string givenCanonical, int page)
         {
-            context.RequireEditPermission();
+            WikiContext.RequireEditPermission();
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -311,7 +310,7 @@ namespace TightWiki.Controllers
                 return NotFound();
             }
 
-            PageRepository.InsertPageComment(pageInfo.Id, context.User.EnsureNotNull().UserId, model.Comment);
+            PageRepository.InsertPageComment(pageInfo.Id, WikiContext.Profile.EnsureNotNull().UserId, model.Comment);
 
             model = new PageCommentsViewModel()
             {
@@ -321,19 +320,19 @@ namespace TightWiki.Controllers
 
             model.Comments.ForEach(o =>
             {
-                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
+                o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
             });
 
-            context.SetPageId(pageInfo.Id);
-            context.Title = $"{pageInfo.Name} Comments";
+            WikiContext.SetPageId(pageInfo.Id);
+            WikiContext.Title = $"{pageInfo.Name} Comments";
 
             if (model.Comments != null && model.Comments.Any())
             {
-                context.PaginationCount = model.Comments.First().PaginationCount;
-                context.CurrentPage = page;
+                WikiContext.PaginationCount = model.Comments.First().PaginationCount;
+                WikiContext.CurrentPage = page;
 
-                if (page < context.PaginationCount) context.NextPage = page + 1;
-                if (page > 1) context.PreviousPage = page - 1;
+                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
+                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -357,7 +356,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/History")]
         public ActionResult History(string givenCanonical, int page = 0)
         {
-            context.RequireViewPermission();
+            WikiContext.RequireViewPermission();
 
             if (page <= 0) page = 1;
 
@@ -370,8 +369,8 @@ namespace TightWiki.Controllers
 
             model.History.ForEach(o =>
             {
-                o.CreatedDate = context.LocalizeDateTime(o.CreatedDate);
-                o.ModifiedDate = context.LocalizeDateTime(o.ModifiedDate);
+                o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
+                o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
             });
 
             foreach (var p in model.History)
@@ -383,13 +382,13 @@ namespace TightWiki.Controllers
 
             if (model.History != null && model.History.Any())
             {
-                context.SetPageId(model.History.First().PageId);
-                context.Title = $"{model.History.First().Name} History";
-                context.PaginationCount = model.History.First().PaginationCount;
-                context.CurrentPage = page;
+                WikiContext.SetPageId(model.History.First().PageId);
+                WikiContext.Title = $"{model.History.First().Name} History";
+                WikiContext.PaginationCount = model.History.First().PaginationCount;
+                WikiContext.CurrentPage = page;
 
-                if (page < context.PaginationCount) context.NextPage = page + 1;
-                if (page > 1) context.PreviousPage = page - 1;
+                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
+                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
 
             return View(model);
@@ -399,7 +398,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Delete")]
         public ActionResult Delete(string givenCanonical, PageDeleteViewModel model)
         {
-            context.RequireDeletePermission();
+            WikiContext.RequireDeletePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -424,22 +423,22 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Delete")]
         public ActionResult Delete(string givenCanonical)
         {
-            context.RequireDeletePermission();
+            WikiContext.RequireDeletePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
 
-            context.PageName = page.Name;
-            context.MostCurrentRevision = page.Revision;
-            context.CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id);
+            WikiContext.PageName = page.Name;
+            WikiContext.MostCurrentRevision = page.Revision;
+            WikiContext.CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id);
 
             var model = new PageDeleteViewModel()
             {
             };
 
-            context.SetPageId(page.Id);
-            context.Title = $"{page.Name} Delete";
+            WikiContext.SetPageId(page.Id);
+            WikiContext.Title = $"{page.Name} Delete";
 
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
 
@@ -456,7 +455,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Revert/{pageRevision:int}")]
         public ActionResult Revert(string givenCanonical, int pageRevision, PageRevertViewModel model)
         {
-            context.RequireModeratePermission();
+            WikiContext.RequireModeratePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -474,28 +473,28 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Revert/{pageRevision:int}")]
         public ActionResult Revert(string givenCanonical, int pageRevision)
         {
-            context.RequireModeratePermission();
+            WikiContext.RequireModeratePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
             var mostCurrentPage = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
-            mostCurrentPage.CreatedDate = context.LocalizeDateTime(mostCurrentPage.CreatedDate);
-            mostCurrentPage.ModifiedDate = context.LocalizeDateTime(mostCurrentPage.ModifiedDate);
+            mostCurrentPage.CreatedDate = WikiContext.LocalizeDateTime(mostCurrentPage.CreatedDate);
+            mostCurrentPage.ModifiedDate = WikiContext.LocalizeDateTime(mostCurrentPage.ModifiedDate);
 
             var revisionPage = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-            revisionPage.CreatedDate = context.LocalizeDateTime(revisionPage.CreatedDate);
-            revisionPage.ModifiedDate = context.LocalizeDateTime(revisionPage.ModifiedDate);
+            revisionPage.CreatedDate = WikiContext.LocalizeDateTime(revisionPage.CreatedDate);
+            revisionPage.ModifiedDate = WikiContext.LocalizeDateTime(revisionPage.ModifiedDate);
 
-            context.PageName = revisionPage.Name;
-            context.CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision;
-            context.MostCurrentRevision = mostCurrentPage.Revision;
+            WikiContext.PageName = revisionPage.Name;
+            WikiContext.CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision;
+            WikiContext.MostCurrentRevision = mostCurrentPage.Revision;
 
             var model = new PageRevertViewModel();
 
             if (revisionPage != null)
             {
-                context.SetPageId(revisionPage.Id, pageRevision);
-                context.Title = $"{revisionPage.Name} Revert";
+                WikiContext.SetPageId(revisionPage.Id, pageRevision);
+                WikiContext.Title = $"{revisionPage.Name} Revert";
             }
 
             return View(model);
@@ -510,17 +509,17 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Create")]
         public ActionResult Edit(string givenCanonical)
         {
-            context.RequireEditPermission();
+            WikiContext.RequireEditPermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
-                context.SetPageId(page.Id);
+                WikiContext.SetPageId(page.Id);
 
                 //Editing an existing page.
-                context.Title = page.Title;
+                WikiContext.Title = page.Title;
 
                 return View(new PageEditViewModel()
                 {
@@ -558,7 +557,7 @@ namespace TightWiki.Controllers
         [HttpPost("Page/Create")]
         public ActionResult Edit(PageEditViewModel model)
         {
-            context.RequireEditPermission();
+            WikiContext.RequireEditPermission();
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -570,9 +569,9 @@ namespace TightWiki.Controllers
                 var page = new Page()
                 {
                     CreatedDate = DateTime.UtcNow,
-                    CreatedByUserId = context.User.EnsureNotNull().UserId,
+                    CreatedByUserId = WikiContext.Profile.EnsureNotNull().UserId,
                     ModifiedDate = DateTime.UtcNow,
-                    ModifiedByUserId = context.User.UserId,
+                    ModifiedByUserId = WikiContext.Profile.UserId,
                     Body = model.Body ?? "",
                     Name = model.Name,
                     Navigation = NamespaceNavigation.CleanAndValidate(model.Name),
@@ -587,7 +586,7 @@ namespace TightWiki.Controllers
 
                 page.Id = SavePage(page);
 
-                context.SetPageId(page.Id);
+                WikiContext.SetPageId(page.Id);
 
                 model.SuccessMessage = "The page was successfully created!";
 
@@ -613,17 +612,17 @@ namespace TightWiki.Controllers
                 }
 
                 page.ModifiedDate = DateTime.UtcNow;
-                page.ModifiedByUserId = context.User.EnsureNotNull().UserId;
+                page.ModifiedByUserId = WikiContext.Profile.EnsureNotNull().UserId;
                 page.Body = model.Body ?? "";
                 page.Name = model.Name;
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                context.Title = page.Title;
+                WikiContext.Title = page.Title;
 
                 SavePage(page);
 
-                context.SetPageId(page.Id);
+                WikiContext.SetPageId(page.Id);
 
                 model.SuccessMessage = "The page was saved successfully!";
 

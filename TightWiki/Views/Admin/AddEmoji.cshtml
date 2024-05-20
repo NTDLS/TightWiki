@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.AddEmojiViewModel
+﻿@model TightWiki.ViewModels.Admin.AddEmojiViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <script type="text/javascript">

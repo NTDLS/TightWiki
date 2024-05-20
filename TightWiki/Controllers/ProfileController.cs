@@ -4,20 +4,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
-using TightWiki.Controllers;
 using TightWiki.Library;
-using TightWiki.Library.Library;
-using TightWiki.Library.Repository;
-using TightWiki.Library.ViewModels.Profile;
-using TightWiki.Library.ViewModels.Shared;
-using TightWiki.Library.Wiki;
+using TightWiki.Repository;
+using TightWiki.ViewModels.Profile;
+using TightWiki.ViewModels.Shared;
+using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
 
     [AllowAnonymous]
     [Route("[controller]")]
-    public class ProfileController : ControllerHelperBase
+    public class ProfileController : ControllerBase
     {
         public ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)
@@ -36,9 +34,9 @@ namespace TightWiki.Site.Controllers
         [HttpGet("{userAccountName}/Avatar")]
         public ActionResult Avatar(string userAccountName)
         {
-            context.RequireViewPermission();
+            WikiContext.RequireViewPermission();
 
-            context.Title = $"Avatar";
+            WikiContext.Title = $"Avatar";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             string scale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
@@ -175,7 +173,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Public/{userAccountName}")]
         public ActionResult Public(string userAccountName)
         {
-            context.Title = $"Public Profile";
+            WikiContext.Title = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             var profile = ProfileRepository.GetAccountProfileByNavigation(userAccountName);
@@ -222,21 +220,21 @@ namespace TightWiki.Site.Controllers
         [HttpGet("My")]
         public ActionResult My()
         {
-            context.RequireAuthorizedPermission();
-            context.Title = $"Profile";
+            WikiContext.RequireAuthorizedPermission();
+            WikiContext.Title = $"Profile";
 
             var model = new AccountProfileViewModel()
             {
                 AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                    ProfileRepository.GetAccountProfileByUserId(context.User.EnsureNotNull().UserId)),
+                    ProfileRepository.GetAccountProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId)),
                 Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll()
             };
 
-            model.AccountProfile.CreatedDate = context.LocalizeDateTime(model.AccountProfile.CreatedDate);
-            model.AccountProfile.ModifiedDate = context.LocalizeDateTime(model.AccountProfile.ModifiedDate);
+            model.AccountProfile.CreatedDate = WikiContext.LocalizeDateTime(model.AccountProfile.CreatedDate);
+            model.AccountProfile.ModifiedDate = WikiContext.LocalizeDateTime(model.AccountProfile.ModifiedDate);
 
             return View(model);
         }
@@ -250,12 +248,12 @@ namespace TightWiki.Site.Controllers
         [HttpPost("My")]
         public ActionResult My(AccountProfileViewModel model)
         {
-            context.RequireAuthorizedPermission();
+            WikiContext.RequireAuthorizedPermission();
 
-            context.Title = $"Profile";
+            WikiContext.Title = $"Profile";
 
             //Get the UserId from the logged in context because we do not trust anyhting from the model.
-            var userId = context.User.EnsureNotNull().UserId;
+            var userId = WikiContext.Profile.EnsureNotNull().UserId;
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -371,9 +369,9 @@ namespace TightWiki.Site.Controllers
         [HttpPost("Delete")]
         public ActionResult Delete(AccountViewModel model)
         {
-            context.RequireAuthorizedPermission();
+            WikiContext.RequireAuthorizedPermission();
 
-            var profile = ProfileRepository.GetBasicProfileByUserId(context.User.EnsureNotNull().UserId);
+            var profile = ProfileRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
             bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
             if (confirmAction == true && profile != null)
@@ -410,11 +408,11 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Delete")]
         public ActionResult Delete()
         {
-            context.RequireAuthorizedPermission();
+            WikiContext.RequireAuthorizedPermission();
 
-            var profile = ProfileRepository.GetBasicProfileByUserId(context.User.EnsureNotNull().UserId);
+            var profile = ProfileRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
-            context.AccountName = profile.AccountName;
+            WikiContext.AccountName = profile.AccountName;
 
             var model = new AccountViewModel()
             {
@@ -422,7 +420,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                context.Title = $"{profile.AccountName} Delete";
+                WikiContext.Title = $"{profile.AccountName} Delete";
             }
 
             return View(model);

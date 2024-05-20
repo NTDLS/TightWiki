@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace TightWiki.Library
+namespace TightWiki
 {
     public class NamespaceNavigation
     {

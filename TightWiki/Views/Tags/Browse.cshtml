@@ -1,14 +1,14 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
     <div class="card-header"><strong>Associated Tags</strong></div>
-    <div class="card-body">@Html.Raw(context?.TagCloud)</div>
+    <div class="card-body">@Html.Raw(wikiContext?.TagCloud)</div>
 </div>
 
 <div class="card">
     <div class="card-header"><strong>Associated Pages</strong></div>
-    <div class="card-body">@Html.Raw(context?.Pages)</div>
+    <div class="card-body">@Html.Raw(wikiContext?.Pages)</div>
 </div>

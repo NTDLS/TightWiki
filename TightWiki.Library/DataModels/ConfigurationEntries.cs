@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace TightWiki.Library.DataModels
+namespace TightWiki.DataModels
 {
     public class ConfigurationEntries
     {

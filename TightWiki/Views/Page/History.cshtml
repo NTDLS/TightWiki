@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Page.PageHistoryViewModel
+﻿@model TightWiki.ViewModels.Page.PageHistoryViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
@@ -51,7 +51,7 @@
                                     @foreach (var h in Model.History)
                                     {
                                         <tr>
-                                            <td><a href="/@context?.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                            <td><a href="/@wikiContext?.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                                             <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                                             <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                             <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
@@ -60,13 +60,13 @@
                                 </tbody>
                             </table>
 
-                            if (@context?.PaginationCount > 1)
+                            if (@wikiContext?.PaginationCount > 1)
                             {
-                                if (@context?.PreviousPage != null)
+                                if (@wikiContext?.PreviousPage != null)
                                 {
-                                    <a href="/@context?.PageNavigation/History/1">&lt;&lt; First</a>
+                                    <a href="/@wikiContext?.PageNavigation/History/1">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/@context?.PageNavigation/History/@context?.PreviousPage">&lt; Previous</a>
+                                    <a href="/@wikiContext?.PageNavigation/History/@wikiContext?.PreviousPage">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -74,11 +74,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@context?.NextPage != null)
+                                if (@wikiContext?.NextPage != null)
                                 {
-                                    <a href="/@context?.PageNavigation/History/@context?.NextPage">Next &gt;</a>
+                                    <a href="/@wikiContext?.PageNavigation/History/@wikiContext?.NextPage">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/@context?.PageNavigation/History/@context?.PaginationCount">Last &gt;&gt;</a>
+                                    <a href="/@wikiContext?.PageNavigation/History/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

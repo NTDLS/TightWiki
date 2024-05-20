@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Exceptions;
-using TightWiki.Library.Repository;
-using static TightWiki.Library.Library.Constants;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Security.Claims;
+using TightWiki.DataModels;
+using TightWiki.Exceptions;
+using TightWiki.Library;
+using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
-namespace TightWiki.Library.Library
+namespace TightWiki
 {
-    public class StateContext
+    public class WikiContextState
     {
         //Recently moved properties:
         public bool AllowSignup { get; set; }
@@ -40,13 +44,77 @@ namespace TightWiki.Library.Library
         public string PageDescription { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
         public bool IsAuthenticated { get; set; }
-        public AccountProfile? User { get; set; }
+        public AccountProfile? Profile { get; set; }
         public string Role { get; set; } = string.Empty;
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new();
         public bool IsViewingOldVersion => ((Revision ?? 0) > 0);
         public bool IsPageLoaded => ((PageId ?? 0) > 0);
+
+        private Controller? _controller;
+
+        public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        {
+            Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+
+            HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
+            return this;
+        }
+
+        public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
+        {
+            Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+
+            _controller = controller;
+
+            PathAndQuery = controller.Request.GetEncodedPathAndQuery();
+            PageNavigation = RouteValue("givenCanonical", "Home");
+            PageRevision = RouteValue("pageRevision");
+
+            HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
+            return this;
+        }
+
+        private void HydrateSecurityContext(HttpContext httpContext, SignInManager<IdentityUser> signInManager, ClaimsPrincipal user)
+        {
+            IsAuthenticated = false;
+
+            if (signInManager.IsSignedIn(user))
+            {
+                try
+                {
+                    string emailAddress = (user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
+
+                    IsAuthenticated = user.Identity?.IsAuthenticated == true;
+                    if (IsAuthenticated)
+                    {
+                        var userId = Guid.Parse((user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
+
+                        Profile = ProfileRepository.GetBasicProfileByUserId(userId);
+                        Role = (user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString()).EnsureNotNull();
+                    }
+                }
+                catch
+                {
+                    httpContext.SignOutAsync();
+                    if (user.Identity != null)
+                    {
+                        httpContext.SignOutAsync(user.Identity.AuthenticationType);
+                    }
+                    throw;
+                }
+            }
+        }
+
+        protected string RouteValue(string key, string defaultValue = "")
+        {
+            if (_controller.EnsureNotNull().RouteData.Values.ContainsKey(key))
+            {
+                return _controller.RouteData.Values[key]?.ToString() ?? defaultValue;
+            }
+            return defaultValue;
+        }
 
         public DateTime LocalizeDateTime(DateTime datetime)
         {
@@ -55,11 +123,11 @@ namespace TightWiki.Library.Library
 
         public TimeZoneInfo GetTimeZone()
         {
-            if (User == null || string.IsNullOrEmpty(User.TimeZone))
+            if (Profile == null || string.IsNullOrEmpty(Profile.TimeZone))
             {
                 return TimeZoneInfo.FindSystemTimeZoneById(GlobalSettings.DefaultTimeZone);
             }
-            return TimeZoneInfo.FindSystemTimeZoneById(User.TimeZone);
+            return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
         }
 
         /// <summary>

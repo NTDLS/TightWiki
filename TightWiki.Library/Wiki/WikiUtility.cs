@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Library;
-using TightWiki.Library.Models;
-using TightWiki.Library.Repository;
+using TightWiki.DataModels;
+using TightWiki.Library;
+using TightWiki.Models;
+using TightWiki.Repository;
 
-namespace TightWiki.Library.Wiki
+namespace TightWiki.Wiki
 {
     public static class WikiUtility
     {

@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Page.PageEditViewModel
+﻿@model TightWiki.ViewModels.Page.PageEditViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <link rel="stylesheet" href="/codemirror/codemirror.css">
@@ -46,7 +46,7 @@
 <script type="text/javascript">
 
     function readyFn(jQuery) {
-        $("#uploadedFiles").load("/File/EditPageAttachment/@context?.PageNavigation");
+        $("#uploadedFiles").load("/File/EditPageAttachment/@wikiContext?.PageNavigation");
     }
 
     $(document).ready(readyFn);
@@ -55,7 +55,7 @@
         $("#dropSection").filedrop({
             fallback_id: 'btnUpload',
             fallback_dropzoneClick: true,
-            url: '@Url.Action("UploadDragDrop", "File")/@context?.PageNavigation',
+            url: '@Url.Action("UploadDragDrop", "File")/@wikiContext?.PageNavigation',
             paramname: 'postedFiles',
             maxfiles: 5, //Maximum Number of Files allowed at a time.
             maxfilesize: 25, //Maximum File Size in MB.
@@ -83,7 +83,7 @@
             },
             afterAll: function (e) {
                 //To do some task after all uploads done.
-                $("#uploadedFiles").load("/File/EditPageAttachment/@context?.PageNavigation");
+                $("#uploadedFiles").load("/File/EditPageAttachment/@wikiContext?.PageNavigation");
             }
         })
     })
@@ -96,7 +96,7 @@
             formData.append('fileData', $('input[type=file]')[0].files[0]);
 
             $.ajax({
-                url: '@Url.Action("ManualUpload", "File")/@context?.PageNavigation',
+                url: '@Url.Action("ManualUpload", "File")/@wikiContext?.PageNavigation',
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -105,7 +105,7 @@
                 enctype: 'multipart/form-data',
                 processData: false,
                 success: function (response) {
-                    $("#uploadedFiles").load("/File/EditPageAttachment/@context?.PageNavigation");
+                    $("#uploadedFiles").load("/File/EditPageAttachment/@wikiContext?.PageNavigation");
                 }
             });
             return false;
@@ -137,7 +137,7 @@
 
                 <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save</button></div>
                 <div class="form-group">
-                    <a href="/@context?.PageNavigation" target="_blank" rel="noopener">View in new Tab</a>
+                    <a href="/@wikiContext?.PageNavigation" target="_blank" rel="noopener">View in new Tab</a>
                 </div>
                 <strong>@Html.LabelFor(x => x.Name)</strong>
 
@@ -181,7 +181,7 @@
     <div class="card">
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @context?.CanCreate == true)
+            @if (Model?.Id > 0 && @wikiContext?.CanCreate == true)
             {
 
                 <div id="dropSection" class="dropSection">

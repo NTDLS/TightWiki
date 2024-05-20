@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.DataStorage;
-using TightWiki.Library.Library;
+using TightWiki.DataModels;
+using TightWiki.DataStorage;
+using TightWiki.Library;
 using TightWiki.Shared.Models.Data;
 
-namespace TightWiki.Library.Repository
+namespace TightWiki.Repository
 {
     public static class PageRepository
     {

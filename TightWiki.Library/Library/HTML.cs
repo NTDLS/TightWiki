@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace TightWiki.Library.Library
+namespace TightWiki.Library
 {
     public static class HTML
     {

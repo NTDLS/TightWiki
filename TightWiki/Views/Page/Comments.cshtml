@@ -1,11 +1,11 @@
-﻿@model TightWiki.Library.ViewModels.Page.PageCommentsViewModel
+﻿@model TightWiki.ViewModels.Page.PageCommentsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
-    <div class="card-header"><h3><a href="/@context?.PageNavigation">@context?.Title</a> Comments</h3></div>
+    <div class="card-header"><h3><a href="/@wikiContext?.PageNavigation">@wikiContext?.Title</a> Comments</h3></div>
     <div class="card-body">
 
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -34,7 +34,7 @@
 
                         @using (Html.BeginForm())
                         {
-                            if (context?.IsAuthenticated == true)
+                            if (wikiContext?.IsAuthenticated == true)
                             {
                                 <div class="form-outline mb-4">
                                     <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
@@ -58,7 +58,7 @@
                                                 <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
                                                 <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                                             </div>
-                                            @if (context?.CanModerate == true || h.UserId == context?.User?.UserId)
+                                            @if (wikiContext?.CanModerate == true || h.UserId == wikiContext?.Profile?.UserId)
                                             {
                                                 <div class="d-flex flex-row align-items-center">
                                                     <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')" >Delete</a></p>
@@ -70,13 +70,13 @@
                             }
 
                             @:<center>
-                            if (@context?.PaginationCount > 1)
+                            if (@wikiContext?.PaginationCount > 1)
                             {
-                                if (@context?.PreviousPage != null)
+                                if (@wikiContext?.PreviousPage != null)
                                 {
-                                    <a href="/@context?.PageNavigation/Comments/1">&lt;&lt; First</a>
+                                    <a href="/@wikiContext?.PageNavigation/Comments/1">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/@context?.PageNavigation/Comments/@context?.PreviousPage">&lt; Previous</a>
+                                    <a href="/@wikiContext?.PageNavigation/Comments/@wikiContext?.PreviousPage">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -84,11 +84,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@context?.NextPage != null)
+                                if (@wikiContext?.NextPage != null)
                                 {
-                                    <a href="/@context?.PageNavigation/Comments/@context?.NextPage">Next &gt;</a>
+                                    <a href="/@wikiContext?.PageNavigation/Comments/@wikiContext?.NextPage">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/@context?.PageNavigation/Comments/@context?.PaginationCount">Last &gt;&gt;</a>
+                                    <a href="/@wikiContext?.PageNavigation/Comments/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

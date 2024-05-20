@@ -1,6 +1,6 @@
 using System;
 
-namespace TightWiki.Library.DataModels
+namespace TightWiki.DataModels
 {
     public partial class UserRole
     {

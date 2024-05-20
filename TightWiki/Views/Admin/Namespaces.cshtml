@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.NamespacesViewModel
+﻿@model TightWiki.ViewModels.Admin.NamespacesViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
@@ -51,13 +51,13 @@
                                 }
                             </table>
 
-                            if (@context?.PaginationCount > 1)
+                            if (@wikiContext?.PaginationCount > 1)
                             {
-                                if (@context?.PreviousPage != null)
+                                if (@wikiContext?.PreviousPage != null)
                                 {
                                     <a href="/Admin/Namespaces/1">&lt;&lt; First</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Namespaces/@context?.PreviousPage">&lt; Previous</a>
+                                    <a href="/Admin/Namespaces/@wikiContext?.PreviousPage">&lt; Previous</a>
                                 }
                                 else
                                 {
@@ -65,11 +65,11 @@
                                 }
                                 @:&nbsp; | &nbsp;
 
-                                if (@context?.NextPage != null)
+                                if (@wikiContext?.NextPage != null)
                                 {
-                                    <a href="/Admin/Namespaces/@context?.NextPage">Next &gt;</a>
+                                    <a href="/Admin/Namespaces/@wikiContext?.NextPage">Next &gt;</a>
                                     @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Namespaces/@context?.PaginationCount">Last &gt;&gt;</a>
+                                    <a href="/Admin/Namespaces/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
                                 }
                                 else
                                 {

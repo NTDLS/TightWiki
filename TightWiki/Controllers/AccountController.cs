@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using TightWiki.Controllers;
-using TightWiki.Library.Library;
-using TightWiki.Library.Repository;
-using TightWiki.Library.ViewModels;
+using TightWiki.Library;
+using TightWiki.Repository;
+using TightWiki.ViewModels;
 
 namespace TightWiki.Site.Controllers
 {
     [Area("Identity")]
     [Route("Identity/Account")]
-    public class AccountController : ControllerHelperBase
+    public class AccountController : ControllerBase
     {
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;

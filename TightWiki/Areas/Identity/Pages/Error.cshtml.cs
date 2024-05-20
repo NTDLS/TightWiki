@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Diagnostics;
 
 namespace TightWiki.Areas.Identity.Pages
 {
@@ -15,7 +15,7 @@ namespace TightWiki.Areas.Identity.Pages
     /// </summary>
     [AllowAnonymous]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public class ErrorModel : PageModel
+    public class ErrorModel : PageModelBase
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -36,6 +36,12 @@ namespace TightWiki.Areas.Identity.Pages
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+        }
+
+        public ErrorModel(SignInManager<IdentityUser> signInManager)
+            : base(signInManager)
+        {
+
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Library;
+using TightWiki.DataModels;
+using TightWiki.Library;
 
-namespace TightWiki.Library.ViewModels.Profile
+namespace TightWiki.ViewModels.Profile
 {
     public class AccountViewModel : ViewModelBase
     {

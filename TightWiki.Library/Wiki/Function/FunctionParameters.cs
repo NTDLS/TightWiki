@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TightWiki.Library.Library;
+using TightWiki.Library;
 
-namespace TightWiki.Library.Wiki.Function
+namespace TightWiki.Wiki.Function
 {
     public class FunctionParameters
     {

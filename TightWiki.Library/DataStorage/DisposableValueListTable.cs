@@ -2,7 +2,7 @@
 using Microsoft.Data.Sqlite;
 using System;
 
-namespace TightWiki.Library.DataStorage
+namespace TightWiki.DataStorage
 {
     /// <summary>
     /// Creates a session scoped temp table that contains the values from the supplied list, the temp table is dropped on dispose.

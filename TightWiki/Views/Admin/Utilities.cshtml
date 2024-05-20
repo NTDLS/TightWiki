@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.UtilitiesViewModel
+﻿@model TightWiki.ViewModels.Admin.UtilitiesViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
@@ -51,7 +51,7 @@
                                     </form>
                                 </td>
                             </tr>
-                            @if (context?.IsDebug == true)
+                            @if (wikiContext?.IsDebug == true)
                             {
                                 <tr>
                                     <td>Create Self-Documentation</td>

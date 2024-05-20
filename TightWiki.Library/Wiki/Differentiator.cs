@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace TightWiki.Library.Wiki
+namespace TightWiki.Wiki
 {
     public static class Differentiator
     {

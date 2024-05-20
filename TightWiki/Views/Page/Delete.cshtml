@@ -1,7 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Page.PageDeleteViewModel
+﻿@model TightWiki.ViewModels.Page.PageDeleteViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -26,10 +26,10 @@
                 @if (string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="panel panel-danger">
-                        <div class="card-header"><strong>Delete page "@context?.PageName"?</strong></div>
+                        <div class="card-header"><strong>Delete page "@wikiContext?.PageName"?</strong></div>
                         <div class="card-body">
 
-                            <strong>Deleting "@context?.PageName" will permanently remove the page, all @context?.PageRevision revisions and @context?.CountOfAttachments file attachments.</strong><br />
+                            <strong>Deleting "@wikiContext?.PageName" will permanently remove the page, all @wikiContext?.PageRevision revisions and @wikiContext?.CountOfAttachments file attachments.</strong><br />
                             You will not be able to revert this deletion.
 
                             Are you sure you want to continue with this deletion?<br /><br />

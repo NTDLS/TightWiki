@@ -1,27 +1,27 @@
-﻿@model TightWiki.Library.ViewModels.Page.PageDisplayViewModel
+﻿@model TightWiki.ViewModels.Page.PageDisplayViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var context = ViewData["Context"] as TightWiki.Library.Library.StateContext;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 @Html.Raw(Model.Body)
 
-@if (TightWiki.Library.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false)
+@if (TightWiki.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false)
 {
     <br /><small><cite title="Modified By">Last modified by <a href="/Profile/Public/@Model.ModifiedByUserName">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small><br />
 }
 
-@if (context?.HideFooterComments == false)
+@if (wikiContext?.HideFooterComments == false)
 {
-    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
     {
         <hr class="mt-5 mb-5">
         <h2>Comments</h2>
     }
-    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
     {
-        if (@context?.IsAuthenticated == true)
+        if (@wikiContext?.IsAuthenticated == true)
         {
-            <form method="post" action="/@context?.PageNavigation/Comments">
+            <form method="post" action="/@wikiContext?.PageNavigation/Comments">
                 <div class="form-outline mb-4">
                     <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
                     <div style="overflow: hidden; padding-right: .5em;">
@@ -35,7 +35,7 @@
             @:<a href="/Account/Login">Login to leave a comment</a>.
         }
     }
-    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
     {
         @foreach (var h in Model.Comments)
         {
@@ -47,10 +47,10 @@
                             <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
                             <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                         </div>
-                        @if (context?.CanModerate == true || h.UserId == context?.User?.UserId)
+                        @if (wikiContext?.CanModerate == true || h.UserId == wikiContext?.Profile?.UserId)
                         {
                             <div class="d-flex flex-row align-items-center">
-                                <p class="small text-muted mb-0"><a href="/@context?.PageNavigation/Comments?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a></p>
+                                <p class="small text-muted mb-0"><a href="/@wikiContext?.PageNavigation/Comments?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a></p>
                             </div>
                         }
                     </div>
@@ -58,8 +58,8 @@
             </div>
         }
     }
-    @if (TightWiki.Library.GlobalSettings.EnablePageComments && TightWiki.Library.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
     {
-        <a href="/@context?.PageNavigation/Comments">View all comments</a>
+        <a href="/@wikiContext?.PageNavigation/Comments">View all comments</a>
     }
 }

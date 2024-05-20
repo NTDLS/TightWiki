@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using TightWiki.Library.DataModels;
+using TightWiki.DataModels;
 
-namespace TightWiki.Library.ViewModels.Profile
+namespace TightWiki.ViewModels.Profile
 {
     public partial class AccountProfileAccountViewModel
     {

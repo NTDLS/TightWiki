@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.DataStorage;
-using TightWiki.Library.Library;
+using TightWiki.DataModels;
+using TightWiki.DataStorage;
+using TightWiki.Library;
 
-namespace TightWiki.Library.Repository
+namespace TightWiki.Repository
 {
     public static class MenuItemRepository
     {

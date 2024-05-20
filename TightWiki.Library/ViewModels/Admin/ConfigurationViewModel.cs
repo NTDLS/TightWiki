@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Library;
+using TightWiki.DataModels;
+using TightWiki.Library;
 
-namespace TightWiki.Library.ViewModels.Admin
+namespace TightWiki.ViewModels.Admin
 {
     public class ConfigurationViewModel : ViewModelBase
     {

@@ -1,11 +1,9 @@
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using System.Data;
-using TightWiki.Library;
-using TightWiki.Library.DataStorage;
-using TightWiki.Library.Repository;
+using TightWiki.DataStorage;
+using TightWiki.Repository;
 using YourApplication.Data;
 
 namespace TightWiki

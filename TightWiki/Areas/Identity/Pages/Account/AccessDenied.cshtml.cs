@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -10,7 +10,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
     ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
     ///     directly from your code. This API may change or be removed in future releases.
     /// </summary>
-    public class AccessDeniedModel : PageModel
+    public class AccessDeniedModel : PageModelBase
     {
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -18,6 +18,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+        }
+        public AccessDeniedModel(SignInManager<IdentityUser> signInManager)
+                        : base(signInManager)
+        {
+
         }
     }
 }

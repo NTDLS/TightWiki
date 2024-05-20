@@ -1,12 +1,12 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Diagnostics;
 
 namespace TightWiki.Pages
 {
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     [IgnoreAntiforgeryToken]
-    public class ErrorModel : PageModel
+    public class ErrorModel : PageModelBase
     {
         public string? RequestId { get; set; }
 
@@ -14,7 +14,8 @@ namespace TightWiki.Pages
 
         private readonly ILogger<ErrorModel> _logger;
 
-        public ErrorModel(ILogger<ErrorModel> logger)
+        public ErrorModel(SignInManager<IdentityUser> signInManager, ILogger<ErrorModel> logger)
+            : base(signInManager)
         {
             _logger = logger;
         }
@@ -24,5 +25,4 @@ namespace TightWiki.Pages
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
     }
-
 }

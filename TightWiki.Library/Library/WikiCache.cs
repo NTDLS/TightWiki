@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Runtime.Caching;
 
-namespace TightWiki.Library.Library
+namespace TightWiki.Library
 {
     public class WikiCache
     {
