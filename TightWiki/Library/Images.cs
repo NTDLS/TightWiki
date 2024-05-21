@@ -11,7 +11,8 @@ namespace TightWiki.Library
             Png,
             Jpeg,
             Bmp,
-            Tiff
+            Tiff,
+            Gif
         }
 
         public static byte[] ResizeImageBytes(byte[] imageBytes, int newWidth, int newHeight)
@@ -43,6 +44,9 @@ namespace TightWiki.Library
             {
                 case ImageFormat.Png:
                     img.SaveAsPng(ms);
+                    break;
+                case ImageFormat.Gif:
+                    img.SaveAsGif(ms);
                     break;
                 case ImageFormat.Jpeg:
                     img.SaveAsJpeg(ms);

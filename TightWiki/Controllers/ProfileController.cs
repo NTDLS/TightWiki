@@ -49,11 +49,9 @@ namespace TightWiki.Site.Controllers
 
             if (imageBytes == null || imageBytes.Count() == 0)
             {
-                var filePath = Path.Combine(_environment.WebRootPath, "Avatar.png");
-
-
                 //Load the default avatar.
-                var image = Image.Load("Avatar.png");
+                var filePath = Path.Combine(_environment.WebRootPath, "Avatar.png");
+                var image = Image.Load(filePath);
                 using var ms = new MemoryStream();
                 image.SaveAsPng(ms);
                 imageBytes = ms.ToArray();

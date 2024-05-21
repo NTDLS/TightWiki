@@ -14,6 +14,13 @@ namespace TightWiki.Library
         {
             if (ConfigurationRepository.IsFirstRun())
             {
+                //If this is the first time the app has run on this mahcine (based on an encryption key) then clear the admin password status.
+                //This will cause the application to set the admin password to the default password and display a warning until it is chnaged.
+                ConfigurationRepository.SetAdminPasswordClear();
+            }
+
+            if (ConfigurationRepository.AdminPasswordStatus() == Constants.AdminPasswordChangeState.NeedsToBeSet)
+            {
                 var user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
                 if (user == null)
                 {

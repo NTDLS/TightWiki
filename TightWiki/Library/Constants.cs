@@ -7,6 +7,22 @@
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
+        public enum AdminPasswordChangeState
+        {
+            /// <summary>
+            /// The password has not been changed, display a big warning.
+            /// </summary>
+            IsDefault,
+            /// <summary>
+            /// All is well!
+            /// </summary>
+            HasBeenChanged,
+            /// <summary>
+            /// The default password status does not exist and the password needs to be set to default.
+            /// </summary>
+            NeedsToBeSet
+        }
+
         public static class WikiInstruction
         {
             public static string Deprecate { get; } = "Deprecate";

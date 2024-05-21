@@ -46,12 +46,15 @@ namespace TightWiki.Controllers
                     case "image/bmp":
                         format = ImageFormat.Bmp;
                         break;
+                    case "image/gif":
+                        format = ImageFormat.Gif;
+                        break;
                     case "image/tiff":
                         format = ImageFormat.Tiff;
                         break;
                     default:
                         contentType = "image/png";
-                        format = ImageFormat.Png;
+                        format = ImageFormat.Gif;
                         break;
                 }
 
@@ -174,9 +177,10 @@ namespace TightWiki.Controllers
 
                         if (emoji.MimeType?.ToLower() == "image/gif")
                         {
-                            var imageBytes = Images.ResizeImageBytes(emoji.ImageData, width, height);
-                            //For the time begin, we do not support resizing gif animations.
-                            return File(imageBytes, emoji.MimeType);
+                            using var image = Images.ResizeImage(img, width, height);
+                            using var ms = new MemoryStream();
+                            image.SaveAsGif(ms);
+                            return File(ms.ToArray(), "image/gif");
                         }
                         else
                         {

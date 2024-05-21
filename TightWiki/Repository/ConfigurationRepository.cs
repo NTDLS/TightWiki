@@ -2,6 +2,7 @@
 using TightWiki.DataStorage;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -88,25 +89,33 @@ namespace TightWiki.Repository
             ManagedDataStorage.Default.QueryFirstOrDefault<string>("SetCryptoCheck", param);
         }
 
-        public static bool IsAdminPasswordChanged()
+        public static AdminPasswordChangeState AdminPasswordStatus()
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
 
             if (WikiCache.Get<bool?>(cacheKey) == true)
             {
-                return true;
+                return AdminPasswordChangeState.HasBeenChanged;
             }
 
             var result = ManagedDataStorage.Default.ExecuteScalar<bool?>("IsAdminPasswordChanged");
             if (result == true)
             {
                 WikiCache.Put(cacheKey, true);
-                return true;
+                return AdminPasswordChangeState.HasBeenChanged;
+            }
+            if (result == null)
+            {
+                return AdminPasswordChangeState.NeedsToBeSet;
             }
 
-            return false;
+            return AdminPasswordChangeState.IsDefault;
         }
 
+        public static void SetAdminPasswordClear()
+        {
+            ManagedDataStorage.Default.ExecuteScalar<bool>("SetAdminPasswordClear");
+        }
         public static void SetAdminPasswordIsChanged()
         {
             ManagedDataStorage.Default.ExecuteScalar<bool>("SetAdminPasswordIsChanged");

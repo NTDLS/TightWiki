@@ -182,7 +182,7 @@
         <main role="main" class="pb-3">
             @Html.Raw(GlobalSettings.HTMLPreBody)
 
-            @if (TightWiki.Repository.ConfigurationRepository.IsAdminPasswordChanged() == false)
+            @if (TightWiki.Repository.ConfigurationRepository.AdminPasswordStatus() != TightWiki.Library.Constants.AdminPasswordChangeState.HasBeenChanged)
             {
                 <div class="card bg-warning mb-3">
                     <div class="card-header"><strong>Default password has not been changed</strong></div>
