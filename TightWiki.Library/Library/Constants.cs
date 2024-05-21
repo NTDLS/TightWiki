@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library.Library
+﻿namespace TightWiki.Library
 {
     public static class Constants
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.DataStorage;
+using TightWiki.DataModels;
+using TightWiki.DataStorage;
 
-namespace TightWiki.Library.Repository
+namespace TightWiki.Repository
 {
     public static class PageTagRepository
     {

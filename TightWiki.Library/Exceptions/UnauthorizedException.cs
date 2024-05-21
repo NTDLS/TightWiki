@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TightWiki.Library.Exceptions
+namespace TightWiki.Exceptions
 {
     public class UnauthorizedException : Exception
     {

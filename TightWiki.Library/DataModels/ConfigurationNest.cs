@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TightWiki.Library.DataModels
+namespace TightWiki.DataModels
 {
     public class ConfigurationNest
     {

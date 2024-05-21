@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library.DataModels
+﻿namespace TightWiki.DataModels
 {
     public class WikiDatabaseStats
     {

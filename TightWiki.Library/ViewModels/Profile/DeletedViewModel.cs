@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library.ViewModels.Profile
+﻿namespace TightWiki.ViewModels.Profile
 {
     public class DeletedViewModel : ViewModelBase
     {

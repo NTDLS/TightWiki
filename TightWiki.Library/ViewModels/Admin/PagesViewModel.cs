@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TightWiki.Library.ViewModels.Admin
+namespace TightWiki.ViewModels.Admin
 {
     public class PagesViewModel : ViewModelBase
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TightWiki.Library.ViewModels.Page
+namespace TightWiki.ViewModels.Page
 {
     public class PageSearchViewModel : ViewModelBase
     {

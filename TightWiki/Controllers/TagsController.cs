@@ -2,15 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TightWiki.Controllers;
-using TightWiki.Library;
-using TightWiki.Library.Repository;
-using TightWiki.Library.Wiki;
+using TightWiki.Models.ViewModels.Page;
+using TightWiki.Repository;
+using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
     [Authorize]
-    public class TagsController : ControllerHelperBase
+    public class TagsController : ControllerBase
     {
         public TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)
@@ -20,13 +19,11 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
         {
-            context.RequireViewPermission();
+            WikiContext.RequireViewPermission();
 
-            ViewBag.Context.Title = "Tags";
+            WikiContext.Title = "Tags";
 
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
-
-            ViewBag.TagCloud = WikiUtility.BuildTagCloud(navigation);
 
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
             var pages = PageTagRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
@@ -64,9 +61,13 @@ namespace TightWiki.Site.Controllers
                 glossaryHtml.Append("</ul>");
             }
 
-            ViewBag.Pages = glossaryHtml.ToString();
+            var model = new BrowseViewModel
+            {
+                AssociatedPages = glossaryHtml.ToString(),
+                TagCloud = WikiUtility.BuildTagCloud(navigation)
+            };
 
-            return View();
+            return View(model);
         }
     }
 }

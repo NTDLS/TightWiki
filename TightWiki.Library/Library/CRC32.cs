@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TightWiki.Library.Library
+namespace TightWiki.Library
 {
     /// <summary>
     /// Performs 32-bit reversed cyclic redundancy checks.

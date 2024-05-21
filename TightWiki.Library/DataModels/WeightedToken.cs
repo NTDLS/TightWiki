@@ -1,6 +1,6 @@
-﻿using TightWiki.Library.DataModels;
+﻿using TightWiki.DataModels;
 
-namespace TightWiki.Library.Models
+namespace TightWiki.Models
 {
     public class WeightedToken
     {

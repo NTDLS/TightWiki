@@ -1,6 +1,6 @@
-﻿using TightWiki.Library.Library;
+﻿using TightWiki.Library;
 
-namespace TightWiki.Library.DataModels
+namespace TightWiki.DataModels
 {
     public partial class ConfigurationEntry
     {

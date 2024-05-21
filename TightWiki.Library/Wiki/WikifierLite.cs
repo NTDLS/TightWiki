@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using TightWiki.Library.Library;
-using TightWiki.Library.Repository;
-using TightWiki.Library.Wiki.Function;
+using TightWiki.Library;
+using TightWiki.Repository;
+using TightWiki.Wiki.Function;
 
-namespace TightWiki.Library.Wiki
+namespace TightWiki.Wiki
 {
     /// <summary>
     /// Tiny wifier (reduced feature-set) for things like comments and profile bios.

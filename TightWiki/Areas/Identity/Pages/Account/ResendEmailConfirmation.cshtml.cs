@@ -2,27 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class ResendEmailConfirmationModel : PageModel
+    public class ResendEmailConfirmationModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _emailSender;
 
-        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ResendEmailConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender emailSender)
+                        : base(signInManager)
         {
             _userManager = userManager;
             _emailSender = emailSender;
@@ -50,12 +47,21 @@ namespace TightWiki.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (WikiContext?.AllowSignup != true)
+            {
+                return Redirect("/Identity/Account/AccessDenied");
+            }
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (WikiContext?.AllowSignup != true)
+            {
+                return Redirect("/Identity/Account/AccessDenied");
+            }
             if (!ModelState.IsValid)
             {
                 return Page();

@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library.ViewModels.Admin
+﻿namespace TightWiki.ViewModels.Admin
 {
     public class UtilitiesViewModel : ViewModelBase
     {

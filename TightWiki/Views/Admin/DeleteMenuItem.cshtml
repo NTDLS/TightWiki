@@ -1,6 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.MenuItemViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -22,7 +23,7 @@
                     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
-                @if (ViewBag.Error == null)
+                @if (string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="panel panel-danger">
                         <div class="card-header"><strong>Delete menu item "@Model.Name"?</strong></div>

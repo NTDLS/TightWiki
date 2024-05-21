@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library.ViewModels.Page
+﻿namespace TightWiki.ViewModels.Page
 {
     public class PageRevertViewModel : ViewModelBase
     {

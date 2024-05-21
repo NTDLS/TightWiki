@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TightWiki.Library.DataModels;
+using TightWiki.DataModels;
 
-namespace TightWiki.Library.ViewModels.Admin
+namespace TightWiki.ViewModels.Admin
 {
     public class MenuItemsViewModel : ViewModelBase
     {

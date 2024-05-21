@@ -1,5 +1,5 @@
-﻿using TightWiki.Library.Exceptions;
-using TightWiki.Library.Repository;
+﻿using TightWiki.Exceptions;
+using TightWiki.Repository;
 
 namespace TightWiki
 {

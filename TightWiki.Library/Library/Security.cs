@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Aes = System.Security.Cryptography.Aes;
 
-namespace TightWiki.Library.Library
+namespace TightWiki.Library
 {
     public static class Security
     {

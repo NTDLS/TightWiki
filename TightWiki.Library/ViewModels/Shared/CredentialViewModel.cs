@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TightWiki.Library.ViewModels.Shared
+namespace TightWiki.ViewModels.Shared
 {
     public class CredentialViewModel
     {

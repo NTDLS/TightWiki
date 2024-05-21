@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library.ViewModels
+﻿namespace TightWiki.ViewModels
 {
     public class ExternalLoginCallbackViewModel : ViewModelBase
     {

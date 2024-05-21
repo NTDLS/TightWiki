@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using TightWiki.Library.DataModels;
+using TightWiki.DataModels;
 
-namespace TightWiki.Library.ViewModels.Profile
+namespace TightWiki.ViewModels.Profile
 {
     public class PublicViewModel : ViewModelBase
     {

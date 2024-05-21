@@ -1,6 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.StatsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.StatsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
@@ -87,12 +88,12 @@
 
 
                             <tr>
-                                <td>@TightWiki.Library.Library.WikiCache.CacheItemCount.ToString("N0")</td>
-                                <td>@TightWiki.Library.Library.WikiCache.CachePuts.ToString("N0")</td>
-                                <td>@TightWiki.Library.Library.WikiCache.CacheGets.ToString("N0")</td>
-                                <td>@TightWiki.Library.Library.WikiCache.CacheHits.ToString("N0")</td>
-                                <td>@TightWiki.Library.Library.WikiCache.CacheMisses.ToString("N0")</td>
-                                <td>@TightWiki.Library.Library.WikiCache.CacheMemoryLimitMB.ToString("N0")</td>
+                                <td>@TightWiki.Library.WikiCache.CacheItemCount.ToString("N0")</td>
+                                <td>@TightWiki.Library.WikiCache.CachePuts.ToString("N0")</td>
+                                <td>@TightWiki.Library.WikiCache.CacheGets.ToString("N0")</td>
+                                <td>@TightWiki.Library.WikiCache.CacheHits.ToString("N0")</td>
+                                <td>@TightWiki.Library.WikiCache.CacheMisses.ToString("N0")</td>
+                                <td>@TightWiki.Library.WikiCache.CacheMemoryLimitMB.ToString("N0")</td>
                             </tr>
                         </table>
                     </td>

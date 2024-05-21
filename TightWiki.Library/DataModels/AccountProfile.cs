@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TightWiki.Library.DataModels
+namespace TightWiki.DataModels
 {
     /// <summary>
     /// This model combines the elements of an account and a profile into one class.

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using TightWiki.Library.Library;
-using TightWiki.Library.Repository;
+using TightWiki.Library;
+using TightWiki.Repository;
 
 namespace TightWiki
 {

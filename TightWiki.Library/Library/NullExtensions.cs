@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-namespace TightWiki.Library.Library
+namespace TightWiki.Library
 {
     public static class NullExtensions
     {

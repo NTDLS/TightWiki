@@ -1,4 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.File.FileAttachmentViewModel
+﻿@model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
+@{
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+}
 
 <html>
 <head>
@@ -32,7 +35,7 @@
                         <a href="/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
                     </td>
                     <td>
-                        @if (@ViewBag.Context?.CanDelete == true)
+                        @if (@wikiContext?.CanDelete == true)
                         {
                             <a href="#deleteLink" id="@x.FileNavigation"> Delete </a>
                         }

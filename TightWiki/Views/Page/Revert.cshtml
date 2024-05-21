@@ -1,6 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Page.PageRevertViewModel
+﻿@model TightWiki.Models.ViewModels.Page.PageRevertViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -23,10 +24,10 @@
                 }
 
                 <div class="panel panel-info">
-                    <div class="card-header"><strong>Revert to revision @ViewBag.Context.PageRevision?</strong></div>
+                    <div class="card-header"><strong>Revert to revision @wikiContext?.PageRevision?</strong></div>
                     <div class="card-body">
 
-                        <strong>Reverting "@ViewBag.PageName" from revision @ViewBag.MostCurrentRevision to @ViewBag.Context.PageRevision will rollback @ViewBag.CountOfRevisions changes.</strong><br />
+                        <strong>Reverting "@wikiContext?.PageName" from revision @wikiContext?.MostCurrentRevision to @wikiContext?.PageRevision will rollback @wikiContext?.CountOfRevisions changes.</strong><br />
                         Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />
                         Are you sure you want to continue?<br /><br />
 

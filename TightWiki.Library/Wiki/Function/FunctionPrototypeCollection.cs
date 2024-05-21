@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TightWiki.Library.Wiki.Function
+namespace TightWiki.Wiki.Function
 {
     public class FunctionPrototypeCollection
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TightWiki.Library.ViewModels.Page
+namespace TightWiki.ViewModels.Page
 {
     public class PageEditViewModel : ViewModelBase
     {

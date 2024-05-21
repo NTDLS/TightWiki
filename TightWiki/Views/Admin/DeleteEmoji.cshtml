@@ -1,6 +1,7 @@
-﻿@model TightWiki.Library.ViewModels.Admin.EmojiViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -22,13 +23,13 @@
                     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
-                @if (ViewBag.Error == null)
+                @if (string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="panel panel-danger">
-                        <div class="card-header"><strong>Delete emoji "@ViewBag.Name"?</strong></div>
+                        <div class="card-header"><strong>Delete emoji "@Model?.OriginalName"?</strong></div>
                         <div class="card-body">
 
-                            <strong>Deleting the emoji "@ViewBag.Name" will permanently remove the image. Any references to it will be orphaned.</strong><br />
+                            <strong>Deleting the emoji "@Model?.OriginalName" will permanently remove the image. Any references to it will be orphaned.</strong><br />
                             You will not be able to revert this deletion.
 
                             Are you sure you want to continue with this deletion?<br /><br />

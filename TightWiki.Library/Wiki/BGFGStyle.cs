@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TightWiki.Library.Wiki
+namespace TightWiki.Wiki
 {
     public class BGFGStyle
     {

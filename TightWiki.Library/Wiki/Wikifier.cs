@@ -7,15 +7,15 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using TightWiki.Library.DataModels;
-using TightWiki.Library.Library;
-using TightWiki.Library.Models;
-using TightWiki.Library.Repository;
-using TightWiki.Library.Wiki.Function;
-using static TightWiki.Library.Library.Constants;
-using static TightWiki.Library.Wiki.Constants;
+using TightWiki.DataModels;
+using TightWiki.Library;
+using TightWiki.Models;
+using TightWiki.Repository;
+using TightWiki.Wiki.Function;
+using static TightWiki.Library.Constants;
+using static TightWiki.Wiki.Constants;
 
-namespace TightWiki.Library.Wiki
+namespace TightWiki.Wiki
 {
     public partial class Wikifier
     {

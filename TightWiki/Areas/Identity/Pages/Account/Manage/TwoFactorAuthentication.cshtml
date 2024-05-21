@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Two-factor authentication (2FA)";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />

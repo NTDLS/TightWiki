@@ -7,7 +7,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace TightWiki.Library.DataStorage
+namespace TightWiki.DataStorage
 {
     //TODO: Make Nuget package called "DapperWrapper"
 
@@ -178,7 +178,7 @@ namespace TightWiki.Library.DataStorage
                 return cachedScriptText;
             }
 
-            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"TightWiki.Library.Repository.Scripts.{scriptName}.sql")
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"TightWiki.Repository.Scripts.{scriptName}.sql")
                 ?? throw new InvalidOperationException("Script not found: " + scriptName);
 
             using var reader = new StreamReader(stream);

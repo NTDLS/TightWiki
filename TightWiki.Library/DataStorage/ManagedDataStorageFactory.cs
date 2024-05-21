@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TightWiki.Library.DataStorage
+namespace TightWiki.DataStorage
 {
     //TODO: Make Nuget package called "DapperWrapper"
 

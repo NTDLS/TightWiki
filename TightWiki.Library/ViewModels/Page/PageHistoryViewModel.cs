@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using TightWiki.Library.DataModels;
+using TightWiki.DataModels;
 
-namespace TightWiki.Library.ViewModels.Page
+namespace TightWiki.ViewModels.Page
 {
     public class PageHistoryViewModel : ViewModelBase
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TightWiki.Shared.Models.Data;
 
-namespace TightWiki.Library.ViewModels.Admin
+namespace TightWiki.ViewModels.Admin
 {
     public class MissingPagesViewModel : ViewModelBase
     {

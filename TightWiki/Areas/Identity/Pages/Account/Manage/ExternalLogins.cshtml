@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Manage your external logins";
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />

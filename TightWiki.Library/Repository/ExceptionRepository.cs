@@ -1,7 +1,7 @@
 ﻿using System;
-using TightWiki.Library.DataStorage;
+using TightWiki.DataStorage;
 
-namespace TightWiki.Library.Repository
+namespace TightWiki.Repository
 {
     public static class ExceptionRepository
     {

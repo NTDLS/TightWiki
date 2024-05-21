@@ -1,6 +1,6 @@
-using TightWiki.Library.ViewModels.Admin;
+using TightWiki.ViewModels.Admin;
 
-namespace TightWiki.Library.DataModels
+namespace TightWiki.DataModels
 {
     public partial class MenuItem
     {
