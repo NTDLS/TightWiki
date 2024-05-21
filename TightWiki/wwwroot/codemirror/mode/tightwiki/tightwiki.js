@@ -27,7 +27,7 @@
     "use strict";
 
     CodeMirror.defineMode("tightwiki", function () {
-        var functions = ["##set", "##get", "##color", "##tag", "##searchlist", "##taglist", "##searchcloud", "##tagglossary", "##recentlymodified", "##textglossary", "##tagcloud", "##image", "##file", "##related", "##tags", "##editlink", "##inject", "##include", "##br", "##hr", "##history", "##attachments", "##toc", "##title", "##navigation", "##name", "##created", "##lastmodified", "##appversion", "##namespaceglossary", "##namespacelist","##namespace", "##snippet"],
+        var functions = ["##set", "##get", "##color", "##tag", "##searchlist", "##taglist", "##searchcloud", "##tagglossary", "##recentlymodified", "##textglossary", "##tagcloud", "##image", "##file", "##related", "##tags", "##editlink", "##inject", "##include", "##br", "##hr", "##revisions", "##attachments", "##toc", "##title", "##navigation", "##name", "##created", "##lastmodified", "##appversion", "##namespaceglossary", "##namespacelist","##namespace", "##snippet"],
             instructions = ["@@protect", "@@hidefootercomments", "@@nocache", "@@draft", "@@review", "@@deprecate", "@@include", "@@template"],
             scopes = ["bullets", "alert", "background", "collapse", "callout", "code", "foreground", "jumbotron", "card", "table", "stripedtable", "definesnippet", "order"];
 
