@@ -103,35 +103,34 @@ namespace TightWiki.Repository
                     int currentFileRevision = 1;
                     var newDataHash = Utility.SimpleChecksum(item.Data);
 
-                    var upsertPageFileParam = new
-                    {
-                        PageId = item.PageId,
-                        Name = item.Name,
-                        FileNavigation = Navigation.Clean(item.Name),
-                        ContentType = item.ContentType,
-                        Size = item.Size,
-                        CreatedDate = item.CreatedDate,
-                        Data = item.Data
-                    };
-
                     if (pageFileInfo == null)
                     {
+                        var InsertPageFileParam = new
+                        {
+                            PageId = item.PageId,
+                            Name = item.Name,
+                            FileNavigation = item.FileNavigation,
+                            ContentType = item.ContentType,
+                            Size = item.Size,
+                            CreatedDate = item.CreatedDate,
+                            Data = item.Data
+                        };
+
                         //File does NOT exist, insert it.
-                        o.Execute("InsertPageFile", upsertPageFileParam);
+                        o.Execute("InsertPageFile", InsertPageFileParam);
 
                         //Get the id of the newly inserted page file.
-                        pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, upsertPageFileParam.FileNavigation)
+                        pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation)
                                         ?? throw new Exception("Failed find newly inserted page attachment.");
 
                         hasFileChanged = true;
                     }
                     else
                     {
-                        //File already exist, update it.
-                        o.ExecuteScalar<int>("UpdatePageFile", upsertPageFileParam);
-
-                        var pageFileRevisionInfo = GetPageFileRevisionInfoByFileNavigation(item.PageId, upsertPageFileParam.FileNavigation)
+                        var pageFileRevisionInfo = GetPageFileRevisionInfoByFileNavigation(item.PageId, item.FileNavigation)
                                                     ?? throw new Exception("Failed find newly updated page attachment.");
+
+                        currentFileRevision = pageFileRevisionInfo.Revision;
 
                         hasFileChanged = pageFileRevisionInfo.DataHash != newDataHash;
                     }

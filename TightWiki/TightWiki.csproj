@@ -112,7 +112,6 @@
     <None Remove="Repository\Scripts\UpdateEmoji.sql" />
     <None Remove="Repository\Scripts\UpdateMenuItemById.sql" />
     <None Remove="Repository\Scripts\UpdatePage.sql" />
-    <None Remove="Repository\Scripts\UpdatePageFile.sql" />
     <None Remove="Repository\Scripts\UpdatePageFileRevision.sql" />
     <None Remove="Repository\Scripts\UpdatePageProcessingInstructions.sql" />
     <None Remove="Repository\Scripts\UpdatePageReferences.sql" />
@@ -226,7 +225,6 @@
     <EmbeddedResource Include="Repository\Scripts\UpdateEmoji.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdateMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdatePage.sql" />
-    <EmbeddedResource Include="Repository\Scripts\UpdatePageFile.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdatePageFileRevision.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdatePageProcessingInstructions.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdatePageReferences.sql" />

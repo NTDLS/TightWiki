@@ -344,6 +344,7 @@ namespace TightWiki.Controllers
                             CreatedDate = DateTime.UtcNow,
                             PageId = page.Id,
                             Name = fileName,
+                            FileNavigation = Navigation.Clean(fileName),
                             Size = fileSize,
                             ContentType = Utility.GetMimeType(fileName)
                         });
@@ -383,6 +384,7 @@ namespace TightWiki.Controllers
                         CreatedDate = DateTime.UtcNow,
                         PageId = page.Id,
                         Name = fileName,
+                        FileNavigation = Navigation.Clean(fileName),
                         Size = fileSize,
                         ContentType = Utility.GetMimeType(fileName)
                     }); ;
