@@ -321,8 +321,6 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            WikiContext.IsDebug = Debugger.IsAttached;
-
             var model = new UtilitiesViewModel()
             {
             };
@@ -335,8 +333,6 @@ namespace TightWiki.Site.Controllers
         public ActionResult Utilities(UtilitiesViewModel model)
         {
             WikiContext.RequireAdminPermission();
-
-            WikiContext.IsDebug = Debugger.IsAttached;
 
             string action = (GetFormString("ActionToConfirm")?.ToString()?.ToLower()).EnsureNotNull();
             if (bool.Parse(GetFormString("ConfirmAction").EnsureNotNull()) != true)

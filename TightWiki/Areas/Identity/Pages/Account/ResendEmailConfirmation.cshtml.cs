@@ -50,18 +50,18 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
-            if (WikiContext?.AllowSignup != true)
+            if (TightWiki.GlobalSettings.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/AccessDenied");
+                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (WikiContext?.AllowSignup != true)
+            if (TightWiki.GlobalSettings.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/AccessDenied");
+                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
             if (!ModelState.IsValid)
             {

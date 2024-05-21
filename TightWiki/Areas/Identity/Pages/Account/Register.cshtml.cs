@@ -98,9 +98,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            if (WikiContext?.AllowSignup != true)
+            if (TightWiki.GlobalSettings.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/AccessDenied");
+                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -109,9 +109,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (WikiContext?.AllowSignup != true)
+            if (TightWiki.GlobalSettings.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/AccessDenied");
+                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
 
             returnUrl ??= Url.Content("~/");

@@ -80,6 +80,11 @@ namespace TightWiki.Site.Controllers
                 {
                     // If user with this email does not exist, create a new user:
 
+                    if (GlobalSettings.AllowSignup != true)
+                    {
+                        return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                    }
+
                     user = new IdentityUser { UserName = email, Email = email };
                     var result = await UserManager.CreateAsync(user);
                     if (!result.Succeeded)

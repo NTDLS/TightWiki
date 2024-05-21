@@ -1,4 +1,5 @@
-﻿using TightWiki.Library;
+﻿using System.Diagnostics;
+using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
@@ -6,6 +7,8 @@ namespace TightWiki
 {
     public static class GlobalSettings
     {
+        public static bool IsDebug { get; set; }
+        public static bool AllowSignup { get; set; }
         public static List<Emoji> Emojis { get; set; } = new();
         public static string BrandImageSmall { get; set; } = string.Empty;
         public static string Name { get; set; } = string.Empty;
@@ -41,6 +44,8 @@ namespace TightWiki
         {
             WikiCache.Clear();
 
+            IsDebug = Debugger.IsAttached;
+
             var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
             PageCacheSeconds = performanceConfig.As<int>("Page Cache Time (Seconds)");
             WritePageStatistics = performanceConfig.As<bool>("Write Page Statistics");
@@ -57,6 +62,7 @@ namespace TightWiki
             Name = basicConfig?.As<string>("Name") ?? string.Empty;
             Copyright = basicConfig?.As<string>("Copyright") ?? string.Empty;
 
+            AllowSignup = membershipConfig.As<bool>("Allow Signup", false);
             DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Default Profile Recently Modified Count");
             DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication");

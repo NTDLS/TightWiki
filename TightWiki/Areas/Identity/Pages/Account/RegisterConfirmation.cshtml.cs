@@ -44,9 +44,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
-            if (WikiContext?.AllowSignup != true)
+            if (TightWiki.GlobalSettings.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/AccessDenied");
+                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
             if (email == null)
             {

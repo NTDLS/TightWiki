@@ -1,0 +1,11 @@
+﻿@page
+@model RegistrationIsNotAllowedModel
+@{
+    ViewData["Title"] = "Registration is not allowed";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+}
+
+<header>
+    <h1 class="text-danger">@ViewData["Title"]</h1>
+    <p class="text-danger">Registration is not allowed.</p>
+</header>

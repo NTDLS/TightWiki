@@ -48,7 +48,6 @@ namespace TightWiki
         #endregion
 
         //Recently moved properties:
-        public bool AllowSignup { get; set; } //TODO: This seems to be broken.
         public bool IsDebug { get; set; }
 
         public bool CreatePage { get; set; }
