@@ -58,7 +58,7 @@
                     _functionPrototypes.Add("##Include: <string>[pageName]");
                     _functionPrototypes.Add("##BR: <integer>{Count}='1'");
                     _functionPrototypes.Add("##HR: <integer>{Height}='1'");
-                    _functionPrototypes.Add("##History:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
+                    _functionPrototypes.Add("##Revisions:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _functionPrototypes.Add("##Attachments:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _functionPrototypes.Add("##TOC:<bool>{alphabetized}='false'");
                     _functionPrototypes.Add("##Title:");

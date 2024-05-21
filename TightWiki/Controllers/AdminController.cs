@@ -367,9 +367,9 @@ namespace TightWiki.Site.Controllers
                         }
                     }
                     break;
-                case "truncatepagerevisionhistory":
+                case "truncatepagerevisions":
                     {
-                        PageRepository.TruncateAllPageHistory("YES");
+                        PageRepository.TruncateAllPageRevisions("YES");
                         WikiCache.Clear();
                     }
                     break;

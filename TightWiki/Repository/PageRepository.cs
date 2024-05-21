@@ -49,7 +49,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Default.Query<PageTag>("GetPageTagsById", param).ToList();
         }
 
-        public static List<PageRevisionHistory> GetPageRevisionHistoryInfoByNavigationPaged(string navigation, int pageNumber, int? pageSize = null)
+        public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(string navigation, int pageNumber, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -60,10 +60,10 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<PageRevisionHistory>("GetPageRevisionHistoryInfoByNavigationPaged", param).ToList();
+            return ManagedDataStorage.Default.Query<PageRevision>("GetPageRevisionsInfoByNavigationPaged", param).ToList();
         }
 
-        public static List<PageRevisionHistory> GetTopRecentlyModifiedPagesInfoByUserId(Guid userId, int topCount)
+        public static List<PageRevision> GetTopRecentlyModifiedPagesInfoByUserId(Guid userId, int topCount)
         {
             var param = new
             {
@@ -71,7 +71,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Default.Query<PageRevisionHistory>("GetTopRecentlyModifiedPagesInfoByUserId", param).ToList();
+            return ManagedDataStorage.Default.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId", param).ToList();
         }
 
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
@@ -457,7 +457,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static void TruncateAllPageHistory(string confirm)
+        public static void TruncateAllPageRevisions(string confirm)
         {
             if (confirm != "YES") //Are you REALLY sure?
             {
@@ -470,7 +470,7 @@ namespace TightWiki.Repository
                     var transaction = o.BeginTransaction();
                     try
                     {
-                        o.Execute("TruncateAllPageHistory");
+                        o.Execute("TruncateAllPageRevisions");
                         transaction.Commit();
                     }
                     catch

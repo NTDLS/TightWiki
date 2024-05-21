@@ -73,8 +73,8 @@
     <None Remove="Repository\Scripts\GetPageProcessingInstructionsByPageId.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionById.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionByNavigation.sql" />
-    <None Remove="Repository\Scripts\GetPageRevisionHistoryInfoByNavigationPaged.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionInfoById.sql" />
+    <None Remove="Repository\Scripts\GetPageRevisionsInfoByNavigationPaged.sql" />
     <None Remove="Repository\Scripts\GetPageTagsById.sql" />
     <None Remove="Repository\Scripts\GetProfileAvatarByNavigation.sql" />
     <None Remove="Repository\Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
@@ -108,7 +108,7 @@
     <None Remove="Repository\Scripts\SetAdminPasswordIsDefault.sql" />
     <None Remove="Repository\Scripts\SetCryptoCheck.sql" />
     <None Remove="Repository\Scripts\SetProfileUserId.sql" />
-    <None Remove="Repository\Scripts\TruncateAllPageHistory.sql" />
+    <None Remove="Repository\Scripts\TruncateAllPageRevisions.sql" />
     <None Remove="Repository\Scripts\UpdateEmoji.sql" />
     <None Remove="Repository\Scripts\UpdateMenuItemById.sql" />
     <None Remove="Repository\Scripts\UpdatePage.sql" />
@@ -187,7 +187,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetPageProcessingInstructionsByPageId.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageRevisionById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageRevisionByNavigation.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetPageRevisionHistoryInfoByNavigationPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageRevisionsInfoByNavigationPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageRevisionInfoById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageTagsById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetProfileAvatarByNavigation.sql" />
@@ -222,7 +222,7 @@
     <EmbeddedResource Include="Repository\Scripts\SetAdminPasswordIsDefault.sql" />
     <EmbeddedResource Include="Repository\Scripts\SetCryptoCheck.sql" />
     <EmbeddedResource Include="Repository\Scripts\SetProfileUserId.sql" />
-    <EmbeddedResource Include="Repository\Scripts\TruncateAllPageHistory.sql" />
+    <EmbeddedResource Include="Repository\Scripts\TruncateAllPageRevisions.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdateEmoji.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdateMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\UpdatePage.sql" />

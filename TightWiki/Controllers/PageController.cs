@@ -352,9 +352,9 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpGet("{givenCanonical}/{page:int?}/History")]
-        [HttpGet("{givenCanonical}/History")]
-        public ActionResult History(string givenCanonical, int page = 0)
+        [HttpGet("{givenCanonical}/{page:int?}/Revisions")]
+        [HttpGet("{givenCanonical}/Revisions")]
+        public ActionResult Revisions(string givenCanonical, int page = 0)
         {
             WikiContext.RequireViewPermission();
 
@@ -362,29 +362,29 @@ namespace TightWiki.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
-            var model = new PageHistoryViewModel()
+            var model = new PageRevisionsViewModel()
             {
-                History = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(pageNavigation, page)
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, page)
             };
 
-            model.History.ForEach(o =>
+            model.Revisions.ForEach(o =>
             {
                 o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
                 o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
             });
 
-            foreach (var p in model.History)
+            foreach (var p in model.Revisions)
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
                 p.ChangeSummary = Differentiator.GetComparisionSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
-            if (model.History != null && model.History.Any())
+            if (model.Revisions != null && model.Revisions.Any())
             {
-                WikiContext.SetPageId(model.History.First().PageId);
-                WikiContext.Title = $"{model.History.First().Name} History";
-                WikiContext.PaginationCount = model.History.First().PaginationCount;
+                WikiContext.SetPageId(model.Revisions.First().PageId);
+                WikiContext.Title = $"{model.Revisions.First().Name} Revisions";
+                WikiContext.PaginationCount = model.Revisions.First().PaginationCount;
                 WikiContext.CurrentPage = page;
 
                 if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;

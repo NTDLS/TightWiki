@@ -31,6 +31,6 @@ namespace TightWiki.Models.ViewModels.Profile
         [Display(Name = "Time Zone")]
         public string TimeZone { get; set; } = string.Empty;
 
-        public List<PageRevisionHistory> RecentlyModified { get; set; } = new();
+        public List<PageRevision> RecentlyModified { get; set; } = new();
     }
 }

@@ -1374,7 +1374,7 @@ namespace TightWiki.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "history":
+                    case "revisions":
                         {
                             string refTag = GenerateQueryToken();
 
@@ -1384,13 +1384,13 @@ namespace TightWiki.Wiki
                             string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            var history = PageRepository.GetPageRevisionHistoryInfoByNavigationPaged(navigation, pageNumber, pageSize);
+                            var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, pageSize);
                             var html = new StringBuilder();
 
-                            if (history.Count() > 0)
+                            if (revisions.Count() > 0)
                             {
                                 html.Append("<ul>");
-                                foreach (var item in history)
+                                foreach (var item in revisions)
                                 {
                                     html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {_wikiContext.LocalizeDateTime(item.ModifiedDate)}</a>");
 
@@ -1410,9 +1410,9 @@ namespace TightWiki.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector && history.Count > 0 && history.First().PaginationCount > 1)
+                                if (pageSelector && revisions.Count > 0 && revisions.First().PaginationCount > 1)
                                 {
-                                    html.Append(WikiUtility.GetPageSelector(refTag, history.First().PaginationCount, pageNumber, _queryString));
+                                    html.Append(WikiUtility.GetPageSelector(refTag, revisions.First().PaginationCount, pageNumber, _queryString));
                                 }
                             }
 
