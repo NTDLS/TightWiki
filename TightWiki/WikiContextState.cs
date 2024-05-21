@@ -33,6 +33,7 @@ namespace TightWiki
 
         #region Current Page.
 
+        public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
         public string PageRevision { get; set; } = string.Empty;
         public string PathAndQuery { get; set; } = string.Empty;
@@ -46,19 +47,6 @@ namespace TightWiki
         public bool IsPageLoaded => (PageId ?? 0) > 0;
 
         #endregion
-
-        //Recently moved properties:
-        public bool IsDebug { get; set; }
-
-        public bool CreatePage { get; set; }
-
-        public string? PageName { get; set; }//TODO: Move to ViewModel?????
-        public string? AccountName { get; set; } //TODO: Move to ViewModel?????
-
-        public int MostCurrentRevision { get; set; }//TODO: Move to ViewModel?????
-        public int CountOfRevisions { get; set; }//TODO: Move to ViewModel?????
-
-        //Recently moved properties: ↑↑
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
@@ -109,14 +97,15 @@ namespace TightWiki
                         Role = (user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString()).EnsureNotNull();
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
                     httpContext.SignOutAsync();
                     if (user.Identity != null)
                     {
                         httpContext.SignOutAsync(user.Identity.AuthenticationType);
                     }
-                    throw;
+
+                    ExceptionRepository.InsertException(ex);
                 }
             }
         }

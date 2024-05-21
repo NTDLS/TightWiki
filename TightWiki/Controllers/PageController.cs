@@ -114,7 +114,7 @@ namespace TightWiki.Controllers
 
                 if (WikiContext.IsAuthenticated && WikiContext.CanCreate)
                 {
-                    WikiContext.CreatePage = false;
+                    WikiContext.ShouldCreatePage = false;
                 }
             }
             else
@@ -131,7 +131,7 @@ namespace TightWiki.Controllers
 
                 if (WikiContext.IsAuthenticated && WikiContext.CanCreate)
                 {
-                    WikiContext.CreatePage = true;
+                    WikiContext.ShouldCreatePage = true;
                 }
             }
 
@@ -429,12 +429,12 @@ namespace TightWiki.Controllers
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation).EnsureNotNull();
 
-            WikiContext.PageName = page.Name;
-            WikiContext.MostCurrentRevision = page.Revision;
-
             var model = new PageDeleteViewModel()
             {
-                CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id)
+                CountOfAttachments = PageRepository.GetCountOfPageAttachmentsById(page.Id),
+                PageName = page.Name,
+                MostCurrentRevision = page.Revision,
+                PageRevision = page.Revision
             };
 
             WikiContext.SetPageId(page.Id);
@@ -485,11 +485,12 @@ namespace TightWiki.Controllers
             revisionPage.CreatedDate = WikiContext.LocalizeDateTime(revisionPage.CreatedDate);
             revisionPage.ModifiedDate = WikiContext.LocalizeDateTime(revisionPage.ModifiedDate);
 
-            WikiContext.PageName = revisionPage.Name;
-            WikiContext.CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision;
-            WikiContext.MostCurrentRevision = mostCurrentPage.Revision;
-
-            var model = new PageRevertViewModel();
+            var model = new PageRevertViewModel()
+            {
+                PageName = revisionPage.Name,
+                CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision,
+                MostCurrentRevision = mostCurrentPage.Revision,
+            };
 
             if (revisionPage != null)
             {

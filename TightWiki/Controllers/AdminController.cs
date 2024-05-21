@@ -907,7 +907,7 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpPost("DeleteAccount/{navigation}")]
-        public ActionResult DeleteAccount(string navigation, AccountViewModel model)
+        public ActionResult DeleteAccount(string navigation, DeleteAccountViewModel model)
         {
             WikiContext.RequireAdminPermission();
 
@@ -952,10 +952,9 @@ namespace TightWiki.Site.Controllers
 
             var profile = ProfileRepository.GetAccountProfileByNavigation(navigation);
 
-            WikiContext.AccountName = profile.AccountName;
-
-            var model = new AccountViewModel()
+            var model = new DeleteAccountViewModel()
             {
+                AccountName = profile.AccountName
             };
 
             if (profile != null)

@@ -1,4 +1,4 @@
-﻿@model TightWiki.Models.ViewModels.Profile.AccountViewModel
+﻿@model TightWiki.Models.ViewModels.Profile.DeleteAccountViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
@@ -26,10 +26,10 @@
                 @if (string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="panel panel-danger">
-                        <div class="card-header"><strong>Delete account "@wikiContext?.AccountName"?</strong></div>
+                        <div class="card-header"><strong>Delete account "@Model.AccountName"?</strong></div>
                         <div class="card-body">
 
-                            <strong>Deleting "@wikiContext?.AccountName" will permanently remove the account. All pages created or modifed by this user will be attributed to a stand-in account.</strong><br />
+                            <strong>Deleting "@Model.AccountName" will permanently remove the account. All pages created or modifed by this user will be attributed to a stand-in account.</strong><br />
                             You will not be able to revert this deletion.
 
                             Are you sure you want to continue with this deletion?<br /><br />

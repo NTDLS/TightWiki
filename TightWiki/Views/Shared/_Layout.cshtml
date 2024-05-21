@@ -53,7 +53,7 @@
                         }
 
                         @if (wikiContext?.CanCreate == true
-                        || (wikiContext?.CreatePage == true && wikiContext?.CanCreate == true)
+                        || (wikiContext?.ShouldCreatePage == true && wikiContext?.CanCreate == true)
                         || (wikiContext?.IsPageLoaded == true && (wikiContext?.CanEdit == true || wikiContext?.CanModerate == true || wikiContext?.CanDelete == true))
                         )
                         {
@@ -63,7 +63,7 @@
 
                                     @if (wikiContext?.CanCreate == true)
                                     {
-                                        if (wikiContext?.CreatePage == true)
+                                        if (wikiContext?.ShouldCreatePage == true)
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext?.PageNavigation/Page/Create">Create "@wikiContext?.PageNavigation"</a>
                                         }

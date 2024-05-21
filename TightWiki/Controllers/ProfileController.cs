@@ -338,7 +338,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("Delete")]
-        public ActionResult Delete(AccountViewModel model)
+        public ActionResult Delete(DeleteAccountViewModel model)
         {
             WikiContext.RequireAuthorizedPermission();
 
@@ -383,10 +383,9 @@ namespace TightWiki.Site.Controllers
 
             var profile = ProfileRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
-            WikiContext.AccountName = profile.AccountName;
-
-            var model = new AccountViewModel()
+            var model = new DeleteAccountViewModel()
             {
+                AccountName = profile.AccountName
             };
 
             if (profile != null)
@@ -405,7 +404,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Deleted")]
         public ActionResult Deleted()
         {
-            var model = new AccountViewModel()
+            var model = new DeleteAccountViewModel()
             {
             };
             return View(model);
