@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Library;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -161,15 +163,34 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         var userId = await _userManager.GetUserIdAsync(user);
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
                             pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = code },
+                            values: new { area = "Identity", userId = userId, code = encodedCode },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email");
+                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                        var siteName = basicConfig.As<string>("Name");
+                        var address = basicConfig.As<string>("Address");
+                        var profile = ProfileRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+
+                        var emailSubject = "Confirm your email";
+                        emailTemplate.Replace("##SUBJECT##", emailSubject);
+                        emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
+                        emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
+                        emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
+                        emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
+                        emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
+                        emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
+                        emailTemplate.Replace("##CODE##", code);
+                        emailTemplate.Replace("##USERID##", userId);
+                        emailTemplate.Replace("##SITENAME##", siteName);
+                        emailTemplate.Replace("##SITEADDRESS##", address);
+                        emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
+
+                        await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate);
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)

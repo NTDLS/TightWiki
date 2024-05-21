@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Library;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -58,20 +59,35 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     return RedirectToPage("./ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", code },
+                    values: new { area = "Identity", encodedCode },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Reset Password Email");
+                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                var siteName = basicConfig.As<string>("Name");
+                var address = basicConfig.As<string>("Address");
+                var profile = ProfileRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
+
+                var emailSubject = "Reset password";
+                emailTemplate.Replace("##SUBJECT##", emailSubject);
+                emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
+                emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
+                emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
+                emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
+                emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
+                emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
+                emailTemplate.Replace("##CODE##", code);
+                emailTemplate.Replace("##USERID##", user.Id);
+                emailTemplate.Replace("##SITENAME##", siteName);
+                emailTemplate.Replace("##SITEADDRESS##", address);
+                emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
+
+                await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

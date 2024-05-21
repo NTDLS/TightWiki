@@ -1,6 +1,11 @@
+using Azure.Core;
 using Dapper;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using MimeKit;
 using System.Data;
 using TightWiki.DataStorage;
 using TightWiki.Library;

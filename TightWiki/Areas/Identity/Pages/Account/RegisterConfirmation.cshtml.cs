@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using System.Text.Encodings.Web;
 using TightWiki.Library;
+using TightWiki.Repository;
+using IEmailSender = TightWiki.Library.IEmailSender;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -15,33 +18,19 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _sender;
+        private readonly IEmailSender _emailSender;
 
-        public RegisterConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender emailSender)
                         : base(signInManager)
         {
             _userManager = userManager;
-            _sender = sender;
+            _emailSender = emailSender;
         }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public string Email { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public bool DisplayConfirmAccountLink { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string EmailConfirmationUrl { get; set; }
-
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
             if (TightWiki.GlobalSettings.AllowSignup != true)
@@ -60,20 +49,37 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 return NotFound($"Unable to load user with email '{email}'.");
             }
 
-            Email = email;
-            // Once you add a real email sender, you should remove this code that lets you confirm the account
-            DisplayConfirmAccountLink = true;
-            if (DisplayConfirmAccountLink)
-            {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                EmailConfirmationUrl = Url.Page(
-                    "/Account/ConfirmEmail",
-                    pageHandler: null,
-                    values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                    protocol: Request.Scheme);
-            }
+            var userId = await _userManager.GetUserIdAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
+                protocol: Request.Scheme);
+
+            var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email");
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            var siteName = basicConfig.As<string>("Name");
+            var address = basicConfig.As<string>("Address");
+            var profile = ProfileRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+
+            var emailSubject = "Confirm your account";
+            emailTemplate.Replace("##SUBJECT##", emailSubject);
+            emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
+            emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
+            emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
+            emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
+            emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
+            emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
+            emailTemplate.Replace("##CODE##", code);
+            emailTemplate.Replace("##USERID##", userId);
+            emailTemplate.Replace("##SITENAME##", siteName);
+            emailTemplate.Replace("##SITEADDRESS##", address);
+            emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
+
+            await _emailSender.SendEmailAsync(email, emailSubject, emailTemplate);
 
             return Page();
         }
