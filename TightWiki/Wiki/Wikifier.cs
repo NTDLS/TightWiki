@@ -9,7 +9,6 @@ using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Wiki.Function;
 using static TightWiki.Library.Constants;
-using static TightWiki.Wiki.Constants;
 
 namespace TightWiki.Wiki
 {

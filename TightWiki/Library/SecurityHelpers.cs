@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using TightWiki.Library;
 using TightWiki.Repository;
 
-namespace TightWiki
+namespace TightWiki.Library
 {
     public static class SecurityHelpers
     {

@@ -292,51 +292,6 @@ namespace TightWiki.Wiki
             return searchTokens.Where(o => string.IsNullOrWhiteSpace(o.Token) == false).ToList();
         }
 
-        public static bool IsValidEmail(string? email)
-        {
-            if (email == null)
-            {
-                return false;
-            }
-            email = email.Trim();
-
-            if (email.EndsWith("."))
-            {
-                return false;
-            }
-            try
-            {
-                return ((new System.Net.Mail.MailAddress(email))?.Address == email);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public static bool ParseBool(object value)
-        {
-            if (value != null)
-            {
-                if (int.TryParse(value.ToString(), out int boolValue))
-                {
-                    return (boolValue != 0);
-                }
-                switch (value?.ToString()?.ToUpper())
-                {
-                    case "TRUE":
-                    case "YES":
-                        return true;
-                }
-            }
-            return false;
-        }
-
-        public static string TitleCase(string value)
-        {
-            return System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(value.ToLower());
-        }
-
         public static string SplitCamelCase(string text)
         {
             return Regex.Replace(Regex.Replace(Regex.Replace(text, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2"), @"\s+", " ");
@@ -346,7 +301,7 @@ namespace TightWiki.Wiki
         {
             double s = size;
 
-            string[] format = new string[] { "{0} bytes", "{0} KB", "{0} MB", "{0} GB", "{0} TB", "{0} PB", "{0} EB" };
+            string[] format = ["{0} bytes", "{0} KB", "{0} MB", "{0} GB", "{0} TB", "{0} PB", "{0} EB"];
 
             int i = 0;
             while (i < format.Length && s >= 1024)

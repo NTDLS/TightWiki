@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TightWiki.DataStorage;
+using TightWiki.Library;
 using TightWiki.Repository;
 using YourApplication.Data;
 

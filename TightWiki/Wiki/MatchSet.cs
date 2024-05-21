@@ -1,5 +1,5 @@
 ﻿using TightWiki.Wiki.Function;
-using static TightWiki.Wiki.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Wiki
 {

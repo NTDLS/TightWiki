@@ -3,7 +3,7 @@ using MailKit.Security;
 using MimeKit;
 using TightWiki.Repository;
 
-namespace TightWiki
+namespace TightWiki.Library
 {
     public interface IEmailSender
     {

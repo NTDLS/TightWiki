@@ -42,8 +42,8 @@ namespace TightWiki
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
         public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new();
-        public bool IsViewingOldVersion => ((Revision ?? 0) > 0);
-        public bool IsPageLoaded => ((PageId ?? 0) > 0);
+        public bool IsViewingOldVersion => (Revision ?? 0) > 0;
+        public bool IsPageLoaded => (PageId ?? 0) > 0;
 
         #endregion
 
@@ -219,13 +219,13 @@ namespace TightWiki
                 {
                     if (ProcessingInstructions.Where(o => o.Instruction == WikiInstruction.Protect).Any())
                     {
-                        return (Role == Roles.Administrator
-                            || Role == Roles.Moderator);
+                        return Role == Roles.Administrator
+                            || Role == Roles.Moderator;
                     }
 
-                    return (Role == Roles.Administrator
+                    return Role == Roles.Administrator
                         || Role == Roles.Contributor
-                        || Role == Roles.Moderator);
+                        || Role == Roles.Moderator;
                 }
 
                 return false;
@@ -270,8 +270,8 @@ namespace TightWiki
                         return false;
                     }
 
-                    return (Role == Roles.Administrator
-                        || Role == Roles.Moderator);
+                    return Role == Roles.Administrator
+                        || Role == Roles.Moderator;
                 }
 
                 return false;

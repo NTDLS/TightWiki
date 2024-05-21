@@ -13,7 +13,6 @@ using TightWiki.Repository;
 using TightWiki.Wiki;
 using TightWiki.Wiki.Function;
 using static TightWiki.Library.Constants;
-using static TightWiki.Wiki.Constants;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Site.Controllers

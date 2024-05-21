@@ -5,7 +5,7 @@ using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Wiki;
-using static TightWiki.Wiki.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
