@@ -1560,7 +1560,7 @@ namespace TightWiki.Wiki
                                 if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), _revision) == null)
                                 {
                                     //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{navigation}");
+                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{Navigation.Clean(imageName)}");
                                 }
                             }
 
