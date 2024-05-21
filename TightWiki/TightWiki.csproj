@@ -237,6 +237,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Avatar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Azure.Identity" Version="1.11.3" />
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />

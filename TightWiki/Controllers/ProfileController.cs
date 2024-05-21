@@ -16,9 +16,12 @@ namespace TightWiki.Site.Controllers
     [Route("[controller]")]
     public class ProfileController : ControllerBase
     {
-        public ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        private readonly IWebHostEnvironment _environment;
+
+        public ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
             : base(signInManager, userManager)
         {
+            _environment = environment;
         }
 
         #region User Profile.
@@ -46,6 +49,9 @@ namespace TightWiki.Site.Controllers
 
             if (imageBytes == null || imageBytes.Count() == 0)
             {
+                var filePath = Path.Combine(_environment.WebRootPath, "Avatar.png");
+
+
                 //Load the default avatar.
                 var image = Image.Load("Avatar.png");
                 using var ms = new MemoryStream();
