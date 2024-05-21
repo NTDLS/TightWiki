@@ -4,6 +4,6 @@
     {
         public string? PageName { get; set; }
         public int MostCurrentRevision { get; set; }
-        public int CountOfRevisions { get; set; }        
+        public int CountOfRevisions { get; set; }
     }
 }

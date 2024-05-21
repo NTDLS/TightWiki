@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
@@ -155,7 +154,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email");
+                    var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
                     var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
                     var siteName = basicConfig.As<string>("Name");
                     var address = basicConfig.As<string>("Address");
@@ -175,7 +174,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     emailTemplate.Replace("##SITEADDRESS##", address);
                     emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
-                    await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate);
+                    await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {

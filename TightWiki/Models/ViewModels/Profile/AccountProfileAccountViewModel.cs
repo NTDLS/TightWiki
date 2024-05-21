@@ -9,7 +9,6 @@ namespace TightWiki.Models.ViewModels.Profile
         public Guid UserId { get; set; }
 
         [Display(Name = "Email Address")]
-        [Required(ErrorMessage = "Email Name is required")]
         public string EmailAddress { get; set; } = string.Empty;
 
         [Display(Name = "Account Name")]

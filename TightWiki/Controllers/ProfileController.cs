@@ -307,21 +307,6 @@ namespace TightWiki.Site.Controllers
                     };
             SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
 
-            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.CurrentCultureIgnoreCase))
-            {
-                var setEmailResult = UserManager.SetEmailAsync(user, model.AccountProfile.EmailAddress).Result;
-                if (!setEmailResult.Succeeded)
-                {
-                    throw new Exception(string.Join("<br />\r\n", setEmailResult.Errors.Select(o => o.Description)));
-                }
-
-                var setUserNameResult = UserManager.SetUserNameAsync(user, model.AccountProfile.EmailAddress).Result;
-                if (!setUserNameResult.Succeeded)
-                {
-                    throw new Exception(string.Join("<br />\r\n", setUserNameResult.Errors.Select(o => o.Description)));
-                }
-            }
-
             model.SuccessMessage = "Your profile has been saved successfully!";
 
             return View(model);

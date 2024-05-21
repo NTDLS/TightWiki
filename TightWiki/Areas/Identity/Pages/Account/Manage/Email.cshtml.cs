@@ -124,7 +124,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                     values: new { area = "Identity", userId = userId, email = Input.NewEmail, code = encodedCode },
                     protocol: Request.Scheme);
 
-                var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email");
+                var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
                 var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
                 var siteName = basicConfig.As<string>("Name");
                 var address = basicConfig.As<string>("Address");
@@ -144,7 +144,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 emailTemplate.Replace("##SITEADDRESS##", address);
                 emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
-                await _emailSender.SendEmailAsync(Input.NewEmail, emailSubject, emailTemplate);
+                await _emailSender.SendEmailAsync(Input.NewEmail, emailSubject, emailTemplate.ToString());
                 StatusMessage = "Confirmation link to change email sent. Please check your email.";
 
                 return RedirectToPage();

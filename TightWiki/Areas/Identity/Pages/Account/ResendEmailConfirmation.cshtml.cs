@@ -85,7 +85,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 values: new { userId = userId, code = encodedCode },
                 protocol: Request.Scheme);
 
-            var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email");
+            var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             var siteName = basicConfig.As<string>("Name");
             var address = basicConfig.As<string>("Address");
@@ -105,7 +105,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             emailTemplate.Replace("##SITEADDRESS##", address);
             emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
-            await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate);
+            await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();

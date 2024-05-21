@@ -67,7 +67,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     values: new { area = "Identity", encodedCode },
                     protocol: Request.Scheme);
 
-                var emailTemplate = ConfigurationRepository.Get<string>("Membership", "Template: Reset Password Email");
+                var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Reset Password Email"));
                 var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
                 var siteName = basicConfig.As<string>("Name");
                 var address = basicConfig.As<string>("Address");
@@ -87,7 +87,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 emailTemplate.Replace("##SITEADDRESS##", address);
                 emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
-                await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate);
+                await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
