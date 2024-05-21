@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TightWiki.Library;
+using TightWiki.Models.ViewModels;
 using TightWiki.Repository;
-using TightWiki.ViewModels;
 
 namespace TightWiki.Site.Controllers
 {

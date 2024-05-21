@@ -1,4 +1,4 @@
-﻿@model TightWiki.ViewModels.Profile.DeletedViewModel
+﻿@model TightWiki.Models.ViewModels.Profile.DeletedViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
@@ -15,7 +15,7 @@
                     <br /><br />
                     @if (wikiContext?.AllowSignup == true)
                     {
-                        @:Not a member? @Html.ActionLink("Signup", "Signup", "Account").<br />
+                        @:Not a member? <a href="/Identity/Account/Register">Register as a new user</a>.<br />
                     }
                     Already a member? <a href="/Identity/Account/Login">Login</a>.<br />
                 </td>

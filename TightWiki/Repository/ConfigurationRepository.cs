@@ -1,7 +1,7 @@
 ﻿using System.Data;
-using TightWiki.DataModels;
 using TightWiki.DataStorage;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
 {

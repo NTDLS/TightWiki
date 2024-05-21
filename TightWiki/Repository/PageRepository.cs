@@ -1,7 +1,7 @@
 ﻿using DuoVia.FuzzyStrings;
-using TightWiki.DataModels;
 using TightWiki.DataStorage;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
 using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Repository

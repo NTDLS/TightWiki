@@ -5,7 +5,7 @@
         public const string CRYPTOCHECK = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public const string DEFAULTUSERNAME = "admin@tightwiki.com";
         public const string DEFAULTACCOUNT = "admin";
-        public const string DEFAULTPASSWORD = "2Tight2Wiki!";
+        public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
         public static class WikiInstruction
         {

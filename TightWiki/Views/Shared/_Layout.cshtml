@@ -47,7 +47,7 @@
                 <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@GlobalSettings.BrandImageSmall" /></span> @GlobalSettings.Name</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (TightWiki.DataModels.MenuItem item in GlobalSettings.MenuItems)
+                        @foreach (TightWiki.Models.DataModels.MenuItem item in GlobalSettings.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
@@ -149,7 +149,7 @@
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item text-dark" href="/Profile/My">Profile</a>
-                                    <a class="dropdown-item text-dark" href="/Identity/Account/ForgotPassword">Change Password</a>
+                                    <a class="dropdown-item text-dark" href="/Identity/Account/Manage">Account</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item text-dark" href="/Identity/Account/Logout?returnUrl=@wikiContext?.PathAndQuery">Logout</a>
                                 </div>
@@ -190,7 +190,7 @@
                         <p class="card-text">
                             The admin password is set to its default value, it is <i>recommended</i> that you change it immediately!<br />
                             <br />
-                            You can change this password by logging in, navigating to Admin -&gt; Accounts. Then setting the password and clicking save.<br />
+                            You can change this password by logging in, navigating to My -&gt; Account -&gt; Password.<br />
                             <br />
                             <strong>Current admin login:</strong><br />
                             &nbsp;&nbsp;&nbsp;<strong>Username:</strong>"admin@tightwiki.com"<br />

@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using TightWiki.ViewModels.Page;
 using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers

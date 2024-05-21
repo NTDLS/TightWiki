@@ -47,12 +47,21 @@ namespace TightWiki.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            if (WikiContext?.AllowSignup != true)
+            {
+                return Redirect("/Identity/Account/AccessDenied");
+            }
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (WikiContext?.AllowSignup != true)
+            {
+                return Redirect("/Identity/Account/AccessDenied");
+            }
             if (!ModelState.IsValid)
             {
                 return Page();

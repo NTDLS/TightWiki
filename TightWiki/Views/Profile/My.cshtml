@@ -1,4 +1,4 @@
-﻿@model TightWiki.ViewModels.Profile.AccountProfileViewModel
+﻿@model TightWiki.Models.ViewModels.Profile.AccountProfileViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -56,7 +56,7 @@
                                 <tr class="padded">
                                     <td><strong>@Html.LabelFor(m => m.AccountProfile.EmailAddress)</strong></td>
                                     <td>
-                                        @Html.TextBoxFor(m => m.AccountProfile.EmailAddress, new { @class = "input-control" })
+                                        @Html.DisplayFor(m => m.AccountProfile.EmailAddress, new { @class = "input-control" })
                                     </td>
                                 </tr>
 
@@ -143,21 +143,6 @@
                                                 </option>
                                             }
                                         </select>
-                                    </td>
-                                </tr>
-
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.Password)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Credential.Password)</strong></td>
-                                    <td>
-                                        @Html.PasswordFor(m => m.Credential.Password, new { @class = "input-control", value = Model.Credential.Password })
-                                    </td>
-                                </tr>
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.ComparePassword)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Credential.ComparePassword)</strong></td>
-                                    <td>
-                                        @Html.PasswordFor(m => m.Credential.ComparePassword, new { @class = "input-control", value = Model.Credential.Password })
                                     </td>
                                 </tr>
 

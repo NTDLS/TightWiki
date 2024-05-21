@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Claims;
-using TightWiki.DataModels;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
+using TightWiki.Models.ViewModels.Admin;
+using TightWiki.Models.ViewModels.Profile;
+using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Repository;
-using TightWiki.ViewModels.Admin;
-using TightWiki.ViewModels.Profile;
-using TightWiki.ViewModels.Shared;
 using TightWiki.Wiki;
 using TightWiki.Wiki.Function;
 using static TightWiki.Library.Constants;
@@ -555,9 +555,9 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            var model = new ViewModels.Admin.AccountProfileViewModel()
+            var model = new Models.ViewModels.Admin.AccountProfileViewModel()
             {
-                AccountProfile = ViewModels.Admin.AccountProfileAccountViewModel.FromDataModel(
+                AccountProfile = Models.ViewModels.Admin.AccountProfileAccountViewModel.FromDataModel(
                     ProfileRepository.GetAccountProfileByNavigation(Navigation.Clean(navigation))),
                 Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
@@ -579,7 +579,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("Account/{navigation}")]
-        public ActionResult Account(string navigation, ViewModels.Admin.AccountProfileViewModel model)
+        public ActionResult Account(string navigation, Models.ViewModels.Admin.AccountProfileViewModel model)
         {
             WikiContext.RequireAdminPermission();
 
@@ -725,9 +725,9 @@ namespace TightWiki.Site.Controllers
             var defaultSignupRole = membershipConfig.As<string>("Default Signup Role").EnsureNotNull();
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
 
-            var model = new ViewModels.Admin.AccountProfileViewModel()
+            var model = new Models.ViewModels.Admin.AccountProfileViewModel()
             {
-                AccountProfile = new ViewModels.Admin.AccountProfileAccountViewModel
+                AccountProfile = new Models.ViewModels.Admin.AccountProfileAccountViewModel
                 {
                     AccountName = ProfileRepository.GetRandomUnusedAccountName(),
                     Country = customizationConfig.As<string>("Default Country", string.Empty),
@@ -752,7 +752,7 @@ namespace TightWiki.Site.Controllers
         /// <returns></returns>
         [Authorize]
         [HttpPost("AddAccount")]
-        public ActionResult AddAccount(ViewModels.Admin.AccountProfileViewModel model)
+        public ActionResult AddAccount(Models.ViewModels.Admin.AccountProfileViewModel model)
         {
             WikiContext.RequireAdminPermission();
 

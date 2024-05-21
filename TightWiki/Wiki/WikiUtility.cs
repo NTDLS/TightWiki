@@ -1,8 +1,8 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using TightWiki.DataModels;
 using TightWiki.Library;
 using TightWiki.Models;
+using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace TightWiki.Wiki

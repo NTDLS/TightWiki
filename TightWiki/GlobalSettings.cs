@@ -1,5 +1,5 @@
-﻿using TightWiki.DataModels;
-using TightWiki.Library;
+﻿using TightWiki.Library;
+using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace TightWiki

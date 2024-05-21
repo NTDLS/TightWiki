@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Library;
+using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
-using TightWiki.ViewModels.Profile;
-using TightWiki.ViewModels.Shared;
 using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers
@@ -227,7 +226,6 @@ namespace TightWiki.Site.Controllers
             {
                 AccountProfile = AccountProfileAccountViewModel.FromDataModel(
                     ProfileRepository.GetAccountProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId)),
-                Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll()
@@ -262,39 +260,12 @@ namespace TightWiki.Site.Controllers
 
             var user = UserManager.FindByIdAsync(userId.ToString()).Result.EnsureNotNull();
 
-            if (model.Credential.Password != CredentialViewModel.NOTSET && model.Credential.Password == model.Credential.ComparePassword)
-            {
-                try
-                {
-                    var token = UserManager.GeneratePasswordResetTokenAsync(user).Result.EnsureNotNull();
-                    var result = UserManager.ResetPasswordAsync(user, token, model.Credential.Password).Result.EnsureNotNull();
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
-                    }
-                }
-                catch (Exception ex)
-                {
-                    model.ErrorMessage = ex.Message;
-                    return View(model);
-                }
-            }
-
             var profile = ProfileRepository.GetAccountProfileByUserId(userId);
             if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.CurrentCultureIgnoreCase))
             {
                 if (ProfileRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                 {
                     ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
-                    return View(model);
-                }
-            }
-
-            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.CurrentCultureIgnoreCase))
-            {
-                if (ProfileRepository.DoesEmailAddressExist(model.AccountProfile.EmailAddress))
-                {
-                    ModelState.AddModelError("Account.EmailAddress", "Email address is already in use.");
                     return View(model);
                 }
             }

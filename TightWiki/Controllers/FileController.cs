@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Web;
-using TightWiki.DataModels;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
+using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
-using TightWiki.ViewModels.File;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers

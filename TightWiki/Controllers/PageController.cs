@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TightWiki.DataModels;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
+using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using TightWiki.ViewModels.Page;
 using TightWiki.Wiki;
 using static TightWiki.Library.Constants;
 

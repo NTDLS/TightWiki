@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using TightWiki.DataModels;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Wiki;
 using static TightWiki.Wiki.Constants;

@@ -43,6 +43,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string email, string returnUrl = null)
         {
+            if (WikiContext?.AllowSignup != true)
+            {
+                return Redirect("/Identity/Account/AccessDenied");
+            }
             if (email == null)
             {
                 return RedirectToPage("/Index");
