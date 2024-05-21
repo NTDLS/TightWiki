@@ -14,6 +14,7 @@ using TightWiki.Wiki;
 using TightWiki.Wiki.Function;
 using static TightWiki.Library.Constants;
 using static TightWiki.Wiki.Constants;
+using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Site.Controllers
 {
@@ -607,7 +608,7 @@ namespace TightWiki.Site.Controllers
                         throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                     }
 
-                    if (model.AccountProfile.AccountName.Equals("admin", StringComparison.CurrentCultureIgnoreCase))
+                    if (model.AccountProfile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.CurrentCultureIgnoreCase))
                     {
                         ConfigurationRepository.SetAdminPasswordIsChanged();
                     }
