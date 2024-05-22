@@ -4,6 +4,6 @@ namespace TightWiki.Models.ViewModels.File
 {
     public class FileAttachmentViewModel : ViewModelBase
     {
-        public List<PageFileAttachment> Files { get; set; } = new();
+        public List<PageFileAttachmentInfo> Files { get; set; } = new();
     }
 }

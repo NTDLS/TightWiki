@@ -14,12 +14,6 @@
         public string FileNavigation { get; set; } = string.Empty;
         public string PageNavigation { get; set; } = string.Empty;
 
-        public string FriendlySize
-        {
-            get
-            {
-                return Wiki.WikiUtility.GetFriendlySize(Size);
-            }
-        }
+        public string FriendlySize => Wiki.WikiUtility.GetFriendlySize(Size);
     }
 }

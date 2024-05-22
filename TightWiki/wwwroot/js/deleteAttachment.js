@@ -8,7 +8,7 @@
                 type: 'POST',
                 url: '/File/Delete/' + pageNavigation + '/' + fileName,
                 success: function (result) {
-                    $("#uploadedFiles").load("/File/EditPageAttachment/" + pageNavigation);
+                    $("#uploadedFiles").load("/File/PageAttachments/" + pageNavigation);
                 }
             });
         }

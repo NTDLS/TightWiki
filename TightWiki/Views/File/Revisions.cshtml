@@ -1,0 +1,94 @@
+﻿@model TightWiki.Models.ViewModels.File.PageFileRevisionsViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+}
+
+<div class="card">
+    <div class="card-header"><h3>Page File Revisions</h3></div>
+    <div class="card-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            All changes that have been made to the attached file. <br /><br />
+        </font>
+
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+
+        <table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="left">
+
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                        {
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                        }
+
+                        @using (Html.BeginForm())
+                        {
+                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <tr>
+                                        <td><strong>Revision</strong></td>
+                                        <td><strong>Modified By</strong></td>
+                                        <td><strong>Modified Date</strong></td>
+                                        <td><strong>Summary</strong></td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var h in Model.Revisions)
+                                    {
+                                        <tr>
+                                            <td><a href="/File/Binary/@Model.PageNavigation/@Model.FileNavigation/@h.FileRevision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.FileRevision)</a></td>
+                                            <td><a href="/Profile/Public/@h.CreatedByUserName">@Html.DisplayTextFor(x => h.CreatedByUserName)</a></td>
+                                            <td>@Html.DisplayTextFor(x => h.CreatedDate)</td>
+                                            <td>@Html.DisplayTextFor(x => h.FriendlySize)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                            if (@wikiContext?.PaginationCount > 1)
+                            {
+                                if (@wikiContext?.PreviousPage != null)
+                                {
+                                    <a href="/@wikiContext?.PageNavigation/Revisions/1">&lt;&lt; First</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/@wikiContext?.PageNavigation/Revisions/@wikiContext?.PreviousPage">&lt; Previous</a>
+                                }
+                                else
+                                {
+                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
+                                }
+                                @:&nbsp; | &nbsp;
+
+                                if (@wikiContext?.NextPage != null)
+                                {
+                                    <a href="/@wikiContext?.PageNavigation/Revisions/@wikiContext?.NextPage">Next &gt;</a>
+                                    @:&nbsp; | &nbsp;
+                                    <a href="/@wikiContext?.PageNavigation/Revisions/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
+                                }
+                                else
+                                {
+                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
+                                }
+                            }
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

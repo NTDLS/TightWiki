@@ -6,7 +6,6 @@ SELECT
 	PF.[Name] as [Name],
 	PFR.[ContentType] as [ContentType],
 	PFR.[Size] as [Size],
-	PFR.[Data],
 	PF.[CreatedDate] as [CreatedDate],
 	PFR.[Data] as [Data]
 FROM

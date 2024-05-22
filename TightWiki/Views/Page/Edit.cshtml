@@ -46,7 +46,7 @@
 <script type="text/javascript">
 
     function readyFn(jQuery) {
-        $("#uploadedFiles").load("/File/EditPageAttachment/@wikiContext?.PageNavigation");
+        $("#uploadedFiles").load("/File/PageAttachments/@wikiContext?.PageNavigation");
     }
 
     $(document).ready(readyFn);
@@ -83,7 +83,7 @@
             },
             afterAll: function (e) {
                 //To do some task after all uploads done.
-                $("#uploadedFiles").load("/File/EditPageAttachment/@wikiContext?.PageNavigation");
+                $("#uploadedFiles").load("/File/PageAttachments/@wikiContext?.PageNavigation");
             }
         })
     })
@@ -105,7 +105,7 @@
                 enctype: 'multipart/form-data',
                 processData: false,
                 success: function (response) {
-                    $("#uploadedFiles").load("/File/EditPageAttachment/@wikiContext?.PageNavigation");
+                    $("#uploadedFiles").load("/File/PageAttachments/@wikiContext?.PageNavigation");
                 }
             });
             return false;

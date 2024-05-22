@@ -209,8 +209,30 @@ namespace TightWiki.Controllers
         /// Populate the upload page. Shows the attachments.
         /// </summary>
         [Authorize]
-        [HttpGet("EditPageAttachment/{givenPageNavigation}")]
-        public ActionResult EditPageAttachment(string givenPageNavigation)
+        [HttpGet("Revisions/{givenPageNavigation}/{givenfileNavigation}")]
+        public ActionResult Revisions(string givenPageNavigation, string givenfileNavigation)
+        {
+            WikiContext.RequireViewPermission();
+
+            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+
+            var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical);
+            return View(new PageFileRevisionsViewModel()
+            {
+                PageNavigation = pageNavigation.Canonical,
+                FileNavigation = fileNavigation.Canonical,
+
+                Revisions = fileRevisions
+            });
+        }
+
+        /// <summary>
+        /// Populate the upload page. Shows the attachments.
+        /// </summary>
+        [Authorize]
+        [HttpGet("PageAttachments/{givenPageNavigation}")]
+        public ActionResult PageAttachments(string givenPageNavigation)
         {
             WikiContext.RequireCreatePermission();
 
@@ -219,7 +241,7 @@ namespace TightWiki.Controllers
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
-                var pageFiles = PageFileRepository.GetPageFilesInfoByPageIdAndPageRevision(page.Id);
+                var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
 
                 return View(new FileAttachmentViewModel()
                 {
@@ -229,7 +251,7 @@ namespace TightWiki.Controllers
 
             return View(new FileAttachmentViewModel()
             {
-                Files = new List<PageFileAttachment>()
+                Files = new List<PageFileAttachmentInfo>()
             });
         }
 
