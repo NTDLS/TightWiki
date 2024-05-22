@@ -9,6 +9,33 @@ namespace TightWiki.Wiki
 {
     public static class WikiUtility
     {
+        static readonly Dictionary<string, BGFGStyle> ForegroundStyles = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "primary", new BGFGStyle("text-primary", "") },
+            { "secondary", new BGFGStyle("text-secondary", "") },
+            { "success", new BGFGStyle("text-success", "") },
+            { "danger", new BGFGStyle("text-danger", "") },
+            { "warning", new BGFGStyle("text-warning", "") },
+            { "info", new BGFGStyle("text-info", "") },
+            { "light", new BGFGStyle("text-light", "") },
+            { "dark", new BGFGStyle("text-dark", "") },
+            { "muted", new BGFGStyle("text-muted", "") },
+            { "white", new BGFGStyle("text-white", "bg-dark") }
+        };
+
+        static readonly Dictionary<string, BGFGStyle> BackgroundStyles = new(StringComparer.OrdinalIgnoreCase)
+        {
+            { "muted", new BGFGStyle("text-muted", "") },
+            { "primary", new BGFGStyle("text-white", "bg-primary") },
+            { "secondary", new BGFGStyle("text-white", "bg-secondary") },
+            { "info", new BGFGStyle("text-white", "bg-info") },
+            { "success", new BGFGStyle("text-white", "bg-success") },
+            { "warning", new BGFGStyle("bg-warning", "") },
+            { "danger", new BGFGStyle("text-white", "bg-danger") },
+            { "light", new BGFGStyle("text-black", "bg-light") },
+            { "dark", new BGFGStyle("text-white", "bg-dark") }
+        };
+
         public static string WarningCard(string header, string exceptionText)
         {
             var html = new StringBuilder();
@@ -24,26 +51,9 @@ namespace TightWiki.Wiki
 
         public static BGFGStyle GetBackgroundStyle(string style)
         {
-            switch (style.ToLower())
+            if (BackgroundStyles.TryGetValue(style, out var bgfgStyle))
             {
-                case "muted":
-                    return new BGFGStyle("text-muted", "");
-                case "primary":
-                    return new BGFGStyle("text-white", "bg-primary");
-                case "secondary":
-                    return new BGFGStyle("text-white", "bg-secondary");
-                case "info":
-                    return new BGFGStyle("text-white", "bg-info");
-                case "success":
-                    return new BGFGStyle("text-white", "bg-success");
-                case "warning":
-                    return new BGFGStyle("bg-warning", "");
-                case "danger":
-                    return new BGFGStyle("text-white", "bg-danger");
-                case "light":
-                    return new BGFGStyle("text-black", "bg-light");
-                case "dark":
-                    return new BGFGStyle("text-white", "bg-dark");
+                return bgfgStyle;
             }
 
             return new BGFGStyle();
@@ -51,28 +61,9 @@ namespace TightWiki.Wiki
 
         public static BGFGStyle GetForegroundStyle(string style)
         {
-            switch (style.ToLower())
+            if (ForegroundStyles.TryGetValue(style, out var bgfgStyle))
             {
-                case "primary":
-                    return new BGFGStyle("text-primary", "");
-                case "secondary":
-                    return new BGFGStyle("text-secondary", "");
-                case "success":
-                    return new BGFGStyle("text-success", "");
-                case "danger":
-                    return new BGFGStyle("text-danger", "");
-                case "warning":
-                    return new BGFGStyle("text-warning", "");
-                case "info":
-                    return new BGFGStyle("text-info", "");
-                case "light":
-                    return new BGFGStyle("text-light", "");
-                case "dark":
-                    return new BGFGStyle("text-dark", "");
-                case "muted":
-                    return new BGFGStyle("text-muted", "");
-                case "white":
-                    return new BGFGStyle("text-white", "bg-dark");
+                return bgfgStyle;
             }
 
             return new BGFGStyle();
@@ -203,10 +194,10 @@ namespace TightWiki.Wiki
 
             if (result[result.Length - 1] != '/')
             {
-                result = result + "/";
+                result += "/";
             }
 
-            return result.TrimEnd(new char[] { '/', '\\' });
+            return result.TrimEnd(['/', '\\']);
         }
 
         public static string GetPageSelector(string refTag, int totalPages, int currentPage, IQueryCollection? query = null)
@@ -232,7 +223,7 @@ namespace TightWiki.Wiki
 
             var exclusionWords = searchConfig?.As<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
             var strippedContent = HTML.StripHtml(content);
-            var tokens = strippedContent.Split(new char[] { ' ', '\n', '\t', '-', '_' }).ToList<string>().ToList();
+            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList<string>().ToList();
 
             if (searchConfig?.As<bool>("Split Camel Case") == true)
             {
@@ -276,7 +267,6 @@ namespace TightWiki.Wiki
         public static string GetFriendlySize(long size)
         {
             double s = size;
-
             string[] format = ["{0} bytes", "{0} KB", "{0} MB", "{0} GB", "{0} TB", "{0} PB", "{0} EB"];
 
             int i = 0;
