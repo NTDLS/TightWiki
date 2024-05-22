@@ -223,31 +223,7 @@ namespace TightWiki.Wiki
                 }
             }
 
-            var html = new StringBuilder();
-
-            if (currentPage > 1)
-            {
-                html.Append($"<a href=\"?{refTag}=1{existingQueryString}\">&lt;&lt; First</a>");
-                html.Append("&nbsp; | &nbsp;");
-                html.Append($"<a href=\"?{refTag}={currentPage - 1}{existingQueryString}\"> &lt; Previous</a>");
-            }
-            else
-            {
-                html.Append("&lt;&lt; First &nbsp;| &nbsp; &lt; Previous");
-            }
-            html.Append("&nbsp; | &nbsp;");
-            if (currentPage < totalPages)
-            {
-                html.Append($"<a href=\"?{refTag}={currentPage + 1}{existingQueryString}\">Next &gt;</a>");
-                html.Append("&nbsp; | &nbsp;");
-                html.Append($"<a href=\"?{refTag}={totalPages}{existingQueryString}\">Last &gt;&gt;</a>");
-            }
-            else
-            {
-                html.Append("Next &gt; &nbsp;| &nbsp;Last &gt;&gt;");
-            }
-
-            return html.ToString();
+            return PoorMansPager.Generate(refTag, existingQueryString, totalPages, currentPage).ToString();
         }
 
         public static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)

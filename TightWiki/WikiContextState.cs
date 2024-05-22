@@ -17,9 +17,7 @@ namespace TightWiki
         #region Paging.
 
         public int PaginationCount { get; set; }
-        public int CurrentPage { get; set; }
-        public int NextPage { get; set; }
-        public int PreviousPage { get; set; }
+        public int? CurrentPage { get; set; }
 
         #endregion
 

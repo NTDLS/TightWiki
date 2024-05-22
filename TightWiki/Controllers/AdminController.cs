@@ -78,11 +78,9 @@ namespace TightWiki.Site.Controllers
                     });
 
                     WikiContext.PaginationCount = model.Pages.First().PaginationCount;
-                    WikiContext.CurrentPage = page;
-
-                    if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                    if (page > 1) WikiContext.PreviousPage = page - 1;
                 }
+
+                WikiContext.CurrentPage = page;
 
                 return View(model);
             }
@@ -119,11 +117,9 @@ namespace TightWiki.Site.Controllers
                 });
 
                 WikiContext.PaginationCount = model.Pages.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -148,10 +144,9 @@ namespace TightWiki.Site.Controllers
                 WikiContext.Title = $"Missing Pages";
                 WikiContext.PaginationCount = model.Pages.First().PaginationCount;
                 WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -174,10 +169,9 @@ namespace TightWiki.Site.Controllers
                 WikiContext.Title = $"Missing Pages";
                 WikiContext.PaginationCount = model.Pages.First().PaginationCount;
                 WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -201,11 +195,9 @@ namespace TightWiki.Site.Controllers
             {
                 WikiContext.Title = $"Namespaces";
                 WikiContext.PaginationCount = model.Namespaces.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -238,11 +230,9 @@ namespace TightWiki.Site.Controllers
 
                 WikiContext.Title = $"Pages";
                 WikiContext.PaginationCount = model.Pages.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -271,11 +261,9 @@ namespace TightWiki.Site.Controllers
 
                 WikiContext.Title = $"Pages";
                 WikiContext.PaginationCount = model.Pages.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -518,10 +506,8 @@ namespace TightWiki.Site.Controllers
 
             WikiContext.Title = $"Roles";
             WikiContext.PaginationCount = model.Users.FirstOrDefault()?.PaginationCount ?? 0;
-            WikiContext.CurrentPage = page;
 
-            if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-            if (page > 1) WikiContext.PreviousPage = page - 1;
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -865,11 +851,9 @@ namespace TightWiki.Site.Controllers
                 });
 
                 WikiContext.PaginationCount = model.Users.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -896,11 +880,9 @@ namespace TightWiki.Site.Controllers
                 });
 
                 WikiContext.PaginationCount = model.Users.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -1051,11 +1033,9 @@ namespace TightWiki.Site.Controllers
             {
                 WikiContext.Title = $"Emojis";
                 WikiContext.PaginationCount = model.Emojis.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -1078,11 +1058,10 @@ namespace TightWiki.Site.Controllers
             {
                 WikiContext.Title = $"Emojis";
                 WikiContext.PaginationCount = model.Emojis.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
+
 
             return View(model);
         }

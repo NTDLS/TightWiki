@@ -5,6 +5,7 @@ INSERT INTO PageFileRevision
 	ContentType,
 	Size,
 	CreatedDate,
+	CreatedByUserId,
 	[Data],
 	Revision,
 	DataHash
@@ -14,6 +15,7 @@ SELECT
 	@ContentType,
 	@Size,
 	@CreatedDate,
+	@CreatedByUserId,
 	@Data,
 	@FileRevision,
 	@DataHash;

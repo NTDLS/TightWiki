@@ -51,31 +51,7 @@
                                 }
                             </table>
 
-                            if (@wikiContext?.PaginationCount > 1)
-                            {
-                                if (@wikiContext?.PreviousPage != null)
-                                {
-                                    <a href="/Admin/Namespaces/1">&lt;&lt; First</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Namespaces/@wikiContext?.PreviousPage">&lt; Previous</a>
-                                }
-                                else
-                                {
-                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                                }
-                                @:&nbsp; | &nbsp;
-
-                                if (@wikiContext?.NextPage != null)
-                                {
-                                    <a href="/Admin/Namespaces/@wikiContext?.NextPage">Next &gt;</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Namespaces/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
-                                }
-                                else
-                                {
-                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                                }
-                            }
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Namespaces", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>

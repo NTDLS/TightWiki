@@ -18,7 +18,7 @@ SELECT
 	@PageSize as PaginationSize,
 	(
 		SELECT
-			Count(0) / (@PageSize + 0.0)
+			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
 		FROM
 			[User] as P
 		WHERE

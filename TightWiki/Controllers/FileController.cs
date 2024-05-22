@@ -209,15 +209,20 @@ namespace TightWiki.Controllers
         /// Populate the upload page. Shows the attachments.
         /// </summary>
         [Authorize]
-        [HttpGet("Revisions/{givenPageNavigation}/{givenfileNavigation}")]
-        public ActionResult Revisions(string givenPageNavigation, string givenfileNavigation)
+        [HttpGet("Revisions/{givenPageNavigation}/{givenfileNavigation}/{page=1}/")]
+        public ActionResult Revisions(string givenPageNavigation, string givenfileNavigation, int page)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
-            var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical);
+            var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(pageNavigation.Canonical, fileNavigation.Canonical, page);
+
+            WikiContext.PaginationCount = fileRevisions.FirstOrDefault()?.PaginationCount ?? 1;
+
+            WikiContext.CurrentPage = page;
+
             return View(new PageFileRevisionsViewModel()
             {
                 PageNavigation = pageNavigation.Canonical,
@@ -286,7 +291,8 @@ namespace TightWiki.Controllers
                             FileNavigation = Navigation.Clean(fileName),
                             Size = fileSize,
                             ContentType = Utility.GetMimeType(fileName)
-                        });
+                        }, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
+
                         return Content("Success");
                     }
                 }
@@ -326,7 +332,7 @@ namespace TightWiki.Controllers
                         FileNavigation = Navigation.Clean(fileName),
                         Size = fileSize,
                         ContentType = Utility.GetMimeType(fileName)
-                    }); ;
+                    }, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
 
                     return Content("Success");
                 }

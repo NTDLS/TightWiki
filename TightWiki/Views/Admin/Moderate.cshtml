@@ -38,8 +38,8 @@
                                 <tr>
                                     <td>
                                         @Html.DropDownListFor(m => m.Instruction,
-                                    new SelectList(Model.Instructions),
-                                    "Select Instruction")
+                                                 new SelectList(Model.Instructions),
+                                                 "Select Instruction")
                                     </td>
                                     <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
                                 </tr>
@@ -66,31 +66,7 @@
                                 }
                             </table>
 
-                            if (@wikiContext?.PaginationCount > 1)
-                            {
-                                if (@wikiContext?.PreviousPage != null)
-                                {
-                                    <a href="/Admin/Moderate/1?Instruction=@Model.Instruction">&lt;&lt; First</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Moderate/@wikiContext?.PreviousPage?Instruction=@Model.Instruction">&lt; Previous</a>
-                                }
-                                else
-                                {
-                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                                }
-                                @:&nbsp; | &nbsp;
-
-                                if (@wikiContext?.NextPage != null)
-                                {
-                                    <a href="/Admin/Moderate/@wikiContext?.NextPage?Instruction=@Model.Instruction">Next &gt;</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Moderate/@wikiContext?.PaginationCount?Instruction=@Model.Instruction">Last &gt;&gt;</a>
-                                }
-                                else
-                                {
-                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                                }
-                            }
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Moderate", $"Instruction={@Model.Instruction}", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>

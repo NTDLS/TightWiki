@@ -167,8 +167,6 @@ namespace TightWiki.Controllers
         {
             WikiContext.Title = $"Page Search";
 
-            if (page <= 0) page = 1;
-
             string searchTokens = GetQueryString("Tokens").DefaultWhenNullOrEmpty(string.Empty);
             if (searchTokens != null)
             {
@@ -184,11 +182,9 @@ namespace TightWiki.Controllers
                 if (model.Pages != null && model.Pages.Any())
                 {
                     WikiContext.PaginationCount = model.Pages.First().PaginationCount;
-                    WikiContext.CurrentPage = page;
-
-                    if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                    if (page > 1) WikiContext.PreviousPage = page - 1;
                 }
+
+                WikiContext.CurrentPage = page;
 
                 return View(model);
             }
@@ -222,11 +218,9 @@ namespace TightWiki.Controllers
                 if (model.Pages != null && model.Pages.Any())
                 {
                     WikiContext.PaginationCount = model.Pages.First().PaginationCount;
-                    WikiContext.CurrentPage = page;
-
-                    if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                    if (page > 1) WikiContext.PreviousPage = page - 1;
                 }
+
+                WikiContext.CurrentPage = page;
 
                 return View(model);
             }
@@ -243,9 +237,9 @@ namespace TightWiki.Controllers
         #region Comments.
 
         [AllowAnonymous]
-        [HttpGet("{givenCanonical}/{page:int?}/Comments")]
+        [HttpGet("{givenCanonical}/{page=1}/Comments")]
         [HttpGet("{givenCanonical}/Comments")]
-        public ActionResult Comments(string givenCanonical, int page = 0)
+        public ActionResult Comments(string givenCanonical, int page = 1)
         {
             WikiContext.RequireViewPermission();
 
@@ -256,8 +250,6 @@ namespace TightWiki.Controllers
             {
                 return NotFound();
             }
-
-            if (page <= 0) page = 1;
 
             var deleteAction = GetQueryString("Delete");
             if (string.IsNullOrEmpty(deleteAction) == false && WikiContext.IsAuthenticated)
@@ -290,11 +282,9 @@ namespace TightWiki.Controllers
             if (model.Comments != null && model.Comments.Any())
             {
                 WikiContext.PaginationCount = model.Comments.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -340,11 +330,9 @@ namespace TightWiki.Controllers
             if (model.Comments != null && model.Comments.Any())
             {
                 WikiContext.PaginationCount = model.Comments.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -369,13 +357,11 @@ namespace TightWiki.Controllers
         #region Revisions.
 
         [Authorize]
-        [HttpGet("{givenCanonical}/{page:int?}/Revisions")]
+        [HttpGet("{givenCanonical}/{page=1}/Revisions")]
         [HttpGet("{givenCanonical}/Revisions")]
-        public ActionResult Revisions(string givenCanonical, int page = 0)
+        public ActionResult Revisions(string givenCanonical, int page)
         {
             WikiContext.RequireViewPermission();
-
-            if (page <= 0) page = 1;
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -402,11 +388,9 @@ namespace TightWiki.Controllers
                 WikiContext.SetPageId(model.Revisions.First().PageId);
                 WikiContext.Title = $"{model.Revisions.First().Name} Revisions";
                 WikiContext.PaginationCount = model.Revisions.First().PaginationCount;
-                WikiContext.CurrentPage = page;
-
-                if (page < WikiContext.PaginationCount) WikiContext.NextPage = page + 1;
-                if (page > 1) WikiContext.PreviousPage = page - 1;
             }
+
+            WikiContext.CurrentPage = page;
 
             return View(model);
         }

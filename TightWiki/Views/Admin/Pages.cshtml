@@ -29,8 +29,8 @@
                         {
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
-
-                        @using (Html.BeginForm())
+                        "Admin/Pages"
+                        @using (Html.BeginForm(null, null, new { navigation = "" }))
                         {
                             @Html.AntiForgeryToken()
 
@@ -64,31 +64,7 @@
                                 }
                             </table>
 
-                            if (@wikiContext?.PaginationCount > 1)
-                            {
-                                if (@wikiContext?.PreviousPage != null)
-                                {
-                                    <a href="/Admin/Pages/1?Tokens=@Model.SearchTokens">&lt;&lt; First</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Pages/@wikiContext?.PreviousPage?Tokens=@Model.SearchTokens">&lt; Previous</a>
-                                }
-                                else
-                                {
-                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                                }
-                                @:&nbsp; | &nbsp;
-
-                                if (@wikiContext?.NextPage != null)
-                                {
-                                    <a href="/Admin/Pages/@wikiContext?.NextPage?Tokens=@Model.SearchTokens">Next &gt;</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Pages/@wikiContext?.PaginationCount?Tokens=@Model.SearchTokens">Last &gt;&gt;</a>
-                                }
-                                else
-                                {
-                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                                }
-                            }
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Pages", $"Tokens={@Model.SearchTokens}", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>

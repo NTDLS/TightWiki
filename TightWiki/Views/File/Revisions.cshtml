@@ -60,31 +60,7 @@
                                 </tbody>
                             </table>
 
-                            if (@wikiContext?.PaginationCount > 1)
-                            {
-                                if (@wikiContext?.PreviousPage != null)
-                                {
-                                    <a href="/@wikiContext?.PageNavigation/Revisions/1">&lt;&lt; First</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/@wikiContext?.PageNavigation/Revisions/@wikiContext?.PreviousPage">&lt; Previous</a>
-                                }
-                                else
-                                {
-                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                                }
-                                @:&nbsp; | &nbsp;
-
-                                if (@wikiContext?.NextPage != null)
-                                {
-                                    <a href="/@wikiContext?.PageNavigation/Revisions/@wikiContext?.NextPage">Next &gt;</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/@wikiContext?.PageNavigation/Revisions/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
-                                }
-                                else
-                                {
-                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                                }
-                            }
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/File/Revisions/{@Model.PageNavigation}/{@Model.FileNavigation}",@wikiContext?.PaginationCount, @wikiContext?.CurrentPage));
                         }
                     </td>
                 </tr>

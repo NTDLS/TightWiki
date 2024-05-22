@@ -1,4 +1,5 @@
-﻿using TightWiki.DataStorage;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using TightWiki.DataStorage;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
@@ -64,18 +65,24 @@ namespace TightWiki.Repository
                 PageRevision = pageRevision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation", param);
+            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachment>(
+                "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation", param);
         }
 
-        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigation(string pageNavigation, string fileNavigation)
+        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber, int? pageSize = null)
         {
+            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
             var param = new
             {
                 PageNavigation = pageNavigation,
-                FileNavigation = fileNavigation
+                FileNavigation = fileNavigation,
+                PageNumber = pageNumber,
+                PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<PageFileAttachmentInfo>("GetPageFileAttachmentRevisionsByPageAndFileNavigation", param).ToList();
+            return ManagedDataStorage.Default.Query<PageFileAttachmentInfo>(
+                "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged", param).ToList();
         }
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageId(int pageId)
@@ -111,7 +118,7 @@ namespace TightWiki.Repository
             return connection.QuerySingleOrDefault<PageFileAttachmentLimitedInfo>("GetPageFileInfoByFileNavigation", param);
         }
 
-        public static void UpsertPageFile(PageFileAttachment item)
+        public static void UpsertPageFile(PageFileAttachment item, Guid userId)
         {
             bool hasFileChanged = false;
 
@@ -177,6 +184,7 @@ namespace TightWiki.Repository
                             ContentType = item.ContentType,
                             Size = item.Size,
                             CreatedDate = item.CreatedDate,
+                            CreatedByUserId = userId,
                             Data = item.Data,
                             FileRevision = currentFileRevision,
                             DataHash = newDataHash,

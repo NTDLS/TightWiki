@@ -21,6 +21,16 @@ namespace TightWiki.Library
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Guid EnsureNotNull([NotNull] this Guid? value, [CallerArgumentExpression(nameof(value))] string strName = "")
+        {
+            if (!value.HasValue)
+            {
+                throw new ArgumentNullException("Value should not be null: '" + strName + "'.");
+            }
+            return (Guid)value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Guid EnsureNotNullOrEmpty([NotNull] this Guid? value, [CallerArgumentExpression(nameof(value))] string strName = "")
         {
             if (!value.HasValue || value == Guid.Empty)

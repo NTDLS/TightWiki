@@ -68,34 +68,7 @@
                                     </div>
                                 </div>
                             }
-
-                            @:<center>
-                            if (@wikiContext?.PaginationCount > 1)
-                            {
-                                if (@wikiContext?.PreviousPage != null)
-                                {
-                                    <a href="/@wikiContext?.PageNavigation/Comments/1">&lt;&lt; First</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/@wikiContext?.PageNavigation/Comments/@wikiContext?.PreviousPage">&lt; Previous</a>
-                                }
-                                else
-                                {
-                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                                }
-                                @:&nbsp; | &nbsp;
-
-                                if (@wikiContext?.NextPage != null)
-                                {
-                                    <a href="/@wikiContext?.PageNavigation/Comments/@wikiContext?.NextPage">Next &gt;</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/@wikiContext?.PageNavigation/Comments/@wikiContext?.PaginationCount">Last &gt;&gt;</a>
-                                }
-                                else
-                                {
-                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                                }
-                            }
-                            @:</center>
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"{@wikiContext?.PageNavigation}/Comments", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>

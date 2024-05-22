@@ -71,31 +71,7 @@
                                 }
                             </table>
 
-                            if (@wikiContext?.PaginationCount > 1)
-                            {
-                                if (@wikiContext?.PreviousPage != null)
-                                {
-                                    <a href="/Admin/Accounts/1?Token=@Model.SearchToken">&lt;&lt; First</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Accounts/@wikiContext?.PreviousPage?Token=@Model.SearchToken">&lt; Previous</a>
-                                }
-                                else
-                                {
-                                    @:&lt;&lt; First &nbsp; | &nbsp; &lt; Previous
-                                }
-                                @:&nbsp; | &nbsp;
-
-                                if (@wikiContext?.NextPage != null)
-                                {
-                                    <a href="/Admin/Accounts/@wikiContext?.NextPage?Token=@Model.SearchToken">Next &gt;</a>
-                                    @:&nbsp; | &nbsp;
-                                    <a href="/Admin/Accounts/@wikiContext?.PaginationCount?Token=@Model.SearchToken">Last &gt;&gt;</a>
-                                }
-                                else
-                                {
-                                    @:Next &gt; &nbsp; | &nbsp; Last &gt;&gt;
-                                }
-                            }
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Accounts", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
                         }
 
                         <br />
