@@ -34,6 +34,7 @@ namespace TightWiki
                 options.UseSqlite(builder.Configuration.GetConnectionString("PrimaryConnection")));
 
             ManagedDataStorage.Default.SetConnectionString(builder.Configuration.GetConnectionString("PrimaryConnection"));
+
             ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetConnectionString("StatisticsConnection"));
             ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetConnectionString("EmojiConnection"));
             ManagedDataStorage.Exceptions.SetConnectionString(builder.Configuration.GetConnectionString("ExceptionsConnection"));

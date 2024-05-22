@@ -1,4 +1,5 @@
-﻿using TightWiki.DataStorage;
+﻿using Dapper;
+using TightWiki.DataStorage;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
@@ -80,8 +81,15 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<PageFileAttachmentInfo>(
-                "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged", param).ToList();
+            return ManagedDataStorage.Default.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+
+                var result = o.Query<PageFileAttachmentInfo>(
+                    "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged", param).ToList();
+
+                return result;
+            });
         }
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageId(int pageId)

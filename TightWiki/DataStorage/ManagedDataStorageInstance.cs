@@ -14,6 +14,8 @@ namespace TightWiki.DataStorage
     /// </summary>
     public class ManagedDataStorageInstance : IDisposable
     {
+        public string Directory { get; private set; }
+
         public SqliteConnection NativeConnection { get; private set; }
 
         private static readonly Dictionary<string, string> _scriptCache = new();
@@ -24,6 +26,9 @@ namespace TightWiki.DataStorage
         public ManagedDataStorageInstance(string connectionString)
         {
             NativeConnection = new SqliteConnection(connectionString);
+
+            Directory = Path.GetFullPath(Path.GetDirectoryName(NativeConnection.DataSource) ?? string.Empty);
+
             NativeConnection.Open();
         }
 
@@ -160,6 +165,13 @@ namespace TightWiki.DataStorage
             NativeConnection.Close();
             NativeConnection.Dispose();
         }
+
+        public DisposableAttachment Attach(string databaseFileName, string alias)
+        {
+            NativeConnection.Execute($"ATTACH DATABASE '{Directory}\\{databaseFileName}' AS {alias};");
+            return new DisposableAttachment(NativeConnection, alias);
+        }
+
 
         /// <summary>
         /// Loads a script from the assembly, this allows us to execute mock stored procedures.
