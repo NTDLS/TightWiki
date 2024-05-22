@@ -1555,16 +1555,14 @@ namespace TightWiki.Wiki
                                 isPageForeignImage = true;
                             }
 
-                            /*
                             if (explicitNamespace == false && _page.Namespace != null)
                             {
                                 if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), _revision) == null)
                                 {
                                     //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{Navigation.Clean(imageName)}");
+                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{imageName}");
                                 }
                             }
-                            */
 
                             if (_revision != null && isPageForeignImage == false)
                             {
@@ -1606,7 +1604,7 @@ namespace TightWiki.Wiki
                                 if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), _revision) == null)
                                 {
                                     //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{navigation}");
+                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{fileName}");
                                 }
                             }
 

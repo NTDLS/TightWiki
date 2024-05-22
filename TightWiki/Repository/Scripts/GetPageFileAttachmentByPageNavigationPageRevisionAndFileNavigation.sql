@@ -4,9 +4,8 @@ SELECT
 	PF.[Name] as [Name],
 	PFR.[ContentType] as [ContentType],
 	PFR.[Size] as [Size],
-	PFR.[Data],
 	PF.[CreatedDate] as [CreatedDate],
-	PFR.[Data] as [Data]
+	PFR.[Data]
 FROM
 	[PageFile] as PF
 INNER JOIN [Page] as P
@@ -27,6 +26,7 @@ INNER JOIN (
 		ON PR.PageId = P.Id	
 	INNER JOIN PageRevisionAttachment as PRA
 		ON PRA.PageId = P.Id
+		AND PRA.PageFileId = PF.Id
 		AND PRA.PageRevision = PR.Revision
 	WHERE
 		P.Navigation = @PageNavigation
@@ -44,6 +44,3 @@ WHERE
 	P.Navigation = @PageNavigation
 	AND PF.Navigation = @FileNavigation
 	AND PRA.PageRevision = Latest.PageRevision
-
-	
-	
