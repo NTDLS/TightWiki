@@ -234,7 +234,7 @@ namespace TightWiki.Wiki
                         scale = arguments[2];
                     }
 
-                    string attachementLink = $"/File/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                    string attachementLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
                     linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                 }
             }

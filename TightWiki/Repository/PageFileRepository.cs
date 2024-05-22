@@ -43,6 +43,18 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation", param);
         }
 
+        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null)
+        {
+            var param = new
+            {
+                PageNavigation = pageNavigation,
+                FileNavigation = fileNavigation,
+                FileRevision = fileRevision
+            };
+
+            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation", param);
+        }
+
         public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
             var param = new

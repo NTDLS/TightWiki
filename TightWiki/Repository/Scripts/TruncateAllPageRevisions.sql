@@ -39,6 +39,19 @@ WHERE EXISTS (
     AND PageRevisionAttachment.PageRevision < MostRecent.MaxPageRevision
 );
 
+-- Deleting non-current page file revisions.
+DELETE FROM PageFileRevision
+WHERE EXISTS (
+    SELECT 1
+    FROM (
+        SELECT PageFileId, MAX(Revision) AS MaxPageRevision
+        FROM PageFileRevision
+        GROUP BY PageFileId
+    ) AS MostRecent
+    WHERE PageFileRevision.PageFileId = MostRecent.PageFileId
+    AND PageFileRevision.Revision < MostRecent.MaxPageRevision
+);
+
 -- Delete orphaned PageFileRevision
 DELETE FROM PageFileRevision
 WHERE PageFileId NOT IN (

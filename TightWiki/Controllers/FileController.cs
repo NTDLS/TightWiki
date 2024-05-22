@@ -19,14 +19,21 @@ namespace TightWiki.Controllers
         {
         }
 
-        [HttpGet("Image/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
-        public ActionResult Image(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        /// <summary>
+        /// Gets an image attached to a page.
+        /// </summary>
+        /// <param name="givenPageNavigation">The navigation link of the page.</param>
+        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="fileRevision">The revision of the the file (NOT THE PAGE REVISION).</param>
+        /// <returns></returns>
+        [HttpGet("Image/{givenPageNavigation}/{givenfileNavigation}/{fileRevision:int?}")]
+        public ActionResult Image(string givenPageNavigation, string givenfileNavigation, int? fileRevision = null)
         {
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
             string scale = GetQueryString("Scale", "100");
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
             if (file != null)
             {
@@ -103,107 +110,15 @@ namespace TightWiki.Controllers
         }
 
         /// <summary>
-        /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
+        /// Gets an image from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>
-        /// <param name="navigation"></param>
+        /// <param name="givenPageNavigation">The navigation link of the page.</param>
+        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION)</param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("Emoji/{givenPageNavigation}")]
-        public ActionResult Emoji(string givenPageNavigation)
-        {
-            WikiContext.RequireViewPermission();
-
-            var pageNavigation = Navigation.Clean(givenPageNavigation);
-
-            if (string.IsNullOrEmpty(pageNavigation) == false)
-            {
-                string shortcut = $"%%{pageNavigation.ToLower()}%%";
-                var emoji = GlobalSettings.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
-                if (emoji != null)
-                {
-                    var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
-                    emoji.ImageData = WikiCache.Get<byte[]>(cacheKey);
-                    if (emoji.ImageData == null)
-                    {
-                        //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
-                        emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
-                        if (emoji.ImageData != null)
-                        {
-                            WikiCache.Put(cacheKey, emoji.ImageData);
-                        }
-                    }
-
-                    if (emoji.ImageData != null)
-                    {
-                        string scale = GetQueryString("Scale", "100");
-                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(emoji.ImageData)));
-
-                        int iscale = int.Parse(scale);
-                        if (iscale > 500)
-                        {
-                            iscale = 500;
-                        }
-
-                        int defaultHeight = GlobalSettings.DefaultEmojiHeight;
-                        int height = img.Height;
-                        int width = img.Width;
-
-                        //Get the difference in between the default image height and the image height.
-                        int difference = height - defaultHeight;
-
-                        //Apply the new size to the height and width to keep the ratio the same.
-                        height -= difference;
-                        width -= difference;
-
-                        //Adjust to any specified scaling.
-                        height = (int)(height * (iscale / 100.0));
-                        width = (int)(width * (iscale / 100.0));
-
-                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                        //  deminsion to become very small (or even negative). So here we will check the height and width
-                        //  to ensure they are both at least n pixels and adjust both demensions.
-                        if (height < 16)
-                        {
-                            difference = 16 - height;
-                            height += difference;
-                            width += difference;
-                        }
-                        if (width < 16)
-                        {
-                            difference = 16 - width;
-                            height += difference;
-                            width += difference;
-                        }
-
-                        if (emoji.MimeType?.ToLower() == "image/gif")
-                        {
-                            using var image = Images.ResizeImage(img, width, height);
-                            using var ms = new MemoryStream();
-                            image.SaveAsGif(ms);
-                            return File(ms.ToArray(), "image/gif");
-                        }
-                        else
-                        {
-                            using var image = Images.ResizeImage(img, width, height);
-                            using var ms = new MemoryStream();
-                            image.SaveAsPng(ms);
-                            return File(ms.ToArray(), "image/png");
-                        }
-                    }
-                }
-            }
-
-            return NotFound($"Emoji {pageNavigation} was not found");
-        }
-
-        /// <summary>
-        /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
-        /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet("Png/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
-        public ActionResult Png(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        [HttpGet("Png/{givenPageNavigation}/{givenfileNavigation}/{fileRevision:int?}")]
+        public ActionResult Png(string givenPageNavigation, string givenfileNavigation, int? fileRevision = null)
         {
             WikiContext.RequireViewPermission();
 
@@ -212,7 +127,7 @@ namespace TightWiki.Controllers
 
             string scale = GetQueryString("Scale", "100");
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
             if (file != null)
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
@@ -264,17 +179,20 @@ namespace TightWiki.Controllers
 
         /// <summary>
         /// Gets a file from the database and returns it to the client.
+        /// <param name="givenPageNavigation">The navigation link of the page.</param>
+        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION),</param>
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("Binary/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
-        public ActionResult Binary(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        [HttpGet("Binary/{givenPageNavigation}/{givenfileNavigation}/{fileRevision:int?}")]
+        public ActionResult Binary(string givenPageNavigation, string givenfileNavigation, int? fileRevision = null)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
             if (file != null)
             {
@@ -318,7 +236,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Uploads a file by drag drop.
         /// </summary>
-
         [Authorize]
         [HttpPost("UploadDragDrop/{givenPageNavigation}")]
         public IActionResult UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
@@ -412,6 +329,101 @@ namespace TightWiki.Controllers
             PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation.Canonical, fileNavigation.Canonical);
 
             return Content("Success");
+        }
+
+
+        /// <summary>
+        /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet("Emoji/{givenPageNavigation}")]
+        public ActionResult Emoji(string givenPageNavigation)
+        {
+            WikiContext.RequireViewPermission();
+
+            var pageNavigation = Navigation.Clean(givenPageNavigation);
+
+            if (string.IsNullOrEmpty(pageNavigation) == false)
+            {
+                string shortcut = $"%%{pageNavigation.ToLower()}%%";
+                var emoji = GlobalSettings.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+                if (emoji != null)
+                {
+                    var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
+                    emoji.ImageData = WikiCache.Get<byte[]>(cacheKey);
+                    if (emoji.ImageData == null)
+                    {
+                        //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
+                        emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+                        if (emoji.ImageData != null)
+                        {
+                            WikiCache.Put(cacheKey, emoji.ImageData);
+                        }
+                    }
+
+                    if (emoji.ImageData != null)
+                    {
+                        string scale = GetQueryString("Scale", "100");
+                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(emoji.ImageData)));
+
+                        int iscale = int.Parse(scale);
+                        if (iscale > 500)
+                        {
+                            iscale = 500;
+                        }
+
+                        int defaultHeight = GlobalSettings.DefaultEmojiHeight;
+                        int height = img.Height;
+                        int width = img.Width;
+
+                        //Get the difference in between the default image height and the image height.
+                        int difference = height - defaultHeight;
+
+                        //Apply the new size to the height and width to keep the ratio the same.
+                        height -= difference;
+                        width -= difference;
+
+                        //Adjust to any specified scaling.
+                        height = (int)(height * (iscale / 100.0));
+                        width = (int)(width * (iscale / 100.0));
+
+                        //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                        //  deminsion to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both demensions.
+                        if (height < 16)
+                        {
+                            difference = 16 - height;
+                            height += difference;
+                            width += difference;
+                        }
+                        if (width < 16)
+                        {
+                            difference = 16 - width;
+                            height += difference;
+                            width += difference;
+                        }
+
+                        if (emoji.MimeType?.ToLower() == "image/gif")
+                        {
+                            using var image = Images.ResizeImage(img, width, height);
+                            using var ms = new MemoryStream();
+                            image.SaveAsGif(ms);
+                            return File(ms.ToArray(), "image/gif");
+                        }
+                        else
+                        {
+                            using var image = Images.ResizeImage(img, width, height);
+                            using var ms = new MemoryStream();
+                            image.SaveAsPng(ms);
+                            return File(ms.ToArray(), "image/png");
+                        }
+                    }
+                }
+            }
+
+            return NotFound($"Emoji {pageNavigation} was not found");
         }
     }
 }

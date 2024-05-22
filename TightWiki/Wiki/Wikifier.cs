@@ -693,12 +693,12 @@ namespace TightWiki.Wiki
 
                     if (_revision != null)
                     {
-                        string attachementLink = $"/File/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
+                        string attachementLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
                         linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                     }
                     else
                     {
-                        string attachementLink = $"/File/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                        string attachementLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
                         linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                     }
                 }
@@ -715,12 +715,12 @@ namespace TightWiki.Wiki
 
                     if (_revision != null)
                     {
-                        string attachementLink = $"/File/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
+                        string attachementLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
                         linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                     }
                     else
                     {
-                        string attachementLink = $"/File/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                        string attachementLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
                         linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
                     }
                 }
@@ -1348,11 +1348,11 @@ namespace TightWiki.Wiki
                                 {
                                     if (_revision != null)
                                     {
-                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{file.FileNavigation}/{_revision}\">{file.Name}</a>");
+                                        html.Append($"<li><a href=\"/Page/Binary/{_page.Navigation}/{file.FileNavigation}/{_revision}\">{file.Name}</a>");
                                     }
                                     else
                                     {
-                                        html.Append($"<li><a href=\"/File/Binary/{_page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
+                                        html.Append($"<li><a href=\"/Page/Binary/{_page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
                                     }
 
                                     if (styleName == "full")
@@ -1548,13 +1548,14 @@ namespace TightWiki.Wiki
                             string navigation = _page.Navigation;
                             if (imageName.Contains('/'))
                             {
-                                //Allow loading attacehed images from other pages.
+                                //Allow loading attached images from other pages.
                                 int slashIndex = imageName.IndexOf("/");
                                 navigation = NamespaceNavigation.CleanAndValidate(imageName.Substring(0, slashIndex));
                                 imageName = imageName.Substring(slashIndex + 1);
                                 isPageForeignImage = true;
                             }
 
+                            /*
                             if (explicitNamespace == false && _page.Namespace != null)
                             {
                                 if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), _revision) == null)
@@ -1563,17 +1564,18 @@ namespace TightWiki.Wiki
                                     navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{Navigation.Clean(imageName)}");
                                 }
                             }
+                            */
 
                             if (_revision != null && isPageForeignImage == false)
                             {
                                 //Check for isPageForeignImage because we don't version foreign page files.
-                                string link = $"/File/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{_revision}";
+                                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{_revision}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                                 StoreMatch(function, pageContent, match.Value, image);
                             }
                             else
                             {
-                                string link = $"/File/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
+                                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
                                 string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                                 StoreMatch(function, pageContent, match.Value, image);
                             }
@@ -1621,13 +1623,13 @@ namespace TightWiki.Wiki
                                 if (_revision != null && isPageForeignFile == false)
                                 {
                                     //Check for isPageForeignImage because we don't version foreign page files.
-                                    string link = $"/File/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}/{_revision}";
+                                    string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}/{_revision}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
                                     StoreMatch(function, pageContent, match.Value, image);
                                 }
                                 else
                                 {
-                                    string link = $"/File/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}";
+                                    string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}";
                                     string image = $"<a href=\"{link}\">{alt}</a>";
                                     StoreMatch(function, pageContent, match.Value, image);
                                 }

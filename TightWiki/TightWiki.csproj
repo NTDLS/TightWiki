@@ -57,6 +57,7 @@
     <None Remove="Repository\Scripts\GetMenuItemById.sql" />
     <None Remove="Repository\Scripts\GetNonexistentPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
+    <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileInfoByFileNavigation.sql" />
@@ -170,6 +171,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetNonexistentPagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageCommentsPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileInfoByFileNavigation.sql" />
