@@ -26,3 +26,7 @@ TightWiki.Shared/obj/
 TightWiki.Repository/bin/
 
 TightWiki.Repository/obj/
+
+Mssql2Sqlite/bin/
+
+Mssql2Sqlite/obj/
