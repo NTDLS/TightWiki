@@ -124,7 +124,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (profile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.CurrentCultureIgnoreCase))
             {
-                ConfigurationRepository.SetAdminPasswordIsChanged();
+                ProfileRepository.SetAdminPasswordIsChanged();
             }
 
             await _signInManager.RefreshSignInAsync(user);

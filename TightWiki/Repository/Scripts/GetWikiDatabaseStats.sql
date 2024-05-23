@@ -6,5 +6,5 @@ SELECT
 	(SELECT Count(0) FROM PageFileRevision) as PageAttachmentRevisions,
 	(SELECT Count(0) FROM PageTag) as PageTags,
 	(SELECT Count(0) FROM PageToken) as PageSearchTokens,
-	(SELECT Count(0) FROM Profile) as Profiles,
-	(SELECT Count(0) FROM AspNetUsers) as Users
+	(SELECT Count(0) FROM users_db.Profile) as Profiles,
+	(SELECT Count(0) FROM users_db.AspNetUsers) as Users

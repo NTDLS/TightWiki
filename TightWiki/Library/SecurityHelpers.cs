@@ -16,10 +16,10 @@ namespace TightWiki.Library
             {
                 //If this is the first time the app has run on this mahcine (based on an encryption key) then clear the admin password status.
                 //This will cause the application to set the admin password to the default password and display a warning until it is chnaged.
-                ConfigurationRepository.SetAdminPasswordClear();
+                ProfileRepository.SetAdminPasswordClear();
             }
 
-            if (ConfigurationRepository.AdminPasswordStatus() == Constants.AdminPasswordChangeState.NeedsToBeSet)
+            if (ProfileRepository.AdminPasswordStatus() == Constants.AdminPasswordChangeState.NeedsToBeSet)
             {
                 var user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
                 if (user == null)
@@ -62,7 +62,7 @@ namespace TightWiki.Library
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                ConfigurationRepository.SetAdminPasswordIsDefault();
+                ProfileRepository.SetAdminPasswordIsDefault();
 
                 var existingProfileUserId = ProfileRepository.GetUserAccountIdByNavigation(Navigation.Clean(Constants.DEFAULTACCOUNT));
                 if (existingProfileUserId == null)

@@ -12,12 +12,12 @@ namespace TightWiki.Repository
                 GroupName = groupName
             };
 
-            return ManagedDataStorage.Default.Query<TagAssociation>("GetAssociatedTags", param).ToList();
+            return ManagedDataStorage.Pages.Query<TagAssociation>("GetAssociatedTags", param).ToList();
         }
 
         public static List<Page> GetPageInfoByNamespaces(List<string> namespaces)
         {
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateValueListTableFrom("TempNamespaces", namespaces);
                 return o.Query<Page>("GetPageInfoByNamespaces").ToList();
@@ -26,7 +26,7 @@ namespace TightWiki.Repository
 
         public static List<Page> GetPageInfoByTags(List<string> tags)
         {
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateValueListTableFrom("TempTags", tags);
                 return o.Query<Page>("GetPageInfoByTags").ToList();
@@ -35,7 +35,7 @@ namespace TightWiki.Repository
 
         public static List<Page> GetPageInfoByTag(string tag)
         {
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateValueListTableFrom("TempTags", new List<string> { tag });
                 return o.Query<Page>("GetPageInfoByTags").ToList();
@@ -44,7 +44,7 @@ namespace TightWiki.Repository
 
         public static void UpdatePageTags(int pageId, List<string> tags)
         {
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateValueListTableFrom("TempTags", tags);
 

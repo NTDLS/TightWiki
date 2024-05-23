@@ -22,7 +22,7 @@ FROM
 	[Page] as P
 INNER JOIN PageComment as PC
 	ON PC.PageId = P.Id
-INNER JOIN Profile as U
+INNER JOIN users_db.Profile as U
 	ON U.UserId = PC.UserId
 WHERE
 	P.Navigation = @Navigation

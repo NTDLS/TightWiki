@@ -590,7 +590,7 @@ namespace TightWiki.Site.Controllers
 
                     if (model.AccountProfile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        ConfigurationRepository.SetAdminPasswordIsChanged();
+                        ProfileRepository.SetAdminPasswordIsChanged();
                     }
                 }
                 catch (Exception ex)

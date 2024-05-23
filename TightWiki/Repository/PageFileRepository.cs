@@ -14,7 +14,7 @@ namespace TightWiki.Repository
                 FileNavigation = fileNavigation
             };
 
-            ManagedDataStorage.Default.Execute("DeletePageFileByPageNavigationAndFileName", param);
+            ManagedDataStorage.Pages.Execute("DeletePageFileByPageNavigationAndFileName", param);
         }
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
@@ -28,7 +28,7 @@ namespace TightWiki.Repository
                 PageNavigation = pageNavigation,
                 PageRevision = pageRevision
             };
-            return ManagedDataStorage.Default.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageNavigationAndPageRevisionPaged", param).ToList();
         }
 
         public static PageFileAttachmentInfo? GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
@@ -40,7 +40,7 @@ namespace TightWiki.Repository
                 PageRevision = pageRevision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachmentInfo>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachmentInfo>("GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation", param);
         }
 
         public static PageFileAttachment? GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? fileRevision = null)
@@ -52,7 +52,7 @@ namespace TightWiki.Repository
                 FileRevision = fileRevision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation", param);
         }
 
         public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
@@ -64,7 +64,7 @@ namespace TightWiki.Repository
                 PageRevision = pageRevision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileAttachment>(
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>(
                 "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation", param);
         }
 
@@ -80,8 +80,15 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<PageFileAttachmentInfo>(
-                "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged", param).ToList();
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+
+                var result = o.Query<PageFileAttachmentInfo>(
+                    "GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged", param).ToList();
+
+                return result;
+            });
         }
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageId(int pageId)
@@ -91,7 +98,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Default.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId", param).ToList();
         }
 
         public static PageFileRevisionAttachmentInfo? GetPageFileRevisionInfoByFileNavigation(int pageId, string fileNavigation)
@@ -102,7 +109,7 @@ namespace TightWiki.Repository
                 Navigation = fileNavigation,
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileRevisionInfoByFileNavigation", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileRevisionInfoByFileNavigation", param);
         }
 
 
@@ -121,7 +128,7 @@ namespace TightWiki.Repository
         {
             bool hasFileChanged = false;
 
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
                 var transaction = o.BeginTransaction();

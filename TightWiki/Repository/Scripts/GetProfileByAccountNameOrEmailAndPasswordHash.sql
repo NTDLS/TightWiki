@@ -17,7 +17,7 @@ SELECT
 	U.EmailConfirmed
 FROM
 	Profile as U
-INNER JOIN [Role] as R
+INNER JOIN Role as R
 	 ON R.Id = U.RoleId
 WHERE
 	(U.EmailAddress = @AccountNameOrEmail OR U.AccountName = @AccountNameOrEmail)
