@@ -17,7 +17,7 @@ SELECT
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
 		FROM
-			[Profile] as P
+			Profile as P
 		INNER JOIN AspNetUserClaims as UCR
 			ON UCR.UserId = U.UserId
 			AND UCR.ClaimType LIKE '%/role'

@@ -10,7 +10,7 @@ namespace TightWiki.Repository
     {
         public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
         {
-            var entries = ManagedDataStorage.Default.Query<ConfigurationEntry>
+            var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>
                 ("GetConfigurationEntryValuesByGroupName", new { GroupName = groupName }).ToList();
 
             foreach (var entry in entries)
@@ -33,9 +33,16 @@ namespace TightWiki.Repository
 
         public static WikiDatabaseStats GetWikiDatabaseStats()
         {
-            var stats = ManagedDataStorage.Default.QuerySingle<WikiDatabaseStats>("GetWikiDatabaseStats");
-            stats.Exceptions = ExceptionRepository.GetExceptionCount();
-            return stats;
+            return ManagedDataStorage.Config.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                using var pages_db = o.Attach("pages.db", "pages_db");
+
+                var result = o.QuerySingle<WikiDatabaseStats>("GetWikiDatabaseStats");
+                result.Exceptions = ExceptionRepository.GetExceptionCount();
+
+                return result;
+            });
         }
 
         /// <summary>
@@ -59,7 +66,7 @@ namespace TightWiki.Repository
         /// <returns></returns>
         public static bool GetCryptoCheck()
         {
-            var value = ManagedDataStorage.Default.QueryFirstOrDefault<string>("GetCryptoCheck") ?? string.Empty;
+            var value = ManagedDataStorage.Config.QueryFirstOrDefault<string>("GetCryptoCheck") ?? string.Empty;
 
             try
             {
@@ -86,44 +93,7 @@ namespace TightWiki.Repository
                 Content = Security.EncryptString(Security.MachineKey, Constants.CRYPTOCHECK)
             };
 
-            ManagedDataStorage.Default.QueryFirstOrDefault<string>("SetCryptoCheck", param);
-        }
-
-        public static AdminPasswordChangeState AdminPasswordStatus()
-        {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
-
-            if (WikiCache.Get<bool?>(cacheKey) == true)
-            {
-                return AdminPasswordChangeState.HasBeenChanged;
-            }
-
-            var result = ManagedDataStorage.Default.ExecuteScalar<bool?>("IsAdminPasswordChanged");
-            if (result == true)
-            {
-                WikiCache.Put(cacheKey, true);
-                return AdminPasswordChangeState.HasBeenChanged;
-            }
-            if (result == null)
-            {
-                return AdminPasswordChangeState.NeedsToBeSet;
-            }
-
-            return AdminPasswordChangeState.IsDefault;
-        }
-
-        public static void SetAdminPasswordClear()
-        {
-            ManagedDataStorage.Default.ExecuteScalar<bool>("SetAdminPasswordClear");
-        }
-        public static void SetAdminPasswordIsChanged()
-        {
-            ManagedDataStorage.Default.ExecuteScalar<bool>("SetAdminPasswordIsChanged");
-        }
-
-        public static void SetAdminPasswordIsDefault()
-        {
-            ManagedDataStorage.Default.ExecuteScalar<bool>("SetAdminPasswordIsDefault");
+            ManagedDataStorage.Config.QueryFirstOrDefault<string>("SetCryptoCheck", param);
         }
 
         public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
@@ -135,7 +105,7 @@ namespace TightWiki.Repository
                 Value = value
             };
 
-            ManagedDataStorage.Default.Execute("SaveConfigurationEntryValueByGroupAndEntry", param);
+            ManagedDataStorage.Config.Execute("SaveConfigurationEntryValueByGroupAndEntry", param);
 
             GlobalSettings.ReloadEverything();
         }
@@ -193,7 +163,7 @@ namespace TightWiki.Repository
 
         public static List<ConfigurationFlat> GetFlatConfiguration()
         {
-            return ManagedDataStorage.Default.Query<ConfigurationFlat>("GetFlatConfiguration").ToList();
+            return ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration").ToList();
         }
 
         public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName, bool allowCache = true)
@@ -220,7 +190,7 @@ namespace TightWiki.Repository
                 EntryName = entryName
             };
 
-            var configEntry = ManagedDataStorage.Default.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName", param);
+            var configEntry = ManagedDataStorage.Config.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName", param);
             if (configEntry?.IsEncrypted == true)
             {
                 try

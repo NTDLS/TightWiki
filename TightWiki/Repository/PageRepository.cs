@@ -16,7 +16,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<Page>("GetPageRevisionInfoById", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionInfoById", param);
         }
 
         public static Page? GetPageInfoById(int pageId)
@@ -26,7 +26,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<Page>("GetPageInfoById", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoById", param);
         }
 
         public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId)
@@ -36,7 +36,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Default.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId", param).ToList();
+            return ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId", param).ToList();
         }
 
         public static List<PageTag> GetPageTagsById(int pageId)
@@ -46,7 +46,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Default.Query<PageTag>("GetPageTagsById", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById", param).ToList();
         }
 
         public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(string navigation, int pageNumber, int? pageSize = null)
@@ -60,7 +60,11 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<PageRevision>("GetPageRevisionsInfoByNavigationPaged", param).ToList();
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<PageRevision>("GetPageRevisionsInfoByNavigationPaged", param).ToList();
+            });
         }
 
         public static List<PageRevision> GetTopRecentlyModifiedPagesInfoByUserId(Guid userId, int topCount)
@@ -71,7 +75,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Default.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId", param).ToList();
         }
 
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
@@ -81,12 +85,12 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Default.Query<Page>("GetTopRecentlyModifiedPagesInfo", param).ToList();
+            return ManagedDataStorage.Pages.Query<Page>("GetTopRecentlyModifiedPagesInfo", param).ToList();
         }
 
         private static List<PageSearchToken> GetFuzzyPageSearchTokens(List<PageToken> tokens, double minimumMatchScore)
         {
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
@@ -101,7 +105,7 @@ namespace TightWiki.Repository
 
         private static List<PageSearchToken> GetExactPageSearchTokens(List<PageToken> tokens, double minimumMatchScore)
         {
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
@@ -163,13 +167,14 @@ namespace TightWiki.Repository
                 return new List<Page>();
             }
 
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
                     MaximumScore = meteredSearchTokens.Max(t => t.Score)
                 };
 
+                using var users_db = o.Attach("users.db", "users_db");
                 using var tempTable = o.CreateValueListTableFrom("TempSearchTerms", meteredSearchTokens);
                 return o.Query<Page>("PageSearch", param).ToList();
             });
@@ -191,7 +196,7 @@ namespace TightWiki.Repository
                 return new List<Page>();
             }
 
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
@@ -200,6 +205,7 @@ namespace TightWiki.Repository
                     MaximumScore = meteredSearchTokens.Max(t => t.Score)
                 };
 
+                using var users_db = o.Attach("users.db", "users_db");
                 using var tempTable = o.CreateValueListTableFrom("TempSearchTerms", meteredSearchTokens);
                 var results = o.Query<Page>("PageSearchPaged", param).ToList();
                 return results;
@@ -217,7 +223,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<RelatedPage>("GetSimilarPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<RelatedPage>("GetSimilarPagesPaged", param).ToList();
         }
 
         public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
@@ -231,7 +237,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<RelatedPage>("GetRelatedPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<RelatedPage>("GetRelatedPagesPaged", param).ToList();
         }
 
         public static void InsertPageStatistics(int pageId,
@@ -263,7 +269,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow
             };
 
-            ManagedDataStorage.Default.Execute("InsertPageComment", param);
+            ManagedDataStorage.Pages.Execute("InsertPageComment", param);
         }
 
         public static void DeletePageCommentById(int pageId, int commentId)
@@ -274,7 +280,7 @@ namespace TightWiki.Repository
                 CommentId = commentId
             };
 
-            ManagedDataStorage.Default.Execute("DeletePageCommentById", param);
+            ManagedDataStorage.Pages.Execute("DeletePageCommentById", param);
         }
 
         public static void DeletePageCommentByUserAndId(int pageId, Guid userId, int commentId)
@@ -286,7 +292,7 @@ namespace TightWiki.Repository
                 CommentId = commentId
             };
 
-            ManagedDataStorage.Default.Execute("DeletePageCommentByUserAndId", param);
+            ManagedDataStorage.Pages.Execute("DeletePageCommentByUserAndId", param);
         }
 
         public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, int? pageSize = null)
@@ -300,7 +306,11 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<PageComment>("GetPageCommentsPaged", param).ToList();
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<PageComment>("GetPageCommentsPaged", param).ToList();
+            });
         }
 
         public static List<NonexistentPage> GetNonexistentPagesPaged(int pageNumber, int? pageSize = null)
@@ -313,7 +323,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<NonexistentPage>("GetNonexistentPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<NonexistentPage>("GetNonexistentPagesPaged", param).ToList();
         }
 
         public static void UpdateSinglePageReference(string pageNavigation, int pageId)
@@ -324,12 +334,12 @@ namespace TightWiki.Repository
                 @PageNavigation = pageNavigation
             };
 
-            ManagedDataStorage.Default.Execute("UpdateSinglePageReference", param);
+            ManagedDataStorage.Pages.Execute("UpdateSinglePageReference", param);
         }
 
         public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
         {
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
@@ -352,7 +362,11 @@ namespace TightWiki.Repository
                 Instruction = instruction
             };
 
-            return ManagedDataStorage.Default.Query<Page>("GetAllPagesByInstructionPaged", param).ToList();
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<Page>("GetAllPagesByInstructionPaged", param).ToList();
+            });
         }
 
         public static List<int> GetPageIdsByTokens(List<string>? tokens)
@@ -362,7 +376,7 @@ namespace TightWiki.Repository
                 return new List<int>();
             }
 
-            return ManagedDataStorage.Default.Ephemeral(o =>
+            return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
@@ -395,14 +409,19 @@ namespace TightWiki.Repository
             var pageIds = GetPageIdsByTokens(searchTerms);
             if (pageIds.Count > 0)
             {
-                return ManagedDataStorage.Default.Ephemeral(o =>
+                return ManagedDataStorage.Pages.Ephemeral(o =>
                 {
+                    using var users_db = o.Attach("users.db", "users_db");
                     using var tempTable = o.CreateValueListTableFrom("TempPageIds", pageIds);
                     return o.Query<Page>("GetAllPagesByPageIdPaged", param).ToList();
                 });
             }
 
-            return ManagedDataStorage.Default.Query<Page>("GetAllPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<Page>("GetAllPagesPaged", param).ToList();
+            });
         }
 
         public static List<NamespaceStat> GetAllNamespacesPaged(int pageNumber, int? pageSize = null)
@@ -415,17 +434,17 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Default.Query<NamespaceStat>("GetAllNamespacesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<NamespaceStat>("GetAllNamespacesPaged", param).ToList();
         }
 
         public static List<Page> GetAllPages()
         {
-            return ManagedDataStorage.Default.Query<Page>("GetAllPages").ToList();
+            return ManagedDataStorage.Pages.Query<Page>("GetAllPages").ToList();
         }
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var param = new
                 {
@@ -445,12 +464,12 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<Page>("GetPageRevisionById", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById", param);
         }
 
         public static void SavePageTokens(List<PageToken> items)
         {
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateValueListTableFrom("TempTokens", items.Distinct());
                 return o.Query<Page>("SavePageTokens").ToList();
@@ -465,7 +484,7 @@ namespace TightWiki.Repository
             }
             else
             {
-                ManagedDataStorage.Default.Ephemeral(o =>
+                ManagedDataStorage.Pages.Ephemeral(o =>
                 {
                     var transaction = o.BeginTransaction();
                     try
@@ -500,7 +519,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Default.QuerySingle<PageInfoAndHash>("GetPageInfoByIdAndRevision", param);
+            return ManagedDataStorage.Pages.QuerySingle<PageInfoAndHash>("GetPageInfoByIdAndRevision", param);
         }
 
         public static int SavePage(Page page)
@@ -521,7 +540,7 @@ namespace TightWiki.Repository
 
             int newDataHash = Utility.SimpleChecksum(page.Body);
 
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var transaction = o.BeginTransaction();
 
@@ -612,7 +631,7 @@ namespace TightWiki.Repository
                 Navigation = navigation
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<Page>("GetPageInfoByNavigation", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation", param);
         }
 
         public static void DeletePageById(int pageId)
@@ -622,7 +641,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            ManagedDataStorage.Default.Ephemeral(o =>
+            ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 var transaction = o.BeginTransaction();
                 try
@@ -646,7 +665,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Default.ExecuteScalar<int>("GetCountOfPageAttachmentsById", param);
+            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCountOfPageAttachmentsById", param);
         }
 
         public static Page? GetPageRevisionByNavigation(NamespaceNavigation navigation, int? revision = null)
@@ -657,7 +676,11 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation", param);
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation", param);
+            });
         }
 
         public static Page? GetPageRevisionByNavigation(string givenNavigation, int? revision = null, bool allowCache = true)
@@ -686,7 +709,11 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Default.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation", param);
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation", param);
+            });
         }
     }
 }

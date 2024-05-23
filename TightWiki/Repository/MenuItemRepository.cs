@@ -8,7 +8,7 @@ namespace TightWiki.Repository
     {
         public static List<MenuItem> GetAllMenuItems()
         {
-            return ManagedDataStorage.Default.Query<MenuItem>("GetAllMenuItems").ToList();
+            return ManagedDataStorage.Config.Query<MenuItem>("GetAllMenuItems").ToList();
         }
 
         public static MenuItem GetMenuItemById(int id)
@@ -18,7 +18,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            return ManagedDataStorage.Default.QuerySingle<MenuItem>("GetMenuItemById", param);
+            return ManagedDataStorage.Config.QuerySingle<MenuItem>("GetMenuItemById", param);
         }
 
         public static void DeleteMenuItemById(int id)
@@ -28,7 +28,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            ManagedDataStorage.Default.Execute("DeleteMenuItemById", param);
+            ManagedDataStorage.Config.Execute("DeleteMenuItemById", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
             GlobalSettings.MenuItems = GetAllMenuItems();
@@ -44,7 +44,7 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = ManagedDataStorage.Default.ExecuteScalar<int>("UpdateMenuItemById", param);
+            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("UpdateMenuItemById", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
             GlobalSettings.MenuItems = GetAllMenuItems();
@@ -61,7 +61,7 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = ManagedDataStorage.Default.ExecuteScalar<int>("InsertMenuItem", param);
+            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("InsertMenuItem", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
             GlobalSettings.MenuItems = GetAllMenuItems();

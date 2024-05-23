@@ -5,9 +5,12 @@
     /// </summary>
     public static class ManagedDataStorage
     {
-        public static ManagedDataStorageFactory Default { get; private set; } = new();
+        public static ManagedDataStorageFactory Pages { get; private set; } = new();
         public static ManagedDataStorageFactory Statistics { get; private set; } = new();
         public static ManagedDataStorageFactory Emoji { get; private set; } = new();
         public static ManagedDataStorageFactory Exceptions { get; private set; } = new();
+        public static ManagedDataStorageFactory Words { get; private set; } = new();
+        public static ManagedDataStorageFactory Users { get; private set; } = new();
+        public static ManagedDataStorageFactory Config { get; private set; } = new();
     }
 }

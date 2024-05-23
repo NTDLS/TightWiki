@@ -24,9 +24,9 @@ SELECT
 	) as PaginationCount
 FROM
 	[Page] as P
-LEFT OUTER JOIN Profile as ModifiedUser
+LEFT OUTER JOIN users_db.Profile as ModifiedUser
 	ON ModifiedUser.UserId = P.ModifiedByUserId
-LEFT OUTER JOIN Profile as Createduser
+LEFT OUTER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
 INNER JOIN TempSearchTerms as ST
 	ON ST.PageId = P.Id

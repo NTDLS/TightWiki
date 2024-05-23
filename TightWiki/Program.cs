@@ -31,13 +31,15 @@ namespace TightWiki
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("PrimaryConnection")));
+                options.UseSqlite(builder.Configuration.GetConnectionString("UsersConnection")));
 
-            ManagedDataStorage.Default.SetConnectionString(builder.Configuration.GetConnectionString("PrimaryConnection"));
-
+            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetConnectionString("PagesConnection"));
             ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetConnectionString("StatisticsConnection"));
             ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetConnectionString("EmojiConnection"));
             ManagedDataStorage.Exceptions.SetConnectionString(builder.Configuration.GetConnectionString("ExceptionsConnection"));
+            ManagedDataStorage.Words.SetConnectionString(builder.Configuration.GetConnectionString("WordsConnection"));
+            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
+            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
             GlobalSettings.ReloadEverything();
 
