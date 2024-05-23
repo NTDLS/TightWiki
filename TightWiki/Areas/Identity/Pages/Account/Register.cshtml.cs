@@ -133,7 +133,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
 
-                    ProfileRepository.CreateProfile(Guid.Parse(userId));
+                    UsersRepository.CreateProfile(Guid.Parse(userId));
 
                     var claimsToAdd = new List<Claim>
                     {
@@ -158,7 +158,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
                     var siteName = basicConfig.As<string>("Name");
                     var address = basicConfig.As<string>("Address");
-                    var profile = ProfileRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+                    var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
                     var emailSubject = "Confirm your email";
                     emailTemplate.Replace("##SUBJECT##", emailSubject);

@@ -5,7 +5,7 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
-    public static class ProfileRepository
+    public static class UsersRepository
     {
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {

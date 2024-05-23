@@ -16,10 +16,10 @@ namespace TightWiki.Library
             {
                 //If this is the first time the app has run on this mahcine (based on an encryption key) then clear the admin password status.
                 //This will cause the application to set the admin password to the default password and display a warning until it is chnaged.
-                ProfileRepository.SetAdminPasswordClear();
+                UsersRepository.SetAdminPasswordClear();
             }
 
-            if (ProfileRepository.AdminPasswordStatus() == Constants.AdminPasswordChangeState.NeedsToBeSet)
+            if (UsersRepository.AdminPasswordStatus() == Constants.AdminPasswordChangeState.NeedsToBeSet)
             {
                 var user = await userManager.FindByNameAsync(Constants.DEFAULTUSERNAME);
                 if (user == null)
@@ -62,16 +62,16 @@ namespace TightWiki.Library
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                ProfileRepository.SetAdminPasswordIsDefault();
+                UsersRepository.SetAdminPasswordIsDefault();
 
-                var existingProfileUserId = ProfileRepository.GetUserAccountIdByNavigation(Navigation.Clean(Constants.DEFAULTACCOUNT));
+                var existingProfileUserId = UsersRepository.GetUserAccountIdByNavigation(Navigation.Clean(Constants.DEFAULTACCOUNT));
                 if (existingProfileUserId == null)
                 {
-                    ProfileRepository.CreateProfile(Guid.Parse(user.Id), Constants.DEFAULTACCOUNT);
+                    UsersRepository.CreateProfile(Guid.Parse(user.Id), Constants.DEFAULTACCOUNT);
                 }
                 else
                 {
-                    ProfileRepository.SetProfileUserId(Constants.DEFAULTACCOUNT, Guid.Parse(user.Id));
+                    UsersRepository.SetProfileUserId(Constants.DEFAULTACCOUNT, Guid.Parse(user.Id));
                 }
             }
         }

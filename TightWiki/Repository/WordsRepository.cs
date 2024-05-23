@@ -5,7 +5,7 @@ namespace TightWiki.Repository
     public static class WordsRepository
     {
         public static int GetWordsCount()
-            => ManagedDataStorage.Pages.ExecuteScalar<int>("GetWordsCount");
+            => ManagedDataStorage.Words.ExecuteScalar<int>("GetWordsCount");
 
         public static List<string> GetRandomWords(int count)
         {

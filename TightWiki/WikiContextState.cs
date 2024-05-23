@@ -91,7 +91,7 @@ namespace TightWiki
                     {
                         var userId = Guid.Parse((user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
-                        Profile = ProfileRepository.GetBasicProfileByUserId(userId);
+                        Profile = UsersRepository.GetBasicProfileByUserId(userId);
                         Role = (user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString()).EnsureNotNull();
                     }
                 }

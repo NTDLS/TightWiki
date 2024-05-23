@@ -26,7 +26,7 @@ namespace TightWiki.Site.Controllers
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
 
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-            var pages = PageTagRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
+            var pages = PageRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
             var glossaryHtml = new StringBuilder();
             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 

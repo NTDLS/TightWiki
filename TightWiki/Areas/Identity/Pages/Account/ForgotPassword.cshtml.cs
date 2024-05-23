@@ -71,7 +71,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
                 var siteName = basicConfig.As<string>("Name");
                 var address = basicConfig.As<string>("Address");
-                var profile = ProfileRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
+                var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
 
                 var emailSubject = "Reset password";
                 emailTemplate.Replace("##SUBJECT##", emailSubject);

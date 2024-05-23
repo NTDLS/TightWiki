@@ -112,7 +112,7 @@ namespace TightWiki.Wiki
 
         public static string BuildTagCloud(string seedTag)
         {
-            var tags = PageTagRepository.GetAssociatedTags(seedTag).OrderByDescending(o => o.PageCount).ToList();
+            var tags = PageRepository.GetAssociatedTags(seedTag).OrderByDescending(o => o.PageCount).ToList();
 
             int tagCount = tags.Count();
             int fontSize = 7;

@@ -106,7 +106,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var profile = ProfileRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
+            var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
             if (user == null)
             {
                 return NotFound($"Unable to load profile with ID '{_userManager.GetUserId(User)}'.");
@@ -124,7 +124,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (profile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.CurrentCultureIgnoreCase))
             {
-                ProfileRepository.SetAdminPasswordIsChanged();
+                UsersRepository.SetAdminPasswordIsChanged();
             }
 
             await _signInManager.RefreshSignInAsync(user);

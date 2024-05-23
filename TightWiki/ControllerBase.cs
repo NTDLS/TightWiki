@@ -56,7 +56,7 @@ namespace TightWiki
         protected void RefreshPageProperties(Page page)
         {
             var wikifier = new Wikifier(WikiContext, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
-            PageTagRepository.UpdatePageTags(page.Id, wikifier.Tags);
+            PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
 
             var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();

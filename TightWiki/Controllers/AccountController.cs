@@ -100,7 +100,7 @@ namespace TightWiki.Site.Controllers
                         return View(model);
                     }
 
-                    ProfileRepository.CreateProfile(Guid.Parse(user.Id));
+                    UsersRepository.CreateProfile(Guid.Parse(user.Id));
 
                     var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
                     var claimsToAdd = new List<Claim>

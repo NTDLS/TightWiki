@@ -79,7 +79,7 @@ namespace TightWiki
             HTMLPostBody = htmlConfig?.As<string>("Post-Body") ?? string.Empty;
             BrandImageSmall = customizationConfig?.As<string>("Brand Image (Small)") ?? string.Empty;
             FooterBlurb = customizationConfig?.As<string>("FooterBlurb") ?? string.Empty;
-            MenuItems = MenuItemRepository.GetAllMenuItems();
+            MenuItems = ConfigurationRepository.GetAllMenuItems();
 
             ReloadEmojis();
         }

@@ -71,7 +71,7 @@ namespace TightWiki.Wiki
 
             if (GlobalSettings.WritePageStatistics)
             {
-                PageRepository.InsertPageStatistics(page.Id,
+                StatisticsRepository.InsertPageStatistics(page.Id,
                     ProcessingTime.TotalMilliseconds,
                     MatchCount,
                     ErrorCount,
@@ -1259,7 +1259,7 @@ namespace TightWiki.Wiki
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var searchToken = function.Parameters.Get<string>("searchToken");
                             var topCount = function.Parameters.Get<int>("top");
-                            var profiles = ProfileRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+                            var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                             string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                             var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpper()).Distinct();
@@ -1303,7 +1303,7 @@ namespace TightWiki.Wiki
                             int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var searchToken = function.Parameters.Get<string>("searchToken");
-                            var profiles = ProfileRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
+                            var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                             if (profiles.Count() > 0)
                             {
@@ -1691,7 +1691,7 @@ namespace TightWiki.Wiki
 
                             string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
-                            var pages = PageTagRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -1750,7 +1750,7 @@ namespace TightWiki.Wiki
                             var namespaces = function.Parameters.GetList<string>("namespaces");
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                            var pages = PageTagRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)
@@ -1795,7 +1795,7 @@ namespace TightWiki.Wiki
 
                             string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var topCount = function.Parameters.Get<int>("top");
-                            var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
                             var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -1967,7 +1967,7 @@ namespace TightWiki.Wiki
                             var tags = function.Parameters.GetList<string>("pageTags");
                             var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                            var pages = PageTagRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
+                            var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                             var html = new StringBuilder();
 
                             if (pages.Count() > 0)

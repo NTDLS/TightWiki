@@ -45,7 +45,7 @@ namespace TightWiki.Site.Controllers
             string max = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
             string? exact = Request.Query["exact"];
 
-            var imageBytes = ProfileRepository.GetProfileAvatarByNavigation(userAccountName);
+            var imageBytes = UsersRepository.GetProfileAvatarByNavigation(userAccountName);
 
             if (imageBytes == null || imageBytes.Count() == 0)
             {
@@ -179,7 +179,7 @@ namespace TightWiki.Site.Controllers
             WikiContext.Title = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
-            var profile = ProfileRepository.GetAccountProfileByNavigation(userAccountName);
+            var profile = UsersRepository.GetAccountProfileByNavigation(userAccountName);
 
             if (profile == null)
             {
@@ -229,7 +229,7 @@ namespace TightWiki.Site.Controllers
             var model = new AccountProfileViewModel()
             {
                 AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                    ProfileRepository.GetAccountProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId)),
+                    UsersRepository.GetAccountProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId)),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll()
@@ -264,10 +264,10 @@ namespace TightWiki.Site.Controllers
 
             var user = UserManager.FindByIdAsync(userId.ToString()).Result.EnsureNotNull();
 
-            var profile = ProfileRepository.GetAccountProfileByUserId(userId);
+            var profile = UsersRepository.GetAccountProfileByUserId(userId);
             if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.CurrentCultureIgnoreCase))
             {
-                if (ProfileRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
+                if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                 {
                     ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
                     return View(model);
@@ -287,7 +287,7 @@ namespace TightWiki.Site.Controllers
                 {
                     var imageBytes = Utility.ConvertHttpFileToBytes(file);
                     var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                    ProfileRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                    UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
                 }
                 catch
                 {
@@ -299,7 +299,7 @@ namespace TightWiki.Site.Controllers
             profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);
             profile.Biography = model.AccountProfile.Biography;
             profile.ModifiedDate = DateTime.UtcNow;
-            ProfileRepository.UpdateProfile(profile);
+            UsersRepository.UpdateProfile(profile);
 
             var claims = new List<Claim>
                     {
@@ -331,7 +331,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAuthorizedPermission();
 
-            var profile = ProfileRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
+            var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
             bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
             if (confirmAction == true && profile != null)
@@ -350,7 +350,7 @@ namespace TightWiki.Site.Controllers
 
                 SignInManager.SignOutAsync();
 
-                ProfileRepository.AnonymizeProfile(profile.UserId);
+                UsersRepository.AnonymizeProfile(profile.UserId);
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
 
                 HttpContext.SignOutAsync(); //Do we still need this??
@@ -370,7 +370,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAuthorizedPermission();
 
-            var profile = ProfileRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
+            var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
             var model = new DeleteAccountViewModel()
             {
