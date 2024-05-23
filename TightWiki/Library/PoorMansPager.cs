@@ -13,7 +13,7 @@ namespace TightWiki.Library
 
             currentPage ??= 1;
 
-            queryString = queryString == null ? string.Empty : $"?{queryString}";
+            queryString = string.IsNullOrWhiteSpace(queryString) ? string.Empty : $"?{queryString.Trim([' ', '?'])}";
 
             if ((totalPageCount ?? 0) > 1 || (currentPage ?? 0) > 1)
             {

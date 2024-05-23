@@ -5,6 +5,36 @@ namespace TightWiki.Library
 {
     public static class Utility
     {
+        /// <summary>
+        /// Take a height and width and enforces a max on both dimensions while maintaining the ratio.
+        /// </summary>
+        /// <param name="originalWidth"></param>
+        /// <param name="originalHeight"></param>
+        /// <param name="maxSize"></param>
+        /// <returns></returns>
+        public static (int Width, int Height) ScaleToMaxOf(int originalWidth, int originalHeight, int maxSize)
+        {
+            // Calculate aspect ratio
+            float aspectRatio = (float)originalWidth / originalHeight;
+
+            // Determine new dimensions based on the larger dimension
+            int newWidth, newHeight;
+            if (originalWidth > originalHeight)
+            {
+                // Scale down the width to the maxSize and calculate the height
+                newWidth = maxSize;
+                newHeight = (int)(maxSize / aspectRatio);
+            }
+            else
+            {
+                // Scale down the height to the maxSize and calculate the width
+                newHeight = maxSize;
+                newWidth = (int)(maxSize * aspectRatio);
+            }
+
+            return (newWidth, newHeight);
+        }
+
         public static List<string> SplitToTokens(string? tokenString)
         {
             var tokens = (tokenString ?? string.Empty).Trim().ToLower()

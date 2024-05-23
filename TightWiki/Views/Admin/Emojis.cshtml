@@ -32,9 +32,9 @@
 
                         <form action="/Admin/AddEmoji"><button type="submit" class="btn btn-primary">Add new emoji</button></form> <br />
 
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm("Emojis", "Admin", FormMethod.Get))
                         {
-                            @Html.AntiForgeryToken()
+                            //@Html.AntiForgeryToken()
 
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
                                 <tr>
@@ -65,7 +65,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Emojis", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Emojis", Context.Request.QueryString.ToString(), @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
 
                         <br />

@@ -391,29 +391,6 @@ namespace TightWiki.Controllers
                         }
                     }
 
-                    (int Width, int Height) ScaleImageToMaxOf(int originalWidth, int originalHeight, int maxSize)
-                    {
-                        // Calculate aspect ratio
-                        float aspectRatio = (float)originalWidth / originalHeight;
-
-                        // Determine new dimensions based on the larger dimension
-                        int newWidth, newHeight;
-                        if (originalWidth > originalHeight)
-                        {
-                            // Scale down the width to the maxSize and calculate the height
-                            newWidth = maxSize;
-                            newHeight = (int)(maxSize / aspectRatio);
-                        }
-                        else
-                        {
-                            // Scale down the height to the maxSize and calculate the width
-                            newHeight = maxSize;
-                            newWidth = (int)(maxSize * aspectRatio);
-                        }
-
-                        return (newWidth, newHeight);
-                    }
-
                     if (emoji.ImageData != null)
                     {
                         string scale = GetQueryString("Scale", "100");
@@ -425,36 +402,36 @@ namespace TightWiki.Controllers
                             customScalePercent = 500;
                         }
 
-                        var newSize = ScaleImageToMaxOf(img.Width, img.Height, GlobalSettings.DefaultEmojiHeight);
+                        var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalSettings.DefaultEmojiHeight);
 
                         //Adjust to any specified scaling.
-                        newSize.Height = (int)(newSize.Height * (customScalePercent / 100.0));
-                        newSize.Width = (int)(newSize.Width * (customScalePercent / 100.0));
+                        Height = (int)(Height * (customScalePercent / 100.0));
+                        Width = (int)(Width * (customScalePercent / 100.0));
 
                         //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                         //  deminsion to become very small (or even negative). So here we will check the height and width
                         //  to ensure they are both at least n pixels and adjust both demensions.
-                        if (newSize.Height < 16)
+                        if (Height < 16)
                         {
-                            newSize.Height += 16 - newSize.Height;
-                            newSize.Width += 16 - newSize.Height;
+                            Height += 16 - Height;
+                            Width += 16 - Height;
                         }
-                        if (newSize.Width < 16)
+                        if (Width < 16)
                         {
-                            newSize.Height += 16 - newSize.Width;
-                            newSize.Width += 16 - newSize.Width;
+                            Height += 16 - Width;
+                            Width += 16 - Width;
                         }
 
                         if (emoji.MimeType?.ToLower() == "image/gif")
                         {
-                            using var image = Images.ResizeImage(img, newSize.Width, newSize.Height);
+                            using var image = Images.ResizeImage(img, Width, Height);
                             using var ms = new MemoryStream();
                             image.SaveAsGif(ms);
                             return File(ms.ToArray(), "image/gif");
                         }
                         else
                         {
-                            using var image = Images.ResizeImage(img, newSize.Width, newSize.Height);
+                            using var image = Images.ResizeImage(img, Width, Height);
                             using var ms = new MemoryStream();
                             image.SaveAsPng(ms);
                             return File(ms.ToArray(), "image/png");
