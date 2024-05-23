@@ -1122,6 +1122,14 @@ namespace TightWiki.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
+                    case "hidefooterlastmodified":
+                        {
+                            ProcessingInstructions.Add(WikiInstruction.HideFooterLastModified);
+                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                        }
+                        break;
+                    //------------------------------------------------------------------------------------------------------------------------------
                     case "hidefootercomments":
                         {
                             ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
@@ -1138,7 +1146,7 @@ namespace TightWiki.Wiki
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
-                    case "HideFooterComments":
+                    case "deprecate":
                         {
                             if (_nestLevel == 0)
                             {

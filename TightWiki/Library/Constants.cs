@@ -33,6 +33,7 @@
             public static string Draft { get; } = "Draft";
             public static string NoCache { get; } = "NoCache";
             public static string HideFooterComments { get; } = "HideFooterComments";
+            public static string HideFooterLastModified { get; } = "HideFooterLastModified";
         }
 
         public static class Roles

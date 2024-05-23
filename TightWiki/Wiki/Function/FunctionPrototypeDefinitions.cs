@@ -82,6 +82,7 @@
                     _functionPrototypes.Add("@@Include:");
                     _functionPrototypes.Add("@@Draft:");
                     _functionPrototypes.Add("@@HideFooterComments:");
+                    _functionPrototypes.Add("@@HideFooterLastModified:");
 
                     //System functions:
                     _functionPrototypes.Add("@@SystemEmojiCategoryList:");

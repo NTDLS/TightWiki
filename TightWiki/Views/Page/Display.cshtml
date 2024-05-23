@@ -5,7 +5,7 @@
 }
 @Html.Raw(Model.Body)
 
-@if (TightWiki.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false)
+@if (TightWiki.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
 {
     <br /><small><cite title="Modified By">Last modified by <a href="/Profile/Public/@Model.ModifiedByUserName">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small><br />
 }

@@ -55,6 +55,7 @@ namespace TightWiki.Controllers
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                 model.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
+                model.HideFooterLastModified = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterLastModified).Any();
 
                 if (page.Revision == page.LatestRevision)
                 {

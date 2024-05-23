@@ -9,6 +9,7 @@ namespace TightWiki.Models.ViewModels.Page
         public DateTime ModifiedDate { get; set; }
         public List<PageComment> Comments { get; set; } = new();
         public bool HideFooterComments { get; set; }
+        public bool HideFooterLastModified { get; set; }
     }
 }
 
