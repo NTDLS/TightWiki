@@ -2,7 +2,6 @@
 using TightWiki.DataStorage;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {

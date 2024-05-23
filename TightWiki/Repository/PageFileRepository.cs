@@ -1,5 +1,4 @@
-﻿using Dapper;
-using TightWiki.DataStorage;
+﻿using TightWiki.DataStorage;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
