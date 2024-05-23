@@ -46,8 +46,8 @@ namespace TightWiki.Models.ViewModels.Profile
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public int PaginationSize { get; set; }
-        public int PaginationCount { get; set; }
+        public int PaginationPageSize { get; set; }
+        public int PaginationPageCount { get; set; }
 
         public string? Role { get; set; } = string.Empty;
 
@@ -68,9 +68,9 @@ namespace TightWiki.Models.ViewModels.Profile
                 LastName = model.LastName,
                 ModifiedDate = model.ModifiedDate,
                 Navigation = model.Navigation,
-                PaginationCount = model.PaginationCount,
+                PaginationPageCount = model.PaginationPageCount,
                 Role = model.Role,
-                PaginationSize = model.PaginationSize,
+                PaginationPageSize = model.PaginationPageSize,
                 TimeZone = model.TimeZone
             };
         }

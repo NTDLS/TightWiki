@@ -7,7 +7,7 @@ SELECT
 	U.AccountName as UserName,
 	U.AccountName as UserNavigation,
 	P.[Name] as PageName,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			(Round(Count(0) / (@PageSize + 0.0)  + 0.999))
@@ -17,7 +17,7 @@ SELECT
 			ON iPC.PageId = iP.Id
 		WHERE
 			iP.Navigation = @Navigation
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	[Page] as P
 INNER JOIN PageComment as PC

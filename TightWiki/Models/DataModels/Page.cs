@@ -43,7 +43,7 @@
         public string CreatedByUserName { get; set; } = string.Empty;
         public string ModifiedByUserName { get; set; } = string.Empty;
         public int LatestRevision { get; set; }
-        public int PaginationCount { get; set; }
+        public int PaginationPageCount { get; set; }
         public decimal Match { get; set; }
         public decimal Weight { get; set; }
         public decimal Score { get; set; }

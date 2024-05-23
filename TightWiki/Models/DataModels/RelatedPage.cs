@@ -7,8 +7,8 @@ namespace TightWiki.Models.DataModels
         public string Navigation { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public int Matches { get; set; }
-        public int PaginationSize { get; set; }
-        public int PaginationCount { get; set; }
+        public int PaginationPageSize { get; set; }
+        public int PaginationPageCount { get; set; }
 
         public string Title
         {

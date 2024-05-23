@@ -9,7 +9,7 @@ SELECT
 	PFR.Revision as FileRevision,
 	PF.Navigation as FileNavigation,
 	P.Navigation as PageNavigation,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -30,7 +30,7 @@ SELECT
 		WHERE
 			P.Navigation = @PageNavigation
 			AND PR.Revision = Coalesce(@PageRevision, P.Revision)
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	[PageFile] as PF
 INNER JOIN [Page] as P

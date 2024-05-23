@@ -4,7 +4,7 @@ SELECT
 	P.[Revision],
 	P.Navigation,
 	P.[Description],
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -15,7 +15,7 @@ SELECT
 		WHERE
 			PR.ReferencesPageId = @PageId
 			AND PR.PageId <> PR.ReferencesPageId
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	PageReference as PR
 INNER JOIN [Page] as P

@@ -12,7 +12,7 @@ SELECT
 	U.ModifiedDate,
 	UCR.ClaimValue as Role,
 	ANU.EmailConfirmed,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -25,7 +25,7 @@ SELECT
 			ON R.Name = UCR.ClaimValue
 		WHERE
 			R.Id = @RoleId
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	Profile as U
 INNER JOIN AspNetUsers as ANU

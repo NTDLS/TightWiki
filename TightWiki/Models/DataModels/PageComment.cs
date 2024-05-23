@@ -10,6 +10,6 @@ namespace TightWiki.Models.DataModels
         public string UserNavigation { get; set; } = string.Empty;
         public string PageName { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
-        public int PaginationCount { get; set; }
+        public int PaginationPageCount { get; set; }
     }
 }

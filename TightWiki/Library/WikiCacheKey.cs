@@ -12,5 +12,8 @@ namespace TightWiki.Library
 
         public static WikiCacheKey Build(Category category, object?[] segments)
             => new($"[{category}]:[{string.Join("]:[", segments)}]");
+
+        public static WikiCacheKey Build(Category category)
+            => new($"[{category}]");
     }
 }

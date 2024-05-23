@@ -115,12 +115,13 @@ namespace TightWiki.Library
         /// <param name="category"></param>
         public static void ClearCategory(Category category)
         {
+            var cacheKey = WikiCacheKey.Build(category);
+
             var keys = new List<string>();
-            string startOfKey = $"{category}:";
 
             foreach (var item in Memcache)
             {
-                if (item.Key.StartsWith(startOfKey))
+                if (item.Key.StartsWith(cacheKey.Key))
                 {
                     keys.Add(item.Key);
                 }

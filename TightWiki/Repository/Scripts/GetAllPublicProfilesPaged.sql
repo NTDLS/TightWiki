@@ -15,7 +15,7 @@ SELECT
 	U.ModifiedDate,
 	U.EmailConfirmed,
 	R.[Name] as [Role],
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -24,7 +24,7 @@ SELECT
 		WHERE
 			@SearchToken IS NULL
 			OR AccountName LIKE '%' || @SearchToken || '%'
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	Profile as U
 INNER JOIN [Role] as R

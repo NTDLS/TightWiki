@@ -19,8 +19,8 @@
         public byte[]? Avatar { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public int PaginationSize { get; set; }
-        public int PaginationCount { get; set; }
+        public int PaginationPageSize { get; set; }
+        public int PaginationPageCount { get; set; }
         public string Role { get; set; } = string.Empty;
     }
 }

@@ -2,8 +2,8 @@
 {
     public partial class PageFileAttachmentInfo
     {
-        public int PaginationSize { get; set; }
-        public int PaginationCount { get; set; }
+        public int PaginationPageSize { get; set; }
+        public int PaginationPageCount { get; set; }
         public int Id { get; set; }
         public int PageId { get; set; }
         public string Name { get; set; } = string.Empty;

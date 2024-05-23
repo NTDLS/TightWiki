@@ -34,7 +34,6 @@ namespace TightWiki.Library
         public static Image ResizeImage(Image image, int width, int height)
         {
             image.Mutate(x => x.Resize(width, height));
-            //image.Save("output/fb.png");
             return image;
         }
 

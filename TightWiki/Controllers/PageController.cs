@@ -182,7 +182,7 @@ namespace TightWiki.Controllers
 
                 if (model.Pages != null && model.Pages.Any())
                 {
-                    WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                    WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
                 WikiContext.CurrentPage = page;
@@ -218,7 +218,7 @@ namespace TightWiki.Controllers
 
                 if (model.Pages != null && model.Pages.Any())
                 {
-                    WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                    WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
                 WikiContext.CurrentPage = page;
@@ -282,7 +282,7 @@ namespace TightWiki.Controllers
 
             if (model.Comments != null && model.Comments.Any())
             {
-                WikiContext.PaginationCount = model.Comments.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Comments.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -330,7 +330,7 @@ namespace TightWiki.Controllers
 
             if (model.Comments != null && model.Comments.Any())
             {
-                WikiContext.PaginationCount = model.Comments.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Comments.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -388,7 +388,7 @@ namespace TightWiki.Controllers
             {
                 WikiContext.SetPageId(model.Revisions.First().PageId);
                 WikiContext.Title = $"{model.Revisions.First().Name} Revisions";
-                WikiContext.PaginationCount = model.Revisions.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Revisions.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -697,30 +697,28 @@ namespace TightWiki.Controllers
                         break;
                 }
 
-                int iscale = int.Parse(scale);
-                if (iscale > 500)
+                int customScalePercent = int.Parse(scale);
+                if (customScalePercent > 500)
                 {
-                    iscale = 500;
+                    customScalePercent = 500;
                 }
-                if (iscale != 100)
+                if (customScalePercent != 100)
                 {
-                    int width = (int)(img.Width * (iscale / 100.0));
-                    int height = (int)(img.Height * (iscale / 100.0));
+                    int width = (int)(img.Width * (customScalePercent / 100.0));
+                    int height = (int)(img.Height * (customScalePercent / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  deminsion to become very small (or even negative). So here we will check the height and width
                     //  to ensure they are both at least n pixels and adjust both demensions.
                     if (height < 16)
                     {
-                        int difference = 16 - height;
-                        height += difference;
-                        width += difference;
+                        height += 16 - height;
+                        width += 16 - height;
                     }
                     if (width < 16)
                     {
-                        int difference = 16 - width;
-                        height += difference;
-                        width += difference;
+                        height += 16 - width;
+                        width += 16 - width;
                     }
 
                     using var image = Images.ResizeImage(img, width, height);
@@ -764,31 +762,29 @@ namespace TightWiki.Controllers
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
-                int iscale = int.Parse(scale);
-                if (iscale > 500)
+                int customScalePercent = int.Parse(scale);
+                if (customScalePercent > 500)
                 {
-                    iscale = 500;
+                    customScalePercent = 500;
                 }
 
-                if (iscale != 100)
+                if (customScalePercent != 100)
                 {
-                    int width = (int)(img.Width * (iscale / 100.0));
-                    int height = (int)(img.Height * (iscale / 100.0));
+                    int width = (int)(img.Width * (customScalePercent / 100.0));
+                    int height = (int)(img.Height * (customScalePercent / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  deminsion to become very small (or even negative). So here we will check the height and width
                     //  to ensure they are both at least n pixels and adjust both demensions.
                     if (height < 16)
                     {
-                        int difference = 16 - height;
-                        height += difference;
-                        width += difference;
+                        height += 16 - height;
+                        width += 16 - height;
                     }
                     if (width < 16)
                     {
-                        int difference = 16 - width;
-                        height += difference;
-                        width += difference;
+                        height += 16 - width;
+                        width += 16 - width;
                     }
 
                     using var image = Images.ResizeImage(img, width, height);

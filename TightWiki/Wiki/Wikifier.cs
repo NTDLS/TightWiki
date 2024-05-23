@@ -1326,9 +1326,9 @@ namespace TightWiki.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (profiles.Count > 0 && profiles.First().PaginationCount > 1)
+                            if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, profiles.First().PaginationCount, pageNumber, _queryString));
+                                html.Append(WikiUtility.GetPageSelector(refTag, profiles.First().PaginationPageCount, pageNumber, _queryString));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -1372,9 +1372,9 @@ namespace TightWiki.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector && attachments.Count > 0 && attachments.First().PaginationCount > 1)
+                                if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                                 {
-                                    html.Append(WikiUtility.GetPageSelector(refTag, attachments.First().PaginationCount, pageNumber, _queryString));
+                                    html.Append(WikiUtility.GetPageSelector(refTag, attachments.First().PaginationPageCount, pageNumber, _queryString));
                                 }
                             }
 
@@ -1418,9 +1418,9 @@ namespace TightWiki.Wiki
                                 }
                                 html.Append("</ul>");
 
-                                if (pageSelector && revisions.Count > 0 && revisions.First().PaginationCount > 1)
+                                if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
                                 {
-                                    html.Append(WikiUtility.GetPageSelector(refTag, revisions.First().PaginationCount, pageNumber, _queryString));
+                                    html.Append(WikiUtility.GetPageSelector(refTag, revisions.First().PaginationPageCount, pageNumber, _queryString));
                                 }
                             }
 
@@ -1957,9 +1957,9 @@ namespace TightWiki.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0 && pages.First().PaginationCount > 1)
+                            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
+                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationPageCount, pageNumber, _queryString));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2051,9 +2051,9 @@ namespace TightWiki.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0 && pages.First().PaginationCount > 1)
+                            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
+                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationPageCount, pageNumber, _queryString));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2101,9 +2101,9 @@ namespace TightWiki.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0 && pages.First().PaginationCount > 1)
+                            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationCount, pageNumber, _queryString));
+                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationPageCount, pageNumber, _queryString));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());

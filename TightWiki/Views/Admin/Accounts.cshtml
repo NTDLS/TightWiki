@@ -71,7 +71,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Accounts", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Accounts", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
 
                         <br />

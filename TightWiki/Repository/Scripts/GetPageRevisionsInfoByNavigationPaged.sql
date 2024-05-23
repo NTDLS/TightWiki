@@ -10,7 +10,7 @@ SELECT
 	PR.ModifiedByUserId,
 	ModifiedUser.AccountName as ModifiedByUserName,
 	PR.ModifiedDate,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -20,7 +20,7 @@ SELECT
 			ON PR.PageId = P.Id
 		WHERE
 			P.Navigation = @Navigation
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	[Page] as P
 INNER JOIN [PageRevision] as PR

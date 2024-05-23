@@ -7,6 +7,6 @@
         public string SourcePageNavigation { get; set; } = string.Empty;
         public string TargetPageName { get; set; } = string.Empty;
         public string TargetPageNavigation { get; set; } = string.Empty;
-        public int PaginationCount { get; set; }
+        public int PaginationPageCount { get; set; }
     }
 }

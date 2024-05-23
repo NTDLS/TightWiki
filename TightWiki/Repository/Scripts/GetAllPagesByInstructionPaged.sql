@@ -10,7 +10,7 @@ SELECT
 	P.ModifiedDate,
 	Createduser.AccountName as CreatedByUserName,
 	ModifiedUser.AccountName as ModifiedByUserName,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -20,7 +20,7 @@ SELECT
 			ON PPI.PageId = P.Id
 		WHERE
 			PPI.Instruction = @Instruction
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	[Page] as P
 INNER JOIN users_db.Profile as ModifiedUser

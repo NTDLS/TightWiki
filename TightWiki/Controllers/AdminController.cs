@@ -77,7 +77,7 @@ namespace TightWiki.Site.Controllers
                         o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                     });
 
-                    WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                    WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
                 WikiContext.CurrentPage = page;
@@ -116,7 +116,7 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -142,7 +142,7 @@ namespace TightWiki.Site.Controllers
             if (model.Pages != null && model.Pages.Any())
             {
                 WikiContext.Title = $"Missing Pages";
-                WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 WikiContext.CurrentPage = page;
             }
 
@@ -167,7 +167,7 @@ namespace TightWiki.Site.Controllers
             if (model.Pages != null && model.Pages.Any())
             {
                 WikiContext.Title = $"Missing Pages";
-                WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 WikiContext.CurrentPage = page;
             }
 
@@ -194,7 +194,7 @@ namespace TightWiki.Site.Controllers
             if (model.Namespaces != null && model.Namespaces.Any())
             {
                 WikiContext.Title = $"Namespaces";
-                WikiContext.PaginationCount = model.Namespaces.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Namespaces.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -229,7 +229,7 @@ namespace TightWiki.Site.Controllers
                 });
 
                 WikiContext.Title = $"Pages";
-                WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -260,7 +260,7 @@ namespace TightWiki.Site.Controllers
                 });
 
                 WikiContext.Title = $"Pages";
-                WikiContext.PaginationCount = model.Pages.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -505,7 +505,7 @@ namespace TightWiki.Site.Controllers
             };
 
             WikiContext.Title = $"Roles";
-            WikiContext.PaginationCount = model.Users.FirstOrDefault()?.PaginationCount ?? 0;
+            WikiContext.PaginationPageCount = model.Users.FirstOrDefault()?.PaginationPageCount ?? 0;
 
             WikiContext.CurrentPage = page;
 
@@ -850,7 +850,7 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                WikiContext.PaginationCount = model.Users.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Users.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -879,7 +879,7 @@ namespace TightWiki.Site.Controllers
                     o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                 });
 
-                WikiContext.PaginationCount = model.Users.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Users.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -1032,7 +1032,7 @@ namespace TightWiki.Site.Controllers
             if (model.Emojis != null && model.Emojis.Any())
             {
                 WikiContext.Title = $"Emojis";
-                WikiContext.PaginationCount = model.Emojis.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Emojis.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
@@ -1057,11 +1057,10 @@ namespace TightWiki.Site.Controllers
             if (model.Emojis != null && model.Emojis.Any())
             {
                 WikiContext.Title = $"Emojis";
-                WikiContext.PaginationCount = model.Emojis.First().PaginationCount;
+                WikiContext.PaginationPageCount = model.Emojis.First().PaginationPageCount;
             }
 
             WikiContext.CurrentPage = page;
-
 
             return View(model);
         }
@@ -1141,6 +1140,8 @@ namespace TightWiki.Site.Controllers
             model.SuccessMessage = "The emoji has been saved successfully!";
             model.Emoji.Id = (int)emoji.Id;
             ModelState.Clear();
+
+            GlobalSettings.ReloadEmojis();
 
             if (nameChanged)
             {

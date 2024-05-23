@@ -65,7 +65,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Emojis", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Emojis", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
 
                         <br />

@@ -51,7 +51,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Namespaces", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Namespaces", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>

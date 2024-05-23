@@ -2,13 +2,13 @@ SELECT
 	P.[Namespace],
 	Count(0) as [CountOfPages],
 
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Count(DISTINCT P.[Namespace]) / (@PageSize + 0.0)
 		FROM
 			[Page] as P
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	[Page] as P
 GROUP BY

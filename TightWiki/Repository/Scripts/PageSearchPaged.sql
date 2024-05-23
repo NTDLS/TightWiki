@@ -13,7 +13,7 @@ SELECT
 	P.ModifiedDate,
 	Coalesce(Createduser.AccountName, '') as CreatedByUserName,
 	Coalesce(ModifiedUser.AccountName, '') as ModifiedByUserName,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -21,7 +21,7 @@ SELECT
 			[Page] as P
 		INNER JOIN TempSearchTerms as ST
 			ON ST.PageId = P.Id
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	[Page] as P
 LEFT OUTER JOIN users_db.Profile as ModifiedUser

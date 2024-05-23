@@ -10,7 +10,7 @@ SELECT
 	UP.UserID as CreatedByUserId,
 	UP.AccountName as CreatedByUserName,
 	UP.Navigation as CreatedByNavigation,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -25,7 +25,7 @@ SELECT
 		WHERE
 			P.Navigation = @PageNavigation
 			AND PF.Navigation = @FileNavigation
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	PageFile as PF
 INNER JOIN [Page] as P

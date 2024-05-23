@@ -3,17 +3,17 @@ SELECT
 	E.[Name],
 	E.MimeType,
 	'%%' + lower(E.[Name]) + '%%' as Shortcut,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			(Round(Count(0) / (@PageSize + 0.0)  + 0.999))
 		FROM
 			Emoji as iE
-		INNER JOIN EmojiCategory as EC
-			ON EC.EmojiId = E.Id
+		INNER JOIN EmojiCategory as iEC
+			ON iEC.EmojiId = iE.Id
 		WHERE
-			EC.Id IN (SELECT Value FROM TempEmojiCategoryIds)
-	) as PaginationCount
+			iEC.Id IN (SELECT Value FROM TempEmojiCategoryIds)
+	) as PaginationPageCount
 FROM
 	Emoji as E
 INNER JOIN EmojiCategory as EC

@@ -12,7 +12,7 @@ SELECT
 	U.ModifiedDate,
 	UCR.ClaimValue as Role,
 	ANU.EmailConfirmed,
-	@PageSize as PaginationSize,
+	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
@@ -35,7 +35,7 @@ SELECT
 			OR ANU.Email LIKE '%' || @SearchToken || '%'
 			OR UCFirstName.ClaimValue LIKE '%' || @SearchToken || '%'
 			OR UCLastName.ClaimValue LIKE '%' || @SearchToken || '%'
-	) as PaginationCount
+	) as PaginationPageCount
 FROM
 	Profile as U
 INNER JOIN AspNetUsers as ANU

@@ -52,7 +52,7 @@ namespace Mssql2Sqlite
             MigrateTable("PageRevisionAttachment", sqliteFile, builder.ToString(), userId);
         }
 
-        static void MigrateTable(string tableName,  string sqliteFile, string sqlServerConnectionString, string userId)
+        static void MigrateTable(string tableName, string sqliteFile, string sqlServerConnectionString, string userId)
         {
             using var sqlServerConnection = new SqlConnection(sqlServerConnectionString);
             var data = sqlServerConnection.Query<dynamic>($"SELECT * FROM [{tableName}]").ToList();

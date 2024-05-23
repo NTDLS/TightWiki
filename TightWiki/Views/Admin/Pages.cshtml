@@ -63,7 +63,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Pages", $"Tokens={@Model.SearchTokens}", @wikiContext?.PaginationCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Pages", $"Tokens={@Model.SearchTokens}", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>
