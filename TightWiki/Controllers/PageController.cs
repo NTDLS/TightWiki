@@ -618,7 +618,7 @@ namespace TightWiki.Controllers
                         return View(model);
                     }
 
-                    originalNavigation = page.Navigation; //So we can clear cache.
+                    originalNavigation = page.Navigation; //So we can clear cache and this also indicates that we need to redirect to the new name.
                 }
 
                 page.ModifiedDate = DateTime.UtcNow;
@@ -636,9 +636,10 @@ namespace TightWiki.Controllers
 
                 model.SuccessMessage = "The page was saved successfully!";
 
-                if (page != null && string.IsNullOrWhiteSpace(originalNavigation) == false)
+                if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                 {
                     WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
+                    return Redirect($"/{page.Navigation}/Edit");
                 }
 
                 return View(model);
