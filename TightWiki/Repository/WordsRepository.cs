@@ -1,6 +1,4 @@
-﻿using TightWiki.DataStorage;
-
-namespace TightWiki.Repository
+﻿namespace TightWiki.Repository
 {
     public static class WordsRepository
     {

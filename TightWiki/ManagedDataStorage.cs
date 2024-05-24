@@ -1,4 +1,6 @@
-﻿namespace TightWiki.DataStorage
+﻿using NTDLS.SqliteDapperWrapper;
+
+namespace TightWiki
 {
     /// <summary>
     /// Stores instances of ManagedDataStorageFactories that are used to store various parts of the data for the site.

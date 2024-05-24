@@ -1,4 +1,4 @@
-﻿using TightWiki.DataStorage;
+﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
