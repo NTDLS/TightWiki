@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Mssql2Sqlite": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\DropZone\\pages.db 963F0B81-F2AC-488B-9B21-521852641EC4 localhost TightWiki_NetBase"
+    }
+  }
+}

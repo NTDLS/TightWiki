@@ -8,20 +8,21 @@ namespace Mssql2Sqlite
     {
         static void Main(string[] args)
         {
-            if (args.Length != 3 && args.Length != 5)
+            if (args.Length != 4 && args.Length != 6)
             {
                 Console.WriteLine("Usage for SQL Server integrated security:");
-                Console.WriteLine("Mssql2Sqlite.exe <sqliteFile> <userGuid> <sqlServer>");
+                Console.WriteLine("Mssql2Sqlite.exe <sqliteFile> <userGuid> <sqlServer> <sqlDatabase>");
 
                 Console.WriteLine("");
                 Console.WriteLine("Usage for SQL Server user security:");
-                Console.WriteLine("Mssql2Sqlite.exe <sqliteFile> <userGuid> <sqlServer> <SQLServerUser> <SQLServerPassword>");
+                Console.WriteLine("Mssql2Sqlite.exe <sqliteFile> <userGuid> <sqlServer> <sqlDatabase> <SQLServerUser> <SQLServerPassword>");
 
                 Console.WriteLine("sqliteFile: The SQLite file to import the data into, existing data will be deleted.");
                 Console.WriteLine("userGuid: The UserId from the SQLite users.db that you want to associate with the import.");
                 Console.WriteLine("sqlServer: The SQL Server name to export the data from.");
                 Console.WriteLine("SQLServerUser: Optional, is the username to use for connecting to SQL Server.");
                 Console.WriteLine("SQLServerPassword: Optional, is the password to use for connecting to SQL Server.");
+                return;
             }
 
             string sqliteFile = args[0];
@@ -30,15 +31,16 @@ namespace Mssql2Sqlite
             var builder = new SqlConnectionStringBuilder
             {
                 DataSource = args[2],
+                InitialCatalog = args[3],
                 Encrypt = SqlConnectionEncryptOption.Optional,
                 TrustServerCertificate = true
             };
 
-            if (args.Length == 3)
+            if (args.Length == 4)
             {
                 builder.IntegratedSecurity = true;
             }
-            else if (args.Length == 5)
+            else if (args.Length == 6)
             {
                 builder.IntegratedSecurity = false;
                 builder.UserID = args[3];
