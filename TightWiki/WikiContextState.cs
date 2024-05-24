@@ -14,12 +14,6 @@ namespace TightWiki
 {
     public class WikiContextState
     {
-        #region Paging.
-
-        public int PaginationPageCount { get; set; }
-
-        #endregion
-
         #region Authentication.
 
         public bool IsAuthenticated { get; set; }

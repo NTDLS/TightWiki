@@ -37,7 +37,6 @@ namespace TightWiki.Site.Controllers
         public ActionResult Avatar(string userAccountName)
         {
             WikiContext.RequireViewPermission();
-
             WikiContext.Title = $"Avatar";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
@@ -224,7 +223,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult My()
         {
             WikiContext.RequireAuthorizedPermission();
-            WikiContext.Title = $"Profile";
+            WikiContext.Title = $"My Profile";
 
             var model = new AccountProfileViewModel()
             {
@@ -252,7 +251,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAuthorizedPermission();
 
-            WikiContext.Title = $"Profile";
+            WikiContext.Title = $"My Profile";
 
             //Get the UserId from the logged in context because we do not trust anyhting from the model.
             var userId = WikiContext.Profile.EnsureNotNull().UserId;
@@ -369,6 +368,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Delete()
         {
             WikiContext.RequireAuthorizedPermission();
+            WikiContext.Title = $"Delete Account";
 
             var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
@@ -379,7 +379,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                WikiContext.Title = $"{profile.AccountName} Delete";
+                WikiContext.Title = $"Delete {profile.AccountName}";
             }
 
             return View(model);

@@ -6,5 +6,7 @@ namespace TightWiki.Models.ViewModels.Page
     {
         public List<PageComment> Comments { get; set; } = new();
         public string Comment { get; set; } = string.Empty;
+
+        public int PaginationPageCount { get; set; }
     }
 }

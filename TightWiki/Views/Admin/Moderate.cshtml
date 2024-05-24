@@ -64,7 +64,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Admin/Moderate", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Admin/Moderate", Context.Request.QueryString, Model.PaginationPageCount))
                         }
                     </td>
                 </tr>

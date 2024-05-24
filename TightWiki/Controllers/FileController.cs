@@ -217,18 +217,17 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
-            var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
-                (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryString("page", 1));
-
-            WikiContext.PaginationPageCount = fileRevisions.FirstOrDefault()?.PaginationPageCount ?? 1;
-
-            return View(new PageFileRevisionsViewModel()
+            var model = new PageFileRevisionsViewModel()
             {
                 PageNavigation = pageNavigation.Canonical,
                 FileNavigation = fileNavigation.Canonical,
+                Revisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
+                    (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryString("page", 1))
+            };
 
-                Revisions = fileRevisions
-            });
+            model.PaginationPageCount = model.Revisions.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            return View(model);
         }
 
         /// <summary>

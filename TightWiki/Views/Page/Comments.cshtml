@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             }
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"{@wikiContext?.PageNavigation}/Comments", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"{@wikiContext?.PageNavigation}/Comments", Context.Request.QueryString, Model.PaginationPageCount))
                         }
                     </td>
                 </tr>

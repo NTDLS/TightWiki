@@ -32,6 +32,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Stats()
         {
             WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Statistics";
 
             Assembly assembly = Assembly.GetEntryAssembly().EnsureNotNull();
             Version version = assembly.GetName().Version.EnsureNotNull();
@@ -41,8 +42,6 @@ namespace TightWiki.Site.Controllers
                 DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats(),
                 ApplicationVerson = version.ToString()
             };
-
-            WikiContext.Title = $"Statistics";
 
             return View(model);
         }
@@ -56,7 +55,6 @@ namespace TightWiki.Site.Controllers
         public ActionResult Moderate()
         {
             WikiContext.RequireModeratePermission();
-
             WikiContext.Title = $"Page Moderation";
 
             var instruction = GetQueryString("Instruction");
@@ -69,6 +67,8 @@ namespace TightWiki.Site.Controllers
                     Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
                 };
 
+                model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
                 if (model.Pages != null && model.Pages.Any())
                 {
                     model.Pages.ForEach(o =>
@@ -76,8 +76,6 @@ namespace TightWiki.Site.Controllers
                         o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
                         o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                     });
-
-                    WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
                 return View(model);
@@ -100,17 +98,14 @@ namespace TightWiki.Site.Controllers
         public ActionResult MissingPages()
         {
             WikiContext.RequireModeratePermission();
+            WikiContext.Title = $"Missing Pages";
 
             var model = new MissingPagesViewModel()
             {
                 Pages = PageRepository.GetNonexistentPagesPaged(GetQueryString("page", 1), 0)
             };
 
-            if (model.Pages != null && model.Pages.Any())
-            {
-                WikiContext.Title = $"Missing Pages";
-                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
-            }
+            model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             return View(model);
         }
@@ -124,17 +119,14 @@ namespace TightWiki.Site.Controllers
         public ActionResult Namespaces()
         {
             WikiContext.RequireModeratePermission();
+            WikiContext.Title = $"Namespaces";
 
             var model = new NamespacesViewModel()
             {
                 Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryString("page", 1), null),
             };
 
-            if (model.Namespaces != null && model.Namespaces.Any())
-            {
-                WikiContext.Title = $"Namespaces";
-                WikiContext.PaginationPageCount = model.Namespaces.First().PaginationPageCount;
-            }
+            model.PaginationPageCount = model.Namespaces.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             return View(model);
         }
@@ -148,6 +140,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Pages()
         {
             WikiContext.RequireModeratePermission();
+            WikiContext.Title = $"Pages";
 
             var searchString = GetQueryString("Tokens");
 
@@ -157,6 +150,8 @@ namespace TightWiki.Site.Controllers
                 SearchString = searchString ?? string.Empty
             };
 
+            model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
             if (model.Pages != null && model.Pages.Any())
             {
                 model.Pages.ForEach(o =>
@@ -164,9 +159,6 @@ namespace TightWiki.Site.Controllers
                     o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
                     o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                 });
-
-                WikiContext.Title = $"Pages";
-                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
             }
 
             return View(model);
@@ -303,11 +295,11 @@ namespace TightWiki.Site.Controllers
         public ActionResult MenuItem(int? id)
         {
             WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Menu Item";
 
             if (id != null)
             {
                 var menuItem = ConfigurationRepository.GetMenuItemById((int)id);
-                WikiContext.Title = $"Menu Item";
                 return View(menuItem.ToViewModel());
             }
             else
@@ -396,6 +388,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Role(string navigation)
         {
             WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Roles";
 
             navigation = Navigation.Clean(navigation);
 
@@ -408,8 +401,7 @@ namespace TightWiki.Site.Controllers
                 Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, GetQueryString("page", 1))
             };
 
-            WikiContext.Title = $"Roles";
-            WikiContext.PaginationPageCount = model.Users.FirstOrDefault()?.PaginationPageCount ?? 0;
+            model.PaginationPageCount = model.Users.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             return View(model);
         }
@@ -745,6 +737,8 @@ namespace TightWiki.Site.Controllers
                 SearchString = searchString
             };
 
+            model.PaginationPageCount = model.Users.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
             if (model.Users != null && model.Users.Any())
             {
                 model.Users.ForEach(o =>
@@ -752,8 +746,6 @@ namespace TightWiki.Site.Controllers
                     o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
                     o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
                 });
-
-                WikiContext.PaginationPageCount = model.Users.First().PaginationPageCount;
             }
 
             return View(model);
@@ -803,6 +795,8 @@ namespace TightWiki.Site.Controllers
         public ActionResult DeleteAccount(string navigation)
         {
             WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Delete Profile";
+
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
 
@@ -813,7 +807,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                WikiContext.Title = $"{profile.AccountName} Delete";
+                WikiContext.Title = $"Delete {profile.AccountName}";
             }
 
             return View(model);
@@ -892,6 +886,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Emojis()
         {
             WikiContext.RequireModeratePermission();
+            WikiContext.Title = $"Emojis";
 
             var searchString = GetQueryString("SearchString") ?? string.Empty;
 
@@ -901,11 +896,7 @@ namespace TightWiki.Site.Controllers
                 SearchString = searchString
             };
 
-            if (model.Emojis != null && model.Emojis.Any())
-            {
-                WikiContext.Title = $"Emojis";
-                WikiContext.PaginationPageCount = model.Emojis.First().PaginationPageCount;
-            }
+            model.PaginationPageCount = model.Emojis.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             return View(model);
         }
@@ -1088,6 +1079,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult DeleteEmoji(string name)
         {
             WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Delete Emoji";
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
@@ -1098,7 +1090,7 @@ namespace TightWiki.Site.Controllers
 
             if (emoji != null)
             {
-                WikiContext.Title = $"{emoji.Name} Delete";
+                WikiContext.Title = $"Delete {emoji.Name}";
             }
 
             return View(model);

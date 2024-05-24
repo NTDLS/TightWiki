@@ -7,5 +7,6 @@ namespace TightWiki.Models.ViewModels.Admin
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public List<AccountProfile> Users { get; set; } = new();
+        public int PaginationPageCount { get; set; }
     }
 }

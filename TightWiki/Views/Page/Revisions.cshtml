@@ -60,7 +60,7 @@
                                 </tbody>
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"{@wikiContext?.PageNavigation}/Revisions", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"{@wikiContext?.PageNavigation}/Revisions", Context.Request.QueryString, Model.PaginationPageCount))
                         }
                     </td>
                 </tr>
