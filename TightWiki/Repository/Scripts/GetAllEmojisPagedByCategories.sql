@@ -2,11 +2,11 @@ SELECT
 	E.Id,
 	E.[Name],
 	E.MimeType,
-	'%%' + lower(E.[Name]) + '%%' as Shortcut,
+	'%%' || lower(E.[Name]) || '%%' as Shortcut,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			(Round(Count(0) / (@PageSize + 0.0)  + 0.999))
+			(Round(Count(0) / (@PageSize + 0.0) + 0.999))
 		FROM
 			Emoji as iE
 		INNER JOIN EmojiCategory as iEC

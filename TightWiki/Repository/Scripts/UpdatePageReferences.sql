@@ -14,7 +14,7 @@ INSERT INTO PageReference
 )
 SELECT DISTINCT
 	@PageId,
-	Coalesce(Ref.[Namespace] + ' :: ', '') +  Ref.Name,
+	Coalesce(Ref.[Namespace] || ' :: ', '') ||  Ref.Name,
 	Ref.Navigation,
 	P.Id
 FROM

@@ -10,7 +10,7 @@ SELECT
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			(Round(Count(0) / (@PageSize + 0.0)  + 0.999))
+			(Round(Count(0) / (@PageSize + 0.0) + 0.999))
 		FROM
 			[Page] as iP
 		INNER JOIN PageComment as iPC
