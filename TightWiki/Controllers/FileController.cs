@@ -217,7 +217,8 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenfileNavigation);
 
-            var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(pageNavigation.Canonical, fileNavigation.Canonical, page);
+            var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
+                (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryString("page", 1));
 
             WikiContext.PaginationPageCount = fileRevisions.FirstOrDefault()?.PaginationPageCount ?? 1;
 

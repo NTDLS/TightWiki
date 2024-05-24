@@ -173,7 +173,7 @@ namespace TightWiki.Controllers
             {
                 var model = new PageSearchViewModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), page),
+                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryString("page", 1)),
                     SearchString = searchString
                 };
 
@@ -198,14 +198,12 @@ namespace TightWiki.Controllers
         {
             WikiContext.Title = $"Page Search";
 
-            if (page <= 0) page = 1;
-
             string searchString = GetQueryString("SearchString") ?? string.Empty;
             if (string.IsNullOrEmpty(searchString) == false)
             {
                 model = new PageSearchViewModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), page),
+                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryString("page", 1)),
                     SearchString = searchString
                 };
 
@@ -258,7 +256,7 @@ namespace TightWiki.Controllers
 
             var model = new PageCommentsViewModel()
             {
-                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, page)
+                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryString("page", 1))
             };
 
             model.Comments.ForEach(o =>
@@ -310,7 +308,7 @@ namespace TightWiki.Controllers
 
             model = new PageCommentsViewModel()
             {
-                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, page),
+                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryString("page", 1)),
                 ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
             };
 
@@ -359,7 +357,7 @@ namespace TightWiki.Controllers
 
             var model = new PageRevisionsViewModel()
             {
-                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, page)
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryString("page", 1))
             };
 
             model.Revisions.ForEach(o =>

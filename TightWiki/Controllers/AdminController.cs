@@ -64,7 +64,7 @@ namespace TightWiki.Site.Controllers
             {
                 var model = new PageModerateViewModel()
                 {
-                    Pages = PageRepository.GetAllPagesByInstructionPaged(page, null, instruction),
+                    Pages = PageRepository.GetAllPagesByInstructionPaged(GetQueryString("page", 1), null, instruction),
                     Instruction = instruction,
                     Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
                 };
@@ -103,7 +103,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new MissingPagesViewModel()
             {
-                Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
+                Pages = PageRepository.GetNonexistentPagesPaged(GetQueryString("page", 1), 0)
             };
 
             if (model.Pages != null && model.Pages.Any())
@@ -127,7 +127,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new NamespacesViewModel()
             {
-                Namespaces = PageRepository.GetAllNamespacesPaged(page, null),
+                Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryString("page", 1), null),
             };
 
             if (model.Namespaces != null && model.Namespaces.Any())
@@ -153,7 +153,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PagesViewModel()
             {
-                Pages = PageRepository.GetAllPagesPaged(page, null, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllPagesPaged(GetQueryString("page", 1), null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString ?? string.Empty
             };
 
@@ -405,7 +405,7 @@ namespace TightWiki.Site.Controllers
             {
                 Id = role.Id,
                 Name = role.Name,
-                Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, page)
+                Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, GetQueryString("page", 1))
             };
 
             WikiContext.Title = $"Roles";
@@ -741,7 +741,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new AccountsViewModel()
             {
-                Users = UsersRepository.GetAllUsersPaged(page, null, searchString),
+                Users = UsersRepository.GetAllUsersPaged(GetQueryString("page", 1), null, searchString),
                 SearchString = searchString
             };
 
@@ -897,7 +897,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new EmojisViewModel()
             {
-                Emojis = EmojiRepository.GetAllEmojisPaged(page, null, Utility.SplitToTokens(searchString)),
+                Emojis = EmojiRepository.GetAllEmojisPaged(GetQueryString("page", 1), null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 

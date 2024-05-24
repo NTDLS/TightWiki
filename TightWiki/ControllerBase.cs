@@ -70,28 +70,34 @@ namespace TightWiki
             return base.Redirect(url.EnsureNotNull());
         }
 
-        protected string? GetQueryString(string key)
+        public string? GetQueryString(string key)
         {
             string? value = Request.Query[key];
             return value;
         }
 
-        protected string GetQueryString(string key, string defaultValue)
+        public string GetQueryString(string key, string defaultValue)
         {
             string? value = Request.Query[key];
             return value ?? defaultValue;
         }
 
-        protected string? GetFormString(string key)
+        public int GetQueryString(string key, int defaultValue)
+            => int.Parse(GetQueryString(key, defaultValue.ToString()));
+
+        public string? GetFormString(string key)
         {
             string? value = Request.Form[key];
             return value;
         }
 
-        protected string GetFormString(string key, string defaultValue)
+        public string GetFormString(string key, string defaultValue)
         {
             string? value = Request.Form[key];
             return value ?? defaultValue;
         }
+
+        public int GetFormString(string key, int defaultValue)
+            => int.Parse(GetFormString(key, defaultValue.ToString()));
     }
 }
