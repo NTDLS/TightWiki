@@ -10,7 +10,7 @@ namespace TightWiki.Repository
         public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
         {
             var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>
-                ("GetConfigurationEntryValuesByGroupName", new { GroupName = groupName }).ToList();
+                ("GetConfigurationEntryValuesByGroupName.sql", new { GroupName = groupName }).ToList();
 
             foreach (var entry in entries)
             {
@@ -37,7 +37,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("users.db", "users_db");
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
-                var result = o.QuerySingle<WikiDatabaseStats>("GetWikiDatabaseStats");
+                var result = o.QuerySingle<WikiDatabaseStats>("GetWikiDatabaseStats.sql");
                 result.Exceptions = ExceptionRepository.GetExceptionCount();
 
                 return result;
@@ -65,7 +65,7 @@ namespace TightWiki.Repository
         /// <returns></returns>
         public static bool GetCryptoCheck()
         {
-            var value = ManagedDataStorage.Config.QueryFirstOrDefault<string>("GetCryptoCheck") ?? string.Empty;
+            var value = ManagedDataStorage.Config.QueryFirstOrDefault<string>("GetCryptoCheck.sql") ?? string.Empty;
 
             try
             {
@@ -92,7 +92,7 @@ namespace TightWiki.Repository
                 Content = Security.EncryptString(Security.MachineKey, Constants.CRYPTOCHECK)
             };
 
-            ManagedDataStorage.Config.QueryFirstOrDefault<string>("SetCryptoCheck", param);
+            ManagedDataStorage.Config.QueryFirstOrDefault<string>("SetCryptoCheck.sql", param);
         }
 
         public static void SaveConfigurationEntryValueByGroupAndEntry(string groupName, string entryName, string value)
@@ -104,7 +104,7 @@ namespace TightWiki.Repository
                 Value = value
             };
 
-            ManagedDataStorage.Config.Execute("SaveConfigurationEntryValueByGroupAndEntry", param);
+            ManagedDataStorage.Config.Execute("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
 
             GlobalSettings.ReloadEverything();
         }
@@ -162,7 +162,7 @@ namespace TightWiki.Repository
 
         public static List<ConfigurationFlat> GetFlatConfiguration()
         {
-            return ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration").ToList();
+            return ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql").ToList();
         }
 
         public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName, bool allowCache = true)
@@ -189,7 +189,7 @@ namespace TightWiki.Repository
                 EntryName = entryName
             };
 
-            var configEntry = ManagedDataStorage.Config.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName", param);
+            var configEntry = ManagedDataStorage.Config.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql", param);
             if (configEntry?.IsEncrypted == true)
             {
                 try
@@ -227,7 +227,7 @@ namespace TightWiki.Repository
 
         public static List<MenuItem> GetAllMenuItems()
         {
-            return ManagedDataStorage.Config.Query<MenuItem>("GetAllMenuItems").ToList();
+            return ManagedDataStorage.Config.Query<MenuItem>("GetAllMenuItems.sql").ToList();
         }
 
         public static MenuItem GetMenuItemById(int id)
@@ -237,7 +237,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            return ManagedDataStorage.Config.QuerySingle<MenuItem>("GetMenuItemById", param);
+            return ManagedDataStorage.Config.QuerySingle<MenuItem>("GetMenuItemById.sql", param);
         }
 
         public static void DeleteMenuItemById(int id)
@@ -247,7 +247,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            ManagedDataStorage.Config.Execute("DeleteMenuItemById", param);
+            ManagedDataStorage.Config.Execute("DeleteMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
             GlobalSettings.MenuItems = GetAllMenuItems();
@@ -263,7 +263,7 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("UpdateMenuItemById", param);
+            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("UpdateMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
             GlobalSettings.MenuItems = GetAllMenuItems();
@@ -280,7 +280,7 @@ namespace TightWiki.Repository
                 menuItem.Ordinal
             };
 
-            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("InsertMenuItem", param);
+            var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("InsertMenuItem.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
             GlobalSettings.MenuItems = GetAllMenuItems();

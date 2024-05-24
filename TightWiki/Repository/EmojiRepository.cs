@@ -7,13 +7,13 @@ namespace TightWiki.Repository
     public static partial class EmojiRepository
     {
         public static List<Emoji> GetAllEmojis()
-            => ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojis").ToList();
+            => ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojis.sql").ToList();
 
         public static IEnumerable<Emoji> GetEmojisByCategory(string category)
-            => ManagedDataStorage.Emoji.Query<Emoji>("GetEmojisByCategory", new { Category = category });
+            => ManagedDataStorage.Emoji.Query<Emoji>("GetEmojisByCategory.sql", new { Category = category });
 
         public static IEnumerable<EmojiCategory> GetEmojiCategoriesGrouped()
-            => ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesGrouped");
+            => ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesGrouped.sql");
 
         public static IEnumerable<int> SearchEmojiCatorgoryIds(List<string> categories)
         {
@@ -24,8 +24,8 @@ namespace TightWiki.Repository
                     SearchTokenCount = categories.Count
                 };
 
-                using var tempTable = o.CreateValueListTableFrom("TempCategories", categories);
-                return o.Query<int>("SearchEmojiCatorgoryIds", param);
+                using var tempTable = o.CreateTempTableFrom("TempCategories", categories);
+                return o.Query<int>("SearchEmojiCatorgoryIds.sql", param);
             });
         }
 
@@ -36,7 +36,7 @@ namespace TightWiki.Repository
                 Name = name
             };
 
-            return ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesByName", param).ToList();
+            return ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesByName.sql", param).ToList();
         }
 
         public static void DeleteById(int id)
@@ -46,7 +46,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            ManagedDataStorage.Emoji.Execute("DeleteEmojiById", param);
+            ManagedDataStorage.Emoji.Execute("DeleteEmojiById.sql", param);
 
             GlobalSettings.ReloadEmojis();
         }
@@ -58,7 +58,7 @@ namespace TightWiki.Repository
                 Name = name
             };
 
-            return ManagedDataStorage.Emoji.QuerySingleOrDefault<Emoji>("GetEmojiByName", param);
+            return ManagedDataStorage.Emoji.QuerySingleOrDefault<Emoji>("GetEmojiByName.sql", param);
         }
 
         public static int UpsertEmoji(UpsertEmoji emoji)
@@ -77,7 +77,7 @@ namespace TightWiki.Repository
                             ImageData = emoji.ImageData == null ? null : Utility.Compress(emoji.ImageData),
                             MimeType = emoji.MimeType
                         };
-                        emoji.Id = o.ExecuteScalar<int>("InsertEmoji", param);
+                        emoji.Id = o.ExecuteScalar<int>("InsertEmoji.sql", param);
                     }
                     else
                     {
@@ -88,7 +88,7 @@ namespace TightWiki.Repository
                             ImageData = emoji.ImageData == null ? null : Utility.Compress(emoji.ImageData),
                             MimeType = emoji.MimeType
                         };
-                        o.ExecuteScalar<int>("UpdateEmoji", param);
+                        o.ExecuteScalar<int>("UpdateEmoji.sql", param);
                     }
 
                     var upsertEmojiCategoriesParam = new
@@ -96,8 +96,8 @@ namespace TightWiki.Repository
                         EmojiId = emoji.Id
                     };
 
-                    using var tempTable = o.CreateValueListTableFrom("TempEmojiCategories", emoji.Categories, transaction);
-                    o.Execute("UpsertEmojiCategories", upsertEmojiCategoriesParam);
+                    using var tempTable = o.CreateTempTableFrom("TempEmojiCategories", emoji.Categories, transaction);
+                    o.Execute("UpsertEmojiCategories.sql", upsertEmojiCategoriesParam);
 
                     transaction.Commit();
 
@@ -127,7 +127,7 @@ namespace TightWiki.Repository
                     PageSize = pageSize
                 };
 
-                return ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojisPaged", param).ToList();
+                return ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojisPaged.sql", param).ToList();
             }
             else
             {
@@ -148,8 +148,8 @@ namespace TightWiki.Repository
                         PageSize = pageSize
                     };
 
-                    using var tempTable = o.CreateValueListTableFrom("TempEmojiCategoryIds", emojiCategoryIds);
-                    return o.Query<Emoji>("GetAllEmojisPagedByCategories", getAllEmojisPagedByCategoriesParam).ToList();
+                    using var tempTable = o.CreateTempTableFrom("TempEmojiCategoryIds", emojiCategoryIds);
+                    return o.Query<Emoji>("GetAllEmojisPagedByCategories.sql", getAllEmojisPagedByCategoriesParam).ToList();
                 });
             }
         }

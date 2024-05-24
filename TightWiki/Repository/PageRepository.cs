@@ -16,7 +16,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionInfoById", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionInfoById.sql", param);
         }
 
         public static Page? GetPageInfoById(int pageId)
@@ -26,7 +26,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoById", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoById.sql", param);
         }
 
         public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId)
@@ -36,7 +36,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId", param).ToList();
+            return ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList();
         }
 
         public static List<PageTag> GetPageTagsById(int pageId)
@@ -46,7 +46,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param).ToList();
         }
 
         public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(string navigation, int pageNumber, int? pageSize = null)
@@ -63,7 +63,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<PageRevision>("GetPageRevisionsInfoByNavigationPaged", param).ToList();
+                return o.Query<PageRevision>("GetPageRevisionsInfoByNavigationPaged.sql", param).ToList();
             });
         }
 
@@ -75,7 +75,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Pages.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId", param).ToList();
+            return ManagedDataStorage.Pages.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId.sql", param).ToList();
         }
 
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
@@ -85,7 +85,7 @@ namespace TightWiki.Repository
                 TopCount = topCount
             };
 
-            return ManagedDataStorage.Pages.Query<Page>("GetTopRecentlyModifiedPagesInfo", param).ToList();
+            return ManagedDataStorage.Pages.Query<Page>("GetTopRecentlyModifiedPagesInfo.sql", param).ToList();
         }
 
         private static List<PageSearchToken> GetFuzzyPageSearchTokens(List<PageToken> tokens, double minimumMatchScore)
@@ -98,8 +98,8 @@ namespace TightWiki.Repository
                     TokenCount = tokens.Count()
                 };
 
-                using var tempTable = o.CreateValueListTableFrom("TempSearchTerms", tokens.Distinct());
-                return o.Query<PageSearchToken>("GetFuzzyPageSearchTokens", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
+                return o.Query<PageSearchToken>("GetFuzzyPageSearchTokens.sql", param).ToList();
             });
         }
 
@@ -113,8 +113,8 @@ namespace TightWiki.Repository
                     TokenCount = tokens.Count()
                 };
 
-                using var tempTable = o.CreateValueListTableFrom("TempSearchTerms", tokens.Distinct());
-                return o.Query<PageSearchToken>("GetExactPageSearchTokens", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
+                return o.Query<PageSearchToken>("GetExactPageSearchTokens.sql", param).ToList();
             });
         }
 
@@ -175,8 +175,8 @@ namespace TightWiki.Repository
                 };
 
                 using var users_db = o.Attach("users.db", "users_db");
-                using var tempTable = o.CreateValueListTableFrom("TempSearchTerms", meteredSearchTokens);
-                return o.Query<Page>("PageSearch", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempSearchTerms", meteredSearchTokens);
+                return o.Query<Page>("PageSearch.sql", param).ToList();
             });
         }
 
@@ -206,8 +206,8 @@ namespace TightWiki.Repository
                 };
 
                 using var users_db = o.Attach("users.db", "users_db");
-                using var tempTable = o.CreateValueListTableFrom("TempSearchTerms", meteredSearchTokens);
-                var results = o.Query<Page>("PageSearchPaged", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempSearchTerms", meteredSearchTokens);
+                var results = o.Query<Page>("PageSearchPaged.sql", param).ToList();
                 return results;
             });
         }
@@ -223,7 +223,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<RelatedPage>("GetSimilarPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<RelatedPage>("GetSimilarPagesPaged.sql", param).ToList();
         }
 
         public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
@@ -237,7 +237,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<RelatedPage>("GetRelatedPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<RelatedPage>("GetRelatedPagesPaged.sql", param).ToList();
         }
 
         public static void InsertPageComment(int pageId, Guid userId, string body)
@@ -250,7 +250,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow
             };
 
-            ManagedDataStorage.Pages.Execute("InsertPageComment", param);
+            ManagedDataStorage.Pages.Execute("InsertPageComment.sql", param);
         }
 
         public static void DeletePageCommentById(int pageId, int commentId)
@@ -261,7 +261,7 @@ namespace TightWiki.Repository
                 CommentId = commentId
             };
 
-            ManagedDataStorage.Pages.Execute("DeletePageCommentById", param);
+            ManagedDataStorage.Pages.Execute("DeletePageCommentById.sql", param);
         }
 
         public static void DeletePageCommentByUserAndId(int pageId, Guid userId, int commentId)
@@ -273,7 +273,7 @@ namespace TightWiki.Repository
                 CommentId = commentId
             };
 
-            ManagedDataStorage.Pages.Execute("DeletePageCommentByUserAndId", param);
+            ManagedDataStorage.Pages.Execute("DeletePageCommentByUserAndId.sql", param);
         }
 
         public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, int? pageSize = null)
@@ -290,7 +290,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<PageComment>("GetPageCommentsPaged", param).ToList();
+                return o.Query<PageComment>("GetPageCommentsPaged.sql", param).ToList();
             });
         }
 
@@ -304,7 +304,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<NonexistentPage>("GetNonexistentPagesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<NonexistentPage>("GetNonexistentPagesPaged.sql", param).ToList();
         }
 
         public static void UpdateSinglePageReference(string pageNavigation, int pageId)
@@ -315,7 +315,7 @@ namespace TightWiki.Repository
                 @PageNavigation = pageNavigation
             };
 
-            ManagedDataStorage.Pages.Execute("UpdateSinglePageReference", param);
+            ManagedDataStorage.Pages.Execute("UpdateSinglePageReference.sql", param);
         }
 
         public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
@@ -327,8 +327,8 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                using var tempTable = o.CreateValueListTableFrom("TempReferences", referencesPageNavigations.Distinct());
-                return o.Query<Page>("UpdatePageReferences", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempReferences", referencesPageNavigations.Distinct());
+                return o.Query<Page>("UpdatePageReferences.sql", param).ToList();
             });
         }
 
@@ -346,7 +346,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<Page>("GetAllPagesByInstructionPaged", param).ToList();
+                return o.Query<Page>("GetAllPagesByInstructionPaged.sql", param).ToList();
             });
         }
 
@@ -364,8 +364,8 @@ namespace TightWiki.Repository
                     TokenCount = tokens.Count
                 };
 
-                using var tempTable = o.CreateValueListTableFrom("TempTokens", tokens);
-                return o.Query<int>("GetPageIdsByTokens", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempTokens", tokens);
+                return o.Query<int>("GetPageIdsByTokens.sql", param).ToList();
             });
         }
 
@@ -393,7 +393,7 @@ namespace TightWiki.Repository
                 return ManagedDataStorage.Pages.Ephemeral(o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
-                    using var tempTable = o.CreateValueListTableFrom("TempPageIds", pageIds);
+                    using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
                     return o.Query<Page>("GetAllPagesByPageIdPaged", param).ToList();
                 });
             }
@@ -401,7 +401,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<Page>("GetAllPagesPaged", param).ToList();
+                return o.Query<Page>("GetAllPagesPaged.sql", param).ToList();
             });
         }
 
@@ -415,12 +415,12 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<NamespaceStat>("GetAllNamespacesPaged", param).ToList();
+            return ManagedDataStorage.Pages.Query<NamespaceStat>("GetAllNamespacesPaged.sql", param).ToList();
         }
 
         public static List<Page> GetAllPages()
         {
-            return ManagedDataStorage.Pages.Query<Page>("GetAllPages").ToList();
+            return ManagedDataStorage.Pages.Query<Page>("GetAllPages.sql").ToList();
         }
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
@@ -432,8 +432,8 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                using var tempTable = o.CreateValueListTableFrom("TempInstructions", instructions);
-                return o.Query<Page>("UpdatePageProcessingInstructions", param).ToList();
+                using var tempTable = o.CreateTempTableFrom("TempInstructions", instructions);
+                return o.Query<Page>("UpdatePageProcessingInstructions.sql", param).ToList();
             });
         }
 
@@ -452,8 +452,8 @@ namespace TightWiki.Repository
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateValueListTableFrom("TempTokens", items.Distinct());
-                return o.Query<Page>("SavePageTokens").ToList();
+                using var tempTable = o.CreateTempTableFrom("TempTokens", items.Distinct());
+                return o.Query<Page>("SavePageTokens.sql").ToList();
             });
         }
 
@@ -470,7 +470,7 @@ namespace TightWiki.Repository
                     var transaction = o.BeginTransaction();
                     try
                     {
-                        o.Execute("TruncateAllPageRevisions");
+                        o.Execute("TruncateAllPageRevisions.sql");
                         transaction.Commit();
                     }
                     catch
@@ -489,7 +489,7 @@ namespace TightWiki.Repository
                 PageId = pageId,
             };
 
-            return connection.ExecuteScalar<int>("GetCurrentPageRevision", param);
+            return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
         }
 
         public static PageInfoAndHash GetPageInfoAndBodyByIdAndRevision(int pageId, int? revision = null)
@@ -500,7 +500,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Pages.QuerySingle<PageInfoAndHash>("GetPageInfoByIdAndRevision", param);
+            return ManagedDataStorage.Pages.QuerySingle<PageInfoAndHash>("GetPageInfoByIdAndRevision.sql", param);
         }
 
         public static int SavePage(Page page)
@@ -533,7 +533,7 @@ namespace TightWiki.Repository
                     if (page.Id == 0)
                     {
                         //This is a new page, just insert it.
-                        page.Id = o.ExecuteScalar<int>("CreatePage", pageUpsertParam);
+                        page.Id = o.ExecuteScalar<int>("CreatePage.sql", pageUpsertParam);
                         hasPageChanged = true;
                     }
                     else
@@ -543,7 +543,7 @@ namespace TightWiki.Repository
                         currentPageRevision = currentRevisionInfo.Revision;
 
                         //Update the existing page.
-                        o.Execute("UpdatePage", pageUpsertParam);
+                        o.Execute("UpdatePage.sql", pageUpsertParam);
 
                         //Determine if anyhting has actually changed.
                         hasPageChanged = currentRevisionInfo.Name != page.Name
@@ -562,7 +562,7 @@ namespace TightWiki.Repository
                             PageRevision = currentPageRevision
                         };
                         //The page content has actually changed (according to the checksum), so we will bump the page revision.
-                        o.Execute("UpdatePageRevisionNumber", updatePageRevisionNumberParam);
+                        o.Execute("UpdatePageRevisionNumber.sql", updatePageRevisionNumberParam);
 
                         var InsertPageRevisionParam = new
                         {
@@ -577,7 +577,7 @@ namespace TightWiki.Repository
                             ModifiedDate = DateTime.UtcNow,
                         };
                         //Insert the new actual page revision entry (this is the data).
-                        o.Execute("InsertPageRevision", InsertPageRevisionParam);
+                        o.Execute("InsertPageRevision.sql", InsertPageRevisionParam);
 
                         var reassociateAllPageAttachmentsParam = new
                         {
@@ -585,7 +585,7 @@ namespace TightWiki.Repository
                             PageRevision = currentPageRevision,
                         };
                         //Associate all page attachments with the latest revision.
-                        o.Execute("ReassociateAllPageAttachments", reassociateAllPageAttachmentsParam);
+                        o.Execute("ReassociateAllPageAttachments.sql", reassociateAllPageAttachmentsParam);
                     }
 
                     transaction.Commit();
@@ -612,7 +612,7 @@ namespace TightWiki.Repository
                 Navigation = navigation
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
         }
 
         public static void DeletePageById(int pageId)
@@ -627,9 +627,9 @@ namespace TightWiki.Repository
                 var transaction = o.BeginTransaction();
                 try
                 {
-                    o.Execute("DeletePageByPageId", param);
+                    o.Execute("DeletePageByPageId.sql", param);
                     transaction.Commit();
-                    ManagedDataStorage.Statistics.Execute("DeletePageStatisticsByPageId", param);
+                    ManagedDataStorage.Statistics.Execute("DeletePageStatisticsByPageId.sql", param);
                 }
                 catch
                 {
@@ -646,7 +646,7 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCountOfPageAttachmentsById", param);
+            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCountOfPageAttachmentsById.sql", param);
         }
 
         public static Page? GetPageRevisionByNavigation(NamespaceNavigation navigation, int? revision = null)
@@ -660,7 +660,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation", param);
+                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation.sql", param);
             });
         }
 
@@ -693,7 +693,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation", param);
+                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation.sql", param);
             });
         }
 
@@ -706,15 +706,15 @@ namespace TightWiki.Repository
                 GroupName = groupName
             };
 
-            return ManagedDataStorage.Pages.Query<TagAssociation>("GetAssociatedTags", param).ToList();
+            return ManagedDataStorage.Pages.Query<TagAssociation>("GetAssociatedTags.sql", param).ToList();
         }
 
         public static List<Page> GetPageInfoByNamespaces(List<string> namespaces)
         {
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateValueListTableFrom("TempNamespaces", namespaces);
-                return o.Query<Page>("GetPageInfoByNamespaces").ToList();
+                using var tempTable = o.CreateTempTableFrom("TempNamespaces", namespaces);
+                return o.Query<Page>("GetPageInfoByNamespaces.sql").ToList();
             });
         }
 
@@ -722,8 +722,8 @@ namespace TightWiki.Repository
         {
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateValueListTableFrom("TempTags", tags);
-                return o.Query<Page>("GetPageInfoByTags").ToList();
+                using var tempTable = o.CreateTempTableFrom("TempTags", tags);
+                return o.Query<Page>("GetPageInfoByTags.sql").ToList();
             });
         }
 
@@ -731,8 +731,8 @@ namespace TightWiki.Repository
         {
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateValueListTableFrom("TempTags", new List<string> { tag });
-                return o.Query<Page>("GetPageInfoByTags").ToList();
+                using var tempTable = o.CreateTempTableFrom("TempTags", new List<string> { tag });
+                return o.Query<Page>("GetPageInfoByTags.sql").ToList();
             });
         }
 
@@ -740,14 +740,14 @@ namespace TightWiki.Repository
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                using var tempTable = o.CreateValueListTableFrom("TempTags", tags);
+                using var tempTable = o.CreateTempTableFrom("TempTags", tags);
 
                 var param = new
                 {
                     PageId = pageId
                 };
 
-                return o.Query<Page>("UpdatePageTags", param).ToList();
+                return o.Query<Page>("UpdatePageTags.sql", param).ToList();
             });
         }
 

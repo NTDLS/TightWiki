@@ -5,7 +5,7 @@ namespace TightWiki.Repository
     public static class WordsRepository
     {
         public static int GetWordsCount()
-            => ManagedDataStorage.Words.ExecuteScalar<int>("GetWordsCount");
+            => ManagedDataStorage.Words.ExecuteScalar<int>("GetWordsCount.sql");
 
         public static List<string> GetRandomWords(int count)
         {
@@ -21,7 +21,7 @@ namespace TightWiki.Repository
                     Offset = random.Next(countOfWords),
                 };
 
-                var word = ManagedDataStorage.Words.QueryFirstOrDefault<string>("GetSingleWordAt", param);
+                var word = ManagedDataStorage.Words.QueryFirstOrDefault<string>("GetSingleWordAt.sql", param);
                 if (word != null)
                 {
                     result.Add(word);

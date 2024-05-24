@@ -2,6 +2,7 @@
 using Microsoft.Data.Sqlite;
 using System.Data;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Text;
 
 namespace TightWiki.DataStorage
@@ -19,6 +20,8 @@ namespace TightWiki.DataStorage
         public SqliteConnection NativeConnection { get; private set; }
 
         private static readonly Dictionary<string, string> _scriptCache = new();
+
+        private static readonly MemoryCache _reflectionCache = new MemoryCache("ManagedDataStorageInstance");
 
         public delegate void UseAndDisposeProc(ManagedDataStorageInstance connection);
         public delegate T UseAndDisposeProc<T>(ManagedDataStorageInstance connection);
@@ -42,7 +45,7 @@ namespace TightWiki.DataStorage
             return NativeConnection.BeginTransaction(isolationLevel);
         }
 
-        public DisposableValueListTable CreateValueListTableFrom(string tableName, IEnumerable<string> values, SqliteTransaction transaction)
+        public DisposableValueListTable CreateTempTableFrom(string tableName, IEnumerable<string> values, SqliteTransaction transaction)
         {
             var result = new DisposableValueListTable(NativeConnection, tableName);
 
@@ -61,30 +64,7 @@ namespace TightWiki.DataStorage
             return result;
         }
 
-        public DisposableValueListTable CreateValueListTableFrom(string tableName, IEnumerable<string> values)
-        {
-            var result = new DisposableValueListTable(NativeConnection, tableName);
-
-            using var transaction = NativeConnection.BeginTransaction();
-
-            var createTempTableCommand = new SqliteCommand($"CREATE TEMP TABLE {tableName} (Value TEXT COLLATE NOCASE);", NativeConnection, transaction);
-            createTempTableCommand.ExecuteNonQuery();
-
-            var insertTagCommand = new SqliteCommand($"INSERT INTO {tableName} (Value) VALUES (@Tag);", NativeConnection, transaction);
-
-            foreach (var tag in values)
-            {
-                insertTagCommand.Parameters.Clear();
-                insertTagCommand.Parameters.AddWithValue("@Tag", tag);
-                insertTagCommand.ExecuteNonQuery();
-            }
-
-            transaction.Commit();
-
-            return result;
-        }
-
-        public DisposableValueListTable CreateValueListTableFrom(string tableName, IEnumerable<int> values)
+        public DisposableValueListTable CreateTempTableFrom(string tableName, IEnumerable<string> values)
         {
             var result = new DisposableValueListTable(NativeConnection, tableName);
 
@@ -107,7 +87,30 @@ namespace TightWiki.DataStorage
             return result;
         }
 
-        public DisposableValueListTable CreateValueListTableFrom<T>(string tableName, IEnumerable<T> values)
+        public DisposableValueListTable CreateTempTableFrom(string tableName, IEnumerable<int> values)
+        {
+            var result = new DisposableValueListTable(NativeConnection, tableName);
+
+            using var transaction = NativeConnection.BeginTransaction();
+
+            var createTempTableCommand = new SqliteCommand($"CREATE TEMP TABLE {tableName} (Value TEXT COLLATE NOCASE);", NativeConnection, transaction);
+            createTempTableCommand.ExecuteNonQuery();
+
+            var insertTagCommand = new SqliteCommand($"INSERT INTO {tableName} (Value) VALUES (@Tag);", NativeConnection, transaction);
+
+            foreach (var tag in values)
+            {
+                insertTagCommand.Parameters.Clear();
+                insertTagCommand.Parameters.AddWithValue("@Tag", tag);
+                insertTagCommand.ExecuteNonQuery();
+            }
+
+            transaction.Commit();
+
+            return result;
+        }
+
+        public DisposableValueListTable CreateTempTableFrom<T>(string tableName, IEnumerable<T> values)
         {
             var result = new DisposableValueListTable(NativeConnection, tableName);
             using var transaction = NativeConnection.BeginTransaction();
@@ -174,76 +177,105 @@ namespace TightWiki.DataStorage
 
 
         /// <summary>
-        /// Loads a script from the assembly, this allows us to execute mock stored procedures.
+        /// Returns the given text, or if the script ends with ".sql", the script will be
+        /// located and laoded form the executing assembly (assuming it is an embedded resource).
         /// </summary>
-        /// <param name="scriptName"></param>
+        /// <param name="script"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        public static string LoadScript(string scriptName)
+        public static string TranslateSqlScript(string script)
         {
-            string cacheKey = scriptName.ToLower();
-            if (_scriptCache.TryGetValue(cacheKey, out var cachedScriptText))
+            string cacheKey = script.ToLower();
+
+            if (cacheKey.EndsWith(".sql"))
             {
-                return cachedScriptText;
+                if (_scriptCache.TryGetValue(cacheKey, out var cachedScriptText))
+                {
+                    return cachedScriptText;
+                }
+
+                var assembly = Assembly.GetExecutingAssembly();
+
+                var allScriptNames = _reflectionCache.Get("TranslateSqlScript:Names") as List<string>;
+                if (allScriptNames == null)
+                {
+                    allScriptNames = assembly.GetManifestResourceNames().Where(o => o.ToLower().EndsWith(".sql")).ToList();
+                    _reflectionCache.Add("TranslateSqlScript:Names", allScriptNames, new CacheItemPolicy
+                    {
+                        SlidingExpiration = new TimeSpan(1, 0, 0)
+                    });
+                }
+
+                var scripts = allScriptNames.Where(o => o.ToLower().EndsWith(cacheKey)).ToList();
+                if (scripts.Count == 0)
+                {
+                    throw new Exception($"The embedded script resource could not be found: '{script}'");
+                }
+                else if (scripts.Count > 1)
+                {
+                    throw new Exception($"The embedded script resource is ambigious. Either make the script name unique or qualifiy it with a namespace: '{script}'");
+                }
+
+                using var stream = assembly.GetManifestResourceStream(scripts.First())
+                    ?? throw new InvalidOperationException("Script not found: " + script);
+
+                using var reader = new StreamReader(stream);
+                var scriptText = reader.ReadToEnd();
+                _scriptCache.TryAdd(cacheKey, scriptText);
+                return scriptText;
             }
 
-            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"TightWiki.Repository.Scripts.{scriptName}.sql")
-                ?? throw new InvalidOperationException("Script not found: " + scriptName);
-
-            using var reader = new StreamReader(stream);
-            var scriptText = reader.ReadToEnd();
-            _scriptCache.TryAdd(cacheKey, scriptText);
-            return scriptText;
+            return script;
         }
 
         public IEnumerable<T> Query<T>(string scriptName)
-            => NativeConnection.Query<T>(LoadScript(scriptName));
+            => NativeConnection.Query<T>(TranslateSqlScript(scriptName));
         public IEnumerable<T> Query<T>(string scriptName, object param)
-            => NativeConnection.Query<T>(LoadScript(scriptName), param);
+            => NativeConnection.Query<T>(TranslateSqlScript(scriptName), param);
 
         public T ExecuteScalar<T>(string scriptName, T defaultValue)
-            => NativeConnection.ExecuteScalar<T>(LoadScript(scriptName)) ?? defaultValue;
+            => NativeConnection.ExecuteScalar<T>(TranslateSqlScript(scriptName)) ?? defaultValue;
         public T ExecuteScalar<T>(string scriptName, object param, T defaultValue)
-            => NativeConnection.ExecuteScalar<T>(LoadScript(scriptName), param) ?? defaultValue;
+            => NativeConnection.ExecuteScalar<T>(TranslateSqlScript(scriptName), param) ?? defaultValue;
 
         public T QueryFirst<T>(string scriptName)
-            => NativeConnection.QueryFirst<T>(LoadScript(scriptName));
+            => NativeConnection.QueryFirst<T>(TranslateSqlScript(scriptName));
         public T QueryFirst<T>(string scriptName, object param)
-            => NativeConnection.QueryFirst<T>(LoadScript(scriptName), param);
+            => NativeConnection.QueryFirst<T>(TranslateSqlScript(scriptName), param);
 
         public T QueryFirstOrDefault<T>(string scriptName, T defaultValue)
-            => NativeConnection.QueryFirstOrDefault<T>(LoadScript(scriptName)) ?? defaultValue;
+            => NativeConnection.QueryFirstOrDefault<T>(TranslateSqlScript(scriptName)) ?? defaultValue;
         public T QueryFirstOrDefault<T>(string scriptName, object param, T defaultValue)
-            => NativeConnection.QueryFirstOrDefault<T>(LoadScript(scriptName), param) ?? defaultValue;
+            => NativeConnection.QueryFirstOrDefault<T>(TranslateSqlScript(scriptName), param) ?? defaultValue;
 
         public T QuerySingle<T>(string scriptName)
-            => NativeConnection.QuerySingle<T>(LoadScript(scriptName));
+            => NativeConnection.QuerySingle<T>(TranslateSqlScript(scriptName));
         public T QuerySingle<T>(string scriptName, object param)
-            => NativeConnection.QuerySingle<T>(LoadScript(scriptName), param);
+            => NativeConnection.QuerySingle<T>(TranslateSqlScript(scriptName), param);
 
         public T QuerySingleOrDefault<T>(string scriptName, T defaultValue)
-            => NativeConnection.QuerySingleOrDefault<T>(LoadScript(scriptName)) ?? defaultValue;
+            => NativeConnection.QuerySingleOrDefault<T>(TranslateSqlScript(scriptName)) ?? defaultValue;
         public T QuerySingleOrDefault<T>(string scriptName, object param, T defaultValue)
-            => NativeConnection.QuerySingleOrDefault<T>(LoadScript(scriptName), param) ?? defaultValue;
+            => NativeConnection.QuerySingleOrDefault<T>(TranslateSqlScript(scriptName), param) ?? defaultValue;
 
         public T? ExecuteScalar<T>(string scriptName)
-            => NativeConnection.ExecuteScalar<T>(LoadScript(scriptName));
+            => NativeConnection.ExecuteScalar<T>(TranslateSqlScript(scriptName));
         public T? ExecuteScalar<T>(string scriptName, object param)
-            => NativeConnection.ExecuteScalar<T>(LoadScript(scriptName), param);
+            => NativeConnection.ExecuteScalar<T>(TranslateSqlScript(scriptName), param);
 
         public T? QueryFirstOrDefault<T>(string scriptName)
-            => NativeConnection.QueryFirstOrDefault<T>(LoadScript(scriptName));
+            => NativeConnection.QueryFirstOrDefault<T>(TranslateSqlScript(scriptName));
         public T? QueryFirstOrDefault<T>(string scriptName, object param)
-            => NativeConnection.QueryFirstOrDefault<T>(LoadScript(scriptName), param);
+            => NativeConnection.QueryFirstOrDefault<T>(TranslateSqlScript(scriptName), param);
 
         public T? QuerySingleOrDefault<T>(string scriptName)
-            => NativeConnection.QuerySingleOrDefault<T>(LoadScript(scriptName));
+            => NativeConnection.QuerySingleOrDefault<T>(TranslateSqlScript(scriptName));
         public T? QuerySingleOrDefault<T>(string scriptName, object param)
-            => NativeConnection.QuerySingleOrDefault<T>(LoadScript(scriptName), param);
+            => NativeConnection.QuerySingleOrDefault<T>(TranslateSqlScript(scriptName), param);
 
         public void Execute(string scriptName)
-            => NativeConnection.Execute(LoadScript(scriptName));
+            => NativeConnection.Execute(TranslateSqlScript(scriptName));
         public void Execute(string scriptName, object param)
-            => NativeConnection.Execute(LoadScript(scriptName), param);
+            => NativeConnection.Execute(TranslateSqlScript(scriptName), param);
     }
 }

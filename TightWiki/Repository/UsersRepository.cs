@@ -18,7 +18,7 @@ namespace TightWiki.Repository
                 SearchToken = searchToken
             };
 
-            return ManagedDataStorage.Users.Query<AccountProfile>("GetAllPublicProfilesPaged", param).ToList();
+            return ManagedDataStorage.Users.Query<AccountProfile>("GetAllPublicProfilesPaged.sql", param).ToList();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace TightWiki.Repository
                 Navigation = Navigation.Clean(standinName)
             };
 
-            ManagedDataStorage.Users.Execute("AnonymizeProfile", param);
+            ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);
         }
 
         public static Role GetRoleByName(string name)
@@ -47,12 +47,12 @@ namespace TightWiki.Repository
                 Name = name
             };
 
-            return ManagedDataStorage.Users.QuerySingle<Role>("GetRoleByName", param);
+            return ManagedDataStorage.Users.QuerySingle<Role>("GetRoleByName.sql", param);
         }
 
         public static List<Role> GetAllRoles()
         {
-            return ManagedDataStorage.Users.Query<Role>("GetAllRoles").ToList();
+            return ManagedDataStorage.Users.Query<Role>("GetAllRoles.sql").ToList();
         }
 
         public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber, int? pageSize = null)
@@ -66,7 +66,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Users.Query<AccountProfile>("GetProfilesByRoleIdPaged", param).ToList();
+            return ManagedDataStorage.Users.Query<AccountProfile>("GetProfilesByRoleIdPaged.sql", param).ToList();
         }
 
         public static List<AccountProfile> GetAllUsersPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
@@ -80,7 +80,7 @@ namespace TightWiki.Repository
                 SearchToken = searchToken
             };
 
-            return ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsersPaged", param).ToList();
+            return ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsersPaged.sql", param).ToList();
         }
 
         public static int CreateProfile(Guid userId)
@@ -96,7 +96,7 @@ namespace TightWiki.Repository
                 ModifiedDate = DateTime.UtcNow
             };
 
-            return ManagedDataStorage.Users.ExecuteScalar<int>("CreateProfile", param);
+            return ManagedDataStorage.Users.ExecuteScalar<int>("CreateProfile.sql", param);
         }
 
         public static void CreateProfile(Guid userId, string accountName)
@@ -115,7 +115,7 @@ namespace TightWiki.Repository
                 ModifiedDate = DateTime.UtcNow
             };
 
-            ManagedDataStorage.Users.Execute("CreateProfile", param);
+            ManagedDataStorage.Users.Execute("CreateProfile.sql", param);
         }
 
         public static string GetRandomUnusedAccountName()
@@ -137,7 +137,7 @@ namespace TightWiki.Repository
                 EmailAddress = emailAddress?.ToLower()
             };
 
-            return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesEmailAddressExist", param) ?? 0) != 0;
+            return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesEmailAddressExist.sql", param) ?? 0) != 0;
         }
 
         public static bool DoesProfileAccountExist(string navigation)
@@ -147,7 +147,7 @@ namespace TightWiki.Repository
                 Navigation = navigation?.ToLower()
             };
 
-            return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist", param) ?? 0) != 0;
+            return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist.sql", param) ?? 0) != 0;
         }
 
         public static AccountProfile GetBasicProfileByUserId(Guid userId)
@@ -157,7 +157,7 @@ namespace TightWiki.Repository
                 UserId = userId
             };
 
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId", param);
+            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
         }
 
         public static AccountProfile GetAccountProfileByUserId(Guid userId)
@@ -167,7 +167,7 @@ namespace TightWiki.Repository
                 UserId = userId
             };
 
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId", param);
+            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId.sql", param);
         }
 
         public static void SetProfileUserId(string navigation, Guid userId)
@@ -178,7 +178,7 @@ namespace TightWiki.Repository
                 UserId = userId
             };
 
-            ManagedDataStorage.Users.Execute("SetProfileUserId", param);
+            ManagedDataStorage.Users.Execute("SetProfileUserId.sql", param);
         }
 
         public static Guid? GetUserAccountIdByNavigation(string navigation)
@@ -188,7 +188,7 @@ namespace TightWiki.Repository
                 Navigation = navigation
             };
 
-            return ManagedDataStorage.Users.QueryFirstOrDefault<Guid>("GetUserAccountIdByNavigation", param);
+            return ManagedDataStorage.Users.QueryFirstOrDefault<Guid>("GetUserAccountIdByNavigation.sql", param);
         }
 
         public static AccountProfile GetAccountProfileByNavigation(string? navigation)
@@ -198,7 +198,7 @@ namespace TightWiki.Repository
                 Navigation = navigation
             };
 
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByNavigation", param);
+            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByNavigation.sql", param);
         }
 
         public static AccountProfile? GetProfileByAccountNameOrEmailAndPasswordHash(string accountNameOrEmail, string passwordHash)
@@ -209,7 +209,7 @@ namespace TightWiki.Repository
                 PasswordHash = passwordHash
             };
 
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash", param);
+            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
         public static AccountProfile? GetProfileByAccountNameOrEmailAndPassword(string accountNameOrEmail, string password)
@@ -221,7 +221,7 @@ namespace TightWiki.Repository
                 PasswordHash = passwordHash
             };
 
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash", param);
+            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
         public static byte[]? GetProfileAvatarByNavigation(string navigation)
@@ -231,7 +231,7 @@ namespace TightWiki.Repository
                 Navigation = navigation
             };
 
-            return ManagedDataStorage.Users.QuerySingle<byte[]>("GetProfileAvatarByNavigation", param);
+            return ManagedDataStorage.Users.QuerySingle<byte[]>("GetProfileAvatarByNavigation.sql", param);
         }
 
         public static void UpdateProfile(AccountProfile item)
@@ -245,7 +245,7 @@ namespace TightWiki.Repository
                 ModifiedDate = item.ModifiedDate
             };
 
-            ManagedDataStorage.Users.Execute("UpdateProfile", param);
+            ManagedDataStorage.Users.Execute("UpdateProfile.sql", param);
         }
 
         public static void UpdateProfileAvatar(Guid userId, byte[] imageData)
@@ -256,7 +256,7 @@ namespace TightWiki.Repository
                 Avatar = imageData,
             };
 
-            ManagedDataStorage.Users.Execute("UpdateProfileAvatar", param);
+            ManagedDataStorage.Users.Execute("UpdateProfileAvatar.sql", param);
         }
 
         public static AdminPasswordChangeState AdminPasswordStatus()
@@ -268,7 +268,7 @@ namespace TightWiki.Repository
                 return AdminPasswordChangeState.HasBeenChanged;
             }
 
-            var result = ManagedDataStorage.Users.ExecuteScalar<bool?>("IsAdminPasswordChanged");
+            var result = ManagedDataStorage.Users.ExecuteScalar<bool?>("IsAdminPasswordChanged.sql");
             if (result == true)
             {
                 WikiCache.Put(cacheKey, true);
@@ -284,16 +284,16 @@ namespace TightWiki.Repository
 
         public static void SetAdminPasswordClear()
         {
-            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordClear");
+            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordClear.sql");
         }
         public static void SetAdminPasswordIsChanged()
         {
-            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsChanged");
+            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsChanged.sql");
         }
 
         public static void SetAdminPasswordIsDefault()
         {
-            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsDefault");
+            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsDefault.sql");
         }
     }
 }

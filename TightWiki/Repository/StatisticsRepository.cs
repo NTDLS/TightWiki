@@ -20,7 +20,7 @@ namespace TightWiki.Repository
                 BodySize = bodySize
             };
 
-            ManagedDataStorage.Statistics.Execute("InsertPageStatistics", param);
+            ManagedDataStorage.Statistics.Execute("InsertPageStatistics.sql", param);
         }
     }
 }

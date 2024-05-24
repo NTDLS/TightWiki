@@ -14,7 +14,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            ManagedDataStorage.Exceptions.Execute("InsertException", param);
+            ManagedDataStorage.Exceptions.Execute("InsertException.sql", param);
         }
 
         public static void InsertException(Exception ex)
@@ -27,7 +27,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            ManagedDataStorage.Exceptions.Execute("InsertException", param);
+            ManagedDataStorage.Exceptions.Execute("InsertException.sql", param);
         }
 
         public static void InsertException(Exception ex, string? text = null)
@@ -40,12 +40,12 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow
             };
 
-            ManagedDataStorage.Exceptions.Execute("InsertException", param);
+            ManagedDataStorage.Exceptions.Execute("InsertException.sql", param);
         }
 
         public static int GetExceptionCount()
         {
-            return ManagedDataStorage.Exceptions.ExecuteScalar<int>("GetExceptionCount");
+            return ManagedDataStorage.Exceptions.ExecuteScalar<int>("GetExceptionCount.sql");
         }
     }
 }
