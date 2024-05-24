@@ -178,7 +178,7 @@ namespace TightWiki.Controllers
                     SearchString = searchString
                 };
 
-                model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+                model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
 
                 return View(model);
             }
@@ -205,7 +205,7 @@ namespace TightWiki.Controllers
                     SearchString = searchString
                 };
 
-                model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+                model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
 
                 return View(model);
             }
@@ -254,7 +254,7 @@ namespace TightWiki.Controllers
                 Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryString("page", 1))
             };
 
-            model.PaginationPageCount = model.Comments.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             model.Comments.ForEach(o =>
             {
@@ -304,7 +304,7 @@ namespace TightWiki.Controllers
                 ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
             };
 
-            model.PaginationPageCount = model.Comments.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             model.Comments.ForEach(o =>
             {
@@ -350,7 +350,7 @@ namespace TightWiki.Controllers
                 Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryString("page", 1))
             };
 
-            model.PaginationPageCount = model.Revisions.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             model.Revisions.ForEach(o =>
             {
@@ -365,7 +365,7 @@ namespace TightWiki.Controllers
                 p.ChangeSummary = Differentiator.GetComparisionSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
-            if (model.Revisions != null && model.Revisions.Any())
+            if (model.Revisions != null && model.Revisions.Count > 0)
             {
                 WikiContext.SetPageId(model.Revisions.First().PageId);
                 WikiContext.Title = $"{model.Revisions.First().Name} Revisions";

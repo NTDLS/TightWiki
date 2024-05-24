@@ -46,7 +46,7 @@ namespace TightWiki.Site.Controllers
 
             var imageBytes = UsersRepository.GetProfileAvatarByNavigation(userAccountName);
 
-            if (imageBytes == null || imageBytes.Count() == 0)
+            if (imageBytes == null || imageBytes.Length == 0)
             {
                 //Load the default avatar.
                 var filePath = Path.Combine(_environment.WebRootPath, "Avatar.png");
@@ -56,7 +56,7 @@ namespace TightWiki.Site.Controllers
                 imageBytes = ms.ToArray();
             }
 
-            if (imageBytes != null && imageBytes.Count() > 0)
+            if (imageBytes != null && imageBytes.Length > 0)
             {
                 var img = Image.Load(new MemoryStream(imageBytes));
 

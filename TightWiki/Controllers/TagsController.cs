@@ -30,7 +30,7 @@ namespace TightWiki.Site.Controllers
             var glossaryHtml = new StringBuilder();
             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
 
-            if (pages.Count() > 0)
+            if (pages.Count > 0)
             {
                 glossaryHtml.Append("<center>");
                 foreach (var alpha in alphabet)

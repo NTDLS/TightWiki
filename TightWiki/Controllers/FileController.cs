@@ -225,7 +225,7 @@ namespace TightWiki.Controllers
                     (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryString("page", 1))
             };
 
-            model.PaginationPageCount = model.Revisions.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }

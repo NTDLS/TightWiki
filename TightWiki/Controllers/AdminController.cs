@@ -67,9 +67,9 @@ namespace TightWiki.Site.Controllers
                     Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
                 };
 
-                model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+                model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
 
-                if (model.Pages != null && model.Pages.Any())
+                if (model.Pages != null && model.Pages.Count > 0)
                 {
                     model.Pages.ForEach(o =>
                     {
@@ -105,7 +105,7 @@ namespace TightWiki.Site.Controllers
                 Pages = PageRepository.GetNonexistentPagesPaged(GetQueryString("page", 1), 0)
             };
 
-            model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
@@ -126,7 +126,7 @@ namespace TightWiki.Site.Controllers
                 Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryString("page", 1), null),
             };
 
-            model.PaginationPageCount = model.Namespaces.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Namespaces.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
@@ -150,9 +150,9 @@ namespace TightWiki.Site.Controllers
                 SearchString = searchString ?? string.Empty
             };
 
-            model.PaginationPageCount = model.Pages.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
 
-            if (model.Pages != null && model.Pages.Any())
+            if (model.Pages != null && model.Pages.Count > 0)
             {
                 model.Pages.ForEach(o =>
                 {
@@ -401,7 +401,7 @@ namespace TightWiki.Site.Controllers
                 Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, GetQueryString("page", 1))
             };
 
-            model.PaginationPageCount = model.Users.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Users.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
@@ -737,9 +737,9 @@ namespace TightWiki.Site.Controllers
                 SearchString = searchString
             };
 
-            model.PaginationPageCount = model.Users.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Users.FirstOrDefault()?.PaginationPageCount ?? 0);
 
-            if (model.Users != null && model.Users.Any())
+            if (model.Users != null && model.Users.Count > 0)
             {
                 model.Users.ForEach(o =>
                 {
@@ -896,7 +896,7 @@ namespace TightWiki.Site.Controllers
                 SearchString = searchString
             };
 
-            model.PaginationPageCount = model.Emojis.Count / ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            model.PaginationPageCount = (model.Emojis.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
