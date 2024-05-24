@@ -169,19 +169,6 @@ namespace TightWiki.Site.Controllers
         #region Confirm Action.
 
         [Authorize]
-        [HttpGet("ConfirmAction")]
-        public ActionResult ConfirmAction()
-        {
-            WikiContext.RequireAdminPermission();
-
-            var model = new UtilitiesViewModel()
-            {
-            };
-
-            return View(model);
-        }
-
-        [Authorize]
         [HttpPost("ConfirmAction")]
         public ActionResult ConfirmAction(ConfirmActionViewModel model)
         {

@@ -22,11 +22,13 @@ namespace TightWiki
             UserManager = userManager;
         }
 
+        [NonAction]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             ViewData["WikiContext"] = WikiContext.Hydrate(SignInManager, this);
         }
 
+        [NonAction]
         protected int SavePage(Page page)
         {
             bool isNewlyCreated = page.Id == 0;
@@ -44,6 +46,7 @@ namespace TightWiki
             return page.Id;
         }
 
+        [NonAction]
         protected void RefreshPageProperties(string pageNavigation)
         {
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
@@ -53,6 +56,7 @@ namespace TightWiki
             }
         }
 
+        [NonAction]
         protected void RefreshPageProperties(Page page)
         {
             var wikifier = new Wikifier(WikiContext, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
@@ -65,39 +69,46 @@ namespace TightWiki
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
+        [NonAction]
         public override RedirectResult Redirect(string? url)
         {
             return base.Redirect(url.EnsureNotNull());
         }
 
-        public string? GetQueryString(string key)
+        [NonAction]
+        protected string? GetQueryString(string key)
         {
             string? value = Request.Query[key];
             return value;
         }
 
-        public string GetQueryString(string key, string defaultValue)
+        [NonAction]
+        protected string GetQueryString(string key, string defaultValue)
         {
             string? value = Request.Query[key];
             return value ?? defaultValue;
         }
 
-        public int GetQueryString(string key, int defaultValue)
+        [NonAction]
+        protected int GetQueryString(string key, int defaultValue)
             => int.Parse(GetQueryString(key, defaultValue.ToString()));
 
-        public string? GetFormString(string key)
+        [NonAction]
+        protected string? GetFormString(string key)
         {
             string? value = Request.Form[key];
             return value;
         }
 
-        public string GetFormString(string key, string defaultValue)
+        [NonAction]
+        protected string GetFormString(string key, string defaultValue)
         {
             string? value = Request.Form[key];
             return value ?? defaultValue;
         }
 
-        public int GetFormString(string key, int defaultValue)
+        [NonAction]
+        protected int GetFormString(string key, int defaultValue)
             => int.Parse(GetFormString(key, defaultValue.ToString()));
     }
 }
