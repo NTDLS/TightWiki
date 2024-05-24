@@ -5,7 +5,10 @@ namespace TightWiki.Library
     public static class PoorMansPager
     {
         public static string Generate(string url, int? totalPageCount, int? currentPage)
-            => Generate(url, null, totalPageCount, currentPage);
+            => Generate(url, string.Empty, totalPageCount, currentPage);
+
+        public static string Generate(string url, QueryString? queryString, int? totalPageCount, int? currentPage)
+            => Generate(url, queryString.ToString(), totalPageCount, currentPage);
 
         public static string Generate(string url, string? queryString, int? totalPageCount, int? currentPage)
         {

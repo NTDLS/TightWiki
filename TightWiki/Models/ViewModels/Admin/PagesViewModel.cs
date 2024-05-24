@@ -4,6 +4,6 @@
     {
         public List<DataModels.Page> Pages { get; set; } = new();
 
-        public string SearchTokens { get; set; } = string.Empty;
+        public string SearchString { get; set; } = string.Empty;
     }
 }

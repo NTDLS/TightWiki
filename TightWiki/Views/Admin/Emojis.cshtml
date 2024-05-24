@@ -34,12 +34,10 @@
 
                         @using (Html.BeginForm("Emojis", "Admin", FormMethod.Get))
                         {
-                            //@Html.AntiForgeryToken()
-
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
                                 <tr>
                                     <td width="80%">
-                                        @Html.TextBoxFor(x => x.Categories, new { style = "width:100%" })
+                                        @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
                                     </td>
                                     <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
                                 </tr>
@@ -65,7 +63,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Emojis", Context.Request.QueryString.ToString(), @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Emojis", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
 
                         <br />

@@ -6,6 +6,6 @@ namespace TightWiki.Models.ViewModels.Admin
     {
         public List<AccountProfile> Users { get; set; } = new();
 
-        public string SearchToken { get; set; } = string.Empty;
+        public string SearchString { get; set; } = string.Empty;
     }
 }

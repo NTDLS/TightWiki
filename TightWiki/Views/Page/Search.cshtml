@@ -30,14 +30,12 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm("Search", "Page", FormMethod.Get))
                         {
-                            @Html.AntiForgeryToken()
-
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
                                 <tr>
                                     <td width="80%">
-                                        @Html.TextBoxFor(x => x.SearchTokens, new { style = "width:100%" })
+                                        @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
                                     </td>
                                     <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
                                 </tr>
@@ -58,7 +56,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Page/Search", $"Tokens={@Model.SearchTokens}", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Page/Search", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
                     </td>
                 </tr>

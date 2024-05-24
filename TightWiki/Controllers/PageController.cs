@@ -168,16 +168,13 @@ namespace TightWiki.Controllers
         {
             WikiContext.Title = $"Page Search";
 
-            string searchTokens = GetQueryString("Tokens").DefaultWhenNullOrEmpty(string.Empty);
-            if (searchTokens != null)
+            string searchString = GetQueryString("SearchString") ?? string.Empty;
+            if (string.IsNullOrEmpty(searchString) == false)
             {
-                var tokens = searchTokens.Split(new char[] { ' ', '\t', '_', '-' },
-                    StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct().ToList();
-
                 var model = new PageSearchViewModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(tokens, page),
-                    SearchTokens = GetQueryString("Tokens").DefaultWhenNullOrEmpty(string.Empty)
+                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), page),
+                    SearchString = searchString
                 };
 
                 if (model.Pages != null && model.Pages.Any())
@@ -193,7 +190,7 @@ namespace TightWiki.Controllers
             return View(new PageSearchViewModel()
             {
                 Pages = new List<Page>(),
-                SearchTokens = String.Empty
+                SearchString = searchString
             });
         }
 
@@ -205,15 +202,13 @@ namespace TightWiki.Controllers
 
             if (page <= 0) page = 1;
 
-            if (model.SearchTokens != null)
+            string searchString = GetQueryString("SearchString") ?? string.Empty;
+            if (string.IsNullOrEmpty(searchString) == false)
             {
-                var tokens = model.SearchTokens.Split(new char[] { ' ', '\t', '_', '-' },
-                    StringSplitOptions.RemoveEmptyEntries).Select(o => o.ToLower()).Distinct().ToList();
-
                 model = new PageSearchViewModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(tokens, page),
-                    SearchTokens = GetQueryString("Tokens").DefaultWhenNullOrEmpty(string.Empty)
+                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), page),
+                    SearchString = searchString
                 };
 
                 if (model.Pages != null && model.Pages.Any())
@@ -229,7 +224,7 @@ namespace TightWiki.Controllers
             return View(new PageSearchViewModel()
             {
                 Pages = new List<Page>(),
-                SearchTokens = String.Empty
+                SearchString = searchString
             });
         }
 
@@ -290,6 +285,13 @@ namespace TightWiki.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Insert new page comment.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="givenCanonical"></param>
+        /// <param name="page"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost("{givenCanonical}/{page=1}/Comments")]
         [HttpPost("{givenCanonical}/Comments")]

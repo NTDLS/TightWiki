@@ -32,14 +32,12 @@
 
                         <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
 
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm("Accounts", "Admin", FormMethod.Get))
                         {
-                            @Html.AntiForgeryToken()
-
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
                                 <tr>
                                     <td width="80%">
-                                        @Html.TextBoxFor(x => x.SearchToken, new { style = "width:100%" })
+                                        @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
                                     </td>
                                     <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
                                 </tr>
@@ -71,7 +69,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Accounts", @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Accounts", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
                         }
 
                         <br />

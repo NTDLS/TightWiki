@@ -93,37 +93,6 @@ namespace TightWiki.Site.Controllers
             });
         }
 
-        [Authorize]
-        [HttpPost("Moderate/{page=1}")]
-        public ActionResult Moderate(int page, PageModerateViewModel model)
-        {
-            WikiContext.RequireModeratePermission();
-
-            WikiContext.Title = $"Page Moderation";
-
-            model = new PageModerateViewModel()
-            {
-                Pages = PageRepository.GetAllPagesByInstructionPaged(page, null, model.Instruction),
-                Instruction = model.Instruction,
-                Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
-            };
-
-            if (model.Pages != null && model.Pages.Any())
-            {
-                model.Pages.ForEach(o =>
-                {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
-                });
-
-                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
-            }
-
-            WikiContext.CurrentPage = page;
-
-            return View(model);
-        }
-
         #endregion
 
         #region Missing Pages.
@@ -135,31 +104,6 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
 
             var model = new MissingPagesViewModel()
-            {
-                Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
-            };
-
-            if (model.Pages != null && model.Pages.Any())
-            {
-                WikiContext.Title = $"Missing Pages";
-                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
-                WikiContext.CurrentPage = page;
-            }
-
-            WikiContext.CurrentPage = page;
-
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpPost("MissingPages/{page=1}")]
-        public ActionResult MissingPages(int page, MissingPagesViewModel model)
-        {
-            WikiContext.RequireModeratePermission();
-
-            page = 1;
-
-            model = new MissingPagesViewModel()
             {
                 Pages = PageRepository.GetNonexistentPagesPaged(page, 0)
             };
@@ -212,43 +156,12 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
-            var searchTokens = Utility.SplitToTokens(GetQueryString("Tokens"));
+            var searchString = GetQueryString("Tokens");
 
             var model = new PagesViewModel()
             {
-                Pages = PageRepository.GetAllPagesPaged(page, null, searchTokens),
-                SearchTokens = GetQueryString("Tokens", string.Empty)
-            };
-
-            if (model.Pages != null && model.Pages.Any())
-            {
-                model.Pages.ForEach(o =>
-                {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
-                });
-
-                WikiContext.Title = $"Pages";
-                WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
-            }
-
-            WikiContext.CurrentPage = page;
-
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpPost("Pages/{page=1}")]
-        public ActionResult Pages(int page, PagesViewModel model)
-        {
-            WikiContext.RequireModeratePermission();
-
-            var searchTokens = Utility.SplitToTokens(model.SearchTokens);
-
-            model = new PagesViewModel()
-            {
-                Pages = PageRepository.GetAllPagesPaged(page, null, searchTokens),
-                SearchTokens = model.SearchTokens ?? string.Empty
+                Pages = PageRepository.GetAllPagesPaged(page, null, Utility.SplitToTokens(searchString)),
+                SearchString = searchString ?? string.Empty
             };
 
             if (model.Pages != null && model.Pages.Any())
@@ -835,40 +748,12 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            var searchToken = GetQueryString("Token");
+            var searchString = GetQueryString("SearchString") ?? string.Empty;
 
             var model = new AccountsViewModel()
             {
-                Users = UsersRepository.GetAllUsersPaged(page, null, searchToken)
-            };
-
-            if (model.Users != null && model.Users.Any())
-            {
-                model.Users.ForEach(o =>
-                {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
-                });
-
-                WikiContext.PaginationPageCount = model.Users.First().PaginationPageCount;
-            }
-
-            WikiContext.CurrentPage = page;
-
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpPost("Accounts/{page=1}")]
-        public ActionResult Accounts(int page, AccountsViewModel model)
-        {
-            WikiContext.RequireAdminPermission();
-
-            string searchToken = model.SearchToken;
-
-            model = new AccountsViewModel()
-            {
-                Users = UsersRepository.GetAllUsersPaged(page, null, searchToken)
+                Users = UsersRepository.GetAllUsersPaged(page, null, searchString),
+                SearchString = searchString
             };
 
             if (model.Users != null && model.Users.Any())
@@ -1021,37 +906,12 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
-            var searchTokens = Utility.SplitToTokens(GetQueryString("Categories"));
+            var searchString = GetQueryString("SearchString") ?? string.Empty;
 
             var model = new EmojisViewModel()
             {
-                Emojis = EmojiRepository.GetAllEmojisPaged(page, null, searchTokens),
-                Categories = GetQueryString("Categories", string.Empty)
-            };
-
-            if (model.Emojis != null && model.Emojis.Any())
-            {
-                WikiContext.Title = $"Emojis";
-                WikiContext.PaginationPageCount = model.Emojis.First().PaginationPageCount;
-            }
-
-            WikiContext.CurrentPage = page;
-
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpPost("Emojis/{page=1}")]
-        public ActionResult Emojis(int page, EmojisViewModel model)
-        {
-            WikiContext.RequireModeratePermission();
-
-            var searchTokens = Utility.SplitToTokens(model.Categories);
-
-            model = new EmojisViewModel()
-            {
-                Emojis = EmojiRepository.GetAllEmojisPaged(page, null, searchTokens),
-                Categories = model.Categories ?? string.Empty
+                Emojis = EmojiRepository.GetAllEmojisPaged(page, null, Utility.SplitToTokens(searchString)),
+                SearchString = searchString
             };
 
             if (model.Emojis != null && model.Emojis.Any())
