@@ -49,7 +49,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Namespaces", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Admin/Namespaces", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
                         }
                     </td>
                 </tr>

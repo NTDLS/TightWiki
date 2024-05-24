@@ -1328,7 +1328,7 @@ namespace TightWiki.Wiki
 
                             if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, profiles.First().PaginationPageCount, pageNumber, _queryString));
+                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, profiles.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -1374,7 +1374,7 @@ namespace TightWiki.Wiki
 
                                 if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                                 {
-                                    html.Append(WikiUtility.GetPageSelector(refTag, attachments.First().PaginationPageCount, pageNumber, _queryString));
+                                    html.Append(PageSelectorGenerator.Generate(refTag, _queryString, attachments.First().PaginationPageCount));
                                 }
                             }
 
@@ -1420,7 +1420,7 @@ namespace TightWiki.Wiki
 
                                 if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
                                 {
-                                    html.Append(WikiUtility.GetPageSelector(refTag, revisions.First().PaginationPageCount, pageNumber, _queryString));
+                                    html.Append(PageSelectorGenerator.Generate(refTag, _queryString, revisions.First().PaginationPageCount));
                                 }
                             }
 
@@ -1959,7 +1959,7 @@ namespace TightWiki.Wiki
 
                             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationPageCount, pageNumber, _queryString));
+                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2053,7 +2053,7 @@ namespace TightWiki.Wiki
 
                             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationPageCount, pageNumber, _queryString));
+                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2103,7 +2103,7 @@ namespace TightWiki.Wiki
 
                             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(WikiUtility.GetPageSelector(refTag, pages.First().PaginationPageCount, pageNumber, _queryString));
+                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());

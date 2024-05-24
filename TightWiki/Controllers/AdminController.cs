@@ -52,8 +52,8 @@ namespace TightWiki.Site.Controllers
         #region Moderate.
 
         [Authorize]
-        [HttpGet("Moderate/{page=1}")]
-        public ActionResult Moderate(int page)
+        [HttpGet("Moderate")]
+        public ActionResult Moderate()
         {
             WikiContext.RequireModeratePermission();
 
@@ -80,8 +80,6 @@ namespace TightWiki.Site.Controllers
                     WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
-                WikiContext.CurrentPage = page;
-
                 return View(model);
             }
 
@@ -98,8 +96,8 @@ namespace TightWiki.Site.Controllers
         #region Missing Pages.
 
         [Authorize]
-        [HttpGet("MissingPages/{page=1}")]
-        public ActionResult MissingPages(int page)
+        [HttpGet("MissingPages")]
+        public ActionResult MissingPages()
         {
             WikiContext.RequireModeratePermission();
 
@@ -112,10 +110,7 @@ namespace TightWiki.Site.Controllers
             {
                 WikiContext.Title = $"Missing Pages";
                 WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
-                WikiContext.CurrentPage = page;
             }
-
-            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -125,8 +120,8 @@ namespace TightWiki.Site.Controllers
         #region Namespaces.
 
         [Authorize]
-        [HttpGet("Namespaces/{page=1}")]
-        public ActionResult Namespaces(int page)
+        [HttpGet("Namespaces")]
+        public ActionResult Namespaces()
         {
             WikiContext.RequireModeratePermission();
 
@@ -141,8 +136,6 @@ namespace TightWiki.Site.Controllers
                 WikiContext.PaginationPageCount = model.Namespaces.First().PaginationPageCount;
             }
 
-            WikiContext.CurrentPage = page;
-
             return View(model);
         }
 
@@ -151,8 +144,8 @@ namespace TightWiki.Site.Controllers
         #region Pages.
 
         [Authorize]
-        [HttpGet("Pages/{page=1}")]
-        public ActionResult Pages(int page)
+        [HttpGet("Pages")]
+        public ActionResult Pages()
         {
             WikiContext.RequireModeratePermission();
 
@@ -175,8 +168,6 @@ namespace TightWiki.Site.Controllers
                 WikiContext.Title = $"Pages";
                 WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
             }
-
-            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -401,8 +392,8 @@ namespace TightWiki.Site.Controllers
         #region Roles.
 
         [Authorize]
-        [HttpGet("Role/{navigation}/{page=1}")]
-        public ActionResult Role(string navigation, int page)
+        [HttpGet("Role/{navigation}")]
+        public ActionResult Role(string navigation)
         {
             WikiContext.RequireAdminPermission();
 
@@ -419,8 +410,6 @@ namespace TightWiki.Site.Controllers
 
             WikiContext.Title = $"Roles";
             WikiContext.PaginationPageCount = model.Users.FirstOrDefault()?.PaginationPageCount ?? 0;
-
-            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -743,8 +732,8 @@ namespace TightWiki.Site.Controllers
 
 
         [Authorize]
-        [HttpGet("Accounts/{page=1}")]
-        public ActionResult Accounts(int page)
+        [HttpGet("Accounts")]
+        public ActionResult Accounts()
         {
             WikiContext.RequireAdminPermission();
 
@@ -766,8 +755,6 @@ namespace TightWiki.Site.Controllers
 
                 WikiContext.PaginationPageCount = model.Users.First().PaginationPageCount;
             }
-
-            WikiContext.CurrentPage = page;
 
             return View(model);
         }
@@ -901,8 +888,8 @@ namespace TightWiki.Site.Controllers
         #region Emojis.
 
         [Authorize]
-        [HttpGet("Emojis/{page=1}")]
-        public ActionResult Emojis(int page)
+        [HttpGet("Emojis")]
+        public ActionResult Emojis()
         {
             WikiContext.RequireModeratePermission();
 
@@ -919,8 +906,6 @@ namespace TightWiki.Site.Controllers
                 WikiContext.Title = $"Emojis";
                 WikiContext.PaginationPageCount = model.Emojis.First().PaginationPageCount;
             }
-
-            WikiContext.CurrentPage = page;
 
             return View(model);
         }

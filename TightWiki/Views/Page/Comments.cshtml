@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                             }
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"{@wikiContext?.PageNavigation}/Comments", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"{@wikiContext?.PageNavigation}/Comments", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
                         }
                     </td>
                 </tr>

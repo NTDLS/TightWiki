@@ -60,7 +60,7 @@
                                 </tbody>
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/File/Revisions/{@Model.PageNavigation}/{@Model.FileNavigation}", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/File/Revisions/{@Model.PageNavigation}/{@Model.FileNavigation}", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
                         }
                     </td>
                 </tr>

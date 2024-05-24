@@ -69,7 +69,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Admin/Accounts", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Admin/Accounts", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
                         }
 
                         <br />

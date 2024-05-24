@@ -209,8 +209,8 @@ namespace TightWiki.Controllers
         /// Populate the upload page. Shows the attachments.
         /// </summary>
         [Authorize]
-        [HttpGet("Revisions/{givenPageNavigation}/{givenfileNavigation}/{page=1}/")]
-        public ActionResult Revisions(string givenPageNavigation, string givenfileNavigation, int page)
+        [HttpGet("Revisions/{givenPageNavigation}/{givenfileNavigation}")]
+        public ActionResult Revisions(string givenPageNavigation, string givenfileNavigation)
         {
             WikiContext.RequireViewPermission();
 
@@ -220,8 +220,6 @@ namespace TightWiki.Controllers
             var fileRevisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(pageNavigation.Canonical, fileNavigation.Canonical, page);
 
             WikiContext.PaginationPageCount = fileRevisions.FirstOrDefault()?.PaginationPageCount ?? 1;
-
-            WikiContext.CurrentPage = page;
 
             return View(new PageFileRevisionsViewModel()
             {

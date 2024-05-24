@@ -56,7 +56,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PoorMansPager.Generate($"/Page/Search", Context.Request.QueryString, @wikiContext?.PaginationPageCount, @wikiContext?.CurrentPage))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Page/Search", Context.Request.QueryString, @wikiContext?.PaginationPageCount))
                         }
                     </td>
                 </tr>

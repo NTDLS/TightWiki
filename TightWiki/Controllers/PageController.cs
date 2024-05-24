@@ -163,8 +163,8 @@ namespace TightWiki.Controllers
         #region Search.
 
         [AllowAnonymous]
-        [HttpGet("/Page/Search/{page=1}")]
-        public ActionResult Search(int page)
+        [HttpGet("Page/Search")]
+        public ActionResult Search()
         {
             WikiContext.Title = $"Page Search";
 
@@ -182,8 +182,6 @@ namespace TightWiki.Controllers
                     WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
-                WikiContext.CurrentPage = page;
-
                 return View(model);
             }
 
@@ -195,8 +193,8 @@ namespace TightWiki.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("/Page/Search/{page=1}")]
-        public ActionResult Search(int page, PageSearchViewModel model)
+        [HttpPost("Page/Search")]
+        public ActionResult Search(PageSearchViewModel model)
         {
             WikiContext.Title = $"Page Search";
 
@@ -216,8 +214,6 @@ namespace TightWiki.Controllers
                     WikiContext.PaginationPageCount = model.Pages.First().PaginationPageCount;
                 }
 
-                WikiContext.CurrentPage = page;
-
                 return View(model);
             }
 
@@ -233,9 +229,8 @@ namespace TightWiki.Controllers
         #region Comments.
 
         [AllowAnonymous]
-        [HttpGet("{givenCanonical}/{page=1}/Comments")]
         [HttpGet("{givenCanonical}/Comments")]
-        public ActionResult Comments(string givenCanonical, int page = 1)
+        public ActionResult Comments(string givenCanonical)
         {
             WikiContext.RequireViewPermission();
 
@@ -280,8 +275,6 @@ namespace TightWiki.Controllers
                 WikiContext.PaginationPageCount = model.Comments.First().PaginationPageCount;
             }
 
-            WikiContext.CurrentPage = page;
-
             return View(model);
         }
 
@@ -293,9 +286,8 @@ namespace TightWiki.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("{givenCanonical}/{page=1}/Comments")]
         [HttpPost("{givenCanonical}/Comments")]
-        public ActionResult Comments(PageCommentsViewModel model, string givenCanonical, int page)
+        public ActionResult Comments(PageCommentsViewModel model, string givenCanonical)
         {
             WikiContext.RequireEditPermission();
 
@@ -335,8 +327,6 @@ namespace TightWiki.Controllers
                 WikiContext.PaginationPageCount = model.Comments.First().PaginationPageCount;
             }
 
-            WikiContext.CurrentPage = page;
-
             return View(model);
         }
 
@@ -360,9 +350,8 @@ namespace TightWiki.Controllers
         #region Revisions.
 
         [Authorize]
-        [HttpGet("{givenCanonical}/{page=1}/Revisions")]
         [HttpGet("{givenCanonical}/Revisions")]
-        public ActionResult Revisions(string givenCanonical, int page)
+        public ActionResult Revisions(string givenCanonical)
         {
             WikiContext.RequireViewPermission();
 
@@ -392,8 +381,6 @@ namespace TightWiki.Controllers
                 WikiContext.Title = $"{model.Revisions.First().Name} Revisions";
                 WikiContext.PaginationPageCount = model.Revisions.First().PaginationPageCount;
             }
-
-            WikiContext.CurrentPage = page;
 
             return View(model);
         }

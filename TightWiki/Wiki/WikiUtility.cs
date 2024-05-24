@@ -200,23 +200,6 @@ namespace TightWiki.Wiki
             return result.TrimEnd(['/', '\\']);
         }
 
-        public static string GetPageSelector(string refTag, int totalPages, int currentPage, IQueryCollection? query = null)
-        {
-            string existingQueryString = "";
-
-            //The query can be optionally supplied so that the current query string of the current URI can be wholly preserved.
-            if (query != null && query.Count > 0)
-            {
-                existingQueryString = string.Join("&", query.Where(o => o.Key != refTag).Select(o => $"{o.Key}={o.Value}"));
-                if (string.IsNullOrEmpty(existingQueryString) == false)
-                {
-                    existingQueryString = "&" + existingQueryString;
-                }
-            }
-
-            return PoorMansPager.Generate(refTag, existingQueryString, totalPages, currentPage).ToString();
-        }
-
         public static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)
         {
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
