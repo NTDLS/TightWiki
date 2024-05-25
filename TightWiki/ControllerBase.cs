@@ -49,5 +49,14 @@ namespace TightWiki
         [NonAction]
         protected int GetFormString(string key, int defaultValue)
             => int.Parse(GetFormString(key, defaultValue.ToString()));
+
+        protected RedirectResult NotifyAction(string successMessage, string errorMessage, string redirectUrl)
+            => Redirect($"/Utility/NotifyAction?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={redirectUrl}");
+
+        protected RedirectResult NotifySuccessAction(string message, string redirectUrl)
+            => Redirect($"/Utility/NotifyAction?SuccessMessage={message}&RedirectUrl={redirectUrl}");
+
+        protected RedirectResult NotifyErrorAction(string message, string redirectUrl)
+            => Redirect($"/Utility/NotifyAction?ErrorMessage={message}&RedirectUrl={redirectUrl}");
     }
 }

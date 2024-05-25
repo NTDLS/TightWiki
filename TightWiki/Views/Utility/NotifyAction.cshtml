@@ -1,0 +1,41 @@
+﻿@model TightWiki.Models.ViewModels.Utility.NotifyActionViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+}
+
+@if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+{
+    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+}
+
+<table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @Html.Raw(Model.ErrorMessage)
+                        {
+                        <br />
+                        <a href="@Model.RedirectURL">Continue</a>
+                        }
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">
+                        @Html.Raw(Model.SuccessMessage)
+                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
+                        {
+                            <br />
+                            <a href="@Model.RedirectURL">Continue</a>
+                        }
+                    </div>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

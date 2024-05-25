@@ -12,6 +12,7 @@ using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Repository;
 using TightWiki.Wiki;
 using TightWiki.Wiki.Function;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
@@ -85,7 +86,7 @@ namespace TightWiki.Site.Controllers
             return View(new PageModerateViewModel()
             {
                 Pages = new List<Page>(),
-                Instruction = String.Empty,
+                Instruction = string.Empty,
                 Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
             });
         }
@@ -310,7 +311,7 @@ namespace TightWiki.Site.Controllers
                 model.Id = ConfigurationRepository.InsertMenuItem(model.ToDataModel());
                 ModelState.Clear();
 
-                return Redirect($"/Admin/MenuItem/{model.Id}");
+                return NotifySuccessAction("The menu item has been created successfully!", $"/Admin/MenuItem/{model.Id}");
             }
             else
             {
@@ -689,9 +690,8 @@ namespace TightWiki.Site.Controllers
 
             model.SuccessMessage = "The account has been created successfully!";
 
-            return Redirect($"/Admin/Account/{profile.Navigation}");
+            return NotifyAction(model.SuccessMessage, model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
         }
-
 
         [Authorize]
         [HttpGet("Accounts")]
@@ -882,7 +882,7 @@ namespace TightWiki.Site.Controllers
             var model = new EmojiViewModel()
             {
                 Emoji = emoji ?? new Emoji(),
-                Categories = String.Join(",", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
+                Categories = string.Join(",", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
             };
 
             model.OriginalName = emoji?.Name ?? string.Empty;
@@ -951,7 +951,7 @@ namespace TightWiki.Site.Controllers
 
             if (nameChanged)
             {
-                return Redirect($"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+                return NotifySuccessAction("The emoji has been saved successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
 
             return View(model);
@@ -1023,7 +1023,7 @@ namespace TightWiki.Site.Controllers
 
             EmojiRepository.UpsertEmoji(emoji);
 
-            return Redirect($"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+            return NotifySuccessAction("The emoji has been created successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
         }
 
         [Authorize]
