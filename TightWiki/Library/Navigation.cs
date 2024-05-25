@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace TightWiki.Library
 {
@@ -11,39 +12,37 @@ namespace TightWiki.Library
                 return string.Empty;
             }
 
-            str = str.Replace("::", "_").Trim();
+            // Decode common HTML entities
+            str = str.Replace("&quot;", "\"")
+                     .Replace("&amp;", "&")
+                     .Replace("&lt;", "<")
+                     .Replace("&gt;", ">")
+                     .Replace("&nbsp;", " ");
+
+            // Normalize backslashes to forward slashes
             str = str.Replace('\\', '/');
-            str = str.Replace("&quot;", "\"");
-            str = str.Replace("&amp;", "&");
-            str = str.Replace("&lt;", "<");
-            str = str.Replace("&gt;", ">");
-            str = str.Replace("&nbsp;", " ");
+
+            // Replace special sequences
+            str = str.Replace("::", "_").Trim();
 
             var sb = new StringBuilder();
             foreach (char c in str)
             {
-                if (c == ' ' || c == '.')
+                if (char.IsWhiteSpace(c) || c == '.')
                 {
-                    sb.Append("_");
+                    sb.Append('_');
                 }
-                else if ((c >= 'A' && c <= 'Z')
-                    || (c >= 'a' && c <= 'z')
-                    || (c >= '0' && c <= '9')
-                    || c == '_' || c == '/'
-                    || c == '-')
+                else if (char.IsLetterOrDigit(c) || c == '_' || c == '/' || c == '-')
                 {
                     sb.Append(c);
                 }
             }
 
             string result = sb.ToString();
-            string original;
-            do
-            {
-                original = result;
-                result = result.Replace("__", "_").Replace("-_", "_").Replace("_-", "_").Replace("\\", "/").Replace("//", "/");
-            }
-            while (result != original);
+
+            // Remove multiple consecutive underscores or slashes
+            result = Regex.Replace(result, @"[_]{2,}", "_");
+            result = Regex.Replace(result, @"[/]{2,}", "/");
 
             return result.ToLower();
         }

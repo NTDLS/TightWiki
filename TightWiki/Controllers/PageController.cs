@@ -30,7 +30,7 @@ namespace TightWiki.Controllers
 
             page.Id = PageRepository.SavePage(page);
 
-            RefreshPageProperties(page);
+            RefreshPageMatadata(this, page);
 
             if (isNewlyCreated)
             {
@@ -42,25 +42,19 @@ namespace TightWiki.Controllers
         }
 
         [NonAction]
-        private void RefreshPageProperties(string pageNavigation)
+        public static void RefreshPageMatadata(ControllerBase controller, Page page)
         {
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
-            if (page != null)
-            {
-                RefreshPageProperties(page);
-            }
-        }
+            var wikifier = new Wikifier(controller.WikiContext, page, null, controller.Request.Query, new WikiMatchType[] { WikiMatchType.Function });
 
-        [NonAction]
-        private void RefreshPageProperties(Page page)
-        {
-            var wikifier = new Wikifier(WikiContext, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
             PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
 
             var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-            PageRepository.SavePageTokens(pageTokens);
+
+            PageRepository.SavePageSearchTokens(pageTokens);
+
             PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
+
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
@@ -372,7 +366,12 @@ namespace TightWiki.Controllers
         {
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
-            RefreshPageProperties(pageNavigation);
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
+
+            if (page != null)
+            {
+                RefreshPageMatadata(this, page);
+            }
 
             return Redirect($"/{pageNavigation}");
         }

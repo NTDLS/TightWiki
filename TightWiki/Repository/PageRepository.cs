@@ -448,12 +448,12 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById", param);
         }
 
-        public static void SavePageTokens(List<PageToken> items)
+        public static void SavePageSearchTokens(List<PageToken> items)
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var tempTable = o.CreateTempTableFrom("TempTokens", items.Distinct());
-                return o.Query<Page>("SavePageTokens.sql").ToList();
+                return o.Query<Page>("SavePageSearchTokens.sql").ToList();
             });
         }
 

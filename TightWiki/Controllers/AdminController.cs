@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Security.Claims;
+using TightWiki.Controllers;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -212,29 +213,11 @@ namespace TightWiki.Site.Controllers
 
             switch (action)
             {
-                case "rebuildpagesearchindex":
-                    {
-                        var pages = PageRepository.GetAllPages();
-
-                        foreach (var page in pages)
-                        {
-                            var wiki = new Wikifier(WikiContext, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
-
-                            PageRepository.UpdatePageTags(page.Id, wiki.Tags);
-                            PageRepository.UpdatePageProcessingInstructions(page.Id, wiki.ProcessingInstructions);
-                            var pageTokens = wiki.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-                            PageRepository.SavePageTokens(pageTokens);
-                            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
-                        }
-                    }
-                    break;
                 case "rebuildallpages":
                     {
-                        var pages = PageRepository.GetAllPages();
-
-                        foreach (var page in pages)
+                        foreach (var page in PageRepository.GetAllPages())
                         {
-                            base.RefreshPageProperties(page);
+                            PageController.RefreshPageMatadata(this, page);
                         }
                     }
                     break;

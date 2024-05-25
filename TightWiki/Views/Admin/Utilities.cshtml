@@ -32,16 +32,6 @@
 
                         <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td>Rebuild page search index</td>
-                                <td>
-                                    <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
-                                        @Html.AntiForgeryToken()
-                                        <input type="hidden" name="message" value="This will rebuild the search cache for all pages in the wiki. This could take some time! Continue?" />
-                                        <button type="submit" class="btn btn-primary rounded-0" name="ActionToConfirm" value="RebuildPageSearchIndex">Execute</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>Rebuild all pages</td>
                                 <td>
                                     <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
