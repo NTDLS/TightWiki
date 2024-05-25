@@ -445,7 +445,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById.sql", param);
         }
 
         public static void SavePageSearchTokens(List<PageToken> items)
