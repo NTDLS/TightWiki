@@ -2,10 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Repository;
-using TightWiki.Wiki;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
@@ -24,70 +20,19 @@ namespace TightWiki
 
         [NonAction]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            ViewData["WikiContext"] = WikiContext.Hydrate(SignInManager, this);
-        }
-
-        [NonAction]
-        protected int SavePage(Page page)
-        {
-            bool isNewlyCreated = page.Id == 0;
-
-            page.Id = PageRepository.SavePage(page);
-
-            RefreshPageProperties(page);
-
-            if (isNewlyCreated)
-            {
-                //This will update the pageid of referenes that have been saved to the navigation link.
-                PageRepository.UpdateSinglePageReference(page.Navigation, page.Id);
-            }
-
-            return page.Id;
-        }
-
-        [NonAction]
-        protected void RefreshPageProperties(string pageNavigation)
-        {
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
-            if (page != null)
-            {
-                RefreshPageProperties(page);
-            }
-        }
-
-        [NonAction]
-        protected void RefreshPageProperties(Page page)
-        {
-            var wikifier = new Wikifier(WikiContext, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
-            PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
-            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
-
-            var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
-            PageRepository.SavePageTokens(pageTokens);
-            PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
-            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
-        }
+            => ViewData["WikiContext"] = WikiContext.Hydrate(SignInManager, this);
 
         [NonAction]
         public override RedirectResult Redirect(string? url)
-        {
-            return base.Redirect(url.EnsureNotNull());
-        }
+            => base.Redirect(url.EnsureNotNull());
 
         [NonAction]
         protected string? GetQueryString(string key)
-        {
-            string? value = Request.Query[key];
-            return value;
-        }
+            => Request.Query[key];
 
         [NonAction]
         protected string GetQueryString(string key, string defaultValue)
-        {
-            string? value = Request.Query[key];
-            return value ?? defaultValue;
-        }
+            => ((string?)Request.Query[key]) ?? defaultValue;
 
         [NonAction]
         protected int GetQueryString(string key, int defaultValue)
@@ -95,17 +40,11 @@ namespace TightWiki
 
         [NonAction]
         protected string? GetFormString(string key)
-        {
-            string? value = Request.Form[key];
-            return value;
-        }
+            => Request.Form[key];
 
         [NonAction]
         protected string GetFormString(string key, string defaultValue)
-        {
-            string? value = Request.Form[key];
-            return value ?? defaultValue;
-        }
+            => ((string?)Request.Form[key]) ?? defaultValue;
 
         [NonAction]
         protected int GetFormString(string key, int defaultValue)

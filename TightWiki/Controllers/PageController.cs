@@ -21,6 +21,51 @@ namespace TightWiki.Controllers
         {
         }
 
+        #region NonAction Functions.
+
+        [NonAction]
+        private int SavePage(Page page)
+        {
+            bool isNewlyCreated = page.Id == 0;
+
+            page.Id = PageRepository.SavePage(page);
+
+            RefreshPageProperties(page);
+
+            if (isNewlyCreated)
+            {
+                //This will update the pageid of referenes that have been saved to the navigation link.
+                PageRepository.UpdateSinglePageReference(page.Navigation, page.Id);
+            }
+
+            return page.Id;
+        }
+
+        [NonAction]
+        private void RefreshPageProperties(string pageNavigation)
+        {
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
+            if (page != null)
+            {
+                RefreshPageProperties(page);
+            }
+        }
+
+        [NonAction]
+        private void RefreshPageProperties(Page page)
+        {
+            var wikifier = new Wikifier(WikiContext, page, null, Request.Query, new WikiMatchType[] { WikiMatchType.Function });
+            PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
+            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+
+            var pageTokens = wikifier.ParsePageTokens().Select(o => o.ToPageToken(page.Id)).ToList();
+            PageRepository.SavePageTokens(pageTokens);
+            PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+        }
+
+        #endregion
+
         [AllowAnonymous]
         [Route("/robots.txt")]
         public ContentResult RobotsTxt()
