@@ -9,6 +9,26 @@
     @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
 }
 
+@if (string.IsNullOrEmpty(@Model.RedirectURL) == false && string.IsNullOrEmpty(Model.ErrorMessage) == true)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var countdownElement = document.getElementById('countdown');
+            var countdownTime = 5;
+
+            var interval = setInterval(function () {
+                countdownElement.textContent = countdownTime;
+                countdownTime--;
+
+                if (countdownTime < 0) {
+                    clearInterval(interval);
+                    window.location.href = "@Model.RedirectURL";
+                }
+            }, 1000);
+        });
+    </script>
+}
+
 <table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
@@ -17,21 +37,23 @@
                 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="alert alert-danger">
-                        @Html.Raw(Model.ErrorMessage)
+                        <strong>@Html.Raw(Model.ErrorMessage)</strong>
+                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
                         {
-                        <br />
-                        <a href="@Model.RedirectURL">Continue</a>
+                            <br />
+                            <a href="@Model.RedirectURL">Continue</a>
                         }
                     </div>
                 }
                 @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                 {
                     <div class="alert alert-success">
-                        @Html.Raw(Model.SuccessMessage)
+                        <h4>@Html.Raw(Model.SuccessMessage)</h4>
                         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
                         {
-                            <br />
-                            <a href="@Model.RedirectURL">Continue</a>
+                            <p>
+                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown"> 5 </span> seconds.
+                            </p>
                         }
                     </div>
                 }

@@ -311,7 +311,7 @@ namespace TightWiki.Site.Controllers
                 model.Id = ConfigurationRepository.InsertMenuItem(model.ToDataModel());
                 ModelState.Clear();
 
-                return NotifySuccessAction("The menu item has been created successfully!", $"/Admin/MenuItem/{model.Id}");
+                return NotifyOfSuccessAction("The menu item has been created successfully!", $"/Admin/MenuItem/{model.Id}");
             }
             else
             {
@@ -344,7 +344,8 @@ namespace TightWiki.Site.Controllers
             if (confirmAction == true)
             {
                 ConfigurationRepository.DeleteMenuItemById(model.Id);
-                return Redirect($"/Admin/MenuItems");
+
+                return NotifyOfSuccessAction("The menu item has been deleted successfully!", $"/Admin/MenuItems");
             }
 
             return Redirect($"/Admin/MenuItem/{model.Id}");
@@ -688,9 +689,7 @@ namespace TightWiki.Site.Controllers
                 }
             }
 
-            model.SuccessMessage = "The account has been created successfully!";
-
-            return NotifyAction(model.SuccessMessage, model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
+            return NotifyOfAction("The account has been created successfully!", model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
         }
 
         [Authorize]
@@ -751,10 +750,11 @@ namespace TightWiki.Site.Controllers
                 {
                     //We're deleting our own account. Oh boy...
                     SignInManager.SignOutAsync();
-                    return Redirect($"/Profile/Deleted");
+
+                    return NotifyOfSuccessAction("Your account has been deleted successfully!", $"/Profile/Deleted");
                 }
 
-                return Redirect($"/Admin/Accounts");
+                return NotifyOfSuccessAction("The account has been deleted successfully!", $"/Admin/Accounts");
             }
 
             return Redirect($"/Admin/Accounts/{navigation}");
@@ -951,7 +951,7 @@ namespace TightWiki.Site.Controllers
 
             if (nameChanged)
             {
-                return NotifySuccessAction("The emoji has been saved successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+                return NotifyOfSuccessAction("The emoji has been saved successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
 
             return View(model);
@@ -1023,7 +1023,7 @@ namespace TightWiki.Site.Controllers
 
             EmojiRepository.UpsertEmoji(emoji);
 
-            return NotifySuccessAction("The emoji has been created successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+            return NotifyOfSuccessAction("The emoji has been created successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
         }
 
         [Authorize]
@@ -1038,7 +1038,8 @@ namespace TightWiki.Site.Controllers
             if (confirmAction == true && emoji != null)
             {
                 EmojiRepository.DeleteById(emoji.Id);
-                return Redirect($"/Admin/Emojis");
+
+                return NotifyOfSuccessAction("The emoji has been deleted successfully!", $"/Admin/Emojis");
             }
 
             return Redirect($"/Admin/Emoji/{name}");

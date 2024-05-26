@@ -444,7 +444,7 @@ namespace TightWiki.Controllers
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
             }
 
-            return Redirect($"/Home");
+            return NotifyOfSuccessAction("The page has been deleted successfully!", $"/Home");
         }
 
         [Authorize]
@@ -497,6 +497,7 @@ namespace TightWiki.Controllers
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
                 SavePage(page);
+                return NotifyOfSuccessAction("The page has been reverted successfully!", $"/{pageNavigation}");
             }
 
             return Redirect($"/{pageNavigation}");
@@ -624,9 +625,7 @@ namespace TightWiki.Controllers
 
                 WikiContext.SetPageId(page.Id);
 
-                model.SuccessMessage = "The page was successfully created!";
-
-                return Redirect($"/{page.Navigation}/Edit");
+                return NotifyOfSuccessAction("The page has been created successfully!", $"/{page.Navigation}/Edit");
             }
             else
             {
