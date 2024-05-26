@@ -56,14 +56,6 @@
                                 <tr class="padded">
                                     <td width="200"><strong>Image</strong></td>
                                     <td>
-                                        @if (@Model.Name != "")
-                                        {
-                                            <img src="/File/Emoji/@Model.Name" />
-
-                                            <br />
-
-                                            <br />
-                                        }
                                         <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
                                     </td>
                                 </tr>

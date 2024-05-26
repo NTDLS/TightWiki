@@ -214,7 +214,7 @@ namespace TightWiki.Wiki
 
                 foreach (var token in tokens)
                 {
-                    var splitTokens = SplitCamelCase(token).Split(' ');
+                    var splitTokens = SeperateCamelCase(token).Split(' ');
                     if (splitTokens.Count() > 1)
                     {
                         foreach (var lowerToken in splitTokens)
@@ -242,9 +242,21 @@ namespace TightWiki.Wiki
             return searchTokens.Where(o => string.IsNullOrWhiteSpace(o.Token) == false).ToList();
         }
 
-        public static string SplitCamelCase(string text)
+        public static string SeperateCamelCase(string text)
         {
-            return Regex.Replace(Regex.Replace(Regex.Replace(text, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2"), @"\s+", " ");
+            return Regex.Replace(
+                        Regex.Replace(
+                            Regex.Replace(
+                                text,
+                                @"([a-z])([A-Z])", // Lowercase followed by uppercase
+                                "$1 $2"
+                            ),
+                            @"([A-Z])([A-Z][a-z])", // Uppercase followed by uppercase and lowercase
+                            "$1 $2"
+                        ),
+                        @"\s+",
+                        " "
+                    );
         }
 
         public static string GetFriendlySize(long size)
