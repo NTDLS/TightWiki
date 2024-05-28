@@ -553,6 +553,12 @@ namespace TightWiki.Controllers
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
+                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
+                if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+                {
+                    return Unauthorized();
+                }
+
                 WikiContext.SetPageId(page.Id);
 
                 //Editing an existing page.
@@ -630,6 +636,11 @@ namespace TightWiki.Controllers
             else
             {
                 var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
+                var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+                {
+                    return Unauthorized();
+                }
 
                 string originalNavigation = string.Empty;
 
