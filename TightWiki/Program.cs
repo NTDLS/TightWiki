@@ -57,6 +57,9 @@ namespace TightWiki
 
             var ExternalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("External Authentication");
 
+
+            var authentication = builder.Services.AddAuthentication();
+
             if (ExternalAuthenticationConfig.As<bool>("Google : Use Google Authentication"))
             {
                 var clientId = ExternalAuthenticationConfig.As<string>("Google : ClientId");
@@ -64,7 +67,7 @@ namespace TightWiki
 
                 if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {
-                    builder.Services.AddAuthentication().AddGoogle(options =>
+                    authentication.AddGoogle(options =>
                     {
                         options.ClientId = clientId;
                         options.ClientSecret = clientSecret;
@@ -78,7 +81,7 @@ namespace TightWiki
 
                 if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {
-                    builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
+                    authentication.AddMicrosoftAccount(options =>
                     {
                         options.ClientId = clientId;
                         options.ClientSecret = clientSecret;
