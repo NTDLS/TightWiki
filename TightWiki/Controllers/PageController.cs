@@ -434,7 +434,8 @@ namespace TightWiki.Controllers
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
             if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
             {
-                return Unauthorized();
+                model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
+                return View(model);
             }
 
             bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
@@ -470,7 +471,6 @@ namespace TightWiki.Controllers
             WikiContext.Title = $"Delete {page.Name}";
 
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-
             if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
             {
                 model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
@@ -554,9 +554,9 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-                if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+                if (WikiContext.CanModerate == false && instructions.Any(o => o.Instruction == WikiInstruction.Protect))
                 {
-                    return Unauthorized();
+                    return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
                 }
 
                 WikiContext.SetPageId(page.Id);
@@ -637,9 +637,9 @@ namespace TightWiki.Controllers
             {
                 var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+                if (WikiContext.CanModerate == false && instructions.Any(o => o.Instruction == WikiInstruction.Protect))
                 {
-                    return Unauthorized();
+                    return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
                 }
 
                 string originalNavigation = string.Empty;

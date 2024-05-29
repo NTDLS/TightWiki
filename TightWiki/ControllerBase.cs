@@ -58,5 +58,14 @@ namespace TightWiki
 
         protected RedirectResult NotifyOfErrorAction(string message, string redirectUrl)
             => Redirect($"/Utility/NotifyAction?ErrorMessage={message}&RedirectUrl={redirectUrl}");
+
+        protected RedirectResult Notify(string successMessage, string errorMessage)
+            => Redirect($"/Utility/Notify?SuccessMessage={successMessage}&ErrorMessage={errorMessage}");
+
+        protected RedirectResult NotifyOfSuccess(string message)
+            => Redirect($"/Utility/Notify?SuccessMessage={message}");
+
+        protected RedirectResult NotifyOfError(string message)
+            => Redirect($"/Utility/Notify?ErrorMessage={message}");
     }
 }

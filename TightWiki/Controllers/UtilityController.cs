@@ -27,5 +27,19 @@ namespace TightWiki.Site.Controllers
 
             return View(model);
         }
+
+        [AllowAnonymous]
+        public ActionResult Notify()
+        {
+            WikiContext.RequireViewPermission();
+
+            var model = new NotifyViewModel()
+            {
+                SuccessMessage = GetQueryString("SuccessMessage", string.Empty),
+                ErrorMessage = GetQueryString("ErrorMessage", string.Empty)
+            };
+
+            return View(model);
+        }
     }
 }
