@@ -12,7 +12,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Utility/NotifyAction?SuccessMessage=The%20account%20has%20been%20created%20successfully!&RedirectUrl=/Admin/Account/sylviinae_blintz",
+      "launchUrl": "Admin/WikiExceptions",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

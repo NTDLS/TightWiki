@@ -183,6 +183,22 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpGet("ConfirmAction")]
+        public ActionResult ConfirmAction()
+        {
+            WikiContext.RequireAdminPermission();
+
+            var model = new ConfirmActionViewModel
+            {
+                ActionToConfirm = GetFormString("ActionToConfirm").EnsureNotNull(),
+                PostBackURL = GetQueryString("PostBack").EnsureNotNull(),
+                Message = GetFormString("message").EnsureNotNull()
+            };
+
+            return View(model);
+        }
+
         #endregion
 
         #region Utilities.
@@ -757,7 +773,7 @@ namespace TightWiki.Site.Controllers
                 return NotifyOfSuccessAction("The account has been deleted successfully!", $"/Admin/Accounts");
             }
 
-            return Redirect($"/Admin/Accounts/{navigation}");
+            return Redirect($"/Admin/Account/{navigation}");
         }
 
         [Authorize]
@@ -1065,6 +1081,56 @@ namespace TightWiki.Site.Controllers
             }
 
             return View(model);
+        }
+
+        #endregion
+
+        #region Exceptions.
+
+        [Authorize]
+        [HttpGet("WikiExceptions")]
+        public ActionResult WikiExceptions()
+        {
+            WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Exceptions";
+
+            var model = new WikiExceptionsViewModel()
+            {
+                Exceptions = ExceptionRepository.GetAllExceptionsPaged(GetQueryString("page", 1))
+            };
+
+            model.PaginationPageCount = (model.Exceptions.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet("WikiException/{id}")]
+        public ActionResult WikiException(int id)
+        {
+            WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Exception";
+
+            var model = new WikiExceptionViewModel()
+            {
+                Exception = ExceptionRepository.GetExceptionById(id)
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost("ClearExceptions")]
+        public ActionResult ClearExceptions(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireAdminPermission();
+
+            if (bool.Parse(GetFormString("ConfirmAction").EnsureNotNull()) == true)
+            {
+                ExceptionRepository.ClearExceptions();
+            }
+
+            return Redirect("/Admin/WikiExceptions");
         }
 
         #endregion

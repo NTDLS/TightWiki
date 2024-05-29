@@ -4,14 +4,15 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>2.7.0.0</AssemblyVersion>
-    <FileVersion>2.7.0.0</FileVersion>
+    <AssemblyVersion>2.7.1.0</AssemblyVersion>
+    <FileVersion>2.7.1.0</FileVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Repository\Scripts\AnonymizeProfile.sql" />
     <None Remove="Repository\Scripts\AssociatePageFileAttachmentWithPageRevision.sql" />
+    <None Remove="Repository\Scripts\ClearExceptions.sql" />
     <None Remove="Repository\Scripts\CreatePage.sql" />
     <None Remove="Repository\Scripts\CreateProfile.sql" />
     <None Remove="Repository\Scripts\DeleteEmojiById.sql" />
@@ -28,6 +29,7 @@
     <None Remove="Repository\Scripts\GetAllEmojis.sql" />
     <None Remove="Repository\Scripts\GetAllEmojisPaged.sql" />
     <None Remove="Repository\Scripts\GetAllEmojisPagedByCategories.sql" />
+    <None Remove="Repository\Scripts\GetAllExceptionsPaged.sql" />
     <None Remove="Repository\Scripts\GetAllMenuItems.sql" />
     <None Remove="Repository\Scripts\GetAllNamespaces.sql" />
     <None Remove="Repository\Scripts\GetAllNamespacesPaged.sql" />
@@ -50,6 +52,7 @@
     <None Remove="Repository\Scripts\GetEmojiCategoriesGrouped.sql" />
     <None Remove="Repository\Scripts\GetEmojisByCategory.sql" />
     <None Remove="Repository\Scripts\GetExactPageSearchTokens.sql" />
+    <None Remove="Repository\Scripts\GetExceptionById.sql" />
     <None Remove="Repository\Scripts\GetExceptionCount.sql" />
     <None Remove="Repository\Scripts\GetFlatConfiguration.sql" />
     <None Remove="Repository\Scripts\GetFuzzyPageSearchTokens.sql" />
@@ -143,6 +146,8 @@
     <EmbeddedResource Include="Repository\Scripts\GetAllEmojis.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllEmojisPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllEmojisPagedByCategories.sql" />
+    <EmbeddedResource Include="Repository\Scripts\ClearExceptions.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetExceptionById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllMenuItems.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespaces.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespacesPaged.sql" />
@@ -205,6 +210,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetWikiMetrics.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetWordsCount.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertEmoji.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetAllExceptionsPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertException.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertMenuItem.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertPageComment.sql" />

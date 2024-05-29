@@ -1,4 +1,5 @@
 ﻿using DuoVia.FuzzyStrings;
+using Newtonsoft.Json.Linq;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -64,7 +65,7 @@ namespace TightWiki.Wiki
             }
             catch (Exception ex)
             {
-                StoreCriticalError(ex.Message);
+                StoreCriticalError(ex);
             }
 
             ProcessingTime = DateTime.UtcNow - startTime;
@@ -2373,14 +2374,18 @@ namespace TightWiki.Wiki
             }
         }
 
-        private void StoreCriticalError(string exceptionText)
+        private void StoreCriticalError(Exception ex)
         {
+            ExceptionRepository.InsertException(ex, $"Page: {_page.Navigation}, Error: {ex.Message}");
+
             ErrorCount++;
-            ProcessedBody = WikiUtility.WarningCard("Wiki Parser Exception", exceptionText);
+            ProcessedBody = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
         private string StoreError(WikiString pageContent, string match, string value)
         {
+            ExceptionRepository.InsertException($"Page: {_page.Navigation}, Error: {value}");
+
             ErrorCount++;
             _matchesPerIteration++;
 

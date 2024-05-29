@@ -1,0 +1,71 @@
+﻿@model TightWiki.Models.ViewModels.Admin.WikiExceptionsViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+}
+
+<div class="card">
+    <div class="card-header"><h3>Exceptions</h3></div>
+    <div class="card-body">
+        <font size="4" face="ARIAL,HELVETICA">
+            Server and page exceptions.<br /><br />
+        </font>
+
+        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+        {
+            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+        }
+
+        <table class="fixedTable100" border="0" cellpadding="0">
+            <tbody>
+                <tr>
+                    <td height="52" valign="middle" align="left">
+
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                        {
+                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                        }
+
+                        <form action='/Admin/ConfirmAction?PostBack=/Admin/ClearExceptions' method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="message" value="This will delete all exceptions from the log. Continue?" />
+                            <button type="submit" class="btn btn-warning rounded-0" name="ActionToConfirm" value="ClearExceptions">Clear Exceptions</button>
+                        </form>
+                        <br />
+
+                        @using (Html.BeginForm("WikiExceptions", "Admin", FormMethod.Get))
+                        {
+                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+
+                                <thead>
+                                    <tr>
+                                        <td><strong>Id</strong></td>
+                                        <td><strong>Text</strong></td>
+                                        <td><strong>Exception</strong></td>
+                                        <td><strong>Date/Time</strong></td>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var ex in Model.Exceptions)
+                                {
+                                    <tr>
+                                        <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
+                                        <td>@ex.Text</td>
+                                        <td>@ex.ExceptionText</td>
+                                        <td>@ex.CreatedDate</td>
+                                    </tr>
+                                }
+                            </table>
+
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Admin/WikiExceptions", Context.Request.QueryString, Model.PaginationPageCount))
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

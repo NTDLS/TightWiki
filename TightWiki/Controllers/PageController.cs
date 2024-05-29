@@ -443,9 +443,10 @@ namespace TightWiki.Controllers
             {
                 PageRepository.DeletePageById(page.Id);
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+                return NotifyOfSuccessAction("The page has been deleted successfully!", $"/Home");
             }
 
-            return NotifyOfSuccessAction("The page has been deleted successfully!", $"/Home");
+            return Redirect($"/{pageNavigation}");
         }
 
         [Authorize]
