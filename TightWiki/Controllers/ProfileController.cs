@@ -332,7 +332,7 @@ namespace TightWiki.Site.Controllers
 
             var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
-            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && profile != null)
             {
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;

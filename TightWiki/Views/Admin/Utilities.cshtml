@@ -34,7 +34,7 @@
                             <tr>
                                 <td>Rebuild all pages</td>
                                 <td>
-                                    <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
+                                    <form action='/Admin/GenericConfirmAction?PostBack=/Admin/Utilities' method="post">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="message" value="This will rebuild all pages in the wiki. This could take some time! Continue?" />
                                         <button type="submit" class="btn btn-primary rounded-0" name="ActionToConfirm" value="RebuildAllPages">Execute</button>
@@ -46,7 +46,7 @@
                                 <tr>
                                     <td>Create Self-Documentation</td>
                                     <td>
-                                        <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
+                                        <form action='/Admin/GenericConfirmAction?PostBack=/Admin/Utilities' method="post">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="message" value="This will build a wiki page for each built-in wiki function. Existing pages will not be overwritten. Continue?" />
                                             <button type="submit" class="btn btn-warning rounded-0" name="ActionToConfirm" value="CreateSelfDocumentation">Execute</button>
@@ -57,7 +57,7 @@
                             <tr>
                                 <td>Truncate page revisions</td>
                                 <td>
-                                    <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
+                                    <form action='/Admin/GenericConfirmAction?PostBack=/Admin/Utilities' method="post">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="message" value="Truncating page revisions will delete all revision history for all pages and files. This will leave only the most current revision of all objects. This is genrally considered a big deal! Continue?" />
                                         <button type="submit" class="btn btn-danger rounded-0" name="ActionToConfirm" value="TruncatePageRevisions">Execute</button>
@@ -67,7 +67,7 @@
                             <tr>
                                 <td>Flush memory cache</td>
                                 <td>
-                                    <form action='/Admin/ConfirmAction?PostBack=/Admin/Utilities' method="post">
+                                    <form action='/Admin/GenericConfirmAction?PostBack=/Admin/Utilities' method="post">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="message" value="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" />
                                         <button type="submit" class="btn btn-warning rounded-0" name="ActionToConfirm" value="FlushMemoryCache">Execute</button>

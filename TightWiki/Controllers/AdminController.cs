@@ -12,7 +12,6 @@ using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Repository;
 using TightWiki.Wiki;
 using TightWiki.Wiki.Function;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
@@ -171,8 +170,8 @@ namespace TightWiki.Site.Controllers
         #region Confirm Action.
 
         [Authorize]
-        [HttpPost("ConfirmAction")]
-        public ActionResult ConfirmAction(ConfirmActionViewModel model)
+        [HttpPost("GenericConfirmAction")]
+        public ActionResult GenericConfirmAction(GenericConfirmActionViewModel model)
         {
             WikiContext.RequireAdminPermission();
 
@@ -184,12 +183,12 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpGet("ConfirmAction")]
-        public ActionResult ConfirmAction()
+        [HttpGet("GenericConfirmAction")]
+        public ActionResult GenericConfirmAction()
         {
             WikiContext.RequireAdminPermission();
 
-            var model = new ConfirmActionViewModel
+            var model = new GenericConfirmActionViewModel
             {
                 ActionToConfirm = GetFormString("ActionToConfirm").EnsureNotNull(),
                 PostBackURL = GetQueryString("PostBack").EnsureNotNull(),
@@ -223,7 +222,7 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
 
             string action = (GetFormString("ActionToConfirm")?.ToString()?.ToLower()).EnsureNotNull();
-            if (bool.Parse(GetFormString("ConfirmAction").EnsureNotNull()) != true)
+            if (bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull()) != true)
             {
                 return View(model);
             }
@@ -356,7 +355,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true)
             {
                 ConfigurationRepository.DeleteMenuItemById(model.Id);
@@ -744,7 +743,7 @@ namespace TightWiki.Site.Controllers
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
 
-            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && profile != null)
             {
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
@@ -1050,7 +1049,7 @@ namespace TightWiki.Site.Controllers
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && emoji != null)
             {
                 EmojiRepository.DeleteById(emoji.Id);
@@ -1121,11 +1120,11 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpPost("ClearExceptions")]
-        public ActionResult ClearExceptions(ConfirmActionViewModel model)
+        public ActionResult ClearExceptions(GenericConfirmActionViewModel model)
         {
             WikiContext.RequireAdminPermission();
 
-            if (bool.Parse(GetFormString("ConfirmAction").EnsureNotNull()) == true)
+            if (bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull()) == true)
             {
                 ExceptionRepository.ClearExceptions();
             }

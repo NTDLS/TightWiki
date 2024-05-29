@@ -438,7 +438,7 @@ namespace TightWiki.Controllers
                 return View(model);
             }
 
-            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && page != null)
             {
                 PageRepository.DeletePageById(page.Id);
@@ -493,7 +493,7 @@ namespace TightWiki.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
-            bool confirmAction = bool.Parse(GetFormString("Action").EnsureNotNullOrEmpty());
+            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNullOrEmpty());
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
