@@ -157,6 +157,8 @@ namespace TightWiki.Controllers
                 WikiContext.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
+                model.HideFooterComments = true;
+
                 if (WikiContext.IsAuthenticated && WikiContext.CanCreate)
                 {
                     WikiContext.ShouldCreatePage = false;
@@ -173,6 +175,8 @@ namespace TightWiki.Controllers
                 var wiki = new Wikifier(WikiContext, notExistsPage, null, Request.Query);
                 WikiContext.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
+
+                model.HideFooterComments = true;
 
                 if (WikiContext.IsAuthenticated && WikiContext.CanCreate)
                 {
