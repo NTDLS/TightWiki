@@ -905,10 +905,6 @@ namespace TightWiki.Wiki
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                if (keyword == "Create Me")
-                {
-                }
-
                 bool explicitNamespace = false;
 
                 string explicitLinkText = "";
@@ -950,12 +946,12 @@ namespace TightWiki.Wiki
                         explicitLinkText = keyword;
                     }
 
+                    //If the page does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
                     if (string.IsNullOrEmpty(_page.Namespace) == false)
                     {
                         pageName = $"{_page.Namespace} :: {keyword}";
                     }
 
-                    //If the page does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
                     pageNavigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace} :: {pageNavigation}");
                     page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
                 }

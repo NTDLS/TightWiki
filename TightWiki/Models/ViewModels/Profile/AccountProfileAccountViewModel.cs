@@ -23,7 +23,7 @@ namespace TightWiki.Models.ViewModels.Profile
         [Display(Name = "Last Name")]
         public string? LastName { get; set; } = string.Empty;
 
-        [Display(Name = "TimeZone")]
+        [Display(Name = "Time-Zone")]
         [Required(ErrorMessage = "TimeZone is required")]
         public string TimeZone { get; set; } = string.Empty;
 

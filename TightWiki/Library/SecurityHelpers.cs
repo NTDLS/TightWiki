@@ -48,7 +48,7 @@ namespace TightWiki.Library
                 var claimsToAdd = new List<Claim>
                     {
                         new (ClaimTypes.Role, "Administrator"),
-                        new ("timezone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
+                        new ("time-zone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
                         new (ClaimTypes.Country, membershipConfig.As<string>("Default Country").EnsureNotNull()),
                         new ("language", membershipConfig.As<string>("Default Language").EnsureNotNull()),
                     };

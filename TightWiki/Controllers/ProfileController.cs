@@ -302,7 +302,7 @@ namespace TightWiki.Site.Controllers
 
             var claims = new List<Claim>
                     {
-                        new ("timezone", model.AccountProfile.TimeZone),
+                        new ("time-zone", model.AccountProfile.TimeZone),
                         new (ClaimTypes.Country, model.AccountProfile.Country),
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),

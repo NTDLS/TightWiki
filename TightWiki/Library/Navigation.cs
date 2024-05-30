@@ -12,6 +12,14 @@ namespace TightWiki.Library
                 return string.Empty;
             }
 
+            //Fix names like "::Page" or "Namespace::".
+            str = str.Trim().Trim([':']).Trim();
+
+            if (str.Contains("::"))
+            {
+                throw new Exception("Navigation can not contain a namespace.");
+            }
+
             // Decode common HTML entities
             str = str.Replace("&quot;", "\"")
                      .Replace("&amp;", "&")

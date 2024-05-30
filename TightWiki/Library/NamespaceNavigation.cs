@@ -5,13 +5,13 @@ namespace TightWiki
 {
     public class NamespaceNavigation
     {
-        private string _category = string.Empty;
+        private string _namespace = string.Empty;
         private string _page = string.Empty;
 
-        public string Category
+        public string Namespace
         {
-            get => _category;
-            set => _category = value.Replace("::", "_").Trim();
+            get => _namespace;
+            set => _namespace = value.Replace("::", "_").Trim();
         }
 
         public string Page
@@ -24,11 +24,11 @@ namespace TightWiki
         {
             get
             {
-                if (string.IsNullOrWhiteSpace(Category))
+                if (string.IsNullOrWhiteSpace(Namespace))
                 {
                     return Page;
                 }
-                return $"{Category}::{Page}";
+                return $"{Namespace}::{Page}";
             }
             set
             {
@@ -41,7 +41,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    Category = parts[0].Trim();
+                    Namespace = parts[0].Trim();
                     Page = string.Join("_", parts.Skip(1).Select(o => o.Trim())).Trim();
                 }
             }
@@ -57,7 +57,6 @@ namespace TightWiki
             return Canonical;
         }
 
-
         public static string CleanAndValidate(string? str)
         {
             if (str == null)
@@ -65,12 +64,15 @@ namespace TightWiki
                 return string.Empty;
             }
 
+            //Fix names like "::Page" or "Namespace::".
+            str = str.Trim().Trim([':']).Trim();
+
             if (str.Contains("::"))
             {
                 var parts = str.Split("::");
                 if (parts.Length != 2)
                 {
-                    throw new Exception("URL can not contain more than one namespace.");
+                    throw new Exception("Navigation can not contain more than one namespace.");
                 }
                 return $"{CleanAndValidate(parts[0].Trim())}::{CleanAndValidate(parts[1].Trim())}";
             }
