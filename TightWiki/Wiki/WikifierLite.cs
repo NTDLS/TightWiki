@@ -202,7 +202,7 @@ namespace TightWiki.Wiki
 
         private static string GetLinkImage(List<string> arguments)
         {
-            //This function excpects an argument array with up to three argumens:
+            //This function excepts an argument array with up to three arguments:
             //[0] link text.
             //[1] image link, which starts with "img=".
             //[2] scale of image.
@@ -234,8 +234,8 @@ namespace TightWiki.Wiki
                         scale = arguments[2];
                     }
 
-                    string attachementLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
-                    linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                    string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                    linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                 }
             }
             //External site image:

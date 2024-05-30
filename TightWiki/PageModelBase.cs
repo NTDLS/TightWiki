@@ -19,7 +19,7 @@ namespace TightWiki
             SignInManager = signInManager;
         }
 
-        public override void OnPageHandlerExecuting(PageHandlerExecutingContext conltext)
+        public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
             ViewData["WikiContext"] = WikiContext.Hydrate(SignInManager, this);
         }

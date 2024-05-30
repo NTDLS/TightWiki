@@ -26,7 +26,7 @@ namespace TightWiki.Wiki
         internal static partial Regex TransformExplicitHTTPsLinks();
 
         [GeneratedRegex("(\\[\\[.+?\\]\\])", RegexOptions.IgnoreCase)]
-        internal static partial Regex TransfomInternalDynamicLinks();
+        internal static partial Regex TransformInternalDynamicLinks();
 
         [GeneratedRegex("(\\#\\#[\\w-]+\\(\\))|(##|{{|@@)([a-zA-Z_\\s{][a-zA-Z0-9_\\s{]*)\\(((?<BR>\\()|(?<-BR>\\))|[^()]*)+\\)|(\\#\\#[\\w-]+)", RegexOptions.IgnoreCase)]
         internal static partial Regex TransformFunctions();

@@ -4,7 +4,7 @@ using static TightWiki.Library.WikiCache;
 namespace TightWiki.Library
 {
     /// <summary>
-    /// Contains a verbatum cache key which also includes the calling function name.
+    /// Contains a verbatim cache key which also includes the calling function name.
     /// </summary>
     /// <param name="key"></param>
     public class WikiCacheKeyFunction(string key)

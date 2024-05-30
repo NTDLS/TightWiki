@@ -23,16 +23,16 @@ namespace TightWiki.Controllers
         /// Gets an image attached to a page.
         /// </summary>
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
-        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the file (NOT THE PAGE REVISION).</param>
         /// <returns></returns>
-        [HttpGet("Image/{givenPageNavigation}/{givenfileNavigation}/{fileRevision:int?}")]
-        public ActionResult Image(string givenPageNavigation, string givenfileNavigation, int? fileRevision = null)
+        [HttpGet("Image/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
+        public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string scale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryString("Scale", "100");
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
             if (file != null)
@@ -65,19 +65,19 @@ namespace TightWiki.Controllers
                         break;
                 }
 
-                int iscale = int.Parse(scale);
-                if (iscale > 500)
+                int parsedScale = int.Parse(givenScale);
+                if (parsedScale > 500)
                 {
-                    iscale = 500;
+                    parsedScale = 500;
                 }
-                if (iscale != 100)
+                if (parsedScale != 100)
                 {
-                    int width = (int)(img.Width * (iscale / 100.0));
-                    int height = (int)(img.Height * (iscale / 100.0));
+                    int width = (int)(img.Width * (parsedScale / 100.0));
+                    int height = (int)(img.Height * (parsedScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         int difference = 16 - height;
@@ -113,39 +113,39 @@ namespace TightWiki.Controllers
         /// Gets an image from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
-        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION)</param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("Png/{givenPageNavigation}/{givenfileNavigation}/{fileRevision:int?}")]
-        public ActionResult Png(string givenPageNavigation, string givenfileNavigation, int? fileRevision = null)
+        [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
+        public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string scale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryString("Scale", "100");
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
             if (file != null)
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
-                int iscale = int.Parse(scale);
-                if (iscale > 500)
+                int parsedScale = int.Parse(givenScale);
+                if (parsedScale > 500)
                 {
-                    iscale = 500;
+                    parsedScale = 500;
                 }
 
-                if (iscale != 100)
+                if (parsedScale != 100)
                 {
-                    int width = (int)(img.Width * (iscale / 100.0));
-                    int height = (int)(img.Height * (iscale / 100.0));
+                    int width = (int)(img.Width * (parsedScale / 100.0));
+                    int height = (int)(img.Height * (parsedScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         int difference = 16 - height;
@@ -180,17 +180,17 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Gets a file from the database and returns it to the client.
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
-        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION),</param>
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("Binary/{givenPageNavigation}/{givenfileNavigation}/{fileRevision:int?}")]
-        public ActionResult Binary(string givenPageNavigation, string givenfileNavigation, int? fileRevision = null)
+        [HttpGet("Binary/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
+        public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
 
@@ -209,13 +209,13 @@ namespace TightWiki.Controllers
         /// Populate the upload page. Shows the attachments.
         /// </summary>
         [Authorize]
-        [HttpGet("Revisions/{givenPageNavigation}/{givenfileNavigation}")]
-        public ActionResult Revisions(string givenPageNavigation, string givenfileNavigation)
+        [HttpGet("Revisions/{givenPageNavigation}/{givenFileNavigation}")]
+        public ActionResult Revisions(string givenPageNavigation, string givenFileNavigation)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
             var model = new PageFileRevisionsViewModel()
             {
@@ -344,13 +344,13 @@ namespace TightWiki.Controllers
         /// </summary>
         /// <param name="navigation"></param>
         /// <returns></returns>
-        [HttpPost("Delete/{givenPageNavigation}/{givenfileNavigation}")]
-        public ActionResult Delete(string givenPageNavigation, string givenfileNavigation)
+        [HttpPost("Delete/{givenPageNavigation}/{givenFileNavigation}")]
+        public ActionResult Delete(string givenPageNavigation, string givenFileNavigation)
         {
             WikiContext.RequireDeletePermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
             PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation.Canonical, fileNavigation.Canonical);
 
@@ -381,7 +381,7 @@ namespace TightWiki.Controllers
                     emoji.ImageData = WikiCache.Get<byte[]>(cacheKey);
                     if (emoji.ImageData == null)
                     {
-                        //We dont get the bytes by default, that would be alot of RAM for all the thousandas of images.
+                        //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
                         emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
                         if (emoji.ImageData != null)
                         {
@@ -407,8 +407,8 @@ namespace TightWiki.Controllers
                         Width = (int)(Width * (customScalePercent / 100.0));
 
                         //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                        //  deminsion to become very small (or even negative). So here we will check the height and width
-                        //  to ensure they are both at least n pixels and adjust both demensions.
+                        //  dimension to become very small (or even negative). So here we will check the height and width
+                        //  to ensure they are both at least n pixels and adjust both dimensions.
                         if (Height < 16)
                         {
                             Height += 16 - Height;

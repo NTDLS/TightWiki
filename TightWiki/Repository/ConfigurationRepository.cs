@@ -59,7 +59,7 @@ namespace TightWiki.Repository
         }
 
         /// <summary>
-        /// Reads an encryptes value from the database so we can determine if encryption is setup.
+        /// Reads an encrypted value from the database so we can determine if encryption is setup.
         /// </summary>
         /// <returns></returns>
         public static bool GetCryptoCheck()

@@ -119,11 +119,11 @@ namespace TightWiki.Wiki
             int sizeStep = (tagCount > fontSize ? tagCount : (fontSize * 2)) / fontSize;
             int tagIndex = 0;
 
-            var tagList = new List<TagCoudItem>();
+            var tagList = new List<TagCloudItem>();
 
             foreach (var tag in tags)
             {
-                tagList.Add(new TagCoudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + WikiUtility.CleanFullURI(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
+                tagList.Add(new TagCloudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + WikiUtility.CleanFullURI(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
 
                 if ((tagIndex % sizeStep) == 0)
                 {
@@ -135,11 +135,11 @@ namespace TightWiki.Wiki
 
             var cloudHtml = new StringBuilder();
 
-            tagList.Sort(TagCoudItem.CompareItem);
+            tagList.Sort(TagCloudItem.CompareItem);
 
             cloudHtml.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
 
-            foreach (TagCoudItem tag in tagList)
+            foreach (TagCloudItem tag in tagList)
             {
                 cloudHtml.Append(tag.HTML + "&nbsp; ");
             }
@@ -158,11 +158,11 @@ namespace TightWiki.Wiki
             int sizeStep = (pageCount > fontSize ? pageCount : (fontSize * 2)) / fontSize;
             int pageIndex = 0;
 
-            var pageList = new List<TagCoudItem>();
+            var pageList = new List<TagCloudItem>();
 
             foreach (var page in pages)
             {
-                pageList.Add(new TagCoudItem(page.Name, pageIndex, "<font size=\"" + fontSize + "\"><a href=\"/" + page.Navigation + "\">" + page.Name + "</a></font>"));
+                pageList.Add(new TagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + "\"><a href=\"/" + page.Navigation + "\">" + page.Name + "</a></font>"));
 
                 if ((pageIndex % sizeStep) == 0)
                 {
@@ -174,11 +174,11 @@ namespace TightWiki.Wiki
 
             var cloudHtml = new StringBuilder();
 
-            pageList.Sort(TagCoudItem.CompareItem);
+            pageList.Sort(TagCloudItem.CompareItem);
 
             cloudHtml.Append("<table align=\"center\" border=\"0\" width=\"100%\"><tr><td><p align=\"justify\">");
 
-            foreach (TagCoudItem tag in pageList)
+            foreach (TagCloudItem tag in pageList)
             {
                 cloudHtml.Append(tag.HTML + "&nbsp; ");
             }

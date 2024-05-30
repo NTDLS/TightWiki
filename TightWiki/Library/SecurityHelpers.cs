@@ -7,15 +7,15 @@ namespace TightWiki.Library
     public static class SecurityHelpers
     {
         /// <summary>
-        /// Detect whether this is the first time the WIKI has ever been run and do some initilization.
+        /// Detect whether this is the first time the WIKI has ever been run and do some initialization.
         /// Adds the first user with the email and password contained in Constants.DEFAULTUSERNAME and Constants.DEFAULTPASSWORD
         /// </summary>
         public static async void ValidateEncryptionAndCreateAdminUser(UserManager<IdentityUser> userManager)
         {
             if (ConfigurationRepository.IsFirstRun())
             {
-                //If this is the first time the app has run on this mahcine (based on an encryption key) then clear the admin password status.
-                //This will cause the application to set the admin password to the default password and display a warning until it is chnaged.
+                //If this is the first time the app has run on this machine (based on an encryption key) then clear the admin password status.
+                //This will cause the application to set the admin password to the default password and display a warning until it is changed.
                 UsersRepository.SetAdminPasswordClear();
             }
 
@@ -48,7 +48,7 @@ namespace TightWiki.Library
                 var claimsToAdd = new List<Claim>
                     {
                         new (ClaimTypes.Role, "Administrator"),
-                        new ("time-zone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
+                        new ("timezone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
                         new (ClaimTypes.Country, membershipConfig.As<string>("Default Country").EnsureNotNull()),
                         new ("language", membershipConfig.As<string>("Default Language").EnsureNotNull()),
                     };

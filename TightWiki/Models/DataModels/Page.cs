@@ -7,7 +7,7 @@
         public string Navigation { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        public string ElipseDescription
+        public string EllipseDescription
         {
             get
             {

@@ -54,7 +54,7 @@ namespace TightWiki
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
             var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
-            var functConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
+            var functionalityConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
@@ -67,11 +67,11 @@ namespace TightWiki
             DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication");
             DefaultTimeZone = customizationConfig?.As<string>("Default TimeZone") ?? string.Empty;
-            IncludeWikiDescriptionInMeta = functConfig.As<bool>("Include wiki Description in Meta");
-            IncludeWikiTagsInMeta = functConfig.As<bool>("Include wiki Tags in Meta");
-            EnablePageComments = functConfig.As<bool>("Enable Page Comments");
-            ShowCommentsOnPageFooter = functConfig.As<bool>("Show Comments on Page Footer");
-            ShowLastModifiedOnPageFooter = functConfig.As<bool>("Show Last Modified on Page Footer");
+            IncludeWikiDescriptionInMeta = functionalityConfig.As<bool>("Include wiki Description in Meta");
+            IncludeWikiTagsInMeta = functionalityConfig.As<bool>("Include wiki Tags in Meta");
+            EnablePageComments = functionalityConfig.As<bool>("Enable Page Comments");
+            ShowCommentsOnPageFooter = functionalityConfig.As<bool>("Show Comments on Page Footer");
+            ShowLastModifiedOnPageFooter = functionalityConfig.As<bool>("Show Last Modified on Page Footer");
             IncludeSearchOnNavbar = searchConfig.As<bool>("Include Search on Navbar");
             HTMLHeader = htmlConfig?.As<string>("Header") ?? string.Empty;
             HTMLFooter = htmlConfig?.As<string>("Footer") ?? string.Empty;

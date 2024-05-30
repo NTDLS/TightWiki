@@ -57,11 +57,11 @@ namespace TightWiki.Wiki.Function
         {
             List<string> ps = new();
 
-            int iRpos = 0;
+            int readPos = 0;
 
             var singleParam = new StringBuilder();
 
-            if (paramString[iRpos] != '(')
+            if (paramString[readPos] != '(')
             {
                 throw new Exception($"Expected '('.");
             }
@@ -70,30 +70,30 @@ namespace TightWiki.Wiki.Function
 
             //https://localhost:44349/get_standard_function_wiki_help
 
-            iRpos++; //Skip the (
+            readPos++; //Skip the (
 
-            while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+            while (readPos < paramString.Length && char.IsWhiteSpace(paramString[readPos])) readPos++;
 
             while (true)
             {
-                if (paramString[iRpos] == '(')
+                if (paramString[readPos] == '(')
                 {
                     parenNest++;
                 }
-                else if (paramString[iRpos] == ')')
+                else if (paramString[readPos] == ')')
                 {
                     parenNest--;
                 }
 
-                if (iRpos == paramString.Length)
+                if (readPos == paramString.Length)
                 {
                     throw new Exception($"Expected ')'.");
                 }
-                else if (paramString[iRpos] == ')' && parenNest == 0)
+                else if (paramString[readPos] == ')' && parenNest == 0)
                 {
-                    iRpos++; //Skip the )
+                    readPos++; //Skip the )
 
-                    if (parenNest == 0 && iRpos != paramString.Length)
+                    if (parenNest == 0 && readPos != paramString.Length)
                     {
                         throw new Exception($"Expected end of statement.");
                     }
@@ -109,23 +109,23 @@ namespace TightWiki.Wiki.Function
                         break;
                     }
                 }
-                else if (paramString[iRpos] == '\"')
+                else if (paramString[readPos] == '\"')
                 {
-                    iRpos++; //Skip the ".
+                    readPos++; //Skip the ".
 
                     bool escapeChar = false;
-                    for (; ; iRpos++)
+                    for (; ; readPos++)
                     {
-                        if (iRpos == paramString.Length)
+                        if (readPos == paramString.Length)
                         {
                             throw new Exception($"Expected end of string.");
                         }
-                        else if (paramString[iRpos] == '\\')
+                        else if (paramString[readPos] == '\\')
                         {
                             escapeChar = true;
                             continue;
                         }
-                        else if (paramString[iRpos] == '\"' && escapeChar == false)
+                        else if (paramString[readPos] == '\"' && escapeChar == false)
                         {
                             //Found the end of the string:
                             /*
@@ -137,22 +137,22 @@ namespace TightWiki.Wiki.Function
                             }
                             */
 
-                            iRpos++; //Skip the ".
+                            readPos++; //Skip the ".
                             break;
                         }
                         else
                         {
-                            singleParam.Append(paramString[iRpos]);
+                            singleParam.Append(paramString[readPos]);
                         }
                         escapeChar = false;
                     }
 
-                    while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                    while (readPos < paramString.Length && char.IsWhiteSpace(paramString[readPos])) readPos++;
                 }
-                else if (paramString[iRpos] == ',')
+                else if (paramString[readPos] == ',')
                 {
-                    iRpos++; //Skip the ,
-                    while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                    readPos++; //Skip the ,
+                    while (readPos < paramString.Length && char.IsWhiteSpace(paramString[readPos])) readPos++;
 
                     ps.Add(singleParam.ToString());
                     singleParam.Clear();
@@ -160,21 +160,21 @@ namespace TightWiki.Wiki.Function
                 }
                 else
                 {
-                    singleParam.Append(paramString[iRpos]);
+                    singleParam.Append(paramString[readPos]);
 
-                    if (paramString[iRpos] == '(')
+                    if (paramString[readPos] == '(')
                     {
-                        iRpos++;
-                        while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                        readPos++;
+                        while (readPos < paramString.Length && char.IsWhiteSpace(paramString[readPos])) readPos++;
                     }
-                    else if (paramString[iRpos] == ')')
+                    else if (paramString[readPos] == ')')
                     {
-                        iRpos++;
-                        while (iRpos < paramString.Length && char.IsWhiteSpace(paramString[iRpos])) iRpos++;
+                        readPos++;
+                        while (readPos < paramString.Length && char.IsWhiteSpace(paramString[readPos])) readPos++;
                     }
                     else
                     {
-                        iRpos++;
+                        readPos++;
                     }
                 }
 

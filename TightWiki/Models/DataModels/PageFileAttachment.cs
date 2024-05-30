@@ -13,7 +13,6 @@
         public byte[] Data { get; set; } = new byte[0];
         public string FileNavigation { get; set; } = string.Empty;
         public string PageNavigation { get; set; } = string.Empty;
-
         public string FriendlySize => Wiki.WikiUtility.GetFriendlySize(Size);
     }
 }

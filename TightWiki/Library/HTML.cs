@@ -17,7 +17,7 @@ namespace TightWiki.Library
             html = (new Regex("<(.|\n)+?>")).Replace(html, " "); //Remove all text between < and >
             html = (new Regex("\\[\\[(.|\n)+?\\]\\]")).Replace(html, " "); //Remove all text between [[ and ]]
             html = (new Regex("\\&(.|\n)+?\\;")).Replace(html, " "); //Remove all text between & and ;
-            html = (new Regex("[^A-Za-z]")).Replace(html, " "); //Remove all non-alpha-numerics
+            html = (new Regex("[^A-Za-z]")).Replace(html, " "); //Remove all non-alpha-numeric
             html = (new Regex(@"\s+")).Replace(html, " "); // compress all whitespace to one space.
 
             return html.Trim();

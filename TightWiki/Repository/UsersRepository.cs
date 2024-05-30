@@ -26,14 +26,14 @@ namespace TightWiki.Repository
         /// <param name="userId"></param>
         public static void AnonymizeProfile(Guid userId)
         {
-            string standinName = GetRandomUnusedAccountName();
+            string bogusName = GetRandomUnusedAccountName();
 
             var param = new
             {
                 UserId = userId,
                 ModifiedDate = DateTime.UtcNow,
-                StandinName = standinName,
-                Navigation = Navigation.Clean(standinName)
+                StandinName = bogusName,
+                Navigation = Navigation.Clean(bogusName)
             };
 
             ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);

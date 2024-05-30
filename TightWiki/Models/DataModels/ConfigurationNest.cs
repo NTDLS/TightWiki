@@ -6,6 +6,6 @@
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
 
-        public List<ConfigurationEntry> Entries = new List<ConfigurationEntry>();
+        public List<ConfigurationEntry> Entries = new();
     }
 }

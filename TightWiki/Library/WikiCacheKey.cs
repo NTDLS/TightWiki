@@ -3,7 +3,7 @@
 namespace TightWiki.Library
 {
     /// <summary>
-    /// Contains a verbatum cache key.
+    /// Contains a verbatim cache key.
     /// </summary>
     /// <param name="key"></param>
     public class WikiCacheKey(string key)

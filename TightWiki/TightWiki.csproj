@@ -106,7 +106,7 @@
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
     <None Remove="Repository\Scripts\SaveConfigurationEntryValueByGroupAndEntry.sql" />
     <None Remove="Repository\Scripts\SavePageSearchTokens.sql" />
-    <None Remove="Repository\Scripts\SearchEmojiCatorgoryIds.sql" />
+    <None Remove="Repository\Scripts\SearchEmojiCategoryIds.sql" />
     <None Remove="Repository\Scripts\SetAdminPasswordClear.sql" />
     <None Remove="Repository\Scripts\SetAdminPasswordIsChanged.sql" />
     <None Remove="Repository\Scripts\SetAdminPasswordIsDefault.sql" />
@@ -224,7 +224,7 @@
     <EmbeddedResource Include="Repository\Scripts\ReassociateAllPageAttachments.sql" />
     <EmbeddedResource Include="Repository\Scripts\SaveConfigurationEntryValueByGroupAndEntry.sql" />
     <EmbeddedResource Include="Repository\Scripts\SavePageSearchTokens.sql" />
-    <EmbeddedResource Include="Repository\Scripts\SearchEmojiCatorgoryIds.sql" />
+    <EmbeddedResource Include="Repository\Scripts\SearchEmojiCategoryIds.sql" />
     <EmbeddedResource Include="Repository\Scripts\SetAdminPasswordIsChanged.sql" />
     <EmbeddedResource Include="Repository\Scripts\SetAdminPasswordClear.sql" />
     <EmbeddedResource Include="Repository\Scripts\SetAdminPasswordIsDefault.sql" />

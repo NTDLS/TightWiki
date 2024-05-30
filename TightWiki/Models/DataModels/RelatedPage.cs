@@ -22,6 +22,5 @@ namespace TightWiki.Models.DataModels
                 return Name;
             }
         }
-
     }
 }

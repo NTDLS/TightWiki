@@ -16,7 +16,6 @@
         public Guid CreatedByUserId { get; set; }
         public string CreatedByUserName { get; set; } = string.Empty;
         public string CreatedByNavigation { get; set; } = string.Empty;
-
         public string FriendlySize => Wiki.WikiUtility.GetFriendlySize(Size);
     }
 }

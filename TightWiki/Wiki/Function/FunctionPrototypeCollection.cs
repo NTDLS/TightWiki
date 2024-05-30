@@ -39,11 +39,11 @@
             int nameEndIndex = prototypeString.IndexOf(':');
             string properName = prototypeString.Substring(nameStartIndex, nameEndIndex - nameStartIndex).Trim();
             string functionName = properName.ToLower();
-            string pethodPrefix = prototypeString.Substring(0, nameStartIndex).Trim();
+            string functionPrefix = prototypeString.Substring(0, nameStartIndex).Trim();
 
             prototypeString = prototypeString.Substring(nameEndIndex + 1).Trim();
 
-            var prototype = new FunctionPrototype() { FunctionPrefix = pethodPrefix, ProperName = properName, FunctionName = functionName };
+            var prototype = new FunctionPrototype() { FunctionPrefix = functionPrefix, ProperName = properName, FunctionName = functionName };
 
             if (prototypeString.Length == 0)
             {

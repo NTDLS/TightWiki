@@ -10,7 +10,7 @@ namespace TightWiki.Wiki
         /// <param name="thisRev"></param>
         /// <param name="prevRev"></param>
         /// <returns></returns>
-        public static string GetComparisionSummary(string thisRev, string prevRev)
+        public static string GetComparisonSummary(string thisRev, string prevRev)
         {
             var summary = new StringBuilder();
 

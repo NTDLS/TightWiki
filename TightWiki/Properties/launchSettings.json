@@ -12,7 +12,6 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Admin/WikiExceptions",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

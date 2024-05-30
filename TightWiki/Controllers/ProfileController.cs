@@ -40,9 +40,9 @@ namespace TightWiki.Site.Controllers
             WikiContext.Title = $"Avatar";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
-            string scale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
-            string max = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
-            string? exact = Request.Query["exact"];
+            string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
+            string givenMax = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
+            string? givenExact = Request.Query["exact"];
 
             var imageBytes = UsersRepository.GetProfileAvatarByNavigation(userAccountName);
 
@@ -60,28 +60,28 @@ namespace TightWiki.Site.Controllers
             {
                 var img = Image.Load(new MemoryStream(imageBytes));
 
-                int iScale = int.Parse(scale);
-                int iMax = int.Parse(max);
+                int parsedScale = int.Parse(givenScale);
+                int parsedMax = int.Parse(givenMax);
 
-                if (string.IsNullOrEmpty(exact) == false)
+                if (string.IsNullOrEmpty(givenExact) == false)
                 {
-                    int iexact = int.Parse(exact);
-                    if (iexact > 1024)
+                    int parsedExact = int.Parse(givenExact);
+                    if (parsedExact > 1024)
                     {
-                        iexact = 1024;
+                        parsedExact = 1024;
                     }
-                    else if (iexact < 16)
+                    else if (parsedExact < 16)
                     {
-                        iexact = 16;
+                        parsedExact = 16;
                     }
 
-                    int diff = img.Width - iexact;
+                    int diff = img.Width - parsedExact;
                     int width = (int)(img.Width - diff);
                     int height = (int)(img.Height - diff);
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         int difference = 16 - height;
@@ -100,15 +100,15 @@ namespace TightWiki.Site.Controllers
                     image.SaveAsPng(ms);
                     return File(ms.ToArray(), "image/png");
                 }
-                else if (iMax != 0 && (img.Width > iMax || img.Height > iMax))
+                else if (parsedMax != 0 && (img.Width > parsedMax || img.Height > parsedMax))
                 {
-                    int diff = img.Width - iMax;
+                    int diff = img.Width - parsedMax;
                     int width = (int)(img.Width - diff);
                     int height = (int)(img.Height - diff);
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         int difference = 16 - height;
@@ -128,14 +128,14 @@ namespace TightWiki.Site.Controllers
                     return File(ms.ToArray(), "image/png");
 
                 }
-                else if (iScale != 100)
+                else if (parsedScale != 100)
                 {
-                    int width = (int)(img.Width * (iScale / 100.0));
-                    int height = (int)(img.Height * (iScale / 100.0));
+                    int width = (int)(img.Width * (parsedScale / 100.0));
+                    int height = (int)(img.Height * (parsedScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         int difference = 16 - height;
@@ -207,7 +207,7 @@ namespace TightWiki.Site.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
-                item.ChangeSummary = Differentiator.GetComparisionSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                item.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             return View(model);
@@ -253,7 +253,7 @@ namespace TightWiki.Site.Controllers
 
             WikiContext.Title = $"My Profile";
 
-            //Get the UserId from the logged in context because we do not trust anyhting from the model.
+            //Get the UserId from the logged in context because we do not trust anything from the model.
             var userId = WikiContext.Profile.EnsureNotNull().UserId;
 
             if (!model.ValidateModelAndSetErrors(ModelState))
@@ -302,7 +302,7 @@ namespace TightWiki.Site.Controllers
 
             var claims = new List<Claim>
                     {
-                        new ("time-zone", model.AccountProfile.TimeZone),
+                        new ("timezone", model.AccountProfile.TimeZone),
                         new (ClaimTypes.Country, model.AccountProfile.Country),
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),

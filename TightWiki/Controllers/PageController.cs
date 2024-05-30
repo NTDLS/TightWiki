@@ -30,11 +30,11 @@ namespace TightWiki.Controllers
 
             page.Id = PageRepository.SavePage(page);
 
-            RefreshPageMatadata(this, page);
+            RefreshPageMetadata(this, page);
 
             if (isNewlyCreated)
             {
-                //This will update the pageid of referenes that have been saved to the navigation link.
+                //This will update the pageid of references that have been saved to the navigation link.
                 PageRepository.UpdateSinglePageReference(page.Navigation, page.Id);
             }
 
@@ -42,7 +42,7 @@ namespace TightWiki.Controllers
         }
 
         [NonAction]
-        public static void RefreshPageMatadata(ControllerBase controller, Page page)
+        public static void RefreshPageMetadata(ControllerBase controller, Page page)
         {
             var wikifier = new Wikifier(controller.WikiContext, page, null, controller.Request.Query, new WikiMatchType[] { WikiMatchType.Function });
 
@@ -374,7 +374,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                RefreshPageMatadata(this, page);
+                RefreshPageMetadata(this, page);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -410,7 +410,7 @@ namespace TightWiki.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                p.ChangeSummary = Differentiator.GetComparisionSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                p.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             if (model.Revisions != null && model.Revisions.Count > 0)
@@ -695,16 +695,16 @@ namespace TightWiki.Controllers
         /// Gets an image attached to a page.
         /// </summary>
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
-        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
         /// <returns></returns>
-        [HttpGet("Page/Image/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
-        public ActionResult Image(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        [HttpGet("Page/Image/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
+        public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string scale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryString("Scale", "100");
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 
             if (file != null)
@@ -737,19 +737,19 @@ namespace TightWiki.Controllers
                         break;
                 }
 
-                int customScalePercent = int.Parse(scale);
-                if (customScalePercent > 500)
+                int parsedScale = int.Parse(givenScale);
+                if (parsedScale > 500)
                 {
-                    customScalePercent = 500;
+                    parsedScale = 500;
                 }
-                if (customScalePercent != 100)
+                if (parsedScale != 100)
                 {
-                    int width = (int)(img.Width * (customScalePercent / 100.0));
-                    int height = (int)(img.Height * (customScalePercent / 100.0));
+                    int width = (int)(img.Width * (parsedScale / 100.0));
+                    int height = (int)(img.Height * (parsedScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         height += 16 - height;
@@ -783,39 +783,39 @@ namespace TightWiki.Controllers
         /// Gets an image from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
-        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("Page/Png/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
-        public ActionResult Png(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        [HttpGet("Page/Png/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
+        public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string scale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryString("Scale", "100");
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
             if (file != null)
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
-                int customScalePercent = int.Parse(scale);
-                if (customScalePercent > 500)
+                int parsedScale = int.Parse(givenScale);
+                if (parsedScale > 500)
                 {
-                    customScalePercent = 500;
+                    parsedScale = 500;
                 }
 
-                if (customScalePercent != 100)
+                if (parsedScale != 100)
                 {
-                    int width = (int)(img.Width * (customScalePercent / 100.0));
-                    int height = (int)(img.Height * (customScalePercent / 100.0));
+                    int width = (int)(img.Width * (parsedScale / 100.0));
+                    int height = (int)(img.Height * (parsedScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
-                    //  deminsion to become very small (or even negative). So here we will check the height and width
-                    //  to ensure they are both at least n pixels and adjust both demensions.
+                    //  dimension to become very small (or even negative). So here we will check the height and width
+                    //  to ensure they are both at least n pixels and adjust both dimensions.
                     if (height < 16)
                     {
                         height += 16 - height;
@@ -848,17 +848,17 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Gets a file from the database and returns it to the client.
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
-        /// <param name="givenfileNavigation">The navigation link of the file.</param>
+        /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("Page/Binary/{givenPageNavigation}/{givenfileNavigation}/{pageRevision:int?}")]
-        public ActionResult Binary(string givenPageNavigation, string givenfileNavigation, int? pageRevision = null)
+        [HttpGet("Page/Binary/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
+        public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
             WikiContext.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenfileNavigation);
+            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 

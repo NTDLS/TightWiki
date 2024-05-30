@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Wiki
 {
-    //Table of contense tag.
+    //Table of contents tag.
     public class TOCTag
     {
         public int Level;

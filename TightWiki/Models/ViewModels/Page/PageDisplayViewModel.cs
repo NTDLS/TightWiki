@@ -12,4 +12,3 @@ namespace TightWiki.Models.ViewModels.Page
         public bool HideFooterLastModified { get; set; }
     }
 }
-

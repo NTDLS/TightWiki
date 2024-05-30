@@ -14,27 +14,27 @@ namespace TightWiki.Library
         }
 
         const int DefaultCacheSeconds = 5 * 60;
-        private static MemoryCache? _memcache;
+        private static MemoryCache? _memCache;
         public static ulong CachePuts { get; set; }
         public static ulong CacheGets { get; set; }
         public static ulong CacheHits { get; set; }
         public static ulong CacheMisses { get; set; }
-        public static int CacheItemCount => Memcache.Count();
-        public static double CacheMemoryLimitMB => Memcache.CacheMemoryLimit / 1024.0 / 1024.0;
+        public static int CacheItemCount => MemCache.Count();
+        public static double CacheMemoryLimitMB => MemCache.CacheMemoryLimit / 1024.0 / 1024.0;
 
-        public static MemoryCache Memcache
+        public static MemoryCache MemCache
         {
             get
             {
-                if (_memcache == null)
+                if (_memCache == null)
                 {
                     var config = new NameValueCollection();
                     //config.Add("pollingInterval", "00:05:00");
                     //config.Add("physicalMemoryLimitPercentage", "0");
                     config.Add("CacheMemoryLimitMegabytes", GlobalSettings.CacheMemoryLimitMB.ToString());
-                    _memcache = new MemoryCache("TightWikiCache", config);
+                    _memCache = new MemoryCache("TightWikiCache", config);
                 }
-                return _memcache;
+                return _memCache;
             }
         }
 
@@ -47,7 +47,7 @@ namespace TightWiki.Library
         public static T? Get<T>(WikiCacheKeyFunction cacheKey)
         {
             CacheGets++;
-            var result = (T)Memcache.Get(cacheKey.Key);
+            var result = (T)MemCache.Get(cacheKey.Key);
 
             if (result == null)
             {
@@ -75,7 +75,7 @@ namespace TightWiki.Library
             {
                 AbsoluteExpiration = System.DateTimeOffset.Now.AddSeconds(seconds)
             };
-            Memcache.Add(cacheKey.Key, value, policy);
+            MemCache.Add(cacheKey.Key, value, policy);
         }
 
         /// <summary>
@@ -83,10 +83,10 @@ namespace TightWiki.Library
         /// </summary>
         public static void Clear()
         {
-            var items = Memcache.ToList();
+            var items = MemCache.ToList();
             foreach (var a in items)
             {
-                Memcache.Remove(a.Key);
+                MemCache.Remove(a.Key);
             }
         }
 
@@ -98,7 +98,7 @@ namespace TightWiki.Library
         {
             var keys = new List<string>();
 
-            foreach (var item in Memcache)
+            foreach (var item in MemCache)
             {
                 if (item.Key.StartsWith(cacheKey.Key))
                 {
@@ -106,7 +106,7 @@ namespace TightWiki.Library
                 }
             }
 
-            keys.ForEach(o => Memcache.Remove(o));
+            keys.ForEach(o => MemCache.Remove(o));
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace TightWiki.Library
 
             var keys = new List<string>();
 
-            foreach (var item in Memcache)
+            foreach (var item in MemCache)
             {
                 if (item.Key.StartsWith(cacheKey.Key))
                 {
@@ -127,7 +127,7 @@ namespace TightWiki.Library
                 }
             }
 
-            keys.ForEach(o => Memcache.Remove(o));
+            keys.ForEach(o => MemCache.Remove(o));
         }
     }
 }

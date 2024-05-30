@@ -198,7 +198,7 @@ namespace TightWiki.Repository
                         //Insert the actual file data.
                         o.Execute("InsertPageFileRevision.sql", insertPageFileRevisionParam);
 
-                        var associatePageFileAttachmentWithPageRevisionparam = new
+                        var associatePageFileAttachmentWithPageRevisionParam = new
                         {
                             PageId = item.PageId,
                             PageFileId = pageFileInfo.PageFileId,
@@ -206,7 +206,7 @@ namespace TightWiki.Repository
                             FileRevision = currentFileRevision,
                         };
                         //Associate the latest version of the file with the latest version of the page.
-                        o.Execute("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionparam);
+                        o.Execute("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionParam);
                     }
 
                     transaction.Commit();

@@ -106,7 +106,7 @@ namespace TightWiki.Site.Controllers
                     var claimsToAdd = new List<Claim>
                         {
                             new (ClaimTypes.Role, membershipConfig.As<string>("Default Signup Role").EnsureNotNull()),
-                            new ("time-zone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
+                            new ("timezone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
                             new (ClaimTypes.Country, membershipConfig.As<string>("Default Country").EnsureNotNull()),
                             new ("language", membershipConfig.As<string>("Default Language").EnsureNotNull()),
                         };

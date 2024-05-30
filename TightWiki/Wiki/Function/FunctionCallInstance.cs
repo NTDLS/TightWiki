@@ -39,7 +39,7 @@
         }
 
         /// <summary>
-        /// Checks the passed value agains the function prototype to ensure that the variable is the correct type, value, etc.
+        /// Checks the passed value against the function prototype to ensure that the variable is the correct type, value, etc.
         /// </summary>
         /// <param name="segment"></param>
         /// <param name="value"></param>
@@ -86,10 +86,10 @@
         {
             int index = 0;
 
-            //Keep a list of the arguments as they are associated with the prototype so that we can leter referecne them by name.
+            //Keep a list of the arguments as they are associated with the prototype so that we can later reference them by name.
             var namedToAddLater = new List<NamedParam>();
 
-            //Hanldle non-infinite ordinal based required parameters:
+            //Handle non-infinite ordinal based required parameters:
             for (; index < Prototype.Parameters.Count; index++)
             {
                 var param = Prototype.Parameters[index];
@@ -120,7 +120,7 @@
 
             bool hasEncounteredOptionalParameter = false;
 
-            //Hanlde remaining optional parameters:
+            //Handle remaining optional parameters:
             for (; index < Prototype.Parameters.Count; index++)
             {
                 var param = Prototype.Parameters[index];
@@ -143,7 +143,7 @@
                         }
                     }
 
-                    //Now that we have encountered an infinite parameter, it will swallow up all other ordnial based arguments. Might as well check the types and exit the loop.
+                    //Now that we have encountered an infinite parameter, it will swallow up all other ordinal based arguments. Might as well check the types and exit the loop.
                     for (; index < Parameters.Ordinals.Count; index++)
                     {
                         string value = Parameters.Ordinals[index].Value;

@@ -370,7 +370,7 @@ namespace TightWiki.Repository
         }
 
         /// <summary>
-        /// Unlike the search, this method retunrs all pages and allows them to be paired down using the search terms.
+        /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
         /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
         /// </summary>
         /// <param name="pageNumber"></param>
@@ -545,7 +545,7 @@ namespace TightWiki.Repository
                         //Update the existing page.
                         o.Execute("UpdatePage.sql", pageUpsertParam);
 
-                        //Determine if anyhting has actually changed.
+                        //Determine if anything has actually changed.
                         hasPageChanged = currentRevisionInfo.Name != page.Name
                             || currentRevisionInfo.Namespace != page.Namespace
                             || currentRevisionInfo.Description != page.Description

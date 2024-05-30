@@ -14,7 +14,7 @@ namespace TightWiki.Repository
         public static IEnumerable<EmojiCategory> GetEmojiCategoriesGrouped()
             => ManagedDataStorage.Emoji.Query<EmojiCategory>("GetEmojiCategoriesGrouped.sql");
 
-        public static IEnumerable<int> SearchEmojiCatorgoryIds(List<string> categories)
+        public static IEnumerable<int> SearchEmojiCategoryIds(List<string> categories)
         {
             return ManagedDataStorage.Emoji.Ephemeral(o =>
             {
@@ -24,7 +24,7 @@ namespace TightWiki.Repository
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempCategories", categories);
-                return o.Query<int>("SearchEmojiCatorgoryIds.sql", param);
+                return o.Query<int>("SearchEmojiCategoryIds.sql", param);
             });
         }
 
@@ -130,7 +130,7 @@ namespace TightWiki.Repository
             }
             else
             {
-                var emojiCategoryIds = SearchEmojiCatorgoryIds(categories);
+                var emojiCategoryIds = SearchEmojiCategoryIds(categories);
 
                 var param = new
                 {

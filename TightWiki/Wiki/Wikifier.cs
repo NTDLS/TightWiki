@@ -286,12 +286,12 @@ namespace TightWiki.Wiki
                 if (endPos < 0 || endPos < startPos)
                 {
                     var exception = new StringBuilder();
-                    exception.AppendLine($"<strong>A parsing error occured after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
+                    exception.AppendLine($"<strong>A parsing error occurred after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
                     if (rawBlock?.Length > 0)
                     {
                         exception.AppendLine($"<strong>The last successfully parsed block was:</strong><br /> {rawBlock}");
                     }
-                    exception.AppendLine($"<strong>The problem occured after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
+                    exception.AppendLine($"<strong>The problem occurred after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
                     exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {pageContent}<br /><br />");
 
                     throw new Exception(exception.ToString());
@@ -659,7 +659,7 @@ namespace TightWiki.Wiki
 
         private string GetLinkImage(List<string> arguments)
         {
-            //This function excpects an argument array with up to three argumens:
+            //This function excepts an argument array with up to three arguments:
             //[0] link text.
             //[1] image link, which starts with "img=".
             //[2] scale of image.
@@ -693,13 +693,13 @@ namespace TightWiki.Wiki
 
                     if (_revision != null)
                     {
-                        string attachementLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
-                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                        string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
+                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                     else
                     {
-                        string attachementLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
-                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                        string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                 }
                 else
@@ -715,13 +715,13 @@ namespace TightWiki.Wiki
 
                     if (_revision != null)
                     {
-                        string attachementLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
-                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                        string attachmentLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
+                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                     else
                     {
-                        string attachementLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
-                        linkText = $"<img src=\"{attachementLink}?Scale={scale}\" border=\"0\" />";
+                        string attachmentLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                 }
             }
@@ -899,7 +899,7 @@ namespace TightWiki.Wiki
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
             matches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransfomInternalDynamicLinks().Matches(pageContent.ToString()));
+                PrecompiledRegex.TransformInternalDynamicLinks().Matches(pageContent.ToString()));
 
             foreach (var match in matches)
             {
@@ -1038,7 +1038,7 @@ namespace TightWiki.Wiki
 
                 switch (function.Name.ToLower())
                 {
-                    //We check _nestLevel here because we dont want to include the processing instructions on any parent pages that are injecting this one.
+                    //We check _nestLevel here because we don't want to include the processing instructions on any parent pages that are injecting this one.
 
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "systememojilist":
@@ -1154,7 +1154,7 @@ namespace TightWiki.Wiki
                             if (_nestLevel == 0)
                             {
                                 ProcessingInstructions.Add(WikiInstruction.Deprecate);
-                                pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been deprecated and will eventualy be deleted.</div>");
+                                pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been deprecated and will eventually be deleted.</div>");
                             }
                             var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                             pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
@@ -1410,7 +1410,7 @@ namespace TightWiki.Wiki
                                         var thisRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision);
                                         var prevRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision - 1);
 
-                                        var summaryText = Differentiator.GetComparisionSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
+                                        var summaryText = Differentiator.GetComparisonSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
 
                                         if (summaryText.Length > 0)
                                         {
@@ -1535,7 +1535,7 @@ namespace TightWiki.Wiki
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
                     //Associates tags with a page. These are saved with the page and can also be displayed.
-                    case "tag": //##tag(pipe|seperated|list|of|tags)
+                    case "tag": //##tag(pipe|separated|list|of|tags)
                         {
                             var tags = function.Parameters.GetList<string>("pageTags");
                             Tags.AddRange(tags);
@@ -1603,7 +1603,7 @@ namespace TightWiki.Wiki
                             string navigation = _page.Navigation;
                             if (fileName.Contains('/'))
                             {
-                                //Allow loading attacehd images from other pages.
+                                //Allow loading attached images from other pages.
                                 int slashIndex = fileName.IndexOf("/");
                                 navigation = NamespaceNavigation.CleanAndValidate(fileName.Substring(0, slashIndex));
                                 fileName = fileName.Substring(slashIndex + 1);
@@ -1798,7 +1798,7 @@ namespace TightWiki.Wiki
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary of pages with the specified comma seperated tags.
+                    //Creates a glossary of pages with the specified comma separated tags.
                     case "tagglossary":
                         {
                             string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
@@ -1857,7 +1857,7 @@ namespace TightWiki.Wiki
                         break;
 
                     //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary by searching page's body text for the specified comma seperated list of words.
+                    //Creates a glossary by searching page's body text for the specified comma separated list of words.
                     case "textglossary":
                         {
                             string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
@@ -2477,10 +2477,10 @@ namespace TightWiki.Wiki
             //Replace new-lines with single character new line:
             pageContent.Replace("\r\n", "\n");
 
-            //Replace new-lines with an identifer so we can identify the places we are going to introduce line-breaks:
+            //Replace new-lines with an identifier so we can identify the places we are going to introduce line-breaks:
             pageContent.Replace("\n", identifier);
 
-            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifers.
+            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifiers.
             pageContent.Replace($"{identifier}{identifier}", identifier);
 
             //Swap in the real line-breaks.
