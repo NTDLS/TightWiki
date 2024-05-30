@@ -1,5 +1,7 @@
-﻿using DuoVia.FuzzyStrings;
+﻿using Azure;
+using DuoVia.FuzzyStrings;
 using NTDLS.SqliteDapperWrapper;
+using System.Text.RegularExpressions;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Shared.Models.Data;
@@ -212,13 +214,14 @@ namespace TightWiki.Repository
             });
         }
 
-        public static List<RelatedPage> GetSimilarPagesPaged(int pageId, int pageNumber, int? pageSize = null)
+        public static List<RelatedPage> GetSimilarPagesPaged(int pageId, int similarity, int pageNumber, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             var param = new
             {
                 PageId = pageId,
+                Similarity = similarity,
                 PageNumber = pageNumber,
                 PageSize = pageSize
             };
@@ -699,11 +702,11 @@ namespace TightWiki.Repository
 
         #region Tags.
 
-        public static List<TagAssociation> GetAssociatedTags(string groupName)
+        public static List<TagAssociation> GetAssociatedTags(string tag)
         {
             var param = new
             {
-                GroupName = groupName
+                @Tag = tag
             };
 
             return ManagedDataStorage.Pages.Query<TagAssociation>("GetAssociatedTags.sql", param).ToList();

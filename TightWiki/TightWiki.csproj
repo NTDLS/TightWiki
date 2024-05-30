@@ -85,6 +85,7 @@
     <None Remove="Repository\Scripts\GetProfilesByRoleIdPaged.sql" />
     <None Remove="Repository\Scripts\GetRelatedPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetRoleByName.sql" />
+    <None Remove="Repository\Scripts\GetSimilarPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetSingleWordAt.sql" />
     <None Remove="Repository\Scripts\GetTopRecentlyModifiedPagesInfo.sql" />
     <None Remove="Repository\Scripts\GetTopRecentlyModifiedPagesInfoByUserId.sql" />
@@ -175,6 +176,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetFuzzyPageSearchTokens.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetNonexistentPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetSimilarPagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageCommentsPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />

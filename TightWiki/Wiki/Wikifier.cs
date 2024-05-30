@@ -558,8 +558,10 @@ namespace TightWiki.Wiki
                         case "jumbotron":
                             {
                                 string titleText = function.Parameters.Get("titleText", "");
-                                if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
-                                html.Append($"<div class=\"jumbotron\">{scopeBody}</div>");
+                                html.Append($"<div class=\"mt-4 p-5 bg-secondary text-white rounded\">");
+                                if (!string.IsNullOrEmpty(titleText)) html.Append($"<h1>{titleText}</h1>");
+                                html.Append($"<p>{scopeBody}</p>");
+                                html.Append($"</div>");
                             }
                             break;
                         //------------------------------------------------------------------------------------------------------------------------------
@@ -1047,8 +1049,6 @@ namespace TightWiki.Wiki
 
                             html.Append($"<table class=\"table table-striped table-bordered \">");
 
-                            int rowNumber = 0;
-
                             html.Append($"<thead>");
                             html.Append($"<tr>");
                             html.Append($"<td><strong>Name</strong></td>");
@@ -1059,23 +1059,21 @@ namespace TightWiki.Wiki
 
                             string category = _queryString["Category"].ToString();
 
-                            var emojis = EmojiRepository.GetEmojisByCategory(category);
+                            html.Append($"<tbody>");
 
-                            foreach (var emoji in emojis)
+                            if (string.IsNullOrWhiteSpace(category) == false)
                             {
-                                if (rowNumber == 1)
+                                var emojis = EmojiRepository.GetEmojisByCategory(category);
+
+                                foreach (var emoji in emojis)
                                 {
-                                    html.Append($"<tbody>");
+                                    html.Append($"<tr>");
+                                    html.Append($"<td>{emoji.Name}</td>");
+                                    //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
+                                    html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
+                                    html.Append($"<td>{emoji.Shortcut}</td>");
+                                    html.Append($"</tr>");
                                 }
-
-                                html.Append($"<tr>");
-                                html.Append($"<td>{emoji.Name}</td>");
-                                //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
-                                html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
-                                html.Append($"<td>{emoji.Shortcut}</td>");
-                                html.Append($"</tr>");
-
-                                rowNumber++;
                             }
 
                             html.Append($"</tbody>");
@@ -1331,7 +1329,7 @@ namespace TightWiki.Wiki
 
                             if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, profiles.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate("", refTag, _queryString, profiles.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -1377,7 +1375,7 @@ namespace TightWiki.Wiki
 
                                 if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                                 {
-                                    html.Append(PageSelectorGenerator.Generate(refTag, _queryString, attachments.First().PaginationPageCount));
+                                    html.Append(PageSelectorGenerator.Generate("", refTag, _queryString, attachments.First().PaginationPageCount));
                                 }
                             }
 
@@ -1423,7 +1421,7 @@ namespace TightWiki.Wiki
 
                                 if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
                                 {
-                                    html.Append(PageSelectorGenerator.Generate(refTag, _queryString, revisions.First().PaginationPageCount));
+                                    html.Append(PageSelectorGenerator.Generate("", refTag, _queryString, revisions.First().PaginationPageCount));
                                 }
                             }
 
@@ -1960,9 +1958,9 @@ namespace TightWiki.Wiki
                                 html.Append("</ul>");
                             }
 
-                            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
+                            if (pageSelector && (pageNumber > 1 || (pages.Count > 0 && pages.First().PaginationPageCount > 1)))
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate("", refTag, _queryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2019,13 +2017,14 @@ namespace TightWiki.Wiki
                         {
                             string refTag = GenerateQueryToken();
 
+                            var similarity = function.Parameters.Get<int>("similarity");
                             int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
                             string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var html = new StringBuilder();
 
-                            var pages = PageRepository.GetSimilarPagesPaged(_page.Id, pageNumber, pageSize);
+                            var pages = PageRepository.GetSimilarPagesPaged(_page.Id, similarity, pageNumber, pageSize);
 
                             if (styleName == "list")
                             {
@@ -2056,7 +2055,7 @@ namespace TightWiki.Wiki
 
                             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate("", refTag, _queryString, pages.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2106,7 +2105,7 @@ namespace TightWiki.Wiki
 
                             if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate("", refTag, _queryString, pages.First().PaginationPageCount));
                             }
 
                             StoreMatch(function, pageContent, match.Value, html.ToString());
@@ -2286,8 +2285,10 @@ namespace TightWiki.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "tagcloud":
                         {
+                            var top = function.Parameters.Get<int>("Top");
                             string seedTag = function.Parameters.Get<string>("pageTag");
-                            string cloudHtml = WikiUtility.BuildTagCloud(seedTag);
+
+                            string cloudHtml = WikiUtility.BuildTagCloud(seedTag, top);
                             StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
                         break;
@@ -2295,8 +2296,10 @@ namespace TightWiki.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "searchcloud":
                         {
+                            var top = function.Parameters.Get<int>("Top");
                             var tokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-                            string cloudHtml = WikiUtility.BuildSearchCloud(tokens);
+
+                            string cloudHtml = WikiUtility.BuildSearchCloud(tokens, top);
                             StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
                         break;

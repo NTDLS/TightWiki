@@ -64,7 +64,7 @@ namespace TightWiki.Site.Controllers
             var model = new BrowseViewModel
             {
                 AssociatedPages = glossaryHtml.ToString(),
-                TagCloud = WikiUtility.BuildTagCloud(navigation)
+                TagCloud = WikiUtility.BuildTagCloud(navigation, 100)
             };
 
             return View(model);

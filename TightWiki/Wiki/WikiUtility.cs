@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Identity.Client;
+using System.Text;
 using System.Text.RegularExpressions;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -110,9 +111,14 @@ namespace TightWiki.Wiki
             return result.OrderByDescending(o => o.Value.Length).ToList();
         }
 
-        public static string BuildTagCloud(string seedTag)
+        public static string BuildTagCloud(string seedTag, int? maxCount)
         {
             var tags = PageRepository.GetAssociatedTags(seedTag).OrderByDescending(o => o.PageCount).ToList();
+
+            if (maxCount > 0)
+            {
+                tags = tags.Take((int)maxCount).ToList();
+            }
 
             int tagCount = tags.Count();
             int fontSize = 7;
@@ -149,9 +155,14 @@ namespace TightWiki.Wiki
             return cloudHtml.ToString();
         }
 
-        public static string BuildSearchCloud(List<string> searchTokens)
+        public static string BuildSearchCloud(List<string> searchTokens, int? maxCount = null)
         {
             var pages = PageRepository.PageSearch(searchTokens).OrderByDescending(o => o.Score).ToList();
+
+            if (maxCount > 0)
+            {
+                pages = pages.Take((int)maxCount).ToList();
+            }
 
             int pageCount = pages.Count();
             int fontSize = 7;
