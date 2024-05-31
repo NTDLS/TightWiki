@@ -12,7 +12,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Test",
+      "launchUrl": "testing::regression/Revisions",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

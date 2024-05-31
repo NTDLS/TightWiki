@@ -85,7 +85,6 @@ namespace TightWiki.Controllers
         public IActionResult Display(string givenCanonical, int? pageRevision)
         {
             WikiContext.RequireViewPermission();
-            WikiContext.Title = "Page";
 
             var model = new PageDisplayViewModel();
             var navigation = new NamespaceNavigation(givenCanonical);
@@ -103,7 +102,6 @@ namespace TightWiki.Controllers
                 }
 
                 WikiContext.SetPageId(page.Id, pageRevision);
-                WikiContext.Title = page.Title;
 
                 bool allowCache = GlobalSettings.PageCacheSeconds > 0;
 
@@ -210,8 +208,6 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Search")]
         public ActionResult Search()
         {
-            WikiContext.Title = $"Page Search";
-
             string searchString = GetQueryString("SearchString") ?? string.Empty;
             if (string.IsNullOrEmpty(searchString) == false)
             {
@@ -237,8 +233,6 @@ namespace TightWiki.Controllers
         [HttpPost("Page/Search")]
         public ActionResult Search(PageSearchViewModel model)
         {
-            WikiContext.Title = $"Page Search";
-
             string searchString = GetQueryString("SearchString") ?? string.Empty;
             if (string.IsNullOrEmpty(searchString) == false)
             {
@@ -306,7 +300,6 @@ namespace TightWiki.Controllers
             });
 
             WikiContext.SetPageId(pageInfo.Id);
-            WikiContext.Title = $"{pageInfo.Name}";
 
             return View(model);
         }
@@ -355,7 +348,6 @@ namespace TightWiki.Controllers
             });
 
             WikiContext.SetPageId(pageInfo.Id);
-            WikiContext.Title = $"{pageInfo.Name} Comments";
 
             return View(model);
         }
@@ -389,7 +381,6 @@ namespace TightWiki.Controllers
         public ActionResult Revisions(string givenCanonical)
         {
             WikiContext.RequireViewPermission();
-            WikiContext.Title = $"Page Revisions";
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -416,7 +407,6 @@ namespace TightWiki.Controllers
             if (model.Revisions != null && model.Revisions.Count > 0)
             {
                 WikiContext.SetPageId(model.Revisions.First().PageId);
-                WikiContext.Title = $"{model.Revisions.First().Name} Revisions";
             }
 
             return View(model);
@@ -458,7 +448,6 @@ namespace TightWiki.Controllers
         public ActionResult Delete(string givenCanonical)
         {
             WikiContext.RequireDeletePermission();
-            WikiContext.Title = $"Delete Page";
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -473,7 +462,6 @@ namespace TightWiki.Controllers
             };
 
             WikiContext.SetPageId(page.Id);
-            WikiContext.Title = $"Delete {page.Name}";
 
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
             if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
@@ -513,7 +501,6 @@ namespace TightWiki.Controllers
         public ActionResult Revert(string givenCanonical, int pageRevision)
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Revert Page";
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -535,7 +522,6 @@ namespace TightWiki.Controllers
             if (revisionPage != null)
             {
                 WikiContext.SetPageId(revisionPage.Id, pageRevision);
-                WikiContext.Title = $"Revert {revisionPage.Name}";
             }
 
             return View(model);
@@ -551,7 +537,6 @@ namespace TightWiki.Controllers
         public ActionResult Edit(string givenCanonical)
         {
             WikiContext.RequireEditPermission();
-            WikiContext.Title = "Edit Page";
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -565,9 +550,6 @@ namespace TightWiki.Controllers
                 }
 
                 WikiContext.SetPageId(page.Id);
-
-                //Editing an existing page.
-                WikiContext.Title = page.Title;
 
                 return View(new PageEditViewModel()
                 {
@@ -668,8 +650,6 @@ namespace TightWiki.Controllers
                 page.Name = model.Name;
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
-
-                WikiContext.Title = page.Title;
 
                 SavePage(page);
 

@@ -5,7 +5,8 @@
 }
 
 <div class="card">
-    <div class="card-header"><h3><a href="/@wikiContext?.PageNavigation">@wikiContext?.Title</a> Comments</h3></div>
+    <div class="card-header"><h3>Comments</h3></div>
+    <div class="card-header"><strong><a href="/@wikiContext?.PageNavigation">@wikiContext?.Title</a></strong></div>
     <div class="card-body">
 
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())

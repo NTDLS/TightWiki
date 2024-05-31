@@ -131,6 +131,8 @@ namespace TightWiki
 
                 ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
 
+                Title = $"{page.Name}";
+
                 if (GlobalSettings.IncludeWikiDescriptionInMeta)
                 {
                     PageDescription = page.Description;

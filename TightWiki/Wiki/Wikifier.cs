@@ -1187,7 +1187,7 @@ namespace TightWiki.Wiki
                             if (_nestLevel == 0)
                             {
                                 ProcessingInstructions.Add(WikiInstruction.Template);
-                                pageContent.Insert(0, "<div class=\"alert alert-info\">This page is a template and will not appear in indexes or glossaries.</div>");
+                                pageContent.Insert(0, "<div class=\"alert alert-secondary\">This page is a template and will not appear in indexes or glossaries.</div>");
                             }
                             var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                             pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
@@ -1211,7 +1211,7 @@ namespace TightWiki.Wiki
                             if (_nestLevel == 0)
                             {
                                 ProcessingInstructions.Add(WikiInstruction.Include);
-                                pageContent.Insert(0, "<div class=\"alert alert-info\">This page is an include and will not appear in indexes or glossaries.</div>");
+                                pageContent.Insert(0, "<div class=\"alert alert-secondary\">This page is an include and will not appear in indexes or glossaries.</div>");
                             }
                             var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                             pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
