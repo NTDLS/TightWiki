@@ -23,6 +23,6 @@ namespace TightWiki.Wiki
         /// <summary>
         /// The function call that resulted in this match.
         /// </summary>
-        public FunctionCallInstance? Function { get; set; }
+        public FunctionCall? Function { get; set; }
     }
 }

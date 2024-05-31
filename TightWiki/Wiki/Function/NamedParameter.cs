@@ -1,11 +1,11 @@
 ﻿namespace TightWiki.Wiki.Function
 {
-    public class NamedParam
+    public class NamedParameter
     {
         public string Name { get; set; }
         public string Value { get; set; }
 
-        public NamedParam(string name, string value)
+        public NamedParameter(string name, string value)
         {
             Name = name;
             Value = value;

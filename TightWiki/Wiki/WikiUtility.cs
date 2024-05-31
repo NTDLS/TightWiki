@@ -1,5 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using TightWiki.Library;
 using TightWiki.Models;

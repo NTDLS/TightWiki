@@ -1,6 +1,9 @@
 ﻿namespace TightWiki.Wiki.Function
 {
-    public class FunctionCallInstance
+    /// <summary>
+    /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
+    /// </summary>
+    public class FunctionCall
     {
         /// <summary>
         /// The name of the function being called.
@@ -12,7 +15,7 @@
         /// </summary>
         public FunctionParameters Parameters { get; private set; }
 
-        public FunctionCallInstance(FunctionPrototype prototype, List<string> args)
+        public FunctionCall(FunctionPrototype prototype, List<string> args)
         {
             Prototype = prototype;
             Parameters = new FunctionParameters(this);
@@ -20,18 +23,18 @@
 
             foreach (var arg in args)
             {
-                if (arg.StartsWith(":") && arg.Contains("="))
+                if (arg.StartsWith(':') && arg.Contains('='))
                 {
                     var parsed = arg.Substring(1); //Skip the colon.
-                    int index = parsed.IndexOf("=");
+                    int index = parsed.IndexOf('=');
                     var name = parsed.Substring(0, index).Trim().ToLower();
                     var value = parsed.Substring(index + 1).Trim();
 
-                    Parameters.Named.Add(new NamedParam(name, value));
+                    Parameters.Named.Add(new NamedParameter(name, value));
                 }
                 else
                 {
-                    Parameters.Ordinals.Add(new OrdinalParam(arg));
+                    Parameters.Ordinals.Add(new OrdinalParameter(arg));
                 }
             }
 
@@ -48,21 +51,21 @@
         {
             if (param.Type == "bool")
             {
-                if (bool.TryParse(value, out bool val) == false)
+                if (bool.TryParse(value, out bool _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
                 }
             }
             if (param.Type == "integer")
             {
-                if (int.TryParse(value, out int val) == false)
+                if (int.TryParse(value, out int _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
                 }
             }
             else if (param.Type == "float")
             {
-                if (double.TryParse(value, out double val) == false)
+                if (double.TryParse(value, out double _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to float.");
                 }
@@ -87,7 +90,7 @@
             int index = 0;
 
             //Keep a list of the arguments as they are associated with the prototype so that we can later reference them by name.
-            var namedToAddLater = new List<NamedParam>();
+            var namedToAddLater = new List<NamedParameter>();
 
             //Handle non-infinite ordinal based required parameters:
             for (; index < Prototype.Parameters.Count; index++)
@@ -110,7 +113,7 @@
                     Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
                     EnforcePrototypeParamValue(param, value.ToLower());
 
-                    namedToAddLater.Add(new NamedParam(param.Name, value));
+                    namedToAddLater.Add(new NamedParameter(param.Name, value));
                 }
                 else
                 {
@@ -149,7 +152,7 @@
                         string value = Parameters.Ordinals[index].Value;
                         Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
                         EnforcePrototypeParamValue(param, value.ToLower());
-                        namedToAddLater.Add(new NamedParam(param.Name, value));
+                        namedToAddLater.Add(new NamedParameter(param.Name, value));
                     }
 
                     break;
@@ -174,13 +177,13 @@
                     string value = Parameters.Ordinals[index].Value;
                     Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
                     EnforcePrototypeParamValue(param, value.ToLower());
-                    namedToAddLater.Add(new NamedParam(param.Name, value));
+                    namedToAddLater.Add(new NamedParameter(param.Name, value));
                 }
             }
 
             foreach (var named in Parameters.Named)
             {
-                var param = Prototype.Parameters.Where(o => o.Name.ToLower() == named.Name.ToLower()).FirstOrDefault();
+                var param = Prototype.Parameters.Where(o => o.Name.Equals(named.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
                 if (param == null)
                 {
                     throw new Exception($"Function [{Name}], the named parameter [{named.Name}] is not defined in the function prototype.");

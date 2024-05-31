@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Wiki.Function
 {
-    public class OrdinalParam
+    public class OrdinalParameter
     {
         public string Value { get; set; }
 
@@ -14,7 +14,7 @@
         /// </summary>
         public string ParameterName { get; set; } = string.Empty;
 
-        public OrdinalParam(string value)
+        public OrdinalParameter(string value)
         {
             Value = value;
         }

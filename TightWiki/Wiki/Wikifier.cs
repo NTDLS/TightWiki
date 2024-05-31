@@ -1,5 +1,4 @@
 ﻿using DuoVia.FuzzyStrings;
-using SixLabors.ImageSharp.ColorSpaces;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -323,7 +322,7 @@ namespace TightWiki.Wiki
             {
                 int paramEndIndex = -1;
 
-                FunctionCallInstance function;
+                FunctionCall function;
 
                 //We are going to mock up a function call:
                 var originalMatchValue = match.Value;
@@ -331,7 +330,7 @@ namespace TightWiki.Wiki
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCallInfo(match, out paramEndIndex);
+                    function = FunctionParser.ParseFunctionCall(match.Value, out paramEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -860,7 +859,7 @@ namespace TightWiki.Wiki
             foreach (var match in orderedMatches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
+                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
 
                 if (args.Count > 1)
                 {
@@ -887,7 +886,7 @@ namespace TightWiki.Wiki
             foreach (var match in orderedMatches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
+                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
 
                 if (args.Count > 1)
                 {
@@ -933,7 +932,7 @@ namespace TightWiki.Wiki
                     }
                 }
 
-                var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
+                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
                 {
@@ -1034,11 +1033,11 @@ namespace TightWiki.Wiki
 
             foreach (var match in orderedMatches)
             {
-                FunctionCallInstance function;
+                FunctionCall function;
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCallInfo(match, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1246,11 +1245,11 @@ namespace TightWiki.Wiki
 
             foreach (var match in orderedMatches)
             {
-                FunctionCallInstance function;
+                FunctionCall function;
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCallInfo(match, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -2252,11 +2251,11 @@ namespace TightWiki.Wiki
 
             foreach (var match in orderedMatches)
             {
-                FunctionCallInstance function;
+                FunctionCall function;
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCallInfo(match, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -2442,7 +2441,7 @@ namespace TightWiki.Wiki
             return identifier;
         }
 
-        private string StoreMatch(FunctionCallInstance function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreMatch(FunctionCall function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesPerIteration++;
@@ -2463,7 +2462,7 @@ namespace TightWiki.Wiki
             return identifier;
         }
 
-        private string StoreFirstMatch(FunctionCallInstance function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreFirstMatch(FunctionCall function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesPerIteration++;

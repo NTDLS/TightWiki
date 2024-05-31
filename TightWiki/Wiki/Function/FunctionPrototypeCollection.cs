@@ -2,7 +2,7 @@
 {
     public class FunctionPrototypeCollection
     {
-        public List<PrototypeSet> Items { get; set; } = new List<PrototypeSet>();
+        public List<PrototypeSet> Items { get; set; } = new();
 
         public void Add(string prototypeString)
         {
@@ -99,7 +99,7 @@
                         if (index < segment.Length && segment[index] == '(') //Parse allowed values.
                         {
                             int allowedValueEndIndex = segment.IndexOf(')', index);
-                            string roteRequiredValues = segment.Substring(index + 1, (allowedValueEndIndex - index) - 1);
+                            string roteRequiredValues = segment.Substring(index + 1, allowedValueEndIndex - index - 1);
                             prototypeSegment.AllowedValues = roteRequiredValues.Trim().Split(',').Select(o => o.Trim().ToLower()).ToList();
 
                             index = allowedValueEndIndex;
@@ -161,11 +161,9 @@
 
             SkipWhiteSpace(str, ref index);
 
-            string allowed = "<>{}[]()";
-
             for (; index < str.Length; index++)
             {
-                if (allowed.Contains(str[index]))
+                if ("<>{}[]()".Contains(str[index]))
                 {
                     break;
                 }

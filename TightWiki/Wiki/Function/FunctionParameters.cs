@@ -7,15 +7,15 @@ namespace TightWiki.Wiki.Function
         /// <summary>
         /// Variables set by ordinal.
         /// </summary>
-        public List<OrdinalParam> Ordinals { get; set; } = new List<OrdinalParam>();
+        public List<OrdinalParameter> Ordinals { get; set; } = new();
         /// <summary>
         /// Variables set by name.
         /// </summary>
-        public List<NamedParam> Named { get; private set; } = new List<NamedParam>();
+        public List<NamedParameter> Named { get; private set; } = new();
 
-        private FunctionCallInstance _owner;
+        private FunctionCall _owner;
 
-        public FunctionParameters(FunctionCallInstance owner)
+        public FunctionParameters(FunctionCall owner)
         {
             _owner = owner;
         }
@@ -24,7 +24,7 @@ namespace TightWiki.Wiki.Function
         {
             try
             {
-                var value = Named.Where(o => o.Name.ToLower() == name.ToLower()).FirstOrDefault()?.Value;
+                var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
                 if (value == null)
                 {
                     var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name.ToLower()).First();
@@ -43,7 +43,7 @@ namespace TightWiki.Wiki.Function
         {
             try
             {
-                var value = Named.Where(o => o.Name.ToLower() == name.ToLower()).FirstOrDefault()?.Value;
+                var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
                 if (value == null)
                 {
                     return defaultValue;
@@ -61,7 +61,7 @@ namespace TightWiki.Wiki.Function
         {
             try
             {
-                var values = Named.Where(o => o.Name.ToLower() == name.ToLower())?
+                var values = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))?
                     .Select(o => Utility.ConvertTo<T>(o.Value) ?? throw new Exception("Value cannot be null"))?.ToList();
 
                 return values ?? new List<T>();

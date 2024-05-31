@@ -3,30 +3,40 @@ using System.Text.RegularExpressions;
 
 namespace TightWiki.Wiki.Function
 {
-    public static class FunctionParser
+    public static partial class FunctionParser
     {
-        public static FunctionCallInstance ParseFunctionCallInfo(OrderedMatch orderedMatch, out int parseEndIndex)
+        [GeneratedRegex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")]
+        private static partial Regex FunctionCallParser();
+
+        /// <summary>
+        /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
+        /// </summary>
+        /// <param name="functionCall"></param>
+        /// <param name="parseEndIndex"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static FunctionCall ParseFunctionCall(string functionCall, out int parseEndIndex)
         {
-            List<string> rawArguments = new List<string>();
+            var rawArguments = new List<string>();
 
             string functionName = string.Empty;
 
-            var firstLine = orderedMatch.Value.Split('\n')?.FirstOrDefault();
+            var firstLine = functionCall.Split('\n')?.FirstOrDefault();
 
-            if (firstLine == null || firstLine.Where(x => (x == '(')).Count() != firstLine.Where(x => (x == ')')).Count())
+            if (firstLine == null || firstLine.Where(x => x == '(').Count() != firstLine.Where(x => x == ')').Count())
             {
                 throw new Exception($"Function parentheses mismatch.");
             }
 
-            string functionPrefix = orderedMatch.Value.Substring(0, 2);
+            string functionPrefix = functionCall.Substring(0, 2);
 
-            MatchCollection parameterMatches = (new Regex(@"(##|{{|@@)([a-zA-Z_\s{][a-zA-Z0-9_\s{]*)\(((?<BR>\()|(?<-BR>\))|[^()]*)+\)")).Matches(firstLine);
+            var parameterMatches = FunctionCallParser().Matches(firstLine);
             if (parameterMatches.Count > 0)
             {
                 var match = parameterMatches[0];
                 int paramStartIndex = match.Value.IndexOf('(');
 
-                functionName = match.Value[..paramStartIndex].ToLower().TrimStart(new char[] { '{', '#', '@' }).Trim();
+                functionName = match.Value[..paramStartIndex].ToLower().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = match.Index + match.Length;
 
                 string rawArgTrimmed = match.ToString().Substring(paramStartIndex, (match.ToString().Length - paramStartIndex));
@@ -34,8 +44,8 @@ namespace TightWiki.Wiki.Function
             }
             else //The function call has no parameters.
             {
-                int endOfLine = orderedMatch.Value.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function identifier (##, @@, etc).
-                functionName = orderedMatch.Value.Substring(2, endOfLine).ToLower().TrimStart(new char[] { '{', '#', '@' }).Trim();
+                int endOfLine = functionCall.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function identifier (##, @@, etc).
+                functionName = functionCall.Substring(2, endOfLine).ToLower().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = endOfLine + 2;
             }
 
@@ -45,14 +55,33 @@ namespace TightWiki.Wiki.Function
                 throw new Exception($"Function ({functionName}) does not have a defined prototype.");
             }
 
-            return new FunctionCallInstance(prototype, rawArguments);
+            return new FunctionCall(prototype, rawArguments);
         }
 
-        public static List<string> ParseRawArgumentsAddParens(string paramString)
+        /// <summary>
+        /// Parses function parameters into a list of arguments based on comma separation.
+        /// String do not need to be enclosed in double-quotes unless they contain commas.
+        /// </summary>
+        /// <param name="paramString"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static List<string> ParseRawArgumentsAddParenthesis(string paramString)
         {
+            if (paramString.StartsWith('(') || paramString.EndsWith(')'))
+            {
+                throw new Exception($"Unexpected '(' or ')'.");
+            }
+
             return ParseRawArguments($"({paramString})");
         }
 
+        /// <summary>
+        /// Parses function parameters into a list of arguments based on comma separation.
+        /// String do not need to be enclosed in double-quotes unless they contain commas.
+        /// </summary>
+        /// <param name="paramString"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static List<string> ParseRawArguments(string paramString)
         {
             List<string> ps = new();
@@ -67,8 +96,6 @@ namespace TightWiki.Wiki.Function
             }
 
             int parenNest = 1;
-
-            //https://localhost:44349/get_standard_function_wiki_help
 
             readPos++; //Skip the (
 
@@ -128,15 +155,6 @@ namespace TightWiki.Wiki.Function
                         else if (paramString[readPos] == '\"' && escapeChar == false)
                         {
                             //Found the end of the string:
-                            /*
-
-                            Regex rgx = new Regex(@"\{.+\}", RegexOptions.IgnoreCase);
-                            var matches = rgx.Matches(singleParam.ToString());
-                            foreach (Match match in matches.Cast<Match>())
-                            {
-                            }
-                            */
-
                             readPos++; //Skip the ".
                             break;
                         }
@@ -177,8 +195,6 @@ namespace TightWiki.Wiki.Function
                         readPos++;
                     }
                 }
-
-
             }
 
             for (int i = 0; i < ps.Count; i++)
