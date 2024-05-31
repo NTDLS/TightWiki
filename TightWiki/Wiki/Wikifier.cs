@@ -677,11 +677,18 @@ namespace TightWiki.Wiki
             string compareString = linkText.ToLower().RemoveWhitespace();
 
             //Internal page attached image:
-            if (compareString.StartsWith("img="))
+            if (compareString.StartsWith("image="))
             {
                 if (linkText.Contains("/"))
                 {
                     linkText = linkText.Substring(linkText.IndexOf("=") + 1);
+
+                    if (linkText.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        linkText = $"<img src=\"{linkText}\" border=\"0\" />";
+                        return linkText;
+                    }
+
                     string scale = "100";
 
                     //Allow loading attached images from other pages.
@@ -729,7 +736,7 @@ namespace TightWiki.Wiki
                 }
             }
             //External site image:
-            else if (compareString.StartsWith("src="))
+            else if (compareString.StartsWith("image="))
             {
                 linkText = linkText.Substring(linkText.IndexOf("=") + 1);
                 linkText = $"<img src=\"{linkText}\" border=\"0\" />";
@@ -858,7 +865,7 @@ namespace TightWiki.Wiki
                 if (args.Count > 1)
                 {
                     string linkText = args[1];
-                    if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
+                    if (linkText.StartsWith("image=", StringComparison.CurrentCultureIgnoreCase))
                     {
                         linkText = $"<img {linkText} border =\"0\" > ";
                     }
@@ -885,7 +892,7 @@ namespace TightWiki.Wiki
                 if (args.Count > 1)
                 {
                     string linkText = args[1];
-                    if (linkText.StartsWith("src=", StringComparison.CurrentCultureIgnoreCase))
+                    if (linkText.StartsWith("image=", StringComparison.CurrentCultureIgnoreCase))
                     {
                         linkText = $"<img {linkText} border =\"0\" > ";
                     }
@@ -963,7 +970,7 @@ namespace TightWiki.Wiki
 
                 if (page != null)
                 {
-                    if (explicitLinkText.Length > 0 && explicitLinkText.Contains("img="))
+                    if (explicitLinkText.Length > 0 && explicitLinkText.Contains("image="))
                     {
                         linkText = GetLinkImage(args);
                     }
@@ -1556,7 +1563,12 @@ namespace TightWiki.Wiki
                             bool isPageForeignImage = false;
 
                             string navigation = _page.Navigation;
-                            if (imageName.Contains('/'))
+                            if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
+                                StoreMatch(function, pageContent, match.Value, image);
+                            }
+                            else if (imageName.Contains('/'))
                             {
                                 //Allow loading attached images from other pages.
                                 int slashIndex = imageName.IndexOf("/");
