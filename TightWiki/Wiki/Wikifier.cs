@@ -1,4 +1,5 @@
 ﻿using DuoVia.FuzzyStrings;
+using SixLabors.ImageSharp.ColorSpaces;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -216,10 +217,10 @@ namespace TightWiki.Wiki
             ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
             ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
 
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 int headingMarkers = 0;
                 foreach (char c in match.Value)
@@ -252,10 +253,10 @@ namespace TightWiki.Wiki
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
 
             //Transform literal strings, even encodes HTML so that it displays verbatim.
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformLiterals().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string value = match.Value.Substring(2, match.Value.Length - 4);
                 value = HttpUtility.HtmlEncode(value);
@@ -315,10 +316,10 @@ namespace TightWiki.Wiki
         /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlock(WikiString pageContent, bool firstBlocks)
         {
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 int paramEndIndex = -1;
 
@@ -630,10 +631,10 @@ namespace TightWiki.Wiki
         /// <param name="pageContent"></param>
         void TransformSectionHeadings(WikiString pageContent)
         {
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 int headingMarkers = 0;
                 foreach (char c in match.Value)
@@ -739,10 +740,10 @@ namespace TightWiki.Wiki
 
         private void TransformComments(WikiString pageContent)
         {
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformComments().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
                 pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
@@ -751,10 +752,10 @@ namespace TightWiki.Wiki
 
         private void TransformEmoji(WikiString pageContent)
         {
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformEmoji().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string key = match.Value.Trim().ToLower().Trim('%');
                 int scale = 100;
@@ -799,10 +800,10 @@ namespace TightWiki.Wiki
         /// <param name="pageContent"></param>
         private void TransformVariables(WikiString pageContent)
         {
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformVariables().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string key = match.Value.Trim(new char[] { '{', '}', ' ', '\t', '$' });
                 if (key.Contains("="))
@@ -846,10 +847,10 @@ namespace TightWiki.Wiki
         private void TransformLinks(WikiString pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformExplicitHTTPLinks().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
                 var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
@@ -873,10 +874,10 @@ namespace TightWiki.Wiki
             }
 
             //Parse external explicit links. eg. [[https://test.net]].
-            matches = WikiUtility.OrderMatchesByLengthDescending(
+            orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformExplicitHTTPsLinks().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
                 var args = FunctionParser.ParseRawArgumentsAddParens(keyword);
@@ -900,10 +901,10 @@ namespace TightWiki.Wiki
             }
 
             //Parse internal dynamic links. eg [[AboutUs|About Us]].
-            matches = WikiUtility.OrderMatchesByLengthDescending(
+            orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformInternalDynamicLinks().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
@@ -1021,10 +1022,10 @@ namespace TightWiki.Wiki
         /// <param name="pageContent"></param>
         private void TransformProcessingInstructions(WikiString pageContent)
         {
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 FunctionCallInstance function;
 
@@ -1233,10 +1234,10 @@ namespace TightWiki.Wiki
         private void TransformFunctions(WikiString pageContent, bool isFirstChance)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 FunctionCallInstance function;
 
@@ -2234,10 +2235,10 @@ namespace TightWiki.Wiki
         private void TransformPostProcess(WikiString pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
-            var matches = WikiUtility.OrderMatchesByLengthDescending(
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 FunctionCallInstance function;
 
@@ -2511,9 +2512,9 @@ namespace TightWiki.Wiki
             }
 
             var rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
-            foreach (var match in matches)
+            foreach (var match in orderedMatches)
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
                 var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
@@ -2546,9 +2547,9 @@ namespace TightWiki.Wiki
                 marker = mark;
             }
 
-            var rgx = new Regex($@"{marker}([\S\s]*?){marker}", RegexOptions.IgnoreCase);
-            var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            foreach (var match in matches)
+            var rgx = new Regex(@$"{marker}([^\/\n\r]*){marker}", RegexOptions.IgnoreCase);
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in orderedMatches)
             {
                 string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
 
