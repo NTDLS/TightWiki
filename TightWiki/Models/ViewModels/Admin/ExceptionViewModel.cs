@@ -2,7 +2,7 @@
 
 namespace TightWiki.Models.ViewModels.Admin
 {
-    public class WikiExceptionViewModel : ViewModelBase
+    public class ExceptionViewModel : ViewModelBase
     {
         public WikiException Exception { get; set; } = new();
     }

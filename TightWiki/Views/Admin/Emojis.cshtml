@@ -32,7 +32,7 @@
 
                         <form action="/Admin/AddEmoji"><button type="submit" class="btn btn-primary">Add new emoji</button></form> <br />
 
-                        @using (Html.BeginForm("Emojis", "Admin", FormMethod.Get))
+                        @using (Html.BeginForm(FormMethod.Get))
                         {
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
                                 <tr>

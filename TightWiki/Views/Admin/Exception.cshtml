@@ -1,4 +1,4 @@
-﻿@model TightWiki.Models.ViewModels.Admin.WikiExceptionViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.ExceptionViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
@@ -30,7 +30,7 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @using (Html.BeginForm("WikiExceptions", "Admin", FormMethod.Get))
+                        @using (Html.BeginForm(FormMethod.Get))
                         {
                             <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                                 <tr><td><strong>Id</strong></td></tr>

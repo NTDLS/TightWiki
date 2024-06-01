@@ -32,7 +32,7 @@
 
                         <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
 
-                        @using (Html.BeginForm("Accounts", "Admin", FormMethod.Get))
+                        @using (Html.BeginForm(FormMethod.Get))
                         {
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
                                 <tr>

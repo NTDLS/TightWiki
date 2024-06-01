@@ -1087,13 +1087,13 @@ namespace TightWiki.Site.Controllers
         #region Exceptions.
 
         [Authorize]
-        [HttpGet("WikiExceptions")]
-        public ActionResult WikiExceptions()
+        [HttpGet("Exceptions")]
+        public ActionResult Exceptions()
         {
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Exceptions";
 
-            var model = new WikiExceptionsViewModel()
+            var model = new ExceptionsViewModel()
             {
                 Exceptions = ExceptionRepository.GetAllExceptionsPaged(GetQueryString("page", 1))
             };
@@ -1104,13 +1104,13 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpGet("WikiException/{id}")]
-        public ActionResult WikiException(int id)
+        [HttpGet("Exception/{id}")]
+        public ActionResult Exception(int id)
         {
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Exception";
 
-            var model = new WikiExceptionViewModel()
+            var model = new ExceptionViewModel()
             {
                 Exception = ExceptionRepository.GetExceptionById(id)
             };
@@ -1129,7 +1129,7 @@ namespace TightWiki.Site.Controllers
                 ExceptionRepository.ClearExceptions();
             }
 
-            return Redirect("/Admin/WikiExceptions");
+            return Redirect("/Admin/Exceptions");
         }
 
         #endregion

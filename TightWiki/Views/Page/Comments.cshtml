@@ -33,7 +33,7 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @using (Html.BeginForm("Comments", "Page", FormMethod.Get))
+                        @using (Html.BeginForm(FormMethod.Get))
                         {
                             if (wikiContext?.IsAuthenticated == true)
                             {
