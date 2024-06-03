@@ -36,7 +36,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Notify()
         {
             WikiContext.RequireViewPermission();
-        
+
             var model = new NotifyViewModel()
             {
                 SuccessMessage = GetQueryString("SuccessMessage", string.Empty),
