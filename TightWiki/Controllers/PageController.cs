@@ -435,7 +435,7 @@ namespace TightWiki.Controllers
             bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && page != null)
             {
-                PageRepository.DeletePageById(page.Id);
+                PageRepository.MovePageToDeletedById(page.Id, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
                 return NotifyOfSuccessAction("The page has been deleted successfully!", $"/Home");
             }

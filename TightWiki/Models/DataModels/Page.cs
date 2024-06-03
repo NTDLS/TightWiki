@@ -38,6 +38,11 @@
         public DateTime CreatedDate { get; set; }
         public Guid ModifiedByUserId { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+        public DateTime DeletedDate { get; set; }
+        public Guid DeletedByUserId { get; set; }
+        public string DeletedByUserName { get; set; } = string.Empty;
+
         public int TokenWeight { get; set; }
         public string Body { get; set; } = string.Empty;
         public string CreatedByUserName { get; set; } = string.Empty;

@@ -7,8 +7,10 @@ using TightWiki.Controllers;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
+using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
+using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using TightWiki.Wiki;
 using TightWiki.Wiki.Function;
@@ -167,35 +169,82 @@ namespace TightWiki.Site.Controllers
 
         #endregion
 
-        #region Confirm Action.
+        #region DeletedPages.
 
         [Authorize]
-        [HttpPost("GenericConfirmAction")]
-        public ActionResult GenericConfirmAction(GenericConfirmActionViewModel model)
+        [HttpGet("DeletedPage/{pageId}")]
+        public ActionResult DeletedPage(int pageId)
         {
-            WikiContext.RequireAdminPermission();
+            WikiContext.RequireModeratePermission();
 
-            model.ActionToConfirm = GetFormString("ActionToConfirm").EnsureNotNull();
-            model.PostBackURL = GetQueryString("PostBack").EnsureNotNull();
-            model.Message = GetFormString("message").EnsureNotNull();
+            var model = new DeletedPageViewModel();
+
+            var page = PageRepository.GetDeletedPageById(pageId);
+
+            if (page != null)
+            {
+                var wiki = new Wikifier(WikiContext, page, null, Request.Query);
+                model.PageId = pageId;
+                model.Body = wiki.ProcessedBody;
+                model.DeletedDate = WikiContext.LocalizeDateTime(page.ModifiedDate);
+                model.DeletedByUserName = page.DeletedByUserName;
+            }
 
             return View(model);
         }
 
         [Authorize]
-        [HttpGet("GenericConfirmAction")]
-        public ActionResult GenericConfirmAction()
+        [HttpGet("DeletedPages")]
+        public ActionResult DeletedPages()
         {
-            WikiContext.RequireAdminPermission();
+            WikiContext.RequireModeratePermission();
 
-            var model = new GenericConfirmActionViewModel
+            string searchString = GetQueryString("SearchString") ?? string.Empty;
+            var model = new DeletedPagesViewModel()
             {
-                ActionToConfirm = GetFormString("ActionToConfirm").EnsureNotNull(),
-                PostBackURL = GetQueryString("PostBack").EnsureNotNull(),
-                Message = GetFormString("message").EnsureNotNull()
+                Pages = PageRepository.GetAllDeletedPagesPaged(GetQueryString("page", 1), null, Utility.SplitToTokens(searchString)),
+                SearchString = searchString
             };
 
+            model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
+
             return View(model);
+        }
+
+        [Authorize]
+        [HttpPost("PurgeDeletedPages")]
+        public ActionResult PurgeDeletedPages(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                PageRepository.PurgeDeletedPages();
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("RestoreDeletedPage")]
+        public ActionResult RestoreDeletedPage(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                var pageId = int.Parse(model.Parameter.EnsureNotNull());
+                PageRepository.RestoreDeletedPageByPageId(pageId);
+                var page = PageRepository.GetPageById(pageId);
+                if (page != null)
+                {
+                    PageController.RefreshPageMetadata(this, page);
+                }
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
         }
 
         #endregion
@@ -221,13 +270,12 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            string action = (GetFormString("ActionToConfirm")?.ToString()?.ToLower()).EnsureNotNull();
-            if (bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull()) != true)
+            if (model.UserSelection == false)
             {
                 return View(model);
             }
 
-            switch (action)
+            switch (model.Parameter?.ToLower())
             {
                 case "rebuildallpages":
                     {
@@ -1120,7 +1168,7 @@ namespace TightWiki.Site.Controllers
 
         [Authorize]
         [HttpPost("ClearExceptions")]
-        public ActionResult ClearExceptions(GenericConfirmActionViewModel model)
+        public ActionResult ClearExceptions(ConfirmActionViewModel model)
         {
             WikiContext.RequireAdminPermission();
 

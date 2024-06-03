@@ -1,6 +1,6 @@
-﻿namespace TightWiki.Models.ViewModels.Page
+﻿namespace TightWiki.Models.ViewModels.Admin
 {
-    public class PageSearchViewModel : ViewModelBase
+    public class DeletedPagesViewModel : ViewModelBase
     {
         public List<DataModels.Page> Pages { get; set; } = new();
         public string SearchString { get; set; } = string.Empty;

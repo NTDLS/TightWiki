@@ -1,14 +1,14 @@
-﻿@model TightWiki.Models.ViewModels.Admin.EmojisViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
 <div class="card">
-    <div class="card-header"><h3>Emojis</h3></div>
+    <div class="card-header"><h3>Deleted Pages</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
-            Global configuration for Emojis.<br /><br />
+            Pages that have been deleted. Can be purged or restored.<br /><br />
         </font>
 
         @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
@@ -16,7 +16,7 @@
             @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
         }
 
-        <table class="fixedTable100" border="0" cellpadding="0">
+        <table class="fixedTable100" style="min-width: 400px;" border="0" cellpadding="0">
             <tbody>
                 <tr>
                     <td height="52" valign="middle" align="left">
@@ -30,7 +30,10 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        <form action="/Admin/AddEmoji"><button type="submit" class="btn btn-primary">Add new emoji</button></form> <br />
+
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all deleted pages. Continue?",
+                                 "Purge Deleted Pages", "/Admin/PurgeDeletedPages", "", "/Admin/DeletedPages", "/Admin/DeletedPages"))
+                        <br />
 
                         @using (Html.BeginForm(FormMethod.Get))
                         {
@@ -42,35 +45,34 @@
                                     <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
                                 </tr>
                             </table>
+                            <br />
 
                             <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-
-                                <thead>
-                                    <tr>
-                                        <td><strong>Name</strong></td>
-                                        <td><strong>Shortcut</strong></td>
-                                        <td><strong>Image</strong></td>
-                                    </tr>
-                                </thead>
-
-                                @foreach (var emoji in Model.Emojis)
+                                @foreach (var p in Model.Pages)
                                 {
                                     <tr>
-                                        <td><a href="/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
-                                        <td>@emoji.Shortcut</td>
-                                        <td><img src="/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
+                                        <td><a href="/Admin/DeletedPage/@p.Id">View</a></td>
+                                        <td>
+                                            @if ((p.Namespace ?? "") != "")
+                                            {
+                                                <font class="text-muted">@p.Namespace ::</font>
+                                            }@p.Title@(String.IsNullOrEmpty(@p.Description) ? "" : " : ")  @p.Description
+                                        </td>
                                     </tr>
                                 }
                             </table>
 
                             @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
                         }
-
-                        <br />
-                        <form action="/Admin/AddEmoji"><button type="submit" class="btn btn-primary">Add new emoji</button></form> <br />
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    window.onload = function () {
+        document.getElementById("SearchTokens").focus();
+    }
+</script>

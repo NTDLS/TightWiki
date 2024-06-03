@@ -28,9 +28,10 @@
                     <div class="panel panel-danger">
                         <div class="card-header"><strong>Delete page "@Model.PageName"?</strong></div>
                         <div class="card-body">
-
-                            <strong>Deleting "@Model.PageName" will permanently remove the page, all @Model.PageRevision revisions and @Model.CountOfAttachments file attachments.</strong><br />
-                            You will not be able to revert this deletion.
+                            <br />
+                            Deleting "@Model.PageName" will move the page, all @Model.PageRevision revisions and @Model.CountOfAttachments file attachments to the deletion queue.
+                            This action can only be undone by an administrator or moderator.
+                            <br /><br />
 
                             Are you sure you want to continue with this deletion?<br /><br />
 

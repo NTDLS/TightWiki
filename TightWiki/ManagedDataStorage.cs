@@ -7,6 +7,7 @@ namespace TightWiki
     /// </summary>
     public static class ManagedDataStorage
     {
+        public static ManagedDataStorageFactory DeletedPages { get; private set; } = new();
         public static ManagedDataStorageFactory Pages { get; private set; } = new();
         public static ManagedDataStorageFactory Statistics { get; private set; } = new();
         public static ManagedDataStorageFactory Emoji { get; private set; } = new();

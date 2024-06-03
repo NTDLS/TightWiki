@@ -2,5 +2,6 @@
 {
     public class NotifyViewModel : ViewModelBase
     {
+        public string RedirectURL { get; set; } = string.Empty;
     }
 }

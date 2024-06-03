@@ -17,7 +17,6 @@
     <None Remove="Repository\Scripts\CreateProfile.sql" />
     <None Remove="Repository\Scripts\DeleteEmojiById.sql" />
     <None Remove="Repository\Scripts\DeleteMenuItemById.sql" />
-    <None Remove="Repository\Scripts\DeletePageByPageId.sql" />
     <None Remove="Repository\Scripts\DeletePageCommentById.sql" />
     <None Remove="Repository\Scripts\DeletePageCommentByUserAndId.sql" />
     <None Remove="Repository\Scripts\DeletePageFileByPageNavigationAndFileName.sql" />
@@ -26,6 +25,8 @@
     <None Remove="Repository\Scripts\DoesProfileAccountExist.sql" />
     <None Remove="Repository\Scripts\GetAccountProfileByNavigation.sql" />
     <None Remove="Repository\Scripts\GetAccountProfileByUserId.sql" />
+    <None Remove="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
+    <None Remove="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetAllEmojis.sql" />
     <None Remove="Repository\Scripts\GetAllEmojisPaged.sql" />
     <None Remove="Repository\Scripts\GetAllEmojisPagedByCategories.sql" />
@@ -47,6 +48,8 @@
     <None Remove="Repository\Scripts\GetCountOfPageAttachmentsById.sql" />
     <None Remove="Repository\Scripts\GetCryptoCheck.sql" />
     <None Remove="Repository\Scripts\GetCurrentPageRevision.sql" />
+    <None Remove="Repository\Scripts\GetDeletedPageById.sql" />
+    <None Remove="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
     <None Remove="Repository\Scripts\GetEmojiByName.sql" />
     <None Remove="Repository\Scripts\GetEmojiCategoriesByName.sql" />
     <None Remove="Repository\Scripts\GetEmojiCategoriesGrouped.sql" />
@@ -58,6 +61,7 @@
     <None Remove="Repository\Scripts\GetFuzzyPageSearchTokens.sql" />
     <None Remove="Repository\Scripts\GetMenuItemById.sql" />
     <None Remove="Repository\Scripts\GetNonexistentPagesPaged.sql" />
+    <None Remove="Repository\Scripts\GetPageById.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />
@@ -102,9 +106,12 @@
     <None Remove="Repository\Scripts\InsertPageRevision.sql" />
     <None Remove="Repository\Scripts\InsertPageStatistics.sql" />
     <None Remove="Repository\Scripts\IsAdminPasswordChanged.sql" />
+    <None Remove="Repository\Scripts\MovePageToDeletedById.sql" />
     <None Remove="Repository\Scripts\PageSearch.sql" />
     <None Remove="Repository\Scripts\PageSearchPaged.sql" />
+    <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
+    <None Remove="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
     <None Remove="Repository\Scripts\SaveConfigurationEntryValueByGroupAndEntry.sql" />
     <None Remove="Repository\Scripts\SavePageSearchTokens.sql" />
     <None Remove="Repository\Scripts\SearchEmojiCategoryIds.sql" />
@@ -135,7 +142,14 @@
     <EmbeddedResource Include="Repository\Scripts\CreateProfile.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeleteEmojiById.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
-    <EmbeddedResource Include="Repository\Scripts\DeletePageByPageId.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetDeletedPageById.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageById.sql" />
+    <EmbeddedResource Include="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeDeletedPages.sql" />
+    <EmbeddedResource Include="Repository\Scripts\MovePageToDeletedById.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeletePageCommentById.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeletePageCommentByUserAndId.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeletePageFileByPageNavigationAndFileName.sql" />
@@ -272,7 +286,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
-    <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.0.0" />
+    <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.1" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.14.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
     <PackageReference Include="System.Runtime.Caching" Version="8.0.0" />

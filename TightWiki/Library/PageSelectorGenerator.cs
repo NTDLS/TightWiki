@@ -4,19 +4,13 @@ namespace TightWiki.Library
 {
     public static class PageSelectorGenerator
     {
-        public static string Generate(string url, QueryString? queryString, int? totalPageCount)
-            => Generate(url, "page", QueryStringConverter.ToDictionary(queryString), totalPageCount);
+        public static string Generate(QueryString? queryString, int? totalPageCount)
+            => Generate(string.Empty, "page", QueryStringConverter.ToDictionary(queryString), totalPageCount);
 
-        public static string Generate(string url, IQueryCollection? queryString, int? totalPageCount)
-            => Generate(url, "page", QueryStringConverter.ToDictionary(queryString), totalPageCount);
+        public static string Generate(string queryToken, IQueryCollection? queryString, int? totalPageCount)
+            => Generate(string.Empty, queryToken, QueryStringConverter.ToDictionary(queryString), totalPageCount);
 
-        public static string Generate(string url, string queryToken, QueryString? queryString, int? totalPageCount)
-            => Generate(url, queryToken, QueryStringConverter.ToDictionary(queryString), totalPageCount);
-
-        public static string Generate(string url, string queryToken, IQueryCollection? queryString, int? totalPageCount)
-            => Generate(url, queryToken, QueryStringConverter.ToDictionary(queryString), totalPageCount);
-
-        private static string Generate(string url, string queryToken, Dictionary<string, string>? queryString, int? totalPageCount)
+        public static string Generate(string url, string queryToken, Dictionary<string, string>? queryString, int? totalPageCount)
         {
             var sb = new StringBuilder();
             int currentPage = 1;

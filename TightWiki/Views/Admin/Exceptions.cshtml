@@ -30,8 +30,9 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        <form action='/Admin/GenericConfirmAction?PostBack=/Admin/ClearExceptions' method="post">
+                        <form action='/Utility/ConfirmAction' method="post">
                             @Html.AntiForgeryToken()
+                            <input type="hidden" name="PostBack" value="/Admin/ClearExceptions" />
                             <input type="hidden" name="message" value="This will delete all exceptions from the log. Continue?" />
                             <button type="submit" class="btn btn-warning rounded-0" name="ActionToConfirm" value="ClearExceptions">Clear Exceptions</button>
                         </form>
@@ -61,7 +62,7 @@
                                 }
                             </table>
 
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate($"/Admin/Exceptions", Context.Request.QueryString, Model.PaginationPageCount))
+                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
                         }
                     </td>
                 </tr>

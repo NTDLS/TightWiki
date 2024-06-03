@@ -351,6 +351,25 @@ namespace TightWiki.Repository
             });
         }
 
+        public static List<int> GetDeletedPageIdsByTokens(List<string>? tokens)
+        {
+            if (tokens == null || tokens.Count == 0)
+            {
+                return new List<int>();
+            }
+
+            return ManagedDataStorage.DeletedPages.Ephemeral(o =>
+            {
+                var param = new
+                {
+                    TokenCount = tokens.Count
+                };
+
+                using var tempTable = o.CreateTempTableFrom("TempTokens", tokens);
+                return o.Query<int>("GetDeletedPageIdsByTokens.sql", param).ToList();
+            });
+        }
+
         public static List<int> GetPageIdsByTokens(List<string>? tokens)
         {
             if (tokens == null || tokens.Count == 0)
@@ -388,9 +407,10 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            var pageIds = GetPageIdsByTokens(searchTerms);
-            if (pageIds.Count > 0)
+            if (searchTerms?.Count > 0)
             {
+                var pageIds = GetPageIdsByTokens(searchTerms);
+
                 return ManagedDataStorage.Pages.Ephemeral(o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
@@ -403,6 +423,42 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 return o.Query<Page>("GetAllPagesPaged.sql", param).ToList();
+            });
+        }
+
+        /// <summary>
+        /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
+        /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
+        /// </summary>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchTerms"></param>
+        /// <returns></returns>
+        public static List<Page> GetAllDeletedPagesPaged(int pageNumber, int? pageSize = null, List<string>? searchTerms = null)
+        {
+            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            if (searchTerms?.Count > 0)
+            {
+                var pageIds = GetDeletedPageIdsByTokens(searchTerms);
+                return ManagedDataStorage.DeletedPages.Ephemeral(o =>
+                {
+                    using var users_db = o.Attach("users.db", "users_db");
+                    using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
+                    return o.Query<Page>("GetAllDeletedPagesByPageIdPaged.sql", param).ToList();
+                });
+            }
+
+            return ManagedDataStorage.DeletedPages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<Page>("GetAllDeletedPagesPaged.sql", param).ToList();
             });
         }
 
@@ -618,7 +674,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
         }
 
-        public static void DeletePageById(int pageId)
+        public static void RestoreDeletedPageByPageId(int pageId)
         {
             var param = new
             {
@@ -630,7 +686,35 @@ namespace TightWiki.Repository
                 var transaction = o.BeginTransaction();
                 try
                 {
-                    o.Execute("DeletePageByPageId.sql", param);
+                    using var deletedpages_db = o.Attach("deletedpages.db", "deletedpages_db");
+                    o.Execute("RestoreDeletedPageByPageId.sql", param);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            });
+        }
+
+        public static void MovePageToDeletedById(int pageId, Guid userId)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                DeletedByUserId = userId,
+                DeletedDate = DateTime.UtcNow
+            };
+
+            ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                var transaction = o.BeginTransaction();
+                try
+                {
+                    using var deletedpages_db = o.Attach("deletedpages.db", "deletedpages_db");
+
+                    o.Execute("MovePageToDeletedById.sql", param);
                     transaction.Commit();
                     ManagedDataStorage.Statistics.Execute("DeletePageStatisticsByPageId.sql", param);
                 }
@@ -642,6 +726,11 @@ namespace TightWiki.Repository
             });
         }
 
+        public static void PurgeDeletedPages()
+        {
+            ManagedDataStorage.DeletedPages.Execute("PurgeDeletedPages.sql");
+        }
+
         public static int GetCountOfPageAttachmentsById(int pageId)
         {
             var param = new
@@ -650,6 +739,34 @@ namespace TightWiki.Repository
             };
 
             return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCountOfPageAttachmentsById.sql", param);
+        }
+
+        public static Page? GetDeletedPageById(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.DeletedPages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.QuerySingleOrDefault<Page>("GetDeletedPageById.sql", param);
+            });
+        }
+
+        public static Page? GetPageById(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.QuerySingleOrDefault<Page>("GetPageById.sql", param);
+            });
         }
 
         public static Page? GetPageRevisionByNavigation(NamespaceNavigation navigation, int? revision = null)
