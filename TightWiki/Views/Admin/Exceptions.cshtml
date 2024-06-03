@@ -30,12 +30,8 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        <form action='/Utility/ConfirmAction' method="post">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" name="PostBack" value="/Admin/ClearExceptions" />
-                            <input type="hidden" name="message" value="This will delete all exceptions from the log. Continue?" />
-                            <button type="submit" class="btn btn-warning rounded-0" name="ActionToConfirm" value="ClearExceptions">Clear Exceptions</button>
-                        </form>
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will delete all exceptions from the log. Continue?",
+                                 "Clear Exceptions", "/Admin/ClearExceptions", "", Context.Request.Path.Value, Context.Request.Path.Value))
                         <br />
 
                         @using (Html.BeginForm(FormMethod.Get))

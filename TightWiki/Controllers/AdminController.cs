@@ -1172,12 +1172,13 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            if (bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull()) == true)
+            if(model.UserSelection == true)
             {
                 ExceptionRepository.ClearExceptions();
+                return Redirect(model.YesRedirectURL);
             }
 
-            return Redirect("/Admin/Exceptions");
+            return Redirect(model.NoRedirectURL);
         }
 
         #endregion
