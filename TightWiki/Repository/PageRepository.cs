@@ -295,7 +295,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static List<NonexistentPage> GetNonexistentPagesPaged(int pageNumber, int? pageSize = null)
+        public static List<NonexistentPage> GetMissingPagesPaged(int pageNumber, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -305,7 +305,7 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<NonexistentPage>("GetNonexistentPagesPaged.sql", param).ToList();
+            return ManagedDataStorage.Pages.Query<NonexistentPage>("GetMissingPagesPaged.sql", param).ToList();
         }
 
         public static void UpdateSinglePageReference(string pageNavigation, int pageId)

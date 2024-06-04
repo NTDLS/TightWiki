@@ -60,6 +60,9 @@ namespace TightWiki.Repository
 
         /// <summary>
         /// Reads an encrypted value from the database so we can determine if encryption is setup.
+        /// If the value is missing then we are NOT setup.
+        /// If the value is present but we cant decrypt it, then we are NOT setup.
+        /// /// If the value is present and we can decrypt it, then we are setup and good to go!
         /// </summary>
         /// <returns></returns>
         public static bool GetCryptoCheck()
@@ -82,7 +85,7 @@ namespace TightWiki.Repository
         }
 
         /// <summary>
-        /// Writes an encrypted value to the database so we can test it later.
+        /// Writes an encrypted value to the database so we can test at a later time to ensure that encryption is setup.
         /// </summary>
         public static void SetCryptoCheck()
         {

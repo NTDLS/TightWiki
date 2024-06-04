@@ -105,7 +105,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new MissingPagesViewModel()
             {
-                Pages = PageRepository.GetNonexistentPagesPaged(GetQueryString("page", 1))
+                Pages = PageRepository.GetMissingPagesPaged(GetQueryString("page", 1))
             };
 
             model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);

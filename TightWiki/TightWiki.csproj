@@ -59,7 +59,7 @@
     <None Remove="Repository\Scripts\GetFlatConfiguration.sql" />
     <None Remove="Repository\Scripts\GetFuzzyPageSearchTokens.sql" />
     <None Remove="Repository\Scripts\GetMenuItemById.sql" />
-    <None Remove="Repository\Scripts\GetNonexistentPagesPaged.sql" />
+    <None Remove="Repository\Scripts\GetMissingPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetPageById.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
@@ -189,7 +189,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetFlatConfiguration.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetFuzzyPageSearchTokens.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetMenuItemById.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetNonexistentPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetMissingPagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetSimilarPagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageCommentsPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
