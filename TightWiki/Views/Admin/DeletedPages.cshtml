@@ -16,7 +16,7 @@
             @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
         }
 
-        <table class="fixedTable100" style="min-width: 400px;" border="0" cellpadding="0">
+        <table class="fixedTable100" border="0" cellpadding="0">
             <tbody>
                 <tr>
                     <td height="52" valign="middle" align="left">
@@ -29,7 +29,6 @@
                         {
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
-
 
                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all deleted pages. Continue?",
                                  "Purge Deleted Pages", "/Admin/PurgeDeletedPages", "", "/Admin/DeletedPages", "/Admin/DeletedPages"))

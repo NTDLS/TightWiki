@@ -4,9 +4,9 @@ namespace TightWiki.Repository
 {
     public static class ExceptionRepository
     {
-        public static void ClearExceptions()
+        public static void PurgeExceptions()
         {
-            ManagedDataStorage.Exceptions.Execute("ClearExceptions.sql");
+            ManagedDataStorage.Exceptions.Execute("PurgeExceptions.sql");
         }
 
         public static void InsertException(string? text = null, string? exceptionText = null, string? stackTrace = null)

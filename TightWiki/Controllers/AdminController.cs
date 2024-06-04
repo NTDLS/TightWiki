@@ -1167,14 +1167,14 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost("ClearExceptions")]
-        public ActionResult ClearExceptions(ConfirmActionViewModel model)
+        [HttpPost("PurgeExceptions")]
+        public ActionResult PurgeExceptions(ConfirmActionViewModel model)
         {
             WikiContext.RequireAdminPermission();
 
             if(model.UserSelection == true)
             {
-                ExceptionRepository.ClearExceptions();
+                ExceptionRepository.PurgeExceptions();
                 return Redirect(model.YesRedirectURL);
             }
 

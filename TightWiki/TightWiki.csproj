@@ -12,7 +12,6 @@
   <ItemGroup>
     <None Remove="Repository\Scripts\AnonymizeProfile.sql" />
     <None Remove="Repository\Scripts\AssociatePageFileAttachmentWithPageRevision.sql" />
-    <None Remove="Repository\Scripts\ClearExceptions.sql" />
     <None Remove="Repository\Scripts\CreatePage.sql" />
     <None Remove="Repository\Scripts\CreateProfile.sql" />
     <None Remove="Repository\Scripts\DeleteEmojiById.sql" />
@@ -110,6 +109,7 @@
     <None Remove="Repository\Scripts\PageSearch.sql" />
     <None Remove="Repository\Scripts\PageSearchPaged.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
+    <None Remove="Repository\Scripts\PurgeExceptions.sql" />
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
     <None Remove="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
     <None Remove="Repository\Scripts\SaveConfigurationEntryValueByGroupAndEntry.sql" />
@@ -161,7 +161,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetAllEmojis.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllEmojisPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllEmojisPagedByCategories.sql" />
-    <EmbeddedResource Include="Repository\Scripts\ClearExceptions.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeExceptions.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetExceptionById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllMenuItems.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespaces.sql" />
@@ -269,13 +269,13 @@
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
     <PackageReference Include="MailKit" Version="4.6.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

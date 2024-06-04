@@ -30,8 +30,8 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will delete all exceptions from the log. Continue?",
-                                 "Clear Exceptions", "/Admin/ClearExceptions", "", Context.Request.Path.Value, Context.Request.Path.Value))
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will permanently purge all exceptions. Continue?",
+                                 "Purge Exceptions", "/Admin/PurgeExceptions", "", Context.Request.Path.Value, Context.Request.Path.Value))
                         <br />
 
                         @using (Html.BeginForm(FormMethod.Get))
