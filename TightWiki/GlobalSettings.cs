@@ -46,7 +46,7 @@ namespace TightWiki
 
             IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
+            var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance");
             PageCacheSeconds = performanceConfig.As<int>("Page Cache Time (Seconds)");
             WritePageStatistics = performanceConfig.As<bool>("Write Page Statistics");
             CacheMemoryLimitMB = performanceConfig.As<int>("Cache Memory Limit MB");

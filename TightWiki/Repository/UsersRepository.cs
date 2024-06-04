@@ -50,9 +50,7 @@ namespace TightWiki.Repository
         }
 
         public static List<Role> GetAllRoles()
-        {
-            return ManagedDataStorage.Users.Query<Role>("GetAllRoles.sql").ToList();
-        }
+            => ManagedDataStorage.Users.Query<Role>("GetAllRoles.sql").ToList();
 
         public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber, int? pageSize = null)
         {
@@ -308,17 +306,13 @@ namespace TightWiki.Repository
         }
 
         public static void SetAdminPasswordClear()
-        {
-            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordClear.sql");
-        }
+            => ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordClear.sql");
+
         public static void SetAdminPasswordIsChanged()
-        {
-            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsChanged.sql");
-        }
+            => ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsChanged.sql");
+
 
         public static void SetAdminPasswordIsDefault()
-        {
-            ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsDefault.sql");
-        }
+            => ManagedDataStorage.Users.ExecuteScalar<bool>("SetAdminPasswordIsDefault.sql");
     }
 }

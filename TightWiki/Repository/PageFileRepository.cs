@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using NTDLS.SqliteDapperWrapper;
+﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
@@ -128,7 +127,6 @@ namespace TightWiki.Repository
 
             return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileRevisionInfoByFileNavigation.sql", param);
         }
-
 
         public static PageFileAttachmentLimitedInfo? GetPageFileInfoByFileNavigation(ManagedDataStorageInstance connection, int pageId, string fileNavigation)
         {

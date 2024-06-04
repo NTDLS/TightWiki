@@ -8,6 +8,19 @@ namespace TightWiki.Repository
     {
         public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName]);
+                var result = WikiCache.Get<ConfigurationEntries>(cacheKey);
+                if (result == null)
+                {
+                    result = GetConfigurationEntryValuesByGroupName(groupName, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
+
             var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>
                 ("GetConfigurationEntryValuesByGroupName.sql", new { GroupName = groupName }).ToList();
 
@@ -163,9 +176,7 @@ namespace TightWiki.Repository
         }
 
         public static List<ConfigurationFlat> GetFlatConfiguration()
-        {
-            return ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql").ToList();
-        }
+            => ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql").ToList();
 
         public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName, bool allowCache = true)
         {
@@ -228,9 +239,7 @@ namespace TightWiki.Repository
         #region Menu Items.
 
         public static List<MenuItem> GetAllMenuItems()
-        {
-            return ManagedDataStorage.Config.Query<MenuItem>("GetAllMenuItems.sql").ToList();
-        }
+            => ManagedDataStorage.Config.Query<MenuItem>("GetAllMenuItems.sql").ToList();
 
         public static MenuItem GetMenuItemById(int id)
         {
