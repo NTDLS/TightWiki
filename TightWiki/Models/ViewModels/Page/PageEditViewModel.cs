@@ -10,6 +10,6 @@ namespace TightWiki.Models.ViewModels.Page
         public string Name { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
-        public string Body { get; set; } = string.Empty;
+        public string? Body { get; set; } = string.Empty;
     }
 }
