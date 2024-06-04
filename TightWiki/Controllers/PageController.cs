@@ -55,6 +55,7 @@ namespace TightWiki.Controllers
 
             PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
 
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
@@ -437,6 +438,7 @@ namespace TightWiki.Controllers
             {
                 PageRepository.MovePageToDeletedById(page.Id, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
                 return NotifyOfSuccessAction("The page has been deleted successfully!", $"/Home");
             }
 
@@ -660,6 +662,7 @@ namespace TightWiki.Controllers
                 if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                 {
                     WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
+                    WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
                     return Redirect($"/{page.Navigation}/Edit");
                 }
 
