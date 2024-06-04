@@ -570,7 +570,7 @@ namespace TightWiki.Repository
                 Name = page.Name,
                 Navigation = NamespaceNavigation.CleanAndValidate(page.Name),
                 Description = page.Description,
-                Body = page.Body,
+                Body = page.Body ?? string.Empty,
                 Namespace = page.Namespace,
                 CreatedByUserId = page.CreatedByUserId,
                 CreatedDate = page.CreatedDate,
@@ -578,7 +578,7 @@ namespace TightWiki.Repository
                 ModifiedDate = DateTime.UtcNow
             };
 
-            int newDataHash = Utility.SimpleChecksum(page.Body);
+            int newDataHash = Utility.SimpleChecksum(page.Body ?? string.Empty);
 
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
