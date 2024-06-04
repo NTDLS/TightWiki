@@ -253,6 +253,10 @@ namespace TightWiki.Site.Controllers
 
             WikiContext.Title = $"My Profile";
 
+            model.TimeZones = TimeZoneItem.GetAll();
+            model.Countries = CountryItem.GetAll();
+            model.Languages = LanguageItem.GetAll();
+
             //Get the UserId from the logged in context because we do not trust anything from the model.
             var userId = WikiContext.Profile.EnsureNotNull().UserId;
 
@@ -272,10 +276,6 @@ namespace TightWiki.Site.Controllers
                     return View(model);
                 }
             }
-
-            model.TimeZones = TimeZoneItem.GetAll();
-            model.Countries = CountryItem.GetAll();
-            model.Languages = LanguageItem.GetAll();
 
             model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
 

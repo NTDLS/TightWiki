@@ -15,10 +15,6 @@
             <tbody>
                 <tr>
                     <td height="52" valign="middle" align="left">
-                        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-                        {
-                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-                        }
                         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>

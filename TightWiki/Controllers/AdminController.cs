@@ -169,7 +169,7 @@ namespace TightWiki.Site.Controllers
 
         #endregion
 
-        #region DeletedPages.
+        #region Deleted Pages.
 
         [Authorize]
         [HttpGet("DeletedPage/{pageId}")]

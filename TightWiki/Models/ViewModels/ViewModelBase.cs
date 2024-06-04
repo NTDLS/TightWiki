@@ -17,7 +17,7 @@ namespace TightWiki.Models.ViewModels
                 {
                     foreach (var error in state.Value.Errors)
                     {
-                        allErrors.Add($"<strong>{state.Key}</strong>: {error.ErrorMessage}");
+                        allErrors.Add($"{error.ErrorMessage}");
                     }
                 }
 

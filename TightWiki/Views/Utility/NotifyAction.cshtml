@@ -4,11 +4,6 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
 }
 
-@if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-{
-    @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-}
-
 @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && string.IsNullOrEmpty(Model.ErrorMessage) == true)
 {
     <script>
