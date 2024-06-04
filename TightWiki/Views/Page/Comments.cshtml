@@ -8,22 +8,14 @@
     <div class="card-header"><h3>Comments</h3></div>
     <div class="card-header"><strong><a href="/@wikiContext?.PageNavigation">@wikiContext?.Title</a></strong></div>
     <div class="card-body">
-
-        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-        {
-            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-        }
-
-        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-        {
-            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-        }
-
         <table class="table fixedTable100" border="0" cellspacing="0" cellpadding="0">
             <tbody>
                 <tr>
                     <td height="52" valign="top" align="left">
-
+                        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+                        {
+                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                        }
                         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>

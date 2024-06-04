@@ -121,7 +121,6 @@
             {
                 @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
             }
-
             @if (!string.IsNullOrEmpty(Model.ErrorMessage))
             {
                 <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>

@@ -1172,7 +1172,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            if(model.UserSelection == true)
+            if (model.UserSelection == true)
             {
                 ExceptionRepository.PurgeExceptions();
                 return Redirect(model.YesRedirectURL);

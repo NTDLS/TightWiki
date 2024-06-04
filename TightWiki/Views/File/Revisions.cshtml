@@ -11,21 +11,14 @@
             All changes that have been made to the attached file. <br /><br />
         </font>
 
-        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-        {
-            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-        }
-
-        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
-        {
-            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
-        }
-
         <table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
             <tbody>
                 <tr>
                     <td height="52" valign="middle" align="left">
-
+                        @if (ViewContext.ViewData.ModelState.Where(x => x.Key == "").Any())
+                        {
+                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                        }
                         @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                         {
                             <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
