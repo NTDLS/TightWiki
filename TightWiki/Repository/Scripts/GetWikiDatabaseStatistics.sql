@@ -1,5 +1,6 @@
 SELECT
 	(SELECT Count(0) FROM [Page]) as Pages,
+	(SELECT Count(DISTINCT Namespace) FROM [Page]) as Namespaces,
 	(SELECT Count(0) FROM [PageReference]) as IntraLinks,
 	(SELECT Count(0) FROM PageRevision) as PageRevisions,
 	(SELECT Count(0) FROM PageFile) as PageAttachments,

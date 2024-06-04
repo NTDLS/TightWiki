@@ -29,14 +29,14 @@ namespace TightWiki.Repository
             return new ConfigurationEntries(entries);
         }
 
-        public static WikiDatabaseStats GetWikiDatabaseStats()
+        public static WikiDatabaseStatistics GetWikiDatabaseStatistics()
         {
             return ManagedDataStorage.Config.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
-                var result = o.QuerySingle<WikiDatabaseStats>("GetWikiDatabaseStats.sql");
+                var result = o.QuerySingle<WikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
                 result.Exceptions = ExceptionRepository.GetExceptionCount();
 
                 return result;

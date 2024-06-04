@@ -28,7 +28,7 @@
                             <tr>
                                 <td>Rebuild all pages</td>
                                 <td>
-                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will rebuild all pages in the wiki. This could take some time! Continue?",
+                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will rebuild all pages in the wiki. This could take some time! Continue?",
                                              "Execute", "/Admin/Utilities", "RebuildAllPages", "/Admin/Utilities", "/Admin/Utilities"))
                                 </td>
                             </tr>
@@ -45,7 +45,7 @@
                             <tr>
                                 <td>Truncate page revisions</td>
                                 <td>
-                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("Truncating page revisions will delete all revision history for all pages and files. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
+                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("Truncating page revisions will delete all revision history for all pages and files. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
                                              "Execute", "/Admin/Utilities", "TruncatePageRevisions", "/Admin/Utilities", "/Admin/Utilities"))
                                 </td>
                             </tr>

@@ -1,4 +1,4 @@
-﻿@model TightWiki.Models.ViewModels.Admin.StatsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.StatisticsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
@@ -34,37 +34,37 @@
                             </tr>
 
                             <tr>
-                                <td>@Model.DatabaseStats.Pages</td>
-                                <td>@Model.DatabaseStats.PageRevisions</td>
-                                <td>@Model.DatabaseStats.PageAttachments</td>
-                                <td>@Model.DatabaseStats.IntraLinks</td>
+                                <td><a href="/Admin/Pages">@Model.Statistics.Pages</a></td>
+                                <td>@Model.Statistics.PageRevisions</td>
+                                <td>@Model.Statistics.PageAttachments</td>
+                                <td>@Model.Statistics.IntraLinks</td>
                             </tr>
 
                             <tr>
                                 <td><strong>Page Tags</strong></td>
                                 <td><strong>Page Attachment Revisions</strong></td>
                                 <td><strong>Page Search Tokens</strong></td>
+                                <td><strong>Namespaces</strong></td>
+                            </tr>
+
+                            <tr>
+                                <td>@Model.Statistics.PageTags.ToString("N0")</td>
+                                <td>@Model.Statistics.PageAttachmentRevisions.ToString("N0")</td>
+                                <td><a href="/Page/Search">@Model.Statistics.PageSearchTokens.ToString("N0")</a></td>
+                                <td><a href="/Admin/Namespaces">@Model.Statistics.Namespaces.ToString("N0")</a></td>
+                            </tr>
+
+                            <tr>
                                 <td><strong>Users</strong></td>
-                            </tr>
-
-                            <tr>
-                                <td>@Model.DatabaseStats.PageTags</td>
-                                <td>@Model.DatabaseStats.PageAttachmentRevisions</td>
-                                <td>@Model.DatabaseStats.PageSearchTokens</td>
-                                <td>@Model.DatabaseStats.Users</td>
-                            </tr>
-
-                            <tr>
                                 <td><strong>Profiles</strong></td>
                                 <td><strong>Exceptions</strong></td>
                                 <td><strong>&nbsp;</strong></td>
-                                <td><strong>&nbsp;</strong></td>
                             </tr>
 
                             <tr>
-                                <td>@Model.DatabaseStats.Profiles</td>
-                                <td>@Model.DatabaseStats.Exceptions</td>
-                                <td>&nbsp;</td>
+                                <td><a href="/Admin/Accounts">@Model.Statistics.Users.ToString("N0")</a></td>
+                                <td><a href="/Admin/Accounts">@Model.Statistics.Profiles.ToString("N0")</a></td>
+                                <td><a href="/Admin/Exceptions">@Model.Statistics.Exceptions.ToString("N0")</a></td>
                                 <td>&nbsp;</td>
                             </tr>
                         </table>
@@ -79,7 +79,6 @@
                                 <td><strong>Misses</strong></td>
                                 <td><strong>Limit(MB)</strong></td>
                             </tr>
-
 
                             <tr>
                                 <td>@TightWiki.Library.WikiCache.CacheItemCount.ToString("N0")</td>

@@ -28,11 +28,11 @@ namespace TightWiki.Site.Controllers
         {
         }
 
-        #region Stats.
+        #region Statistics.
 
         [Authorize]
-        [HttpGet("Stats")]
-        public ActionResult Stats()
+        [HttpGet("Statistics")]
+        public ActionResult Statistics()
         {
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Statistics";
@@ -40,9 +40,9 @@ namespace TightWiki.Site.Controllers
             Assembly assembly = Assembly.GetEntryAssembly().EnsureNotNull();
             Version version = assembly.GetName().Version.EnsureNotNull();
 
-            var model = new StatsViewModel()
+            var model = new StatisticsViewModel()
             {
-                DatabaseStats = ConfigurationRepository.GetWikiDatabaseStats(),
+                Statistics = ConfigurationRepository.GetWikiDatabaseStatistics(),
                 ApplicationVersion = version.ToString()
             };
 

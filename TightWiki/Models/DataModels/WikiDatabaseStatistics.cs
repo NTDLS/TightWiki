@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Models.DataModels
 {
-    public class WikiDatabaseStats
+    public class WikiDatabaseStatistics
     {
         public int Pages { get; set; }
         public int IntraLinks { get; set; }
@@ -12,5 +12,6 @@
         public int Users { get; set; }
         public int Profiles { get; set; }
         public int Exceptions { get; set; }
+        public int Namespaces { get; set; }
     }
 }

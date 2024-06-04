@@ -93,7 +93,7 @@
     <None Remove="Repository\Scripts\GetTopRecentlyModifiedPagesInfo.sql" />
     <None Remove="Repository\Scripts\GetTopRecentlyModifiedPagesInfoByUserId.sql" />
     <None Remove="Repository\Scripts\GetUserAccountIdByNavigation.sql" />
-    <None Remove="Repository\Scripts\GetWikiDatabaseStats.sql" />
+    <None Remove="Repository\Scripts\GetWikiDatabaseStatistics.sql" />
     <None Remove="Repository\Scripts\GetWikiMetrics.sql" />
     <None Remove="Repository\Scripts\GetWordsCount.sql" />
     <None Remove="Repository\Scripts\InsertEmoji.sql" />
@@ -222,7 +222,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetTopRecentlyModifiedPagesInfo.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetTopRecentlyModifiedPagesInfoByUserId.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetUserAccountIdByNavigation.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetWikiDatabaseStats.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetWikiDatabaseStatistics.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetWikiMetrics.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetWordsCount.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertEmoji.sql" />
