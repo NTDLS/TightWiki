@@ -1,4 +1,5 @@
-﻿using NTDLS.SqliteDapperWrapper;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
@@ -55,8 +56,24 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
         }
 
-        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
+        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
+                var result = WikiCache.Get<PageFileAttachment>(cacheKey);
+                if (result == null)
+                {
+                    result = GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision, false);
+                    if (result != null)
+                    {
+                        WikiCache.Put(cacheKey, result);
+                    }
+                }
+
+                return result;
+            }
+
             var param = new
             {
                 PageNavigation = pageNavigation,

@@ -149,8 +149,21 @@ namespace TightWiki.Repository
             return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist.sql", param) ?? 0) != 0;
         }
 
-        public static AccountProfile GetBasicProfileByUserId(Guid userId)
+        public static AccountProfile GetBasicProfileByUserId(Guid userId, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+                var result = WikiCache.Get<AccountProfile>(cacheKey);
+                if (result == null)
+                {
+                    result = GetBasicProfileByUserId(userId, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
+
             var param = new
             {
                 UserId = userId
@@ -159,8 +172,21 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
         }
 
-        public static AccountProfile GetAccountProfileByUserId(Guid userId)
+        public static AccountProfile GetAccountProfileByUserId(Guid userId, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+                var result = WikiCache.Get<AccountProfile>(cacheKey);
+                if (result == null)
+                {
+                    result = GetAccountProfileByUserId(userId, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
+
             var param = new
             {
                 UserId = userId

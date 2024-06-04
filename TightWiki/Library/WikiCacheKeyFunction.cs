@@ -11,9 +11,15 @@ namespace TightWiki.Library
     {
         public string Key { get; set; } = key;
 
+        /// <summary>
+        /// Builds a cache key which includes the calling function name.
+        /// </summary>
         public static WikiCacheKeyFunction Build(Category category, object?[] segments, [CallerMemberName] string callingFunction = "")
             => new($"[{category}]:[{string.Join("]:[", segments)}]:[{callingFunction}]");
 
+        /// <summary>
+        /// Builds a cache key which includes the calling function name.
+        /// </summary>
         public static WikiCacheKeyFunction Build(Category category, [CallerMemberName] string callingFunction = "")
             => new($"[{category}]:[{callingFunction}]");
     }

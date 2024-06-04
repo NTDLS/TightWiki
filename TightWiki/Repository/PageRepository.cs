@@ -19,8 +19,24 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionInfoById.sql", param);
         }
 
-        public static Page? GetPageInfoById(int pageId)
+        public static Page? GetPageInfoById(int pageId, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
+                var result = WikiCache.Get<Page>(cacheKey);
+                if (result == null)
+                {
+                    result = GetPageInfoById(pageId, false);
+                    if (result != null)
+                    {
+                        WikiCache.Put(cacheKey, result);
+                    }
+                }
+
+                return result;
+            }
+
             var param = new
             {
                 PageId = pageId
@@ -29,8 +45,21 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoById.sql", param);
         }
 
-        public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId)
+        public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
+                var result = WikiCache.Get<List<ProcessingInstruction>>(cacheKey);
+                if (result == null)
+                {
+                    result = GetPageProcessingInstructionsByPageId(pageId, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
+
             var param = new
             {
                 PageId = pageId
@@ -39,8 +68,21 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList();
         }
 
-        public static List<PageTag> GetPageTagsById(int pageId)
+        public static List<PageTag> GetPageTagsById(int pageId, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
+                var result = WikiCache.Get<List<PageTag>>(cacheKey);
+                if (result == null)
+                {
+                    result = GetPageTagsById(pageId, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
+
             var param = new
             {
                 PageId = pageId
@@ -277,9 +319,22 @@ namespace TightWiki.Repository
             ManagedDataStorage.Pages.Execute("DeletePageCommentByUserAndId.sql", param);
         }
 
-        public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, int? pageSize = null)
+        public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, int? pageSize = null, bool allowCache = true)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, pageSize]);
+                var result = WikiCache.Get<List<PageComment>>(cacheKey);
+                if (result == null)
+                {
+                    result = GetPageCommentsPaged(navigation, pageNumber, pageSize, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
 
             var param = new
             {
