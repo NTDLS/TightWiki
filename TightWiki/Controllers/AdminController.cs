@@ -105,7 +105,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new MissingPagesViewModel()
             {
-                Pages = PageRepository.GetNonexistentPagesPaged(GetQueryString("page", 1), 0)
+                Pages = PageRepository.GetNonexistentPagesPaged(GetQueryString("page", 1))
             };
 
             model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -126,7 +126,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new NamespacesViewModel()
             {
-                Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryString("page", 1), null),
+                Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryString("page", 1)),
             };
 
             model.PaginationPageCount = (model.Namespaces.FirstOrDefault()?.PaginationPageCount ?? 0);
