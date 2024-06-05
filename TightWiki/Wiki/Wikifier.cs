@@ -2156,7 +2156,9 @@ namespace TightWiki.Wiki
                     //Displays the version of the wiki.
                     case "appversion":
                         {
-                            string version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? string.Empty;
+                            var version = string.Join('.', (Assembly.GetExecutingAssembly()
+                                .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
+
                             StoreMatch(function, pageContent, match.Value, version);
                         }
                         break;
