@@ -36,7 +36,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Built in search supports fuzzy matching to support even mild misspellings.
 
 # Default home page:
-![image](https://github.com/NTDLS/TightWiki/assets/11428567/a1d272c7-c942-455f-b07e-8a99d102616e)
+![image](https://github.com/NTDLS/TightWiki/assets/11428567/11546f06-41d4-4f00-93ac-591f49447dbc)
 
 # Page search
 ![Clip9](https://user-images.githubusercontent.com/11428567/208713076-118d981c-5cc3-4e33-a971-f63518da01ad.png)
