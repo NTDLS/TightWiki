@@ -1,6 +1,0 @@
-SELECT
-	Text
-FROM
-	Words
-LIMIT 1
-OFFSET @Offset

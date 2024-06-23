@@ -1,1 +1,0 @@
-SELECT Content FROM CryptoCheck

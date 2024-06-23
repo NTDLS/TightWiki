@@ -1,1 +1,0 @@
-﻿SELECT COUNT(0) FROM Exception
