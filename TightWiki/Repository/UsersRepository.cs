@@ -152,8 +152,7 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                var result = WikiCache.Get<AccountProfile>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out var result))
                 {
                     result = GetBasicProfileByUserId(userId, false);
                     WikiCache.Put(cacheKey, result);
@@ -175,8 +174,7 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                var result = WikiCache.Get<AccountProfile>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out var result))
                 {
                     result = GetAccountProfileByUserId(userId, false);
                     WikiCache.Put(cacheKey, result);

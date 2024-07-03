@@ -33,7 +33,7 @@ namespace TightWiki
         public string Title { get; set; } = string.Empty;
         public int? PageId { get; private set; } = null;
         public int? Revision { get; private set; } = null;
-        public List<ProcessingInstruction> ProcessingInstructions { get; set; } = new();
+        public ProcessingInstructionCollection ProcessingInstructions { get; set; } = new();
         public bool IsViewingOldVersion => (Revision ?? 0) > 0;
         public bool IsPageLoaded => (PageId ?? 0) > 0;
 
@@ -145,7 +145,7 @@ namespace TightWiki
             }
             else
             {
-                ProcessingInstructions = new List<ProcessingInstruction>();
+                ProcessingInstructions = new();
             }
         }
 
@@ -198,7 +198,7 @@ namespace TightWiki
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Where(o => o.Instruction == WikiInstruction.Protect).Any())
+                    if (ProcessingInstructions.Contains(WikiInstruction.Protect))
                     {
                         return Role == Roles.Administrator
                             || Role == Roles.Moderator;
@@ -246,7 +246,7 @@ namespace TightWiki
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Where(o => o.Instruction.ToLower() == WikiInstruction.Protect.ToString().ToLower()).Any())
+                    if (ProcessingInstructions.Contains(WikiInstruction.Protect))
                     {
                         return false;
                     }

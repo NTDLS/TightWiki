@@ -3,6 +3,7 @@ using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Shared.Models.Data;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -24,11 +25,9 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
-                var result = WikiCache.Get<Page>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<Page>(cacheKey, out var result))
                 {
-                    result = GetPageInfoById(pageId, false);
-                    if (result != null)
+                    if ((result = GetPageInfoById(pageId, false)) != null)
                     {
                         WikiCache.Put(cacheKey, result);
                     }
@@ -45,13 +44,12 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoById.sql", param);
         }
 
-        public static List<ProcessingInstruction> GetPageProcessingInstructionsByPageId(int pageId, bool allowCache = true)
+        public static ProcessingInstructionCollection GetPageProcessingInstructionsByPageId(int pageId, bool allowCache = true)
         {
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
-                var result = WikiCache.Get<List<ProcessingInstruction>>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<ProcessingInstructionCollection>(cacheKey, out var result))
                 {
                     result = GetPageProcessingInstructionsByPageId(pageId, false);
                     WikiCache.Put(cacheKey, result);
@@ -65,7 +63,10 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            return ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList();
+            return new ProcessingInstructionCollection()
+            {
+                Collection = ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList()
+            };
         }
 
         public static List<PageTag> GetPageTagsById(int pageId, bool allowCache = true)
@@ -73,8 +74,7 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
-                var result = WikiCache.Get<List<PageTag>>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<List<PageTag>>(cacheKey, out var result))
                 {
                     result = GetPageTagsById(pageId, false);
                     WikiCache.Put(cacheKey, result);
@@ -326,8 +326,7 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, pageSize]);
-                var result = WikiCache.Get<List<PageComment>>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<List<PageComment>>(cacheKey, out var result))
                 {
                     result = GetPageCommentsPaged(navigation, pageNumber, pageSize, false);
                     WikiCache.Put(cacheKey, result);
@@ -846,11 +845,9 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation.Canonical, revision]);
-                var result = WikiCache.Get<Page>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<Page>(cacheKey, out var result))
                 {
-                    result = GetPageRevisionByNavigation(navigation.Canonical, revision, false);
-                    if (result != null)
+                    if ((result = GetPageRevisionByNavigation(navigation.Canonical, revision, false)) != null)
                     {
                         WikiCache.Put(cacheKey, result);
                     }

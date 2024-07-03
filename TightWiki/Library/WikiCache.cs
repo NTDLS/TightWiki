@@ -1,4 +1,5 @@
 ﻿using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Caching;
 
 namespace TightWiki.Library
@@ -53,13 +54,30 @@ namespace TightWiki.Library
             {
                 CacheMisses++;
             }
-            else
-            {
-                CacheHits++;
-            }
 
+            CacheHits++;
             return result;
         }
+
+        /// <summary>
+        /// Gets an item from the cache.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public static bool TryGet<T>(WikiCacheKeyFunction cacheKey, [NotNullWhen(true)] out T result)
+        {
+            CacheGets++;
+            if ((result = (T)MemCache.Get(cacheKey.Key)) == null)
+            {
+                CacheMisses++;
+                return false;
+            }
+
+            CacheHits++;
+            return true;
+        }
+
 
         /// <summary>
         /// Adds an item to the cache. If the item is already in the cache, this will reset its expiration.

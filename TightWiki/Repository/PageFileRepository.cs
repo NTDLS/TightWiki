@@ -60,11 +60,9 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
-                var result = WikiCache.Get<PageFileAttachment>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<PageFileAttachment>(cacheKey, out var result))
                 {
-                    result = GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision, false);
-                    if (result != null)
+                    if ((result = GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision, false)) != null)
                     {
                         WikiCache.Put(cacheKey, result);
                     }

@@ -11,8 +11,7 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName]);
-                var result = WikiCache.Get<ConfigurationEntries>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<ConfigurationEntries>(cacheKey, out var result))
                 {
                     result = GetConfigurationEntryValuesByGroupName(groupName, false);
                     WikiCache.Put(cacheKey, result);
@@ -183,11 +182,9 @@ namespace TightWiki.Repository
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName, entryName]);
-                var result = WikiCache.Get<string>(cacheKey);
-                if (result == null)
+                if (!WikiCache.TryGet<string>(cacheKey, out var result))
                 {
-                    result = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName, false);
-                    if (result != null)
+                    if ((result = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName, false)) != null)
                     {
                         WikiCache.Put(cacheKey, result);
                     }

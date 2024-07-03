@@ -94,8 +94,8 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                model.HideFooterComments = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterComments).Any();
-                model.HideFooterLastModified = instructions.Where(o => o.Instruction == WikiInstruction.HideFooterLastModified).Any();
+                model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
+                model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
 
                 if (page.Revision == page.LatestRevision)
                 {
@@ -115,8 +115,7 @@ namespace TightWiki.Controllers
                     }
 
                     var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                    var result = WikiCache.Get<string>(cacheKey);
-                    if (result != null)
+                    if (WikiCache.TryGet<string>(cacheKey, out var result))
                     {
                         model.Body = result;
                         WikiCache.Put(cacheKey, result); //Update the cache expiration.
@@ -427,7 +426,7 @@ namespace TightWiki.Controllers
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-            if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+            if (instructions.Contains(WikiInstruction.Protect))
             {
                 model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
                 return View(model);
@@ -466,7 +465,7 @@ namespace TightWiki.Controllers
             WikiContext.SetPageId(page.Id);
 
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-            if (instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+            if (instructions.Contains(WikiInstruction.Protect))
             {
                 model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
                 return View(model);
@@ -546,7 +545,7 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-                if (WikiContext.CanModerate == false && instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+                if (WikiContext.CanModerate == false && instructions.Contains(WikiInstruction.Protect))
                 {
                     return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
                 }
@@ -626,7 +625,7 @@ namespace TightWiki.Controllers
             {
                 var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                if (WikiContext.CanModerate == false && instructions.Any(o => o.Instruction == WikiInstruction.Protect))
+                if (WikiContext.CanModerate == false && instructions.Contains(WikiInstruction.Protect))
                 {
                     return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
                 }
