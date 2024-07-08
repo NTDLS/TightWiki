@@ -1,7 +1,6 @@
 ﻿@using TightWiki;
 @{
     WikiContextState wikiContext = ViewData["WikiContext"] as WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
-
     string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(GlobalSettings.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
 }
 
@@ -197,7 +196,7 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container" @(GlobalSettings.FixedMenuPosition ? "style=margin-top:80px;" : "")>
         <main role="main" class="pb-3">
             @Html.Raw(GlobalSettings.HTMLPreBody)
 
