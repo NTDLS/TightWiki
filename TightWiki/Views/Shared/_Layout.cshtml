@@ -1,6 +1,8 @@
 ﻿@using TightWiki;
 @{
     WikiContextState wikiContext = ViewData["WikiContext"] as WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+
+    string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(GlobalSettings.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
 }
 
 <!DOCTYPE html>
@@ -53,7 +55,7 @@
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="@navBarClass">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

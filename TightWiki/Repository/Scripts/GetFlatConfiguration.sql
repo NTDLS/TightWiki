@@ -8,6 +8,7 @@ SELECT
 	CE.[Value] as [EntryValue],
 	CE.[Description] as [EntryDescription],
 	CE.IsEncrypted,
+	CE.IsRequired,
 
 	DT.[Name] as DataType
 FROM

@@ -2,7 +2,6 @@
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
@@ -24,6 +23,7 @@ namespace TightWiki
         public static bool IncludeWikiDescriptionInMeta { get; set; }
         public static bool IncludeWikiTagsInMeta { get; set; }
         public static bool EnablePageComments { get; set; }
+        public static bool FixedMenuPosition { get; set; }
         public static bool ShowCommentsOnPageFooter { get; set; }
         public static bool IncludeSearchOnNavbar { get; set; }
         public static int PageCacheSeconds { get; set; }
@@ -66,6 +66,7 @@ namespace TightWiki
 
             var themeName = customizationConfig.Value("Theme", "Light");
 
+            FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
             AllowSignup = membershipConfig.Value("Allow Signup", false);
             DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
             SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == themeName);

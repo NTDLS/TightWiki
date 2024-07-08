@@ -897,43 +897,59 @@ namespace TightWiki.Site.Controllers
                 return View(model);
             }
 
-            var flatConfig = ConfigurationRepository.GetFlatConfiguration();
-
-            foreach (var fc in flatConfig)
+            try
             {
-                string key = $"{fc.GroupId}:{fc.EntryId}";
-                var value = GetFormString(key, string.Empty);
-
-                if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
+                model = new ConfigurationViewModel()
                 {
-                    //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                    WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
-                    GlobalSettings.SystemTheme = WikiContext.UserTheme;
+                    Themes = ConfigurationRepository.GetAllThemes(),
+                    Roles = UsersRepository.GetAllRoles(),
+                    TimeZones = TimeZoneItem.GetAll(),
+                    Countries = CountryItem.GetAll(),
+                    Languages = LanguageItem.GetAll(),
+                    Nest = ConfigurationRepository.GetConfigurationNest(),
+                };
+
+                var flatConfig = ConfigurationRepository.GetFlatConfiguration();
+
+                foreach (var fc in flatConfig)
+                {
+                    string key = $"{fc.GroupId}:{fc.EntryId}";
+                    var value = GetFormString(key, string.Empty);
+
+                    if (fc.IsRequired && string.IsNullOrEmpty(value))
+                    {
+                        model.ErrorMessage = $"{fc.GroupName} : {fc.EntryName} is required.";
+                        return View(model);
+                    }
+
+                    if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
+                    {
+                        //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
+                        GlobalSettings.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
+                        if (string.IsNullOrEmpty(WikiContext.Profile?.Theme))
+                        {
+                            WikiContext.UserTheme = GlobalSettings.SystemTheme;
+                        }
+                    }
+
+                    if (fc.IsEncrypted)
+                    {
+                        value = Security.EncryptString(Security.MachineKey, value);
+                    }
+
+                    ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
                 }
 
-                if (fc.IsEncrypted)
-                {
-                    value = Security.EncryptString(Security.MachineKey, value);
-                }
+                WikiCache.ClearCategory(WikiCache.Category.Configuration);
 
-                ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
+                model.SuccessMessage = "The configuration has been saved successfully!";
+            }
+            catch (Exception ex)
+            {
+                model.ErrorMessage = ex.Message;
             }
 
-            WikiCache.ClearCategory(WikiCache.Category.Configuration);
-
-            model.SuccessMessage = "The configuration has been saved successfully!";
-
-            var newModel = new ConfigurationViewModel()
-            {
-                Themes = ConfigurationRepository.GetAllThemes(),
-                Roles = UsersRepository.GetAllRoles(),
-                TimeZones = TimeZoneItem.GetAll(),
-                Countries = CountryItem.GetAll(),
-                Languages = LanguageItem.GetAll(),
-                Nest = ConfigurationRepository.GetConfigurationNest()
-            };
-
-            return View(newModel);
+            return View(model);
         }
 
         #endregion

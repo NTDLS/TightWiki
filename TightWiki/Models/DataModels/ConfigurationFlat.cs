@@ -10,6 +10,7 @@
         public string EntryValue { get; set; } = string.Empty;
         public string EntryDescription { get; set; } = string.Empty;
         public bool IsEncrypted { get; set; }
+        public bool IsRequired { get; set; }
         public string DataType { get; set; } = string.Empty;
     }
 }
