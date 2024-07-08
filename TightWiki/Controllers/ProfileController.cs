@@ -9,6 +9,7 @@ using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
 using TightWiki.Wiki;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TightWiki.Site.Controllers
 {
@@ -320,6 +321,9 @@ namespace TightWiki.Site.Controllers
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
             model.SuccessMessage = "Your profile has been saved successfully!";
+
+            //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
+            WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
 
             return View(model);
         }

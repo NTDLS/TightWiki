@@ -583,6 +583,18 @@ namespace TightWiki.Site.Controllers
                     };
             SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
 
+            //If we are changing the currently logged in user, then make sure we take some extra actions so we can see the changes immediately.
+            if (WikiContext?.Profile?.UserId == model.AccountProfile.UserId)
+            {
+                SignInManager.RefreshSignInAsync(user);
+
+                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
+                WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
+
+                //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
+                WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
+            }
+
             //Allow the administrator to confirm/unconfirm the email address.
             bool emailConfirmChanged = profile.EmailConfirmed != model.AccountProfile.EmailConfirmed;
             if (emailConfirmChanged)
@@ -890,8 +902,14 @@ namespace TightWiki.Site.Controllers
             foreach (var fc in flatConfig)
             {
                 string key = $"{fc.GroupId}:{fc.EntryId}";
-
                 var value = GetFormString(key, string.Empty);
+
+                if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
+                {
+                    //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
+                    WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
+                    GlobalSettings.SystemTheme = WikiContext.UserTheme;
+                }
 
                 if (fc.IsEncrypted)
                 {
