@@ -26,6 +26,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
 * Page versioning. Revisions can be viewed by the original page URL with a /r/number route or by logging in a viewing the full page history.
 * Revertible page history.
+* Theme-able, with 25+ built in themes.
 * Drag-drop fie uploads / page attachments, images.
 * Versioned file uploads.
 * Namespace support so you can have multiple pages with the same name in different namespaces.
