@@ -18,7 +18,8 @@ namespace Mssql2Sqlite
                 Console.WriteLine("Mssql2Sqlite.exe <sqliteFile> <userGuid> <sqlServer> <sqlDatabase> <SQLServerUser> <SQLServerPassword>");
 
                 Console.WriteLine("sqliteFile: The SQLite file to import the data into, existing data will be deleted.");
-                Console.WriteLine("userGuid: The UserId from the SQLite users.db that you want to associate with the import.");
+                Console.WriteLine("userGuid: The UserId from the SQLite users.db that you want to associate with the import. Use: 963f0b81-f2ac-488b-9b21-521852641ec4 for admin@tightwiki.com");
+
                 Console.WriteLine("sqlServer: The SQL Server name to export the data from.");
                 Console.WriteLine("SQLServerUser: Optional, is the username to use for connecting to SQL Server.");
                 Console.WriteLine("SQLServerPassword: Optional, is the password to use for connecting to SQL Server.");

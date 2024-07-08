@@ -5,6 +5,7 @@ namespace TightWiki.Models.ViewModels.Admin
 {
     public class ConfigurationViewModel : ViewModelBase
     {
+        public List<ThemeItem> Themes { get; set; } = new();
         public List<Role> Roles { get; set; } = new();
         public List<TimeZoneItem> TimeZones { get; set; } = new();
         public List<CountryItem> Countries { get; set; } = new();

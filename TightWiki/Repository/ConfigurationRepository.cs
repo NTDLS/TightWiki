@@ -41,6 +41,9 @@ namespace TightWiki.Repository
             return new ConfigurationEntries(entries);
         }
 
+        public static List<ThemeItem> GetAllThemes()
+            => ManagedDataStorage.Config.Query<ThemeItem>("GetAllThemes.sql").ToList();
+
         public static WikiDatabaseStatistics GetWikiDatabaseStatistics()
         {
             return ManagedDataStorage.Config.Ephemeral(o =>

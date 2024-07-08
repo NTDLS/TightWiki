@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.9.2</Version>
+    <Version>2.9.3</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
@@ -38,6 +38,7 @@
     <None Remove="Repository\Scripts\GetAllPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetAllPublicProfilesPaged.sql" />
     <None Remove="Repository\Scripts\GetAllRoles.sql" />
+    <None Remove="Repository\Scripts\GetAllThemes.sql" />
     <None Remove="Repository\Scripts\GetAllUsersPaged.sql" />
     <None Remove="Repository\Scripts\GetAssociatedTags.sql" />
     <None Remove="Repository\Scripts\GetBasicProfileByUserId.sql" />
@@ -143,6 +144,7 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetAllThemes.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageById.sql" />
@@ -285,6 +287,10 @@
 
   <ItemGroup>
     <Content Update="Views\File\Revisions.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\css\light.css">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

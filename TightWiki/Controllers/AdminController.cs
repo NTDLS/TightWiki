@@ -858,6 +858,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new ConfigurationViewModel()
             {
+                Themes = ConfigurationRepository.GetAllThemes(),
                 Roles = UsersRepository.GetAllRoles(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),

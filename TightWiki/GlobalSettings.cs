@@ -2,11 +2,13 @@
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
     public static class GlobalSettings
     {
+        public static WikiTheme Theme { get; set; } = WikiTheme.Dark;
         public static bool IsDebug { get; set; }
         public static bool AllowSignup { get; set; }
         public static List<Emoji> Emojis { get; set; } = new();
@@ -64,6 +66,7 @@ namespace TightWiki
 
             AllowSignup = membershipConfig.As<bool>("Allow Signup", false);
             DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Default Profile Recently Modified Count");
+            Theme = Enum.Parse<WikiTheme>(customizationConfig.As("Theme", WikiTheme.Light.ToString()));
             DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication");
             DefaultTimeZone = customizationConfig?.As<string>("Default TimeZone") ?? string.Empty;

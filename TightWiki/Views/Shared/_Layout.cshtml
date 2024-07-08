@@ -11,15 +11,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@wikiContext?.Title</title>
-    <link rel="stylesheet" href="~/css/site.css" />
 
     <!-- BEGIN Syntax Highlighter -->
-    <link rel="stylesheet" href="/syntax/styles/default.css">
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
     @Html.Raw(GlobalSettings.HTMLHeader)
     <!-- END Syntax Highlighter -->
-
     @if (GlobalSettings.IncludeWikiDescriptionInMeta)
     {
         <meta name="description" content="@wikiContext?.PageDescription">
@@ -32,20 +29,56 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    @if (GlobalSettings.Theme == TightWiki.Library.Constants.WikiTheme.Light)
+    {
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/syntax/styles/light.css" />
+        <link rel="stylesheet" href="~/css/light.css" />
+    }
+    else
+    {
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/darkly/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/syntax/styles/dark.css" />
+        <link rel="stylesheet" href="~/css/dark.css" />
+    }
+
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <link id="themeStylesheet" rel="stylesheet" href="" />
+    <script>
+        $(document).ready(function () {
+        @if (GlobalSettings.Theme == TightWiki.Library.Constants.WikiTheme.Light)
+        {
+            <text>
+                    localStorage.setItem('theme', 'light');
+            </text>
+        }
+        else if (GlobalSettings.Theme == TightWiki.Library.Constants.WikiTheme.Dark)
+        {
+            <text>
+                localStorage.setItem('theme', 'dark');
+                $('#themeStylesheet').attr('href', '~/css/darkly/bootstrap.min.css');
+                $('nav').removeClass('navbar-light bg-white').addClass('navbar-dark bg-dark');
+                $('a.nav-link').removeClass('dropdown-item text-dark').addClass('dropdown-item text-light');
+                $('a.dropdown-item').removeClass('dropdown-item text-dark').addClass('dropdown-item text-light');
+                $('span.glyphicon').removeClass('dropdown-item text-dark').addClass('dropdown-item text-light');
+            </text>
+        }
+                        });
+    </script>
 
     @RenderSection("Scripts", required: false)
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="/"><span class="glyphicon"><img src="@GlobalSettings.BrandImageSmall" /></span> @GlobalSettings.Name</a>
+                <a class="navbar-brand" href="/"><span class="glyphicon text-dark"><img src="@GlobalSettings.BrandImageSmall" /> @GlobalSettings.Name</span></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         @foreach (TightWiki.Models.DataModels.MenuItem item in GlobalSettings.MenuItems)
