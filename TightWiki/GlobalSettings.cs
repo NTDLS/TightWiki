@@ -8,7 +8,7 @@ namespace TightWiki
 {
     public static class GlobalSettings
     {
-        public static Theme Theme { get; set; } = new();
+        public static Theme SystemTheme { get; set; } = new();
         public static bool IsDebug { get; set; }
         public static bool AllowSignup { get; set; }
         public static List<Emoji> Emojis { get; set; } = new();
@@ -68,7 +68,7 @@ namespace TightWiki
 
             AllowSignup = membershipConfig.Value("Allow Signup", false);
             DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
-            Theme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == themeName);
+            SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == themeName);
             DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
             AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
             DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;

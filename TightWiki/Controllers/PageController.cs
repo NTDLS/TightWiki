@@ -14,7 +14,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController : ControllerBase
+    public class PageController : WikiControllerBase
     {
         public PageController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)
@@ -42,7 +42,7 @@ namespace TightWiki.Controllers
         }
 
         [NonAction]
-        public static void RefreshPageMetadata(ControllerBase controller, Page page)
+        public static void RefreshPageMetadata(WikiControllerBase controller, Page page)
         {
             var wikifier = new Wikifier(controller.WikiContext, page, null, controller.Request.Query, new WikiMatchType[] { WikiMatchType.Function });
 

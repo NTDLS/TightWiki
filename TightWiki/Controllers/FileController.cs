@@ -12,7 +12,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("File")]
-    public class FileController : ControllerBase
+    public class FileController : WikiControllerBase
     {
         public FileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)

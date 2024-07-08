@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace TightWiki
         public bool IsAuthenticated { get; set; }
         public AccountProfile? Profile { get; set; }
         public string Role { get; set; } = string.Empty;
-
+        public Theme UserTheme { get; set; } = new();
         #endregion
 
         #region Current Page.
@@ -73,6 +74,8 @@ namespace TightWiki
         {
             IsAuthenticated = false;
 
+            UserTheme = GlobalSettings.SystemTheme;
+
             if (signInManager.IsSignedIn(user))
             {
                 try
@@ -85,7 +88,8 @@ namespace TightWiki
                         var userId = Guid.Parse((user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
                         Profile = UsersRepository.GetBasicProfileByUserId(userId);
-                        Role = (user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value?.ToString()).EnsureNotNull();
+                        Role = Profile.Role;
+                        UserTheme =  ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalSettings.SystemTheme;
                     }
                 }
                 catch (Exception ex)

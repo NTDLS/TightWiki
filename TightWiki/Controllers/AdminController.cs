@@ -21,7 +21,7 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController : ControllerBase
+    public class AdminController : WikiControllerBase
     {
         public AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)
@@ -470,6 +470,7 @@ namespace TightWiki.Site.Controllers
                 AccountProfile = Models.ViewModels.Admin.AccountProfileAccountViewModel.FromDataModel(
                     UsersRepository.GetAccountProfileByNavigation(Navigation.Clean(navigation))),
                 Credential = new CredentialViewModel(),
+                Themes = ConfigurationRepository.GetAllThemes(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll(),
@@ -493,6 +494,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
+            model.Themes = ConfigurationRepository.GetAllThemes();
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
@@ -577,6 +579,7 @@ namespace TightWiki.Site.Controllers
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),
                         new ("lastname", model.AccountProfile.LastName ?? ""),
+                        new ("theme", model.AccountProfile.Theme ?? ""),
                     };
             SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
 
@@ -645,6 +648,7 @@ namespace TightWiki.Site.Controllers
                     Language = customizationConfig.Value<string>("Default Language", string.Empty),
                     Role = defaultSignupRole
                 },
+                Themes = ConfigurationRepository.GetAllThemes(),
                 Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
@@ -666,6 +670,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
+            model.Themes = ConfigurationRepository.GetAllThemes();
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
@@ -719,6 +724,7 @@ namespace TightWiki.Site.Controllers
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),
                         new ("lastname", model.AccountProfile.LastName ?? ""),
+                        new ("theme", model.AccountProfile.Theme ?? ""),
                     };
                 SecurityHelpers.UpsertUserClaims(UserManager, identityUser, claims);
             }

@@ -85,7 +85,6 @@
                                 <tr class="padded">
                                     <td><strong>@Html.LabelFor(m => m.AccountProfile.Role)</strong></td>
                                     <td>
-
                                         <select name="AccountProfile.Role" id="AccountProfile.Role">
                                             <option value="" style="color:#ccc !important;">
                                                 Select a role
@@ -93,6 +92,24 @@
                                             @foreach (var item in Model.Roles)
                                             {
                                                 <option value="@item.Name" selected=@(Model.AccountProfile.Role == item.Name ? "selected" : null)>
+                                                    @item.Name
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Theme)</div></td></tr>
+                                <tr class="padded">
+                                    <td><strong>@Html.LabelFor(m => m.AccountProfile.Theme)</strong></td>
+                                    <td>
+                                        <select name="AccountProfile.Theme" id="AccountProfile.Theme">
+                                            <option value="">
+                                                System Default
+                                            </option>
+                                            @foreach (var item in Model.Themes)
+                                            {
+                                                <option value="@item.Name" selected=@(Model.AccountProfile.Theme == item.Name ? "selected" : null)>
                                                     @item.Name
                                                 </option>
                                             }

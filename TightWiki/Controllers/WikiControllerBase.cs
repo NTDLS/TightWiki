@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using TightWiki.Library;
 
-namespace TightWiki
+namespace TightWiki.Controllers
 {
-    public class ControllerBase : Controller
+    public class WikiControllerBase : Controller
     {
         public WikiContextState WikiContext { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager;
         public readonly UserManager<IdentityUser> UserManager;
 
-        public ControllerBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public WikiControllerBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             SignInManager = signInManager;
             UserManager = userManager;
@@ -32,7 +32,7 @@ namespace TightWiki
 
         [NonAction]
         protected string GetQueryString(string key, string defaultValue)
-            => ((string?)Request.Query[key]) ?? defaultValue;
+            => (string?)Request.Query[key] ?? defaultValue;
 
         [NonAction]
         protected int GetQueryString(string key, int defaultValue)
@@ -44,7 +44,7 @@ namespace TightWiki
 
         [NonAction]
         protected string GetFormString(string key, string defaultValue)
-            => ((string?)Request.Form[key]) ?? defaultValue;
+            => (string?)Request.Form[key] ?? defaultValue;
 
         [NonAction]
         protected int GetFormString(string key, int defaultValue)

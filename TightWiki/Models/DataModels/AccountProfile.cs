@@ -5,6 +5,7 @@
     /// </summary>
     public partial class AccountProfile
     {
+        public string? Theme { get; set; }
         public Guid UserId { get; set; }
         public string EmailAddress { get; set; } = string.Empty;
         public string AccountName { get; set; } = string.Empty;

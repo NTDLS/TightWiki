@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
+using TightWiki.Controllers;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
@@ -14,7 +15,7 @@ namespace TightWiki.Site.Controllers
 
     [AllowAnonymous]
     [Route("[controller]")]
-    public class ProfileController : ControllerBase
+    public class ProfileController : WikiControllerBase
     {
         private readonly IWebHostEnvironment _environment;
 
@@ -229,6 +230,8 @@ namespace TightWiki.Site.Controllers
             {
                 AccountProfile = AccountProfileAccountViewModel.FromDataModel(
                     UsersRepository.GetAccountProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId)),
+
+                Themes = ConfigurationRepository.GetAllThemes(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),
                 Languages = LanguageItem.GetAll()
@@ -256,6 +259,7 @@ namespace TightWiki.Site.Controllers
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
+            model.Themes = ConfigurationRepository.GetAllThemes();
 
             //Get the UserId from the logged in context because we do not trust anything from the model.
             var userId = WikiContext.Profile.EnsureNotNull().UserId;
@@ -307,8 +311,13 @@ namespace TightWiki.Site.Controllers
                         new ("language", model.AccountProfile.Language),
                         new ("firstname", model.AccountProfile.FirstName ?? ""),
                         new ("lastname", model.AccountProfile.LastName ?? ""),
+                        new ("theme", model.AccountProfile.Theme ?? ""),
                     };
             SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
+
+            SignInManager.RefreshSignInAsync(user);
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
             model.SuccessMessage = "Your profile has been saved successfully!";
 

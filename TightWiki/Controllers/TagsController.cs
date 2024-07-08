@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
+using TightWiki.Controllers;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
 using TightWiki.Wiki;
@@ -9,7 +10,7 @@ using TightWiki.Wiki;
 namespace TightWiki.Site.Controllers
 {
     [Authorize]
-    public class TagsController : ControllerBase
+    public class TagsController : WikiControllerBase
     {
         public TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)

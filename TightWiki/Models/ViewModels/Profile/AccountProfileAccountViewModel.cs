@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Models.ViewModels.Profile
 {
     public partial class AccountProfileAccountViewModel
     {
+        [Display(Name = "Theme")]
+        public string? Theme { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "UserId is required")]
         public Guid UserId { get; set; }
 
@@ -55,6 +59,7 @@ namespace TightWiki.Models.ViewModels.Profile
         {
             return new AccountProfileAccountViewModel
             {
+                Theme = model.Theme,
                 UserId = model.UserId,
                 EmailAddress = model.EmailAddress,
                 AccountName = model.AccountName,

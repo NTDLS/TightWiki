@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TightWiki.Controllers;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Utility;
 
@@ -8,7 +9,7 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class UtilityController : ControllerBase
+    public class UtilityController : WikiControllerBase
     {
         public UtilityController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
             : base(signInManager, userManager)
