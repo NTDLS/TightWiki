@@ -214,11 +214,11 @@ namespace TightWiki.Wiki
         {
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
-            var exclusionWords = searchConfig?.As<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
+            var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
             var strippedContent = HTML.StripHtml(content);
             var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList<string>().ToList();
 
-            if (searchConfig?.As<bool>("Split Camel Case") == true)
+            if (searchConfig?.Value<bool>("Split Camel Case") == true)
             {
                 var casedTokens = new List<string>();
 

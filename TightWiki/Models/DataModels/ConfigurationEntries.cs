@@ -14,7 +14,7 @@
             Collection = new List<ConfigurationEntry>(entries);
         }
 
-        public T? As<T>(string name)
+        public T? Value<T>(string name)
         {
             var value = Collection.Where(o => o.Name == name).FirstOrDefault();
             if (value == null)
@@ -24,7 +24,7 @@
             return value.As<T>();
         }
 
-        public T As<T>(string name, T defaultValue)
+        public T Value<T>(string name, T defaultValue)
         {
             var value = Collection.Where(o => o.Name == name).FirstOrDefault();
             if (value == null)

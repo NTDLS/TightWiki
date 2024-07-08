@@ -171,8 +171,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
                         var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-                        var siteName = basicConfig.As<string>("Name");
-                        var address = basicConfig.As<string>("Address");
+                        var siteName = basicConfig.Value<string>("Name");
+                        var address = basicConfig.Value<string>("Address");
                         var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
                         var emailSubject = "Confirm your email";

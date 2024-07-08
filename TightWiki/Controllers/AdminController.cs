@@ -632,7 +632,7 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-            var defaultSignupRole = membershipConfig.As<string>("Default Signup Role").EnsureNotNull();
+            var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
 
             var model = new Models.ViewModels.Admin.AccountProfileViewModel()
@@ -640,9 +640,9 @@ namespace TightWiki.Site.Controllers
                 AccountProfile = new Models.ViewModels.Admin.AccountProfileAccountViewModel
                 {
                     AccountName = UsersRepository.GetRandomUnusedAccountName(),
-                    Country = customizationConfig.As<string>("Default Country", string.Empty),
-                    TimeZone = customizationConfig.As<string>("Default TimeZone", string.Empty),
-                    Language = customizationConfig.As<string>("Default Language", string.Empty),
+                    Country = customizationConfig.Value<string>("Default Country", string.Empty),
+                    TimeZone = customizationConfig.Value<string>("Default TimeZone", string.Empty),
+                    Language = customizationConfig.Value<string>("Default Language", string.Empty),
                     Role = defaultSignupRole
                 },
                 Credential = new CredentialViewModel(),
@@ -901,6 +901,7 @@ namespace TightWiki.Site.Controllers
 
             var newModel = new ConfigurationViewModel()
             {
+                Themes = ConfigurationRepository.GetAllThemes(),
                 Roles = UsersRepository.GetAllRoles(),
                 TimeZones = TimeZoneItem.GetAll(),
                 Countries = CountryItem.GetAll(),

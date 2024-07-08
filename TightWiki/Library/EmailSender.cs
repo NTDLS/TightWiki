@@ -24,12 +24,12 @@ namespace TightWiki.Library
             try
             {
                 var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Email");
-                var smtpPassword = values.As<string>("Password");
-                var smtpUsername = values.As<string>("Username");
-                var smtpAddress = values.As<string>("Address");
-                var smtpFromDisplayName = values.As<string>("From Display Name");
-                var smtpUseSSL = values.As<bool>("Use SSL");
-                int smtpPort = values.As<int>("Port");
+                var smtpPassword = values.Value<string>("Password");
+                var smtpUsername = values.Value<string>("Username");
+                var smtpAddress = values.Value<string>("Address");
+                var smtpFromDisplayName = values.Value<string>("From Display Name");
+                var smtpUseSSL = values.Value<bool>("Use SSL");
+                int smtpPort = values.Value<int>("Port");
 
                 if (string.IsNullOrEmpty(smtpAddress) || string.IsNullOrEmpty(smtpUsername))
                 {

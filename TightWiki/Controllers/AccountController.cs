@@ -105,10 +105,10 @@ namespace TightWiki.Site.Controllers
                     var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
                     var claimsToAdd = new List<Claim>
                         {
-                            new (ClaimTypes.Role, membershipConfig.As<string>("Default Signup Role").EnsureNotNull()),
-                            new ("timezone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
-                            new (ClaimTypes.Country, membershipConfig.As<string>("Default Country").EnsureNotNull()),
-                            new ("language", membershipConfig.As<string>("Default Language").EnsureNotNull()),
+                            new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
+                            new ("timezone", membershipConfig.Value<string>("Default TimeZone").EnsureNotNull()),
+                            new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country").EnsureNotNull()),
+                            new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
                         };
 
                     SecurityHelpers.UpsertUserClaims(UserManager, user, claimsToAdd);

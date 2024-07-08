@@ -137,10 +137,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     var claimsToAdd = new List<Claim>
                     {
-                        new (ClaimTypes.Role, membershipConfig.As<string>("Default Signup Role")),
-                        new ("timezone", membershipConfig.As<string>("Default TimeZone")),
-                        new (ClaimTypes.Country, membershipConfig.As<string>("Default Country")),
-                        new ("language", membershipConfig.As<string>("Default Language")),
+                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role")),
+                        new ("timezone", membershipConfig.Value<string>("Default TimeZone")),
+                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country")),
+                        new ("language", membershipConfig.Value<string>("Default Language")),
                     };
 
                     SecurityHelpers.UpsertUserClaims(_userManager, user, claimsToAdd);
@@ -156,8 +156,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
                     var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-                    var siteName = basicConfig.As<string>("Name");
-                    var address = basicConfig.As<string>("Address");
+                    var siteName = basicConfig.Value<string>("Name");
+                    var address = basicConfig.Value<string>("Address");
                     var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
                     var emailSubject = "Confirm your email";

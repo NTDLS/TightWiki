@@ -8,7 +8,7 @@ namespace TightWiki
 {
     public static class GlobalSettings
     {
-        public static WikiTheme Theme { get; set; } = WikiTheme.Dark;
+        public static Theme Theme { get; set; } = new();
         public static bool IsDebug { get; set; }
         public static bool AllowSignup { get; set; }
         public static List<Emoji> Emojis { get; set; } = new();
@@ -49,9 +49,9 @@ namespace TightWiki
             IsDebug = Debugger.IsAttached;
 
             var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance");
-            PageCacheSeconds = performanceConfig.As<int>("Page Cache Time (Seconds)");
-            WritePageStatistics = performanceConfig.As<bool>("Write Page Statistics");
-            CacheMemoryLimitMB = performanceConfig.As<int>("Cache Memory Limit MB");
+            PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
+            WritePageStatistics = performanceConfig.Value<bool>("Write Page Statistics");
+            CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
@@ -60,28 +60,30 @@ namespace TightWiki
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
-            Address = basicConfig?.As<string>("Address") ?? string.Empty;
-            Name = basicConfig?.As<string>("Name") ?? string.Empty;
-            Copyright = basicConfig?.As<string>("Copyright") ?? string.Empty;
+            Address = basicConfig?.Value<string>("Address") ?? string.Empty;
+            Name = basicConfig?.Value<string>("Name") ?? string.Empty;
+            Copyright = basicConfig?.Value<string>("Copyright") ?? string.Empty;
 
-            AllowSignup = membershipConfig.As<bool>("Allow Signup", false);
-            DefaultProfileRecentlyModifiedCount = performanceConfig.As<int>("Default Profile Recently Modified Count");
-            Theme = Enum.Parse<WikiTheme>(customizationConfig.As("Theme", WikiTheme.Light.ToString()));
-            DefaultEmojiHeight = customizationConfig.As<int>("Default Emoji Height");
-            AllowGoogleAuthentication = membershipConfig.As<bool>("Allow Google Authentication");
-            DefaultTimeZone = customizationConfig?.As<string>("Default TimeZone") ?? string.Empty;
-            IncludeWikiDescriptionInMeta = functionalityConfig.As<bool>("Include wiki Description in Meta");
-            IncludeWikiTagsInMeta = functionalityConfig.As<bool>("Include wiki Tags in Meta");
-            EnablePageComments = functionalityConfig.As<bool>("Enable Page Comments");
-            ShowCommentsOnPageFooter = functionalityConfig.As<bool>("Show Comments on Page Footer");
-            ShowLastModifiedOnPageFooter = functionalityConfig.As<bool>("Show Last Modified on Page Footer");
-            IncludeSearchOnNavbar = searchConfig.As<bool>("Include Search on Navbar");
-            HTMLHeader = htmlConfig?.As<string>("Header") ?? string.Empty;
-            HTMLFooter = htmlConfig?.As<string>("Footer") ?? string.Empty;
-            HTMLPreBody = htmlConfig?.As<string>("Pre-Body") ?? string.Empty;
-            HTMLPostBody = htmlConfig?.As<string>("Post-Body") ?? string.Empty;
-            BrandImageSmall = customizationConfig?.As<string>("Brand Image (Small)") ?? string.Empty;
-            FooterBlurb = customizationConfig?.As<string>("FooterBlurb") ?? string.Empty;
+            var themeName = customizationConfig.Value("Theme", "Light");
+
+            AllowSignup = membershipConfig.Value("Allow Signup", false);
+            DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
+            Theme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == themeName);
+            DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
+            AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
+            DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;
+            IncludeWikiDescriptionInMeta = functionalityConfig.Value<bool>("Include wiki Description in Meta");
+            IncludeWikiTagsInMeta = functionalityConfig.Value<bool>("Include wiki Tags in Meta");
+            EnablePageComments = functionalityConfig.Value<bool>("Enable Page Comments");
+            ShowCommentsOnPageFooter = functionalityConfig.Value<bool>("Show Comments on Page Footer");
+            ShowLastModifiedOnPageFooter = functionalityConfig.Value<bool>("Show Last Modified on Page Footer");
+            IncludeSearchOnNavbar = searchConfig.Value<bool>("Include Search on Navbar");
+            HTMLHeader = htmlConfig?.Value<string>("Header") ?? string.Empty;
+            HTMLFooter = htmlConfig?.Value<string>("Footer") ?? string.Empty;
+            HTMLPreBody = htmlConfig?.Value<string>("Pre-Body") ?? string.Empty;
+            HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
+            BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
+            FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
             MenuItems = ConfigurationRepository.GetAllMenuItems();
 
             ReloadEmojis();

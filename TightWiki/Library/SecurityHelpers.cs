@@ -48,9 +48,9 @@ namespace TightWiki.Library
                 var claimsToAdd = new List<Claim>
                     {
                         new (ClaimTypes.Role, "Administrator"),
-                        new ("timezone", membershipConfig.As<string>("Default TimeZone").EnsureNotNull()),
-                        new (ClaimTypes.Country, membershipConfig.As<string>("Default Country").EnsureNotNull()),
-                        new ("language", membershipConfig.As<string>("Default Language").EnsureNotNull()),
+                        new ("timezone", membershipConfig.Value<string>("Default TimeZone").EnsureNotNull()),
+                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country").EnsureNotNull()),
+                        new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
                     };
 
                 UpsertUserClaims(userManager, user, claimsToAdd);

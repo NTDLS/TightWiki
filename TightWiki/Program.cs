@@ -44,7 +44,7 @@ namespace TightWiki
             GlobalSettings.ReloadEverything();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-            var requireConfirmedAccount = membershipConfig.As<bool>("Require Email Verification");
+            var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -61,10 +61,10 @@ namespace TightWiki
 
             var authentication = builder.Services.AddAuthentication();
 
-            if (ExternalAuthenticationConfig.As<bool>("Google : Use Google Authentication"))
+            if (ExternalAuthenticationConfig.Value<bool>("Google : Use Google Authentication"))
             {
-                var clientId = ExternalAuthenticationConfig.As<string>("Google : ClientId");
-                var clientSecret = ExternalAuthenticationConfig.As<string>("Google : ClientSecret");
+                var clientId = ExternalAuthenticationConfig.Value<string>("Google : ClientId");
+                var clientSecret = ExternalAuthenticationConfig.Value<string>("Google : ClientSecret");
 
                 if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {
@@ -75,10 +75,10 @@ namespace TightWiki
                     });
                 }
             }
-            if (ExternalAuthenticationConfig.As<bool>("Microsoft : Use Microsoft Authentication"))
+            if (ExternalAuthenticationConfig.Value<bool>("Microsoft : Use Microsoft Authentication"))
             {
-                var clientId = ExternalAuthenticationConfig.As<string>("Microsoft : ClientId");
-                var clientSecret = ExternalAuthenticationConfig.As<string>("Microsoft : ClientSecret");
+                var clientId = ExternalAuthenticationConfig.Value<string>("Microsoft : ClientId");
+                var clientSecret = ExternalAuthenticationConfig.Value<string>("Microsoft : ClientSecret");
 
                 if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {

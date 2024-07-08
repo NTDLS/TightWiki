@@ -30,17 +30,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    @if (GlobalSettings.Theme == TightWiki.Library.Constants.WikiTheme.Light)
+    @foreach (var file in GlobalSettings.Theme.Files)
     {
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/syntax/styles/light.css" />
-        <link rel="stylesheet" href="~/css/light.css" />
-    }
-    else
-    {
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/darkly/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/syntax/styles/dark.css" />
-        <link rel="stylesheet" href="~/css/dark.css" />
+        <link rel="stylesheet" href="@file" />
     }
 
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -48,24 +40,12 @@
     <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
         $(document).ready(function () {
-        @if (GlobalSettings.Theme == TightWiki.Library.Constants.WikiTheme.Light)
-        {
-            <text>
-                    localStorage.setItem('theme', 'light');
-            </text>
-        }
-        else if (GlobalSettings.Theme == TightWiki.Library.Constants.WikiTheme.Dark)
-        {
-            <text>
-                localStorage.setItem('theme', 'dark');
-                $('#themeStylesheet').attr('href', '~/css/darkly/bootstrap.min.css');
-                $('nav').removeClass('navbar-light bg-white').addClass('navbar-dark bg-dark');
-                $('a.nav-link').removeClass('dropdown-item text-dark').addClass('dropdown-item text-light');
-                $('a.dropdown-item').removeClass('dropdown-item text-dark').addClass('dropdown-item text-light');
-                $('span.glyphicon').removeClass('dropdown-item text-dark').addClass('dropdown-item text-light');
-            </text>
-        }
-                        });
+            localStorage.setItem('theme', 'dark');
+            $('nav').removeClass('navbar-light bg-white').addClass('@GlobalSettings.Theme.ClassNavBar');
+            $('a.nav-link').removeClass('text-dark').addClass('@GlobalSettings.Theme.ClassNavLink');
+            $('a.dropdown-item').removeClass('text-dark').addClass('@GlobalSettings.Theme.ClassDropdown');
+            $('span.glyphicon').removeClass('text-dark').addClass('@GlobalSettings.Theme.ClassBranding');
+        });
     </script>
 
     @RenderSection("Scripts", required: false)
