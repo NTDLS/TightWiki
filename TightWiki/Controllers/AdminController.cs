@@ -136,6 +136,37 @@ namespace TightWiki.Site.Controllers
 
         #endregion
 
+        #region Namespace.
+
+        [Authorize]
+        [HttpGet("Namespace/{namespaceName?}")]
+        public ActionResult Namespace(string? namespaceName = null)
+        {
+            WikiContext.RequireModeratePermission();
+            WikiContext.Title = $"Namespace";
+
+            var model = new NamespaceViewModel()
+            {
+                Pages = PageRepository.GetAllNamespacePagesPaged(GetQueryString("page", 1), namespaceName ?? string.Empty, null),
+                Namespace = namespaceName ?? string.Empty
+            };
+
+            model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+            if (model.Pages != null && model.Pages.Count > 0)
+            {
+                model.Pages.ForEach(o =>
+                {
+                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                });
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
         #region Pages.
 
         [Authorize]

@@ -48,7 +48,12 @@
                                 @foreach (var p in Model.Pages)
                                 {
                                     <tr>
-                                        <td><a href="/@p.Navigation">@p.Name</a></td>
+                                        <td>
+                                            @if (string.IsNullOrEmpty(@p.Namespace) == false)
+                                            {
+                                                <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                                            } <a href="/@p.Navigation">@p.Title</a>
+                                        </td>
                                         <td><a href="/@p.Navigation/Revisions">@p.Revision</a></td>
                                         <td>@p.ModifiedByUserName</td>
                                         <td>@p.ModifiedDate</td>

@@ -442,6 +442,24 @@ namespace TightWiki.Repository
             });
         }
 
+        public static List<Page> GetAllNamespacePagesPaged(int pageNumber, string namespaceName, int? pageSize = null)
+        {
+            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Namespace = namespaceName
+            };
+
+            return ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<Page>("GetAllNamespacePagesPaged.sql", param).ToList();
+            });
+        }
+
         /// <summary>
         /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
         /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.

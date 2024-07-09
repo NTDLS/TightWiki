@@ -37,7 +37,7 @@
                                 @foreach (var p in Model.Namespaces)
                                 {
                                     <tr>
-                                        <td>@(p.Namespace ?? "(Default)")</td>
+                                        <td><a href="/Admin/Namespace/@(p.Namespace?? string.Empty)">@(string.IsNullOrEmpty(p.Namespace) ? "(Default)" : p.Namespace)</a></td>
                                         <td>@p.CountOfPages.ToString("N0")</td>
                                     </tr>
                                 }

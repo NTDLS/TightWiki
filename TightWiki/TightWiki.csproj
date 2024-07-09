@@ -30,6 +30,7 @@
     <None Remove="Repository\Scripts\GetAllEmojisPagedByCategories.sql" />
     <None Remove="Repository\Scripts\GetAllExceptionsPaged.sql" />
     <None Remove="Repository\Scripts\GetAllMenuItems.sql" />
+    <None Remove="Repository\Scripts\GetAllNamespacePagesPaged.sql" />
     <None Remove="Repository\Scripts\GetAllNamespaces.sql" />
     <None Remove="Repository\Scripts\GetAllNamespacesPaged.sql" />
     <None Remove="Repository\Scripts\GetAllPages.sql" />
@@ -144,6 +145,7 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetAllNamespacePagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllThemes.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageById.sql" />
