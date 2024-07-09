@@ -1,14 +1,30 @@
 ﻿@model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
 @{
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    @foreach (var file in wikiContext.UserTheme.Files)
+    {
+        <link rel="stylesheet" href="@file" />
+    }
+
+    <link id="themeStylesheet" rel="stylesheet" href="" />
+    <script>
+        $(document).ready(function () {
+            localStorage.setItem('theme', 'dark');
+            $('nav').removeClass('navbar-light bg-white').addClass('@wikiContext.UserTheme.ClassNavBar');
+            $('a.nav-link').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassNavLink');
+            $('a.dropdown-item').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassDropdown');
+            $('span.glyphicon').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassBranding');
+        });
+    </script>
+
+
     <script src="~/js/deleteAttachment.js"></script>
 </head>
 <body>

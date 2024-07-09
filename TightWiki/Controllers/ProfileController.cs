@@ -9,7 +9,6 @@ using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
 using TightWiki.Wiki;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TightWiki.Site.Controllers
 {

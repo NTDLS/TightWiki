@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.InteropServices;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Models.ViewModels.Profile

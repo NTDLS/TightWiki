@@ -3,7 +3,6 @@ using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Shared.Models.Data;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {

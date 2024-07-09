@@ -89,7 +89,7 @@ namespace TightWiki
 
                         Profile = UsersRepository.GetBasicProfileByUserId(userId);
                         Role = Profile.Role;
-                        UserTheme =  ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalSettings.SystemTheme;
+                        UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalSettings.SystemTheme;
                     }
                 }
                 catch (Exception ex)

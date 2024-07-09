@@ -1,6 +1,6 @@
 ﻿@using TightWiki;
 @{
-    WikiContextState wikiContext = ViewData["WikiContext"] as WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var wikiContext = ViewData["WikiContext"] as WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
     string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(GlobalSettings.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
 }
 
