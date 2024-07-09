@@ -7,7 +7,7 @@ SELECT
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			Round(Count(0) / (@PageSize + 0.0)  + 0.999)
+			CAST((Count(0) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
 		FROM
 			PageReference as PR
 		INNER JOIN [Page] as P
