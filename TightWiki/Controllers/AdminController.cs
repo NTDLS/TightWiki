@@ -145,7 +145,7 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Pages";
 
-            var searchString = GetQueryString("Tokens");
+            var searchString = GetQueryString("SearchString");
 
             var model = new PagesViewModel()
             {
