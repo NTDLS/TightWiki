@@ -984,7 +984,7 @@ namespace TightWiki.Wiki
 
                     StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_wikiContext?.CanCreate == true)
+                else if (_wikiContext.CanCreate == true)
                 {
                     if (explicitLinkText.Length > 0)
                     {

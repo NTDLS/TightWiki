@@ -1,7 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.UtilitiesViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card">

@@ -3,7 +3,7 @@
 
 @{
     ViewData["Title"] = "Log in";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h1>@ViewData["Title"]</h1>

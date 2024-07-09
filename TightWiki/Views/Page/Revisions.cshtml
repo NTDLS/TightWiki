@@ -1,12 +1,12 @@
 ﻿@model TightWiki.Models.ViewModels.Page.PageRevisionsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card">
     <div class="card-header"><h3>Page Revisions</h3></div>
-    <div class="card-header"><strong><a href="/@wikiContext?.PageNavigation">@wikiContext?.Title</a></strong></div>
+    <div class="card-header"><strong><a href="/@wikiContext.PageNavigation">@wikiContext.Title</a></strong></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
             All changes that have been made to the page. <br /><br />
@@ -40,7 +40,7 @@
                                     @foreach (var h in Model.Revisions)
                                     {
                                         <tr>
-                                            <td><a href="/@wikiContext?.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                            <td><a href="/@wikiContext.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                                             <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                                             <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                             <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>

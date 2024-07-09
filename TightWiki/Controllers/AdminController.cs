@@ -584,7 +584,7 @@ namespace TightWiki.Site.Controllers
             SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
 
             //If we are changing the currently logged in user, then make sure we take some extra actions so we can see the changes immediately.
-            if (WikiContext?.Profile?.UserId == model.AccountProfile.UserId)
+            if (WikiContext.Profile?.UserId == model.AccountProfile.UserId)
             {
                 SignInManager.RefreshSignInAsync(user);
 

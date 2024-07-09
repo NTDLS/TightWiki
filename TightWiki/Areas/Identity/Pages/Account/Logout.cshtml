@@ -2,7 +2,7 @@
 @model LogoutModel
 @{
     ViewData["Title"] = "Log out";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <header>

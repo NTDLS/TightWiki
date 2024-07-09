@@ -1,7 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Profile.DeleteAccountViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState;
+    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <table class="fixedTable100" border="0" cellpadding="0">

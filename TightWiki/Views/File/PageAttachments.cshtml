@@ -40,7 +40,7 @@
                         <a href="/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision revisions</a>
                     </td>
                     <td>
-                        @if (@wikiContext?.CanDelete == true)
+                        @if (@wikiContext.CanDelete == true)
                         {
                             <a href="#deleteLink" id="@x.FileNavigation"> Delete </a>
                         }
