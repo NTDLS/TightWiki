@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using System.Text.Encodings.Web;
 using TightWiki.Exceptions;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
@@ -27,6 +28,7 @@ namespace TightWiki
 
         public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
+        public string PageNavigationEscaped { get; set; } = string.Empty;
         public string PageRevision { get; set; } = string.Empty;
         public string PathAndQuery { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
@@ -54,6 +56,7 @@ namespace TightWiki
 
             PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");
+            PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
             PageRevision = RouteValue("pageRevision");
 
             HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);

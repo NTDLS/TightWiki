@@ -46,7 +46,7 @@
 <script type="text/javascript">
 
     function readyFn(jQuery) {
-        $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigation");
+        $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigationEscaped");
     }
 
     $(document).ready(readyFn);
