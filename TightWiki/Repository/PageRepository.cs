@@ -468,7 +468,7 @@ namespace TightWiki.Repository
                 {
                     using var users_db = o.Attach("users.db", "users_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
-                    return o.Query<Page>("GetAllPagesByPageIdPaged", param).ToList();
+                    return o.Query<Page>("GetAllPagesByPageIdPaged.sql", param).ToList();
                 });
             }
 
