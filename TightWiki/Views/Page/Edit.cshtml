@@ -55,7 +55,7 @@
         $("#dropSection").filedrop({
             fallback_id: 'btnUpload',
             fallback_dropzoneClick: true,
-            url: '@Url.Action("UploadDragDrop", "File")/@wikiContext.PageNavigation',
+            url: '@Url.Action("UploadDragDrop", "File")/@wikiContext.PageNavigationEscaped',
             paramname: 'postedFiles',
             maxfiles: 5, //Maximum Number of Files allowed at a time.
             maxfilesize: 25, //Maximum File Size in MB.
@@ -83,7 +83,7 @@
             },
             afterAll: function (e) {
                 //To do some task after all uploads done.
-                $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigation");
+                $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigationEscaped");
             }
         })
     })
@@ -96,7 +96,7 @@
             formData.append('fileData', $('input[type=file]')[0].files[0]);
 
             $.ajax({
-                url: '@Url.Action("ManualUpload", "File")/@wikiContext.PageNavigation',
+                url: '@Url.Action("ManualUpload", "File")/@wikiContext.PageNavigationEscaped',
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -105,7 +105,7 @@
                 enctype: 'multipart/form-data',
                 processData: false,
                 success: function (response) {
-                    $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigation");
+                    $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigationEscaped");
                 }
             });
             return false;

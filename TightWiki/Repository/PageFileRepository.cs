@@ -147,7 +147,7 @@ namespace TightWiki.Repository
                 var transaction = o.BeginTransaction();
                 try
                 {
-                    int currentFileRevision = 1;
+                    int currentFileRevision = 0;
                     var newDataHash = Utility.SimpleChecksum(item.Data);
 
                     if (pageFileInfo == null)
