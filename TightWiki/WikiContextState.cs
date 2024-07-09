@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
-using System.Text.Encodings.Web;
 using TightWiki.Exceptions;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
