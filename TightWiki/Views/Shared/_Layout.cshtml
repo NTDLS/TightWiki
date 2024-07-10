@@ -13,28 +13,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@wikiContext.Title</title>
 
-    <!-- BEGIN Syntax Highlighter -->
+    <!-- Syntax Highlighter:Begin -->
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    @Html.Raw(GlobalSettings.HTMLHeader)
-    <!-- END Syntax Highlighter -->
+    <!-- Syntax Highlighter:End -->
+
+    @if (string.IsNullOrWhiteSpace(GlobalSettings.HTMLHeader) == false)
+    {
+        <!-- HTMLHeader:Begin -->
+        @Html.Raw(GlobalSettings.HTMLHeader)
+        <!-- HTMLHeader:Begin -->
+    }
+
     @if (GlobalSettings.IncludeWikiDescriptionInMeta)
     {
+        <!-- PageDescription:Begin -->
         <meta name="description" content="@wikiContext.PageDescription">
+        <!-- PageDescription:Begin -->
     }
 
     @if (GlobalSettings.IncludeWikiTagsInMeta)
     {
+        <!-- PageTags:Begin -->
         <meta name="keywords" content="@wikiContext.PageTags">
+        <!-- PageTags:Begin -->
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- Theme:Begin -->
     @foreach (var file in wikiContext.UserTheme.Files)
     {
         <link rel="stylesheet" href="@file" />
     }
+    <!-- Theme:End-->
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 
