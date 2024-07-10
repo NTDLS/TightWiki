@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +20,7 @@ namespace TightWiki
         public AccountProfile? Profile { get; set; }
         public string Role { get; set; } = string.Empty;
         public Theme UserTheme { get; set; } = new();
+
         #endregion
 
         #region Current Page.
@@ -82,12 +82,12 @@ namespace TightWiki
             {
                 try
                 {
-                    string emailAddress = (user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
+                    string emailAddress = (user.Claims.First(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
 
                     IsAuthenticated = user.Identity?.IsAuthenticated == true;
                     if (IsAuthenticated)
                     {
-                        var userId = Guid.Parse((user.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
+                        var userId = Guid.Parse((user.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
                         Profile = UsersRepository.GetBasicProfileByUserId(userId);
                         Role = Profile.Role;
@@ -109,10 +109,10 @@ namespace TightWiki
 
         public DateTime LocalizeDateTime(DateTime datetime)
         {
-            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetTimeZone());
+            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
         }
 
-        public TimeZoneInfo GetTimeZone()
+        public TimeZoneInfo GetPreferredTimeZone()
         {
             if (Profile == null || string.IsNullOrEmpty(Profile.TimeZone))
             {
@@ -157,6 +157,9 @@ namespace TightWiki
 
         #region Permissions.
 
+        public bool IsMemberOf(string role, string[] roles)
+            => roles.Contains(role);
+
         public void RequireAuthorizedPermission()
         {
             if (!IsAuthenticated) throw new UnauthorizedException();
@@ -176,19 +179,21 @@ namespace TightWiki
         {
             if (!CanAdmin) throw new UnauthorizedException();
         }
+
         public void RequireModeratePermission()
         {
             if (!CanModerate) throw new UnauthorizedException();
         }
+
         public void RequireCreatePermission()
         {
             if (!CanCreate) throw new UnauthorizedException();
         }
+
         public void RequireDeletePermission()
         {
             if (!CanDelete) throw new UnauthorizedException();
         }
-
 
         /// <summary>
         /// Is the current user (or anonymous) allowed to view?
@@ -206,15 +211,11 @@ namespace TightWiki
                 {
                     if (ProcessingInstructions.Contains(WikiInstruction.Protect))
                     {
-                        return Role == Roles.Administrator
-                            || Role == Roles.Moderator;
+                        return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
                     }
 
-                    return Role == Roles.Administrator
-                        || Role == Roles.Contributor
-                        || Role == Roles.Moderator;
+                    return IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
                 }
-
                 return false;
             }
         }
@@ -223,25 +224,19 @@ namespace TightWiki
         /// Is the current user allowed to perform administrative functions?
         /// </summary>
         public bool CanAdmin =>
-            IsAuthenticated
-                && Role == Roles.Administrator;
+            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator]);
 
         /// <summary>
         /// Is the current user allowed to moderate content (such as delete comments, and view moderation tools)?
         /// </summary>
         public bool CanModerate =>
-            IsAuthenticated
-                && (Role == Roles.Administrator
-                || Role == Roles.Moderator);
+            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
 
         /// <summary>
         /// Is the current user allowed to create pages?
         /// </summary>
         public bool CanCreate =>
-            IsAuthenticated
-                && (Role == Roles.Administrator
-                || Role == Roles.Contributor
-                || Role == Roles.Moderator);
+            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
 
         /// <summary>
         /// Is the current user allowed to delete unprotected pages?
@@ -257,8 +252,7 @@ namespace TightWiki
                         return false;
                     }
 
-                    return Role == Roles.Administrator
-                        || Role == Roles.Moderator;
+                    return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
                 }
 
                 return false;
