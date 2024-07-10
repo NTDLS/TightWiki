@@ -4,6 +4,7 @@ SELECT
 	ClassNavLink,
 	ClassDropdown,
 	ClassBranding,
+	EditorTheme,
 	DelimitedFiles
 FROM
 	[Theme]

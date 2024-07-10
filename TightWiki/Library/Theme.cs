@@ -8,6 +8,7 @@
         public string ClassNavLink { get; set; } = string.Empty;
         public string ClassDropdown { get; set; } = string.Empty;
         public string ClassBranding { get; set; } = string.Empty;
+        public string EditorTheme { get; set; } = string.Empty;
         public List<string> Files { get; set; } = new();
     }
 }

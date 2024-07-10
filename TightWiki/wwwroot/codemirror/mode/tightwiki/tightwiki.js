@@ -113,7 +113,7 @@
                 if (cur == "[[") {
                     stream.skipTo(']');
                     stream.eatWhile(']');
-                    return "wikilink";
+                    return "atom";
                 }
             }
 

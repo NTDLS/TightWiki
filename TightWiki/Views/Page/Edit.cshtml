@@ -5,7 +5,11 @@
 }
 
 <link rel="stylesheet" href="/codemirror/codemirror.css">
+<link rel="stylesheet" href="/codemirror/theme/light.css">
+<link rel="stylesheet" href="/codemirror/theme/dark.css">
+
 <link rel="stylesheet" href="/codemirror/addon/scroll/simplescrollbars.css">
+
 <script src="/codemirror/codemirror.js"></script>
 <script src="/codemirror/addon/edit/matchbrackets.js"></script>
 <script src="/codemirror/mode/tightwiki/tightwiki.js"></script>
@@ -20,7 +24,7 @@
     #dropSection {
         height: 150px;
         width: 100%;
-        background-color: #f6f8fa;
+        background-color: var(--bs-card-bg); /* Use Bootstrap card background color */
         overflow: hidden;
         text-align: center;
     }
@@ -156,6 +160,7 @@
                 <textarea id=Body name="Body">@Model.Body</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
+                        theme: "@wikiContext.UserTheme.EditorTheme",
                         lineNumbers: true,
                         mode: "text/x-tightwiki",
                         matchBrackets: true,
@@ -178,7 +183,6 @@
         <div class="card-body">
             @if (Model?.Id > 0 && @wikiContext.CanCreate == true)
             {
-
                 <div id="dropSection" class="dropSection">
                     <br />Attach files by dropping them here or by manually selecting them below:<br /><br />
                     <div id="manualUpload">

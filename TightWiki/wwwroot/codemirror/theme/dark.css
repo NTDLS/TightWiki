@@ -1,0 +1,38 @@
+.cm-s-dark.CodeMirror {background-color: #28211c; color: #E6E3DD;}
+.cm-s-dark .cm-header {color: #80C0FF;}
+.cm-s-dark .cm-quote {color: #98C379;}
+.cm-s-dark .cm-negative {color: #E06C75;}
+.cm-s-dark .cm-positive {color: #98C379;}
+.cm-s-dark .cm-header, .cm-strong {font-weight: bold;}
+.cm-s-dark .CodeMirror-gutters {background: #38413c; border-right: 0px;}
+.cm-s-dark .cm-header, .cm-italics {font-style: italic;}
+.cm-s-dark .cm-header, .cm-strike {text-decoration: line-through;}
+.cm-s-dark .cm-header, .cm-underline {text-decoration: underline;}
+.cm-s-dark .cm-header, .cm-paramsep {color: #E06C75;}
+.cm-s-dark .cm-em {font-style: italic;}
+.cm-s-dark .cm-link {text-decoration: underline;}
+.cm-s-dark .cm-strikethrough {text-decoration: line-through;}
+.cm-s-dark .cm-wikilink {color: #80C0FF;}
+.cm-s-dark .cm-keyword {color: #C678DD;}
+.cm-s-dark .cm-atom {color: #D19A66;}
+.cm-s-dark .cm-number {color: #E5C07B;}
+.cm-s-dark .cm-def {color: #61AFEF;}
+.cm-s-dark .cm-variable, .cm-s-dark .cm-punctuation, .cm-s-dark .cm-property, .cm-s-dark .cm-operator {color: #CCCCCC;}
+.cm-s-dark .cm-heading {color: #E06C75; font-weight: bold;}
+.cm-s-dark .cm-variable-2 {color: #D19A66;}
+.cm-s-dark .cm-variable-3, .cm-s-dark .cm-type {color: #E06C75;}
+.cm-s-dark .cm-comment {color: #5C6370; font-style: italic;}
+.cm-s-dark .cm-highlight {background-color: #E3EB21; color: #000;}
+.cm-s-dark .cm-string {color: #98C379;}
+.cm-s-dark .cm-string-2 {color: #D19A66;}
+.cm-s-dark .cm-meta {color: #ABB2BF;}
+.cm-s-dark .cm-qualifier {color: #ABB2BF;}
+.cm-s-dark .cm-builtin {color: #56B6C2;}
+.cm-s-dark .cm-bracket {color: #CCCCCC;}
+.cm-s-dark .cm-tag {color: #E06C75;}
+.cm-s-dark .cm-attribute {color: #D19A66;}
+.cm-s-dark .cm-hr {color: #5C6370;}
+.cm-s-dark .cm-link {color: #61AFEF;}
+.cm-s-dark .cm-error {color: #F44747;}
+.cm-s-dark .cm-invalidchar {color: #F44747;}
+.CodeMirror-composing {border-bottom: 2px solid;}

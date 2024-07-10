@@ -1,0 +1,49 @@
+.cm-s-light .cm-header {color: blue;}
+.cm-s-light .cm-quote {color: #090;}
+.cm-negative {color: #d44;}
+.cm-positive {color: #292;}
+.cm-header, .cm-strong {font-weight: bold;}
+.cm-header, .cm-italics { font-style:italic}
+.cm-header, .cm-strike {text-decoration:line-through}
+.cm-header, .cm-underline {text-decoration:underline}
+.cm-header, .cm-paramsep {color: #BB0000;}
+.cm-em {font-style: italic;}
+.cm-link {text-decoration: underline;}
+.cm-strikethrough {text-decoration: line-through;}
+.cm-s-light .cm-wikilink {color: blue;}
+
+.cm-s-light .cm-keyword {color: #708;}
+.cm-s-light .cm-atom {color: #219;}
+.cm-s-light .cm-number {color: #164;}
+.cm-s-light .cm-def {color: #00f;}
+.cm-s-light .cm-variable,
+.cm-s-light .cm-punctuation,
+.cm-s-light .cm-property,
+.cm-s-light .cm-operator {}
+.cm-s-light .cm-heading {color: #17a479; font-weight: bold;}
+.cm-s-light .cm-variable-2 {color: #05a;}
+.cm-s-light .cm-variable-3, .cm-s-light .cm-type {color: #085;}
+.cm-s-light .cm-comment {color: #999;  font-style:italic}
+.cm-s-light .cm-highlight {background-color:#e3eb21; color: #000}
+.cm-s-light .cm-string {color: #a11;}
+.cm-s-light .cm-string-2 {color: #f50;}
+.cm-s-light .cm-meta {color: #555;}
+.cm-s-light .cm-qualifier {color: #555;}
+.cm-s-light .cm-builtin {color: #30a;}
+.cm-s-light .cm-bracket {color: #997;}
+.cm-s-light .cm-tag {color: #170;}
+.cm-s-light .cm-attribute {color: #00c;}
+.cm-s-light .cm-hr {color: #999;}
+.cm-s-light .cm-link {color: #00c;}
+
+.cm-s-light .cm-error {color: #f00;}
+.cm-invalidchar {color: #f00;}
+
+.CodeMirror-composing { border-bottom: 2px solid; }
+
+/* Default styles for common addons */
+
+div.CodeMirror span.CodeMirror-matchingbracket {color: #0b0;}
+div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
+.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
+.CodeMirror-activeline-background {background: #e8f2ff;}
