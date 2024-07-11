@@ -83,6 +83,7 @@
     <None Remove="Repository\Scripts\GetPageRevisionByNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionInfoById.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionsInfoByNavigationPaged.sql" />
+    <None Remove="Repository\Scripts\GetPageStatisticsPaged.sql" />
     <None Remove="Repository\Scripts\GetPageTagsById.sql" />
     <None Remove="Repository\Scripts\GetProfileAvatarByNavigation.sql" />
     <None Remove="Repository\Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
@@ -145,6 +146,7 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageStatisticsPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespacePagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllThemes.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
