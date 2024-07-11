@@ -28,23 +28,44 @@ namespace TightWiki.Site.Controllers
         {
         }
 
-        #region Statistics.
+        #region Site Statistics.
 
         [Authorize]
-        [HttpGet("Statistics")]
-        public ActionResult Statistics()
+        [HttpGet("SiteStatistics")]
+        public ActionResult SiteStatistics()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Statistics";
+            WikiContext.Title = $"Site Statistics";
 
             Assembly assembly = Assembly.GetEntryAssembly().EnsureNotNull();
             Version version = assembly.GetName().Version.EnsureNotNull();
 
-            var model = new StatisticsViewModel()
+            var model = new SiteStatisticsViewModel()
             {
                 Statistics = ConfigurationRepository.GetWikiDatabaseStatistics(),
                 ApplicationVersion = version.ToString()
             };
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Complication Statistics.
+
+        [Authorize]
+        [HttpGet("ComplicationStatistics")]
+        public ActionResult ComplicationStatistics()
+        {
+            WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Page Statistics";
+
+            var model = new PageComplicationStatisticsViewModel()
+            {
+                Statistics = StatisticsRepository.GetPageComplicationStatisticsPagedPaged(GetQueryString("page", 1)),
+            };
+
+            model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
@@ -308,6 +329,11 @@ namespace TightWiki.Site.Controllers
 
             switch (model.Parameter?.ToLower())
             {
+                case "purgecomplicationstatistics":
+                    {
+                        StatisticsRepository.PurgeComplicationStatistics();
+                    }
+                    break;
                 case "rebuildallpages":
                     {
                         foreach (var page in PageRepository.GetAllPages())

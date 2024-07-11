@@ -56,6 +56,13 @@
                                              "Execute", "/Admin/Utilities", "FlushMemoryCache", "/Admin/Utilities", "/Admin/Utilities"))
                                 </td>
                             </tr>
+                            <tr>
+                                <td>Clear complication statistics</td>
+                                <td>
+                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeButton("Clearing the page complication statistics will delete all of the stored complication statistics for all pages. Continue?",
+                                             "Execute", "/Admin/Utilities", "PurgeComplicationStatistics", "/Admin/Utilities", "/Admin/Utilities"))
+                                </td>
+                            </tr>
                         </table>
                     </td>
                 </tr>

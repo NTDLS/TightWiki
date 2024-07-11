@@ -1,11 +1,11 @@
-﻿@model TightWiki.Models.ViewModels.Admin.StatisticsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.SiteStatisticsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card">
-    <div class="card-header"><h3>Statistics</h3></div>
+    <div class="card-header"><h3>Site Statistics</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
             <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> version @Model.ApplicationVersion<br /><br />
@@ -86,7 +86,7 @@
                                 <td>@TightWiki.Library.WikiCache.CacheGets.ToString("N0")</td>
                                 <td>@TightWiki.Library.WikiCache.CacheHits.ToString("N0")</td>
                                 <td>@TightWiki.Library.WikiCache.CacheMisses.ToString("N0")</td>
-                                <td>@TightWiki.Library.WikiCache.CacheMemoryLimitMB.ToString("N0")</td>
+                                <td>@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Library.WikiCache.CacheMemoryLimitMB * 1024)</td>
                             </tr>
                         </table>
                     </td>

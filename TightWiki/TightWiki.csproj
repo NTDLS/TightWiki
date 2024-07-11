@@ -63,6 +63,7 @@
     <None Remove="Repository\Scripts\GetMissingPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetPageById.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
+    <None Remove="Repository\Scripts\GetPageComplicationStatisticsPagedPaged.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql" />
@@ -83,7 +84,6 @@
     <None Remove="Repository\Scripts\GetPageRevisionByNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionInfoById.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionsInfoByNavigationPaged.sql" />
-    <None Remove="Repository\Scripts\GetPageStatisticsPaged.sql" />
     <None Remove="Repository\Scripts\GetPageTagsById.sql" />
     <None Remove="Repository\Scripts\GetProfileAvatarByNavigation.sql" />
     <None Remove="Repository\Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
@@ -110,6 +110,7 @@
     <None Remove="Repository\Scripts\MovePageToDeletedById.sql" />
     <None Remove="Repository\Scripts\PageSearch.sql" />
     <None Remove="Repository\Scripts\PageSearchPaged.sql" />
+    <None Remove="Repository\Scripts\PurgeComplicationStatistics.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
     <None Remove="Repository\Scripts\PurgeExceptions.sql" />
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
@@ -146,7 +147,8 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetPageStatisticsPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeComplicationStatistics.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageComplicationStatisticsPagedPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespacePagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllThemes.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
@@ -284,6 +286,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NTDLS.Helpers" Version="1.0.5" />
     <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.1" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.14.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />

@@ -5,16 +5,16 @@ SELECT
 	MAX(Stats.CreatedDate) as LatestBuild,
 	COUNT(0) as BuildCount,
 	AVG(Stats.WikifyTimeMs) as AvgBuildTimeMs,
-	AVG(Stats.MatchCount) as WikiMatches,
-	SUM(Stats.ErrorCount) as ErrorCount,
-	AVG(Stats.OutgoingLinkCount) as OutgoingLinkCount,
-	AVG(Stats.TagCount) as TagCount,
-	AVG(Stats.BodySize) as RawBodySize,
-	AVG(Stats.ProcessedBodySize) as WikifiedBodySize,
+	AVG(Stats.MatchCount) as AvgWikiMatches,
+	SUM(Stats.ErrorCount) as TotalErrorCount,
+	AVG(Stats.OutgoingLinkCount) as AvgOutgoingLinkCount,
+	AVG(Stats.TagCount) as AvgTagCount,
+	AVG(Stats.BodySize) as AvgRawBodySize,
+	AVG(Stats.ProcessedBodySize) as AvgWikifiedBodySize,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			CAST((Count(0) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
+			CAST((Count(DISTINCT P.Id) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
 		FROM
 			[PageStatistics] as Stats
 		INNER JOIN pages_db.[Page] as P
