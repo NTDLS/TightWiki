@@ -687,7 +687,15 @@ namespace TightWiki.Controllers
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
             string givenScale = GetQueryString("Scale", "100");
-            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
+
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, givenScale]);
+            var file = WikiCache.Get<PageFileAttachment>(cacheKey);
+            if (file != null)
+            {
+                return File(file.Data, file.ContentType);
+            }
+
+            file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
 
             if (file != null)
             {
@@ -715,7 +723,7 @@ namespace TightWiki.Controllers
                         break;
                     default:
                         contentType = "image/png";
-                        format = ImageFormat.Gif;
+                        format = ImageFormat.Png;
                         break;
                 }
 
@@ -746,13 +754,19 @@ namespace TightWiki.Controllers
                     using var image = Images.ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
                     ChangeImageType(image, format, ms);
-                    return File(ms.ToArray(), contentType);
+
+                    var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
+                    WikiCache.Put(cacheKey, cacheItem);
+                    return File(cacheItem.Data, cacheItem.ContentType);
                 }
                 else
                 {
                     using var ms = new MemoryStream();
                     ChangeImageType(img, format, ms);
-                    return File(ms.ToArray(), contentType);
+
+                    var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
+                    WikiCache.Put(cacheKey, cacheItem);
+                    return File(cacheItem.Data, cacheItem.ContentType);
                 }
             }
             else
