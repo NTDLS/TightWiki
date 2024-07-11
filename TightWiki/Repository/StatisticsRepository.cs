@@ -28,7 +28,7 @@ namespace TightWiki.Repository
             ManagedDataStorage.Statistics.Execute("PurgeCompilationStatistics.sql");
         }
 
-        public static List<PageCompilationStatistics> GetPageCompilationStatisticsPagedPaged(int pageNumber, int? pageSize = null)
+        public static List<PageCompilationStatistics> GetCompilationStatisticsPaged(int pageNumber, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -43,7 +43,7 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("pages.db", "pages_db");
 
                 var result = o.Query<PageCompilationStatistics>(
-                    "GetPageCompilationStatisticsPagedPaged.sql", param).ToList();
+                    "GetCompilationStatisticsPaged.sql", param).ToList();
 
                 return result;
             });

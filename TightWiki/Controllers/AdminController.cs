@@ -62,7 +62,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PageCompilationStatisticsViewModel()
             {
-                Statistics = StatisticsRepository.GetPageCompilationStatisticsPagedPaged(GetQueryString("page", 1)),
+                Statistics = StatisticsRepository.GetCompilationStatisticsPaged(GetQueryString("page", 1)),
             };
 
             model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);

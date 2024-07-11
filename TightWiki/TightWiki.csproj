@@ -43,6 +43,7 @@
     <None Remove="Repository\Scripts\GetAllUsersPaged.sql" />
     <None Remove="Repository\Scripts\GetAssociatedTags.sql" />
     <None Remove="Repository\Scripts\GetBasicProfileByUserId.sql" />
+    <None Remove="Repository\Scripts\GetCompilationStatisticsPaged.sql" />
     <None Remove="Repository\Scripts\GetConfigurationEntryValuesByGroupName.sql" />
     <None Remove="Repository\Scripts\GetConfigurationEntryValuesByGroupNameAndEntryName.sql" />
     <None Remove="Repository\Scripts\GetCountOfPageAttachmentsById.sql" />
@@ -63,7 +64,6 @@
     <None Remove="Repository\Scripts\GetMissingPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetPageById.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
-    <None Remove="Repository\Scripts\GetPageCompilationStatisticsPagedPaged.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql" />
@@ -152,7 +152,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageById.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetPageCompilationStatisticsPagedPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetCompilationStatisticsPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertCompilationStatistics.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeCompilationStatistics.sql" />
     <EmbeddedResource Include="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
