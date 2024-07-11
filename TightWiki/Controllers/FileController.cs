@@ -38,14 +38,12 @@ namespace TightWiki.Controllers
             string givenScale = GetQueryString("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
-            var file = WikiCache.Get<PageFileAttachment>(cacheKey);
-            if (file != null)
+            if (WikiCache.TryGet<PageFileAttachment>(cacheKey, out var cached))
             {
-                return File(file.Data, file.ContentType);
+                return File(cached.Data, cached.ContentType);
             }
 
-            file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
-
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
             if (file != null)
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
@@ -145,13 +143,13 @@ namespace TightWiki.Controllers
             string givenScale = GetQueryString("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
-            var file = WikiCache.Get<PageFileAttachment>(cacheKey);
-            if (file != null)
+            if (WikiCache.TryGet<PageFileAttachment>(cacheKey, out var cached))
             {
-                return File(file.Data, file.ContentType);
+                return File(cached.Data, cached.ContentType);
             }
 
-            file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
+
+            var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
             if (file != null)
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
