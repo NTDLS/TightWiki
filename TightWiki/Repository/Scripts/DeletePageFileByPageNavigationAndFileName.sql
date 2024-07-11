@@ -1,9 +1,7 @@
-DELETE FROM PageFile
-WHERE Id IN (
-    SELECT
-        PF.Id
-    FROM
-        PageFile AS PF
+DELETE FROM PageRevisionAttachment
+WHERE EXISTS (
+    SELECT 1
+    FROM PageFile AS PF
     INNER JOIN Page AS P
         ON P.Id = PF.PageId
     INNER JOIN PageRevision AS PR
@@ -16,6 +14,9 @@ WHERE Id IN (
         ON PFR.PageFileId = PF.Id
         AND PFR.Revision = PRA.FileRevision
     WHERE
-		P.Navigation = @PageNavigation
-		AND PF.Navigation = @FileNavigation
+        P.Navigation = @PageNavigation
+        AND PF.Navigation = @FileNavigation
+        AND PageRevisionAttachment.PageId = P.Id
+        AND PageRevisionAttachment.PageFileId = PF.Id
+        AND PageRevisionAttachment.PageRevision = PR.Revision
 );

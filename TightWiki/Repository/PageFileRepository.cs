@@ -177,6 +177,8 @@ namespace TightWiki.Repository
                         var pageFileRevisionInfo = GetPageFileRevisionInfoByFileNavigation(item.PageId, item.FileNavigation)
                                                     ?? throw new Exception("Failed find newly updated page attachment.");
 
+                        //TODO: We need to be able to reinsert a file if its been deleted.
+
                         currentFileRevision = pageFileRevisionInfo.Revision;
 
                         hasFileChanged = pageFileRevisionInfo.DataHash != newDataHash;
@@ -218,6 +220,7 @@ namespace TightWiki.Repository
                             PageRevision = currentPageRevision,
                             FileRevision = currentFileRevision,
                         };
+                        //TODO: We need to be able to reassociate a file if its been deleted.
                         //Associate the latest version of the file with the latest version of the page.
                         o.Execute("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionParam);
                     }
