@@ -116,7 +116,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param).ToList();
         }
 
-        public static PageFileRevisionAttachmentInfo? GetPageFileRevisionInfoByFileNavigation(int pageId, string fileNavigation)
+        public static PageFileRevisionAttachmentInfo? GetPageFileInfoByFileNavigation(ManagedDataStorageInstance connection, int pageId, string fileNavigation)
         {
             var param = new
             {
@@ -124,10 +124,10 @@ namespace TightWiki.Repository
                 Navigation = fileNavigation,
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileRevisionInfoByFileNavigation.sql", param);
+            return connection.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileInfoByFileNavigation.sql", param);
         }
 
-        public static PageFileAttachmentLimitedInfo? GetPageFileInfoByFileNavigation(ManagedDataStorageInstance connection, int pageId, string fileNavigation)
+        public static PageFileRevisionAttachmentInfo? GetPageCurrentRevisionAttachmentByFileNavigation(ManagedDataStorageInstance connection, int pageId, string fileNavigation)
         {
             var param = new
             {
@@ -135,7 +135,7 @@ namespace TightWiki.Repository
                 Navigation = fileNavigation,
             };
 
-            return connection.QuerySingleOrDefault<PageFileAttachmentLimitedInfo>("GetPageFileInfoByFileNavigation.sql", param);
+            return connection.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageCurrentRevisionAttachmentByFileNavigation.sql", param);
         }
 
         public static void UpsertPageFile(PageFileAttachment item, Guid userId)
@@ -144,8 +144,10 @@ namespace TightWiki.Repository
 
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                var pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
                 var transaction = o.BeginTransaction();
+
+                var pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
+
                 try
                 {
                     int currentFileRevision = 0;
@@ -153,6 +155,8 @@ namespace TightWiki.Repository
 
                     if (pageFileInfo == null)
                     {
+                        //If the page file does not exist, then insert it.
+
                         var InsertPageFileParam = new
                         {
                             PageId = item.PageId,
@@ -175,14 +179,23 @@ namespace TightWiki.Repository
                     }
                     else
                     {
-                        var pageFileRevisionInfo = GetPageFileRevisionInfoByFileNavigation(item.PageId, item.FileNavigation)
-                                                    ?? throw new Exception("Failed find newly updated page attachment.");
+                        var currentlyAttachedFile = GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
+                        if (currentlyAttachedFile != null)
+                        {
+                            //The PageFile exists and a revision of it is attached to this page revision.
+                            //Keep track of the file revision, and determine if the file has changed (via the file hash).
 
-                        //TODO: We need to be able to reinsert a file if its been deleted.
+                            currentFileRevision = currentlyAttachedFile.Revision;
+                            hasFileChanged = currentlyAttachedFile.DataHash != newDataHash;
+                        }
+                        else
+                        {
+                            //The file either does not exist or is not attached to the current page revision.
+                            hasFileChanged = true;
 
-                        currentFileRevision = pageFileRevisionInfo.Revision;
-
-                        hasFileChanged = pageFileRevisionInfo.DataHash != newDataHash;
+                            //We determined earlier that the PageFile does exist, so keep track of the file revision.
+                            currentFileRevision = pageFileInfo.Revision;
+                        }
                     }
 
                     if (hasFileChanged)

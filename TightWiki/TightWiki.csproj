@@ -64,13 +64,13 @@
     <None Remove="Repository\Scripts\GetMissingPagesPaged.sql" />
     <None Remove="Repository\Scripts\GetPageById.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
+    <None Remove="Repository\Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged.sql" />
     <None Remove="Repository\Scripts\GetPageFileInfoByFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileInfoByPageIdPageRevisionAndName.sql" />
-    <None Remove="Repository\Scripts\GetPageFileRevisionInfoByFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFilesInfoByPageId.sql" />
     <None Remove="Repository\Scripts\GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql" />
     <None Remove="Repository\Scripts\GetPageIdsByTokens.sql" />
@@ -153,6 +153,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetCompilationStatisticsPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertCompilationStatistics.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeCompilationStatistics.sql" />
     <EmbeddedResource Include="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
@@ -206,7 +207,6 @@
     <EmbeddedResource Include="Repository\Scripts\GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileInfoByFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFileInfoByPageIdPageRevisionAndName.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetPageFileRevisionInfoByFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFilesInfoByPageId.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageIdsByTokens.sql" />
