@@ -689,7 +689,7 @@ namespace TightWiki.Controllers
             string givenScale = GetQueryString("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, givenScale]);
-            if (WikiCache.TryGet<PageFileAttachment>(cacheKey, out var cached))
+            if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
                 return File(cached.Data, cached.ContentType);
             }

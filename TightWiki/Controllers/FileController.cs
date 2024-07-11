@@ -38,7 +38,7 @@ namespace TightWiki.Controllers
             string givenScale = GetQueryString("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
-            if (WikiCache.TryGet<PageFileAttachment>(cacheKey, out var cached))
+            if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
                 return File(cached.Data, cached.ContentType);
             }
@@ -143,11 +143,10 @@ namespace TightWiki.Controllers
             string givenScale = GetQueryString("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
-            if (WikiCache.TryGet<PageFileAttachment>(cacheKey, out var cached))
+            if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
                 return File(cached.Data, cached.ContentType);
             }
-
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
             if (file != null)
