@@ -6,15 +6,16 @@ namespace TightWiki.Repository
 {
     public static class PageFileRepository
     {
-        public static void DeletePageFileByPageNavigationAndFileName(string pageNavigation, string fileNavigation)
+        public static void DeletePageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision)
         {
             var param = new
             {
                 PageNavigation = pageNavigation,
-                FileNavigation = fileNavigation
+                FileNavigation = fileNavigation,
+                PageRevision = pageRevision
             };
 
-            ManagedDataStorage.Pages.Execute("DeletePageFileByPageNavigationAndFileName.sql", param);
+            ManagedDataStorage.Pages.Execute("DeletePageRevisionAttachment.sql", param);
         }
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)

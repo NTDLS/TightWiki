@@ -1,4 +1,4 @@
-INSERT INTO ComplicationStatistics
+INSERT INTO CompilationStatistics
 (
 	[PageId],
 	[CreatedDate],

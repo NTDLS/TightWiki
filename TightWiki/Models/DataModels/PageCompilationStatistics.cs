@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Models.DataModels
 {
-    public class PageComplicationStatistics
+    public class PageCompilationStatistics
     {
         public string Name { get; set; } = string.Empty;
 

@@ -273,13 +273,15 @@ namespace TightWiki.Controllers
             {
                 var pageFiles = PageFileRepository.GetPageFilesInfoByPageId(page.Id);
 
-                return View(new FileAttachmentViewModel()
+                return View(new FileAttachmentViewModel
                 {
+                    PageNavigation = page.Navigation,
+                    PageRevision = page.Revision,
                     Files = pageFiles
                 });
             }
 
-            return View(new FileAttachmentViewModel()
+            return View(new FileAttachmentViewModel
             {
                 Files = new List<PageFileAttachmentInfo>()
             });
@@ -371,15 +373,14 @@ namespace TightWiki.Controllers
         /// </summary>
         /// <param name="navigation"></param>
         /// <returns></returns>
-        [HttpPost("Delete/{givenPageNavigation}/{givenFileNavigation}")]
-        public ActionResult Delete(string givenPageNavigation, string givenFileNavigation)
+        [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
+        public ActionResult Delete(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
             WikiContext.RequireDeletePermission();
 
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-            var fileNavigation = new NamespaceNavigation(givenFileNavigation);
-
-            PageFileRepository.DeletePageFileByPageNavigationAndFileName(pageNavigation.Canonical, fileNavigation.Canonical);
+            PageFileRepository.DeletePageRevisionAttachment(
+                new NamespaceNavigation(givenPageNavigation).Canonical,
+                new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
             return Content("Success");
         }

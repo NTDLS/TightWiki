@@ -1,14 +1,14 @@
-﻿@model TightWiki.Models.ViewModels.Admin.PageComplicationStatisticsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.PageCompilationStatisticsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card">
-    <div class="card-header"><h3>Page Complication Statistics</h3></div>
+    <div class="card-header"><h3>Page Compilation Statistics</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
-            The complication statistics for all page wikification operations.<br /><br />
+            The compilation statistics for all page wikification operations.<br /><br />
         </font>
 
         <table class="fixedTable100" border="0" cellpadding="0">

@@ -51,18 +51,18 @@ namespace TightWiki.Site.Controllers
 
         #endregion
 
-        #region Complication Statistics.
+        #region Compilation Statistics.
 
         [Authorize]
-        [HttpGet("ComplicationStatistics")]
-        public ActionResult ComplicationStatistics()
+        [HttpGet("CompilationStatistics")]
+        public ActionResult CompilationStatistics()
         {
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Page Statistics";
 
-            var model = new PageComplicationStatisticsViewModel()
+            var model = new PageCompilationStatisticsViewModel()
             {
-                Statistics = StatisticsRepository.GetPageComplicationStatisticsPagedPaged(GetQueryString("page", 1)),
+                Statistics = StatisticsRepository.GetPageCompilationStatisticsPagedPaged(GetQueryString("page", 1)),
             };
 
             model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -329,9 +329,9 @@ namespace TightWiki.Site.Controllers
 
             switch (model.Parameter?.ToLower())
             {
-                case "purgecomplicationstatistics":
+                case "purgecompilationstatistics":
                     {
-                        StatisticsRepository.PurgeComplicationStatistics();
+                        StatisticsRepository.PurgeCompilationStatistics();
                     }
                     break;
                 case "rebuildallpages":

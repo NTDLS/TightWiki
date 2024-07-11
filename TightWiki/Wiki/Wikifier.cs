@@ -71,7 +71,7 @@ namespace TightWiki.Wiki
 
             if (GlobalSettings.WritePageStatistics)
             {
-                StatisticsRepository.InsertPageStatistics(page.Id,
+                StatisticsRepository.InsertCompilationStatistics(page.Id,
                     ProcessingTime.TotalMilliseconds,
                     MatchCount,
                     ErrorCount,

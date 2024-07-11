@@ -21,12 +21,23 @@
             $('a.nav-link').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassNavLink');
             $('a.dropdown-item').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassDropdown');
             $('span.glyphicon').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassBranding');
+
+            $('a[href="#detachLink"]').click(function (e) {
+                var fileName = e.target.id;
+                if (confirm("Are you sure you want to detach '" + fileName + "'?")) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
+                        success: function (result) {
+                            $("#uploadedFiles").load("/File/PageAttachments/@Model.PageNavigation");
+                        }
+                    });
+                }
+            });
         });
     </script>
-
-
-    <script src="~/js/deleteAttachment.js"></script>
 </head>
+
 <body>
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
         <tbody>
@@ -42,7 +53,7 @@
                     <td>
                         @if (@wikiContext.CanDelete == true)
                         {
-                            <a href="#deleteLink" id="@x.FileNavigation"> Delete </a>
+                            <a href="#detachLink" id="@x.FileNavigation"> Detach </a>
                         }
                     </td>
                 </tr>

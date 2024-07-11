@@ -16,12 +16,12 @@ SELECT
 		SELECT
 			CAST((Count(DISTINCT P.Id) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
 		FROM
-			[PageStatistics] as Stats
+			CompilationStatistics as Stats
 		INNER JOIN pages_db.[Page] as P
 			ON P.Id = Stats.PageId
 	) as PaginationPageCount
 FROM
-	[PageStatistics] as Stats
+	CompilationStatistics as Stats
 INNER JOIN pages_db.[Page] as P
 	ON P.Id = Stats.PageId
 GROUP BY

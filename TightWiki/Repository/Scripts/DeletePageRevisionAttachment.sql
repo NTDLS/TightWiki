@@ -16,6 +16,7 @@ WHERE EXISTS (
     WHERE
         P.Navigation = @PageNavigation
         AND PF.Navigation = @FileNavigation
+        AND PR.Revision = @PageRevision
         AND PageRevisionAttachment.PageId = P.Id
         AND PageRevisionAttachment.PageFileId = PF.Id
         AND PageRevisionAttachment.PageRevision = PR.Revision
