@@ -374,11 +374,11 @@ namespace TightWiki.Controllers
         /// <param name="navigation"></param>
         /// <returns></returns>
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
-        public ActionResult Delete(string givenPageNavigation, string givenFileNavigation, int pageRevision)
+        public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
             WikiContext.RequireDeletePermission();
 
-            PageFileRepository.DeletePageRevisionAttachment(
+            PageFileRepository.DetachPageRevisionAttachment(
                 new NamespaceNavigation(givenPageNavigation).Canonical,
                 new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 

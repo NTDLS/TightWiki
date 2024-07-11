@@ -17,8 +17,8 @@
     <None Remove="Repository\Scripts\DeleteMenuItemById.sql" />
     <None Remove="Repository\Scripts\DeletePageCommentById.sql" />
     <None Remove="Repository\Scripts\DeletePageCommentByUserAndId.sql" />
-    <None Remove="Repository\Scripts\DeletePageRevisionAttachment.sql" />
     <None Remove="Repository\Scripts\DeletePageStatisticsByPageId.sql" />
+    <None Remove="Repository\Scripts\DetachPageRevisionAttachment.sql" />
     <None Remove="Repository\Scripts\DoesEmailAddressExist.sql" />
     <None Remove="Repository\Scripts\DoesProfileAccountExist.sql" />
     <None Remove="Repository\Scripts\GetAccountProfileByNavigation.sql" />
@@ -160,7 +160,7 @@
     <EmbeddedResource Include="Repository\Scripts\MovePageToDeletedById.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeletePageCommentById.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeletePageCommentByUserAndId.sql" />
-    <EmbeddedResource Include="Repository\Scripts\DeletePageRevisionAttachment.sql" />
+    <EmbeddedResource Include="Repository\Scripts\DetachPageRevisionAttachment.sql" />
     <EmbeddedResource Include="Repository\Scripts\DeletePageStatisticsByPageId.sql" />
     <EmbeddedResource Include="Repository\Scripts\DoesEmailAddressExist.sql" />
     <EmbeddedResource Include="Repository\Scripts\DoesProfileAccountExist.sql" />

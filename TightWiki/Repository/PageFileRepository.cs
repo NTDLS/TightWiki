@@ -6,7 +6,7 @@ namespace TightWiki.Repository
 {
     public static class PageFileRepository
     {
-        public static void DeletePageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision)
+        public static void DetachPageRevisionAttachment(string pageNavigation, string fileNavigation, int pageRevision)
         {
             var param = new
             {
@@ -15,7 +15,7 @@ namespace TightWiki.Repository
                 PageRevision = pageRevision
             };
 
-            ManagedDataStorage.Pages.Execute("DeletePageRevisionAttachment.sql", param);
+            ManagedDataStorage.Pages.Execute("DetachPageRevisionAttachment.sql", param);
         }
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
