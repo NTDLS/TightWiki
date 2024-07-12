@@ -14,7 +14,7 @@ INNER JOIN PageRevisionAttachment as PFA
 	AND PFA.PageRevision = P.Revision
 INNER JOIN PageFileRevision as PFR
 	ON PFR.PageFileId = PF.Id
-	AND PFR.Revision = P.Revision
+	AND PFR.Revision = PFA.FileRevision
 WHERE
 	PF.PageId = @PageId
 	AND PF.Navigation = @Navigation

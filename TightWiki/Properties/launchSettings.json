@@ -12,7 +12,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "attachments/Edit",
+      "launchUrl": "Home/Edit",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

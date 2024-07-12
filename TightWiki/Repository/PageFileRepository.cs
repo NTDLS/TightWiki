@@ -146,13 +146,9 @@ namespace TightWiki.Repository
             {
                 var transaction = o.BeginTransaction();
 
-                var pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
-
                 try
                 {
-                    int currentFileRevision = 0;
-                    var newDataHash = Utility.SimpleChecksum(item.Data);
-
+                    var pageFileInfo = GetPageFileInfoByFileNavigation(o, item.PageId, item.FileNavigation);
                     if (pageFileInfo == null)
                     {
                         //If the page file does not exist, then insert it.
@@ -168,7 +164,6 @@ namespace TightWiki.Repository
                             Data = item.Data
                         };
 
-                        //File does NOT exist, insert it.
                         o.Execute("InsertPageFile.sql", InsertPageFileParam);
 
                         //Get the id of the newly inserted page file.
@@ -177,25 +172,27 @@ namespace TightWiki.Repository
 
                         hasFileChanged = true;
                     }
+
+
+                    int currentFileRevision = 0;
+                    var newDataHash = Utility.SimpleChecksum(item.Data);
+
+                    var currentlyAttachedFile = GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
+                    if (currentlyAttachedFile != null)
+                    {
+                        //The PageFile exists and a revision of it is attached to this page revision.
+                        //Keep track of the file revision, and determine if the file has changed (via the file hash).
+
+                        currentFileRevision = currentlyAttachedFile.Revision;
+                        hasFileChanged = currentlyAttachedFile.DataHash != newDataHash;
+                    }
                     else
                     {
-                        var currentlyAttachedFile = GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
-                        if (currentlyAttachedFile != null)
-                        {
-                            //The PageFile exists and a revision of it is attached to this page revision.
-                            //Keep track of the file revision, and determine if the file has changed (via the file hash).
+                        //The file either does not exist or is not attached to the current page revision.
+                        hasFileChanged = true;
 
-                            currentFileRevision = currentlyAttachedFile.Revision;
-                            hasFileChanged = currentlyAttachedFile.DataHash != newDataHash;
-                        }
-                        else
-                        {
-                            //The file either does not exist or is not attached to the current page revision.
-                            hasFileChanged = true;
-
-                            //We determined earlier that the PageFile does exist, so keep track of the file revision.
-                            currentFileRevision = pageFileInfo.Revision;
-                        }
+                        //We determined earlier that the PageFile does exist, so keep track of the file revision.
+                        currentFileRevision = pageFileInfo.Revision;
                     }
 
                     if (hasFileChanged)
@@ -224,6 +221,7 @@ namespace TightWiki.Repository
                             FileRevision = currentFileRevision,
                             DataHash = newDataHash,
                         };
+
                         //Insert the actual file data.
                         o.Execute("InsertPageFileRevision.sql", insertPageFileRevisionParam);
 
@@ -233,8 +231,9 @@ namespace TightWiki.Repository
                             PageFileId = pageFileInfo.PageFileId,
                             PageRevision = currentPageRevision,
                             FileRevision = currentFileRevision,
+                            PreviousFileRevision = currentlyAttachedFile?.Revision //This is so we can disassociate the previous file revision.
                         };
-                        //TODO: We need to be able to reassociate a file if its been deleted.
+
                         //Associate the latest version of the file with the latest version of the page.
                         o.Execute("AssociatePageFileAttachmentWithPageRevision.sql", associatePageFileAttachmentWithPageRevisionParam);
                     }
