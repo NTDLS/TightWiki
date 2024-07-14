@@ -3,7 +3,6 @@ SELECT
 	P.[Name],
 	PR.[Description],
 	PR.Body,
-	PR.Revision,
 	P.Revision as LatestRevision,
 	P.Navigation,
 	P.CreatedByUserId,
@@ -18,6 +17,7 @@ FROM
 	[Page] as P
 INNER JOIN [PageRevision] as PR
 	ON PR.PageId = P.Id
+	AND PR.Revision = P.Revision
 INNER JOIN DeletionMeta as DM
 	ON DM.PageId = P.Id
 INNER JOIN users_db.Profile as ModifiedUser

@@ -826,7 +826,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static Page? GetPageById(int pageId)
+        public static Page? GetLatestPageRevisionById(int pageId)
         {
             var param = new
             {
@@ -836,7 +836,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.QuerySingleOrDefault<Page>("GetPageById.sql", param);
+                return o.QuerySingleOrDefault<Page>("GetLatestPageRevisionById.sql", param);
             });
         }
 

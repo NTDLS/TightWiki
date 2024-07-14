@@ -60,9 +60,9 @@
     <None Remove="Repository\Scripts\GetExceptionCount.sql" />
     <None Remove="Repository\Scripts\GetFlatConfiguration.sql" />
     <None Remove="Repository\Scripts\GetFuzzyPageSearchTokens.sql" />
+    <None Remove="Repository\Scripts\GetLatestPageRevisionById.sql" />
     <None Remove="Repository\Scripts\GetMenuItemById.sql" />
     <None Remove="Repository\Scripts\GetMissingPagesPaged.sql" />
-    <None Remove="Repository\Scripts\GetPageById.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
     <None Remove="Repository\Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
@@ -151,7 +151,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetAllThemes.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageById.sql" />
-    <EmbeddedResource Include="Repository\Scripts\GetPageById.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetLatestPageRevisionById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetCompilationStatisticsPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertCompilationStatistics.sql" />

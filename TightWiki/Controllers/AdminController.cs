@@ -288,7 +288,7 @@ namespace TightWiki.Site.Controllers
             {
                 var pageId = int.Parse(model.Parameter.EnsureNotNull());
                 PageRepository.RestoreDeletedPageByPageId(pageId);
-                var page = PageRepository.GetPageById(pageId);
+                var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
                     PageController.RefreshPageMetadata(this, page);
