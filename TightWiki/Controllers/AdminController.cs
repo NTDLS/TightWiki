@@ -396,8 +396,8 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost("Utilities")]
-        public ActionResult Utilities(UtilitiesViewModel model)
+        [HttpPost("Utilities/{utility}")]
+        public ActionResult Utilities(UtilitiesViewModel model, string utility)
         {
             WikiContext.RequireAdminPermission();
 
@@ -406,7 +406,7 @@ namespace TightWiki.Site.Controllers
                 return View(model);
             }
 
-            switch (model.Parameter?.ToLower())
+            switch (utility.ToLower())
             {
                 case "purgecompilationstatistics":
                     {
