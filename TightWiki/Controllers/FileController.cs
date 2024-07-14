@@ -19,9 +19,6 @@ namespace TightWiki.Controllers
         {
         }
 
-
-
-
         /// <summary>
         /// Gets an image attached to a page.
         /// </summary>
@@ -205,7 +202,8 @@ namespace TightWiki.Controllers
         }
 
         /// <summary>
-        /// Gets a file from the database and returns it to the client.
+        /// Gets a file from the database and returns it to the client. This works even
+        /// when the file or file revision is not even attached to the page anymore.
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION),</param>

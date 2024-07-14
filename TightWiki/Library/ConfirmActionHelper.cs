@@ -15,7 +15,7 @@ namespace TightWiki.Library
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO.</param>
         /// <returns></returns>
         public static string GenerateDangerButton(string message, string buttonLabel, string controllerURL,
-            string parameter, string yesRedirectURL, string? noRedirectURL)
+            string parameter, string? yesRedirectURL, string? noRedirectURL)
         {
             yesRedirectURL.EnsureNotNull();
 

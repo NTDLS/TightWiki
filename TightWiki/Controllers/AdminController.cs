@@ -301,6 +301,55 @@ namespace TightWiki.Site.Controllers
 
         #endregion
 
+        #region Files.
+
+        [Authorize]
+        [HttpGet("OrphanedPageAttachments")]
+        public ActionResult OrphanedPageAttachments()
+        {
+            WikiContext.RequireModeratePermission();
+            WikiContext.Title = $"Orphaned Page Attachments";
+
+            var searchString = GetQueryString("SearchString");
+
+            var model = new OrphanedPageAttachmentsViewModel()
+            {
+                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(GetQueryString("page", 1), null),
+            };
+
+            model.PaginationPageCount = (model.Files.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+            /* Localization:
+            if (model.Files != null && model.Files.Count > 0)
+            {
+                model.Files.ForEach(o =>
+                {
+                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                });
+            }
+            */
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost("PurgeOrphanedAttachments")]
+        public ActionResult PurgeOrphanedAttachments(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                PageFileRepository.PurgeOrphanedPageAttachments();
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        #endregion
+
         #region Utilities.
 
         [Authorize]

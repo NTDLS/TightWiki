@@ -63,6 +63,7 @@
     <None Remove="Repository\Scripts\GetLatestPageRevisionById.sql" />
     <None Remove="Repository\Scripts\GetMenuItemById.sql" />
     <None Remove="Repository\Scripts\GetMissingPagesPaged.sql" />
+    <None Remove="Repository\Scripts\GetOrphanedPageAttachments.sql" />
     <None Remove="Repository\Scripts\GetPageCommentsPaged.sql" />
     <None Remove="Repository\Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql" />
@@ -113,6 +114,7 @@
     <None Remove="Repository\Scripts\PurgeCompilationStatistics.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
     <None Remove="Repository\Scripts\PurgeExceptions.sql" />
+    <None Remove="Repository\Scripts\PurgeOrphanedPageAttachments.sql" />
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
     <None Remove="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
     <None Remove="Repository\Scripts\SaveConfigurationEntryValueByGroupAndEntry.sql" />
@@ -147,6 +149,8 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeOrphanedPageAttachments.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetOrphanedPageAttachments.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespacePagesPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllThemes.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />

@@ -18,6 +18,21 @@ namespace TightWiki.Repository
             ManagedDataStorage.Pages.Execute("DetachPageRevisionAttachment.sql", param);
         }
 
+        public static List<OrphanedPageAttachment> GetOrphanedPageAttachmentsPaged(int pageNumber, int? pageSize = null)
+        {
+            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+            return ManagedDataStorage.Pages.Query<OrphanedPageAttachment>("GetOrphanedPageAttachments.sql", param).ToList();
+        }
+
+        public static void PurgeOrphanedPageAttachments()
+            => ManagedDataStorage.Pages.Execute("PurgeOrphanedPageAttachments.sql");
+
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
