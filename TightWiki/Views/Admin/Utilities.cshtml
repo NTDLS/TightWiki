@@ -29,7 +29,7 @@
                                 <td>Rebuild all pages</td>
                                 <td>
                                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will rebuild all pages in the wiki. This could take some time! Continue?",
-                                             "Execute", "/Admin/Utilities", "RebuildAllPages", "/Admin/Utilities", "/Admin/Utilities"))
+                                             "/Admin/Utilities", "RebuildAllPages", "/Admin/Utilities", null, "Execute"))
                                 </td>
                             </tr>
                             @if (TightWiki.GlobalSettings.IsDebug == true)
@@ -38,7 +38,7 @@
                                     <td>Create Self-Documentation</td>
                                     <td>
                                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will build a wiki page for each built-in wiki function. Existing pages will not be overwritten. Continue?",
-                                                 "Execute", "/Admin/Utilities", "CreateSelfDocumentation", "/Admin/Utilities", "/Admin/Utilities"))
+                                                 "/Admin/Utilities", "CreateSelfDocumentation", "/Admin/Utilities", null, "Execute"))
                                     </td>
                                 </tr>
                             }
@@ -46,21 +46,21 @@
                                 <td>Truncate page revisions</td>
                                 <td>
                                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("Truncating page revisions will delete all revision history for all pages and files. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
-                                             "Execute", "/Admin/Utilities", "TruncatePageRevisions", "/Admin/Utilities", "/Admin/Utilities"))
+                                             "/Admin/Utilities", "TruncatePageRevisions", "/Admin/Utilities", null, "Execute"))
                                 </td>
                             </tr>
                             <tr>
                                 <td>Flush memory cache</td>
                                 <td>
                                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeButton("Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?",
-                                             "Execute", "/Admin/Utilities", "FlushMemoryCache", "/Admin/Utilities", "/Admin/Utilities"))
+                                             "/Admin/Utilities", "FlushMemoryCache", "/Admin/Utilities", null, "Execute"))
                                 </td>
                             </tr>
                             <tr>
                                 <td>Clear compilation statistics</td>
                                 <td>
                                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeButton("Clearing the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?",
-                                             "Execute", "/Admin/Utilities", "PurgeCompilationStatistics", "/Admin/Utilities", "/Admin/Utilities"))
+                                             "/Admin/Utilities", "PurgeCompilationStatistics", "/Admin/Utilities", null, "Execute"))
                                 </td>
                             </tr>
                         </table>

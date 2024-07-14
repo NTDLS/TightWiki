@@ -25,7 +25,7 @@
                         }
 
                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will permanently purge all exceptions. Continue?",
-                                 "Purge Exceptions", "/Admin/PurgeExceptions", "", Context.Request.Path.Value, Context.Request.Path.Value))
+                                 "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
                         <br />
 
                         @using (Html.BeginForm(FormMethod.Get))

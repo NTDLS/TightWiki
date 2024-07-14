@@ -17,12 +17,12 @@ namespace TightWiki.Site.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("NotifyAction")]
-        public ActionResult NotifyAction()
+        [HttpGet("NotifyWithRedirectCountdown")]
+        public ActionResult NotifyWithRedirectCountdown()
         {
             WikiContext.RequireViewPermission();
 
-            var model = new NotifyActionViewModel()
+            var model = new NotifyWithRedirectCountdownViewModel()
             {
                 SuccessMessage = GetQueryString("SuccessMessage", string.Empty),
                 ErrorMessage = GetQueryString("ErrorMessage", string.Empty),
@@ -52,13 +52,6 @@ namespace TightWiki.Site.Controllers
         [HttpPost("ConfirmAction")]
         public ActionResult ConfirmAction(ConfirmActionViewModel model)
         {
-            model.ControllerURL = GetFormString("controllerURL").EnsureNotNull();
-            model.YesRedirectURL = GetFormString("yesRedirectURL").EnsureNotNull();
-            model.NoRedirectURL = GetFormString("noRedirectURL").EnsureNotNull();
-            model.Message = GetFormString("message").EnsureNotNull();
-            model.Style = GetFormString("Style").EnsureNotNull();
-            model.Parameter = GetFormString("Parameter");
-
             return View(model);
         }
 

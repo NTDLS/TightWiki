@@ -142,6 +142,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\base.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Repository\Scripts\AnonymizeProfile.sql" />
     <EmbeddedResource Include="Repository\Scripts\AssociatePageFileAttachmentWithPageRevision.sql" />
     <EmbeddedResource Include="Repository\Scripts\CreatePage.sql" />

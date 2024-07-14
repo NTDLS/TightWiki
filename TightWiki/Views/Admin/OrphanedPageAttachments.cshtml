@@ -25,7 +25,7 @@
                         }
 
                          @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all orphaned page attachments. Continue?",
-                                 "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", "", Context.Request.Path.Value, Context.Request.Path.Value))
+                                 "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
                         <br />
 
                         @using (Html.BeginForm(FormMethod.Get))
@@ -53,7 +53,7 @@
                                         <td>@p.FileRevision</td>
                                         <td>
                                             @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified attachment. Continue?",
-                                                     "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId, "", Context.Request.Path.Value, Context.Request.Path.Value))
+                                                     "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId, Context.Request.Path.Value))
                                         </td>
                                     </tr>
                                 }
@@ -67,9 +67,3 @@
         </table>
     </div>
 </div>
-
-<script>
-    window.onload = function () {
-        document.getElementById("SearchTokens").focus();
-    }
-</script>

@@ -11,7 +11,7 @@
             You are viewing a page which was deleted on @Model.DeletedDate by @Model.DeletedByUserName.<br />
 
             @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeButton("This will restore the deleted page and all of its history. Continue?",
-                     "Restore This Page", "/Admin/RestoreDeletedPage", Model.PageId.ToString(), "/Admin/DeletedPages", Context.Request.Path.Value))
+                     "Restore This Page", "/Admin/RestoreDeletedPage", "/Admin/DeletedPages", Context.Request.Path.Value, Model.PageId.ToString()))
             <br />
         </p>
     </div>

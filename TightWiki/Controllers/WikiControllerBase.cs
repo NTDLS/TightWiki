@@ -51,13 +51,13 @@ namespace TightWiki.Controllers
             => int.Parse(GetFormString(key, defaultValue.ToString()));
 
         protected RedirectResult NotifyOfAction(string successMessage, string errorMessage, string redirectUrl)
-            => Redirect($"/Utility/NotifyAction?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={redirectUrl}");
+            => Redirect($"/Utility/NotifyWithRedirectCountdown?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={redirectUrl}");
 
         protected RedirectResult NotifyOfSuccessAction(string message, string redirectUrl)
-            => Redirect($"/Utility/NotifyAction?SuccessMessage={message}&RedirectUrl={redirectUrl}");
+            => Redirect($"/Utility/NotifyWithRedirectCountdown?SuccessMessage={message}&RedirectUrl={redirectUrl}");
 
         protected RedirectResult NotifyOfErrorAction(string message, string redirectUrl)
-            => Redirect($"/Utility/NotifyAction?ErrorMessage={message}&RedirectUrl={redirectUrl}");
+            => Redirect($"/Utility/NotifyWithRedirectCountdown?ErrorMessage={message}&RedirectUrl={redirectUrl}");
 
         protected RedirectResult Notify(string successMessage, string errorMessage)
             => Redirect($"/Utility/Notify?SuccessMessage={successMessage}&ErrorMessage={errorMessage}");

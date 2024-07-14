@@ -1,6 +1,6 @@
 ﻿namespace TightWiki.Models.ViewModels.Utility
 {
-    public class NotifyActionViewModel : ViewModelBase
+    public class NotifyWithRedirectCountdownViewModel : ViewModelBase
     {
         public string RedirectURL { get; set; } = string.Empty;
     }
