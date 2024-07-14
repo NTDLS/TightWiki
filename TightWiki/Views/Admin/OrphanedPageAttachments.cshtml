@@ -1,14 +1,14 @@
-﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.OrphanedPageAttachmentsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card">
-    <div class="card-header"><h3>Deleted Pages</h3></div>
+    <div class="card-header"><h3>Orphaned Page Attachments</h3></div>
     <div class="card-body">
         <font size="4" face="ARIAL,HELVETICA">
-            Pages that have been deleted. Can be purged or restored.<br /><br />
+            These are all of the page attachments that are no longer attached to any page revision.<br /><br />
         </font>
 
         <table class="fixedTable100" border="0" cellpadding="0">
@@ -24,33 +24,32 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all deleted pages. Continue?",
-                                 "Purge Deleted Pages", "/Admin/PurgeDeletedPages", "", Context.Request.Path.Value, Context.Request.Path.Value))
+                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all orphaned page attachments. Continue?",
+                                 "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", "", Context.Request.Path.Value, Context.Request.Path.Value))
                         <br />
 
                         @using (Html.BeginForm(FormMethod.Get))
                         {
-                            <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
-                                <tr>
-                                    <td width="80%">
-                                        @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
-                                    </td>
-                                    <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
-                                </tr>
-                            </table>
-                            <br />
-
                             <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                                @foreach (var p in Model.Pages)
+                                <tr>
+                                    <td><strong>Page</strong></td>
+                                    <td><strong>File Name</strong></td>
+                                    <td><strong>Size</strong></td>
+                                    <td><strong>File Revision</strong></td>
+                                </tr>
+
+                                @foreach (var p in Model.Files)
                                 {
                                     <tr>
-                                        <td><a href="/Admin/DeletedPage/@p.Id">View</a></td>
                                         <td>
-                                            @if ((p.Namespace ?? "") != "")
+                                            @if (string.IsNullOrEmpty(@p.Namespace) == false)
                                             {
-                                                <font class="text-muted">@p.Namespace ::</font>
-                                            }@p.Title@(String.IsNullOrEmpty(@p.Description) ? "" : " : ")  @p.Description
+                                                <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                                            } <a href="/@p.PageNavigation">@p.PageTitle</a>
                                         </td>
+                                        <td><a href="/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
+                                        <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
+                                        <td>@p.FileRevision</td>
                                     </tr>
                                 }
                             </table>
