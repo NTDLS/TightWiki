@@ -49,6 +49,21 @@ namespace TightWiki.Site.Controllers
             return View(model);
         }
 
+        [Authorize]
+        [HttpPost("PurgeCompilationStatistics")]
+        public ActionResult PurgeCompilationStatistics(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                StatisticsRepository.PurgeCompilationStatistics();
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
         #endregion
 
         #region Compilation Statistics.
@@ -408,11 +423,6 @@ namespace TightWiki.Site.Controllers
 
             switch (utility.ToLower())
             {
-                case "purgecompilationstatistics":
-                    {
-                        StatisticsRepository.PurgeCompilationStatistics();
-                    }
-                    break;
                 case "rebuildallpages":
                     {
                         foreach (var page in PageRepository.GetAllPages())
