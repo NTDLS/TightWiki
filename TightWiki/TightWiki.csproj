@@ -112,6 +112,7 @@
     <None Remove="Repository\Scripts\PageSearch.sql" />
     <None Remove="Repository\Scripts\PageSearchPaged.sql" />
     <None Remove="Repository\Scripts\PurgeCompilationStatistics.sql" />
+    <None Remove="Repository\Scripts\PurgeDeletedPageByPageId.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
     <None Remove="Repository\Scripts\PurgeExceptions.sql" />
     <None Remove="Repository\Scripts\PurgeOrphanedPageAttachment.sql" />
@@ -166,6 +167,7 @@
     <EmbeddedResource Include="Repository\Scripts\GetPageCurrentRevisionAttachmentByFileNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\InsertCompilationStatistics.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeCompilationStatistics.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeDeletedPageByPageId.sql" />
     <EmbeddedResource Include="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeDeletedPages.sql" />
     <EmbeddedResource Include="Repository\Scripts\MovePageToDeletedById.sql" />

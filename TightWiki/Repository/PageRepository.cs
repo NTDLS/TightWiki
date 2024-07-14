@@ -797,6 +797,16 @@ namespace TightWiki.Repository
             });
         }
 
+        public static void PurgeDeletedPageByPageId(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId
+            };
+
+            ManagedDataStorage.DeletedPages.Execute("PurgeDeletedPageByPageId.sql", param);
+        }
+
         public static void PurgeDeletedPages()
         {
             ManagedDataStorage.DeletedPages.Execute("PurgeDeletedPages.sql");

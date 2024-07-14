@@ -279,14 +279,28 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost("RestoreDeletedPage")]
-        public ActionResult RestoreDeletedPage(ConfirmActionViewModel model)
+        [HttpPost("PurgeDeletedPage/{pageId:int}")]
+        public ActionResult PurgeDeletedPage(ConfirmActionViewModel model, int pageId)
         {
             WikiContext.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
-                var pageId = int.Parse(model.Parameter.EnsureNotNull());
+                PageRepository.PurgeDeletedPageByPageId(pageId);
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("RestoreDeletedPage/{pageId:int}")]
+        public ActionResult RestoreDeletedPage(ConfirmActionViewModel model, int pageId)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
                 PageRepository.RestoreDeletedPageByPageId(pageId);
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)

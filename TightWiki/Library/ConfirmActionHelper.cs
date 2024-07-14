@@ -59,7 +59,7 @@ namespace TightWiki.Library
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
-            param.Append($"&Style=Danger");
+            param.Append($"&Style=Safe");
             if (string.IsNullOrEmpty(parameter) == false)
             {
                 param.Append($"&Parameter={Uri.EscapeDataString(parameter)}");
@@ -91,7 +91,7 @@ namespace TightWiki.Library
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
-            param.Append($"&Style=Danger");
+            param.Append($"&Style=Warn");
             if (string.IsNullOrEmpty(parameter) == false)
             {
                 param.Append($"&Parameter={Uri.EscapeDataString(parameter)}");
