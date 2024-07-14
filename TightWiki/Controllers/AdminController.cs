@@ -307,7 +307,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("OrphanedPageAttachments")]
         public ActionResult OrphanedPageAttachments()
         {
-            WikiContext.RequireModeratePermission();
+            WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Orphaned Page Attachments";
 
             var searchString = GetQueryString("SearchString");
@@ -342,6 +342,22 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachments();
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+
+        [Authorize]
+        [HttpPost("PurgeOrphanedAttachment/{pageFileId:int}")]
+        public ActionResult PurgeOrphanedAttachment(ConfirmActionViewModel model, int pageFileId)
+        {
+            WikiContext.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                PageFileRepository.PurgeOrphanedPageAttachment(pageFileId);
                 return Redirect(model.YesRedirectURL);
             }
 

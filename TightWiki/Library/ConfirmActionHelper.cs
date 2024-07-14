@@ -5,6 +5,37 @@ namespace TightWiki.Library
     public static class ConfirmActionHelper
     {
         /// <summary>
+        /// Generates a link that redirects to a "confirm action" page where the yes link is RED.
+        /// </summary>
+        /// <param name="message">The message to be displayed.</param>
+        /// <param name="linkLabel">the label for the link that will redirect to this confirm action page.</param>
+        /// <param name="controllerURL">The URL which will handle the click of the "yes" or "no" for the confirm action page.</param>
+        /// <param name="parameter">An optional parameter to pass to the page and controller function.</param>
+        /// <param name="yesRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected YES.</param>
+        /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO.</param>
+        /// <returns></returns>
+        public static string GenerateDangerLink(string message, string linkLabel, string controllerURL,
+            string parameter, string? yesRedirectURL, string? noRedirectURL)
+        {
+            yesRedirectURL.EnsureNotNull();
+
+            noRedirectURL.EnsureNotNull();
+
+            var param = new StringBuilder();
+            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesRedirectURL)}");
+            param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
+            param.Append($"&Message={Uri.EscapeDataString(message)}");
+            param.Append($"&Style=Danger");
+            if (string.IsNullOrEmpty(parameter) == false)
+            {
+                param.Append($"&Parameter={Uri.EscapeDataString(parameter)}");
+            }
+
+            return $"<a href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+        }
+
+        /// <summary>
         /// Generates a button that redirects to a "confirm action" page where the yes button is RED.
         /// </summary>
         /// <param name="message">The message to be displayed.</param>
@@ -103,6 +134,5 @@ namespace TightWiki.Library
 
             return html.ToString();
         }
-
     }
 }

@@ -52,6 +52,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("ConfirmAction")]
         public ActionResult ConfirmAction(ConfirmActionViewModel model)
         {
+            model.ControllerURL = GetFormString("controllerURL").EnsureNotNull();
             model.YesRedirectURL = GetFormString("yesRedirectURL").EnsureNotNull();
             model.NoRedirectURL = GetFormString("noRedirectURL").EnsureNotNull();
             model.Message = GetFormString("message").EnsureNotNull();
@@ -67,6 +68,7 @@ namespace TightWiki.Site.Controllers
         {
             var model = new ConfirmActionViewModel
             {
+                ControllerURL = GetQueryString("controllerURL").EnsureNotNull(),
                 YesRedirectURL = GetQueryString("yesRedirectURL").EnsureNotNull(),
                 NoRedirectURL = GetQueryString("noRedirectURL").EnsureNotNull(),
                 Message = GetQueryString("message").EnsureNotNull(),

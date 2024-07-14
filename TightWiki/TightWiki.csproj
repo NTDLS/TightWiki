@@ -114,6 +114,7 @@
     <None Remove="Repository\Scripts\PurgeCompilationStatistics.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
     <None Remove="Repository\Scripts\PurgeExceptions.sql" />
+    <None Remove="Repository\Scripts\PurgeOrphanedPageAttachment.sql" />
     <None Remove="Repository\Scripts\PurgeOrphanedPageAttachments.sql" />
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
     <None Remove="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
@@ -149,6 +150,7 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeOrphanedPageAttachment.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeOrphanedPageAttachments.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetOrphanedPageAttachments.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllNamespacePagesPaged.sql" />

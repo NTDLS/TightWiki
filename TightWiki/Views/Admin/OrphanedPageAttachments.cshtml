@@ -36,6 +36,7 @@
                                     <td><strong>File Name</strong></td>
                                     <td><strong>Size</strong></td>
                                     <td><strong>File Revision</strong></td>
+                                    <td><strong>Action</strong></td>
                                 </tr>
 
                                 @foreach (var p in Model.Files)
@@ -50,6 +51,10 @@
                                         <td><a href="/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
                                         <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
                                         <td>@p.FileRevision</td>
+                                        <td>
+                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified attachment. Continue?",
+                                                     "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId, "", Context.Request.Path.Value, Context.Request.Path.Value))
+                                        </td>
                                     </tr>
                                 }
                             </table>
