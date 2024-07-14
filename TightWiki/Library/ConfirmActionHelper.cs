@@ -88,6 +88,7 @@ namespace TightWiki.Library
             return $"<a class=\"btn btn-warning btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
+        /*
         /// <summary>
         /// Generates a link that navigates via POST to a "confirm action" page where the yes button is RED, but the NO button is still GREEN.
         /// </summary>
@@ -180,5 +181,6 @@ namespace TightWiki.Library
 
             return html.ToString();
         }
+        */
     }
 }

@@ -24,7 +24,7 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all deleted pages. Continue?",
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all deleted pages. Continue?",
                                  "Purge Deleted Pages", "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
                         <br />
 

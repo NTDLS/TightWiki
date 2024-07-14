@@ -24,7 +24,7 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerButton("This will permanently purge all orphaned page attachments. Continue?",
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all orphaned page attachments. Continue?",
                                  "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
                         <br />
 

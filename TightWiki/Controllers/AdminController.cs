@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Controllers;
@@ -58,6 +59,21 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 StatisticsRepository.PurgeCompilationStatistics();
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("PurgeMemoryCache")]
+        public ActionResult PurgeMemoryCache(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                WikiCache.Clear();
                 return Redirect(model.YesRedirectURL);
             }
 
@@ -279,6 +295,40 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
+        [HttpPost("RebuildAllPages")]
+        public ActionResult RebuildAllPages(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                foreach (var page in PageRepository.GetAllPages())
+                {
+                    PageController.RefreshPageMetadata(this, page);
+                }
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("TruncatingPageRevisions")]
+        public ActionResult TruncatingPageRevisions(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                PageRepository.TruncateAllPageRevisions("YES");
+                WikiCache.Clear();
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
         [HttpPost("PurgeDeletedPages")]
         public ActionResult PurgeDeletedPages(ConfirmActionViewModel model)
         {
@@ -302,6 +352,21 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageByPageId(pageId);
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("DeletePage/{pageId:int}")]
+        public ActionResult DeletePage(ConfirmActionViewModel model, int pageId)
+        {
+            WikiContext.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                PageRepository.MovePageToDeletedById(pageId, WikiContext.Profile.EnsureNotNull().UserId);
                 return Redirect(model.YesRedirectURL);
             }
 
@@ -391,65 +456,6 @@ namespace TightWiki.Site.Controllers
             }
 
             return Redirect(model.NoRedirectURL);
-        }
-
-        #endregion
-
-        #region Utilities.
-
-        [Authorize]
-        [HttpGet("Utilities")]
-        public ActionResult Utilities()
-        {
-            WikiContext.RequireAdminPermission();
-
-            var model = new UtilitiesViewModel()
-            {
-            };
-
-            return View(model);
-        }
-
-        [Authorize]
-        [HttpPost("Utilities/{utility}")]
-        public ActionResult Utilities(UtilitiesViewModel model, string utility)
-        {
-            WikiContext.RequireAdminPermission();
-
-            if (model.UserSelection == false)
-            {
-                return View(model);
-            }
-
-            switch (utility.ToLower())
-            {
-                case "rebuildallpages":
-                    {
-                        foreach (var page in PageRepository.GetAllPages())
-                        {
-                            PageController.RefreshPageMetadata(this, page);
-                        }
-                    }
-                    break;
-                case "truncatepagerevisions":
-                    {
-                        PageRepository.TruncateAllPageRevisions("YES");
-                        WikiCache.Clear();
-                    }
-                    break;
-                case "flushmemorycache":
-                    {
-                        WikiCache.Clear();
-                    }
-                    break;
-                case "createselfdocumentation":
-                    {
-                        SelfDocument.CreateNotExisting();
-                    }
-                    break;
-            }
-
-            return View(model);
         }
 
         #endregion

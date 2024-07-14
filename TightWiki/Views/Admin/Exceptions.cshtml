@@ -24,7 +24,7 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton("This will permanently purge all exceptions. Continue?",
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will permanently purge all exceptions. Continue?",
                                  "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
                         <br />
 

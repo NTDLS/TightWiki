@@ -78,7 +78,6 @@ namespace TightWiki.Library
             return true;
         }
 
-
         /// <summary>
         /// Adds an item to the cache. If the item is already in the cache, this will reset its expiration.
         /// </summary>

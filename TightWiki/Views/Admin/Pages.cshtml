@@ -24,6 +24,13 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
+                                 "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
+
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Truncating page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
+                                 "Truncating Page Revisions", "/Admin/TruncatingPageRevisions", Context.Request.Path.Value))
+                        <br />
+
                         @using (Html.BeginForm(FormMethod.Get))
                         {
                             <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
@@ -42,6 +49,7 @@
                                         <td><strong>Revision</strong></td>
                                         <td><strong>Modified By</strong></td>
                                         <td><strong>Modified Date</strong></td>
+                                        <td><strong>Action</strong></td>
                                     </tr>
                                 </thead>
 
@@ -57,6 +65,11 @@
                                         <td><a href="/@p.Navigation/Revisions">@p.Revision</a></td>
                                         <td>@p.ModifiedByUserName</td>
                                         <td>@p.ModifiedDate</td>
+
+                                        <td>
+                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Deleting this page will move the page, all revisions and attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                                     "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
+                                        </td>
                                     </tr>
                                 }
                             </table>
