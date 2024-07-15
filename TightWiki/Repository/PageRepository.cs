@@ -485,6 +485,7 @@ namespace TightWiki.Repository
                 return ManagedDataStorage.Pages.Ephemeral(o =>
                 {
                     using var users_db = o.Attach("users.db", "users_db");
+                    using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
                     return o.Query<Page>("GetAllPagesByPageIdPaged.sql", param).ToList();
                 });
@@ -493,6 +494,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
+                using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
                 return o.Query<Page>("GetAllPagesPaged.sql", param).ToList();
             });
         }
@@ -745,7 +747,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
         }
 
-        public static int GetPageRevisionCountByNavigation(int pageId)
+        public static int GetPageRevisionCountByPageId(int pageId)
         {
             var param = new
             {
@@ -843,11 +845,15 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.DeletedPages.Execute("PurgeDeletedPageByPageId.sql", param);
+
+            PurgeDeletedPageRevisionsByPageId(pageId);
         }
 
         public static void PurgeDeletedPages()
         {
             ManagedDataStorage.DeletedPages.Execute("PurgeDeletedPages.sql");
+
+            PurgeDeletedPageRevisions();
         }
 
         public static int GetCountOfPageAttachmentsById(int pageId)
@@ -888,6 +894,17 @@ namespace TightWiki.Repository
             });
         }
 
+        public static int GetPageNextRevision(int pageId, int revision)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Revision = revision
+            };
+
+            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageNextRevision.sql", param);
+        }
+
         public static int GetPagePreviousRevision(int pageId, int revision)
         {
             var param = new
@@ -897,6 +914,76 @@ namespace TightWiki.Repository
             };
 
             return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPagePreviousRevision.sql", param);
+        }
+
+        public static List<DeletedPageRevision> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber, int? pageSize = null)
+        {
+            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            var param = new
+            {
+                PageId = pageId,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            return ManagedDataStorage.DeletedPageRevisions.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<DeletedPageRevision>("GetDeletedPageRevisionsByIdPaged.sql", param).ToList();
+            });
+        }
+
+        public static void PurgeDeletedPageRevisions()
+        {
+            ManagedDataStorage.DeletedPageRevisions.Execute("PurgeDeletedPageRevisions.sql");
+        }
+
+        public static void PurgeDeletedPageRevisionsByPageId(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId
+            };
+
+            ManagedDataStorage.DeletedPageRevisions.Execute("PurgeDeletedPageRevisionsByPageId.sql", param);
+        }
+
+        public static void PurgeDeletedPageRevisionByPageIdAndRevision(int pageId, int revision)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Revision = revision
+            };
+
+            ManagedDataStorage.DeletedPageRevisions.Execute("PurgeDeletedPageRevisionByPageIdAndRevision.sql", param);
+        }
+
+        public static void RestoreDeletedPageRevisionByPageIdAndRevision(int pageId, int revision)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Revision = revision
+            };
+
+            ManagedDataStorage.DeletedPageRevisions.Execute("RestoreDeletedPageRevisionByPageIdAndRevision.sql", param);
+        }
+
+        public static DeletedPageRevision? GetDeletedPageRevisionById(int pageId, int revision)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Revision = revision
+            };
+
+            return ManagedDataStorage.DeletedPageRevisions.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("users.db", "users_db");
+                return o.Query<DeletedPageRevision>("GetDeletedPageRevisionById.sql", param).FirstOrDefault();
+            });
         }
 
         public static Page? GetPageRevisionByNavigation(NamespaceNavigation navigation, int? revision = null)

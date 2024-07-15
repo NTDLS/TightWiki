@@ -10,6 +10,7 @@ SELECT
 	P.ModifiedDate,
 	Createduser.AccountName as CreatedByUserName,
 	ModifiedUser.AccountName as ModifiedByUserName,
+	(SELECT COUNT(0) FROM deletedpagerevisions_db.[PageRevision] WHERE PageId = P.Id) as DeletedRevisionCount,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT

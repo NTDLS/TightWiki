@@ -51,6 +51,8 @@
     <None Remove="Repository\Scripts\GetCurrentPageRevision.sql" />
     <None Remove="Repository\Scripts\GetDeletedPageById.sql" />
     <None Remove="Repository\Scripts\GetDeletedPageIdsByTokens.sql" />
+    <None Remove="Repository\Scripts\GetDeletedPageRevisionById.sql" />
+    <None Remove="Repository\Scripts\GetDeletedPageRevisionsByIdPaged.sql" />
     <None Remove="Repository\Scripts\GetEmojiByName.sql" />
     <None Remove="Repository\Scripts\GetEmojiCategoriesByName.sql" />
     <None Remove="Repository\Scripts\GetEmojiCategoriesGrouped.sql" />
@@ -80,6 +82,7 @@
     <None Remove="Repository\Scripts\GetPageInfoByNamespaces.sql" />
     <None Remove="Repository\Scripts\GetPageInfoByNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageInfoByTags.sql" />
+    <None Remove="Repository\Scripts\GetPageNextRevision.sql" />
     <None Remove="Repository\Scripts\GetPagePreviousRevision.sql" />
     <None Remove="Repository\Scripts\GetPageProcessingInstructionsByPageId.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionById.sql" />
@@ -116,12 +119,16 @@
     <None Remove="Repository\Scripts\PageSearchPaged.sql" />
     <None Remove="Repository\Scripts\PurgeCompilationStatistics.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPageByPageId.sql" />
+    <None Remove="Repository\Scripts\PurgeDeletedPageRevisionByPageIdAndRevision.sql" />
+    <None Remove="Repository\Scripts\PurgeDeletedPageRevisions.sql" />
+    <None Remove="Repository\Scripts\PurgeDeletedPageRevisionsByPageId.sql" />
     <None Remove="Repository\Scripts\PurgeDeletedPages.sql" />
     <None Remove="Repository\Scripts\PurgeExceptions.sql" />
     <None Remove="Repository\Scripts\PurgeOrphanedPageAttachment.sql" />
     <None Remove="Repository\Scripts\PurgeOrphanedPageAttachments.sql" />
     <None Remove="Repository\Scripts\ReassociateAllPageAttachments.sql" />
     <None Remove="Repository\Scripts\RestoreDeletedPageByPageId.sql" />
+    <None Remove="Repository\Scripts\RestoreDeletedPageRevisionByPageIdAndRevision.sql" />
     <None Remove="Repository\Scripts\SaveConfigurationEntryValueByGroupAndEntry.sql" />
     <None Remove="Repository\Scripts\SavePageSearchTokens.sql" />
     <None Remove="Repository\Scripts\SearchEmojiCategoryIds.sql" />
@@ -150,6 +157,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Repository\Scripts\GetPageNextRevision.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeDeletedPageRevisions.sql" />
+    <EmbeddedResource Include="Repository\Scripts\RestoreDeletedPageRevisionByPageIdAndRevision.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeDeletedPageRevisionByPageIdAndRevision.sql" />
+    <EmbeddedResource Include="Repository\Scripts\PurgeDeletedPageRevisionsByPageId.sql" />
     <EmbeddedResource Include="Repository\Scripts\AnonymizeProfile.sql" />
     <EmbeddedResource Include="Repository\Scripts\AssociatePageFileAttachmentWithPageRevision.sql" />
     <EmbeddedResource Include="Repository\Scripts\CreatePage.sql" />
@@ -158,6 +170,8 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetDeletedPageRevisionById.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetDeletedPageRevisionsByIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPagePreviousRevision.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageRevisionCountByNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\MovePageRevisionToDeletedById.sql" />

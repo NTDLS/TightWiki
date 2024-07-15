@@ -45,6 +45,12 @@
                                             <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                             <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
                                             <td>
+                                                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(
+                                                         $"Reverting {h.Name} from revision {h.HighestRevision} to {h.Revision} will rollback {h.HigherRevisionCount} changes.<br />"
+                                                         + "Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />"
+                                                         + "Are you sure you want to continue?<br /><br />",
+                                                         "Revert", $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
+
                                                 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting revision {h.Revision} of \"{h.Name}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
                                                          "Delete", $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
                                             </td>

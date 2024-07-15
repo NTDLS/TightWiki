@@ -3,6 +3,7 @@ SELECT
 	PR.[Name],
 	PR.[Description],
 	PR.Revision,
+	P.Revision as HighestRevision,
 	P.Navigation,
 	P.CreatedByUserId,
 	Createduser.AccountName as CreatedByUserName,
@@ -10,6 +11,7 @@ SELECT
 	PR.ModifiedByUserId,
 	ModifiedUser.AccountName as ModifiedByUserName,
 	PR.ModifiedDate,
+	(SELECT COUNT(0) FROM PageRevision AS iPR WHERE iPR.PageId = P.Id AND iPR.Revision > PR.Revision) as HigherRevisionCount,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT

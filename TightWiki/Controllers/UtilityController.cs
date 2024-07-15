@@ -65,8 +65,7 @@ namespace TightWiki.Site.Controllers
                 YesRedirectURL = GetQueryString("yesRedirectURL").EnsureNotNull(),
                 NoRedirectURL = GetQueryString("noRedirectURL").EnsureNotNull(),
                 Message = GetQueryString("message").EnsureNotNull(),
-                Style = GetQueryString("Style").EnsureNotNull(),
-                Parameter = GetQueryString("Parameter")
+                Style = GetQueryString("Style").EnsureNotNull()
             };
 
             return View(model);

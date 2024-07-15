@@ -477,8 +477,8 @@ namespace TightWiki.Controllers
             var model = new PageRevertViewModel()
             {
                 PageName = revisionPage.Name,
-                CountOfRevisions = mostCurrentPage.Revision - revisionPage.Revision,
-                MostCurrentRevision = mostCurrentPage.Revision,
+                HighestRevision = mostCurrentPage.Revision,
+                HigherRevisionCount = revisionPage.HigherRevisionCount,
             };
 
             if (revisionPage != null)

@@ -21,13 +21,12 @@
                     <div class="card-header"><strong>Are you sure?</strong></div>
                     <div class="card-body">
 
-                        @Model.Message<br /><br />
+                        @Html.Raw(@Model.Message)<br /><br />
 
                         <form action='@Model.ControllerURL' method="post">
                             @Html.HiddenFor(m => m.NoRedirectURL)
                             @Html.HiddenFor(m => m.YesRedirectURL)
                             @Html.HiddenFor(m => m.Message)
-                            @Html.HiddenFor(m => m.Parameter)
                             @Html.HiddenFor(m => m.Style)
 
                             @if (Model.Style == "Safe")

@@ -57,7 +57,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 StatisticsRepository.PurgeCompilationStatistics();
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("Compilation statistics purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -72,7 +72,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 WikiCache.Clear();
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("Memory cache purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -253,6 +253,82 @@ namespace TightWiki.Site.Controllers
         #region Revisions.
 
         [Authorize]
+        [HttpPost("RevertPageRevision/{givenCanonical}/{revision:int}")]
+        public ActionResult Revert(string givenCanonical, int revision, ConfirmActionViewModel model)
+        {
+            WikiContext.RequireModeratePermission();
+
+            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+            if (model.UserSelection == true)
+            {
+                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, revision).EnsureNotNull();
+                SavePage(page);
+                return NotifyOfSuccessAction("The page has been reverted.", model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpGet("DeletedPageRevisions/{pageId:int}")]
+        public ActionResult DeletedPageRevisions(int pageId)
+        {
+            WikiContext.RequireModeratePermission();
+
+            try
+            {
+                var model = new DeletedPagesRevisionsViewModel()
+                {
+                    Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, GetQueryString("page", 1))
+                };
+
+                var page = PageRepository.GetPageInfoById(pageId)
+                    ?? throw new Exception("The specified page could not be found.");
+
+                model.Name = page.Name;
+                model.Namespace = page.Namespace;
+                model.Navigation = page.Navigation;
+                model.PageId = pageId;
+                model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+                model.Revisions.ForEach(o =>
+                {
+                    o.DeletedDate = WikiContext.LocalizeDateTime(o.DeletedDate);
+                });
+
+                return View(model);
+            }
+            catch(Exception ex) 
+            {
+                return NotifyOfError(ex.Message);
+            }
+        }
+
+        [Authorize]
+        [HttpGet("DeletedPageRevision/{pageId:int}/{revision:int}")]
+        public ActionResult DeletedPageRevision(int pageId, int revision)
+        {
+            WikiContext.RequireModeratePermission();
+
+            var model = new DeletedPageRevisionViewModel();
+
+            var page = PageRepository.GetDeletedPageRevisionById(pageId, revision);
+
+            if (page != null)
+            {
+                var wiki = new Wikifier(WikiContext, page, null, Request.Query);
+                model.PageId = pageId;
+                model.Revision = pageId;
+                model.Body = wiki.ProcessedBody;
+                model.DeletedDate = WikiContext.LocalizeDateTime(page.DeletedDate);
+                model.DeletedByUserName = page.DeletedByUserName;
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
         [HttpGet("PageRevisions/{givenCanonical}")]
         public ActionResult PageRevisions(string givenCanonical)
         {
@@ -303,7 +379,7 @@ namespace TightWiki.Site.Controllers
                     var page = PageRepository.GetPageInfoByNavigation(pageNavigation)
                         ?? throw new Exception("The page could not be found.");
 
-                    int revisionCount = PageRepository.GetPageRevisionCountByNavigation(page.Id);
+                    int revisionCount = PageRepository.GetPageRevisionCountByPageId(page.Id);
                     if (revisionCount <= 1)
                     {
                         throw new Exception("You cannot delete the only existing revision of a page, instead you would need to delete the entire page.");
@@ -325,7 +401,8 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError(ex.Message);
                 }
 
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
+
             }
 
             return Redirect(model.NoRedirectURL);
@@ -387,7 +464,7 @@ namespace TightWiki.Site.Controllers
                 {
                     PageController.RefreshPageMetadata(this, page);
                 }
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("All pages have been rebuilt.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -403,7 +480,52 @@ namespace TightWiki.Site.Controllers
             {
                 PageRepository.TruncateAllPageRevisions("YES");
                 WikiCache.Clear();
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("All page revisions have been truncated.", model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("PurgeDeletedPageRevisions/{pageId:int}")]
+        public ActionResult PurgeDeletedPageRevisions(ConfirmActionViewModel model, int pageId)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                PageRepository.PurgeDeletedPageRevisionsByPageId(pageId);
+                return NotifyOfSuccessAction("The page deletion queue has been purged.", model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("PurgeDeletedPageRevision/{pageId:int}/{revision:int}")]
+        public ActionResult PurgeDeletedPageRevision(ConfirmActionViewModel model, int pageId, int revision)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                PageRepository.PurgeDeletedPageRevisionByPageIdAndRevision(pageId, revision);
+                return NotifyOfSuccessAction("The page revision has been purged from the deletion queue.", model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
+        [HttpPost("RestoreDeletedPageRevision/{pageId:int}/{revision:int}")]
+        public ActionResult RestoreDeletedPageRevision(ConfirmActionViewModel model, int pageId, int revision)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                PageRepository.RestoreDeletedPageRevisionByPageIdAndRevision(pageId, revision);
+                return NotifyOfSuccessAction("The page revision has been restored.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -418,7 +540,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPages();
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("The page deletion queue has been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -433,7 +555,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageByPageId(pageId);
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("The page has been purged from the deletion queue.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -448,7 +570,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.MovePageToDeletedById(pageId, WikiContext.Profile.EnsureNotNull().UserId);
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("The page has been moved to the deletion queue.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -468,7 +590,7 @@ namespace TightWiki.Site.Controllers
                 {
                     PageController.RefreshPageMetadata(this, page);
                 }
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("The page has restored.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -517,7 +639,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachments();
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("All orphaned page attachments have been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -533,7 +655,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachment(pageFileId);
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("The pages orphaned attachments have been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -1450,7 +1572,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 ExceptionRepository.PurgeExceptions();
-                return Redirect(model.YesRedirectURL);
+                return NotifyOfSuccessAction("All exceptions have been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);

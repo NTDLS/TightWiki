@@ -47,6 +47,7 @@
                                     <tr>
                                         <td><strong>Name</strong></td>
                                         <td><strong>Revisions</strong></td>
+                                        <td><strong>Deleted Revisions</strong></td>
                                         <td><strong>Modified By</strong></td>
                                         <td><strong>Modified Date</strong></td>
                                         <td><strong>Action</strong></td>
@@ -63,9 +64,9 @@
                                             } <a href="/@p.Navigation">@p.Title</a>
                                         </td>
                                         <td><a href="/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
+                                        <td><a href="/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
                                         <td>@p.ModifiedByUserName</td>
                                         <td>@p.ModifiedDate</td>
-
                                         <td>
                                             @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
                                                      "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
