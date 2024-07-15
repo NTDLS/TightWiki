@@ -67,7 +67,7 @@
                                         <td>@p.ModifiedDate</td>
 
                                         <td>
-                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Deleting this page will move the page, all revisions and attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
                                                      "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
                                         </td>
                                     </tr>
