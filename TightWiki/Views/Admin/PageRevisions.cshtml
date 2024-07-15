@@ -1,4 +1,4 @@
-﻿@model TightWiki.Models.ViewModels.Page.RevisionsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.PageRevisionsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -44,6 +44,10 @@
                                             <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                                             <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                             <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
+                                            <td>
+                                                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting revision {h.Revision} of \"{h.Name}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                                         "Delete", $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
+                                            </td>
                                         </tr>
                                     }
                                 </tbody>

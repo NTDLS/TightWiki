@@ -745,6 +745,16 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
         }
 
+        public static int GetPageRevisionCountByNavigation(string navigation)
+        {
+            var param = new
+            {
+                Navigation = navigation
+            };
+
+            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageRevisionCountByNavigation.sql", param);
+        }
+
         public static void RestoreDeletedPageByPageId(int pageId)
         {
             var param = new
@@ -759,6 +769,33 @@ namespace TightWiki.Repository
                 {
                     using var deletedpages_db = o.Attach("deletedpages.db", "deletedpages_db");
                     o.Execute("RestoreDeletedPageByPageId.sql", param);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            });
+        }
+
+        public static void MovePageRevisionToDeletedById(int pageId, Guid userId)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                DeletedByUserId = userId,
+                DeletedDate = DateTime.UtcNow
+            };
+
+            ManagedDataStorage.Pages.Ephemeral(o =>
+            {
+                var transaction = o.BeginTransaction();
+                try
+                {
+                    using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
+
+                    o.Execute("MovePageRevisionToDeletedById.sql", param);
                     transaction.Commit();
                 }
                 catch

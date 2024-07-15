@@ -384,7 +384,7 @@ namespace TightWiki.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
-            var model = new PageRevisionsViewModel()
+            var model = new RevisionsViewModel()
             {
                 Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryString("page", 1))
             };

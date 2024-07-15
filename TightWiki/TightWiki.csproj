@@ -83,6 +83,7 @@
     <None Remove="Repository\Scripts\GetPageProcessingInstructionsByPageId.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionById.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionByNavigation.sql" />
+    <None Remove="Repository\Scripts\GetPageRevisionCountByNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionInfoById.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionsInfoByNavigationPaged.sql" />
     <None Remove="Repository\Scripts\GetPageTagsById.sql" />
@@ -108,6 +109,7 @@
     <None Remove="Repository\Scripts\InsertPageFileRevision.sql" />
     <None Remove="Repository\Scripts\InsertPageRevision.sql" />
     <None Remove="Repository\Scripts\IsAdminPasswordChanged.sql" />
+    <None Remove="Repository\Scripts\MovePageRevisionToDeletedById.sql" />
     <None Remove="Repository\Scripts\MovePageToDeletedById.sql" />
     <None Remove="Repository\Scripts\PageSearch.sql" />
     <None Remove="Repository\Scripts\PageSearchPaged.sql" />
@@ -155,6 +157,8 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPageRevisionCountByNavigation.sql" />
+    <EmbeddedResource Include="Repository\Scripts\MovePageRevisionToDeletedById.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeOrphanedPageAttachment.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeOrphanedPageAttachments.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetOrphanedPageAttachments.sql" />
@@ -305,6 +309,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\Admin\PageRevisions.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Update="Views\File\Revisions.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

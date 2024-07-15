@@ -1,8 +1,8 @@
 ﻿using TightWiki.Models.DataModels;
 
-namespace TightWiki.Models.ViewModels.Page
+namespace TightWiki.Models.ViewModels.Admin
 {
-    public class RevisionsViewModel : ViewModelBase
+    public class PageRevisionsViewModel : ViewModelBase
     {
         public List<PageRevision> Revisions { get; set; } = new();
 

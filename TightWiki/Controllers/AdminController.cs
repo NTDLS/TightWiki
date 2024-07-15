@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Controllers;
@@ -14,7 +13,6 @@ using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using TightWiki.Wiki;
-using TightWiki.Wiki.Function;
 using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
@@ -248,6 +246,86 @@ namespace TightWiki.Site.Controllers
             }
 
             return View(model);
+        }
+
+        #endregion
+
+        #region Revisions.
+
+        [Authorize]
+        [HttpGet("PageRevisions/{givenCanonical}")]
+        public ActionResult PageRevisions(string givenCanonical)
+        {
+            WikiContext.RequireModeratePermission();
+
+            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+            var model = new PageRevisionsViewModel()
+            {
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryString("page", 1))
+            };
+
+            model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+            model.Revisions.ForEach(o =>
+            {
+                o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
+                o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+            });
+
+            foreach (var p in model.Revisions)
+            {
+                var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
+                var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
+                p.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+            }
+
+            if (model.Revisions != null && model.Revisions.Count > 0)
+            {
+                WikiContext.SetPageId(model.Revisions.First().PageId);
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost("DeletePageRevision/{givenCanonical}/{revision:int}")]
+        public ActionResult DeletePageRevision(ConfirmActionViewModel model, string givenCanonical, int revision)
+        {
+            WikiContext.RequireModeratePermission();
+
+            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+            if (model.UserSelection == true)
+            {
+                try
+                {
+                    var page = PageRepository.GetPageInfoByNavigation(pageNavigation)
+                        ?? throw new Exception("The page could not be found.");
+
+                    if (revision >= page.Revision)
+                    {
+                        throw new Exception("You cannot delete the latest page revision, you must first revert the change to a previous version and then delete that revision.");
+                    }
+
+                    int revisionCount = PageRepository.GetPageRevisionCountByNavigation(pageNavigation);
+                    if (revisionCount <= 1)
+                    {
+                        throw new Exception("You cannot delete the only existing revision of a page, instead you would need to delete the entire page.");
+                    }
+
+                    //TODO: Move this page to the revision archive:
+                    PageRepository.MovePageRevisionToDeletedById(page.Id, revision);
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.Message);
+                }
+
+                return Redirect(model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
         }
 
         #endregion

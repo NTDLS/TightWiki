@@ -12,7 +12,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "Admin/DeletedPages",
+      "launchUrl": "Admin/PageRevisions/home",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
