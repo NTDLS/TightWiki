@@ -80,6 +80,7 @@
     <None Remove="Repository\Scripts\GetPageInfoByNamespaces.sql" />
     <None Remove="Repository\Scripts\GetPageInfoByNavigation.sql" />
     <None Remove="Repository\Scripts\GetPageInfoByTags.sql" />
+    <None Remove="Repository\Scripts\GetPagePreviousRevision.sql" />
     <None Remove="Repository\Scripts\GetPageProcessingInstructionsByPageId.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionById.sql" />
     <None Remove="Repository\Scripts\GetPageRevisionByNavigation.sql" />
@@ -157,6 +158,7 @@
     <EmbeddedResource Include="Repository\Scripts\DeleteMenuItemById.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetAllDeletedPagesPaged.sql" />
+    <EmbeddedResource Include="Repository\Scripts\GetPagePreviousRevision.sql" />
     <EmbeddedResource Include="Repository\Scripts\GetPageRevisionCountByNavigation.sql" />
     <EmbeddedResource Include="Repository\Scripts\MovePageRevisionToDeletedById.sql" />
     <EmbeddedResource Include="Repository\Scripts\PurgeOrphanedPageAttachment.sql" />

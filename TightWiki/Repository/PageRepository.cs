@@ -745,11 +745,11 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
         }
 
-        public static int GetPageRevisionCountByNavigation(string navigation)
+        public static int GetPageRevisionCountByNavigation(int pageId)
         {
             var param = new
             {
-                Navigation = navigation
+                PageId = pageId
             };
 
             return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageRevisionCountByNavigation.sql", param);
@@ -779,11 +779,12 @@ namespace TightWiki.Repository
             });
         }
 
-        public static void MovePageRevisionToDeletedById(int pageId, Guid userId)
+        public static void MovePageRevisionToDeletedById(int pageId, int revision, Guid userId)
         {
             var param = new
             {
                 PageId = pageId,
+                Revision = revision,
                 DeletedByUserId = userId,
                 DeletedDate = DateTime.UtcNow
             };
@@ -885,6 +886,17 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("users.db", "users_db");
                 return o.QuerySingleOrDefault<Page>("GetLatestPageRevisionById.sql", param);
             });
+        }
+
+        public static int GetPagePreviousRevision(int pageId, int revision)
+        {
+            var param = new
+            {
+                PageId = pageId,
+                Revision = revision
+            };
+
+            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPagePreviousRevision.sql", param);
         }
 
         public static Page? GetPageRevisionByNavigation(NamespaceNavigation navigation, int? revision = null)

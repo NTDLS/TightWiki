@@ -303,19 +303,22 @@ namespace TightWiki.Site.Controllers
                     var page = PageRepository.GetPageInfoByNavigation(pageNavigation)
                         ?? throw new Exception("The page could not be found.");
 
-                    if (revision >= page.Revision)
-                    {
-                        throw new Exception("You cannot delete the latest page revision, you must first revert the change to a previous version and then delete that revision.");
-                    }
-
-                    int revisionCount = PageRepository.GetPageRevisionCountByNavigation(pageNavigation);
+                    int revisionCount = PageRepository.GetPageRevisionCountByNavigation(page.Id);
                     if (revisionCount <= 1)
                     {
                         throw new Exception("You cannot delete the only existing revision of a page, instead you would need to delete the entire page.");
                     }
 
-                    //TODO: Move this page to the revision archive:
-                    PageRepository.MovePageRevisionToDeletedById(page.Id, revision);
+                    //If we are deleting the latest revision, then we need to grab the previous
+                    //  version and make it the latest then delete the specified revision.
+                    if (revision >= page.Revision)
+                    {
+                        int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
+                        var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
+                        SavePage(previousPageRevision);
+                    }
+
+                    PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
                 }
                 catch (Exception ex)
                 {
