@@ -73,7 +73,7 @@ namespace TightWiki.Library
                 {
                     queryString.Append('&');
                 }
-                queryString.Append($"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}");
+                queryString.Append($"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}");
             }
 
             return queryString.ToString();
@@ -94,7 +94,7 @@ namespace TightWiki.Library
                 {
                     queryString.Append('&');
                 }
-                queryString.Append($"{HttpUtility.UrlEncode(kvp.Key)}={HttpUtility.UrlEncode(kvp.Value)}");
+                queryString.Append($"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}");
             }
 
             return queryString.ToString();

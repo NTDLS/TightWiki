@@ -1,4 +1,5 @@
-﻿using TightWiki.Exceptions;
+﻿using System.Text;
+using TightWiki.Exceptions;
 using TightWiki.Repository;
 
 namespace TightWiki
@@ -32,10 +33,24 @@ namespace TightWiki
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
-                ExceptionRepository.InsertException(ex);
+                string request = $"{context.Request.Path}{context.Request.QueryString}";
+                var routeValues = new StringBuilder();
+
+                foreach (var rv in context.Request.RouteValues)
+                {
+                    routeValues.AppendLine($"{rv},");
+                }
+                if (routeValues.Length > 1) routeValues.Length--; //Trim trailing comma.
+
+                var exceptionText = $"IP Address: {context.Connection.RemoteIpAddress},\r\n Request: {request},\r\n RouteValues: {routeValues}\r\n";
+
+                _logger.LogError(ex, exceptionText);
+                ExceptionRepository.InsertException(ex, exceptionText);
+
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                await context.Response.WriteAsync("An unexpected error occurred.");
+                context.Response.ContentType = "application/json";
+
+                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("An unexpected error has occurred. The details of this exception have been logged.")}");
             }
         }
     }
