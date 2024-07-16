@@ -19,69 +19,68 @@
     });
 </script>
 
-<div class="card">
-    <div class="card-header"><h3>Add Emoji</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Configuration to add an emoji.<br /><br />
-        </font>
+<h3>
+    Add Emoji
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<font size="3" face="ARIAL,HELVETICA">
+    Configuration to add an emoji.<br /><br />
+</font>
 
-                        @using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(model => model.OriginalName)
-                            @Html.HiddenFor(model => model.Id)
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
 
-                            <table border="0">
+                @using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.OriginalName)
+                    @Html.HiddenFor(model => model.Id)
 
-                                <tr class="padded">
-                                    <td width="200"><strong>Image</strong></td>
-                                    <td>
-                                        <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
-                                    </td>
-                                </tr>
+                    <table border="0">
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Name)</strong></td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Name, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                        <tr class="padded">
+                            <td width="200"><strong>Image</strong></td>
+                            <td>
+                                <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
+                            </td>
+                        </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Categories)</strong>  (comma separated)</td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Categories, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Name)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Name, new { @class = "input-control" })
+                            </td>
+                        </tr>
 
-                                <tr class="padded">
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                        <br />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Categories)</strong>  (comma separated)</td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Categories, new { @class = "input-control" })
+                            </td>
+                        </tr>
+
+                        <tr class="padded">
+                            <td>&nbsp;</td>
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+                <br />
+            </td>
+        </tr>
+    </tbody>
+</table>

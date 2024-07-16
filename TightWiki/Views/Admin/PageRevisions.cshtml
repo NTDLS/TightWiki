@@ -4,66 +4,65 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Page Revisions</h3></div>
-    <div class="card-header"><strong><a href="/@wikiContext.PageNavigation">@wikiContext.Title</a></strong></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            All changes that have been made to the page. <br /><br />
-        </font>
-        <table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<h3>
+    Page revisions for <a href="/@wikiContext.PageNavigation">@wikiContext.Title</a>.
+</h3>
 
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                                <thead>
-                                    <tr>
-                                        <td><strong>Revision</strong></td>
-                                        <td><strong>Modified By</strong></td>
-                                        <td><strong>Modified Date</strong></td>
-                                        <td><strong>Summary</strong></td>
-                                    </tr>
-                                </thead>
+<font size="3" face="ARIAL,HELVETICA">
+    All changes that have been made to the page.<br /><br />
+</font>
 
-                                <tbody>
-                                    @foreach (var h in Model.Revisions)
-                                    {
-                                        <tr>
-                                            <td><a href="/@wikiContext.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
-                                            <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
-                                            <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
-                                            <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
-                                            <td>
-                                                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(
-                                                         $"Reverting {h.Name} from revision {h.HighestRevision} to {h.Revision} will rollback {h.HigherRevisionCount} changes.<br />"
-                                                         + "Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />"
-                                                         + "Are you sure you want to continue?<br /><br />",
-                                                         "Revert", $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
+<table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
 
-                                                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting revision {h.Revision} of \"{h.Name}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
-                                                         "Delete", $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <td><strong>Revision</strong></td>
+                                <td><strong>Modified By</strong></td>
+                                <td><strong>Modified Date</strong></td>
+                                <td><strong>Summary</strong></td>
+                            </tr>
+                        </thead>
 
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tbody>
+                            @foreach (var h in Model.Revisions)
+                            {
+                                <tr>
+                                    <td><a href="/@wikiContext.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                    <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
+                                    <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
+                                    <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
+                                    <td>
+                                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(
+                                                 $"Reverting {h.Name} from revision {h.HighestRevision} to {h.Revision} will rollback {h.HigherRevisionCount} changes.<br />"
+                                                 + "Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />"
+                                                 + "Are you sure you want to continue?<br /><br />",
+                                                 "Revert", $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
+
+                                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting revision {h.Revision} of \"{h.Name}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                                 "Delete", $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value))
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

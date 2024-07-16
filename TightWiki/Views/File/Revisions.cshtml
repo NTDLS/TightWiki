@@ -4,56 +4,55 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Page File Revisions</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            All changes that have been made to the attached file. <br /><br />
-        </font>
+<h3>
+    Page File Revisions
+</h3>
 
-        <table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<font size="3" face="ARIAL,HELVETICA">
+    All changes that have been made to the attached file. <br /><br />
+</font>
 
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                                <thead>
-                                    <tr>
-                                        <td><strong>Revision</strong></td>
-                                        <td><strong>Modified By</strong></td>
-                                        <td><strong>Modified Date</strong></td>
-                                        <td><strong>Summary</strong></td>
-                                    </tr>
-                                </thead>
+<table class="table fixedTable100 table-bordered" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
 
-                                <tbody>
-                                    @foreach (var h in Model.Revisions)
-                                    {
-                                        <tr>
-                                            <td><a href="/File/Binary/@Model.PageNavigation/@Model.FileNavigation/@h.FileRevision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.FileRevision)</a></td>
-                                            <td><a href="/Profile/Public/@h.CreatedByUserName">@Html.DisplayTextFor(x => h.CreatedByUserName)</a></td>
-                                            <td>@Html.DisplayTextFor(x => h.CreatedDate)</td>
-                                            <td>@Html.DisplayTextFor(x => h.FriendlySize)</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <td><strong>Revision</strong></td>
+                                <td><strong>Modified By</strong></td>
+                                <td><strong>Modified Date</strong></td>
+                                <td><strong>Summary</strong></td>
+                            </tr>
+                        </thead>
 
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tbody>
+                            @foreach (var h in Model.Revisions)
+                            {
+                                <tr>
+                                    <td><a href="/File/Binary/@Model.PageNavigation/@Model.FileNavigation/@h.FileRevision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.FileRevision)</a></td>
+                                    <td><a href="/Profile/Public/@h.CreatedByUserName">@Html.DisplayTextFor(x => h.CreatedByUserName)</a></td>
+                                    <td>@Html.DisplayTextFor(x => h.CreatedDate)</td>
+                                    <td>@Html.DisplayTextFor(x => h.FriendlySize)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

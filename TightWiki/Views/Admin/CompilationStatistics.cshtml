@@ -4,71 +4,70 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Page Compilation Statistics</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            The compilation statistics for all wiki page operations.<br /><br />
-        </font>
+<h3>
+    Page Compilation Statistics
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<font size="3" face="ARIAL,HELVETICA">
+    The compilation statistics for all wiki page operations.<br /><br />
+</font>
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?",
-                                 "Purge Compilation Statistics", "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
-                        <br />
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
 
-                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Date/Time</strong></td>
-                                <td><strong>Compilations</strong></td>
-                                <td><strong>Duration</strong></td>
-                                <td><strong>Matches</strong></td>
-                                <td><strong>Errors</strong></td>
-                                <td><strong>Links</strong></td>
-                                <td><strong>Tags</strong></td>
-                                <td><strong>Raw Size</strong></td>
-                                <td><strong>Wikified Size</strong></td>
-                            </tr>
+                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?",
+                         "Purge Compilation Statistics", "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
+                <br />
 
-                            @foreach (var stat in Model.Statistics)
-                            {
+                <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td><strong>Name</strong></td>
+                        <td><strong>Date/Time</strong></td>
+                        <td><strong>Compilations</strong></td>
+                        <td><strong>Duration</strong></td>
+                        <td><strong>Matches</strong></td>
+                        <td><strong>Errors</strong></td>
+                        <td><strong>Links</strong></td>
+                        <td><strong>Tags</strong></td>
+                        <td><strong>Raw Size</strong></td>
+                        <td><strong>Wikified Size</strong></td>
+                    </tr>
 
-                                <tr>
-                                    <td>
-                                        @if (string.IsNullOrEmpty(@stat.Namespace) == false)
-                                        {
-                                            <text><a href="/Admin/Namespace/@stat.Namespace">@stat.Namespace</a> :: </text>
-                                        } <a href="/@stat.Navigation">@stat.Title</a>
-                                    </td>
-                                    <td>@stat.LatestBuild</td>
-                                    <td>@stat.BuildCount.ToString("N0")</td>
-                                    <td>@stat.AvgBuildTimeMs.ToString("N0")ms</td>
-                                    <td>@stat.AvgWikiMatches.ToString("N0")</td>
-                                    <td>@stat.TotalErrorCount.ToString("N0")</td>
-                                    <td>@stat.AvgOutgoingLinkCount.ToString("N0")</td>
-                                    <td>@stat.AvgTagCount.ToString("N0")</td>
-                                    <td>@NTDLS.Helpers.Formatters.FileSize((long)stat.AvgRawBodySize)</td>
-                                    <td>@NTDLS.Helpers.Formatters.FileSize((long)stat.AvgWikifiedBodySize)</td>
-                                </tr>
-                            }
-                        </table>
+                    @foreach (var stat in Model.Statistics)
+                    {
 
-                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tr>
+                            <td>
+                                @if (string.IsNullOrEmpty(@stat.Namespace) == false)
+                                {
+                                    <text><a href="/Admin/Namespace/@stat.Namespace">@stat.Namespace</a> :: </text>
+                                } <a href="/@stat.Navigation">@stat.Title</a>
+                            </td>
+                            <td>@stat.LatestBuild</td>
+                            <td>@stat.BuildCount.ToString("N0")</td>
+                            <td>@stat.AvgBuildTimeMs.ToString("N0")ms</td>
+                            <td>@stat.AvgWikiMatches.ToString("N0")</td>
+                            <td>@stat.TotalErrorCount.ToString("N0")</td>
+                            <td>@stat.AvgOutgoingLinkCount.ToString("N0")</td>
+                            <td>@stat.AvgTagCount.ToString("N0")</td>
+                            <td>@NTDLS.Helpers.Formatters.FileSize((long)stat.AvgRawBodySize)</td>
+                            <td>@NTDLS.Helpers.Formatters.FileSize((long)stat.AvgWikifiedBodySize)</td>
+                        </tr>
+                    }
+                </table>
+
+                @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+            </td>
+        </tr>
+    </tbody>
+</table>

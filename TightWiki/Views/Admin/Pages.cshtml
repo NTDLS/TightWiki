@@ -4,82 +4,81 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Pages</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            All pages contained in the wiki.<br /><br />
-        </font>
+<h3>
+    Pages
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+<font size="3" face="ARIAL,HELVETICA">
+    All pages contained in the wiki.<br /><br />
+</font>
+
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
+
+                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
+                         "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
+
+                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Truncating page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
+                         "Truncating Page Revisions", "/Admin/TruncatingPageRevisions", Context.Request.Path.Value))
+                <br />
+
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+                    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="80%">
+                                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
+                            </td>
+                            <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Search</button></td>
+                        </tr>
+                    </table>
+
+                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Revision</strong></td>
+                                <td><strong>Deleted Revisions</strong></td>
+                                <td><strong>Modified By</strong></td>
+                                <td><strong>Modified Date</strong></td>
+                                <td><strong>Action</strong></td>
+                            </tr>
+                        </thead>
+
+                        @foreach (var p in Model.Pages)
                         {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                            <tr>
+                                <td>
+                                    @if (string.IsNullOrEmpty(@p.Namespace) == false)
+                                    {
+                                        <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                                    } <a href="/@p.Navigation">@p.Title</a>
+                                </td>
+                                <td><a href="/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
+                                <td><a href="/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
+                                <td>@p.ModifiedByUserName</td>
+                                <td>@p.ModifiedDate</td>
+                                <td>
+                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                             "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
+                                </td>
+                            </tr>
                         }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+                    </table>
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
-                                 "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
-
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Truncating page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
-                                 "Truncating Page Revisions", "/Admin/TruncatingPageRevisions", Context.Request.Path.Value))
-                        <br />
-
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-                            <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
-                                <tr>
-                                    <td width="80%">
-                                        @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
-                                    </td>
-                                    <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
-                                </tr>
-                            </table>
-
-                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                                <thead>
-                                    <tr>
-                                        <td><strong>Name</strong></td>
-                                        <td><strong>Revision</strong></td>
-                                        <td><strong>Deleted Revisions</strong></td>
-                                        <td><strong>Modified By</strong></td>
-                                        <td><strong>Modified Date</strong></td>
-                                        <td><strong>Action</strong></td>
-                                    </tr>
-                                </thead>
-
-                                @foreach (var p in Model.Pages)
-                                {
-                                    <tr>
-                                        <td>
-                                            @if (string.IsNullOrEmpty(@p.Namespace) == false)
-                                            {
-                                                <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                                            } <a href="/@p.Navigation">@p.Title</a>
-                                        </td>
-                                        <td><a href="/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
-                                        <td><a href="/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
-                                        <td>@p.ModifiedByUserName</td>
-                                        <td>@p.ModifiedDate</td>
-                                        <td>
-                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
-                                                     "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

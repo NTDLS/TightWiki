@@ -4,75 +4,78 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Emoji</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Configuration for an emoji.<br /><br />
-        </font>
+<h3>
+    Emoji
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<font size="3" face="ARIAL,HELVETICA">
+    Configuration for an emoji.<br /><br />
+</font>
 
-                        @using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(m => m.OriginalName)
-                            @Html.HiddenFor(m => m.Emoji.Id)
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
 
-                            <table border="0">
+                @using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.OriginalName)
+                    @Html.HiddenFor(m => m.Emoji.Id)
 
-                                <tr class="padded">
-                                    <td width="200"><strong>Image</strong></td>
-                                    <td>
-                                        @if (@Model.Emoji.Name != "")
-                                        {
-                                            <img src="/File/Emoji/@Model.Emoji.Name" /><br /><br />
-                                        }
-                                        <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
-                                    </td>
-                                </tr>
+                    <table border="0">
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Emoji.Name)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Emoji.Name)</strong></td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Emoji.Name, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                        <tr class="padded">
+                            <td width="200"><strong>Image</strong></td>
+                            <td>
+                                @if (@Model.Emoji.Name != "")
+                                {
+                                    <img src="/File/Emoji/@Model.Emoji.Name" />
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Categories)</strong> (comma separated)</td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Categories, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                                    <br />
 
-                                <tr class="padded">
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                        <br />
+                                    <br />
+                                }
+                                <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
+                            </td>
+                        </tr>
 
-                        <form action="/Admin/DeleteEmoji/@Model.Emoji.Name"><button type="submit" class="btn btn-danger">Delete Emoji</button></form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Emoji.Name)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Emoji.Name)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Emoji.Name, new { @class = "input-control" })
+                            </td>
+                        </tr>
+
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Categories)</strong> (comma separated)</td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Categories, new { @class = "input-control" })
+                            </td>
+                        </tr>
+
+                        <tr class="padded">
+                            <td>&nbsp;</td>
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+                <br />
+
+                <form action="/Admin/DeleteEmoji/@Model.Emoji.Name"><button type="submit" class="btn btn-danger">Delete Emoji</button></form>
+            </td>
+        </tr>
+    </tbody>
+</table>

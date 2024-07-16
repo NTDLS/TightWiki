@@ -4,64 +4,66 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Comments</h3></div>
-    <div class="card-header"><strong><a href="/@wikiContext.PageNavigation">@wikiContext.Title</a></strong></div>
-    <div class="card-body">
-        <table class="table fixedTable100" border="0" cellspacing="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="top" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<h3>
+    Comments for <a href="/@wikiContext.PageNavigation">@wikiContext.Title</a>.
+</h3>
 
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-                            if (wikiContext.IsAuthenticated == true)
-                            {
-                                <div class="form-outline mb-4">
-                                    <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
-                                    <div style="overflow: hidden; padding-right: .5em;">
-                                        <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+<font size="3" face="ARIAL,HELVETICA">
+    All comment made on the given page.
+</font>
+
+<table class="table fixedTable100" border="0" cellspacing="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="top" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
+
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+                    if (wikiContext.IsAuthenticated == true)
+                    {
+                        <div class="form-outline mb-4">
+                            <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
+                            <div style="overflow: hidden; padding-right: .5em;">
+                                <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @:<a href="/Account/Login">Login to leave a comment</a>.
+                    }
+
+                    @foreach (var h in Model.Comments)
+                    {
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <p>@Html.Raw(h.Body)</p>
+                                <div class="d-flex justify-content-between">
+                                    <div class="d-flex flex-row align-items-center">
+                                        <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
+                                        <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
                                     </div>
-                                </div>
-                            }
-                            else
-                            {
-                                @:<a href="/Account/Login">Login to leave a comment</a>.
-                            }
-
-                            @foreach (var h in Model.Comments)
-                            {
-                                <div class="card mb-4">
-                                    <div class="card-body">
-                                        <p>@Html.Raw(h.Body)</p>
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
-                                                <p class="small mb-0 ms-2"><cite><a href="/Account/@h.UserNavigation/Profile">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
-                                            </div>
-                                            @if (wikiContext.CanModerate == true || h.UserId == wikiContext.Profile?.UserId)
-                                            {
-                                                <div class="d-flex flex-row align-items-center">
-                                                    <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')" >Delete</a></p>
-                                                </div>
-                                            }
+                                    @if (wikiContext.CanModerate == true || h.UserId == wikiContext.Profile?.UserId)
+                                    {
+                                        <div class="d-flex flex-row align-items-center">
+                                            <p class="small text-muted mb-0"><a href="?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a></p>
                                         </div>
-                                    </div>
+                                    }
                                 </div>
-                            }
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                            </div>
+                        </div>
+                    }
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

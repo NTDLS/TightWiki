@@ -4,72 +4,71 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Site Menu Item</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Global configuration for the site menu item.<br /><br />
-        </font>
+<h3>
+    Site Menu Item
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+<font size="3" face="ARIAL,HELVETICA">
+    Global configuration for the site menu item.<br /><br />
+</font>
 
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
 
-                            @Html.HiddenFor(m => m.Id)
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
 
-                            <table border="0">
+                    @Html.HiddenFor(m => m.Id)
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Name)</strong></td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Name, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                    <table border="0">
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Link)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Link)</strong></td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Link, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Name)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Name, new { @class = "input-control" })
+                            </td>
+                        </tr>
 
-                                <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Ordinal)</div></td></tr>
-                                <tr class="padded">
-                                    <td><strong>@Html.LabelFor(m => m.Ordinal)</strong></td>
-                                    <td>
-                                        @Html.TextBoxFor(m => m.Ordinal, new { @class = "input-control" })
-                                    </td>
-                                </tr>
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Link)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Link)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Link, new { @class = "input-control" })
+                            </td>
+                        </tr>
 
-                                <tr class="padded">
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                        <br />
+                        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Ordinal)</div></td></tr>
+                        <tr class="padded">
+                            <td><strong>@Html.LabelFor(m => m.Ordinal)</strong></td>
+                            <td>
+                                @Html.TextBoxFor(m => m.Ordinal, new { @class = "input-control" })
+                            </td>
+                        </tr>
 
-                        <form action="/Admin/DeleteMenuItem/@Model.Id"><button type="submit" class="btn btn-danger">Delete Menu Item</button></form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tr class="padded">
+                            <td>&nbsp;</td>
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+                <br />
+
+                <form action="/Admin/DeleteMenuItem/@Model.Id"><button type="submit" class="btn btn-danger">Delete Menu Item</button></form>
+            </td>
+        </tr>
+    </tbody>
+</table>

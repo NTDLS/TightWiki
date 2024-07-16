@@ -4,188 +4,187 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Wiki Configuration</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Global configuration values for the wiki, its functionality, behavior, formatting and branding.<br /><br />
-        </font>
+<h3>
+    Configuration
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="5">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+<font size="3" face="ARIAL,HELVETICA">
+    Global configuration values for the wiki, its functionality, behavior, formatting and branding.<br /><br />
+</font>
+
+<table class="fixedTable100" border="0" cellpadding="5">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <table class="fixedTable100" border="0">
+
+                        <tr class="padded">
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                            </td>
+                        </tr>
+
+                        @foreach (var group in Model.Nest)
                         {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                            <tr>
+                                <td width="200">
+
+                                    <div class="card">
+                                        <div class="card-header"><h4>@group.Name</h4>@group.Description</div>
+                                        <div class="card-body">
+
+                                            <table class="fixedTable100" border="0">
+
+                                                @foreach (var entry in group.Entries)
+                                                {
+                                                    <tr class="padded">
+                                                        <td width="200">
+                                                            <strong>@entry.Name</strong><br />
+                                                            @entry.Description<br />
+
+                                                            @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
+                                                            {
+                                                                <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                    <option value="" style="color:#ccc !important;">
+                                                                        Select a Theme
+                                                                    </option>
+                                                                    @foreach (var item in Model.Themes)
+                                                                    {
+                                                                        <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>
+                                                                            @item.Name
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                            }
+                                                            else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
+                                                            {
+                                                                <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                    <option value="" style="color:#ccc !important;">
+                                                                        Select a role
+                                                                    </option>
+                                                                    @foreach (var item in Model.Roles)
+                                                                    {
+                                                                        <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>
+                                                                            @item.Name
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                            }
+                                                            else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
+                                                            || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
+                                                            {
+                                                                <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                    <option value="" style="color:#ccc !important;">
+                                                                        Select a time-zone
+                                                                    </option>
+                                                                    @foreach (var item in Model.TimeZones)
+                                                                    {
+                                                                        <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>
+                                                                            @item.Text
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                            }
+                                                            else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language"
+                                                            || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
+                                                            {
+                                                                <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                    <option value="" style="color:#ccc !important;">
+                                                                        Select a language
+                                                                    </option>
+                                                                    @foreach (var item in Model.Languages)
+                                                                    {
+                                                                        <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>
+                                                                            @item.Text
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                            }
+                                                            else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country"
+                                                            || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
+                                                            {
+                                                                <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
+                                                                    <option value="" style="color:#ccc !important;">
+                                                                        Select a country
+                                                                    </option>
+                                                                    @foreach (var item in Model.Countries)
+                                                                    {
+                                                                        <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>
+                                                                            @item.Text
+                                                                        </option>
+                                                                    }
+                                                                </select>
+                                                            }
+                                                            else if (@entry.DataType == "string")
+                                                            {
+                                                                if (@entry.IsEncrypted == true)
+                                                                {
+                                                                    <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id">
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                }
+                                                            }
+                                                            else if (@entry.DataType == "text")
+                                                            {
+                                                                <textarea name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" rows="4" cols="100">@entry.Value</textarea>
+                                                            }
+                                                            else if (@entry.DataType == "integer")
+                                                            {
+                                                                <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                <br />
+                                                            }
+                                                            else if (@entry.DataType == "decimal")
+                                                            {
+                                                                <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
+                                                                <br />
+                                                            }
+                                                            else if (@entry.DataType == "boolean")
+                                                            {
+                                                                <label for="html">Yes</label>
+                                                                <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:1" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "") />
+                                                                @:&nbsp; &nbsp;
+                                                                <label for="html">No</label>
+                                                                <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:0" name="@entry.ConfigurationGroupId:@entry.Id" value="0" @(entry.Value == "0" ? "checked=\"checked\"" : "") />
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><br /></td>
+                            </tr>
+
                         }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
 
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
-
-                            <table class="fixedTable100" border="0">
-
-                                <tr class="padded">
-                                    <td>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                    </td>
-                                </tr>
-
-                                @foreach (var group in Model.Nest)
-                                {
-                                    <tr>
-                                        <td width="200">
-
-                                            <div class="card">
-                                                <div class="card-header"><h4>@group.Name</h4>@group.Description</div>
-                                                <div class="card-body">
-
-                                                    <table class="fixedTable100" border="0">
-
-                                                        @foreach (var entry in group.Entries)
-                                                        {
-                                                            <tr class="padded">
-                                                                <td width="200">
-                                                                    <strong>@entry.Name</strong><br />
-                                                                    @entry.Description<br />
-
-                                                                    @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
-                                                                    {
-                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                            <option value="" style="color:#ccc !important;">
-                                                                                Select a Theme
-                                                                            </option>
-                                                                            @foreach (var item in Model.Themes)
-                                                                            {
-                                                                                <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>
-                                                                                    @item.Name
-                                                                                </option>
-                                                                            }
-                                                                        </select>
-                                                                    }
-                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
-                                                                    {
-                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                            <option value="" style="color:#ccc !important;">
-                                                                                Select a role
-                                                                            </option>
-                                                                            @foreach (var item in Model.Roles)
-                                                                            {
-                                                                                <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>
-                                                                                    @item.Name
-                                                                                </option>
-                                                                            }
-                                                                        </select>
-                                                                    }
-                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone"
-                                                                    || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
-                                                                    {
-                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                            <option value="" style="color:#ccc !important;">
-                                                                                Select a time-zone
-                                                                            </option>
-                                                                            @foreach (var item in Model.TimeZones)
-                                                                            {
-                                                                                <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>
-                                                                                    @item.Text
-                                                                                </option>
-                                                                            }
-                                                                        </select>
-                                                                    }
-                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language"
-                                                                    || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
-                                                                    {
-                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                            <option value="" style="color:#ccc !important;">
-                                                                                Select a language
-                                                                            </option>
-                                                                            @foreach (var item in Model.Languages)
-                                                                            {
-                                                                                <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>
-                                                                                    @item.Text
-                                                                                </option>
-                                                                            }
-                                                                        </select>
-                                                                    }
-                                                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country"
-                                                                    || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
-                                                                    {
-                                                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id">
-                                                                            <option value="" style="color:#ccc !important;">
-                                                                                Select a country
-                                                                            </option>
-                                                                            @foreach (var item in Model.Countries)
-                                                                            {
-                                                                                <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>
-                                                                                    @item.Text
-                                                                                </option>
-                                                                            }
-                                                                        </select>
-                                                                    }
-                                                                    else if (@entry.DataType == "string")
-                                                                    {
-                                                                        if (@entry.IsEncrypted == true)
-                                                                        {
-                                                                            <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id">
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <input size="50" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
-                                                                        }
-                                                                    }
-                                                                    else if (@entry.DataType == "text")
-                                                                    {
-                                                                        <textarea name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" rows="4" cols="100">@entry.Value</textarea>
-                                                                    }
-                                                                    else if (@entry.DataType == "integer")
-                                                                    {
-                                                                        <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
-                                                                        <br />
-                                                                    }
-                                                                    else if (@entry.DataType == "decimal")
-                                                                    {
-                                                                        <input name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" />
-                                                                        <br />
-                                                                    }
-                                                                    else if (@entry.DataType == "boolean")
-                                                                    {
-                                                                        <label for="html">Yes</label>
-                                                                        <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:1" name="@entry.ConfigurationGroupId:@entry.Id" value="1" @(entry.Value == "1" ? " checked=\"checked\"" : "") />
-                                                                        @:&nbsp; &nbsp;
-                                                                        <label for="html">No</label>
-                                                                        <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:0" name="@entry.ConfigurationGroupId:@entry.Id" value="0" @(entry.Value == "0" ? "checked=\"checked\"" : "") />
-                                                                    }
-                                                                </td>
-                                                            </tr>
-                                                        }
-
-                                                    </table>
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><br /></td>
-                                    </tr>
-
-                                }
-
-                                <tr class="padded">
-                                    <td>
-                                        <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
-                                    </td>
-                                </tr>
-                            </table>
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                        <tr class="padded">
+                            <td>
+                                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save!</button></div>
+                            </td>
+                        </tr>
+                    </table>
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -4,73 +4,72 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Accounts</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Global configuration for user accounts.<br /><br />
-        </font>
+<h3>
+    Accounts
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+<font size="3" face="ARIAL,HELVETICA">
+    Global configuration for user accounts.<br /><br />
+</font>
+
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
+
+                <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
+
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+                    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
+                        <tr>
+                            <td width="80%">
+                                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
+                            </td>
+                            <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Search</button></td>
+                        </tr>
+                    </table>
+
+                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+
+                        <thead>
+                            <tr>
+                                <td><strong>Account</strong></td>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Country</strong></td>
+                                <td><strong>Time Zone</strong></td>
+                                <td><strong>Email Address</strong></td>
+                                <td><strong>Created</strong></td>
+                            </tr>
+                        </thead>
+
+                        @foreach (var user in Model.Users)
                         {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                            <tr>
+                                <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
+                                <td>@user.FirstName @user.LastName</td>
+                                <td>@user.Country</td>
+                                <td>@user.TimeZone</td>
+                                <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
+                                <td>@user.CreatedDate</td>
+                            </tr>
                         }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+                    </table>
 
-                        <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
 
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-                            <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
-                                <tr>
-                                    <td width="80%">
-                                        @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
-                                    </td>
-                                    <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
-                                </tr>
-                            </table>
-
-                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-
-                                <thead>
-                                    <tr>
-                                        <td><strong>Account</strong></td>
-                                        <td><strong>Name</strong></td>
-                                        <td><strong>Country</strong></td>
-                                        <td><strong>Time Zone</strong></td>
-                                        <td><strong>Email Address</strong></td>
-                                        <td><strong>Created</strong></td>
-                                    </tr>
-                                </thead>
-
-                                @foreach (var user in Model.Users)
-                                {
-                                    <tr>
-                                        <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
-                                        <td>@user.FirstName @user.LastName</td>
-                                        <td>@user.Country</td>
-                                        <td>@user.TimeZone</td>
-                                        <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
-                                        <td>@user.CreatedDate</td>
-                                    </tr>
-                                }
-                            </table>
-
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-
-                        <br />
-                        <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                <br />
+                <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form>
+            </td>
+        </tr>
+    </tbody>
+</table>

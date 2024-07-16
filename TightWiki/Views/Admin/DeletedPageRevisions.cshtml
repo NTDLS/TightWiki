@@ -4,57 +4,56 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Deleted Pages</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Page revision that have been deleted for the given page. These can be purged or restored.<br /><br />
-        </font>
+<h3>
+    Deleted Page Revisions
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+<font size="3" face="ARIAL,HELVETICA">
+    Page revision that have been deleted for the given page. These can be purged or restored.<br /><br />
+</font>
+
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
+
+                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"This will permanently purge all deleted pages revisions for \"{Model.Name}\". Continue?",
+                         "Purge Deleted Revisions", $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value))
+                <br />
+
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+
+                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                        @foreach (var p in Model.Revisions)
                         {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                            <tr>
+                                <td width="100%">
+                                    <a href="/Admin/DeletedPageRevision/@p.Id/@p.Revision">@p.Revision</a>
+                                </td>
+                                <td>
+                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will restore the deleted page and all of its history. Continue?",
+                                             "Restore", $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value))
+                                </td>
+                                <td>
+                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified page, all revisions and attachments. Continue?",
+                                             "Purge", $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value))
+                                </td>
+                            </tr>
                         }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+                    </table>
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"This will permanently purge all deleted pages revisions for \"{Model.Name}\". Continue?",
-                                 "Purge Deleted Revisions", $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value))
-                        <br />
-
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-
-                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                                @foreach (var p in Model.Revisions)
-                                {
-                                    <tr>
-                                        <td width="100%">
-                                            <a href="/Admin/DeletedPageRevision/@p.Id/@p.Revision">@p.Revision</a>
-                                        </td>
-                                        <td>
-                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will restore the deleted page and all of its history. Continue?",
-                                                     "Restore", $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value))
-                                        </td>
-                                        <td>
-                                            @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified page, all revisions and attachments. Continue?",
-                                                     "Purge", $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value))
-                                        </td>
-                                    </tr>
-                                }
-                            </table>
-
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

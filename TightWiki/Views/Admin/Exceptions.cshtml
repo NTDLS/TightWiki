@@ -4,59 +4,58 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header"><h3>Exceptions</h3></div>
-    <div class="card-body">
-        <font size="4" face="ARIAL,HELVETICA">
-            Server and page exceptions.<br /><br />
-        </font>
+<h3>
+    Exceptions
+</h3>
 
-        <table class="fixedTable100" border="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+<font size="3" face="ARIAL,HELVETICA">
+    Server and page exceptions.<br /><br />
+</font>
+
+<table class="fixedTable100" border="0" cellpadding="0">
+    <tbody>
+        <tr>
+            <td height="52" valign="middle" align="left">
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                }
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                {
+                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+                }
+
+                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will permanently purge all exceptions. Continue?",
+                         "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
+                <br />
+
+                @using (Html.BeginForm(FormMethod.Get))
+                {
+                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+
+                        <thead>
+                            <tr>
+                                <td><strong>Id</strong></td>
+                                <td><strong>Text</strong></td>
+                                <td><strong>Exception</strong></td>
+                                <td><strong>Date/Time</strong></td>
+                            </tr>
+                        </thead>
+
+                        @foreach (var ex in Model.Exceptions)
                         {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+                            <tr>
+                                <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
+                                <td>@ex.Text</td>
+                                <td>@ex.ExceptionText</td>
+                                <td>@ex.CreatedDate</td>
+                            </tr>
                         }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+                    </table>
 
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will permanently purge all exceptions. Continue?",
-                                 "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
-                        <br />
-
-                        @using (Html.BeginForm(FormMethod.Get))
-                        {
-                            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-
-                                <thead>
-                                    <tr>
-                                        <td><strong>Id</strong></td>
-                                        <td><strong>Text</strong></td>
-                                        <td><strong>Exception</strong></td>
-                                        <td><strong>Date/Time</strong></td>
-                                    </tr>
-                                </thead>
-
-                                @foreach (var ex in Model.Exceptions)
-                                {
-                                    <tr>
-                                        <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
-                                        <td>@ex.Text</td>
-                                        <td>@ex.ExceptionText</td>
-                                        <td>@ex.CreatedDate</td>
-                                    </tr>
-                                }
-                            </table>
-
-                            @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>

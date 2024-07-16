@@ -32,7 +32,7 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryValue("Scale", "100");
+            int givenScale = GetQueryValue("Scale", 100);
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
@@ -71,15 +71,14 @@ namespace TightWiki.Controllers
                         break;
                 }
 
-                int parsedScale = int.Parse(givenScale);
-                if (parsedScale > 500)
+                if (givenScale > 500)
                 {
-                    parsedScale = 500;
+                    givenScale = 500;
                 }
-                if (parsedScale != 100)
+                if (givenScale != 100)
                 {
-                    int width = (int)(img.Width * (parsedScale / 100.0));
-                    int height = (int)(img.Height * (parsedScale / 100.0));
+                    int width = (int)(img.Width * (givenScale / 100.0));
+                    int height = (int)(img.Height * (givenScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -137,7 +136,7 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryValue("Scale", "100");
+            int givenScale = GetQueryValue("Scale", 100);
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
@@ -150,16 +149,15 @@ namespace TightWiki.Controllers
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
-                int parsedScale = int.Parse(givenScale);
-                if (parsedScale > 500)
+                if (givenScale > 500)
                 {
-                    parsedScale = 500;
+                    givenScale = 500;
                 }
 
-                if (parsedScale != 100)
+                if (givenScale != 100)
                 {
-                    int width = (int)(img.Width * (parsedScale / 100.0));
-                    int height = (int)(img.Height * (parsedScale / 100.0));
+                    int width = (int)(img.Width * (givenScale / 100.0));
+                    int height = (int)(img.Height * (givenScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
