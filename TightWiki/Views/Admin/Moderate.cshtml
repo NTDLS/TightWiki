@@ -31,9 +31,9 @@
                                     <td>
                                         @Html.DropDownListFor(m => m.Instruction,
                                                  new SelectList(Model.Instructions),
-                                                 "Select Instruction")
+                                                 "Select Instruction", new { id = "instructionDropdown" })
                                     </td>
-                                    <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Go</button></td>
+                                    <td colspan="2"><button type="submit" class="btn btn-primary btn-thin rounded-0 btn-sm">Refresh</button></td>
                                 </tr>
                             </table>
 
@@ -59,6 +59,12 @@
                             </table>
 
                             @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+
+                            <script>
+                                document.getElementById("instructionDropdown").addEventListener("change", function () {
+                                    this.form.submit();
+                                });
+                            </script>
                         }
                     </td>
                 </tr>
