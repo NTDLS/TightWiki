@@ -1279,7 +1279,7 @@ namespace TightWiki.Wiki
                                     html.Append("<ul>");
                                     foreach (var profile in profiles.Where(p => p.AccountName.ToLower().StartsWith(alpha.ToLower())))
                                     {
-                                        html.Append($"<li><a href=\"/Account/{profile.Navigation}/Profile\">{profile.AccountName}</a>");
+                                        html.Append($"<li><a href=\"/Profile/Public/{profile.Navigation}\">{profile.AccountName}</a>");
                                         html.Append("</li>");
                                     }
                                     html.Append("</ul>");
@@ -1309,7 +1309,7 @@ namespace TightWiki.Wiki
 
                                 foreach (var profile in profiles)
                                 {
-                                    html.Append($"<li><a href=\"/Account/{profile.Navigation}/Profile\">{profile.AccountName}</a>");
+                                    html.Append($"<li><a href=\"/Profile/Public/{profile.Navigation}\">{profile.AccountName}</a>");
                                     html.Append("</li>");
                                 }
 

@@ -27,22 +27,22 @@ namespace TightWiki.Site.Controllers
         {
         }
 
-        #region Site Statistics.
+        #region Metrics.
 
         [Authorize]
-        [HttpGet("SiteStatistics")]
-        public ActionResult SiteStatistics()
+        [HttpGet("Metrics")]
+        public ActionResult Metrics()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Site Statistics";
+            WikiContext.Title = $"Metrics";
 
-            Assembly assembly = Assembly.GetEntryAssembly().EnsureNotNull();
-            Version version = assembly.GetName().Version.EnsureNotNull();
+            var version = string.Join('.', (Assembly.GetExecutingAssembly()
+                .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
 
-            var model = new SiteStatisticsViewModel()
+            var model = new MetricsViewModel()
             {
-                Statistics = ConfigurationRepository.GetWikiDatabaseStatistics(),
-                ApplicationVersion = version.ToString()
+                Metrics = ConfigurationRepository.GetWikiDatabaseMetrics(),
+                ApplicationVersion = version
             };
 
             return View(model);
@@ -87,7 +87,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult CompilationStatistics()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Page Statistics";
+            WikiContext.Title = $"Compilations Statistics";
 
             var model = new PageCompilationStatisticsViewModel()
             {

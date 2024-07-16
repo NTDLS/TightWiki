@@ -1,11 +1,11 @@
-﻿@model TightWiki.Models.ViewModels.Admin.SiteStatisticsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.MetricsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Site Statistics
+    Metrics
 </h3>
 
 <font size="3" face="ARIAL,HELVETICA">
@@ -35,10 +35,10 @@
                     </tr>
 
                     <tr>
-                        <td><a href="/Admin/Pages">@Model.Statistics.Pages</a></td>
-                        <td>@Model.Statistics.PageRevisions</td>
-                        <td>@Model.Statistics.PageAttachments</td>
-                        <td>@Model.Statistics.IntraLinks</td>
+                        <td><a href="/Admin/Pages">@Model.Metrics.Pages</a></td>
+                        <td>@Model.Metrics.PageRevisions</td>
+                        <td>@Model.Metrics.PageAttachments</td>
+                        <td>@Model.Metrics.IntraLinks</td>
                     </tr>
 
                     <tr>
@@ -49,10 +49,10 @@
                     </tr>
 
                     <tr>
-                        <td>@Model.Statistics.PageTags.ToString("N0")</td>
-                        <td>@Model.Statistics.PageAttachmentRevisions.ToString("N0")</td>
-                        <td><a href="/Page/Search">@Model.Statistics.PageSearchTokens.ToString("N0")</a></td>
-                        <td><a href="/Admin/Namespaces">@Model.Statistics.Namespaces.ToString("N0")</a></td>
+                        <td>@Model.Metrics.PageTags.ToString("N0")</td>
+                        <td>@Model.Metrics.PageAttachmentRevisions.ToString("N0")</td>
+                        <td><a href="/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
+                        <td><a href="/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
                     </tr>
 
                     <tr>
@@ -63,9 +63,9 @@
                     </tr>
 
                     <tr>
-                        <td><a href="/Admin/Accounts">@Model.Statistics.Users.ToString("N0")</a></td>
-                        <td><a href="/Admin/Accounts">@Model.Statistics.Profiles.ToString("N0")</a></td>
-                        <td><a href="/Admin/Exceptions">@Model.Statistics.Exceptions.ToString("N0")</a></td>
+                        <td><a href="/Admin/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
+                        <td><a href="/Admin/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
+                        <td><a href="/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>

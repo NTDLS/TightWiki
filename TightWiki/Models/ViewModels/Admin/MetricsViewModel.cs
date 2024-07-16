@@ -2,9 +2,9 @@
 
 namespace TightWiki.Models.ViewModels.Admin
 {
-    public class SiteStatisticsViewModel : ViewModelBase
+    public class MetricsViewModel : ViewModelBase
     {
-        public WikiDatabaseStatistics Statistics { get; set; } = new();
+        public WikiDatabaseStatistics Metrics { get; set; } = new();
         public string ApplicationVersion { get; set; } = string.Empty;
     }
 }

@@ -53,7 +53,7 @@ namespace TightWiki.Repository
             return collection;
         }
 
-        public static WikiDatabaseStatistics GetWikiDatabaseStatistics()
+        public static WikiDatabaseStatistics GetWikiDatabaseMetrics()
         {
             return ManagedDataStorage.Config.Ephemeral(o =>
             {
