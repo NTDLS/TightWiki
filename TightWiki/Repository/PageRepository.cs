@@ -164,6 +164,7 @@ namespace TightWiki.Repository
         {
             if (allowCache)
             {
+                //This caching is really just used for paging - so we don't have to do a token search for every click of next/previous.
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
                 if (!WikiCache.TryGet<List<PageSearchToken>>(cacheKey, out var result))
                 {
