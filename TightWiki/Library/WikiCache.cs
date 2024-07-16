@@ -10,6 +10,7 @@ namespace TightWiki.Library
         {
             User,
             Page,
+            Search,
             Emoji,
             Configuration
         }

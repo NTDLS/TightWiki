@@ -22,3 +22,6 @@ GROUP BY
 	T.PageId
 HAVING
 	SUM(Score) >= @MinimumMatchScore
+ORDER BY
+	SUM([Score]) DESC
+LIMIT 250;

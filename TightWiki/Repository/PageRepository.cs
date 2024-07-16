@@ -1,4 +1,5 @@
 ﻿using DuoVia.FuzzyStrings;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
@@ -159,8 +160,20 @@ namespace TightWiki.Repository
             });
         }
 
-        private static List<PageSearchToken> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching)
+        private static List<PageSearchToken> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
+                if (!WikiCache.TryGet<List<PageSearchToken>>(cacheKey, out var result))
+                {
+                    result = GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching, false);
+                    WikiCache.Put(cacheKey, result);
+                }
+
+                return result;
+            }
+
             var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score");
 
             var searchTokens = (from o in searchTerms

@@ -69,7 +69,7 @@ namespace TightWiki.Wiki
 
             ProcessingTime = DateTime.UtcNow - startTime;
 
-            if (GlobalSettings.WritePageStatistics)
+            if (GlobalSettings.RecordCompilationMetrics)
             {
                 StatisticsRepository.InsertCompilationStatistics(page.Id,
                     ProcessingTime.TotalMilliseconds,
