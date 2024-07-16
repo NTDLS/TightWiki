@@ -263,6 +263,13 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, revision).EnsureNotNull();
+
+                int currentPageRevision = PageRepository.GetCurrentPageRevision(page.Id);
+                if (revision >= currentPageRevision)
+                {
+                    return NotifyOfError("You cannot revert to the current page revision.");
+                }
+
                 SavePage(page);
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
@@ -276,33 +283,29 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
-            try
+            var model = new DeletedPagesRevisionsViewModel()
             {
-                var model = new DeletedPagesRevisionsViewModel()
-                {
-                    Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, GetQueryValue("page", 1))
-                };
+                Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, GetQueryValue("page", 1))
+            };
 
-                var page = PageRepository.GetPageInfoById(pageId)
-                    ?? throw new Exception("The specified page could not be found.");
-
-                model.Name = page.Name;
-                model.Namespace = page.Namespace;
-                model.Navigation = page.Navigation;
-                model.PageId = pageId;
-                model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-                model.Revisions.ForEach(o =>
-                {
-                    o.DeletedDate = WikiContext.LocalizeDateTime(o.DeletedDate);
-                });
-
-                return View(model);
-            }
-            catch (Exception ex)
+            var page = PageRepository.GetPageInfoById(pageId);
+            if (page == null)
             {
-                return NotifyOfError(ex.Message);
+                return NotifyOfError("The specified page could not be found.");
             }
+
+            model.Name = page.Name;
+            model.Namespace = page.Namespace;
+            model.Navigation = page.Navigation;
+            model.PageId = pageId;
+            model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
+
+            model.Revisions.ForEach(o =>
+            {
+                o.DeletedDate = WikiContext.LocalizeDateTime(o.DeletedDate);
+            });
+
+            return View(model);
         }
 
         [Authorize]
@@ -374,35 +377,30 @@ namespace TightWiki.Site.Controllers
 
             if (model.UserSelection == true)
             {
-                try
+                var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
+                if (page == null)
                 {
-                    var page = PageRepository.GetPageInfoByNavigation(pageNavigation)
-                        ?? throw new Exception("The page could not be found.");
-
-                    int revisionCount = PageRepository.GetPageRevisionCountByPageId(page.Id);
-                    if (revisionCount <= 1)
-                    {
-                        throw new Exception("You cannot delete the only existing revision of a page, instead you would need to delete the entire page.");
-                    }
-
-                    //If we are deleting the latest revision, then we need to grab the previous
-                    //  version and make it the latest then delete the specified revision.
-                    if (revision >= page.Revision)
-                    {
-                        int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
-                        var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                        SavePage(previousPageRevision);
-                    }
-
-                    PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
+                    return NotifyOfError("The page could not be found.");
                 }
-                catch (Exception ex)
+
+                int revisionCount = PageRepository.GetPageRevisionCountByPageId(page.Id);
+                if (revisionCount <= 1)
                 {
-                    return NotifyOfError(ex.Message);
+                    return NotifyOfError("You cannot delete the only existing revision of a page, instead you would need to delete the entire page.");
                 }
+
+                //If we are deleting the latest revision, then we need to grab the previous
+                //  version and make it the latest then delete the specified revision.
+                if (revision >= page.Revision)
+                {
+                    int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
+                    var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
+                    SavePage(previousPageRevision);
+                }
+
+                PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
 
                 return NotifyOfSuccess("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
-
             }
 
             return Redirect(model.NoRedirectURL);
