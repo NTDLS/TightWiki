@@ -47,7 +47,7 @@
                         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
                         {
                             <p>
-                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown"> @Model.RedirectTimeout - 1 </span> seconds.
+                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown">@(Model.RedirectTimeout - 1)</span> seconds.
                             </p>
                         }
                     </div>

@@ -27,7 +27,7 @@ namespace TightWiki.Site.Controllers
                 SuccessMessage = GetQueryValue("SuccessMessage", string.Empty),
                 ErrorMessage = GetQueryValue("ErrorMessage", string.Empty),
                 RedirectURL = GetQueryValue("RedirectURL", string.Empty),
-                RedirectTimeout = GetQueryValue("RedirectURL", 0)
+                RedirectTimeout = GetQueryValue("RedirectTimeout", 0)
             };
 
             return View(model);

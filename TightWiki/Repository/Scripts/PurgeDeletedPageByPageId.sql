@@ -1,13 +1,12 @@
 --Cleanup
-DELETE FROM deletedpages_db.DeletionMeta WHERE PageId = @PageId;
+DELETE FROM DeletionMeta WHERE PageId = @PageId;
 
-DELETE FROM deletedpages_db.[PageTag] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.[PageToken] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.[PageProcessingInstruction] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.[PageComment] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.[PageRevision] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.[PageRevisionAttachment] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.PageFileRevision WHERE PageFileId IN (SELECT Id FROM deletedpages_db.[PageFile] WHERE PageId = @PageId);
-DELETE FROM deletedpages_db.[PageFile] WHERE PageId = @PageId;
-DELETE FROM deletedpages_db.[Page] WHERE Id = @PageId;
-
+DELETE FROM [PageTag] WHERE PageId = @PageId;
+DELETE FROM [PageToken] WHERE PageId = @PageId;
+DELETE FROM [PageProcessingInstruction] WHERE PageId = @PageId;
+DELETE FROM [PageComment] WHERE PageId = @PageId;
+DELETE FROM [PageRevision] WHERE PageId = @PageId;
+DELETE FROM [PageRevisionAttachment] WHERE PageId = @PageId;
+DELETE FROM PageFileRevision WHERE PageFileId IN (SELECT Id FROM [PageFile] WHERE PageId = @PageId);
+DELETE FROM [PageFile] WHERE PageId = @PageId;
+DELETE FROM [Page] WHERE Id = @PageId;
