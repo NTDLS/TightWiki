@@ -29,7 +29,7 @@ namespace TightWiki
         public static int PageCacheSeconds { get; set; }
         public static int CacheMemoryLimitMB { get; set; }
         public static int DefaultProfileRecentlyModifiedCount { get; set; }
-        public static bool WritePageStatistics { get; set; }
+        public static bool RecordCompilationMetrics { get; set; }
         public static bool ShowLastModifiedOnPageFooter { get; set; }
         public static string DefaultTimeZone { get; set; } = string.Empty;
         public static string Address { get; set; } = string.Empty;
@@ -50,7 +50,7 @@ namespace TightWiki
 
             var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance");
             PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
-            WritePageStatistics = performanceConfig.Value<bool>("Write Page Statistics");
+            RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
             var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
