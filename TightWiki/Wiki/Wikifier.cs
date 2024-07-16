@@ -134,24 +134,6 @@ namespace TightWiki.Wiki
                 }
             } while (length != pageContent.Length);
 
-            if (_revision != null)
-            {
-                var revision = PageRepository.GetPageRevisionInfoById(_page.Id, _revision);
-                var pageInfo = PageRepository.GetPageInfoById(_page.Id);
-
-                var html = new StringBuilder();
-
-                html.Append("<div class=\"card bg-warning mb-3\">");
-                html.Append($"<div class=\"card-header\"><strong>Viewing a historical revision</strong></div>");
-                html.Append("<div class=\"card-body\">");
-                html.Append($"<p class=\"card-text\">You are viewing revision {_revision:0} of \"{_page.Name}\" modified by \"{revision?.ModifiedByUserName}\" on {_wikiContext.LocalizeDateTime(revision?.ModifiedDate ?? DateTime.MinValue)}. <br />");
-                html.Append($"<a href=\"/{_page.Navigation}\">View the latest revision {pageInfo?.Revision:0}.</a>");
-                html.Append("</p>");
-                html.Append("</div>");
-                html.Append("</div>");
-                pageContent.Insert(0, html.ToString());
-            }
-
             pageContent.Replace(SoftBreak, "\r\n");
             pageContent.Replace(HardBreak, "<br />");
 

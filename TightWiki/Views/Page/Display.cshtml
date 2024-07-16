@@ -3,11 +3,28 @@
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
+
+@if (Model.Revision < Model.LatestRevision)
+{
+    <div class="card bg-warning mb-3">
+        <div class="card-header"><strong>Viewing a historical revision</strong></div>
+        <div class="card-body">
+            <p class="card-text">
+                You are viewing revision @Model.Revision of "@Model.Name" modified by @Model.ModifiedByUserName on @Model.ModifiedDate.<br />
+                <a href="/@Model.Navigation">View the latest revision @Model.LatestRevision.</a>
+            </p>
+        </div>
+    </div>
+}
+
 @Html.Raw(Model.Body)
 
 @if (TightWiki.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
 {
-    <br /><small><cite title="Modified By">Last modified by <a href="/Profile/Public/@Model.ModifiedByUserName">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small><br />
+    <br />
+
+    <small><cite title="Modified By">Last modified by <a href="/Profile/Public/@Model.ModifiedByUserName">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small>
+    <br />
 }
 
 @if (Model.HideFooterComments == false)

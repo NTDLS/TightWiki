@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using SixLabors.ImageSharp;
 using System.Text;
 using TightWiki.Library;
@@ -55,6 +56,11 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                model.Revision = page.Revision;
+                model.LatestRevision = page.LatestRevision;
+                model.Name = page.Name;
+                model.Namespace = page.Namespace;
+                model.Navigation = page.Navigation;
                 model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
                 model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
 
