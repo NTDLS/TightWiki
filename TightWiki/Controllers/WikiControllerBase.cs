@@ -35,7 +35,7 @@ namespace TightWiki.Controllers
 
             if (isNewlyCreated)
             {
-                //This will update the pageid of references that have been saved to the navigation link.
+                //This will update the PageId of references that have been saved to the navigation link.
                 PageRepository.UpdateSinglePageReference(page.Navigation, page.Id);
             }
 
@@ -45,7 +45,7 @@ namespace TightWiki.Controllers
         [NonAction]
         public static void RefreshPageMetadata(WikiControllerBase controller, Page page)
         {
-            var wikifier = new Wikifier(controller.WikiContext, page, null, controller.Request.Query, new WikiMatchType[] { WikiMatchType.Function });
+            var wikifier = new Wikifier(controller.WikiContext, page, null, controller.Request.Query, [WikiMatchType.Function]);
 
             PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
@@ -71,45 +71,49 @@ namespace TightWiki.Controllers
             => base.Redirect(url.EnsureNotNull());
 
         [NonAction]
-        protected string? GetQueryString(string key)
+        protected string? GetQueryValue(string key)
             => Request.Query[key];
 
         [NonAction]
-        protected string GetQueryString(string key, string defaultValue)
+        protected string GetQueryValue(string key, string defaultValue)
             => (string?)Request.Query[key] ?? defaultValue;
 
         [NonAction]
-        protected int GetQueryString(string key, int defaultValue)
-            => int.Parse(GetQueryString(key, defaultValue.ToString()));
+        protected int GetQueryValue(string key, int defaultValue)
+            => int.Parse(GetQueryValue(key, defaultValue.ToString()));
 
         [NonAction]
-        protected string? GetFormString(string key)
+        protected string? GetFormValue(string key)
             => Request.Form[key];
 
         [NonAction]
-        protected string GetFormString(string key, string defaultValue)
+        protected string GetFormValue(string key, string defaultValue)
             => (string?)Request.Form[key] ?? defaultValue;
 
         [NonAction]
-        protected int GetFormString(string key, int defaultValue)
-            => int.Parse(GetFormString(key, defaultValue.ToString()));
+        protected int GetFormValue(string key, int defaultValue)
+            => int.Parse(GetFormValue(key, defaultValue.ToString()));
 
-        protected RedirectResult NotifyOfAction(string successMessage, string errorMessage, string redirectUrl)
-            => Redirect($"/Utility/NotifyWithRedirectCountdown?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={redirectUrl}");
+        /// <summary>
+        /// Displays the successMessage unless the errorMessage is present.
+        /// </summary>
+        /// <returns></returns>
+        protected RedirectResult NotifyOf(string successMessage, string errorMessage, string redirectUrl)
+            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(successMessage)}&ErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={redirectUrl}&RedirectTimeout=5");
 
-        protected RedirectResult NotifyOfSuccessAction(string message, string redirectUrl)
-            => Redirect($"/Utility/NotifyWithRedirectCountdown?SuccessMessage={message}&RedirectUrl={redirectUrl}");
+        protected RedirectResult NotifyOfSuccess(string message, string redirectUrl)
+            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(redirectUrl)}&RedirectTimeout=5");
 
-        protected RedirectResult NotifyOfErrorAction(string message, string redirectUrl)
-            => Redirect($"/Utility/NotifyWithRedirectCountdown?ErrorMessage={message}&RedirectUrl={redirectUrl}");
+        protected RedirectResult NotifyOfError(string message, string redirectUrl)
+            => Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(redirectUrl)}");
 
-        protected RedirectResult Notify(string successMessage, string errorMessage)
-            => Redirect($"/Utility/Notify?SuccessMessage={successMessage}&ErrorMessage={errorMessage}");
+        protected RedirectResult NotifyOf(string successMessage, string errorMessage)
+            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(successMessage)}&ErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectTimeout=5");
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"/Utility/Notify?SuccessMessage={message}");
+            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(message)}");
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"/Utility/Notify?ErrorMessage={message}");
+            => Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString(message)}");
     }
 }

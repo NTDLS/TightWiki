@@ -169,12 +169,12 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Search")]
         public ActionResult Search()
         {
-            string searchString = GetQueryString("SearchString") ?? string.Empty;
+            string searchString = GetQueryValue("SearchString") ?? string.Empty;
             if (string.IsNullOrEmpty(searchString) == false)
             {
                 var model = new PageSearchViewModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryString("page", 1)),
+                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
                     SearchString = searchString
                 };
 
@@ -194,12 +194,12 @@ namespace TightWiki.Controllers
         [HttpPost("Page/Search")]
         public ActionResult Search(PageSearchViewModel model)
         {
-            string searchString = GetQueryString("SearchString") ?? string.Empty;
+            string searchString = GetQueryValue("SearchString") ?? string.Empty;
             if (string.IsNullOrEmpty(searchString) == false)
             {
                 model = new PageSearchViewModel()
                 {
-                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryString("page", 1)),
+                    Pages = PageRepository.PageSearchPaged(Utility.SplitToTokens(searchString), GetQueryValue("page", 1)),
                     SearchString = searchString
                 };
 
@@ -233,7 +233,7 @@ namespace TightWiki.Controllers
                 return NotFound();
             }
 
-            var deleteAction = GetQueryString("Delete");
+            var deleteAction = GetQueryValue("Delete");
             if (string.IsNullOrEmpty(deleteAction) == false && WikiContext.IsAuthenticated)
             {
                 if (WikiContext.CanModerate)
@@ -249,7 +249,7 @@ namespace TightWiki.Controllers
 
             var model = new PageCommentsViewModel()
             {
-                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryString("page", 1))
+                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -297,7 +297,7 @@ namespace TightWiki.Controllers
 
             model = new PageCommentsViewModel()
             {
-                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryString("page", 1)),
+                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1)),
                 ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
             };
 
@@ -347,7 +347,7 @@ namespace TightWiki.Controllers
 
             var model = new RevisionsViewModel()
             {
-                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryString("page", 1))
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -393,13 +393,13 @@ namespace TightWiki.Controllers
                 return View(model);
             }
 
-            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && page != null)
             {
                 PageRepository.MovePageToDeletedById(page.Id, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-                return NotifyOfSuccessAction("The page has been deleted successfully!", $"/Home");
+                return NotifyOfSuccess("The page has been deleted.", $"/Home");
             }
 
             return Redirect($"/{pageNavigation}");
@@ -428,8 +428,7 @@ namespace TightWiki.Controllers
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
             if (instructions.Contains(WikiInstruction.Protect))
             {
-                model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
-                return View(model);
+                return NotifyOfError("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.");
             }
 
             return View(model);
@@ -447,12 +446,12 @@ namespace TightWiki.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
-            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNullOrEmpty());
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNullOrEmpty());
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
                 SavePage(page);
-                return NotifyOfSuccessAction("The page has been reverted successfully!", $"/{pageNavigation}");
+                return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
             return Redirect($"/{pageNavigation}");
@@ -524,7 +523,7 @@ namespace TightWiki.Controllers
             }
             else
             {
-                var pageName = GetQueryString("Name").DefaultWhenNullOrEmpty(pageNavigation);
+                var pageName = GetQueryValue("Name").DefaultWhenNullOrEmpty(pageNavigation);
 
                 string templateName = ConfigurationRepository.Get<string>("Customization", "New Page Template").EnsureNotNull();
                 string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
@@ -580,7 +579,7 @@ namespace TightWiki.Controllers
 
                 WikiContext.SetPageId(page.Id);
 
-                return NotifyOfSuccessAction("The page has been created successfully!", $"/{page.Navigation}/Edit");
+                return NotifyOfSuccess("The page has been created.", $"/{page.Navigation}/Edit");
             }
             else
             {
@@ -617,7 +616,7 @@ namespace TightWiki.Controllers
 
                 WikiContext.SetPageId(page.Id);
 
-                model.SuccessMessage = "The page was saved successfully!";
+                model.SuccessMessage = "The page was saved.";
 
                 if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                 {
@@ -647,7 +646,7 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryValue("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
@@ -751,7 +750,7 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryValue("Scale", "100");
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
             if (file != null)
@@ -828,7 +827,6 @@ namespace TightWiki.Controllers
                 return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
         }
-
 
         #endregion
     }

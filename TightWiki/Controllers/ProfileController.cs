@@ -319,7 +319,7 @@ namespace TightWiki.Site.Controllers
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
-            model.SuccessMessage = "Your profile has been saved successfully!";
+            model.SuccessMessage = "Your profile has been saved.";
 
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
             WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
@@ -344,7 +344,7 @@ namespace TightWiki.Site.Controllers
 
             var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
-            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && profile != null)
             {
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;

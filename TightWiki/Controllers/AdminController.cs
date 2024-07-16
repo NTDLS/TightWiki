@@ -57,7 +57,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 StatisticsRepository.PurgeCompilationStatistics();
-                return NotifyOfSuccessAction("Compilation statistics purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("Compilation statistics purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -72,7 +72,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 WikiCache.Clear();
-                return NotifyOfSuccessAction("Memory cache purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("Memory cache purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -91,7 +91,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PageCompilationStatisticsViewModel()
             {
-                Statistics = StatisticsRepository.GetCompilationStatisticsPaged(GetQueryString("page", 1)),
+                Statistics = StatisticsRepository.GetCompilationStatisticsPaged(GetQueryValue("page", 1)),
             };
 
             model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -110,12 +110,12 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Page Moderation";
 
-            var instruction = GetQueryString("Instruction");
+            var instruction = GetQueryValue("Instruction");
             if (instruction != null)
             {
                 var model = new PageModerateViewModel()
                 {
-                    Pages = PageRepository.GetAllPagesByInstructionPaged(GetQueryString("page", 1), null, instruction),
+                    Pages = PageRepository.GetAllPagesByInstructionPaged(GetQueryValue("page", 1), null, instruction),
                     Instruction = instruction,
                     Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
                 };
@@ -155,7 +155,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new MissingPagesViewModel()
             {
-                Pages = PageRepository.GetMissingPagesPaged(GetQueryString("page", 1))
+                Pages = PageRepository.GetMissingPagesPaged(GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -176,7 +176,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new NamespacesViewModel()
             {
-                Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryString("page", 1)),
+                Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryValue("page", 1)),
             };
 
             model.PaginationPageCount = (model.Namespaces.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -197,7 +197,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new NamespaceViewModel()
             {
-                Pages = PageRepository.GetAllNamespacePagesPaged(GetQueryString("page", 1), namespaceName ?? string.Empty, null),
+                Pages = PageRepository.GetAllNamespacePagesPaged(GetQueryValue("page", 1), namespaceName ?? string.Empty, null),
                 Namespace = namespaceName ?? string.Empty
             };
 
@@ -226,11 +226,11 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Pages";
 
-            var searchString = GetQueryString("SearchString");
+            var searchString = GetQueryValue("SearchString");
 
             var model = new PagesViewModel()
             {
-                Pages = PageRepository.GetAllPagesPaged(GetQueryString("page", 1), null, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllPagesPaged(GetQueryValue("page", 1), null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString ?? string.Empty
             };
 
@@ -264,7 +264,7 @@ namespace TightWiki.Site.Controllers
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, revision).EnsureNotNull();
                 SavePage(page);
-                return NotifyOfSuccessAction("The page has been reverted.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -280,7 +280,7 @@ namespace TightWiki.Site.Controllers
             {
                 var model = new DeletedPagesRevisionsViewModel()
                 {
-                    Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, GetQueryString("page", 1))
+                    Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, GetQueryValue("page", 1))
                 };
 
                 var page = PageRepository.GetPageInfoById(pageId)
@@ -299,7 +299,7 @@ namespace TightWiki.Site.Controllers
 
                 return View(model);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return NotifyOfError(ex.Message);
             }
@@ -338,7 +338,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PageRevisionsViewModel()
             {
-                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryString("page", 1))
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -401,7 +401,7 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError(ex.Message);
                 }
 
-                return NotifyOfSuccessAction("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
 
             }
 
@@ -440,10 +440,10 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
-            string searchString = GetQueryString("SearchString") ?? string.Empty;
+            string searchString = GetQueryValue("SearchString") ?? string.Empty;
             var model = new DeletedPagesViewModel()
             {
-                Pages = PageRepository.GetAllDeletedPagesPaged(GetQueryString("page", 1), null, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllDeletedPagesPaged(GetQueryValue("page", 1), null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 
@@ -464,7 +464,7 @@ namespace TightWiki.Site.Controllers
                 {
                     PageController.RefreshPageMetadata(this, page);
                 }
-                return NotifyOfSuccessAction("All pages have been rebuilt.", model.YesRedirectURL);
+                return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -480,7 +480,7 @@ namespace TightWiki.Site.Controllers
             {
                 PageRepository.TruncateAllPageRevisions("YES");
                 WikiCache.Clear();
-                return NotifyOfSuccessAction("All page revisions have been truncated.", model.YesRedirectURL);
+                return NotifyOfSuccess("All page revisions have been truncated.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -495,7 +495,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageRevisionsByPageId(pageId);
-                return NotifyOfSuccessAction("The page deletion queue has been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page deletion queue has been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -510,7 +510,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageRevisionByPageIdAndRevision(pageId, revision);
-                return NotifyOfSuccessAction("The page revision has been purged from the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page revision has been purged from the deletion queue.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -525,7 +525,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.RestoreDeletedPageRevisionByPageIdAndRevision(pageId, revision);
-                return NotifyOfSuccessAction("The page revision has been restored.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page revision has been restored.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -540,7 +540,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPages();
-                return NotifyOfSuccessAction("The page deletion queue has been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page deletion queue has been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -555,7 +555,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageByPageId(pageId);
-                return NotifyOfSuccessAction("The page has been purged from the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page has been purged from the deletion queue.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -570,7 +570,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.MovePageToDeletedById(pageId, WikiContext.Profile.EnsureNotNull().UserId);
-                return NotifyOfSuccessAction("The page has been moved to the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page has been moved to the deletion queue.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -590,7 +590,7 @@ namespace TightWiki.Site.Controllers
                 {
                     PageController.RefreshPageMetadata(this, page);
                 }
-                return NotifyOfSuccessAction("The page has restored.", model.YesRedirectURL);
+                return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -607,11 +607,11 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Orphaned Page Attachments";
 
-            var searchString = GetQueryString("SearchString");
+            var searchString = GetQueryValue("SearchString");
 
             var model = new OrphanedPageAttachmentsViewModel()
             {
-                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(GetQueryString("page", 1), null),
+                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(GetQueryValue("page", 1), null),
             };
 
             model.PaginationPageCount = (model.Files.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -639,7 +639,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachments();
-                return NotifyOfSuccessAction("All orphaned page attachments have been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("All orphaned page attachments have been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -655,7 +655,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachment(pageFileId);
-                return NotifyOfSuccessAction("The pages orphaned attachments have been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("The pages orphaned attachments have been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);
@@ -729,14 +729,14 @@ namespace TightWiki.Site.Controllers
                 model.Id = ConfigurationRepository.InsertMenuItem(model.ToDataModel());
                 ModelState.Clear();
 
-                return NotifyOfSuccessAction("The menu item has been created successfully!", $"/Admin/MenuItem/{model.Id}");
+                return NotifyOfSuccess("The menu item has been created.", $"/Admin/MenuItem/{model.Id}");
             }
             else
             {
                 ConfigurationRepository.UpdateMenuItemById(model.ToDataModel());
             }
 
-            model.SuccessMessage = "The menu item has been saved successfully!";
+            model.SuccessMessage = "The menu item has been saved.";
             return View(model);
         }
 
@@ -758,12 +758,12 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true)
             {
                 ConfigurationRepository.DeleteMenuItemById(model.Id);
 
-                return NotifyOfSuccessAction("The menu item has been deleted successfully!", $"/Admin/MenuItems");
+                return NotifyOfSuccess("The menu item has been deleted.", $"/Admin/MenuItems");
             }
 
             return Redirect($"/Admin/MenuItem/{model.Id}");
@@ -788,7 +788,7 @@ namespace TightWiki.Site.Controllers
             {
                 Id = role.Id,
                 Name = role.Name,
-                Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, GetQueryString("page", 1))
+                Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Users.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -1125,7 +1125,7 @@ namespace TightWiki.Site.Controllers
                 }
             }
 
-            return NotifyOfAction("The account has been created successfully!", model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
+            return NotifyOf("The account has been created.", model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
         }
 
         [Authorize]
@@ -1134,11 +1134,11 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
-            var searchString = GetQueryString("SearchString") ?? string.Empty;
+            var searchString = GetQueryValue("SearchString") ?? string.Empty;
 
             var model = new AccountsViewModel()
             {
-                Users = UsersRepository.GetAllUsersPaged(GetQueryString("page", 1), null, searchString),
+                Users = UsersRepository.GetAllUsersPaged(GetQueryValue("page", 1), null, searchString),
                 SearchString = searchString
             };
 
@@ -1164,7 +1164,7 @@ namespace TightWiki.Site.Controllers
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
 
-            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && profile != null)
             {
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
@@ -1187,10 +1187,10 @@ namespace TightWiki.Site.Controllers
                     //We're deleting our own account. Oh boy...
                     SignInManager.SignOutAsync();
 
-                    return NotifyOfSuccessAction("Your account has been deleted successfully!", $"/Profile/Deleted");
+                    return NotifyOfSuccess("Your account has been deleted.", $"/Profile/Deleted");
                 }
 
-                return NotifyOfSuccessAction("The account has been deleted successfully!", $"/Admin/Accounts");
+                return NotifyOfSuccess("The account has been deleted.", $"/Admin/Accounts");
             }
 
             return Redirect($"/Admin/Account/{navigation}");
@@ -1269,7 +1269,7 @@ namespace TightWiki.Site.Controllers
                 foreach (var fc in flatConfig)
                 {
                     string key = $"{fc.GroupId}:{fc.EntryId}";
-                    var value = GetFormString(key, string.Empty);
+                    var value = GetFormValue(key, string.Empty);
 
                     if (fc.IsRequired && string.IsNullOrEmpty(value))
                     {
@@ -1318,11 +1318,11 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Emojis";
 
-            var searchString = GetQueryString("SearchString") ?? string.Empty;
+            var searchString = GetQueryValue("SearchString") ?? string.Empty;
 
             var model = new EmojisViewModel()
             {
-                Emojis = EmojiRepository.GetAllEmojisPaged(GetQueryString("page", 1), null, Utility.SplitToTokens(searchString)),
+                Emojis = EmojiRepository.GetAllEmojisPaged(GetQueryValue("page", 1), null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 
@@ -1411,7 +1411,7 @@ namespace TightWiki.Site.Controllers
 
             if (nameChanged)
             {
-                return NotifyOfSuccessAction("The emoji has been saved successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+                return NotifyOfSuccess("The emoji has been saved.", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
 
             return View(model);
@@ -1483,7 +1483,7 @@ namespace TightWiki.Site.Controllers
 
             EmojiRepository.UpsertEmoji(emoji);
 
-            return NotifyOfSuccessAction("The emoji has been created successfully!", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+            return NotifyOfSuccess("The emoji has been created.", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
         }
 
         [Authorize]
@@ -1494,12 +1494,12 @@ namespace TightWiki.Site.Controllers
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            bool confirmAction = bool.Parse(GetFormString("IsActionConfirmed").EnsureNotNull());
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && emoji != null)
             {
                 EmojiRepository.DeleteById(emoji.Id);
 
-                return NotifyOfSuccessAction("The emoji has been deleted successfully!", $"/Admin/Emojis");
+                return NotifyOfSuccess("The emoji has been deleted.", $"/Admin/Emojis");
             }
 
             return Redirect($"/Admin/Emoji/{name}");
@@ -1540,7 +1540,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new ExceptionsViewModel()
             {
-                Exceptions = ExceptionRepository.GetAllExceptionsPaged(GetQueryString("page", 1))
+                Exceptions = ExceptionRepository.GetAllExceptionsPaged(GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Exceptions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -1572,7 +1572,7 @@ namespace TightWiki.Site.Controllers
             if (model.UserSelection == true)
             {
                 ExceptionRepository.PurgeExceptions();
-                return NotifyOfSuccessAction("All exceptions have been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess("All exceptions have been purged.", model.YesRedirectURL);
             }
 
             return Redirect(model.NoRedirectURL);

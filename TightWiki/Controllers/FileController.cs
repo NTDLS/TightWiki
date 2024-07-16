@@ -32,7 +32,7 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryValue("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
@@ -137,7 +137,7 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryString("Scale", "100");
+            string givenScale = GetQueryValue("Scale", "100");
 
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
@@ -247,7 +247,7 @@ namespace TightWiki.Controllers
                 PageNavigation = pageNavigation.Canonical,
                 FileNavigation = fileNavigation.Canonical,
                 Revisions = PageFileRepository.GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged
-                    (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryString("page", 1))
+                    (pageNavigation.Canonical, fileNavigation.Canonical, GetQueryValue("page", 1))
             };
 
             model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -417,7 +417,7 @@ namespace TightWiki.Controllers
 
                     if (emoji.ImageData != null)
                     {
-                        string scale = GetQueryString("Scale", "100");
+                        string scale = GetQueryValue("Scale", "100");
                         var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(emoji.ImageData)));
 
                         int customScalePercent = int.Parse(scale);

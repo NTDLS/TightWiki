@@ -4,6 +4,26 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
+@if (string.IsNullOrEmpty(@Model.RedirectURL) == false && string.IsNullOrEmpty(Model.ErrorMessage) == true && Model.RedirectTimeout > 0)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var countdownElement = document.getElementById('countdown');
+            var countdownTime = @(Model.RedirectTimeout - 1);
+
+            var interval = setInterval(function () {
+                countdownElement.textContent = countdownTime;
+                countdownTime--;
+
+                if (countdownTime < 0) {
+                    clearInterval(interval);
+                    window.location.href = "@Model.RedirectURL";
+                }
+            }, 1000);
+        });
+    </script>
+}
+
 <table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
     <tbody>
         <tr>
@@ -20,14 +40,14 @@
                         }
                     </div>
                 }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                else if (!string.IsNullOrEmpty(Model.SuccessMessage))
                 {
                     <div class="alert alert-success">
                         <h4>@Html.Raw(Model.SuccessMessage)</h4>
-                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
+                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
                         {
                             <p>
-                                <a href="@Model.RedirectURL">Continue</a>
+                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown"> @Model.RedirectTimeout - 1 </span> seconds.
                             </p>
                         }
                     </div>

@@ -17,22 +17,6 @@ namespace TightWiki.Site.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("NotifyWithRedirectCountdown")]
-        public ActionResult NotifyWithRedirectCountdown()
-        {
-            WikiContext.RequireViewPermission();
-
-            var model = new NotifyWithRedirectCountdownViewModel()
-            {
-                SuccessMessage = GetQueryString("SuccessMessage", string.Empty),
-                ErrorMessage = GetQueryString("ErrorMessage", string.Empty),
-                RedirectURL = GetQueryString("RedirectURL", string.Empty)
-            };
-
-            return View(model);
-        }
-
-        [AllowAnonymous]
         [HttpGet("Notify")]
         public ActionResult Notify()
         {
@@ -40,9 +24,10 @@ namespace TightWiki.Site.Controllers
 
             var model = new NotifyViewModel()
             {
-                SuccessMessage = GetQueryString("SuccessMessage", string.Empty),
-                ErrorMessage = GetQueryString("ErrorMessage", string.Empty),
-                RedirectURL = GetQueryString("RedirectURL", string.Empty)
+                SuccessMessage = GetQueryValue("SuccessMessage", string.Empty),
+                ErrorMessage = GetQueryValue("ErrorMessage", string.Empty),
+                RedirectURL = GetQueryValue("RedirectURL", string.Empty),
+                RedirectTimeout = GetQueryValue("RedirectURL", 0)
             };
 
             return View(model);
@@ -61,11 +46,11 @@ namespace TightWiki.Site.Controllers
         {
             var model = new ConfirmActionViewModel
             {
-                ControllerURL = GetQueryString("controllerURL").EnsureNotNull(),
-                YesRedirectURL = GetQueryString("yesRedirectURL").EnsureNotNull(),
-                NoRedirectURL = GetQueryString("noRedirectURL").EnsureNotNull(),
-                Message = GetQueryString("message").EnsureNotNull(),
-                Style = GetQueryString("Style").EnsureNotNull()
+                ControllerURL = GetQueryValue("controllerURL").EnsureNotNull(),
+                YesRedirectURL = GetQueryValue("yesRedirectURL").EnsureNotNull(),
+                NoRedirectURL = GetQueryValue("noRedirectURL").EnsureNotNull(),
+                Message = GetQueryValue("message").EnsureNotNull(),
+                Style = GetQueryValue("Style").EnsureNotNull()
             };
 
             return View(model);
