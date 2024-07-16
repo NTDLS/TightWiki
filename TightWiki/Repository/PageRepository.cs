@@ -978,7 +978,11 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            ManagedDataStorage.DeletedPageRevisions.Execute("RestoreDeletedPageRevisionByPageIdAndRevision.sql", param);
+            ManagedDataStorage.DeletedPageRevisions.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+                o.Execute("RestoreDeletedPageRevisionByPageIdAndRevision.sql", param);
+            });
         }
 
         public static DeletedPageRevision? GetDeletedPageRevisionById(int pageId, int revision)
