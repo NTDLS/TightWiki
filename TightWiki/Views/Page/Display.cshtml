@@ -6,12 +6,17 @@
 
 @if (Model.Revision < Model.LatestRevision)
 {
-    <div class="card bg-warning mb-3">
-        <div class="card-header"><strong>Viewing a historical revision</strong></div>
+    <div class="card bg-info mb-3">
+        <div class="card-header"><strong>Viewing a historical version</strong></div>
         <div class="card-body">
             <p class="card-text">
                 You are viewing revision @Model.Revision of "@Model.Name" modified by @Model.ModifiedByUserName on @Model.ModifiedDate.<br />
-                <a href="/@Model.Navigation">View the latest revision @Model.LatestRevision.</a>
+
+                <a class="btn btn-success btn-thin" href="/@Model.Navigation">View latest revision</a>
+                @if(wikiContext.CanModerate)
+                {
+                    <a class="btn btn-warning btn-thin" href="/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
+                }
             </p>
         </div>
     </div>
