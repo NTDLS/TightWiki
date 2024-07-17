@@ -37,11 +37,11 @@ namespace TightWiki.Wiki
         private readonly Page _page;
         private readonly int? _revision;
         private readonly IQueryCollection _queryString;
-        private readonly WikiContextState _wikiContext;
+        private readonly WikiContextState? _wikiContext;
         private readonly int _nestLevel;
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
-        public Wikifier(WikiContextState wikiContext, Page page, int? revision,
+        public Wikifier(WikiContextState? wikiContext, Page page, int? revision,
             IQueryCollection queryString, WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
@@ -55,7 +55,7 @@ namespace TightWiki.Wiki
 
             if (omitMatches != null)
             {
-                _omitMatches.Union(omitMatches);
+                _omitMatches.UnionWith(omitMatches);
             }
 
             try
@@ -966,7 +966,7 @@ namespace TightWiki.Wiki
 
                     StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_wikiContext.CanCreate == true)
+                else if (_wikiContext?.CanCreate == true)
                 {
                     if (explicitLinkText.Length > 0)
                     {
@@ -1374,6 +1374,12 @@ namespace TightWiki.Wiki
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "revisions":
                         {
+                            if (_wikiContext == null)
+                            {
+                                StoreError(pageContent, match.Value, $"Localization is not supported without WikiContext.");
+                                continue;
+                            }
+
                             string refTag = GenerateQueryToken();
 
                             int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
@@ -2110,6 +2116,12 @@ namespace TightWiki.Wiki
                     //Displays the date and time that the current page was last modified.
                     case "lastmodified":
                         {
+                            if (_wikiContext == null)
+                            {
+                                StoreError(pageContent, match.Value, $"Localization is not supported without WikiContext.");
+                                continue;
+                            }
+
                             DateTime lastModified = DateTime.MinValue;
                             lastModified = _page.ModifiedDate;
                             if (lastModified != DateTime.MinValue)
@@ -2124,6 +2136,12 @@ namespace TightWiki.Wiki
                     //Displays the date and time that the current page was created.
                     case "created":
                         {
+                            if (_wikiContext == null)
+                            {
+                                StoreError(pageContent, match.Value, $"Localization is not supported without WikiContext.");
+                                continue;
+                            }
+
                             DateTime createdDate = DateTime.MinValue;
                             createdDate = _page.CreatedDate;
                             if (createdDate != DateTime.MinValue)
