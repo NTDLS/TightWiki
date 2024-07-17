@@ -49,7 +49,7 @@ namespace TightWiki.Dummy
 
                 body.AppendLine($"==Revision Section");
                 body.AppendLine($"This is here for the workload generator to easily modify the page.");
-                body.AppendLine($"PLACEHOLDER_FOR_REVISION_TEXT\r\n");
+                body.AppendLine($"PLACEHOLDER_FOR_REVISION_TEXT_BEGIN\r\nPLACEHOLDER_FOR_REVISION_TEXT_END\r\n");
 
                 var textWithLinks = WordsRepository.GetRandomWords(rand.Next(5, 10));
                 textWithLinks.AddRange(GetRandomizedList(recentPageNames).Take(rand.Next(1, 2)).Select(o => $"[[{o}]]"));
@@ -81,6 +81,28 @@ namespace TightWiki.Dummy
                 controller.SavePage(page);
 
                 recentPageNames = GetRandomizedList(recentPageNames).Take(100).ToList();
+
+                var pagesToModify = PageRepository.GetAllPages().OrderBy(o => rand.Next()).Take(10);
+
+                foreach (var pageToModify in pagesToModify)
+                {
+                    string beginTag = "PLACEHOLDER_FOR_REVISION_TEXT_BEGIN";
+                    string endTag = "PLACEHOLDER_FOR_REVISION_TEXT_END";
+
+                    int beginIndex = pageToModify.Body.IndexOf(beginTag);
+                    int endIndex = pageToModify.Body.IndexOf(endTag);
+
+                    if (beginIndex > 0 && endIndex > beginIndex)
+                    {
+                        string topText = pageToModify.Body.Substring(0, beginIndex + beginTag.Length);
+                        string bottomText = pageToModify.Body.Substring(endIndex);
+
+                        pageToModify.Body = topText.Trim() + "\r\n" + string.Join(' ', WordsRepository.GetRandomWords(rand.Next(3, 5))) + "\r\n" + bottomText.Trim();
+                        pageToModify.ModifiedByUserId = userId;
+                        pageToModify.ModifiedByUserId = userId;
+                        controller.SavePage(pageToModify);
+                    }
+                }
             }
         }
 
