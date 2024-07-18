@@ -40,6 +40,8 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 ![image](https://github.com/NTDLS/TightWiki/assets/11428567/9cc75103-26b8-4732-8118-315335cddae9)
 
 # Site Metrics
+We've beat the wiki up with more data than this, but this is our standard workload. ~10,000 pages, in ~700 namespaces with ~100,000 revisions created by ~1,000 users manifesting ~2 million search tokens. The random fuzzy-match search time is 11 milliseconds. Not too shabby, right?
+
 ![image](https://github.com/user-attachments/assets/0e700df0-e7f9-4f55-9d86-cc12aeeecb27)
 
 # Page search
