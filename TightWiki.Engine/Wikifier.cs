@@ -5,7 +5,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
-using TightWiki.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;

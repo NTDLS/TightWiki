@@ -2,12 +2,12 @@
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using TightWiki.Interfaces;
+using TightWiki.Library;
 using TightWiki.Repository;
 
 namespace TightWiki.Email
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender : IWikiEmailSender
     {
         private readonly ILogger<EmailSender> _logger;
 

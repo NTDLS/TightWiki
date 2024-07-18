@@ -38,7 +38,7 @@ namespace TightWiki
 
             builder.Services.AddControllersWithViews(); // Adds support for controllers and views
 
-            builder.Services.AddSingleton<Interfaces.IEmailSender, EmailSender>();
+            builder.Services.AddSingleton<IWikiEmailSender, EmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

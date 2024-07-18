@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using TightWiki.Caching;
-using TightWiki.Interfaces;
+using TightWiki.Library;
 using TightWiki.Repository;
 using static TightWiki.Library.Constants;
 

@@ -1,6 +1,6 @@
-﻿namespace TightWiki.Interfaces
+﻿namespace TightWiki.Library
 {
-    public interface IEmailSender
+    public interface IWikiEmailSender
     {
         Task SendEmailAsync(string email, string subject, string htmlMessage);
     }

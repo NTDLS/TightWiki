@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using TightWiki.Configuration;
 using TightWiki.Exceptions;
-using TightWiki.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;

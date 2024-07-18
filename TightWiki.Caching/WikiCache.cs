@@ -68,7 +68,7 @@ namespace TightWiki.Caching
         public static bool Contains(WikiCacheKeyFunction cacheKey)
         {
             CacheGets++;
-            if(MemCache.Contains(cacheKey.Key))
+            if (MemCache.Contains(cacheKey.Key))
             {
                 CacheHits++;
                 return true;

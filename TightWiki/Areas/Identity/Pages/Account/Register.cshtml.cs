@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Configuration;
+using TightWiki.Library;
 using TightWiki.Repository;
 
 
@@ -23,14 +24,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly Interfaces.IEmailSender _emailSender;
+        private readonly IWikiEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            Interfaces.IEmailSender emailSender)
+            IWikiEmailSender emailSender)
                         : base(signInManager)
         {
             _userManager = userManager;

@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Interfaces
+﻿namespace TightWiki.Library
 {
     public interface IWikiContext
     {

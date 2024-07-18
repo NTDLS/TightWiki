@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TightWiki.Configuration;
-using TightWiki.Interfaces;
+using TightWiki.Library;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -14,9 +14,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class RegisterConfirmationModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly IWikiEmailSender _emailSender;
 
-        public RegisterConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public RegisterConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWikiEmailSender emailSender)
                         : base(signInManager)
         {
             _userManager = userManager;
