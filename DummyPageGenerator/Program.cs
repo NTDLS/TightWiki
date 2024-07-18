@@ -82,10 +82,10 @@ namespace DummyPageGenerator
 
                     var claimsToAdd = new List<Claim>
                     {
-                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role")),
-                        new ("timezone", membershipConfig.Value<string>("Default TimeZone")),
-                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country")),
-                        new ("language", membershipConfig.Value<string>("Default Language")),
+                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
+                        new ("timezone", membershipConfig.Value<string>("Default TimeZone").EnsureNotNull()),
+                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country").EnsureNotNull()),
+                        new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
                     };
 
                     SecurityRepository.UpsertUserClaims(userManager, user, claimsToAdd);
@@ -108,10 +108,18 @@ namespace DummyPageGenerator
                 namespaces.AddRange(WordsRepository.GetRandomWords(250));
             }
 
-            foreach (var user in users)
+            var pool = new NTDLS.DelegateThreadPooling.DelegateThreadPool(4, 0);
+
+            while (true)
             {
-                Console.WriteLine($"{user.AccountName} is making changes.");
-                PageGenerator.GeneratePages(user.UserId, rand, namespaces, tags, fileNames, recentPageNames);
+                var workload = pool.CreateQueueStateTracker();
+
+                foreach (var user in users)
+                {
+                    workload.Enqueue(() => PageGenerator.GeneratePages(user.UserId, rand, namespaces, tags, fileNames, ref recentPageNames));
+                }
+
+                workload.WaitForCompletion();
             }
         }
     }
