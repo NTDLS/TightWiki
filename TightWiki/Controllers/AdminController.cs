@@ -269,7 +269,7 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                WikiHelper.UpsertPage(page, WikiContext, Request.Query);
+                WikiHelper.UpsertPage(page, WikiContext);
 
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
@@ -320,7 +320,7 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var wiki = new Wikifier(WikiContext, page, null, Request.Query);
+                var wiki = new Wikifier(WikiContext, page);
                 model.PageId = pageId;
                 model.Revision = pageId;
                 model.Body = wiki.ProcessedBody;
@@ -395,7 +395,7 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    WikiHelper.UpsertPage(previousPageRevision, WikiContext, Request.Query);
+                    WikiHelper.UpsertPage(previousPageRevision, WikiContext);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
@@ -422,7 +422,7 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var wiki = new Wikifier(WikiContext, page, null, Request.Query);
+                var wiki = new Wikifier(WikiContext, page);
                 model.PageId = pageId;
                 model.Body = wiki.ProcessedBody;
                 model.DeletedDate = WikiContext.LocalizeDateTime(page.ModifiedDate);
@@ -460,7 +460,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
+                    WikiHelper.RefreshPageMetadata(page, WikiContext);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -495,7 +495,7 @@ namespace TightWiki.Site.Controllers
                         var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                         if (WikiCache.Contains(cacheKey) == false)
                         {
-                            var wiki = new Wikifier(WikiContext, page, page.Revision, Request.Query);
+                            var wiki = new Wikifier(WikiContext, page, page.Revision);
                             page.Body = wiki.ProcessedBody;
 
                             if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
@@ -632,7 +632,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
+                    WikiHelper.RefreshPageMetadata(page, WikiContext);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }

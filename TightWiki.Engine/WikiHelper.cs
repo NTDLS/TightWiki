@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using TightWiki.Caching;
+﻿using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Repository;
 using static TightWiki.Library.Constants;
@@ -15,13 +14,13 @@ namespace TightWiki.Engine
         /// <param name="query"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static int UpsertPage(Models.DataModels.Page page, IWikiContext? context = null, IQueryCollection? query = null)
+        public static int UpsertPage(Models.DataModels.Page page, IWikiContext? context = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
             page.Id = PageRepository.SavePage(page);
 
-            RefreshPageMetadata(page, context, query);
+            RefreshPageMetadata(page, context);
 
             if (isNewlyCreated)
             {
@@ -38,9 +37,9 @@ namespace TightWiki.Engine
         /// <param name="context"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static void RefreshPageMetadata(Models.DataModels.Page page, IWikiContext? context = null, IQueryCollection? query = null)
+        public static void RefreshPageMetadata(Models.DataModels.Page page, IWikiContext? context = null)
         {
-            var wikifier = new Wikifier(context, page, null, query, [WikiMatchType.Function]);
+            var wikifier = new Wikifier(context, page, null, [WikiMatchType.Function]);
 
             PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);

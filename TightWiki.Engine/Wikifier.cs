@@ -43,13 +43,13 @@ namespace TightWiki.Engine
         private readonly int _nestLevel;
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
-        public Wikifier(IWikiContext? wikiContext, Page page, int? revision,
-            IQueryCollection? queryString, WikiMatchType[]? omitMatches = null, int nestLevel = 0)
+        public Wikifier(IWikiContext? wikiContext, Page page, int? revision = null,
+             WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
 
             _nestLevel = nestLevel;
-            _queryString = queryString ?? new QueryCollection();
+            _queryString = wikiContext?.QueryString ?? new QueryCollection();
             _page = page;
             _revision = revision;
             Matches = new Dictionary<string, MatchSet>();
@@ -1473,7 +1473,7 @@ namespace TightWiki.Engine
                             var page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_wikiContext, page, null, _queryString, _omitMatches.ToArray(), _nestLevel + 1);
+                                var wikify = new Wikifier(_wikiContext, page, null, _omitMatches.ToArray(), _nestLevel + 1);
 
                                 MergeUserVariables(wikify.UserVariables);
                                 MergeSnippets(wikify.Snippets);
@@ -2576,14 +2576,7 @@ namespace TightWiki.Engine
         {
             foreach (var item in items)
             {
-                if (UserVariables.ContainsKey(item.Key))
-                {
-                    UserVariables[item.Key] = item.Value;
-                }
-                else
-                {
-                    UserVariables.Add(item.Key, item.Value);
-                }
+                UserVariables[item.Key] = item.Value;
             }
         }
 
@@ -2591,14 +2584,7 @@ namespace TightWiki.Engine
         {
             foreach (var item in items)
             {
-                if (Snippets.ContainsKey(item.Key))
-                {
-                    Snippets[item.Key] = item.Value;
-                }
-                else
-                {
-                    Snippets.Add(item.Key, item.Value);
-                }
+                Snippets[item.Key] = item.Value;
             }
         }
     }

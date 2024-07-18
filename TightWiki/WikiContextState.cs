@@ -25,7 +25,7 @@ namespace TightWiki
         #endregion
 
         #region Current Page.
-
+        public IQueryCollection? QueryString { get; set; }
         public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
         public string PageNavigationEscaped { get; set; } = string.Empty;
@@ -45,6 +45,7 @@ namespace TightWiki
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
             Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            QueryString = pageModel.Request.Query;
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
@@ -53,6 +54,7 @@ namespace TightWiki
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
             Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            QueryString = controller.Request.Query;
 
             PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");

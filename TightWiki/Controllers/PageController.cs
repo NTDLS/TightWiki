@@ -83,7 +83,8 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        var wiki = new Wikifier(WikiContext, page, pageRevision, Request.Query);
+
+                        var wiki = new Wikifier(WikiContext, page, pageRevision);
 
                         model.Body = wiki.ProcessedBody;
 
@@ -95,7 +96,7 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var wiki = new Wikifier(WikiContext, page, pageRevision, Request.Query);
+                    var wiki = new Wikifier(WikiContext, page, pageRevision);
                     model.Body = wiki.ProcessedBody;
                 }
 
@@ -112,7 +113,7 @@ namespace TightWiki.Controllers
 
                 WikiContext.SetPageId(null, pageRevision);
 
-                var wiki = new Wikifier(WikiContext, notExistsPage, null, Request.Query);
+                var wiki = new Wikifier(WikiContext, notExistsPage);
                 WikiContext.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
@@ -131,7 +132,7 @@ namespace TightWiki.Controllers
 
                 WikiContext.SetPageId(null, null);
 
-                var wiki = new Wikifier(WikiContext, notExistsPage, null, Request.Query);
+                var wiki = new Wikifier(WikiContext, notExistsPage);
                 WikiContext.Title = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
@@ -327,7 +328,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
+                WikiHelper.RefreshPageMetadata(page, WikiContext);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -450,7 +451,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
+                WikiHelper.RefreshPageMetadata(page, WikiContext);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
@@ -575,7 +576,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = WikiHelper.UpsertPage(page, WikiContext, Request.Query);
+                page.Id = WikiHelper.UpsertPage(page, WikiContext);
 
                 WikiContext.SetPageId(page.Id);
 
@@ -612,7 +613,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                WikiHelper.UpsertPage(page, WikiContext, Request.Query);
+                WikiHelper.UpsertPage(page, WikiContext);
 
                 WikiContext.SetPageId(page.Id);
 
