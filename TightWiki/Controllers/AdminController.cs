@@ -501,7 +501,7 @@ namespace TightWiki.Site.Controllers
 
                             if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                             {
-                                WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalConfiguration.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                WikiCache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     });

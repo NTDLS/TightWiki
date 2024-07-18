@@ -325,19 +325,19 @@ namespace TightWiki.Repository
 
             GlobalConfiguration.IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
+            var performanceConfig = GetConfigurationEntryValuesByGroupName("Performance", false);
             GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
             GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
-            WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB);
+            WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, GlobalConfiguration.PageCacheSeconds);
 
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
-            var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
-            var functionalityConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
+            var basicConfig = GetConfigurationEntryValuesByGroupName("Basic");
+            var customizationConfig = GetConfigurationEntryValuesByGroupName("Customization");
+            var htmlConfig = GetConfigurationEntryValuesByGroupName("HTML Layout");
+            var functionalityConfig = GetConfigurationEntryValuesByGroupName("Functionality");
+            var membershipConfig = GetConfigurationEntryValuesByGroupName("Membership");
+            var searchConfig = GetConfigurationEntryValuesByGroupName("Search");
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
             GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
@@ -348,7 +348,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
             GlobalConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
             GlobalConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
-            GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == themeName);
+            GlobalConfiguration.SystemTheme = GetAllThemes().Single(o => o.Name == themeName);
             GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
             GlobalConfiguration.AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
             GlobalConfiguration.DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;
@@ -364,7 +364,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
             GlobalConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
             GlobalConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
-            GlobalConfiguration.MenuItems = ConfigurationRepository.GetAllMenuItems();
+            GlobalConfiguration.MenuItems = GetAllMenuItems();
 
             ReloadEmojis();
         }

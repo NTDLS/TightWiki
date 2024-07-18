@@ -15,7 +15,7 @@ namespace TightWiki.Caching
             Configuration
         }
 
-        const int DefaultCacheSeconds = 5 * 60;
+        public static int DefaultCacheSeconds { get; set; }
         private static MemoryCache? _memCache;
         public static ulong CachePuts { get; set; }
         public static ulong CacheGets { get; set; }
@@ -26,8 +26,9 @@ namespace TightWiki.Caching
 
         public static MemoryCache MemCache => _memCache ?? throw new Exception("Cache has not been initialized.");
 
-        public static void Initialize(int cacheMemoryLimitMB)
+        public static void Initialize(int cacheMemoryLimitMB, int defaultCacheSeconds)
         {
+            DefaultCacheSeconds = defaultCacheSeconds;
             var config = new NameValueCollection
             {
                 //config.Add("pollingInterval", "00:05:00");
@@ -102,13 +103,19 @@ namespace TightWiki.Caching
         /// <param name="cacheKey"></param>
         /// <param name="value"></param>
         /// <param name="seconds"></param>
-        public static void Put(WikiCacheKeyFunction cacheKey, object value, int seconds = DefaultCacheSeconds)
+        public static void Put(WikiCacheKeyFunction cacheKey, object value, int? seconds = null)
         {
             CachePuts++;
 
+            seconds ??= DefaultCacheSeconds;
+            if (seconds <= 0)
+            {
+                return;
+            }
+
             var policy = new CacheItemPolicy()
             {
-                AbsoluteExpiration = System.DateTimeOffset.Now.AddSeconds(seconds)
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
             };
             MemCache.Add(cacheKey.Key, value, policy);
         }
