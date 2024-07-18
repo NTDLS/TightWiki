@@ -468,6 +468,40 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
+        [HttpPost("PreCacheAllPages")]
+        public ActionResult PreCacheAllPages(ConfirmActionViewModel model)
+        {
+            WikiContext.RequireModeratePermission();
+
+            if (model.UserSelection == true)
+            {
+                foreach (var page in PageRepository.GetAllPages())
+                {
+                    var wiki = new Wikifier(WikiContext, page, page.Revision, Request.Query);
+
+                    page.Body = wiki.ProcessedBody;
+
+                    if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                    {
+                        string queryKey = string.Empty;
+                        foreach (var query in Request.Query)
+                        {
+                            queryKey += $"{query.Key}:{query.Value}";
+                        }
+
+                        var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+
+                        WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalConfiguration.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                    }
+
+                }
+                return NotifyOfSuccess("All pages have been cached.", model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        [Authorize]
         [HttpPost("TruncatingPageRevisions")]
         public ActionResult TruncatingPageRevisions(ConfirmActionViewModel model)
         {

@@ -28,6 +28,9 @@
                 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
                          "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
 
+                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
+                         "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
+
                 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Truncating page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
                          "Truncating Page Revisions", "/Admin/TruncatingPageRevisions", Context.Request.Path.Value))
                 <br />

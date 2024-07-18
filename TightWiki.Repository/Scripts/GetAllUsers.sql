@@ -20,10 +20,10 @@ INNER JOIN AspNetUserClaims as UCR
 	ON UCR.UserId = U.UserId
 	AND UCR.ClaimType LIKE '%/role'
 LEFT OUTER JOIN AspNetUserClaims as UCFirstName
-	ON UCR.UserId = U.UserId
-	AND UCR.ClaimType = 'firstname'
+	ON UCFirstName.UserId = U.UserId
+	AND UCFirstName.ClaimType = 'firstname'
 LEFT OUTER JOIN AspNetUserClaims as UCLastName
-	ON UCR.UserId = U.UserId
-	AND UCR.ClaimType = 'lastname'
+	ON UCLastName.UserId = U.UserId
+	AND UCLastName.ClaimType = 'lastname'
 INNER JOIN Role as R
 	ON R.Name = UCR.ClaimValue
