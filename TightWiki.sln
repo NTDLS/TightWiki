@@ -5,12 +5,6 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki", "TightWiki\TightWiki.csproj", "{D738E581-7699-4C8D-B965-92970C75C110}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB673106-1FF9-4408-8BC1-C4CAA3884609}"
-	ProjectSection(SolutionItems) = preProject
-		Highlight.js.md = Highlight.js.md
-		Notes.md = Notes.md
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mssql2Sqlite", "Mssql2Sqlite\Mssql2Sqlite.csproj", "{21248F3B-540E-42EB-9500-4613040F6782}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Library", "TightWiki.Library\TightWiki.Library.csproj", "{350D3A91-D5B6-479D-9BF8-B9E63EA83C80}"
@@ -29,7 +23,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Engine", "TightWi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Interfaces", "TightWiki.Interfaces\TightWiki.Interfaces.csproj", "{D7D40798-84F4-4CFF-BCAD-72CA0D57986D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyPageGenerator", "DummyPageGenerator\DummyPageGenerator.csproj", "{829D715C-700C-418F-974C-72060A88EED7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DummyPageGenerator", "DummyPageGenerator\DummyPageGenerator.csproj", "{829D715C-700C-418F-974C-72060A88EED7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{E877E5D9-BD3A-486A-ABA6-B890133D5220}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{B20FC982-E0BE-4893-A3B4-535C3E48EBE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{37166B8B-6665-4D4C-B29E-67CA9D68E5EF}"
+	ProjectSection(SolutionItems) = preProject
+		Highlight.js.md = Highlight.js.md
+		Notes.md = Notes.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -84,6 +88,18 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21248F3B-540E-42EB-9500-4613040F6782} = {B20FC982-E0BE-4893-A3B4-535C3E48EBE6}
+		{350D3A91-D5B6-479D-9BF8-B9E63EA83C80} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{9C4FC582-E9E7-4635-ADA3-134645986747} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{86FE0D32-1E45-47FC-9A52-5CBAAF0DA5C1} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{59116ABB-8D8D-4C7A-9BB3-A234E839DA1A} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{F1B6B533-D260-4F63-950B-0EFE12E53A3E} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{BFD707FE-AECF-412F-BDD2-25655569F9D5} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{06FEB53F-CCB0-4A52-8C92-588AE33B52A3} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{D7D40798-84F4-4CFF-BCAD-72CA0D57986D} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
+		{829D715C-700C-418F-974C-72060A88EED7} = {B20FC982-E0BE-4893-A3B4-535C3E48EBE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3299E570-76FA-4831-9150-C1CCF4CB50E0}

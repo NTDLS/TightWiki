@@ -57,7 +57,7 @@ namespace DummyPageGenerator
 
             if (users.Count < 1124)
             {
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 1124 - users.Count; i++)
                 {
                     string emailAddress = WordsRepository.GetRandomWords(1).First() + "@" + WordsRepository.GetRandomWords(1).First() + ".com";
 
