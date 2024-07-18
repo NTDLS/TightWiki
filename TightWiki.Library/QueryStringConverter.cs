@@ -37,7 +37,7 @@ namespace TightWiki.Library
             }
 
             // If the query string starts with '?', remove it
-            if (queryString.StartsWith("?"))
+            if (queryString.StartsWith('?'))
             {
                 queryString = queryString.Substring(1);
             }
@@ -74,7 +74,8 @@ namespace TightWiki.Library
                 {
                     queryString.Append('&');
                 }
-                queryString.Append($"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}");
+
+                queryString.Append($"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value.ToString())}");
             }
 
             return queryString.ToString();
