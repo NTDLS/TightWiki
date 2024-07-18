@@ -2,9 +2,9 @@ using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using TightWiki.Data;
 using TightWiki.Email;
 using TightWiki.Repository;
-using YourApplication.Data;
 
 namespace TightWiki
 {

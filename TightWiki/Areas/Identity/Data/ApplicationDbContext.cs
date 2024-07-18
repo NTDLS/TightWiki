@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace YourApplication.Data;
+namespace TightWiki.Data;
 
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
