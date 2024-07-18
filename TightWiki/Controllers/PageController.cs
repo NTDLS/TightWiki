@@ -14,14 +14,9 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController : WikiControllerBase
+    public class PageController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        : WikiControllerBase(signInManager, userManager)
     {
-        public PageController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-            : base(signInManager, userManager)
-        {
-        }
-
-
         [AllowAnonymous]
         [Route("/robots.txt")]
         public ContentResult RobotsTxt()

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Controllers;
+using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
@@ -11,10 +12,15 @@ namespace TightWiki.Dummy
         {
             var rand = new Random();
 
-            var namespaces = WordsRepository.GetRandomWords(250);
+            var namespaces = PageRepository.GetAllNamespaces();
             var tags = WordsRepository.GetRandomWords(250);
-
+            var fileNames = WordsRepository.GetRandomWords(50);
             var recentPageNames = new List<string>();
+
+            if (namespaces.Count < 250)
+            {
+                namespaces.AddRange(WordsRepository.GetRandomWords(250));
+            }
 
             while (true)
             {
@@ -78,7 +84,14 @@ namespace TightWiki.Dummy
                     Description = string.Join(' ', WordsRepository.GetRandomWords(rand.Next(3, 5))),
                 };
 
-                controller.SavePage(page);
+                int newPageId = controller.SavePage(page);
+
+                if (rand.Next(100) >= 70)
+                {
+                    var fileName = fileNames[rand.Next(fileNames.Count)] + ".txt"; ;
+                    var fileData = Encoding.UTF8.GetBytes(page.Body);
+                    AttachFile(newPageId, userId, fileName, fileData);
+                }
 
                 recentPageNames = GetRandomizedList(recentPageNames).Take(100).ToList();
 
@@ -101,9 +114,30 @@ namespace TightWiki.Dummy
                         pageToModify.ModifiedByUserId = userId;
                         pageToModify.ModifiedByUserId = userId;
                         controller.SavePage(pageToModify);
+
+                        if (rand.Next(100) >= 90)
+                        {
+                            var fileName = fileNames[rand.Next(fileNames.Count)] + ".txt";
+                            var fileData = Encoding.UTF8.GetBytes(pageToModify.Body);
+                            AttachFile(pageToModify.Id, userId, fileName, fileData);
+                        }
                     }
                 }
             }
+        }
+
+        public static void AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
+        {
+            PageFileRepository.UpsertPageFile(new PageFileAttachment()
+            {
+                Data = fileData,
+                CreatedDate = DateTime.UtcNow,
+                PageId = pageId,
+                Name = fileName,
+                FileNavigation = Navigation.Clean(fileName),
+                Size = fileData.Length,
+                ContentType = Utility.GetMimeType(fileName)
+            }, userId);
         }
 
         static List<T> GetRandomizedList<T>(List<T> list)

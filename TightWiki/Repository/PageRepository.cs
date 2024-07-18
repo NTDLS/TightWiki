@@ -1,5 +1,4 @@
 ﻿using DuoVia.FuzzyStrings;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
@@ -562,10 +561,11 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<NamespaceStat>("GetAllNamespacesPaged.sql", param).ToList();
         }
 
+        public static List<string> GetAllNamespaces()
+            => ManagedDataStorage.Pages.Query<string>("GetAllNamespaces.sql").ToList();
+
         public static List<Page> GetAllPages()
-        {
-            return ManagedDataStorage.Pages.Query<Page>("GetAllPages.sql").ToList();
-        }
+            => ManagedDataStorage.Pages.Query<Page>("GetAllPages.sql").ToList();
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {

@@ -15,15 +15,10 @@ namespace TightWiki.Site.Controllers
 
     [AllowAnonymous]
     [Route("[controller]")]
-    public class ProfileController : WikiControllerBase
+    public class ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
+        : WikiControllerBase(signInManager, userManager)
     {
-        private readonly IWebHostEnvironment _environment;
-
-        public ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
-            : base(signInManager, userManager)
-        {
-            _environment = environment;
-        }
+        private readonly IWebHostEnvironment _environment = environment;
 
         #region User Profile.
 

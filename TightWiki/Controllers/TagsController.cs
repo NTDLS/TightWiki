@@ -10,13 +10,9 @@ using TightWiki.Wiki;
 namespace TightWiki.Site.Controllers
 {
     [Authorize]
-    public class TagsController : WikiControllerBase
+    public class TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        : WikiControllerBase(signInManager, userManager)
     {
-        public TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-            : base(signInManager, userManager)
-        {
-        }
-
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
         {

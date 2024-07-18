@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Controllers;
+using TightWiki.Dummy;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -20,11 +21,64 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController : WikiControllerBase
+    public class AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        : WikiControllerBase(signInManager, userManager)
     {
-        public AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-            : base(signInManager, userManager)
+        [Authorize]
+        [HttpGet("Dummy")]
+        public ActionResult Dummy()
         {
+            WikiContext.RequireAdminPermission();
+#if !DEBUG
+            return Redirect("/");
+#endif
+            PageGenerator.GeneratePages(this, WikiContext.Profile.EnsureNotNull().UserId);
+
+            /*
+            foreach (var page in PageRepository.GetAllPages())
+            {
+                Regex alphanumericWithSpacesAndPeriodRegex = new Regex("^[a-zA-Z\\s\\.]+$");
+
+                #region Make revision.
+
+                var lookForLines = page.Body.Split("\r\n").Where(s => alphanumericWithSpacesAndPeriodRegex.IsMatch(s)).Where(o => o.Contains(' ')).ToList();
+
+                if (lookForLines.Count > 1)
+                {
+                    var lookForTokens = lookForLines[rand.Next(lookForLines.Count)].Split(' ').Where(o=>o.Length > 3).ToList();
+                    if (lookForTokens.Count > 0)
+                    {
+                        for (int i = 0; i < rand.Next(3, 10); i++)
+                        {
+                            var replaceToken = lookForTokens[rand.Next(lookForTokens.Count)];
+                            page.Body = page.Body.Replace(replaceToken, WordsRepository.GetRandomWords(1).Single());
+                        }
+
+                        SavePage(page);
+                    }
+                }
+
+                #endregion
+
+                if (rand.Next(100) > 95)
+                {
+                    var ns = namespaces[rand.Next(namespaces.Count)];
+
+                    page.Id = 0;
+                    page.Name = ns + " :: " + string.Join(" ", WordsRepository.GetRandomWords(3));
+                    page.Description = string.Join(" ", WordsRepository.GetRandomWords(rand.Next(3, 8)));
+
+                    if (rand.Next(100) > 80)
+                    {
+                        page.Body += "##Tag(" + string.Join(", ", WordsRepository.GetRandomWords(3)) + ")\r\n\r\n";
+                    }
+
+                    SavePage(page);
+                }
+            }
+            */
+
+            return Redirect("/");
         }
 
         #region Metrics.
@@ -460,7 +514,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    PageController.RefreshPageMetadata(this, page);
+                    RefreshPageMetadata(this, page);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }

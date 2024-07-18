@@ -1,18 +1,13 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using Aes = System.Security.Cryptography.Aes;
 
 namespace TightWiki.Library
 {
     public static class Security
     {
+        private static string? _machineKey;
         public static string MachineKey
-        {
-            get
-            {
-                return Sha1(Environment.MachineName);
-            }
-        }
+            => _machineKey ??= Sha1(Environment.MachineName);
 
         public static string GenerateRandomString(int maxLength = 10)
         {
@@ -29,14 +24,10 @@ namespace TightWiki.Library
         }
 
         public static uint Crc32(string text)
-        {
-            return (new Crc32()).Get(Encoding.Unicode.GetBytes(text));
-        }
+            => (new Crc32()).Get(Encoding.Unicode.GetBytes(text));
 
         public static string Sha1(string text)
-        {
-            return BitConverter.ToString(SHA1.HashData(Encoding.Unicode.GetBytes(text))).Replace("-", "");
-        }
+            => BitConverter.ToString(SHA1.HashData(Encoding.Unicode.GetBytes(text))).Replace("-", "");
 
         public static string Sha256(string value)
         {

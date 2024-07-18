@@ -9,18 +9,13 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase : Controller
+    public class WikiControllerBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        : Controller
     {
         public WikiContextState WikiContext { get; private set; } = new();
 
-        public readonly SignInManager<IdentityUser> SignInManager;
-        public readonly UserManager<IdentityUser> UserManager;
-
-        public WikiControllerBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-        {
-            SignInManager = signInManager;
-            UserManager = userManager;
-        }
+        public readonly SignInManager<IdentityUser> SignInManager = signInManager;
+        public readonly UserManager<IdentityUser> UserManager = userManager;
 
         #region NonAction Functions.
 

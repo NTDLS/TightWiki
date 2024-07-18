@@ -9,13 +9,9 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class UtilityController : WikiControllerBase
+    public class UtilityController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        : WikiControllerBase(signInManager, userManager)
     {
-        public UtilityController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-            : base(signInManager, userManager)
-        {
-        }
-
         [AllowAnonymous]
         [HttpGet("Notify")]
         public ActionResult Notify()

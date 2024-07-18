@@ -1,7 +1,4 @@
-SELECT
-	[Namespace],
-	Count(0) as [CountOfPages]
+SELECT DISTINCT
+	[Namespace]
 FROM
 	[Page]
-GROUP BY
-	[Namespace]
