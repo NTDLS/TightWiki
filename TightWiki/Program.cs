@@ -1,7 +1,6 @@
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TightWiki.Data;
 using TightWiki.Email;
 using TightWiki.Library;
 using TightWiki.Repository;
@@ -45,7 +44,6 @@ namespace TightWiki
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             var ExternalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("External Authentication");
-
 
             var authentication = builder.Services.AddAuthentication();
 

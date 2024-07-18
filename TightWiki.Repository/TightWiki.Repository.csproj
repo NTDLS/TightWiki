@@ -184,7 +184,6 @@
     <EmbeddedResource Include="Scripts\GetAllPublicProfilesPaged.sql" />
     <EmbeddedResource Include="Scripts\GetAllRoles.sql" />
     <EmbeddedResource Include="Scripts\GetAllThemes.sql" />
-    <EmbeddedResource Include="Scripts\GetAllProfiles.sql" />
     <EmbeddedResource Include="Scripts\GetAllUsers.sql" />
     <EmbeddedResource Include="Scripts\GetAllUsersPaged.sql" />
     <EmbeddedResource Include="Scripts\GetAssociatedTags.sql" />

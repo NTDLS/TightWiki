@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
     <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
   </ItemGroup>
