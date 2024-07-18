@@ -39,6 +39,9 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 # Default home page:
 ![image](https://github.com/NTDLS/TightWiki/assets/11428567/9cc75103-26b8-4732-8118-315335cddae9)
 
+# Site Metrics
+![image](https://github.com/user-attachments/assets/0e700df0-e7f9-4f55-9d86-cc12aeeecb27)
+
 # Page search
 ![Clip9](https://user-images.githubusercontent.com/11428567/208713076-118d981c-5cc3-4e33-a971-f63518da01ad.png)
 
