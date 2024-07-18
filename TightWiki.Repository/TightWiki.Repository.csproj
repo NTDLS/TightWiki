@@ -299,8 +299,6 @@
 
   <ItemGroup>
     <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
-    <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.1" />
-    <PackageReference Include="System.Runtime.Caching" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

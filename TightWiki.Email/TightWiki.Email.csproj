@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="MailKit" Version="4.6.0" />
-    <PackageReference Include="PhotoSauce.MagicScaler" Version="0.14.2" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
     <PackageReference Include="NTDLS.Helpers" Version="1.0.5" />
   </ItemGroup>
 

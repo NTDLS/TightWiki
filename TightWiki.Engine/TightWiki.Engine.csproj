@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DuoVia.FuzzyStrings" Version="2.1.0" />
-    <PackageReference Include="NTDLS.Helpers" Version="1.0.5" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
     <ProjectReference Include="..\TightWiki.Interfaces\TightWiki.Interfaces.csproj" />
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />

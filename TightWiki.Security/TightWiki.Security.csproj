@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
-  </ItemGroup>
-
 </Project>
