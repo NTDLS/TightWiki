@@ -22,7 +22,7 @@ namespace TightWiki.Caching
         public static ulong CacheHits { get; set; }
         public static ulong CacheMisses { get; set; }
         public static int CacheItemCount => MemCache.Count();
-        public static double CacheMemoryLimitMB => MemCache.CacheMemoryLimit / 1024.0 / 1024.0;
+        public static double CacheMemoryLimit => MemCache.CacheMemoryLimit;
 
         public static MemoryCache MemCache => _memCache ?? throw new Exception("Cache has not been initialized.");
 

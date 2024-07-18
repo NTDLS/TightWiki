@@ -9,6 +9,20 @@ namespace DummyPageGenerator
     {
         private static object _lockObject = new();
 
+        private static List<Page>? _pagePool;
+
+        private static List<Page> GetPagePool(Random rand)
+        {
+            lock (_lockObject)
+            {
+                if (rand.Next(0, 100) > 95)
+                {
+                    _pagePool = PageRepository.GetAllPages();
+                }
+                return _pagePool ??= PageRepository.GetAllPages();
+            }
+        }
+
         public static void GeneratePages(Guid userId, Random rand, List<string> namespaces, List<string> tags, List<string> fileNames, ref List<string> recentPageNames)
         {
             try
@@ -97,7 +111,7 @@ namespace DummyPageGenerator
                     recentPageNames = GetRandomizedList(recentPageNames).Take(100).ToList();
                 }
 
-                var pagesToModify = PageRepository.GetAllPages().OrderBy(o => rand.Next()).Take(rand.Next(2, 5));
+                var pagesToModify = GetPagePool(rand).OrderBy(o => rand.Next()).Take(rand.Next(2, 5));
 
                 foreach (var pageToModify in pagesToModify)
                 {
