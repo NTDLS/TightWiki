@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Text;
+using TightWiki.Caching;
+using TightWiki.Configuration;
+using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using TightWiki.Wiki;
 using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 

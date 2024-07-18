@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
+using TightWiki.Caching;
+using TightWiki.Configuration;
 using TightWiki.Controllers;
+using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
-using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
@@ -308,7 +310,7 @@ namespace TightWiki.Site.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-            SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
+            SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
             SignInManager.RefreshSignInAsync(user);
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));

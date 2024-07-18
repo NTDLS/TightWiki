@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using TightWiki.Configuration;
 using TightWiki.Exceptions;
+using TightWiki.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
@@ -12,7 +14,7 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
-    public class WikiContextState
+    public class WikiContextState : IWikiContext
     {
         #region Authentication.
 

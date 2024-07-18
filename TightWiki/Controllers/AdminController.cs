@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Security.Claims;
+using TightWiki.Caching;
+using TightWiki.Configuration;
 using TightWiki.Controllers;
 using TightWiki.Dummy;
+using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -13,7 +16,6 @@ using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
-using TightWiki.Wiki;
 using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
@@ -988,7 +990,7 @@ namespace TightWiki.Site.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-            SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
+            SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
             //If we are changing the currently logged in user, then make sure we take some extra actions so we can see the changes immediately.
             if (WikiContext.Profile?.UserId == model.AccountProfile.UserId)
@@ -1145,7 +1147,7 @@ namespace TightWiki.Site.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-                SecurityHelpers.UpsertUserClaims(UserManager, identityUser, claims);
+                SecurityRepository.UpsertUserClaims(UserManager, identityUser, claims);
             }
             catch (Exception ex)
             {
@@ -1341,7 +1343,7 @@ namespace TightWiki.Site.Controllers
 
                     if (fc.IsEncrypted)
                     {
-                        value = Security.EncryptString(Security.MachineKey, value);
+                        value = Security.Helpers.EncryptString(Security.Helpers.MachineKey, value);
                     }
 
                     ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
@@ -1459,7 +1461,7 @@ namespace TightWiki.Site.Controllers
             model.Emoji.Id = (int)emoji.Id;
             ModelState.Clear();
 
-            GlobalSettings.ReloadEmojis();
+            GlobalConfiguration.ReloadEmojis();
 
             if (nameChanged)
             {

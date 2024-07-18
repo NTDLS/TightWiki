@@ -1,7 +1,7 @@
 ﻿@using TightWiki;
 @{
     var wikiContext = ViewData["WikiContext"] as WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
-    string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(GlobalSettings.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
+    string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(TightWiki.Configuration.GlobalSettings.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
 }
 
 <!DOCTYPE html>
@@ -17,22 +17,21 @@
     <script src="/syntax/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
     <!-- Syntax Highlighter:End -->
-
-    @if (string.IsNullOrWhiteSpace(GlobalSettings.HTMLHeader) == false)
+    @if (string.IsNullOrWhiteSpace(TightWiki.Configuration.GlobalSettings.HTMLHeader) == false)
     {
         <!-- HTMLHeader:Begin -->
-        @Html.Raw(GlobalSettings.HTMLHeader)
+        @Html.Raw(TightWiki.Configuration.GlobalSettings.HTMLHeader)
         <!-- HTMLHeader:Begin -->
     }
 
-    @if (GlobalSettings.IncludeWikiDescriptionInMeta)
+    @if (TightWiki.Configuration.GlobalSettings.IncludeWikiDescriptionInMeta)
     {
         <!-- PageDescription:Begin -->
         <meta name="description" content="@wikiContext.PageDescription">
         <!-- PageDescription:Begin -->
     }
 
-    @if (GlobalSettings.IncludeWikiTagsInMeta)
+    @if (TightWiki.Configuration.GlobalSettings.IncludeWikiTagsInMeta)
     {
         <!-- PageTags:Begin -->
         <meta name="keywords" content="@wikiContext.PageTags">
@@ -74,10 +73,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="/"><span class="glyphicon text-dark"><img src="@GlobalSettings.BrandImageSmall" /> @GlobalSettings.Name</span></a>
+                <a class="navbar-brand" href="/"><span class="glyphicon text-dark"><img src="@TightWiki.Configuration.GlobalSettings.BrandImageSmall" /> @TightWiki.Configuration.GlobalSettings.Name</span></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach (TightWiki.Models.DataModels.MenuItem item in GlobalSettings.MenuItems)
+                        @foreach (TightWiki.Models.DataModels.MenuItem item in TightWiki.Configuration.GlobalSettings.MenuItems)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
@@ -107,7 +106,7 @@
                                         {
                                             <div class="dropdown-divider"></div>
                                         }
-                                        if (wikiContext.CanView == true && GlobalSettings.EnablePageComments)
+                                        if (wikiContext.CanView == true && TightWiki.Configuration.GlobalSettings.EnablePageComments)
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Comments">Comments</a>
                                         }
@@ -131,7 +130,7 @@
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/revert/@wikiContext.PageRevision">Revert to revision @wikiContext.PageRevision</a>
                                         }
-                                        if (wikiContext.CanView == true && GlobalSettings.EnablePageComments)
+                                        if (wikiContext.CanView == true && TightWiki.Configuration.GlobalSettings.EnablePageComments)
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation">View</a>
                                         }
@@ -195,7 +194,7 @@
                             <li class="nav-item"><a class="nav-link text-dark" href="/Identity/Account/Login?returnUrl=@wikiContext.PathAndQuery">Login</a></li>
                         }
 
-                        @if (GlobalSettings.IncludeSearchOnNavbar)
+                        @if (TightWiki.Configuration.GlobalSettings.IncludeSearchOnNavbar)
                         {
                             <li class="nav-item ms-auto">
                                 <div class="collapse navbar-collapse justify-content-end">
@@ -212,9 +211,9 @@
         </nav>
     </header>
 
-    <div class="container" @(GlobalSettings.FixedMenuPosition ? "style=margin-top:80px;" : "")>
+    <div class="container" @(TightWiki.Configuration.GlobalSettings.FixedMenuPosition ? "style=margin-top:80px;" : "")>
         <main role="main" class="pb-3">
-            @Html.Raw(GlobalSettings.HTMLPreBody)
+            @Html.Raw(TightWiki.Configuration.GlobalSettings.HTMLPreBody)
 
             @if (TightWiki.Repository.UsersRepository.AdminPasswordStatus() != TightWiki.Library.Constants.AdminPasswordChangeState.HasBeenChanged)
             {
@@ -236,26 +235,26 @@
             }
 
             @RenderBody()
-            @Html.Raw(GlobalSettings.HTMLPostBody)
+            @Html.Raw(TightWiki.Configuration.GlobalSettings.HTMLPostBody)
         </main>
     </div>
 
     <div class="container">
-        @if (GlobalSettings.FooterBlurb != null || GlobalSettings.Copyright != null)
+        @if (TightWiki.Configuration.GlobalSettings.FooterBlurb != null || TightWiki.Configuration.GlobalSettings.Copyright != null)
         {
             <hr class="mt-5 mb-5">
 
-            @if (GlobalSettings.FooterBlurb != null)
+            @if (TightWiki.Configuration.GlobalSettings.FooterBlurb != null)
             {
-                @Html.Raw(GlobalSettings.FooterBlurb)
+                @Html.Raw(TightWiki.Configuration.GlobalSettings.FooterBlurb)
             }
-            @if (GlobalSettings.Copyright != null)
+            @if (TightWiki.Configuration.GlobalSettings.Copyright != null)
             {
                 <br />
-                @Html.Raw(GlobalSettings.Copyright)
+                @Html.Raw(TightWiki.Configuration.GlobalSettings.Copyright)
             }
         }
-        @Html.Raw(GlobalSettings.HTMLFooter)
+        @Html.Raw(TightWiki.Configuration.GlobalSettings.HTMLFooter)
     </div>
 
 </body>
