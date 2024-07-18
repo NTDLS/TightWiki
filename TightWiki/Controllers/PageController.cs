@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Text;
+using TightWiki.Caching;
+using TightWiki.Configuration;
+using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using TightWiki.Wiki;
 using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 
@@ -65,7 +67,7 @@ namespace TightWiki.Controllers
 
                 WikiContext.SetPageId(page.Id, pageRevision);
 
-                bool allowCache = GlobalSettings.PageCacheSeconds > 0;
+                bool allowCache = GlobalConfiguration.PageCacheSeconds > 0;
 
                 if (allowCache)
                 {
@@ -89,7 +91,7 @@ namespace TightWiki.Controllers
 
                         if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalSettings.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                            WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalConfiguration.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                         }
                     }
                 }
@@ -99,7 +101,7 @@ namespace TightWiki.Controllers
                     model.Body = wiki.ProcessedBody;
                 }
 
-                if (GlobalSettings.EnablePageComments && GlobalSettings.ShowCommentsOnPageFooter && model.HideFooterComments == false)
+                if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
                 {
                     model.Comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
                 }
@@ -327,7 +329,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                RefreshPageMetadata(this, page);
+                WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -450,7 +452,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                SavePage(page);
+                WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
@@ -575,7 +577,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = SavePage(page);
+                page.Id = WikiHelper.UpsertPage(page, WikiContext, Request.Query);
 
                 WikiContext.SetPageId(page.Id);
 
@@ -612,7 +614,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                SavePage(page);
+                WikiHelper.UpsertPage(page, WikiContext, Request.Query);
 
                 WikiContext.SetPageId(page.Id);
 

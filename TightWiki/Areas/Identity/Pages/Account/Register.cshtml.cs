@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Library;
+using TightWiki.Configuration;
 using TightWiki.Repository;
 
 
@@ -23,14 +23,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly Interfaces.IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            Interfaces.IEmailSender emailSender)
                         : base(signInManager)
         {
             _userManager = userManager;
@@ -98,7 +98,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
-            if (TightWiki.GlobalSettings.AllowSignup != true)
+            if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
@@ -109,7 +109,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            if (TightWiki.GlobalSettings.AllowSignup != true)
+            if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
@@ -143,7 +143,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         new ("language", membershipConfig.Value<string>("Default Language")),
                     };
 
-                    SecurityHelpers.UpsertUserClaims(_userManager, user, claimsToAdd);
+                    SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

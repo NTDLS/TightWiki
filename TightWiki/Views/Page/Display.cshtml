@@ -24,7 +24,7 @@
 
 @Html.Raw(Model.Body)
 
-@if (TightWiki.GlobalSettings.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
+@if (TightWiki.Configuration.GlobalConfiguration.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
 {
     <br />
 
@@ -34,12 +34,12 @@
 
 @if (Model.HideFooterComments == false)
 {
-    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
         <hr class="mt-5 mb-5">
         <h2>Comments</h2>
     }
-    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
         if (@wikiContext.IsAuthenticated == true)
         {
@@ -57,7 +57,7 @@
             @:<a href="/Account/Login">Login to leave a comment</a>.
         }
     }
-    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
     {
         @foreach (var h in Model.Comments)
         {
@@ -80,7 +80,7 @@
             </div>
         }
     }
-    @if (TightWiki.GlobalSettings.EnablePageComments && TightWiki.GlobalSettings.ShowCommentsOnPageFooter)
+    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
         <a href="/@wikiContext.PageNavigation/Comments">View all comments</a>
     }

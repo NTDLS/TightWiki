@@ -10,7 +10,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Library;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -22,7 +21,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
-        private readonly IEmailSender _emailSender;
+        private readonly Interfaces.IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
 
         public ExternalLoginModel(
@@ -30,7 +29,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            IEmailSender emailSender)
+            Interfaces.IEmailSender emailSender)
                         : base(signInManager)
         {
             _signInManager = signInManager;

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Library;
+using TightWiki.Configuration;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -18,9 +18,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
+        private readonly Interfaces.IEmailSender _emailSender;
 
-        public ResendEmailConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IEmailSender emailSender)
+        public ResendEmailConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, Interfaces.IEmailSender emailSender)
                         : base(signInManager)
         {
             _userManager = userManager;
@@ -51,7 +51,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
-            if (TightWiki.GlobalSettings.AllowSignup != true)
+            if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
@@ -60,7 +60,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (TightWiki.GlobalSettings.AllowSignup != true)
+            if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }

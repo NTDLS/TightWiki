@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Library;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -17,12 +16,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        private readonly Interfaces.IEmailSender _emailSender;
 
         public EmailModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IEmailSender emailSender)
+            Interfaces.IEmailSender emailSender)
                         : base(signInManager)
         {
             _userManager = userManager;

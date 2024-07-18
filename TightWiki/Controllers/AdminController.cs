@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection;
 using System.Security.Claims;
+using TightWiki.Caching;
+using TightWiki.Configuration;
 using TightWiki.Controllers;
-using TightWiki.Dummy;
+using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -13,7 +15,6 @@ using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
-using TightWiki.Wiki;
 using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
@@ -24,63 +25,6 @@ namespace TightWiki.Site.Controllers
     public class AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
-        [Authorize]
-        [HttpGet("Dummy")]
-        public ActionResult Dummy()
-        {
-            WikiContext.RequireAdminPermission();
-#if !DEBUG
-            return Redirect("/");
-#endif
-            PageGenerator.GeneratePages(this, WikiContext.Profile.EnsureNotNull().UserId);
-
-            /*
-            foreach (var page in PageRepository.GetAllPages())
-            {
-                Regex alphanumericWithSpacesAndPeriodRegex = new Regex("^[a-zA-Z\\s\\.]+$");
-
-                #region Make revision.
-
-                var lookForLines = page.Body.Split("\r\n").Where(s => alphanumericWithSpacesAndPeriodRegex.IsMatch(s)).Where(o => o.Contains(' ')).ToList();
-
-                if (lookForLines.Count > 1)
-                {
-                    var lookForTokens = lookForLines[rand.Next(lookForLines.Count)].Split(' ').Where(o=>o.Length > 3).ToList();
-                    if (lookForTokens.Count > 0)
-                    {
-                        for (int i = 0; i < rand.Next(3, 10); i++)
-                        {
-                            var replaceToken = lookForTokens[rand.Next(lookForTokens.Count)];
-                            page.Body = page.Body.Replace(replaceToken, WordsRepository.GetRandomWords(1).Single());
-                        }
-
-                        SavePage(page);
-                    }
-                }
-
-                #endregion
-
-                if (rand.Next(100) > 95)
-                {
-                    var ns = namespaces[rand.Next(namespaces.Count)];
-
-                    page.Id = 0;
-                    page.Name = ns + " :: " + string.Join(" ", WordsRepository.GetRandomWords(3));
-                    page.Description = string.Join(" ", WordsRepository.GetRandomWords(rand.Next(3, 8)));
-
-                    if (rand.Next(100) > 80)
-                    {
-                        page.Body += "##Tag(" + string.Join(", ", WordsRepository.GetRandomWords(3)) + ")\r\n\r\n";
-                    }
-
-                    SavePage(page);
-                }
-            }
-            */
-
-            return Redirect("/");
-        }
-
         #region Metrics.
 
         [Authorize]
@@ -324,7 +268,8 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                SavePage(page);
+                WikiHelper.UpsertPage(page, WikiContext, Request.Query);
+
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
 
@@ -449,7 +394,7 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    SavePage(previousPageRevision);
+                    WikiHelper.UpsertPage(previousPageRevision, WikiContext, Request.Query);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
@@ -514,7 +459,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    RefreshPageMetadata(this, page);
+                    WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -640,7 +585,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    PageController.RefreshPageMetadata(this, page);
+                    WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }
@@ -988,7 +933,7 @@ namespace TightWiki.Site.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-            SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
+            SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
             //If we are changing the currently logged in user, then make sure we take some extra actions so we can see the changes immediately.
             if (WikiContext.Profile?.UserId == model.AccountProfile.UserId)
@@ -999,7 +944,7 @@ namespace TightWiki.Site.Controllers
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
                 //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
+                WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
             }
 
             //Allow the administrator to confirm/unconfirm the email address.
@@ -1145,7 +1090,7 @@ namespace TightWiki.Site.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-                SecurityHelpers.UpsertUserClaims(UserManager, identityUser, claims);
+                SecurityRepository.UpsertUserClaims(UserManager, identityUser, claims);
             }
             catch (Exception ex)
             {
@@ -1332,16 +1277,16 @@ namespace TightWiki.Site.Controllers
                     if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
                     {
                         //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                        GlobalSettings.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
+                        GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
                         if (string.IsNullOrEmpty(WikiContext.Profile?.Theme))
                         {
-                            WikiContext.UserTheme = GlobalSettings.SystemTheme;
+                            WikiContext.UserTheme = GlobalConfiguration.SystemTheme;
                         }
                     }
 
                     if (fc.IsEncrypted)
                     {
-                        value = Security.EncryptString(Security.MachineKey, value);
+                        value = Security.Helpers.EncryptString(Security.Helpers.MachineKey, value);
                     }
 
                     ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
@@ -1459,7 +1404,7 @@ namespace TightWiki.Site.Controllers
             model.Emoji.Id = (int)emoji.Id;
             ModelState.Clear();
 
-            GlobalSettings.ReloadEmojis();
+            ConfigurationRepository.ReloadEmojis();
 
             if (nameChanged)
             {

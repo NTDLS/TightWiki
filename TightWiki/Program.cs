@@ -1,28 +1,15 @@
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
+using TightWiki.Data;
+using TightWiki.Email;
 using TightWiki.Library;
 using TightWiki.Repository;
-using YourApplication.Data;
 
 namespace TightWiki
 {
     public class Program
     {
-        public class GuidTypeHandler : SqlMapper.TypeHandler<Guid>
-        {
-            public override void SetValue(IDbDataParameter parameter, Guid value)
-            {
-                parameter.Value = value.ToString();
-            }
-
-            public override Guid Parse(object value)
-            {
-                return Guid.Parse((string)value);
-            }
-        }
-
         public static void Main(string[] args)
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
@@ -42,7 +29,7 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
-            GlobalSettings.ReloadEverything();
+            ConfigurationRepository.ReloadEverything();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
@@ -52,7 +39,7 @@ namespace TightWiki
 
             builder.Services.AddControllersWithViews(); // Adds support for controllers and views
 
-            builder.Services.AddSingleton<IEmailSender, EmailSender>();
+            builder.Services.AddSingleton<Interfaces.IEmailSender, EmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -135,7 +122,7 @@ namespace TightWiki
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-                    SecurityHelpers.ValidateEncryptionAndCreateAdminUser(userManager);
+                    SecurityRepository.ValidateEncryptionAndCreateAdminUser(userManager);
                 }
                 catch (Exception ex)
                 {

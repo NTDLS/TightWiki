@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using TightWiki.Configuration;
 using TightWiki.Controllers;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels;
@@ -81,7 +82,7 @@ namespace TightWiki.Site.Controllers
                 {
                     // If user with this email does not exist, create a new user:
 
-                    if (GlobalSettings.AllowSignup != true)
+                    if (GlobalConfiguration.AllowSignup != true)
                     {
                         return Redirect("/Identity/Account/RegistrationIsNotAllowed");
                     }
@@ -112,7 +113,7 @@ namespace TightWiki.Site.Controllers
                             new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
                         };
 
-                    SecurityHelpers.UpsertUserClaims(UserManager, user, claimsToAdd);
+                    SecurityRepository.UpsertUserClaims(UserManager, user, claimsToAdd);
 
                     await SignInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl ?? Url.Content("~/"));

@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
+using TightWiki.Caching;
+using TightWiki.Configuration;
 using TightWiki.Controllers;
+using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
-using TightWiki.Wiki;
 
 namespace TightWiki.Site.Controllers
 {
@@ -196,7 +198,7 @@ namespace TightWiki.Site.Controllers
                 Avatar = profile.Avatar
             };
 
-            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(profile.UserId, GlobalSettings.DefaultProfileRecentlyModifiedCount)
+            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(profile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount)
                 .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
             foreach (var item in model.RecentlyModified)
@@ -308,7 +310,7 @@ namespace TightWiki.Site.Controllers
                         new ("lastname", model.AccountProfile.LastName ?? ""),
                         new ("theme", model.AccountProfile.Theme ?? ""),
                     };
-            SecurityHelpers.UpsertUserClaims(UserManager, user, claims);
+            SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
             SignInManager.RefreshSignInAsync(user);
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
@@ -317,7 +319,7 @@ namespace TightWiki.Site.Controllers
             model.SuccessMessage = "Your profile has been saved.";
 
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-            WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
+            WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
 
             return View(model);
         }

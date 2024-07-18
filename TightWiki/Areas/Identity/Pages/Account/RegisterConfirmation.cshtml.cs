@@ -5,7 +5,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using IEmailSender = TightWiki.Library.IEmailSender;
+using TightWiki.Configuration;
+using TightWiki.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -24,7 +25,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGetAsync(string email, string returnUrl = null)
         {
-            if (GlobalSettings.AllowSignup != true)
+            if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
