@@ -69,12 +69,12 @@ namespace TightWiki.Caching
             CacheGets++;
             if(MemCache.Contains(cacheKey.Key))
             {
-                CacheMisses++;
-                return false;
+                CacheHits++;
+                return true;
             }
 
-            CacheHits++;
-            return true;
+            CacheMisses++;
+            return false;
         }
 
         /// <summary>

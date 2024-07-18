@@ -475,7 +475,9 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
-            var pool = new DelegateThreadPool(32, 0);
+            int threadCount = Environment.ProcessorCount > 1 ? Environment.ProcessorCount / 2 : Environment.ProcessorCount;
+
+            var pool = new DelegateThreadPool(threadCount, 0);
 
             if (model.UserSelection == true)
             {
@@ -485,20 +487,19 @@ namespace TightWiki.Site.Controllers
                 {
                     workload.Enqueue(() =>
                     {
-                        var wiki = new Wikifier(WikiContext, page, page.Revision, Request.Query);
-
-                        page.Body = wiki.ProcessedBody;
-
-                        if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                        string queryKey = string.Empty;
+                        foreach (var query in Request.Query)
                         {
-                            string queryKey = string.Empty;
-                            foreach (var query in Request.Query)
-                            {
-                                queryKey += $"{query.Key}:{query.Value}";
-                            }
+                            queryKey += $"{query.Key}:{query.Value}";
+                        }
 
-                            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                            if (WikiCache.Contains(cacheKey) == false)
+                        var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                        if (WikiCache.Contains(cacheKey) == false)
+                        {
+                            var wiki = new Wikifier(WikiContext, page, page.Revision, Request.Query);
+                            page.Body = wiki.ProcessedBody;
+
+                            if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                             {
                                 WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalConfiguration.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
