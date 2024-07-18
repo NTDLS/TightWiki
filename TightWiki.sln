@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Engine", "TightWi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Interfaces", "TightWiki.Interfaces\TightWiki.Interfaces.csproj", "{D7D40798-84F4-4CFF-BCAD-72CA0D57986D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DummyPageGenerator", "DummyPageGenerator\DummyPageGenerator.csproj", "{829D715C-700C-418F-974C-72060A88EED7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{D7D40798-84F4-4CFF-BCAD-72CA0D57986D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7D40798-84F4-4CFF-BCAD-72CA0D57986D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7D40798-84F4-4CFF-BCAD-72CA0D57986D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{829D715C-700C-418F-974C-72060A88EED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{829D715C-700C-418F-974C-72060A88EED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{829D715C-700C-418F-974C-72060A88EED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{829D715C-700C-418F-974C-72060A88EED7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

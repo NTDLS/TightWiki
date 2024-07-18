@@ -6,7 +6,6 @@ using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
-using TightWiki.Dummy;
 using TightWiki.Engine;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
@@ -26,63 +25,6 @@ namespace TightWiki.Site.Controllers
     public class AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
-        [Authorize]
-        [HttpGet("Dummy")]
-        public ActionResult Dummy()
-        {
-            WikiContext.RequireAdminPermission();
-#if !DEBUG
-            return Redirect("/");
-#endif
-            PageGenerator.GeneratePages(this, WikiContext.Profile.EnsureNotNull().UserId);
-
-            /*
-            foreach (var page in PageRepository.GetAllPages())
-            {
-                Regex alphanumericWithSpacesAndPeriodRegex = new Regex("^[a-zA-Z\\s\\.]+$");
-
-                #region Make revision.
-
-                var lookForLines = page.Body.Split("\r\n").Where(s => alphanumericWithSpacesAndPeriodRegex.IsMatch(s)).Where(o => o.Contains(' ')).ToList();
-
-                if (lookForLines.Count > 1)
-                {
-                    var lookForTokens = lookForLines[rand.Next(lookForLines.Count)].Split(' ').Where(o=>o.Length > 3).ToList();
-                    if (lookForTokens.Count > 0)
-                    {
-                        for (int i = 0; i < rand.Next(3, 10); i++)
-                        {
-                            var replaceToken = lookForTokens[rand.Next(lookForTokens.Count)];
-                            page.Body = page.Body.Replace(replaceToken, WordsRepository.GetRandomWords(1).Single());
-                        }
-
-                        SavePage(page);
-                    }
-                }
-
-                #endregion
-
-                if (rand.Next(100) > 95)
-                {
-                    var ns = namespaces[rand.Next(namespaces.Count)];
-
-                    page.Id = 0;
-                    page.Name = ns + " :: " + string.Join(" ", WordsRepository.GetRandomWords(3));
-                    page.Description = string.Join(" ", WordsRepository.GetRandomWords(rand.Next(3, 8)));
-
-                    if (rand.Next(100) > 80)
-                    {
-                        page.Body += "##Tag(" + string.Join(", ", WordsRepository.GetRandomWords(3)) + ")\r\n\r\n";
-                    }
-
-                    SavePage(page);
-                }
-            }
-            */
-
-            return Redirect("/");
-        }
-
         #region Metrics.
 
         [Authorize]
@@ -326,7 +268,8 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                SavePage(page);
+                WikiHelper.UpsertPage(page, WikiContext, Request.Query);
+
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
 
@@ -451,7 +394,7 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    SavePage(previousPageRevision);
+                    WikiHelper.UpsertPage(previousPageRevision, WikiContext, Request.Query);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
@@ -516,7 +459,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    RefreshPageMetadata(this, page);
+                    WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -642,7 +585,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    PageController.RefreshPageMetadata(this, page);
+                    WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }

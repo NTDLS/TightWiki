@@ -45,12 +45,12 @@ namespace TightWiki.Engine
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
         public Wikifier(IWikiContext? wikiContext, Page page, int? revision,
-            IQueryCollection queryString, WikiMatchType[]? omitMatches = null, int nestLevel = 0)
+            IQueryCollection? queryString, WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
 
             _nestLevel = nestLevel;
-            _queryString = queryString;
+            _queryString = queryString ?? new QueryCollection();
             _page = page;
             _revision = revision;
             Matches = new Dictionary<string, MatchSet>();

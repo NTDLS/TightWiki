@@ -67,6 +67,9 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.Query<AccountProfile>("GetProfilesByRoleIdPaged.sql", param).ToList();
         }
 
+        public static List<AccountProfile> GetAllUsers()
+            => ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsers.sql").ToList();
+
         public static List<AccountProfile> GetAllUsersPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");

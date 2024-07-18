@@ -58,3 +58,7 @@ TightWiki.Models/obj/
 TightWiki.Security/bin/
 
 TightWiki.Security/obj/
+
+DummyPageGenerator/bin/
+
+DummyPageGenerator/obj/

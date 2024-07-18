@@ -329,7 +329,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                RefreshPageMetadata(this, page);
+                WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -452,7 +452,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                SavePage(page);
+                WikiHelper.RefreshPageMetadata(page, WikiContext, Request.Query);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
@@ -577,7 +577,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = SavePage(page);
+                page.Id = WikiHelper.UpsertPage(page, WikiContext, Request.Query);
 
                 WikiContext.SetPageId(page.Id);
 
@@ -614,7 +614,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                SavePage(page);
+                WikiHelper.UpsertPage(page, WikiContext, Request.Query);
 
                 WikiContext.SetPageId(page.Id);
 

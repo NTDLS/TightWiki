@@ -1,28 +1,15 @@
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 using TightWiki.Data;
 using TightWiki.Email;
+using TightWiki.Library;
 using TightWiki.Repository;
 
 namespace TightWiki
 {
     public class Program
     {
-        public class GuidTypeHandler : SqlMapper.TypeHandler<Guid>
-        {
-            public override void SetValue(IDbDataParameter parameter, Guid value)
-            {
-                parameter.Value = value.ToString();
-            }
-
-            public override Guid Parse(object value)
-            {
-                return Guid.Parse((string)value);
-            }
-        }
-
         public static void Main(string[] args)
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());

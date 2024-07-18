@@ -1,14 +1,13 @@
 ﻿using System.Text;
-using TightWiki.Controllers;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
-namespace TightWiki.Dummy
+namespace DummyPageGenerator
 {
     internal static class PageGenerator
     {
-        public static void GeneratePages(WikiControllerBase controller, Guid userId)
+        public static void GeneratePages(Guid userId)
         {
             var rand = new Random();
 
@@ -83,8 +82,7 @@ namespace TightWiki.Dummy
                     ModifiedDate = DateTime.UtcNow,
                     Description = string.Join(' ', WordsRepository.GetRandomWords(rand.Next(3, 5))),
                 };
-
-                int newPageId = controller.SavePage(page);
+                int newPageId = TightWiki.Engine.WikiHelper.UpsertPage(page);
 
                 if (rand.Next(100) >= 70)
                 {
@@ -113,7 +111,7 @@ namespace TightWiki.Dummy
                         pageToModify.Body = topText.Trim() + "\r\n" + string.Join(' ', WordsRepository.GetRandomWords(rand.Next(3, 5))) + "\r\n" + bottomText.Trim();
                         pageToModify.ModifiedByUserId = userId;
                         pageToModify.ModifiedByUserId = userId;
-                        controller.SavePage(pageToModify);
+                        TightWiki.Engine.WikiHelper.UpsertPage(pageToModify);
 
                         if (rand.Next(100) >= 90)
                         {

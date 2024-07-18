@@ -35,9 +35,11 @@
     <None Remove="Scripts\GetAllPagesByInstructionPaged.sql" />
     <None Remove="Scripts\GetAllPagesByPageIdPaged.sql" />
     <None Remove="Scripts\GetAllPagesPaged.sql" />
+    <None Remove="Scripts\GetAllProfiles.sql" />
     <None Remove="Scripts\GetAllPublicProfilesPaged.sql" />
     <None Remove="Scripts\GetAllRoles.sql" />
     <None Remove="Scripts\GetAllThemes.sql" />
+    <None Remove="Scripts\GetAllUsers.sql" />
     <None Remove="Scripts\GetAllUsersPaged.sql" />
     <None Remove="Scripts\GetAssociatedTags.sql" />
     <None Remove="Scripts\GetBasicProfileByUserId.sql" />
@@ -182,6 +184,8 @@
     <EmbeddedResource Include="Scripts\GetAllPublicProfilesPaged.sql" />
     <EmbeddedResource Include="Scripts\GetAllRoles.sql" />
     <EmbeddedResource Include="Scripts\GetAllThemes.sql" />
+    <EmbeddedResource Include="Scripts\GetAllProfiles.sql" />
+    <EmbeddedResource Include="Scripts\GetAllUsers.sql" />
     <EmbeddedResource Include="Scripts\GetAllUsersPaged.sql" />
     <EmbeddedResource Include="Scripts\GetAssociatedTags.sql" />
     <EmbeddedResource Include="Scripts\GetBasicProfileByUserId.sql" />
