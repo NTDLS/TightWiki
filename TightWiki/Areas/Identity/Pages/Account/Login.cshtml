@@ -37,7 +37,7 @@
                     <p>
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
-                    @if (TightWiki.Configuration.GlobalSettings.AllowSignup == true)
+                    @if (TightWiki.Configuration.GlobalConfiguration.AllowSignup == true)
                     {
                         <p>
                             <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>

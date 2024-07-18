@@ -47,7 +47,7 @@ namespace TightWiki.Repository
 
             ManagedDataStorage.Emoji.Execute("DeleteEmojiById.sql", param);
 
-            GlobalConfiguration.ReloadEmojis();
+            ConfigurationRepository.ReloadEmojis();
         }
 
         public static Emoji? GetEmojiByName(string name)
@@ -109,7 +109,7 @@ namespace TightWiki.Repository
                 }
             });
 
-            GlobalConfiguration.ReloadEmojis();
+            ConfigurationRepository.ReloadEmojis();
 
             return emojiId;
         }

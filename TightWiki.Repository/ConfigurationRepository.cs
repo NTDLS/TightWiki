@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Diagnostics;
 using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Library;
@@ -134,7 +135,7 @@ namespace TightWiki.Repository
 
             ManagedDataStorage.Config.Execute("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
 
-            GlobalConfiguration.ReloadEverything();
+            ConfigurationRepository.ReloadEverything();
         }
 
         public static List<ConfigurationNest> GetConfigurationNest()
@@ -272,7 +273,7 @@ namespace TightWiki.Repository
             ManagedDataStorage.Config.Execute("DeleteMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalSettings.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = GetAllMenuItems();
         }
 
         public static int UpdateMenuItemById(MenuItem menuItem)
@@ -288,7 +289,7 @@ namespace TightWiki.Repository
             var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("UpdateMenuItemById.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalSettings.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = GetAllMenuItems();
 
             return menuItemId;
         }
@@ -305,11 +306,67 @@ namespace TightWiki.Repository
             var menuItemId = ManagedDataStorage.Config.ExecuteScalar<int>("InsertMenuItem.sql", param);
 
             WikiCache.ClearCategory(WikiCache.Category.Configuration);
-            GlobalSettings.MenuItems = GetAllMenuItems();
+            GlobalConfiguration.MenuItems = GetAllMenuItems();
 
             return menuItemId;
         }
 
         #endregion
+
+        public static void ReloadEmojis()
+        {
+            WikiCache.ClearCategory(WikiCache.Category.Emoji);
+            GlobalConfiguration.Emojis = EmojiRepository.GetAllEmojis();
+        }
+
+        public static void ReloadEverything()
+        {
+            WikiCache.Clear();
+
+            GlobalConfiguration.IsDebug = Debugger.IsAttached;
+
+            var performanceConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Performance", false);
+            GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
+            GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
+            GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
+
+            WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB);
+
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
+            var htmlConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("HTML Layout");
+            var functionalityConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Functionality");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
+
+            GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
+            GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
+            GlobalConfiguration.Copyright = basicConfig?.Value<string>("Copyright") ?? string.Empty;
+
+            var themeName = customizationConfig.Value("Theme", "Light");
+
+            GlobalConfiguration.FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
+            GlobalConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
+            GlobalConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
+            GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == themeName);
+            GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
+            GlobalConfiguration.AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
+            GlobalConfiguration.DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;
+            GlobalConfiguration.IncludeWikiDescriptionInMeta = functionalityConfig.Value<bool>("Include wiki Description in Meta");
+            GlobalConfiguration.IncludeWikiTagsInMeta = functionalityConfig.Value<bool>("Include wiki Tags in Meta");
+            GlobalConfiguration.EnablePageComments = functionalityConfig.Value<bool>("Enable Page Comments");
+            GlobalConfiguration.ShowCommentsOnPageFooter = functionalityConfig.Value<bool>("Show Comments on Page Footer");
+            GlobalConfiguration.ShowLastModifiedOnPageFooter = functionalityConfig.Value<bool>("Show Last Modified on Page Footer");
+            GlobalConfiguration.IncludeSearchOnNavbar = searchConfig.Value<bool>("Include Search on Navbar");
+            GlobalConfiguration.HTMLHeader = htmlConfig?.Value<string>("Header") ?? string.Empty;
+            GlobalConfiguration.HTMLFooter = htmlConfig?.Value<string>("Footer") ?? string.Empty;
+            GlobalConfiguration.HTMLPreBody = htmlConfig?.Value<string>("Pre-Body") ?? string.Empty;
+            GlobalConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
+            GlobalConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
+            GlobalConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
+            GlobalConfiguration.MenuItems = ConfigurationRepository.GetAllMenuItems();
+
+            ReloadEmojis();
+        }
     }
 }

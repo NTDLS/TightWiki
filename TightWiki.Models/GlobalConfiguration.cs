@@ -3,7 +3,7 @@ using TightWiki.Models.DataModels;
 
 namespace TightWiki.Configuration
 {
-    public static class GlobalSettings
+    public static class GlobalConfiguration
     {
         public static Theme SystemTheme { get; set; } = new();
         public static bool IsDebug { get; set; }

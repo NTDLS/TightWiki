@@ -13,8 +13,6 @@ using TightWiki.Repository;
 using TightWiki.Wiki.Function;
 using static TightWiki.Library.Constants;
 
-
-
 namespace TightWiki.Engine
 {
     public partial class Wikifier
@@ -74,7 +72,7 @@ namespace TightWiki.Engine
 
             ProcessingTime = DateTime.UtcNow - startTime;
 
-            if (GlobalSettings.RecordCompilationMetrics)
+            if (GlobalConfiguration.RecordCompilationMetrics)
             {
                 StatisticsRepository.InsertCompilationStatistics(page.Id,
                     ProcessingTime.TotalMilliseconds,
@@ -762,9 +760,9 @@ namespace TightWiki.Engine
 
                 key = $"%%{key}%%";
 
-                var emoji = GlobalSettings.Emojis.FirstOrDefault(o => o.Shortcut == key);
+                var emoji = GlobalConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
-                if (GlobalSettings.Emojis.Exists(o => o.Shortcut == key))
+                if (GlobalConfiguration.Emojis.Exists(o => o.Shortcut == key))
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {

@@ -396,7 +396,7 @@ namespace TightWiki.Controllers
             if (string.IsNullOrEmpty(pageNavigation) == false)
             {
                 string shortcut = $"%%{pageNavigation.ToLower()}%%";
-                var emoji = GlobalSettings.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
+                var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
                     var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
@@ -422,7 +422,7 @@ namespace TightWiki.Controllers
                             customScalePercent = 500;
                         }
 
-                        var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalSettings.DefaultEmojiHeight);
+                        var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
 
                         //Adjust to any specified scaling.
                         Height = (int)(Height * (customScalePercent / 100.0));

@@ -302,7 +302,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
-    <ProjectReference Include="..\TightWiki.Configuration\TightWiki.Configuration.csproj" />
     <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
     <ProjectReference Include="..\TightWiki.Security\TightWiki.Security.csproj" />
   </ItemGroup>

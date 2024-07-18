@@ -43,9 +43,9 @@ namespace TightWiki.Engine
 
                 key = $"%%{key}%%";
 
-                var emoji = GlobalSettings.Emojis.FirstOrDefault(o => o.Shortcut == key);
+                var emoji = GlobalConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 
-                if (GlobalSettings.Emojis.Exists(o => o.Shortcut == key))
+                if (GlobalConfiguration.Emojis.Exists(o => o.Shortcut == key))
                 {
                     if (scale != 100 && scale > 0 && scale <= 500)
                     {

@@ -7,7 +7,6 @@ using TightWiki.Repository;
 
 namespace TightWiki.Email
 {
-
     public class EmailSender : IEmailSender
     {
         private readonly ILogger<EmailSender> _logger;

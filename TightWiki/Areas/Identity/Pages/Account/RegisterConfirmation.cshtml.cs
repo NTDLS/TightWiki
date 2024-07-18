@@ -25,7 +25,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGetAsync(string email, string returnUrl = null)
         {
-            if (GlobalSettings.AllowSignup != true)
+            if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }

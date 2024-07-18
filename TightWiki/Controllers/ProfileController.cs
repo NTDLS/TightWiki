@@ -198,7 +198,7 @@ namespace TightWiki.Site.Controllers
                 Avatar = profile.Avatar
             };
 
-            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(profile.UserId, GlobalSettings.DefaultProfileRecentlyModifiedCount)
+            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(profile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount)
                 .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
             foreach (var item in model.RecentlyModified)
@@ -319,7 +319,7 @@ namespace TightWiki.Site.Controllers
             model.SuccessMessage = "Your profile has been saved.";
 
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-            WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
+            WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
 
             return View(model);
         }

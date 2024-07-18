@@ -1001,7 +1001,7 @@ namespace TightWiki.Site.Controllers
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
                 //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalSettings.SystemTheme;
+                WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
             }
 
             //Allow the administrator to confirm/unconfirm the email address.
@@ -1334,10 +1334,10 @@ namespace TightWiki.Site.Controllers
                     if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
                     {
                         //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                        GlobalSettings.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
+                        GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
                         if (string.IsNullOrEmpty(WikiContext.Profile?.Theme))
                         {
-                            WikiContext.UserTheme = GlobalSettings.SystemTheme;
+                            WikiContext.UserTheme = GlobalConfiguration.SystemTheme;
                         }
                     }
 
@@ -1461,7 +1461,7 @@ namespace TightWiki.Site.Controllers
             model.Emoji.Id = (int)emoji.Id;
             ModelState.Clear();
 
-            GlobalConfiguration.ReloadEmojis();
+            ConfigurationRepository.ReloadEmojis();
 
             if (nameChanged)
             {

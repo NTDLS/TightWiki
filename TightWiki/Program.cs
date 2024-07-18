@@ -42,7 +42,7 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
-            GlobalConfiguration.ReloadEverything();
+            ConfigurationRepository.ReloadEverything();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");

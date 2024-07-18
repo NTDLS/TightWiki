@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
-    <ProjectReference Include="..\TightWiki.Configuration\TightWiki.Configuration.csproj" />
     <ProjectReference Include="..\TightWiki.Interfaces\TightWiki.Interfaces.csproj" />
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
     <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />

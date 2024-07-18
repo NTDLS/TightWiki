@@ -45,7 +45,7 @@ namespace TightWiki
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
-            Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
@@ -53,7 +53,7 @@ namespace TightWiki
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
-            Title = GlobalSettings.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
 
             PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");
@@ -78,7 +78,7 @@ namespace TightWiki
         {
             IsAuthenticated = false;
 
-            UserTheme = GlobalSettings.SystemTheme;
+            UserTheme = GlobalConfiguration.SystemTheme;
 
             if (signInManager.IsSignedIn(user))
             {
@@ -93,7 +93,7 @@ namespace TightWiki
 
                         Profile = UsersRepository.GetBasicProfileByUserId(userId);
                         Role = Profile.Role;
-                        UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalSettings.SystemTheme;
+                        UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
                     }
                 }
                 catch (Exception ex)
@@ -118,7 +118,7 @@ namespace TightWiki
         {
             if (Profile == null || string.IsNullOrEmpty(Profile.TimeZone))
             {
-                return TimeZoneInfo.FindSystemTimeZoneById(GlobalSettings.DefaultTimeZone);
+                return TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
             }
             return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
         }
@@ -141,11 +141,11 @@ namespace TightWiki
 
                 Title = $"{page.Name}";
 
-                if (GlobalSettings.IncludeWikiDescriptionInMeta)
+                if (GlobalConfiguration.IncludeWikiDescriptionInMeta)
                 {
                     PageDescription = page.Description;
                 }
-                if (GlobalSettings.IncludeWikiTagsInMeta)
+                if (GlobalConfiguration.IncludeWikiTagsInMeta)
                 {
                     var tags = PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag).ToList() ?? new();
                     PageTags = string.Join(",", tags);

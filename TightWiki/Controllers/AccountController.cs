@@ -82,7 +82,7 @@ namespace TightWiki.Site.Controllers
                 {
                     // If user with this email does not exist, create a new user:
 
-                    if (GlobalSettings.AllowSignup != true)
+                    if (GlobalConfiguration.AllowSignup != true)
                     {
                         return Redirect("/Identity/Account/RegistrationIsNotAllowed");
                     }
