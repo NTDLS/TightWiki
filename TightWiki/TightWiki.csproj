@@ -30,6 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NTDLS.DelegateThreadPooling" Version="1.2.15" />
     <PackageReference Include="NTDLS.Helpers" Version="1.0.5" />
     <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.1" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.14.2" />

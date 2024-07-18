@@ -59,6 +59,25 @@ namespace TightWiki.Caching
         }
 
         /// <summary>
+        /// Determines if the cache contains a given key.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        public static bool Contains(WikiCacheKeyFunction cacheKey)
+        {
+            CacheGets++;
+            if(MemCache.Contains(cacheKey.Key))
+            {
+                CacheMisses++;
+                return false;
+            }
+
+            CacheHits++;
+            return true;
+        }
+
+        /// <summary>
         /// Gets an item from the cache.
         /// </summary>
         /// <typeparam name="T"></typeparam>

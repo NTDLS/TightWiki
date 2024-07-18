@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NTDLS.DelegateThreadPooling;
+using System.ComponentModel;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Caching;
@@ -473,28 +475,39 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
+            var pool = new DelegateThreadPool(32, 0);
+
             if (model.UserSelection == true)
             {
+                var workload = pool.CreateQueueStateTracker();
+
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    var wiki = new Wikifier(WikiContext, page, page.Revision, Request.Query);
-
-                    page.Body = wiki.ProcessedBody;
-
-                    if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                    workload.Enqueue(() =>
                     {
-                        string queryKey = string.Empty;
-                        foreach (var query in Request.Query)
+                        var wiki = new Wikifier(WikiContext, page, page.Revision, Request.Query);
+
+                        page.Body = wiki.ProcessedBody;
+
+                        if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            queryKey += $"{query.Key}:{query.Value}";
+                            string queryKey = string.Empty;
+                            foreach (var query in Request.Query)
+                            {
+                                queryKey += $"{query.Key}:{query.Value}";
+                            }
+
+                            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
+                            if (WikiCache.Contains(cacheKey) == false)
+                            {
+                                WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalConfiguration.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                            }
                         }
-
-                        var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-
-                        WikiCache.Put(cacheKey, wiki.ProcessedBody, GlobalConfiguration.PageCacheSeconds); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
-                    }
-
+                    });
                 }
+
+                workload.WaitForCompletion();
+
                 return NotifyOfSuccess("All pages have been cached.", model.YesRedirectURL);
             }
 
