@@ -36,7 +36,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Wiki page editing is syntax highlighted.
 * Built in search supports fuzzy matching to support even mild misspellings.
 
-# Default home page:
+# Default home page
 ![image](https://github.com/NTDLS/TightWiki/assets/11428567/9cc75103-26b8-4732-8118-315335cddae9)
 
 # Site Metrics
@@ -48,13 +48,13 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 # Page History
 ![Clip2](https://user-images.githubusercontent.com/11428567/208713101-04646bf0-994a-423c-91bd-691d2e2e71fa.png)
 
-# Example edit page:
+# Example edit page
 ![Clip1](https://user-images.githubusercontent.com/11428567/208712847-7f15a68d-d373-49a2-a8f0-e2d8074b3413.png)
 
-# Build in documentation list:
+# Build in documentation list
 ![Clip7](https://user-images.githubusercontent.com/11428567/208712860-a92ba44d-28b2-4e36-9735-6c1f3bf78e3e.png)
 
-# Build in documentation sample:
+# Build in documentation sample
 ![Clip8](https://user-images.githubusercontent.com/11428567/208712889-9cf8eeca-7e0c-4019-af72-293f1ac50bc1.png)
 
 # Configuration
@@ -66,4 +66,4 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 # Admin role list
 ![Clip4](https://user-images.githubusercontent.com/11428567/208712960-70b13aff-0f0c-4b04-bbd7-3c8a66dbe70c.png)
 
-Its been like a modern retelling of Sisyphus, only this time the stone is RegEx.
+Its been like a modern retelling of Sisyphus, only this time with RegEx.
