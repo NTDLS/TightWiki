@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library
+﻿namespace TightWiki.Engine
 {
     public class WikiString
     {

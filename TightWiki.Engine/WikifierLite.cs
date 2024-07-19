@@ -1,6 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using NTDLS.Helpers;
+using System.Text.RegularExpressions;
 using TightWiki.Configuration;
-using TightWiki.Library;
 using TightWiki.Repository;
 using TightWiki.Wiki.Function;
 

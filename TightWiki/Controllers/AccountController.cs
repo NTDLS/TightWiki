@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
-using TightWiki.Library;
 using TightWiki.Models.ViewModels;
 using TightWiki.Repository;
 

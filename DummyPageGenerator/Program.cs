@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki;
 using TightWiki.Library;

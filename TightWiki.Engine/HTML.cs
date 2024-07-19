@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace TightWiki.Library
+namespace TightWiki.Engine
 {
     public static class HTML
     {

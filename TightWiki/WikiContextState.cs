@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Configuration;
 using TightWiki.Exceptions;

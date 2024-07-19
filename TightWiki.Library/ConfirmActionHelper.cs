@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NTDLS.Helpers;
+using System.Text;
 
 namespace TightWiki.Library
 {

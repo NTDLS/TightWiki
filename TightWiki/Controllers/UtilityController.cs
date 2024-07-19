@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NTDLS.Helpers;
 using TightWiki.Controllers;
-using TightWiki.Library;
 using TightWiki.Models.ViewModels.Utility;
 
 namespace TightWiki.Site.Controllers

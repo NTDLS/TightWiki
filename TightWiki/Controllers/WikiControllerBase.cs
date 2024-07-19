@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using TightWiki.Library;
+using NTDLS.Helpers;
 
 namespace TightWiki.Controllers
 {
