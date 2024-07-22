@@ -26,7 +26,7 @@
                     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
-                <form action="/Admin/AddEmoji"><button type="submit" class="btn btn-primary">Add new emoji</button></form> <br />
+                <a class="btn btn-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a><br /><br />
 
                 @using (Html.BeginForm(FormMethod.Get))
                 {
@@ -63,7 +63,7 @@
                 }
 
                 <br />
-                <form action="/Admin/AddEmoji"><button type="submit" class="btn btn-primary">Add new emoji</button></form> <br />
+                <a class="btn btn-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a>
             </td>
         </tr>
     </tbody>

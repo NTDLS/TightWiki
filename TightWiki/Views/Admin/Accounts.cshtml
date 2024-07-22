@@ -26,7 +26,7 @@
                     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
-                <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form> <br />
+                <a class="btn btn-success btn-thin" href="/Admin/AddAccount">Add new account</a><br /><br />
 
                 @using (Html.BeginForm(FormMethod.Get))
                 {
@@ -71,7 +71,7 @@
                 }
 
                 <br />
-                <form action="/Admin/AddAccount"><button type="submit" class="btn btn-primary">Add new account</button></form>
+                <a class="btn btn-success btn-thin" href="/Admin/AddAccount">Add new account</a>
             </td>
         </tr>
     </tbody>
