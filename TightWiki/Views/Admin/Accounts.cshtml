@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.AccountsViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -42,12 +43,13 @@
 
                         <thead>
                             <tr>
-                                <td><strong>Account</strong></td>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Country</strong></td>
-                                <td><strong>Time Zone</strong></td>
-                                <td><strong>Email Address</strong></td>
-                                <td><strong>Created</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Account")">Account</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "FirstName")">First Name</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "LastName")">Last Name</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Country")">Country</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "TimeZone")">TimeZone</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "EmailAddress")">EmailAddress</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Created")">CreatedDate</a></strong></td>
                             </tr>
                         </thead>
 
@@ -55,7 +57,8 @@
                         {
                             <tr>
                                 <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
-                                <td>@user.FirstName @user.LastName</td>
+                                <td>@user.FirstName</td>
+                                <td>@user.LastName</td>
                                 <td>@user.Country</td>
                                 <td>@user.TimeZone</td>
                                 <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>

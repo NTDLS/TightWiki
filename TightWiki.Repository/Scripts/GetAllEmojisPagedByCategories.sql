@@ -20,7 +20,16 @@ INNER JOIN EmojiCategory as EC
 	ON EC.EmojiId = E.Id
 WHERE
 	EC.Id IN (SELECT Value FROM TempEmojiCategoryIds)
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Name=E.[Name]
+MimeType=E.[MimeType]
+Shortcut=E.[Name]
+*/
+--::CONFIG
 ORDER BY
 	E.[Name]
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

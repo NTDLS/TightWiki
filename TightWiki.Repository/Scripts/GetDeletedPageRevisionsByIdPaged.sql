@@ -24,7 +24,16 @@ INNER JOIN users_db.Profile as DeletedUser
 	ON DeletedUser.UserId = DM.DeletedByUserID
 WHERE
 	PR.PageId = @PageId
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Revision=PR.Revision
+DeletedDate=DM.DeletedDate
+DeletedBy=DeletedUser.AccountName
+*/
+--::CONFIG
 ORDER BY
 	PR.Revision
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

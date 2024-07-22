@@ -17,12 +17,12 @@ SELECT
 		SELECT
 			CAST((Count(0) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
 		FROM
-			Profile as P
+			Profile as U
+		INNER JOIN AspNetUsers as ANU
+			ON ANU.Id = U.UserId
 		INNER JOIN AspNetUserClaims as UCR
 			ON UCR.UserId = U.UserId
 			AND UCR.ClaimType LIKE '%/role'
-		INNER JOIN Role as R
-			ON R.Name = UCR.ClaimValue
 		LEFT OUTER JOIN AspNetUserClaims as UCFirstName
 			ON UCFirstName.UserId = U.UserId
 			AND UCFirstName.ClaimType = 'firstname'
@@ -57,8 +57,21 @@ WHERE
 	OR ANU.Email LIKE '%' || @SearchToken || '%'
 	OR UCFirstName.ClaimValue LIKE '%' || @SearchToken || '%'
 	OR UCLastName.ClaimValue LIKE '%' || @SearchToken || '%'
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Account=U.AccountName
+FirstName=UCFirstName.ClaimValue
+LastName=UCLastName.ClaimValue
+Created=U.CreatedDate
+TimeZone=TimeZone
+Language=Language
+Country=Country
+EmailAddress=ANU.Email
+*/
+--::CONFIG
 ORDER BY
-	U.AccountName,
-	U.UserId
+	U.AccountName
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

@@ -347,9 +347,13 @@ namespace TightWiki.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new RevisionsViewModel()
             {
-                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryValue("page", 1))
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, pageNumber, orderBy, orderByDirection)
             };
 
             model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);

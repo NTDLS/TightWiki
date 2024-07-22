@@ -14,5 +14,15 @@ SELECT
 	) as PaginationPageCount
 FROM
 	[Exception]
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Id=Id
+CreatedDate=[CreatedDate]
+*/
+--::CONFIG
+ORDER BY
+	Id
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

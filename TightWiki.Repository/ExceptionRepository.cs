@@ -53,7 +53,8 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Exceptions.ExecuteScalar<int>("GetExceptionCount.sql");
         }
 
-        public static List<WikiException> GetAllExceptionsPaged(int pageNumber, int? pageSize = null)
+        public static List<WikiException> GetAllExceptionsPaged(int pageNumber,
+            string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -63,7 +64,8 @@ namespace TightWiki.Repository
                 PageSize = pageSize,
             };
 
-            return ManagedDataStorage.Exceptions.Query<WikiException>("GetAllExceptionsPaged.sql", param).ToList();
+            var query = RepositoryHelper.TransposeOrderby("GetAllExceptionsPaged.sql", orderBy, orderByDirection);
+            return ManagedDataStorage.Exceptions.Query<WikiException>(query, param).ToList();
         }
 
         public static WikiException GetExceptionById(int id)

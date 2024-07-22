@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.NamespacesViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -30,8 +31,8 @@
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Pages</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Pages")">Pages</a></strong></td>
                             </tr>
                         </thead>
 

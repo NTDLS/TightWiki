@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.StaticFiles;
-using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 
 namespace TightWiki.Library

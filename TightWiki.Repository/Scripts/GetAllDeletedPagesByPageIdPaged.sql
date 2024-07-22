@@ -33,8 +33,14 @@ INNER JOIN users_db.Profile as DeletedUser
 	ON DeletedUser.UserId = DM.DeletedByUserID
 WHERE
 	P.Id IN (SELECT PID.Value FROM TempPageIds as PID)
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Page=P.[Name]
+*/
+--::CONFIG
 ORDER BY
-	P.[Name],
-	P.Id
+	P.[Name]
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

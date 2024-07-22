@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.MenuItemsViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -31,14 +32,12 @@
                 {
                     @Html.AntiForgeryToken()
 
-
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-
                         <thead>
                             <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Link</strong></td>
-                                <td><strong>Ordinal</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Link")">Link</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Ordinal")">Ordinal</a></strong></td>
                             </tr>
                         </thead>
 

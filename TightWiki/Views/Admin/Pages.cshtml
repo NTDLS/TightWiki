@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PagesViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -25,13 +26,13 @@
                     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
-                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
+                @Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
                          "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
 
-                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
+                @Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
                          "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
 
-                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("Truncating page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
+                @Html.Raw(ConfirmActionHelper.GenerateDangerLink("Truncating page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
                          "Truncating Page Revisions", "/Admin/TruncatingPageRevisions", Context.Request.Path.Value))
                 <br />
 
@@ -46,14 +47,16 @@
                         </tr>
                     </table>
 
+
+
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Revision</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Revision")">Revision</a></strong></td>
                                 <td><strong>Deleted Revisions</strong></td>
-                                <td><strong>Modified By</strong></td>
-                                <td><strong>Modified Date</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedBy")">Modified By</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedDate")">Modified Date</a></strong></td>
                                 <td><strong>Action</strong></td>
                             </tr>
                         </thead>
@@ -72,14 +75,14 @@
                                 <td>@p.ModifiedByUserName</td>
                                 <td>@p.ModifiedDate</td>
                                 <td>
-                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                    @Html.Raw(ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
                                              "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
                                 </td>
                             </tr>
                         }
                     </table>
 
-                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                    @Html.Raw(PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
                 }
             </td>
         </tr>

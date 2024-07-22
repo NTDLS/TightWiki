@@ -91,7 +91,8 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param).ToList();
         }
 
-        public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(string navigation, int pageNumber, int? pageSize = null)
+        public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(
+            string navigation, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -105,7 +106,9 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<PageRevision>("GetPageRevisionsInfoByNavigationPaged.sql", param).ToList();
+
+                var query = RepositoryHelper.TransposeOrderby("GetPageRevisionsInfoByNavigationPaged.sql", orderBy, orderByDirection);
+                return o.Query<PageRevision>(query, param).ToList();
             });
         }
 
@@ -362,7 +365,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static List<NonexistentPage> GetMissingPagesPaged(int pageNumber, int? pageSize = null)
+        public static List<NonexistentPage> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -372,7 +375,8 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<NonexistentPage>("GetMissingPagesPaged.sql", param).ToList();
+            var query = RepositoryHelper.TransposeOrderby("GetMissingPagesPaged.sql", orderBy, orderByDirection);
+            return ManagedDataStorage.Pages.Query<NonexistentPage>(query, param).ToList();
         }
 
         public static void UpdateSinglePageReference(string pageNavigation, int pageId)
@@ -456,7 +460,8 @@ namespace TightWiki.Repository
             });
         }
 
-        public static List<Page> GetAllNamespacePagesPaged(int pageNumber, string namespaceName, int? pageSize = null)
+        public static List<Page> GetAllNamespacePagesPaged(int pageNumber, string namespaceName,
+            string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -470,7 +475,8 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<Page>("GetAllNamespacePagesPaged.sql", param).ToList();
+                var query = RepositoryHelper.TransposeOrderby("GetAllNamespacePagesPaged.sql", orderBy, orderByDirection);
+                return o.Query<Page>(query, param).ToList();
             });
         }
 
@@ -482,7 +488,8 @@ namespace TightWiki.Repository
         /// <param name="pageSize"></param>
         /// <param name="searchTerms"></param>
         /// <returns></returns>
-        public static List<Page> GetAllPagesPaged(int pageNumber, int? pageSize = null, List<string>? searchTerms = null)
+        public static List<Page> GetAllPagesPaged(int pageNumber, int? pageSize = null,
+            string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -501,7 +508,9 @@ namespace TightWiki.Repository
                     using var users_db = o.Attach("users.db", "users_db");
                     using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
-                    return o.Query<Page>("GetAllPagesByPageIdPaged.sql", param).ToList();
+
+                    var query = RepositoryHelper.TransposeOrderby("GetAllPagesByPageIdPaged.sql", orderBy, orderByDirection);
+                    return o.Query<Page>(query, param).ToList();
                 });
             }
 
@@ -509,7 +518,9 @@ namespace TightWiki.Repository
             {
                 using var users_db = o.Attach("users.db", "users_db");
                 using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
-                return o.Query<Page>("GetAllPagesPaged.sql", param).ToList();
+
+                var query = RepositoryHelper.TransposeOrderby("GetAllPagesPaged.sql", orderBy, orderByDirection);
+                return o.Query<Page>(query, param).ToList();
             });
         }
 
@@ -521,7 +532,8 @@ namespace TightWiki.Repository
         /// <param name="pageSize"></param>
         /// <param name="searchTerms"></param>
         /// <returns></returns>
-        public static List<Page> GetAllDeletedPagesPaged(int pageNumber, int? pageSize = null, List<string>? searchTerms = null)
+        public static List<Page> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,
+            string? orderByDirection = null, int? pageSize = null, List<string>? searchTerms = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -538,18 +550,21 @@ namespace TightWiki.Repository
                 {
                     using var users_db = o.Attach("users.db", "users_db");
                     using var tempTable = o.CreateTempTableFrom("TempPageIds", pageIds);
-                    return o.Query<Page>("GetAllDeletedPagesByPageIdPaged.sql", param).ToList();
+
+                    var query = RepositoryHelper.TransposeOrderby("GetAllDeletedPagesByPageIdPaged.sql", orderBy, orderByDirection);
+                    return o.Query<Page>(query, param).ToList();
                 });
             }
 
             return ManagedDataStorage.DeletedPages.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<Page>("GetAllDeletedPagesPaged.sql", param).ToList();
+                var query = RepositoryHelper.TransposeOrderby("GetAllDeletedPagesPaged.sql", orderBy, orderByDirection);
+                return o.Query<Page>(query, param).ToList();
             });
         }
 
-        public static List<NamespaceStat> GetAllNamespacesPaged(int pageNumber, int? pageSize = null)
+        public static List<NamespaceStat> GetAllNamespacesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -559,7 +574,9 @@ namespace TightWiki.Repository
                 PageSize = pageSize
             };
 
-            return ManagedDataStorage.Pages.Query<NamespaceStat>("GetAllNamespacesPaged.sql", param).ToList();
+            var query = RepositoryHelper.TransposeOrderby("GetAllNamespacesPaged.sql", orderBy, orderByDirection);
+
+            return ManagedDataStorage.Pages.Query<NamespaceStat>(query, param).ToList();
         }
 
         public static List<string> GetAllNamespaces()
@@ -822,7 +839,6 @@ namespace TightWiki.Repository
                 try
                 {
                     using var deletedpagerevisions_db = o.Attach("deletedpagerevisions.db", "deletedpagerevisions_db");
-
                     o.Execute("MovePageRevisionToDeletedById.sql", param);
                     transaction.Commit();
                 }
@@ -941,7 +957,8 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPagePreviousRevision.sql", param);
         }
 
-        public static List<DeletedPageRevision> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber, int? pageSize = null)
+        public static List<DeletedPageRevision> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber,
+            string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -955,7 +972,9 @@ namespace TightWiki.Repository
             return ManagedDataStorage.DeletedPageRevisions.Ephemeral(o =>
             {
                 using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<DeletedPageRevision>("GetDeletedPageRevisionsByIdPaged.sql", param).ToList();
+
+                var query = RepositoryHelper.TransposeOrderby("GetDeletedPageRevisionsByIdPaged.sql", orderBy, orderByDirection);
+                return o.Query<DeletedPageRevision>(query, param).ToList();
             });
         }
 

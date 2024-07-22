@@ -19,7 +19,7 @@
         public string Namespace { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public DateTime LatestBuild { get; set; }
-        public decimal BuildCount { get; set; }
+        public decimal Compilations { get; set; }
         public decimal AvgBuildTimeMs { get; set; }
         public decimal AvgWikiMatches { get; set; }
         public decimal TotalErrorCount { get; set; }

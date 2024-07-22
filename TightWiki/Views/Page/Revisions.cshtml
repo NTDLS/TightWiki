@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Page.RevisionsViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -30,9 +31,9 @@
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <td><strong>Revision</strong></td>
-                                <td><strong>Modified By</strong></td>
-                                <td><strong>Modified Date</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Revision")">Revision</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedBy")">Modified By</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedDate")">Modified Date</a></strong></td>
                                 <td><strong>Summary</strong></td>
                             </tr>
                         </thead>

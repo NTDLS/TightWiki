@@ -170,9 +170,13 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Compilations Statistics";
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new PageCompilationStatisticsViewModel()
             {
-                Statistics = StatisticsRepository.GetCompilationStatisticsPaged(GetQueryValue("page", 1)),
+                Statistics = StatisticsRepository.GetCompilationStatisticsPaged(pageNumber, orderBy, orderByDirection),
             };
 
             model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -234,9 +238,13 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Missing Pages";
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new MissingPagesViewModel()
             {
-                Pages = PageRepository.GetMissingPagesPaged(GetQueryValue("page", 1))
+                Pages = PageRepository.GetMissingPagesPaged(pageNumber, orderBy, orderByDirection)
             };
 
             model.PaginationPageCount = (model.Pages.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -255,19 +263,19 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Namespaces";
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new NamespacesViewModel()
             {
-                Namespaces = PageRepository.GetAllNamespacesPaged(GetQueryValue("page", 1)),
+                Namespaces = PageRepository.GetAllNamespacesPaged(pageNumber, orderBy, orderByDirection),
             };
 
             model.PaginationPageCount = (model.Namespaces.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
-
-        #endregion
-
-        #region Namespace.
 
         [Authorize]
         [HttpGet("Namespace/{namespaceName?}")]
@@ -276,9 +284,13 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Namespace";
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new NamespaceViewModel()
             {
-                Pages = PageRepository.GetAllNamespacePagesPaged(GetQueryValue("page", 1), namespaceName ?? string.Empty, null),
+                Pages = PageRepository.GetAllNamespacePagesPaged(pageNumber, namespaceName ?? string.Empty, orderBy, orderByDirection, null),
                 Namespace = namespaceName ?? string.Empty
             };
 
@@ -308,10 +320,12 @@ namespace TightWiki.Site.Controllers
             WikiContext.Title = $"Pages";
 
             var searchString = GetQueryValue("SearchString");
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
 
             var model = new PagesViewModel()
             {
-                Pages = PageRepository.GetAllPagesPaged(GetQueryValue("page", 1), null, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllPagesPaged(GetQueryValue("page", 1), null, orderBy, orderByDirection, Utility.SplitToTokens(searchString)),
                 SearchString = searchString ?? string.Empty
             };
 
@@ -365,9 +379,13 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new DeletedPagesRevisionsViewModel()
             {
-                Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, GetQueryValue("page", 1))
+                Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, pageNumber, orderBy, orderByDirection)
             };
 
             var page = PageRepository.GetPageInfoById(pageId);
@@ -421,9 +439,13 @@ namespace TightWiki.Site.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new PageRevisionsViewModel()
             {
-                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, GetQueryValue("page", 1))
+                Revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(pageNavigation, pageNumber, orderBy, orderByDirection)
             };
 
             model.PaginationPageCount = (model.Revisions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -520,10 +542,14 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireModeratePermission();
 
-            string searchString = GetQueryValue("SearchString") ?? string.Empty;
+            var searchString = GetQueryValue("SearchString", string.Empty);
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new DeletedPagesViewModel()
             {
-                Pages = PageRepository.GetAllDeletedPagesPaged(GetQueryValue("page", 1), null, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllDeletedPagesPaged(pageNumber, orderBy, orderByDirection, null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 
@@ -733,11 +759,13 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Orphaned Page Attachments";
 
-            var searchString = GetQueryValue("SearchString");
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
 
             var model = new OrphanedPageAttachmentsViewModel()
             {
-                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(GetQueryValue("page", 1), null),
+                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(pageNumber, orderBy, orderByDirection, null),
             };
 
             model.PaginationPageCount = (model.Files.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -797,9 +825,13 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new MenuItemsViewModel()
             {
-                Items = ConfigurationRepository.GetAllMenuItems()
+                Items = ConfigurationRepository.GetAllMenuItems(orderBy, orderByDirection)
             };
 
             return View(model);
@@ -928,9 +960,12 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new RolesViewModel()
             {
-                Roles = UsersRepository.GetAllRoles()
+                Roles = UsersRepository.GetAllRoles(orderBy, orderByDirection)
             };
 
             return View(model);
@@ -1260,11 +1295,14 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAdminPermission();
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
             var searchString = GetQueryValue("SearchString") ?? string.Empty;
 
             var model = new AccountsViewModel()
             {
-                Users = UsersRepository.GetAllUsersPaged(GetQueryValue("page", 1), null, searchString),
+                Users = UsersRepository.GetAllUsersPaged(pageNumber, orderBy, orderByDirection, null, searchString),
                 SearchString = searchString
             };
 
@@ -1444,11 +1482,14 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireModeratePermission();
             WikiContext.Title = $"Emojis";
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
             var searchString = GetQueryValue("SearchString") ?? string.Empty;
 
             var model = new EmojisViewModel()
             {
-                Emojis = EmojiRepository.GetAllEmojisPaged(GetQueryValue("page", 1), null, Utility.SplitToTokens(searchString)),
+                Emojis = EmojiRepository.GetAllEmojisPaged(pageNumber, orderBy, orderByDirection, null, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 
@@ -1664,9 +1705,13 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
             WikiContext.Title = $"Exceptions";
 
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
             var model = new ExceptionsViewModel()
             {
-                Exceptions = ExceptionRepository.GetAllExceptionsPaged(GetQueryValue("page", 1))
+                Exceptions = ExceptionRepository.GetAllExceptionsPaged(pageNumber, orderBy, orderByDirection)
             };
 
             model.PaginationPageCount = (model.Exceptions.FirstOrDefault()?.PaginationPageCount ?? 0);

@@ -250,8 +250,11 @@ namespace TightWiki.Repository
 
         #region Menu Items.
 
-        public static List<MenuItem> GetAllMenuItems()
-            => ManagedDataStorage.Config.Query<MenuItem>("GetAllMenuItems.sql").ToList();
+        public static List<MenuItem> GetAllMenuItems(string? orderBy = null, string? orderByDirection = null)
+        {
+            var query = RepositoryHelper.TransposeOrderby("GetAllMenuItems.sql", orderBy, orderByDirection);
+            return ManagedDataStorage.Config.Query<MenuItem>(query).ToList();
+        }
 
         public static MenuItem GetMenuItemById(int id)
         {

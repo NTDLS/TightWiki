@@ -45,6 +45,7 @@ namespace DummyPageGenerator
                 for (int i = 0; i < 1124 - _users.Count; i++)
                 {
                     string emailAddress = WordsRepository.GetRandomWords(1).First() + "@" + WordsRepository.GetRandomWords(1).First() + ".com";
+                    CreateUserAndProfile(emailAddress);
                 }
 
                 _users = UsersRepository.GetAllUsers();

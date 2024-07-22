@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.ExceptionsViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -35,10 +36,10 @@
 
                         <thead>
                             <tr>
-                                <td><strong>Id</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Id")">Id</a></strong></td>
                                 <td><strong>Text</strong></td>
                                 <td><strong>Exception</strong></td>
-                                <td><strong>Date/Time</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "CreatedDate")">Date/Time</a></strong></td>
                             </tr>
                         </thead>
 

@@ -50,8 +50,11 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.QuerySingle<Role>("GetRoleByName.sql", param);
         }
 
-        public static List<Role> GetAllRoles()
-            => ManagedDataStorage.Users.Query<Role>("GetAllRoles.sql").ToList();
+        public static List<Role> GetAllRoles(string? orderBy = null, string? orderByDirection = null)
+        {
+            var query = RepositoryHelper.TransposeOrderby("GetAllRoles.sql", orderBy, orderByDirection);
+            return ManagedDataStorage.Users.Query<Role>(query).ToList();
+        }
 
         public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber, int? pageSize = null)
         {
@@ -70,7 +73,7 @@ namespace TightWiki.Repository
         public static List<AccountProfile> GetAllUsers()
             => ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsers.sql").ToList();
 
-        public static List<AccountProfile> GetAllUsersPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
+        public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -81,7 +84,8 @@ namespace TightWiki.Repository
                 SearchToken = searchToken
             };
 
-            return ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsersPaged.sql", param).ToList();
+            var query = RepositoryHelper.TransposeOrderby("GetAllUsersPaged.sql", orderBy, orderByDirection);
+            return ManagedDataStorage.Users.Query<AccountProfile>(query, param).ToList();
         }
 
         public static int CreateProfile(Guid userId)

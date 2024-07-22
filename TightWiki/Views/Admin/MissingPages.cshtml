@@ -1,4 +1,5 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.MissingPagesViewModel
+@using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -30,8 +31,8 @@
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <td><strong>Source Page</strong></td>
-                                <td><strong>Target Page</strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "SourcePage")">Source Page</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "TargetPage")">Target Page</a></strong></td>
                             </tr>
                         </thead>
 

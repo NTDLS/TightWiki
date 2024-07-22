@@ -27,8 +27,17 @@ INNER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
 WHERE
 	P.[Namespace] = @Namespace
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Name=P.[Name]
+Revision=P.Revision
+ModifiedBy=ModifiedUser.AccountName
+ModifiedDate=P.ModifiedDate
+*/
+--::CONFIG
 ORDER BY
-	P.[Name],
-	P.Id
+	P.[Name]
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

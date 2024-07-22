@@ -12,7 +12,16 @@ SELECT
 	) as PaginationPageCount
 FROM
 	Emoji as E
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+Name=E.[Name]
+MimeType=E.[MimeType]
+Shortcut=E.[Name]
+*/
+--::CONFIG
 ORDER BY
 	E.[Name]
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

@@ -6,6 +6,67 @@ namespace TightWiki.Library
 {
     public static class QueryStringConverter
     {
+        /// <summary>
+        /// Takes the current page query string and upserts the given order-by field,
+        /// if the string already sorts on the given field then the order is inverted (asc/desc).
+        /// </summary>
+        /// <returns></returns>
+        public static string OrderHelper(IWikiContext context, string value)
+        {
+            string orderByKey = "OrderBy";
+            string orderByDirectionKey = "OrderByDirection";
+            string? currentDirection = "asc";
+            var collection = ToDictionary(context.QueryString);
+
+            //Check to see if we are sorting on the value that we are already sorted on, this would mean we need to invert the sort.
+            if (collection.TryGetValue(orderByKey, out var currentValue))
+            {
+                bool invertDirection = string.Equals(currentValue, value, StringComparison.InvariantCultureIgnoreCase);
+
+                if (invertDirection)
+                {
+                    if (collection.TryGetValue(orderByDirectionKey, out currentDirection))
+                    {
+                        if (currentDirection == "asc")
+                        {
+                            currentDirection = "desc";
+                        }
+                        else
+                        {
+                            currentDirection = "asc";
+                        }
+                    }
+                }
+                else
+                {
+                    currentDirection = "asc";
+                }
+            }
+
+            collection.Remove(orderByKey);
+            collection.Add(orderByKey, value);
+
+            collection.Remove(orderByDirectionKey);
+            collection.Add(orderByDirectionKey, currentDirection ?? "asc");
+
+            return FromCollection(collection);
+        }
+
+        /// <summary>
+        /// Takes the current page query string and upserts a query key/value, replacing any conflicting query string entry.
+        /// </summary>
+        /// <param name="queryString"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string Upsert(IQueryCollection? queryString, string name, string value)
+        {
+            var collection = ToDictionary(queryString);
+            collection.Remove(name);
+            collection.Add(name, value);
+            return FromCollection(collection);
+        }
+
         public static Dictionary<string, string> ToDictionary(IQueryCollection? queryString)
         {
             if (queryString == null)

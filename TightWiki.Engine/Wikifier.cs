@@ -1391,7 +1391,7 @@ namespace TightWiki.Engine
                             string styleName = function.Parameters.Get<string>("styleName").ToLower();
                             var pageSize = function.Parameters.Get<int>("pageSize");
                             var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, pageSize);
+                            var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
                             var html = new StringBuilder();
 
                             if (revisions.Count() > 0)

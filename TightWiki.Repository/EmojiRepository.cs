@@ -114,7 +114,8 @@ namespace TightWiki.Repository
             return emojiId;
         }
 
-        public static List<Emoji> GetAllEmojisPaged(int pageNumber, int? pageSize, List<string>? categories)
+        public static List<Emoji> GetAllEmojisPaged(int pageNumber,
+            string? orderBy = null, string? orderByDirection = null, int? pageSize = null, List<string>? categories = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
@@ -126,7 +127,8 @@ namespace TightWiki.Repository
                     PageSize = pageSize
                 };
 
-                return ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojisPaged.sql", param).ToList();
+                var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPaged.sql", orderBy, orderByDirection);
+                return ManagedDataStorage.Emoji.Query<Emoji>(query, param).ToList();
             }
             else
             {
@@ -148,7 +150,9 @@ namespace TightWiki.Repository
                     };
 
                     using var tempTable = o.CreateTempTableFrom("TempEmojiCategoryIds", emojiCategoryIds);
-                    return o.Query<Emoji>("GetAllEmojisPagedByCategories.sql", getAllEmojisPagedByCategoriesParam).ToList();
+
+                    var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPagedByCategories.sql", orderBy, orderByDirection);
+                    return o.Query<Emoji>(query, getAllEmojisPagedByCategoriesParam).ToList();
                 });
             }
         }
