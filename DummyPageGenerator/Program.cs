@@ -64,8 +64,10 @@ namespace DummyPageGenerator
                 {
                     workload.Enqueue(() =>
                     {
-                        //pg.GeneratePages(user.UserId);
+                        //Create a new page.
+                        pg.GeneratePage(user.UserId);
 
+                        //Modify existing pages:
                         int modifications = pg.Random.Next(0, 10);
                         for (int i = 0; i < modifications; i++)
                         {
