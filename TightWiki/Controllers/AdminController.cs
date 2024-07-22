@@ -30,6 +30,87 @@ namespace TightWiki.Site.Controllers
         #region Metrics.
 
         [Authorize]
+        [HttpGet("Database")]
+        public ActionResult Database()
+        {
+            WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Database";
+
+            var versions = SpannedRepository.GetDatabaseVersions();
+            var pageCounts = SpannedRepository.GetDatabasePageCounts();
+            var pageSizes = SpannedRepository.GetDatabasePageSizes();
+
+            var info = new List<DatabaseInfo>();
+
+            foreach (var version in versions)
+            {
+                var pageCount = pageCounts.FirstOrDefault(o => o.Name == version.Name).PageCount;
+                var pageSize = pageSizes.FirstOrDefault(o => o.Name == version.Name).PageSize;
+
+                info.Add(new DatabaseInfo
+                {
+                    Name = version.Name,
+                    Version = version.Version,
+                    PageCount = pageCount,
+                    PageSize = pageSize,
+                    DatabaseSize = pageCount * pageSize
+                });
+            }
+
+            var model = new DatabaseViewModel()
+            {
+                Info = info
+            };
+
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpPost("Database/{databaseAction}/{database}")]
+        public ActionResult Database(ConfirmActionViewModel model, string databaseAction, string database)
+        {
+            WikiContext.RequireAdminPermission();
+            WikiContext.Title = $"Database";
+
+            if (model.UserSelection == true)
+            {
+                try
+                {
+                    switch (databaseAction)
+                    {
+                        case "Optimize":
+                            {
+                                var resultText = SpannedRepository.OptimizeDatabase(database);
+                                return NotifyOfSuccess($"Optimization complete. {resultText}", model.YesRedirectURL);
+                            }
+                        case "Vacuum":
+                            {
+                                var resultText = SpannedRepository.OptimizeDatabase(database);
+                                return NotifyOfSuccess($"Vacuum complete. {resultText}", model.YesRedirectURL);
+                            }
+                        case "Verify":
+                            {
+                                var resultText = SpannedRepository.OptimizeDatabase(database);
+                                return NotifyOfSuccess($"Verification complete. {resultText}", model.YesRedirectURL);
+                            }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError($"Operation failed: {ex.Message}.", model.YesRedirectURL);
+                }
+
+                return NotifyOfError($"Unknown database action: '{databaseAction}'.", model.YesRedirectURL);
+            }
+
+            return Redirect(model.NoRedirectURL);
+        }
+
+        #endregion
+
+        #region Metrics.
+
+        [Authorize]
         [HttpGet("Metrics")]
         public ActionResult Metrics()
         {

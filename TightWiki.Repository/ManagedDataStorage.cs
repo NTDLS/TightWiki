@@ -7,6 +7,28 @@ namespace TightWiki
     /// </summary>
     public static class ManagedDataStorage
     {
+        private static (string Name, ManagedDataStorageFactory Factory)[]? _collection = null;
+
+        public static (string Name, ManagedDataStorageFactory Factory)[] Collection
+        {
+            get
+            {
+                _collection ??=
+                    [
+                        ("DeletedPageRevisions", DeletedPageRevisions),
+                        ("DeletedPages", DeletedPages),
+                        ("Pages", Pages),
+                        ("Statistics", Statistics),
+                        ("Emoji", Emoji),
+                        ("Exceptions", Exceptions),
+                        ("Words", Words),
+                        ("Users", Users),
+                        ("Config", Config)
+                    ];
+                return _collection;
+            }
+        }
+
         public static ManagedDataStorageFactory DeletedPageRevisions { get; private set; } = new();
         public static ManagedDataStorageFactory DeletedPages { get; private set; } = new();
         public static ManagedDataStorageFactory Pages { get; private set; } = new();

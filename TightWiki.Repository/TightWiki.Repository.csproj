@@ -20,6 +20,7 @@
     <None Remove="Scripts\DetachPageRevisionAttachment.sql" />
     <None Remove="Scripts\DoesEmailAddressExist.sql" />
     <None Remove="Scripts\DoesProfileAccountExist.sql" />
+    <None Remove="Scripts\ForeignKeyCheck.sql" />
     <None Remove="Scripts\GetAccountProfileByNavigation.sql" />
     <None Remove="Scripts\GetAccountProfileByUserId.sql" />
     <None Remove="Scripts\GetAllDeletedPagesByPageIdPaged.sql" />
@@ -50,6 +51,9 @@
     <None Remove="Scripts\GetCountOfPageAttachmentsById.sql" />
     <None Remove="Scripts\GetCryptoCheck.sql" />
     <None Remove="Scripts\GetCurrentPageRevision.sql" />
+    <None Remove="Scripts\GetDatabasePageCount.sql" />
+    <None Remove="Scripts\GetDatabasePageSize.sql" />
+    <None Remove="Scripts\GetDatabaseVersion.sql" />
     <None Remove="Scripts\GetDeletedPageById.sql" />
     <None Remove="Scripts\GetDeletedPageIdsByTokens.sql" />
     <None Remove="Scripts\GetDeletedPageRevisionById.sql" />
@@ -113,9 +117,11 @@
     <None Remove="Scripts\InsertPageFile.sql" />
     <None Remove="Scripts\InsertPageFileRevision.sql" />
     <None Remove="Scripts\InsertPageRevision.sql" />
+    <None Remove="Scripts\IntegrityCheckDatabase.sql" />
     <None Remove="Scripts\IsAdminPasswordChanged.sql" />
     <None Remove="Scripts\MovePageRevisionToDeletedById.sql" />
     <None Remove="Scripts\MovePageToDeletedById.sql" />
+    <None Remove="Scripts\OptimizeDatabase.sql" />
     <None Remove="Scripts\PageSearch.sql" />
     <None Remove="Scripts\PageSearchPaged.sql" />
     <None Remove="Scripts\PurgeCompilationStatistics.sql" />
@@ -151,9 +157,17 @@
     <None Remove="Scripts\UpdateProfileAvatar.sql" />
     <None Remove="Scripts\UpdateSinglePageReference.sql" />
     <None Remove="Scripts\UpsertEmojiCategories.sql" />
+    <None Remove="Scripts\VacuumDatabase.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\VacuumDatabase.sql" />
+    <EmbeddedResource Include="Scripts\OptimizeDatabase.sql" />
+    <EmbeddedResource Include="Scripts\IntegrityCheckDatabase.sql" />
+    <EmbeddedResource Include="Scripts\ForeignKeyCheck.sql" />
+    <EmbeddedResource Include="Scripts\GetDatabaseVersion.sql" />
+    <EmbeddedResource Include="Scripts\GetDatabasePageCount.sql" />
+    <EmbeddedResource Include="Scripts\GetDatabasePageSize.sql" />
     <EmbeddedResource Include="Scripts\AnonymizeProfile.sql" />
     <EmbeddedResource Include="Scripts\AssociatePageFileAttachmentWithPageRevision.sql" />
     <EmbeddedResource Include="Scripts\CreatePage.sql" />
