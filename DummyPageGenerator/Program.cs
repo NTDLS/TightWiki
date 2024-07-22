@@ -4,8 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NTDLS.Helpers;
-using System.Security.Claims;
 using TightWiki;
 using TightWiki.Library;
 using TightWiki.Repository;
@@ -54,60 +52,7 @@ namespace DummyPageGenerator
 
             ConfigurationRepository.ReloadEverything();
 
-            var users = UsersRepository.GetAllUsers();
-
-            if (users.Count < 1124)
-            {
-                for (int i = 0; i < 1124 - users.Count; i++)
-                {
-                    string emailAddress = WordsRepository.GetRandomWords(1).First() + "@" + WordsRepository.GetRandomWords(1).First() + ".com";
-
-                    #region Create User and Profile.
-
-                    var user = new IdentityUser()
-                    {
-                        UserName = emailAddress,
-                        Email = emailAddress
-                    };
-
-                    var result = userManager.CreateAsync(user, WordsRepository.GetRandomWords(1).First() + Guid.NewGuid().ToString()).Result;
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(string.Join("\r\n", result.Errors.Select(o => o.Description)));
-                    }
-
-                    var userId = userManager.GetUserIdAsync(user).Result;
-                    var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-
-                    UsersRepository.CreateProfile(Guid.Parse(userId));
-
-                    var claimsToAdd = new List<Claim>
-                    {
-                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
-                        new ("timezone", membershipConfig.Value<string>("Default TimeZone").EnsureNotNull()),
-                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country").EnsureNotNull()),
-                        new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
-                    };
-
-                    SecurityRepository.UpsertUserClaims(userManager, user, claimsToAdd);
-
-                    #endregion
-                }
-
-                users = UsersRepository.GetAllUsers();
-            }
-
-            var rand = new Random();
-
-            var namespaces = PageRepository.GetAllNamespaces();
-            var tags = WordsRepository.GetRandomWords(250);
-            var fileNames = WordsRepository.GetRandomWords(50);
-            var recentPageNames = new List<string>();
-
-            if (namespaces.Count < 250)
-            {
-                namespaces.AddRange(WordsRepository.GetRandomWords(250));
-            }
+            var pg = new PageGenerator(userManager);
 
             var pool = new NTDLS.DelegateThreadPooling.DelegateThreadPool(4, 0);
 
@@ -115,9 +60,18 @@ namespace DummyPageGenerator
             {
                 var workload = pool.CreateQueueStateTracker();
 
-                foreach (var user in users)
+                foreach (var user in pg.Users)
                 {
-                    workload.Enqueue(() => PageGenerator.GeneratePages(user.UserId, rand, namespaces, tags, fileNames, ref recentPageNames));
+                    workload.Enqueue(() =>
+                    {
+                        //pg.GeneratePages(user.UserId);
+
+                        int modifications = pg.Random.Next(0, 10);
+                        for (int i = 0; i < modifications; i++)
+                        {
+                            pg.ModifyRandomPages(user.UserId);
+                        }
+                    });
                 }
 
                 workload.WaitForCompletion();

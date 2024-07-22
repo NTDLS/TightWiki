@@ -1,29 +1,97 @@
-﻿using System.Text;
+﻿using Microsoft.AspNetCore.Identity;
+using NTDLS.Helpers;
+using System.Security.Claims;
+using System.Text;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace DummyPageGenerator
 {
-    internal static class PageGenerator
+    internal class PageGenerator
     {
-        private static object _lockObject = new();
-        private static List<Page>? _pagePool;
-        private static Random _random = new Random();
+        private readonly object _lockObject = new();
+        private List<Page> _pagePool;
+        private readonly Random _random;
+        private readonly List<string> _namespaces;
+        private readonly List<string> _tags;
+        private readonly List<string> _fileNames;
+        private List<string> _recentPageNames = new();
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly List<AccountProfile> _users;
 
-        private static List<Page> GetPagePool()
+        public List<AccountProfile> Users => _users;
+        public Random Random => _random;
+
+        public PageGenerator(UserManager<IdentityUser> userManager)
         {
-            lock (_lockObject)
+            _userManager = userManager;
+            _random = new Random();
+
+            _namespaces = PageRepository.GetAllNamespaces();
+            _tags = WordsRepository.GetRandomWords(250);
+            _fileNames = WordsRepository.GetRandomWords(50);
+            _pagePool = PageRepository.GetAllPages();
+
+            if (_namespaces.Count < 250)
             {
-                if (_random.Next(0, 100) > 95)
+                _namespaces.AddRange(WordsRepository.GetRandomWords(250));
+            }
+
+            _users = UsersRepository.GetAllUsers();
+
+            if (_users.Count < 1124)
+            {
+                for (int i = 0; i < 1124 - _users.Count; i++)
                 {
-                    _pagePool = PageRepository.GetAllPages();
+                    string emailAddress = WordsRepository.GetRandomWords(1).First() + "@" + WordsRepository.GetRandomWords(1).First() + ".com";
                 }
-                return _pagePool ??= PageRepository.GetAllPages();
+
+                _users = UsersRepository.GetAllUsers();
             }
         }
 
-        public static string GetParagraph(int words)
+        /// <summary>
+        /// Creates a user and the associated profile with claims and such.
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <exception cref="Exception"></exception>
+        public void CreateUserAndProfile(string emailAddress)
+        {
+            var user = new IdentityUser()
+            {
+                UserName = emailAddress,
+                Email = emailAddress
+            };
+
+            var result = _userManager.CreateAsync(user, WordsRepository.GetRandomWords(1).First() + Guid.NewGuid().ToString()).Result;
+            if (!result.Succeeded)
+            {
+                throw new Exception(string.Join("\r\n", result.Errors.Select(o => o.Description)));
+            }
+
+            var userId = _userManager.GetUserIdAsync(user).Result;
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+
+            UsersRepository.CreateProfile(Guid.Parse(userId));
+
+            var claimsToAdd = new List<Claim>
+                    {
+                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
+                        new ("timezone", membershipConfig.Value<string>("Default TimeZone").EnsureNotNull()),
+                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country").EnsureNotNull()),
+                        new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
+                    };
+
+            SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+        }
+
+        /// <summary>
+        /// Creates a paragraph/sentence structure.
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        private string GetParagraph(int words)
         {
             using var client = new HttpClient();
 
@@ -33,7 +101,12 @@ namespace DummyPageGenerator
             return response.Content.ReadAsStringAsync().Result;
         }
 
-        public static string GenerateWikiParagraph(List<string> recentPageNames, int wordCount)
+        /// <summary>
+        /// Creates a paragraph/sentence structure with links and wiki markup.
+        /// </summary>
+        /// <param name="wordCount"></param>
+        /// <returns></returns>
+        private string GenerateWikiParagraph(int wordCount)
         {
             var paragraph = GetParagraph(wordCount);
             var tokens = paragraph.Split(' ');
@@ -53,14 +126,11 @@ namespace DummyPageGenerator
                         paragraph = paragraph.Replace(token, AddWikiMarkup(token));
                         break;
                     case 6: //Good link.
-                        string recentPage;
-
-                        lock (_lockObject)
+                        var recentPage = GetRandomRecentPageName();
+                        if (recentPage != null)
                         {
-                            recentPage = recentPageNames[_random.Next(0, recentPageNames.Count)];
+                            paragraph = paragraph.Replace(token, $"[[{recentPage}]]");
                         }
-
-                        paragraph = paragraph.Replace(token, $"[[{recentPage}]]");
                         break;
                 }
             }
@@ -68,28 +138,73 @@ namespace DummyPageGenerator
             return paragraph;
         }
 
-        public static void GeneratePages(Guid userId, Random rand, List<string> namespaces, List<string> tags, List<string> fileNames, ref List<string> recentPageNames)
+        private string? GetRandomRecentPageName()
+        {
+            lock (_pagePool)
+            {
+                if (_recentPageNames.Count == 0)
+                {
+                    return null;
+                }
+
+                if (_recentPageNames.Count > 200) //Shuffle and limit the recent page names.
+                {
+                    _recentPageNames = ShuffleList(_recentPageNames).Take(100).ToList();
+                }
+
+                return _recentPageNames[_random.Next(0, _recentPageNames.Count)];
+            }
+        }
+
+        private List<string> GetRandomRecentPageNames(int count)
+        {
+            lock (_pagePool)
+            {
+                if (_recentPageNames.Count > 200) //Shuffle and limit the recent page names.
+                {
+                    _recentPageNames = ShuffleList(_recentPageNames).Take(100).ToList();
+                }
+
+                var pageNames = new List<string>();
+                for (int i = 0; i < count; i++)
+                {
+                    pageNames.Add(_recentPageNames[_random.Next(0, _recentPageNames.Count)]);
+                }
+                return pageNames;
+            }
+        }
+
+        private void AddRecentPageName(string pageName)
+        {
+            lock (_pagePool)
+            {
+                _recentPageNames.Add(pageName);
+            }
+        }
+
+        /// <summary>
+        /// Creates a random page on the wiki.
+        /// </summary>
+        /// <param name="userId"></param>
+        public void GeneratePage(Guid userId)
         {
             try
             {
-                Console.WriteLine($"{userId} is making changes.");
+                Console.WriteLine($"{userId} is creating a page.");
 
-                var ns = namespaces[_random.Next(namespaces.Count)];
+                var ns = _namespaces[_random.Next(_namespaces.Count)];
 
                 var pageName = ns + " :: " + string.Join(" ", WordsRepository.GetRandomWords(3));
 
-                lock (_lockObject)
-                {
-                    recentPageNames.Add(pageName);
-                }
+                AddRecentPageName(pageName);
 
                 var body = new StringBuilder();
 
-                body.AppendLine($"##title ##Tag(" + string.Join(' ', GetRandomizedList(tags).Take(_random.Next(1, 4))) + ")");
+                body.AppendLine($"##title ##Tag(" + string.Join(' ', ShuffleList(_tags).Take(_random.Next(1, 4))) + ")");
                 body.AppendLine($"##toc");
 
                 body.AppendLine($"==Overview");
-                body.AppendLine(GenerateWikiParagraph(recentPageNames, _random.Next(50, 100)));
+                body.AppendLine(GenerateWikiParagraph(_random.Next(50, 100)));
                 body.AppendLine("\r\n");
 
                 body.AppendLine($"==Revision Section");
@@ -97,10 +212,8 @@ namespace DummyPageGenerator
                 body.AppendLine($"PLACEHOLDER_FOR_REVISION_TEXT_BEGIN\r\nPLACEHOLDER_FOR_REVISION_TEXT_END\r\n");
 
                 var textWithLinks = WordsRepository.GetRandomWords(_random.Next(5, 10));
-                lock (_lockObject)
-                {
-                    textWithLinks.AddRange(GetRandomizedList(recentPageNames).Take(_random.Next(1, 2)).Select(o => $"[[{o}]]"));
-                }
+                textWithLinks.AddRange(GetRandomRecentPageNames(_random.Next(1, 2)).Select(o => $"[[{o}]]"));
+
                 if (_random.Next(100) >= 95)
                 {
                     //Add dead links (missing pages).
@@ -108,7 +221,7 @@ namespace DummyPageGenerator
                 }
 
                 body.AppendLine($"==See Also");
-                body.AppendLine(string.Join(' ', GetRandomizedList(textWithLinks)));
+                body.AppendLine(string.Join(' ', ShuffleList(textWithLinks)));
                 body.AppendLine("\r\n");
 
                 body.AppendLine($"==Related");
@@ -129,46 +242,12 @@ namespace DummyPageGenerator
 
                 if (_random.Next(100) >= 70)
                 {
-                    var fileName = fileNames[_random.Next(fileNames.Count)] + ".txt"; ;
+                    var fileName = _fileNames[_random.Next(_fileNames.Count)] + ".txt"; ;
                     var fileData = Encoding.UTF8.GetBytes(page.Body);
                     AttachFile(newPageId, userId, fileName, fileData);
                 }
 
-                lock (_lockObject)
-                {
-                    recentPageNames = GetRandomizedList(recentPageNames).Take(100).ToList();
-                }
-
-                var pagesToModify = GetPagePool().OrderBy(o => _random.Next()).Take(_random.Next(2, 5));
-
-                foreach (var pageToModify in pagesToModify)
-                {
-                    string beginTag = "PLACEHOLDER_FOR_REVISION_TEXT_BEGIN";
-                    string endTag = "PLACEHOLDER_FOR_REVISION_TEXT_END";
-
-                    int beginIndex = pageToModify.Body.IndexOf(beginTag);
-                    int endIndex = pageToModify.Body.IndexOf(endTag);
-
-                    if (beginIndex > 0 && endIndex > beginIndex)
-                    {
-                        string topText = pageToModify.Body.Substring(0, beginIndex + beginTag.Length);
-                        string bottomText = pageToModify.Body.Substring(endIndex);
-
-                        pageToModify.Body = topText.Trim()
-                            + "\r\n" + GenerateWikiParagraph(recentPageNames, _random.Next(10, 20))
-                            + "\r\n" + bottomText.Trim();
-                        pageToModify.ModifiedByUserId = userId;
-                        pageToModify.ModifiedByUserId = userId;
-                        TightWiki.Engine.WikiHelper.UpsertPage(pageToModify);
-
-                        if (_random.Next(100) >= 90)
-                        {
-                            var fileName = fileNames[_random.Next(fileNames.Count)] + ".txt";
-                            var fileData = Encoding.UTF8.GetBytes(pageToModify.Body);
-                            AttachFile(pageToModify.Id, userId, fileName, fileData);
-                        }
-                    }
-                }
+                InsertPagePool(page);
             }
             catch (Exception ex)
             {
@@ -176,7 +255,69 @@ namespace DummyPageGenerator
             }
         }
 
-        public static void AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
+        private Page GetRandomPage()
+        {
+            lock (_pagePool)
+            {
+                return _pagePool[_random.Next(0, _pagePool.Count)];
+            }
+        }
+
+        private void InsertPagePool(Page page)
+        {
+            lock (_pagePool)
+            {
+                _pagePool.Add(page);
+            }
+        }
+
+        /// <summary>
+        /// Modifies a random page on the wiki.
+        /// </summary>
+        /// <param name="userId"></param>
+        public void ModifyRandomPages(Guid userId)
+        {
+            Console.WriteLine($"{userId} is modifying a page.");
+
+            var pageToModify = GetRandomPage();
+
+            AddRecentPageName(pageToModify.Name);
+
+            string beginTag = "PLACEHOLDER_FOR_REVISION_TEXT_BEGIN";
+            string endTag = "PLACEHOLDER_FOR_REVISION_TEXT_END";
+
+            int beginIndex = pageToModify.Body.IndexOf(beginTag);
+            int endIndex = pageToModify.Body.IndexOf(endTag);
+
+            if (beginIndex > 0 && endIndex > beginIndex)
+            {
+                string topText = pageToModify.Body.Substring(0, beginIndex + beginTag.Length);
+                string bottomText = pageToModify.Body.Substring(endIndex);
+
+                pageToModify.Body = topText.Trim()
+                    + "\r\n" + GenerateWikiParagraph(_random.Next(10, 20))
+                    + "\r\n" + bottomText.Trim();
+                pageToModify.ModifiedByUserId = userId;
+                pageToModify.ModifiedByUserId = userId;
+                TightWiki.Engine.WikiHelper.UpsertPage(pageToModify);
+
+                if (_random.Next(100) >= 90)
+                {
+                    var fileName = _fileNames[_random.Next(_fileNames.Count)] + ".txt";
+                    var fileData = Encoding.UTF8.GetBytes(pageToModify.Body);
+                    AttachFile(pageToModify.Id, userId, fileName, fileData);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Attaches a file to a wiki page.
+        /// </summary>
+        /// <param name="pageId"></param>
+        /// <param name="userId"></param>
+        /// <param name="fileName"></param>
+        /// <param name="fileData"></param>
+        private void AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
         {
             PageFileRepository.UpsertPageFile(new PageFileAttachment()
             {
@@ -190,7 +331,13 @@ namespace DummyPageGenerator
             }, userId);
         }
 
-        static List<T> GetRandomizedList<T>(List<T> list)
+        /// <summary>
+        /// Returns a shuffled version of the input list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        private List<T> ShuffleList<T>(List<T> list)
         {
             var newList = new List<T>(list);
             var rand = new Random();
@@ -206,7 +353,12 @@ namespace DummyPageGenerator
             return newList;
         }
 
-        static string AddWikiMarkup(string text)
+        /// <summary>
+        /// Adds some random wiki text to a word.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private string AddWikiMarkup(string text)
         {
             switch (_random.Next(0, 5))
             {
@@ -222,6 +374,5 @@ namespace DummyPageGenerator
                     return text;
             }
         }
-
     }
 }
