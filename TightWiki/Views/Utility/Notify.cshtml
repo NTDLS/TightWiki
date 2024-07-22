@@ -61,11 +61,11 @@
                         }
                     </div>
                 }
-                else if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
                 {
                     <div class="alert alert-success">
                         @{
-                            var successMessages = @Model.ErrorMessage.Replace("\r\n", "\n").Split("\n");
+                            var successMessages = @Model.SuccessMessage.Replace("\r\n", "\n").Split("\n");
                         }
                         @foreach (var message in successMessages)
                         {
@@ -84,6 +84,13 @@
                                 @message
                                 <br />
                             }
+                        }
+
+                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
+                        {
+                            <p>
+                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown">@Model.RedirectTimeout</span> seconds.
+                            </p>
                         }
                     </div>
                 }
