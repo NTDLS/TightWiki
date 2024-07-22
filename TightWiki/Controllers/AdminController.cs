@@ -1432,10 +1432,13 @@ namespace TightWiki.Site.Controllers
 
                 foreach (var fc in flatConfig)
                 {
-                    string key = $"{fc.GroupId}:{fc.EntryId}";
-                    var value = GetFormValue(key, string.Empty);
+                    var parent = model.Nest.Single(o => o.Name == fc.GroupName);
+                    var child = parent.Entries.Single(o => o.Name == fc.EntryName);
 
-                    if (fc.IsRequired && string.IsNullOrEmpty(value))
+                    //We keep the value in model.Nest.Entries.Value so that the page will reflect the new settings after post.
+                    child.Value = GetFormValue($"{fc.GroupId}:{fc.EntryId}", string.Empty);
+
+                    if (fc.IsRequired && string.IsNullOrEmpty(child.Value))
                     {
                         model.ErrorMessage = $"{fc.GroupName} : {fc.EntryName} is required.";
                         return View(model);
@@ -1444,7 +1447,7 @@ namespace TightWiki.Site.Controllers
                     if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
                     {
                         //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                        GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
+                        GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == child.Value);
                         if (string.IsNullOrEmpty(WikiContext.Profile?.Theme))
                         {
                             WikiContext.UserTheme = GlobalConfiguration.SystemTheme;
@@ -1453,10 +1456,10 @@ namespace TightWiki.Site.Controllers
 
                     if (fc.IsEncrypted)
                     {
-                        value = Security.Helpers.EncryptString(Security.Helpers.MachineKey, value);
+                        child.Value = Security.Helpers.EncryptString(Security.Helpers.MachineKey, child.Value);
                     }
 
-                    ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
+                    ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, child.Value);
                 }
 
                 WikiCache.ClearCategory(WikiCache.Category.Configuration);
