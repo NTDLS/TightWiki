@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.StaticFiles;
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Compression;
 
 namespace TightWiki.Library
@@ -68,8 +69,7 @@ namespace TightWiki.Library
 
         public static string GetMimeType(string fileName)
         {
-            string? contentType;
-            new FileExtensionContentTypeProvider().TryGetContentType(fileName, out contentType);
+            MimeTypes.TryGetContentType(fileName, out var contentType);
             return contentType ?? "application/octet-stream";
         }
 
@@ -77,8 +77,7 @@ namespace TightWiki.Library
         {
             using var stream = image.OpenReadStream();
             using BinaryReader reader = new BinaryReader(stream);
-            byte[] imageBytes = reader.ReadBytes((int)image.Length);
-            return imageBytes;
+            return reader.ReadBytes((int)image.Length);
         }
 
         public static T ConvertTo<T>(string? value, T defaultValue)
