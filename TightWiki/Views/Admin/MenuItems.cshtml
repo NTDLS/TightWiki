@@ -26,7 +26,7 @@
                     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                 }
 
-                <form action="/Admin/MenuItem"><button type="submit" class="btn btn-primary">Add new item</button></form>
+                <a class="btn btn-success btn-thin" href="/Admin/MenuItem">Add new item</a><br /><br />
 
                 @using (Html.BeginForm())
                 {
@@ -53,7 +53,7 @@
                 }
 
                 <br />
-                <form action="/Admin/MenuItem"><button type="submit" class="btn btn-primary">Add new item</button></form>
+                <a class="btn btn-success btn-thin" href="/Admin/MenuItem">Add new item</a>
             </td>
         </tr>
     </tbody>

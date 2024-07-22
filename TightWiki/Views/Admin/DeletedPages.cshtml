@@ -28,7 +28,7 @@
 
                 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all deleted pages. Continue?",
                          "Purge Deleted Pages", "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
-                <br />
+                <br /><br />
 
                 @using (Html.BeginForm(FormMethod.Get))
                 {

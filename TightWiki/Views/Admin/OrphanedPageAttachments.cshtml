@@ -28,7 +28,7 @@
 
                 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all orphaned page attachments. Continue?",
                          "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
-                <br />
+                <br /><br />
 
                 @using (Html.BeginForm(FormMethod.Get))
                 {

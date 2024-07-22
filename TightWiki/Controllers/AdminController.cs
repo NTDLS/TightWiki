@@ -623,8 +623,8 @@ namespace TightWiki.Site.Controllers
         }
 
         [Authorize]
-        [HttpPost("TruncatingPageRevisions")]
-        public ActionResult TruncatingPageRevisions(ConfirmActionViewModel model)
+        [HttpPost("TruncatePageRevisions")]
+        public ActionResult TruncatePageRevisions(ConfirmActionViewModel model)
         {
             WikiContext.RequireModeratePermission();
 
