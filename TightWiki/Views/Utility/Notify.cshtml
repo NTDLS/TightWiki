@@ -2,6 +2,7 @@
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    bool _isFirst = true;
 }
 
 @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && string.IsNullOrEmpty(Model.ErrorMessage) == true && Model.RedirectTimeout > 0)
@@ -32,7 +33,27 @@
                 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
                 {
                     <div class="alert alert-danger">
-                        <strong>@Html.Raw(Model.ErrorMessage)</strong>
+                        @{
+                            var errorMessages = @Model.ErrorMessage.Replace("\r\n", "\n").Split("\n");
+                        }
+                        @foreach (var message in errorMessages)
+                        {
+                            if (_isFirst)
+                            {
+                                <strong>@message</strong>
+                                if (errorMessages.Count() > 1)
+                                {
+                                    <br />
+                                    <hr />
+                                }
+                                _isFirst = false;
+                            }
+                            else
+                            {
+                                @message
+                                <br />
+                            }
+                        }
                         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
                         {
                             <br />
@@ -43,12 +64,26 @@
                 else if (!string.IsNullOrEmpty(Model.SuccessMessage))
                 {
                     <div class="alert alert-success">
-                        <h4>@Html.Raw(Model.SuccessMessage)</h4>
-                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
+                        @{
+                            var successMessages = @Model.ErrorMessage.Replace("\r\n", "\n").Split("\n");
+                        }
+                        @foreach (var message in successMessages)
                         {
-                            <p>
-                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown">@Model.RedirectTimeout</span> seconds.
-                            </p>
+                            if (_isFirst)
+                            {
+                                <strong>@message</strong>
+                                if (successMessages.Count() > 1)
+                                {
+                                    <br />
+                                    <hr />
+                                }
+                                _isFirst = false;
+                            }
+                            else
+                            {
+                                @message
+                                <br />
+                            }
                         }
                     </div>
                 }
