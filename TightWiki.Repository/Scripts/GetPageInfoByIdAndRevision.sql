@@ -1,9 +1,16 @@
 SELECT
-	P.Revision,
+	P.Id,
+    P.[Name],
+    P.[Namespace],
+    P.[Description],
+	P.Navigation,
+	PR.Revision,
 	PR.DataHash,
-    P.Name,
-    P.Namespace,
-    P.Description
+	P.Revision as MostCurrentRevision,
+	P.CreatedByUserId,
+	P.CreatedDate,
+	P.ModifiedByUserId,
+	P.ModifiedDate
 FROM
 	[Page] as P
 INNER JOIN [PageRevision] as PR

@@ -128,7 +128,7 @@
                                         }
                                         if (wikiContext.CanModerate == true && wikiContext.Page.IsHistoricalVersion == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/revert/@wikiContext.PageRevision">Revert to revision @wikiContext.PageRevision</a>
+                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/revert/@wikiContext.Page.Revision">Revert to revision @wikiContext.Page.Revision</a>
                                         }
                                         if (wikiContext.CanView == true && TightWiki.Configuration.GlobalConfiguration.EnablePageComments)
                                         {

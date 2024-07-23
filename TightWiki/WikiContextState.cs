@@ -39,13 +39,12 @@ namespace TightWiki
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
         /// </summary>
-        public IPage Page { get; set; } = new Models.DataModels.Page();
+        public IPage Page { get; set; } = new Models.DataModels.Page() { Name = GlobalConfiguration.Name };
 
         #endregion
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
-            Page.Name = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             QueryString = pageModel.Request.Query;
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
@@ -54,13 +53,12 @@ namespace TightWiki
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
-            Page.Name = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             QueryString = controller.Request.Query;
 
             PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
-            PageRevision = RouteValue("pageRevision");
+            //PageRevision = RouteValue("pageRevision");
 
             HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
 
@@ -133,12 +131,12 @@ namespace TightWiki
         /// <exception cref="Exception"></exception>
         public void SetPageId(int? pageId, int? revision = null)
         {
-            Page.Id = pageId ?? 0;
-            Page.Revision = revision ?? 0;
+            Page = new Models.DataModels.Page();
 
             if (pageId != null)
             {
-                Page = PageRepository.GetPageInfoById((int)pageId) ?? throw new Exception("Page not found");
+                Page = PageRepository.GetPageInfoAndBodyByIdAndRevision((int)pageId, revision) 
+                    ?? throw new Exception("Page not found");
 
                 ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 

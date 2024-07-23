@@ -666,15 +666,28 @@ namespace TightWiki.Repository
             return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
         }
 
-        public static PageInfoAndHash GetPageInfoAndBodyByIdAndRevision(int pageId, int? revision = null)
+        public static Page? GetPageInfoAndBodyByIdAndRevision(int pageId, int? revision = null, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId, revision]);
+                if (!WikiCache.TryGet<Page>(cacheKey, out var result))
+                {
+                    if ((result = GetPageInfoAndBodyByIdAndRevision(pageId, revision, false)) != null)
+                    {
+                        WikiCache.Put(cacheKey, result);
+                    }
+                }
+                return result;
+            }
+
             var param = new
             {
                 PageId = pageId,
                 Revision = revision
             };
 
-            return ManagedDataStorage.Pages.QuerySingle<PageInfoAndHash>("GetPageInfoByIdAndRevision.sql", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByIdAndRevision.sql", param);
         }
 
         public static int SavePage(Page page)
@@ -713,7 +726,9 @@ namespace TightWiki.Repository
                     else
                     {
                         //Get current page so we can determine if anything has changed.
-                        var currentRevisionInfo = GetPageInfoAndBodyByIdAndRevision(page.Id);
+                        var currentRevisionInfo = GetPageInfoAndBodyByIdAndRevision(page.Id)
+                            ?? throw new Exception("The page could not be found.");
+
                         currentPageRevision = currentRevisionInfo.Revision;
 
                         //Update the existing page.

@@ -61,10 +61,6 @@ namespace TightWiki.Controllers
                 model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
                 model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
 
-                if (page.Revision == page.MostCurrentRevision)
-                {
-                    pageRevision = null;
-                }
 
                 WikiContext.SetPageId(page.Id, pageRevision);
 
@@ -456,7 +452,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                WikiHelper.RefreshPageMetadata(page, WikiContext);
+                WikiHelper.UpsertPage(page, WikiContext);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
