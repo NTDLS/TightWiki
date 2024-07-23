@@ -20,9 +20,9 @@ namespace TightWiki.Repository
         }
 
         public static List<OrphanedPageAttachment> GetOrphanedPageAttachmentsPaged(
-            int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+            int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             var param = new
             {
@@ -111,9 +111,9 @@ namespace TightWiki.Repository
                 "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
         }
 
-        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber, int? pageSize = null)
+        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             var param = new
             {

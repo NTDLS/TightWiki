@@ -115,9 +115,9 @@ namespace TightWiki.Repository
         }
 
         public static List<Emoji> GetAllEmojisPaged(int pageNumber,
-            string? orderBy = null, string? orderByDirection = null, int? pageSize = null, List<string>? categories = null)
+            string? orderBy = null, string? orderByDirection = null, List<string>? categories = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             if (categories == null || categories.Count == 0)
             {

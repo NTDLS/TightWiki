@@ -200,7 +200,7 @@ namespace TightWiki.Site.Controllers
             {
                 var model = new PageModerateViewModel()
                 {
-                    Pages = PageRepository.GetAllPagesByInstructionPaged(GetQueryValue("page", 1), null, instruction),
+                    Pages = PageRepository.GetAllPagesByInstructionPaged(GetQueryValue("page", 1), instruction),
                     Instruction = instruction,
                     Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
                 };
@@ -325,7 +325,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new PagesViewModel()
             {
-                Pages = PageRepository.GetAllPagesPaged(GetQueryValue("page", 1), null, orderBy, orderByDirection, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllPagesPaged(GetQueryValue("page", 1), orderBy, orderByDirection, Utility.SplitToTokens(searchString)),
                 SearchString = searchString ?? string.Empty
             };
 
@@ -549,7 +549,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new DeletedPagesViewModel()
             {
-                Pages = PageRepository.GetAllDeletedPagesPaged(pageNumber, orderBy, orderByDirection, null, Utility.SplitToTokens(searchString)),
+                Pages = PageRepository.GetAllDeletedPagesPaged(pageNumber, orderBy, orderByDirection, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 
@@ -1302,7 +1302,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new AccountsViewModel()
             {
-                Users = UsersRepository.GetAllUsersPaged(pageNumber, orderBy, orderByDirection, null, searchString),
+                Users = UsersRepository.GetAllUsersPaged(pageNumber, orderBy, orderByDirection, searchString),
                 SearchString = searchString
             };
 
@@ -1494,7 +1494,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new EmojisViewModel()
             {
-                Emojis = EmojiRepository.GetAllEmojisPaged(pageNumber, orderBy, orderByDirection, null, Utility.SplitToTokens(searchString)),
+                Emojis = EmojiRepository.GetAllEmojisPaged(pageNumber, orderBy, orderByDirection, Utility.SplitToTokens(searchString)),
                 SearchString = searchString
             };
 

@@ -56,9 +56,9 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.Query<Role>(query).ToList();
         }
 
-        public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber, int? pageSize = null)
+        public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             var param = new
             {
@@ -73,9 +73,9 @@ namespace TightWiki.Repository
         public static List<AccountProfile> GetAllUsers()
             => ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsers.sql").ToList();
 
-        public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null, string? searchToken = null)
+        public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
 
             var param = new
             {
