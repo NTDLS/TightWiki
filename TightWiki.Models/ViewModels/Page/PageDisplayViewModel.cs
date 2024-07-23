@@ -15,6 +15,6 @@ namespace TightWiki.Models.ViewModels.Page
         public string Navigation { get; set; } = string.Empty;
         public string Namespace { get; set; } = string.Empty;
         public int Revision { get; set; }
-        public int LatestRevision { get; set; }
+        public int MostCurrentRevision { get; set; }
     }
 }

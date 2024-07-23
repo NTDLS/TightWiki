@@ -34,7 +34,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Database()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Database";
+            WikiContext.Page.Name = $"Database";
 
             var versions = SpannedRepository.GetDatabaseVersions();
             var pageCounts = SpannedRepository.GetDatabasePageCounts();
@@ -70,7 +70,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Database(ConfirmActionViewModel model, string databaseAction, string database)
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Database";
+            WikiContext.Page.Name = $"Database";
 
             if (model.UserSelection == true)
             {
@@ -115,7 +115,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Metrics()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Metrics";
+            WikiContext.Page.Name = $"Metrics";
 
             var version = string.Join('.', (Assembly.GetExecutingAssembly()
                 .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
@@ -168,7 +168,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult CompilationStatistics()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Compilations Statistics";
+            WikiContext.Page.Name = $"Compilations Statistics";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -193,7 +193,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Moderate()
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Page Moderation";
+            WikiContext.Page.Name = $"Page Moderation";
 
             var instruction = GetQueryValue("Instruction");
             if (instruction != null)
@@ -236,7 +236,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult MissingPages()
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Missing Pages";
+            WikiContext.Page.Name = $"Missing Pages";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -261,7 +261,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Namespaces()
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Namespaces";
+            WikiContext.Page.Name = $"Namespaces";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -282,7 +282,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Namespace(string? namespaceName = null)
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Namespace";
+            WikiContext.Page.Name = $"Namespace";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -317,7 +317,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Pages()
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Pages";
+            WikiContext.Page.Name = $"Pages";
 
             var searchString = GetQueryValue("SearchString");
             var orderBy = GetQueryValue("OrderBy");
@@ -757,7 +757,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult OrphanedPageAttachments()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Orphaned Page Attachments";
+            WikiContext.Page.Name = $"Orphaned Page Attachments";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -842,7 +842,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult MenuItem(int? id)
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Menu Item";
+            WikiContext.Page.Name = $"Menu Item";
 
             if (id != null)
             {
@@ -905,7 +905,7 @@ namespace TightWiki.Site.Controllers
             WikiContext.RequireAdminPermission();
 
             var model = ConfigurationRepository.GetMenuItemById(id);
-            WikiContext.Title = $"{model.Name} Delete";
+            WikiContext.Page.Name = $"{model.Name} Delete";
 
             return View(model.ToViewModel());
         }
@@ -936,7 +936,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Role(string navigation)
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Roles";
+            WikiContext.Page.Name = $"Roles";
 
             navigation = Navigation.Clean(navigation);
 
@@ -1365,7 +1365,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult DeleteAccount(string navigation)
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Delete Profile";
+            WikiContext.Page.Name = $"Delete Profile";
 
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
@@ -1377,7 +1377,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                WikiContext.Title = $"Delete {profile.AccountName}";
+                WikiContext.Page.Name = $"Delete {profile.AccountName}";
             }
 
             return View(model);
@@ -1485,7 +1485,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Emojis()
         {
             WikiContext.RequireModeratePermission();
-            WikiContext.Title = $"Emojis";
+            WikiContext.Page.Name = $"Emojis";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1682,7 +1682,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult DeleteEmoji(string name)
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Delete Emoji";
+            WikiContext.Page.Name = $"Delete Emoji";
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
@@ -1693,7 +1693,7 @@ namespace TightWiki.Site.Controllers
 
             if (emoji != null)
             {
-                WikiContext.Title = $"Delete {emoji.Name}";
+                WikiContext.Page.Name = $"Delete {emoji.Name}";
             }
 
             return View(model);
@@ -1708,7 +1708,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Exceptions()
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Exceptions";
+            WikiContext.Page.Name = $"Exceptions";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1729,7 +1729,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Exception(int id)
         {
             WikiContext.RequireAdminPermission();
-            WikiContext.Title = $"Exception";
+            WikiContext.Page.Name = $"Exception";
 
             var model = new ExceptionViewModel()
             {

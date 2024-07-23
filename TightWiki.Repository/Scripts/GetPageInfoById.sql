@@ -4,6 +4,7 @@ SELECT
 	P.[Description],
 	P.Navigation,
 	P.Revision,
+	P.Revision as MostCurrentRevision,
 	P.CreatedByUserId,
 	P.CreatedDate,
 	P.ModifiedByUserId,

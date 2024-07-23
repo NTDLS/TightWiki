@@ -18,7 +18,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireViewPermission();
 
-            WikiContext.Title = "Tags";
+            WikiContext.Page.Name = "Tags";
 
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
 

@@ -36,7 +36,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Avatar(string userAccountName)
         {
             WikiContext.RequireViewPermission();
-            WikiContext.Title = $"Avatar";
+            WikiContext.Page.Name = $"Avatar";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
@@ -174,7 +174,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Public/{userAccountName}")]
         public ActionResult Public(string userAccountName)
         {
-            WikiContext.Title = $"Public Profile";
+            WikiContext.Page.Name = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             var profile = UsersRepository.GetAccountProfileByNavigation(userAccountName);
@@ -222,7 +222,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult My()
         {
             WikiContext.RequireAuthorizedPermission();
-            WikiContext.Title = $"My Profile";
+            WikiContext.Page.Name = $"My Profile";
 
             var model = new AccountProfileViewModel()
             {
@@ -252,7 +252,7 @@ namespace TightWiki.Site.Controllers
         {
             WikiContext.RequireAuthorizedPermission();
 
-            WikiContext.Title = $"My Profile";
+            WikiContext.Page.Name = $"My Profile";
 
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
@@ -378,7 +378,7 @@ namespace TightWiki.Site.Controllers
         public ActionResult Delete()
         {
             WikiContext.RequireAuthorizedPermission();
-            WikiContext.Title = $"Delete Account";
+            WikiContext.Page.Name = $"Delete Account";
 
             var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
 
@@ -389,7 +389,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                WikiContext.Title = $"Delete {profile.AccountName}";
+                WikiContext.Page.Name = $"Delete {profile.AccountName}";
             }
 
             return View(model);

@@ -34,19 +34,16 @@ namespace TightWiki
         public string PageRevision { get; set; } = string.Empty;
         public string PathAndQuery { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
-        public string PageDescription { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public int? PageId { get; private set; } = null;
-        public int? Revision { get; private set; } = null;
         public ProcessingInstructionCollection ProcessingInstructions { get; set; } = new();
-        public bool IsViewingOldVersion => (Revision ?? 0) > 0;
-        public bool IsPageLoaded => (PageId ?? 0) > 0;
+        public bool IsPageLoaded => Page.Id > 0;
+
+        public IPage Page { get; set; } = new Models.DataModels.Page();
 
         #endregion
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
-            Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            Page.Name = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             QueryString = pageModel.Request.Query;
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
@@ -55,7 +52,7 @@ namespace TightWiki
 
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
-            Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
+            Page.Name = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             QueryString = controller.Request.Query;
 
             PathAndQuery = controller.Request.GetEncodedPathAndQuery();
@@ -134,23 +131,18 @@ namespace TightWiki
         /// <exception cref="Exception"></exception>
         public void SetPageId(int? pageId, int? revision = null)
         {
-            PageId = pageId;
-            Revision = revision;
+            Page.Id = pageId ?? 0;
+            Page.Revision = revision ?? 0;
+
             if (pageId != null)
             {
-                var page = PageRepository.GetPageInfoById((int)pageId) ?? throw new Exception("Page not found");
+                Page = PageRepository.GetPageInfoById((int)pageId) ?? throw new Exception("Page not found");
 
-                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 
-                Title = $"{page.Name}";
-
-                if (GlobalConfiguration.IncludeWikiDescriptionInMeta)
-                {
-                    PageDescription = page.Description;
-                }
                 if (GlobalConfiguration.IncludeWikiTagsInMeta)
                 {
-                    var tags = PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag).ToList() ?? new();
+                    var tags = PageRepository.GetPageTagsById(Page.Id)?.Select(o => o.Tag).ToList() ?? new();
                     PageTags = string.Join(",", tags);
                 }
             }

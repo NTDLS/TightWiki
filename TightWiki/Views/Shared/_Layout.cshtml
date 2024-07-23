@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@wikiContext.Title</title>
+    <title>@wikiContext.Page.Name</title>
 
     <!-- Syntax Highlighter:Begin -->
     <script src="/syntax/highlight.min.js"></script>
@@ -27,7 +27,7 @@
     @if (TightWiki.Configuration.GlobalConfiguration.IncludeWikiDescriptionInMeta)
     {
         <!-- PageDescription:Begin -->
-        <meta name="description" content="@wikiContext.PageDescription">
+        <meta name="description" content="@wikiContext.Page.Description">
         <!-- PageDescription:Begin -->
     }
 
@@ -114,7 +114,7 @@
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Delete">Delete this page</a>
                                         }
-                                        if (wikiContext.CanEdit == true && wikiContext.IsViewingOldVersion == false)
+                                        if (wikiContext.CanEdit == true && wikiContext.Page.IsHistoricalVersion == false)
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Edit">Edit</a>
                                         }
@@ -126,7 +126,7 @@
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Refresh">Refresh</a>
                                         }
-                                        if (wikiContext.CanModerate == true && wikiContext.IsViewingOldVersion == true)
+                                        if (wikiContext.CanModerate == true && wikiContext.Page.IsHistoricalVersion == true)
                                         {
                                             <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/revert/@wikiContext.PageRevision">Revert to revision @wikiContext.PageRevision</a>
                                         }

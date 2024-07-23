@@ -4,7 +4,7 @@
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-@if (Model.Revision < Model.LatestRevision)
+@if (Model.Revision < Model.MostCurrentRevision)
 {
     <div class="card bg-info mb-3">
         <div class="card-header"><strong>Viewing a historical version</strong></div>

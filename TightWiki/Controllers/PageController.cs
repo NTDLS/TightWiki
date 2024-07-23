@@ -54,14 +54,14 @@ namespace TightWiki.Controllers
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                 model.Revision = page.Revision;
-                model.LatestRevision = page.LatestRevision;
+                model.MostCurrentRevision = page.MostCurrentRevision;
                 model.Name = page.Name;
                 model.Namespace = page.Namespace;
                 model.Navigation = page.Navigation;
                 model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
                 model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
 
-                if (page.Revision == page.LatestRevision)
+                if (page.Revision == page.MostCurrentRevision)
                 {
                     pageRevision = null;
                 }
@@ -115,7 +115,7 @@ namespace TightWiki.Controllers
                 WikiContext.SetPageId(null, pageRevision);
 
                 var wiki = new Wikifier(WikiContext, notExistsPage);
-                WikiContext.Title = notExistsPage.Name;
+                WikiContext.Page.Name = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
                 model.HideFooterComments = true;
@@ -134,7 +134,7 @@ namespace TightWiki.Controllers
                 WikiContext.SetPageId(null, null);
 
                 var wiki = new Wikifier(WikiContext, notExistsPage);
-                WikiContext.Title = notExistsPage.Name;
+                WikiContext.Page.Name = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
                 model.HideFooterComments = true;
