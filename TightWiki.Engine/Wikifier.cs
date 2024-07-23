@@ -41,21 +41,21 @@ namespace TightWiki.Engine
         private readonly Page _page;
         private readonly int? _revision;
         private readonly IQueryCollection _queryString;
-        private readonly IWikiContext? _wikiContext;
+        private readonly ISessionState? _sessionState;
         private readonly int _nestLevel;
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
-        public Wikifier(IWikiContext? wikiContext, Page page, int? revision = null,
+        public Wikifier(ISessionState? sessionState, Page page, int? revision = null,
              WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
 
             _nestLevel = nestLevel;
-            _queryString = wikiContext?.QueryString ?? new QueryCollection();
+            _queryString = sessionState?.QueryString ?? new QueryCollection();
             _page = page;
             _revision = revision;
             Matches = new Dictionary<string, MatchSet>();
-            _wikiContext = wikiContext;
+            _sessionState = sessionState;
 
             if (omitMatches != null)
             {
@@ -970,7 +970,7 @@ namespace TightWiki.Engine
 
                     StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_wikiContext?.CanCreate == true)
+                else if (_sessionState?.CanCreate == true)
                 {
                     if (explicitLinkText.Length > 0)
                     {
@@ -1378,9 +1378,9 @@ namespace TightWiki.Engine
                     //------------------------------------------------------------------------------------------------------------------------------
                     case "revisions":
                         {
-                            if (_wikiContext == null)
+                            if (_sessionState == null)
                             {
-                                StoreError(pageContent, match.Value, $"Localization is not supported without WikiContext.");
+                                StoreError(pageContent, match.Value, $"Localization is not supported without SessionState.");
                                 continue;
                             }
 
@@ -1400,7 +1400,7 @@ namespace TightWiki.Engine
                                 html.Append("<ul>");
                                 foreach (var item in revisions)
                                 {
-                                    html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {_wikiContext.LocalizeDateTime(item.ModifiedDate)}</a>");
+                                    html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {_sessionState.LocalizeDateTime(item.ModifiedDate)}</a>");
 
                                     if (styleName == "full")
                                     {
@@ -1475,7 +1475,7 @@ namespace TightWiki.Engine
                             var page = WikiUtility.GetPageFromPathInfo(navigation);
                             if (page != null)
                             {
-                                var wikify = new Wikifier(_wikiContext, page, null, _omitMatches.ToArray(), _nestLevel + 1);
+                                var wikify = new Wikifier(_sessionState, page, null, _omitMatches.ToArray(), _nestLevel + 1);
 
                                 MergeUserVariables(wikify.UserVariables);
                                 MergeSnippets(wikify.Snippets);
@@ -2120,9 +2120,9 @@ namespace TightWiki.Engine
                     //Displays the date and time that the current page was last modified.
                     case "lastmodified":
                         {
-                            if (_wikiContext == null)
+                            if (_sessionState == null)
                             {
-                                StoreError(pageContent, match.Value, $"Localization is not supported without WikiContext.");
+                                StoreError(pageContent, match.Value, $"Localization is not supported without SessionState.");
                                 continue;
                             }
 
@@ -2130,7 +2130,7 @@ namespace TightWiki.Engine
                             lastModified = _page.ModifiedDate;
                             if (lastModified != DateTime.MinValue)
                             {
-                                var localized = _wikiContext.LocalizeDateTime(lastModified);
+                                var localized = _sessionState.LocalizeDateTime(lastModified);
                                 StoreMatch(function, pageContent, match.Value, $"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
                             }
                         }
@@ -2140,9 +2140,9 @@ namespace TightWiki.Engine
                     //Displays the date and time that the current page was created.
                     case "created":
                         {
-                            if (_wikiContext == null)
+                            if (_sessionState == null)
                             {
-                                StoreError(pageContent, match.Value, $"Localization is not supported without WikiContext.");
+                                StoreError(pageContent, match.Value, $"Localization is not supported without SessionState.");
                                 continue;
                             }
 
@@ -2150,7 +2150,7 @@ namespace TightWiki.Engine
                             createdDate = _page.CreatedDate;
                             if (createdDate != DateTime.MinValue)
                             {
-                                var localized = _wikiContext.LocalizeDateTime(createdDate);
+                                var localized = _sessionState.LocalizeDateTime(createdDate);
                                 StoreMatch(function, pageContent, match.Value, $"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
                             }
                         }

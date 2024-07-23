@@ -1,7 +1,7 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>

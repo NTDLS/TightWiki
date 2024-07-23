@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Manage your external logins";
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />

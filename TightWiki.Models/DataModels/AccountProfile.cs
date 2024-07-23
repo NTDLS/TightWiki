@@ -1,9 +1,11 @@
-﻿namespace TightWiki.Models.DataModels
+﻿using TightWiki.Library.Interfaces;
+
+namespace TightWiki.Models.DataModels
 {
     /// <summary>
     /// This model combines the elements of an account and a profile into one class.
     /// </summary>
-    public partial class AccountProfile
+    public partial class AccountProfile : IAccountProfile
     {
         public string? Theme { get; set; }
         public Guid UserId { get; set; }

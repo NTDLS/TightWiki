@@ -1,6 +1,6 @@
 ﻿@using TightWiki;
 @{
-    var wikiContext = ViewData["WikiContext"] as WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
     string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(TightWiki.Configuration.GlobalConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
 }
 
@@ -11,7 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@wikiContext.Page.Name</title>
+    <title>@sessionState.Page.Name</title>
 
     <!-- Syntax Highlighter:Begin -->
     <script src="/syntax/highlight.min.js"></script>
@@ -27,14 +27,14 @@
     @if (TightWiki.Configuration.GlobalConfiguration.IncludeWikiDescriptionInMeta)
     {
         <!-- PageDescription:Begin -->
-        <meta name="description" content="@wikiContext.Page.Description">
+        <meta name="description" content="@sessionState.Page.Description">
         <!-- PageDescription:Begin -->
     }
 
     @if (TightWiki.Configuration.GlobalConfiguration.IncludeWikiTagsInMeta)
     {
         <!-- PageTags:Begin -->
-        <meta name="keywords" content="@wikiContext.PageTags">
+        <meta name="keywords" content="@sessionState.PageTags">
         <!-- PageTags:Begin -->
     }
 
@@ -42,7 +42,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Theme:Begin -->
-    @foreach (var file in wikiContext.UserTheme.Files)
+    @foreach (var file in sessionState.UserTheme.Files)
     {
         <link rel="stylesheet" href="@file" />
     }
@@ -56,10 +56,10 @@
     <script>
         $(document).ready(function () {
             localStorage.setItem('theme', 'dark');
-            $('nav').removeClass('navbar-light bg-white').addClass('@wikiContext.UserTheme.ClassNavBar');
-            $('a.nav-link').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassNavLink');
-            $('a.dropdown-item').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassDropdown');
-            $('span.glyphicon').removeClass('text-dark').addClass('@wikiContext.UserTheme.ClassBranding');
+            $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
+            $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
+            $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
+            $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
         });
     </script>
 
@@ -81,70 +81,70 @@
                             <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
                         }
 
-                        @if (wikiContext.CanCreate == true
-                        || (wikiContext.ShouldCreatePage == true && wikiContext.CanCreate == true)
-                        || (wikiContext.Page.Exists == true && (wikiContext.CanEdit == true || wikiContext.CanModerate == true || wikiContext.CanDelete == true))
+                        @if (sessionState.CanCreate == true
+                        || (sessionState.ShouldCreatePage == true && sessionState.CanCreate == true)
+                        || (sessionState.Page.Exists == true && (sessionState.CanEdit == true || sessionState.CanModerate == true || sessionState.CanDelete == true))
                         )
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Page</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                                    @if (wikiContext.CanCreate == true)
+                                    @if (sessionState.CanCreate == true)
                                     {
-                                        if (wikiContext.ShouldCreatePage == true)
+                                        if (sessionState.ShouldCreatePage == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Page/Create">Create "@wikiContext.PageNavigation"</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Page/Create">Create "@sessionState.PageNavigation"</a>
                                         }
 
                                         <a class="dropdown-item text-dark" href="/Page/Create">Create new page</a>
                                     }
 
-                                    @if (wikiContext.Page.Exists == true)
+                                    @if (sessionState.Page.Exists == true)
                                     {
-                                        @if (wikiContext.CanCreate == true)
+                                        @if (sessionState.CanCreate == true)
                                         {
                                             <div class="dropdown-divider"></div>
                                         }
-                                        if (wikiContext.CanView == true && TightWiki.Configuration.GlobalConfiguration.EnablePageComments)
+                                        if (sessionState.CanView == true && TightWiki.Configuration.GlobalConfiguration.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Comments">Comments</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Comments">Comments</a>
                                         }
-                                        if (wikiContext.CanDelete == true)
+                                        if (sessionState.CanDelete == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Delete">Delete this page</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Delete">Delete this page</a>
                                         }
-                                        if (wikiContext.CanEdit == true && wikiContext.Page.IsHistoricalVersion == false)
+                                        if (sessionState.CanEdit == true && sessionState.Page.IsHistoricalVersion == false)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Edit">Edit</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Edit">Edit</a>
                                         }
-                                        if (wikiContext.CanView == true)
+                                        if (sessionState.CanView == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Revisions">Revisions</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Revisions">Revisions</a>
                                         }
-                                        if (wikiContext.CanCreate == true)
+                                        if (sessionState.CanCreate == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/Refresh">Refresh</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Refresh">Refresh</a>
                                         }
-                                        if (wikiContext.CanModerate == true && wikiContext.Page.IsHistoricalVersion == true)
+                                        if (sessionState.CanModerate == true && sessionState.Page.IsHistoricalVersion == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation/revert/@wikiContext.Page.Revision">Revert to revision @wikiContext.Page.Revision</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">Revert to revision @sessionState.Page.Revision</a>
                                         }
-                                        if (wikiContext.CanView == true && TightWiki.Configuration.GlobalConfiguration.EnablePageComments)
+                                        if (sessionState.CanView == true && TightWiki.Configuration.GlobalConfiguration.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@wikiContext.PageNavigation">View</a>
+                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation">View</a>
                                         }
                                     }
                                 </div>
                             </li>
                         }
 
-                        @if (wikiContext.IsAuthenticated == true && (wikiContext.CanModerate == true || wikiContext.Role == TightWiki.Library.Constants.Roles.Administrator))
+                        @if (sessionState.IsAuthenticated == true && (sessionState.CanModerate == true || sessionState.Role == TightWiki.Library.Constants.Roles.Administrator))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @if (wikiContext.Role == TightWiki.Library.Constants.Roles.Administrator)
+                                    @if (sessionState.Role == TightWiki.Library.Constants.Roles.Administrator)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
@@ -165,7 +165,7 @@
                                         <a class="dropdown-item text-dark" href="/Admin/OrphanedPageAttachments">Orphaned Attachments</a>
                                         <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
                                     }
-                                    else if (wikiContext.CanModerate == true)
+                                    else if (sessionState.CanModerate == true)
                                     {
                                         <a class="dropdown-item text-dark" href="/Admin/DeletedPages">Deleted Pages</a>
                                         <a class="dropdown-item text-dark" href="/Admin/MissingPages">Missing Pages</a>
@@ -177,7 +177,7 @@
                             </li>
                         }
 
-                        @if (wikiContext.IsAuthenticated == true)
+                        @if (sessionState.IsAuthenticated == true)
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
@@ -190,7 +190,7 @@
                             </li>
                         }
 
-                        @if (wikiContext.IsAuthenticated == false)
+                        @if (sessionState.IsAuthenticated == false)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" href="/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login</a></li>
                         }

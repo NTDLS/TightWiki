@@ -8,14 +8,14 @@ namespace TightWiki.Controllers
     public class WikiControllerBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : Controller
     {
-        public WikiContextState WikiContext { get; private set; } = new();
+        public SessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;
         public readonly UserManager<IdentityUser> UserManager = userManager;
 
         [NonAction]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
-            => ViewData["WikiContext"] = WikiContext.Hydrate(SignInManager, this);
+            => ViewData["SessionState"] = SessionState.Hydrate(SignInManager, this);
 
         [NonAction]
         public override RedirectResult Redirect(string? url)

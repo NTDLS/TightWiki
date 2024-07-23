@@ -2,11 +2,11 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Page Revisions for <a href="/@wikiContext.PageNavigation">@wikiContext.Page.Name</a>.
+    Page Revisions for <a href="/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
 </h3>
 
 <p class="text-dark">
@@ -31,9 +31,9 @@
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Revision")">Revision</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedBy")">Modified By</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedDate")">Modified Date</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
                                 <td><strong>Summary</strong></td>
                             </tr>
                         </thead>
@@ -42,7 +42,7 @@
                             @foreach (var h in Model.Revisions)
                             {
                                 <tr>
-                                    <td><a href="/@wikiContext.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                                    <td><a href="/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                                     <td><a href="/Profile/Public/@h.ModifiedByUserName">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                                     <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                     <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>

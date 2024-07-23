@@ -2,7 +2,7 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
@@ -34,16 +34,16 @@
                 {
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Namespace")">Name</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "CreatedDate")">Date/Time</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Compilations")">Compilations</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "AvgBuildTimeMs")">Duration</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "AvgWikiMatches")">Matches</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "TotalErrorCount")">Errors</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "AvgOutgoingLinkCount")">Links</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "AvgTagCount")">Tags</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "AvgRawBodySize")">Raw Size</a></strong></td>
-                            <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "AvgWikifiedBodySize")">Wikified Size</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Namespace")">Name</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">Date/Time</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Compilations")">Compilations</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgBuildTimeMs")">Duration</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikiMatches")">Matches</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TotalErrorCount")">Errors</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgOutgoingLinkCount")">Links</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgTagCount")">Tags</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgRawBodySize")">Raw Size</a></strong></td>
+                            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikifiedBodySize")">Wikified Size</a></strong></td>
                         </tr>
 
                         @foreach (var stat in Model.Statistics)

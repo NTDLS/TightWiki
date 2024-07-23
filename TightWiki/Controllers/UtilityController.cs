@@ -16,7 +16,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Notify")]
         public ActionResult Notify()
         {
-            WikiContext.RequireViewPermission();
+            SessionState.RequireViewPermission();
 
             var model = new NotifyViewModel()
             {

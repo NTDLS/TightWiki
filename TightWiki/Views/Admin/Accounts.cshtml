@@ -2,7 +2,7 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
@@ -44,13 +44,13 @@
                         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                             <thead>
                                 <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Account")">Account</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "FirstName")">First Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "LastName")">Last Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Country")">Country</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "TimeZone")">TimeZone</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "EmailAddress")">EmailAddress</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Created")">CreatedDate</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Account")">Account</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName")">First Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "LastName")">Last Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Country")">Country</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TimeZone")">TimeZone</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress")">EmailAddress</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Created")">CreatedDate</a></strong></td>
                                 </tr>
                             </thead>
 

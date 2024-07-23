@@ -14,20 +14,21 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
-    public class WikiContextState : IWikiContext
+    public class SessionState : ISessionState
     {
         public IQueryCollection? QueryString { get; set; }
 
         #region Authentication.
 
         public bool IsAuthenticated { get; set; }
-        public AccountProfile? Profile { get; set; }
+        public IAccountProfile? Profile { get; set; }
         public string Role { get; set; } = string.Empty;
         public Theme UserTheme { get; set; } = new();
 
         #endregion
 
         #region Current Page.
+
         public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
         public string PageNavigationEscaped { get; set; } = string.Empty;
@@ -41,7 +42,7 @@ namespace TightWiki
 
         #endregion
 
-        public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
             QueryString = pageModel.Request.Query;
 
@@ -49,7 +50,7 @@ namespace TightWiki
             return this;
         }
 
-        public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
+        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
             QueryString = controller.Request.Query;
             PageNavigation = RouteValue("givenCanonical", "Home");
@@ -102,20 +103,6 @@ namespace TightWiki
                     ExceptionRepository.InsertException(ex);
                 }
             }
-        }
-
-        public DateTime LocalizeDateTime(DateTime datetime)
-        {
-            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
-        }
-
-        public TimeZoneInfo GetPreferredTimeZone()
-        {
-            if (Profile == null || string.IsNullOrEmpty(Profile.TimeZone))
-            {
-                return TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
-            }
-            return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
         }
 
         /// <summary>
@@ -249,5 +236,19 @@ namespace TightWiki
         }
 
         #endregion
+
+        public DateTime LocalizeDateTime(DateTime datetime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
+        }
+
+        public TimeZoneInfo GetPreferredTimeZone()
+        {
+            if (string.IsNullOrEmpty(Profile?.TimeZone))
+            {
+                return TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
+            }
+            return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
+        }
     }
 }

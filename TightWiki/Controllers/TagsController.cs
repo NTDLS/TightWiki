@@ -16,9 +16,9 @@ namespace TightWiki.Site.Controllers
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
         {
-            WikiContext.RequireViewPermission();
+            SessionState.RequireViewPermission();
 
-            WikiContext.Page.Name = "Tags";
+            SessionState.Page.Name = "Tags";
 
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
 

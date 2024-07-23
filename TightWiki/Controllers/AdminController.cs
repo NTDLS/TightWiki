@@ -33,8 +33,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Database")]
         public ActionResult Database()
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Database";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Database";
 
             var versions = SpannedRepository.GetDatabaseVersions();
             var pageCounts = SpannedRepository.GetDatabasePageCounts();
@@ -69,8 +69,8 @@ namespace TightWiki.Site.Controllers
         [HttpPost("Database/{databaseAction}/{database}")]
         public ActionResult Database(ConfirmActionViewModel model, string databaseAction, string database)
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Database";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Database";
 
             if (model.UserSelection == true)
             {
@@ -114,8 +114,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Metrics")]
         public ActionResult Metrics()
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Metrics";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Metrics";
 
             var version = string.Join('.', (Assembly.GetExecutingAssembly()
                 .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
@@ -133,7 +133,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeCompilationStatistics")]
         public ActionResult PurgeCompilationStatistics(ConfirmActionViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {
@@ -148,7 +148,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeMemoryCache")]
         public ActionResult PurgeMemoryCache(ConfirmActionViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {
@@ -167,8 +167,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("CompilationStatistics")]
         public ActionResult CompilationStatistics()
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Compilations Statistics";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Compilations Statistics";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -192,8 +192,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Moderate")]
         public ActionResult Moderate()
         {
-            WikiContext.RequireModeratePermission();
-            WikiContext.Page.Name = $"Page Moderation";
+            SessionState.RequireModeratePermission();
+            SessionState.Page.Name = $"Page Moderation";
 
             var instruction = GetQueryValue("Instruction");
             if (instruction != null)
@@ -211,8 +211,8 @@ namespace TightWiki.Site.Controllers
                 {
                     model.Pages.ForEach(o =>
                     {
-                        o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                        o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                        o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                        o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
                     });
                 }
 
@@ -235,8 +235,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("MissingPages")]
         public ActionResult MissingPages()
         {
-            WikiContext.RequireModeratePermission();
-            WikiContext.Page.Name = $"Missing Pages";
+            SessionState.RequireModeratePermission();
+            SessionState.Page.Name = $"Missing Pages";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -260,8 +260,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Namespaces")]
         public ActionResult Namespaces()
         {
-            WikiContext.RequireModeratePermission();
-            WikiContext.Page.Name = $"Namespaces";
+            SessionState.RequireModeratePermission();
+            SessionState.Page.Name = $"Namespaces";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -281,8 +281,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Namespace/{namespaceName?}")]
         public ActionResult Namespace(string? namespaceName = null)
         {
-            WikiContext.RequireModeratePermission();
-            WikiContext.Page.Name = $"Namespace";
+            SessionState.RequireModeratePermission();
+            SessionState.Page.Name = $"Namespace";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -300,8 +300,8 @@ namespace TightWiki.Site.Controllers
             {
                 model.Pages.ForEach(o =>
                 {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                    o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
                 });
             }
 
@@ -316,8 +316,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Pages")]
         public ActionResult Pages()
         {
-            WikiContext.RequireModeratePermission();
-            WikiContext.Page.Name = $"Pages";
+            SessionState.RequireModeratePermission();
+            SessionState.Page.Name = $"Pages";
 
             var searchString = GetQueryValue("SearchString");
             var orderBy = GetQueryValue("OrderBy");
@@ -335,8 +335,8 @@ namespace TightWiki.Site.Controllers
             {
                 model.Pages.ForEach(o =>
                 {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                    o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
                 });
             }
 
@@ -351,7 +351,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("RevertPageRevision/{givenCanonical}/{revision:int}")]
         public ActionResult Revert(string givenCanonical, int revision, ConfirmActionViewModel model)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -365,7 +365,7 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                WikiHelper.UpsertPage(page, WikiContext);
+                WikiHelper.UpsertPage(page, SessionState);
 
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
@@ -377,7 +377,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeletedPageRevisions/{pageId:int}")]
         public ActionResult DeletedPageRevisions(int pageId)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -402,7 +402,7 @@ namespace TightWiki.Site.Controllers
 
             model.Revisions.ForEach(o =>
             {
-                o.DeletedDate = WikiContext.LocalizeDateTime(o.DeletedDate);
+                o.DeletedDate = SessionState.LocalizeDateTime(o.DeletedDate);
             });
 
             return View(model);
@@ -412,7 +412,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeletedPageRevision/{pageId:int}/{revision:int}")]
         public ActionResult DeletedPageRevision(int pageId, int revision)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var model = new DeletedPageRevisionViewModel();
 
@@ -420,11 +420,11 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var wiki = new Wikifier(WikiContext, page);
+                var wiki = new Wikifier(SessionState, page);
                 model.PageId = pageId;
                 model.Revision = pageId;
                 model.Body = wiki.ProcessedBody;
-                model.DeletedDate = WikiContext.LocalizeDateTime(page.DeletedDate);
+                model.DeletedDate = SessionState.LocalizeDateTime(page.DeletedDate);
                 model.DeletedByUserName = page.DeletedByUserName;
             }
 
@@ -435,7 +435,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("PageRevisions/{givenCanonical}")]
         public ActionResult PageRevisions(string givenCanonical)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -452,8 +452,8 @@ namespace TightWiki.Site.Controllers
 
             model.Revisions.ForEach(o =>
             {
-                o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
             });
 
             foreach (var p in model.Revisions)
@@ -465,7 +465,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.Revisions != null && model.Revisions.Count > 0)
             {
-                WikiContext.SetPageId(model.Revisions.First().PageId);
+                SessionState.SetPageId(model.Revisions.First().PageId);
             }
 
             return View(model);
@@ -475,7 +475,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("DeletePageRevision/{givenCanonical}/{revision:int}")]
         public ActionResult DeletePageRevision(ConfirmActionViewModel model, string givenCanonical, int revision)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -499,10 +499,10 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    WikiHelper.UpsertPage(previousPageRevision, WikiContext);
+                    WikiHelper.UpsertPage(previousPageRevision, SessionState);
                 }
 
-                PageRepository.MovePageRevisionToDeletedById(page.Id, revision, WikiContext.Profile.EnsureNotNull().UserId);
+                PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
 
                 return NotifyOfSuccess("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
             }
@@ -518,7 +518,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeletedPage/{pageId}")]
         public ActionResult DeletedPage(int pageId)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var model = new DeletedPageViewModel();
 
@@ -526,10 +526,10 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var wiki = new Wikifier(WikiContext, page);
+                var wiki = new Wikifier(SessionState, page);
                 model.PageId = pageId;
                 model.Body = wiki.ProcessedBody;
-                model.DeletedDate = WikiContext.LocalizeDateTime(page.ModifiedDate);
+                model.DeletedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
                 model.DeletedByUserName = page.DeletedByUserName;
             }
 
@@ -540,7 +540,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeletedPages")]
         public ActionResult DeletedPages()
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var searchString = GetQueryValue("SearchString", string.Empty);
             var pageNumber = GetQueryValue("page", 1);
@@ -562,13 +562,13 @@ namespace TightWiki.Site.Controllers
         [HttpPost("RebuildAllPages")]
         public ActionResult RebuildAllPages(ConfirmActionViewModel model)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    WikiHelper.RefreshPageMetadata(page, WikiContext);
+                    WikiHelper.RefreshPageMetadata(page, SessionState);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -580,7 +580,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PreCacheAllPages")]
         public ActionResult PreCacheAllPages(ConfirmActionViewModel model)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             int threadCount = Environment.ProcessorCount > 1 ? Environment.ProcessorCount / 2 : Environment.ProcessorCount;
 
@@ -603,7 +603,7 @@ namespace TightWiki.Site.Controllers
                         var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                         if (WikiCache.Contains(cacheKey) == false)
                         {
-                            var wiki = new Wikifier(WikiContext, page, page.Revision);
+                            var wiki = new Wikifier(SessionState, page, page.Revision);
                             page.Body = wiki.ProcessedBody;
 
                             if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
@@ -626,7 +626,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("TruncatePageRevisions")]
         public ActionResult TruncatePageRevisions(ConfirmActionViewModel model)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -642,7 +642,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeDeletedPageRevisions/{pageId:int}")]
         public ActionResult PurgeDeletedPageRevisions(ConfirmActionViewModel model, int pageId)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -657,7 +657,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeDeletedPageRevision/{pageId:int}/{revision:int}")]
         public ActionResult PurgeDeletedPageRevision(ConfirmActionViewModel model, int pageId, int revision)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -672,7 +672,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("RestoreDeletedPageRevision/{pageId:int}/{revision:int}")]
         public ActionResult RestoreDeletedPageRevision(ConfirmActionViewModel model, int pageId, int revision)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -687,7 +687,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeDeletedPages")]
         public ActionResult PurgeDeletedPages(ConfirmActionViewModel model)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -702,7 +702,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeDeletedPage/{pageId:int}")]
         public ActionResult PurgeDeletedPage(ConfirmActionViewModel model, int pageId)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -717,11 +717,11 @@ namespace TightWiki.Site.Controllers
         [HttpPost("DeletePage/{pageId:int}")]
         public ActionResult DeletePage(ConfirmActionViewModel model, int pageId)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {
-                PageRepository.MovePageToDeletedById(pageId, WikiContext.Profile.EnsureNotNull().UserId);
+                PageRepository.MovePageToDeletedById(pageId, SessionState.Profile.EnsureNotNull().UserId);
                 return NotifyOfSuccess("The page has been moved to the deletion queue.", model.YesRedirectURL);
             }
 
@@ -732,7 +732,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("RestoreDeletedPage/{pageId:int}")]
         public ActionResult RestoreDeletedPage(ConfirmActionViewModel model, int pageId)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             if (model.UserSelection == true)
             {
@@ -740,7 +740,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    WikiHelper.RefreshPageMetadata(page, WikiContext);
+                    WikiHelper.RefreshPageMetadata(page, SessionState);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }
@@ -756,8 +756,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("OrphanedPageAttachments")]
         public ActionResult OrphanedPageAttachments()
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Orphaned Page Attachments";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Orphaned Page Attachments";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -775,8 +775,8 @@ namespace TightWiki.Site.Controllers
             {
                 model.Files.ForEach(o =>
                 {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                    o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
                 });
             }
             */
@@ -788,7 +788,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeOrphanedAttachments")]
         public ActionResult PurgeOrphanedAttachments(ConfirmActionViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {
@@ -804,7 +804,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeOrphanedAttachment/{pageFileId:int}")]
         public ActionResult PurgeOrphanedAttachment(ConfirmActionViewModel model, int pageFileId)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {
@@ -823,7 +823,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("MenuItems")]
         public ActionResult MenuItems()
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -841,8 +841,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("MenuItem/{id:int?}")]
         public ActionResult MenuItem(int? id)
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Menu Item";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Menu Item";
 
             if (id != null)
             {
@@ -869,7 +869,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("MenuItem/{id:int?}")]
         public ActionResult MenuItem(int? id, MenuItemViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -902,10 +902,10 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeleteMenuItem/{id}")]
         public ActionResult DeleteMenuItem(int id)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var model = ConfigurationRepository.GetMenuItemById(id);
-            WikiContext.Page.Name = $"{model.Name} Delete";
+            SessionState.Page.Name = $"{model.Name} Delete";
 
             return View(model.ToViewModel());
         }
@@ -914,7 +914,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("DeleteMenuItem/{id}")]
         public ActionResult DeleteMenuItem(MenuItemViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true)
@@ -935,8 +935,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Role/{navigation}")]
         public ActionResult Role(string navigation)
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Roles";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Roles";
 
             navigation = Navigation.Clean(navigation);
 
@@ -958,7 +958,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Roles")]
         public ActionResult Roles()
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var orderBy = GetQueryValue("OrderBy");
             var orderByDirection = GetQueryValue("OrderByDirection");
@@ -979,7 +979,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Account/{navigation}")]
         public ActionResult Account(string navigation)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var model = new Models.ViewModels.Admin.AccountProfileViewModel()
             {
@@ -993,8 +993,8 @@ namespace TightWiki.Site.Controllers
                 Roles = UsersRepository.GetAllRoles()
             };
 
-            model.AccountProfile.CreatedDate = WikiContext.LocalizeDateTime(model.AccountProfile.CreatedDate);
-            model.AccountProfile.ModifiedDate = WikiContext.LocalizeDateTime(model.AccountProfile.ModifiedDate);
+            model.AccountProfile.CreatedDate = SessionState.LocalizeDateTime(model.AccountProfile.CreatedDate);
+            model.AccountProfile.ModifiedDate = SessionState.LocalizeDateTime(model.AccountProfile.ModifiedDate);
 
             return View(model);
         }
@@ -1008,7 +1008,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("Account/{navigation}")]
         public ActionResult Account(string navigation, Models.ViewModels.Admin.AccountProfileViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             model.Themes = ConfigurationRepository.GetAllThemes();
             model.TimeZones = TimeZoneItem.GetAll();
@@ -1100,7 +1100,7 @@ namespace TightWiki.Site.Controllers
             SecurityRepository.UpsertUserClaims(UserManager, user, claims);
 
             //If we are changing the currently logged in user, then make sure we take some extra actions so we can see the changes immediately.
-            if (WikiContext.Profile?.UserId == model.AccountProfile.UserId)
+            if (SessionState.Profile?.UserId == model.AccountProfile.UserId)
             {
                 SignInManager.RefreshSignInAsync(user);
 
@@ -1108,7 +1108,7 @@ namespace TightWiki.Site.Controllers
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
                 //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
+                SessionState.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
             }
 
             //Allow the administrator to confirm/unconfirm the email address.
@@ -1160,7 +1160,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("AddAccount")]
         public ActionResult AddAccount()
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
             var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
@@ -1196,7 +1196,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("AddAccount")]
         public ActionResult AddAccount(Models.ViewModels.Admin.AccountProfileViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             model.Themes = ConfigurationRepository.GetAllThemes();
             model.TimeZones = TimeZoneItem.GetAll();
@@ -1293,7 +1293,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Accounts")]
         public ActionResult Accounts()
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1312,8 +1312,8 @@ namespace TightWiki.Site.Controllers
             {
                 model.Users.ForEach(o =>
                 {
-                    o.CreatedDate = WikiContext.LocalizeDateTime(o.CreatedDate);
-                    o.ModifiedDate = WikiContext.LocalizeDateTime(o.ModifiedDate);
+                    o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
+                    o.ModifiedDate = SessionState.LocalizeDateTime(o.ModifiedDate);
                 });
             }
 
@@ -1324,7 +1324,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("DeleteAccount/{navigation}")]
         public ActionResult DeleteAccount(string navigation, DeleteAccountViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
 
@@ -1346,7 +1346,7 @@ namespace TightWiki.Site.Controllers
                 UsersRepository.AnonymizeProfile(profile.UserId);
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
 
-                if (profile.UserId == WikiContext.Profile?.UserId)
+                if (profile.UserId == SessionState.Profile?.UserId)
                 {
                     //We're deleting our own account. Oh boy...
                     SignInManager.SignOutAsync();
@@ -1364,8 +1364,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeleteAccount/{navigation}")]
         public ActionResult DeleteAccount(string navigation)
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Delete Profile";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Delete Profile";
 
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
@@ -1377,7 +1377,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                WikiContext.Page.Name = $"Delete {profile.AccountName}";
+                SessionState.Page.Name = $"Delete {profile.AccountName}";
             }
 
             return View(model);
@@ -1391,7 +1391,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Config")]
         public ActionResult Config()
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var model = new ConfigurationViewModel()
             {
@@ -1409,7 +1409,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("Config")]
         public ActionResult Config(ConfigurationViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -1450,9 +1450,9 @@ namespace TightWiki.Site.Controllers
                     {
                         //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
                         GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
-                        if (string.IsNullOrEmpty(WikiContext.Profile?.Theme))
+                        if (string.IsNullOrEmpty(SessionState.Profile?.Theme))
                         {
-                            WikiContext.UserTheme = GlobalConfiguration.SystemTheme;
+                            SessionState.UserTheme = GlobalConfiguration.SystemTheme;
                         }
                     }
 
@@ -1484,8 +1484,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Emojis")]
         public ActionResult Emojis()
         {
-            WikiContext.RequireModeratePermission();
-            WikiContext.Page.Name = $"Emojis";
+            SessionState.RequireModeratePermission();
+            SessionState.Page.Name = $"Emojis";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1507,7 +1507,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Emoji/{name}")]
         public ActionResult Emoji(string name)
         {
-            WikiContext.RequireModeratePermission();
+            SessionState.RequireModeratePermission();
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
@@ -1531,7 +1531,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("Emoji/{name}")]
         public ActionResult Emoji(EmojiViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -1593,7 +1593,7 @@ namespace TightWiki.Site.Controllers
         [HttpGet("AddEmoji")]
         public ActionResult AddEmoji()
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var model = new AddEmojiViewModel()
             {
@@ -1614,7 +1614,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("AddEmoji")]
         public ActionResult AddEmoji(AddEmojiViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -1662,7 +1662,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("DeleteEmoji/{name}")]
         public ActionResult DeleteEmoji(string name, EmojiViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
@@ -1681,8 +1681,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("DeleteEmoji/{name}")]
         public ActionResult DeleteEmoji(string name)
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Delete Emoji";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Delete Emoji";
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
@@ -1693,7 +1693,7 @@ namespace TightWiki.Site.Controllers
 
             if (emoji != null)
             {
-                WikiContext.Page.Name = $"Delete {emoji.Name}";
+                SessionState.Page.Name = $"Delete {emoji.Name}";
             }
 
             return View(model);
@@ -1707,8 +1707,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Exceptions")]
         public ActionResult Exceptions()
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Exceptions";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Exceptions";
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1728,8 +1728,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Exception/{id}")]
         public ActionResult Exception(int id)
         {
-            WikiContext.RequireAdminPermission();
-            WikiContext.Page.Name = $"Exception";
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Exception";
 
             var model = new ExceptionViewModel()
             {
@@ -1743,7 +1743,7 @@ namespace TightWiki.Site.Controllers
         [HttpPost("PurgeExceptions")]
         public ActionResult PurgeExceptions(ConfirmActionViewModel model)
         {
-            WikiContext.RequireAdminPermission();
+            SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {

@@ -2,7 +2,7 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
@@ -37,9 +37,9 @@
                         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                             <thead>
                                 <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Link")">Link</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Ordinal")">Ordinal</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">Link</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">Ordinal</a></strong></td>
                                 </tr>
                             </thead>
 
