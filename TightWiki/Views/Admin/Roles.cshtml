@@ -9,9 +9,9 @@
     Roles
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     Global configuration for security roles and membership.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -30,22 +30,25 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Description")">Description</a></strong></td>
-                            </tr>
-                        </thead>
+                    @if (Model.Roles.Count > 0)
+                    {
+                        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Description")">Description</a></strong></td>
+                                </tr>
+                            </thead>
 
-                        @foreach (var role in Model.Roles)
-                        {
-                            <tr>
-                                <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
-                                <td>@role.Description</td>
-                            </tr>
-                        }
-                    </table>
+                            @foreach (var role in Model.Roles)
+                            {
+                                <tr>
+                                    <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
+                                    <td>@role.Description</td>
+                                </tr>
+                            }
+                        </table>
+                    }
                 }
             </td>
         </tr>

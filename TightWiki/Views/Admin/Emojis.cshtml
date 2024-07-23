@@ -9,9 +9,9 @@
     Emojis
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     Global configuration for Emojis.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -39,27 +39,29 @@
                         </tr>
                     </table>
 
-                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                    @if (Model.Emojis.Count > 0)
+                    {
+                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Shortcut")">Shortcut</a></strong></td>
+                                    <td><strong>Image</strong></td>
+                                </tr>
+                            </thead>
 
-                        <thead>
-                            <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Shortcut")">Shortcut</a></strong></td>
-                                <td><strong>Image</strong></td>
-                            </tr>
-                        </thead>
+                            @foreach (var emoji in Model.Emojis)
+                            {
+                                <tr>
+                                    <td><a href="/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
+                                    <td>@emoji.Shortcut</td>
+                                    <td><img src="/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
+                                </tr>
+                            }
+                        </table>
 
-                        @foreach (var emoji in Model.Emojis)
-                        {
-                            <tr>
-                                <td><a href="/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
-                                <td>@emoji.Shortcut</td>
-                                <td><img src="/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
-                            </tr>
-                        }
-                    </table>
-
-                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                    }
                 }
 
                 <br />

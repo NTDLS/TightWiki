@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -17,6 +16,8 @@ namespace TightWiki
 {
     public class WikiContextState : IWikiContext
     {
+        public IQueryCollection? QueryString { get; set; }
+
         #region Authentication.
 
         public bool IsAuthenticated { get; set; }
@@ -27,14 +28,11 @@ namespace TightWiki
         #endregion
 
         #region Current Page.
-        public IQueryCollection? QueryString { get; set; }
         public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
         public string PageNavigationEscaped { get; set; } = string.Empty;
-        public string PageRevision { get; set; } = string.Empty;
-        public string PathAndQuery { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
-        public ProcessingInstructionCollection ProcessingInstructions { get; set; } = new();
+        public ProcessingInstructionCollection PageInstructions { get; set; } = new();
 
         /// <summary>
         /// The "page" here is more of a "mock page", we use the name for various stuff.
@@ -54,11 +52,8 @@ namespace TightWiki
         public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
             QueryString = controller.Request.Query;
-
-            PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
-            //PageRevision = RouteValue("pageRevision");
 
             HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
 
@@ -132,23 +127,20 @@ namespace TightWiki
         public void SetPageId(int? pageId, int? revision = null)
         {
             Page = new Models.DataModels.Page();
+            PageInstructions = new();
+            PageTags = string.Empty;
 
             if (pageId != null)
             {
-                Page = PageRepository.GetPageInfoAndBodyByIdAndRevision((int)pageId, revision) 
+                Page = PageRepository.GetLimitedPageInfoByIdAndRevision((int)pageId, revision)
                     ?? throw new Exception("Page not found");
 
-                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
+                PageInstructions = PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 
                 if (GlobalConfiguration.IncludeWikiTagsInMeta)
                 {
-                    var tags = PageRepository.GetPageTagsById(Page.Id)?.Select(o => o.Tag).ToList() ?? new();
-                    PageTags = string.Join(",", tags);
+                    PageTags = string.Join(",", PageRepository.GetPageTagsById(Page.Id)?.Select(o => o.Tag) ?? []);
                 }
-            }
-            else
-            {
-                ProcessingInstructions = new();
             }
         }
 
@@ -206,7 +198,7 @@ namespace TightWiki
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Contains(WikiInstruction.Protect))
+                    if (PageInstructions.Contains(WikiInstruction.Protect))
                     {
                         return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
                     }
@@ -244,7 +236,7 @@ namespace TightWiki
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Contains(WikiInstruction.Protect))
+                    if (PageInstructions.Contains(WikiInstruction.Protect))
                     {
                         return false;
                     }

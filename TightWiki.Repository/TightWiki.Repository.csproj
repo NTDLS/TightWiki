@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.13.0</Version>
+    <Version>2.14.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -68,6 +68,7 @@
     <None Remove="Scripts\GetFlatConfiguration.sql" />
     <None Remove="Scripts\GetFuzzyPageSearchTokens.sql" />
     <None Remove="Scripts\GetLatestPageRevisionById.sql" />
+    <None Remove="Scripts\GetLimitedPageInfoByIdAndRevision.sql" />
     <None Remove="Scripts\GetMenuItemById.sql" />
     <None Remove="Scripts\GetMissingPagesPaged.sql" />
     <None Remove="Scripts\GetOrphanedPageAttachments.sql" />
@@ -82,8 +83,6 @@
     <None Remove="Scripts\GetPageFilesInfoByPageId.sql" />
     <None Remove="Scripts\GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql" />
     <None Remove="Scripts\GetPageIdsByTokens.sql" />
-    <None Remove="Scripts\GetPageInfoById.sql" />
-    <None Remove="Scripts\GetPageInfoByIdAndRevision.sql" />
     <None Remove="Scripts\GetPageInfoByNamespaces.sql" />
     <None Remove="Scripts\GetPageInfoByNavigation.sql" />
     <None Remove="Scripts\GetPageInfoByTags.sql" />
@@ -237,8 +236,7 @@
     <EmbeddedResource Include="Scripts\GetPageFilesInfoByPageId.sql" />
     <EmbeddedResource Include="Scripts\GetPageFilesInfoByPageNavigationAndPageRevisionPaged.sql" />
     <EmbeddedResource Include="Scripts\GetPageIdsByTokens.sql" />
-    <EmbeddedResource Include="Scripts\GetPageInfoById.sql" />
-    <EmbeddedResource Include="Scripts\GetPageInfoByIdAndRevision.sql" />
+    <EmbeddedResource Include="Scripts\GetLimitedPageInfoByIdAndRevision.sql" />
     <EmbeddedResource Include="Scripts\GetPageInfoByNamespaces.sql" />
     <EmbeddedResource Include="Scripts\GetPageInfoByNavigation.sql" />
     <EmbeddedResource Include="Scripts\GetPageInfoByTags.sql" />

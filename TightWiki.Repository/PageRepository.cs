@@ -20,30 +20,6 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionInfoById.sql", param);
         }
 
-        public static Page? GetPageInfoById(int pageId, bool allowCache = true)
-        {
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
-                if (!WikiCache.TryGet<Page>(cacheKey, out var result))
-                {
-                    if ((result = GetPageInfoById(pageId, false)) != null)
-                    {
-                        WikiCache.Put(cacheKey, result);
-                    }
-                }
-
-                return result;
-            }
-
-            var param = new
-            {
-                PageId = pageId
-            };
-
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoById.sql", param);
-        }
-
         public static ProcessingInstructionCollection GetPageProcessingInstructionsByPageId(int pageId, bool allowCache = true)
         {
             if (allowCache)
@@ -666,14 +642,14 @@ namespace TightWiki.Repository
             return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
         }
 
-        public static Page? GetPageInfoAndBodyByIdAndRevision(int pageId, int? revision = null, bool allowCache = true)
+        public static Page? GetLimitedPageInfoByIdAndRevision(int pageId, int? revision = null, bool allowCache = true)
         {
             if (allowCache)
             {
                 var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId, revision]);
                 if (!WikiCache.TryGet<Page>(cacheKey, out var result))
                 {
-                    if ((result = GetPageInfoAndBodyByIdAndRevision(pageId, revision, false)) != null)
+                    if ((result = GetLimitedPageInfoByIdAndRevision(pageId, revision, false)) != null)
                     {
                         WikiCache.Put(cacheKey, result);
                     }
@@ -687,7 +663,7 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByIdAndRevision.sql", param);
+            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetLimitedPageInfoByIdAndRevision.sql", param);
         }
 
         public static int SavePage(Page page)
@@ -726,7 +702,7 @@ namespace TightWiki.Repository
                     else
                     {
                         //Get current page so we can determine if anything has changed.
-                        var currentRevisionInfo = GetPageInfoAndBodyByIdAndRevision(page.Id)
+                        var currentRevisionInfo = GetLimitedPageInfoByIdAndRevision(page.Id)
                             ?? throw new Exception("The page could not be found.");
 
                         currentPageRevision = currentRevisionInfo.Revision;

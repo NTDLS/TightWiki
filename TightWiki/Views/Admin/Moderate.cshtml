@@ -8,9 +8,9 @@
     Page Moderate
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -39,29 +39,31 @@
                     </table>
                     <br />
 
-                    <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Revision</strong></td>
-                                <td><strong>Modified By</strong></td>
-                                <td><strong>Modified Date</strong></td>
-                            </tr>
-                        </thead>
+                    @if (Model.Pages.Count > 0)
+                    {
+                        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><strong>Name</strong></td>
+                                    <td><strong>Revision</strong></td>
+                                    <td><strong>Modified By</strong></td>
+                                    <td><strong>Modified Date</strong></td>
+                                </tr>
+                            </thead>
 
-                        @foreach (var p in Model.Pages)
-                        {
-                            <tr>
-                                <td><a href="/@p.Navigation">@p.Name</a></td>
-                                <td><a href="/@p.Navigation/Revisions">@p.Revision</a></td>
-                                <td>@p.ModifiedByUserName</td>
-                                <td>@p.ModifiedDate</td>
-                            </tr>
-                        }
-                    </table>
+                            @foreach (var p in Model.Pages)
+                            {
+                                <tr>
+                                    <td><a href="/@p.Navigation">@p.Name</a></td>
+                                    <td><a href="/@p.Navigation/Revisions">@p.Revision</a></td>
+                                    <td>@p.ModifiedByUserName</td>
+                                    <td>@p.ModifiedDate</td>
+                                </tr>
+                            }
+                        </table>
 
-                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-
+                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                    }
                     <script>
                         document.getElementById("instructionDropdown").addEventListener("change", function () {
                             this.form.submit();

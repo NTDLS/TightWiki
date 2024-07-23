@@ -1,11 +1,15 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
     var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
 }
-<p>
-        Please check your email to confirm your account.
+
+<h3>
+    Register confirmation
+</h3>
+
+<p class="text-dark">
+    Please check your email to confirm your account.
 </p>
 
 

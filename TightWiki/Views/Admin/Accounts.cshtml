@@ -9,9 +9,9 @@
     Accounts
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     Global configuration for user accounts.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -39,35 +39,37 @@
                         </tr>
                     </table>
 
-                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                    @if (Model.Users.Count > 0)
+                    {
+                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Account")">Account</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "FirstName")">First Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "LastName")">Last Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Country")">Country</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "TimeZone")">TimeZone</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "EmailAddress")">EmailAddress</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Created")">CreatedDate</a></strong></td>
+                                </tr>
+                            </thead>
 
-                        <thead>
-                            <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Account")">Account</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "FirstName")">First Name</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "LastName")">Last Name</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Country")">Country</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "TimeZone")">TimeZone</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "EmailAddress")">EmailAddress</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Created")">CreatedDate</a></strong></td>
-                            </tr>
-                        </thead>
+                            @foreach (var user in Model.Users)
+                            {
+                                <tr>
+                                    <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
+                                    <td>@user.FirstName</td>
+                                    <td>@user.LastName</td>
+                                    <td>@user.Country</td>
+                                    <td>@user.TimeZone</td>
+                                    <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
+                                    <td>@user.CreatedDate</td>
+                                </tr>
+                            }
+                        </table>
 
-                        @foreach (var user in Model.Users)
-                        {
-                            <tr>
-                                <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
-                                <td>@user.FirstName</td>
-                                <td>@user.LastName</td>
-                                <td>@user.Country</td>
-                                <td>@user.TimeZone</td>
-                                <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
-                                <td>@user.CreatedDate</td>
-                            </tr>
-                        }
-                    </table>
-
-                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                    }
                 }
 
                 <br />

@@ -388,7 +388,7 @@ namespace TightWiki.Site.Controllers
                 Revisions = PageRepository.GetDeletedPageRevisionsByIdPaged(pageId, pageNumber, orderBy, orderByDirection)
             };
 
-            var page = PageRepository.GetPageInfoById(pageId);
+            var page = PageRepository.GetLimitedPageInfoByIdAndRevision(pageId);
             if (page == null)
             {
                 return NotifyOfError("The specified page could not be found.");

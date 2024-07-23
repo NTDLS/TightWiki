@@ -21,10 +21,10 @@
                             <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
                         }
 
-                        <font size="3" face="ARIAL,HELVETICA">
+                        <p class="text-dark">
                             Already a member? <a href="/Account/Login">Login</a>.<br />
                             Forgot your password? @Html.ActionLink("Reset it.", "Forgot", "Account").<br />
-                        </font>
+                        </p>
                     </td>
                 </tr>
             </tbody>
