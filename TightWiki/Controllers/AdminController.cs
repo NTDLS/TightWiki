@@ -1435,10 +1435,12 @@ namespace TightWiki.Site.Controllers
                     var parent = model.Nest.Single(o => o.Name == fc.GroupName);
                     var child = parent.Entries.Single(o => o.Name == fc.EntryName);
 
-                    //We keep the value in model.Nest.Entries.Value so that the page will reflect the new settings after post.
-                    child.Value = GetFormValue($"{fc.GroupId}:{fc.EntryId}", string.Empty);
+                    var value = GetFormValue($"{fc.GroupId}:{fc.EntryId}", string.Empty);
 
-                    if (fc.IsRequired && string.IsNullOrEmpty(child.Value))
+                    //We keep the value in model.Nest.Entries.Value so that the page will reflect the new settings after post.
+                    child.Value = value;
+
+                    if (fc.IsRequired && string.IsNullOrEmpty(value))
                     {
                         model.ErrorMessage = $"{fc.GroupName} : {fc.EntryName} is required.";
                         return View(model);
@@ -1447,7 +1449,7 @@ namespace TightWiki.Site.Controllers
                     if ($"{fc.GroupName}:{fc.EntryName}" == "Customization:Theme")
                     {
                         //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-                        GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == child.Value);
+                        GlobalConfiguration.SystemTheme = ConfigurationRepository.GetAllThemes().Single(o => o.Name == value);
                         if (string.IsNullOrEmpty(WikiContext.Profile?.Theme))
                         {
                             WikiContext.UserTheme = GlobalConfiguration.SystemTheme;
@@ -1456,10 +1458,10 @@ namespace TightWiki.Site.Controllers
 
                     if (fc.IsEncrypted)
                     {
-                        child.Value = Security.Helpers.EncryptString(Security.Helpers.MachineKey, child.Value);
+                        value = Security.Helpers.EncryptString(Security.Helpers.MachineKey, value);
                     }
 
-                    ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, child.Value);
+                    ConfigurationRepository.SaveConfigurationEntryValueByGroupAndEntry(fc.GroupName, fc.EntryName, value);
                 }
 
                 WikiCache.ClearCategory(WikiCache.Category.Configuration);
