@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -30,7 +30,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            Library.IWikiEmailSender emailSender)
+            IWikiEmailSender emailSender)
                         : base(signInManager)
         {
             _signInManager = signInManager;

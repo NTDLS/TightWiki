@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
 using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki

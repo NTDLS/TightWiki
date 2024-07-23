@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
 using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;

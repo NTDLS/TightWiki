@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace TightWiki.Library
+namespace TightWiki.Library.Interfaces
 {
     public interface IWikiContext
     {

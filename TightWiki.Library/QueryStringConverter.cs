@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text;
 using System.Web;
+using TightWiki.Library.Interfaces;
 
 namespace TightWiki.Library
 {

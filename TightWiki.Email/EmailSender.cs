@@ -2,7 +2,7 @@
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using MimeKit;
-using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Email

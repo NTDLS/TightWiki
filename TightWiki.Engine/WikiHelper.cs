@@ -1,5 +1,5 @@
 ﻿using TightWiki.Caching;
-using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Library.Constants;
 

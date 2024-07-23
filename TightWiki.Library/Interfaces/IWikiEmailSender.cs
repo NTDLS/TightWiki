@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Library
+﻿namespace TightWiki.Library.Interfaces
 {
     public interface IWikiEmailSender
     {

@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Configuration;
-using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account

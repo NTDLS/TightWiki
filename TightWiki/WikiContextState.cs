@@ -8,6 +8,7 @@ using System.Security.Claims;
 using TightWiki.Configuration;
 using TightWiki.Exceptions;
 using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Library.Constants;
