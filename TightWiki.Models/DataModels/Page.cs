@@ -18,6 +18,11 @@ namespace TightWiki.Models.DataModels
         public bool IsHistoricalVersion => Revision != MostCurrentRevision;
 
         /// <summary>
+        /// Lets us know whether this page exists and is loaded.
+        /// </summary>
+        public bool Exists => Id > 0;
+
+        /// <summary>
         /// Count of revisions higher than Revision.
         /// </summary>
         public int HigherRevisionCount { get; set; }

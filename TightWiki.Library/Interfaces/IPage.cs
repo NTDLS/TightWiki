@@ -11,5 +11,6 @@
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public bool IsHistoricalVersion { get; }
+        public bool Exists { get; }
     }
 }

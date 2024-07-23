@@ -35,8 +35,10 @@ namespace TightWiki
         public string PathAndQuery { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
         public ProcessingInstructionCollection ProcessingInstructions { get; set; } = new();
-        public bool IsPageLoaded => Page.Id > 0;
 
+        /// <summary>
+        /// The "page" here is more of a "mock page", we use the name for various stuff.
+        /// </summary>
         public IPage Page { get; set; } = new Models.DataModels.Page();
 
         #endregion

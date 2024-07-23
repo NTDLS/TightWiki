@@ -83,7 +83,7 @@
 
                         @if (wikiContext.CanCreate == true
                         || (wikiContext.ShouldCreatePage == true && wikiContext.CanCreate == true)
-                        || (wikiContext.IsPageLoaded == true && (wikiContext.CanEdit == true || wikiContext.CanModerate == true || wikiContext.CanDelete == true))
+                        || (wikiContext.Page.Exists == true && (wikiContext.CanEdit == true || wikiContext.CanModerate == true || wikiContext.CanDelete == true))
                         )
                         {
                             <li class="nav-item dropdown">
@@ -100,7 +100,7 @@
                                         <a class="dropdown-item text-dark" href="/Page/Create">Create new page</a>
                                     }
 
-                                    @if (wikiContext.IsPageLoaded == true)
+                                    @if (wikiContext.Page.Exists == true)
                                     {
                                         @if (wikiContext.CanCreate == true)
                                         {
