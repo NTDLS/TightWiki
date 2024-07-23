@@ -290,7 +290,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new NamespaceViewModel()
             {
-                Pages = PageRepository.GetAllNamespacePagesPaged(pageNumber, namespaceName ?? string.Empty, orderBy, orderByDirection, null),
+                Pages = PageRepository.GetAllNamespacePagesPaged(pageNumber, namespaceName ?? string.Empty, orderBy, orderByDirection),
                 Namespace = namespaceName ?? string.Empty
             };
 
@@ -765,7 +765,7 @@ namespace TightWiki.Site.Controllers
 
             var model = new OrphanedPageAttachmentsViewModel()
             {
-                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(pageNumber, orderBy, orderByDirection, null),
+                Files = PageFileRepository.GetOrphanedPageAttachmentsPaged(pageNumber, orderBy, orderByDirection),
             };
 
             model.PaginationPageCount = (model.Files.FirstOrDefault()?.PaginationPageCount ?? 0);
