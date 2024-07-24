@@ -171,7 +171,7 @@ namespace TightWiki.Site.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("Public/{userAccountName}")]
+        [HttpGet("{userAccountName}/Public")]
         public ActionResult Public(string userAccountName)
         {
             SessionState.Page.Name = $"Public Profile";

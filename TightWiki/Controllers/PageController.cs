@@ -61,7 +61,6 @@ namespace TightWiki.Controllers
                 model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
                 model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
 
-
                 SessionState.SetPageId(page.Id, pageRevision);
 
                 if (GlobalConfiguration.PageCacheSeconds > 0)
