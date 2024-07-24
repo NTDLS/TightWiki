@@ -7,7 +7,7 @@ using TightWiki.Wiki.Function;
 namespace TightWiki.Engine
 {
     /// <summary>
-    /// Tiny wikfier (reduced feature-set) for things like comments and profile bios.
+    /// Tiny wikifier (reduced feature-set) for things like comments and profile bios.
     /// </summary>
     public class WikifierLite
     {
@@ -22,6 +22,7 @@ namespace TightWiki.Engine
             var content = new WikiString(unprocessedText);
             TransformEmoji(content);
             TransformLinks(content);
+            TransformMarkup(content);
             return content.ToString();
         }
 
@@ -62,6 +63,69 @@ namespace TightWiki.Engine
                 {
                     pageContent.Replace(match.Value, string.Empty);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
+        /// </summary>
+        /// <param name="pageContent"></param>
+        private static void TransformMarkup(WikiString pageContent)
+        {
+            ReplaceInlineHTMLMarker(pageContent, "~~", "strike", true); //inline bold.
+            ReplaceInlineHTMLMarker(pageContent, "**", "strong", true); //inline bold.
+            ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
+            ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
+            ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
+
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
+                PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
+
+            foreach (var match in orderedMatches)
+            {
+                int headingMarkers = 0;
+                foreach (char c in match.Value)
+                {
+                    if (c != '^')
+                    {
+                        break;
+                    }
+                    headingMarkers++;
+                }
+                if (headingMarkers >= 2 && headingMarkers <= 6)
+                {
+                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
+
+                    int fontSize = 1 + headingMarkers;
+                    if (fontSize < 1) fontSize = 1;
+
+                    string markup = "<font size=\"" + fontSize + "\">" + value + "</font>\r\n";
+                    pageContent.Replace(match.Value, markup);
+                }
+            }
+        }
+
+        private static void ReplaceInlineHTMLMarker(WikiString pageContent, string mark, string htmlTag, bool escape)
+        {
+            string marker = string.Empty;
+            if (escape)
+            {
+                foreach (var c in mark)
+                {
+                    marker += $"\\{c}";
+                }
+            }
+            else
+            {
+                marker = mark;
+            }
+
+            var rgx = new Regex(@$"{marker}([^\/\n\r]*){marker}", RegexOptions.IgnoreCase);
+            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+            foreach (var match in orderedMatches)
+            {
+                string markup = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
+                pageContent.Replace(match.Value, $"<{htmlTag}>{markup}</{htmlTag}>");
             }
         }
 

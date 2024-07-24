@@ -223,8 +223,8 @@ namespace TightWiki.Engine
                     int fontSize = 1 + headingMarkers;
                     if (fontSize < 1) fontSize = 1;
 
-                    string link = "<font size=\"" + fontSize + "\">" + value + "</span></font>\r\n";
-                    StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, link);
+                    string markup = "<font size=\"" + fontSize + "\">" + value + "</font>\r\n";
+                    StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, markup);
                 }
             }
         }
@@ -2568,9 +2568,9 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in orderedMatches)
             {
-                string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
+                string markup = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
 
-                StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{value}</{htmlTag}>");
+                StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{markup}</{htmlTag}>");
             }
         }
 

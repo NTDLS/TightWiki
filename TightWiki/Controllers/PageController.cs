@@ -60,6 +60,8 @@ namespace TightWiki.Controllers
                 model.Navigation = page.Navigation;
                 model.HideFooterComments = instructions.Contains(WikiInstruction.HideFooterComments);
                 model.HideFooterLastModified = instructions.Contains(WikiInstruction.HideFooterLastModified);
+                model.ModifiedByUserName = page.ModifiedByUserName;
+                model.ModifiedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
 
                 SessionState.SetPageId(page.Id, pageRevision);
 
@@ -97,7 +99,20 @@ namespace TightWiki.Controllers
 
                 if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
                 {
-                    model.Comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
+                    var comments = PageRepository.GetPageCommentsPaged(navigation.Canonical, 1);
+
+                    foreach (var comment in comments)
+                    {
+                        model.Comments.Add(new PageComment
+                        {
+                            UserNavigation = comment.UserNavigation,
+                            Id = comment.Id,
+                            UserName = comment.UserName,
+                            UserId = comment.UserId,
+                            Body = WikifierLite.Process(comment.Body),
+                            CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
+                        });
+                    }
                 }
             }
             else if (pageRevision != null)
@@ -136,21 +151,6 @@ namespace TightWiki.Controllers
                 if (SessionState.IsAuthenticated && SessionState.CanCreate)
                 {
                     SessionState.ShouldCreatePage = true;
-                }
-            }
-
-            if (page != null)
-            {
-                model.ModifiedByUserName = page.ModifiedByUserName;
-                model.ModifiedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
-
-                if (model.Comments != null)
-                {
-                    model.Comments.ForEach(o =>
-                    {
-                        o.Body = WikifierLite.Process(o.Body);
-                        o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
-                    });
                 }
             }
 
@@ -243,10 +243,21 @@ namespace TightWiki.Controllers
                 }
             }
 
-            var model = new PageCommentsViewModel()
+            var model = new PageCommentsViewModel();
+
+            var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
+            foreach (var comment in comments)
             {
-                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1))
-            };
+                model.Comments.Add(new PageComment
+                {
+                    UserNavigation = comment.UserNavigation,
+                    Id = comment.Id,
+                    UserName = comment.UserName,
+                    UserId = comment.UserId,
+                    Body = WikifierLite.Process(comment.Body),
+                    CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
+                });
+            }
 
             model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
 
@@ -293,9 +304,22 @@ namespace TightWiki.Controllers
 
             model = new PageCommentsViewModel()
             {
-                Comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1)),
                 ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
             };
+
+            var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
+            foreach (var comment in comments)
+            {
+                model.Comments.Add(new PageComment
+                {
+                    UserNavigation = comment.UserNavigation,
+                    Id = comment.Id,
+                    UserName = comment.UserName,
+                    UserId = comment.UserId,
+                    Body = WikifierLite.Process(comment.Body),
+                    CreatedDate = SessionState.LocalizeDateTime(comment.CreatedDate)
+                });
+            }
 
             model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
 
