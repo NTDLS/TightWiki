@@ -7,7 +7,7 @@ using TightWiki.Wiki.Function;
 namespace TightWiki.Engine
 {
     /// <summary>
-    /// Tiny wifier (reduced feature-set) for things like comments and profile bios.
+    /// Tiny wikfier (reduced feature-set) for things like comments and profile bios.
     /// </summary>
     public class WikifierLite
     {

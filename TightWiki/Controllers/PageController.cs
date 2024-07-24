@@ -79,7 +79,6 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-
                         var wiki = new Wikifier(SessionState, page, pageRevision);
 
                         model.Body = wiki.ProcessedBody;
@@ -302,6 +301,7 @@ namespace TightWiki.Controllers
 
             model.Comments.ForEach(o =>
             {
+                o.Body = WikifierLite.Process(o.Body);
                 o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
             });
 
