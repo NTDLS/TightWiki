@@ -1,50 +1,43 @@
 ﻿@model TightWiki.Models.ViewModels.Utility.ConfirmActionViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                <div class="panel panel-danger">
-                    <div class="card-header"><strong>Are you sure?</strong></div>
-                    <div class="card-body">
+<div class="panel panel-danger">
+    <div class="card-header"><strong>Are you sure?</strong></div>
+    <div class="card-body">
 
-                        @Html.Raw(@Model.Message)<br /><br />
+        @Html.Raw(@Model.Message)<br /><br />
 
-                        <form action='@Model.ControllerURL' method="post">
-                            @Html.HiddenFor(m => m.NoRedirectURL)
-                            @Html.HiddenFor(m => m.YesRedirectURL)
-                            @Html.HiddenFor(m => m.Message)
-                            @Html.HiddenFor(m => m.Style)
+        <form action='@Model.ControllerURL' method="post">
+            @Html.HiddenFor(m => m.NoRedirectURL)
+            @Html.HiddenFor(m => m.YesRedirectURL)
+            @Html.HiddenFor(m => m.Message)
+            @Html.HiddenFor(m => m.Style)
 
-                            @if (Model.Style == "Safe")
-                            {
-                                <div class="form-group"><button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
-                            }
-                            else if (Model.Style == "Warn")
-                            {
-                                <div class="form-group"><button type="submit" class="btn btn-warning rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
-                            }
-                            else
-                            {
-                                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
-                            }
-                        </form>
-                    </div>
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            @if (Model.Style == "Safe")
+            {
+                <div class="form-group"><button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
+            }
+            else if (Model.Style == "Warn")
+            {
+                <div class="form-group"><button type="submit" class="btn btn-warning rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
+            }
+            else
+            {
+                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
+            }
+        </form>
+    </div>
+</div>
+

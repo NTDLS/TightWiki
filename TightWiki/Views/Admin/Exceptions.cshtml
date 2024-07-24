@@ -2,16 +2,16 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
     Exceptions
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     Server and page exceptions.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -32,29 +32,31 @@
 
                 @using (Html.BeginForm(FormMethod.Get))
                 {
-                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                    @if (Model.Exceptions.Count > 0)
+                    {
+                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Id")">Id</a></strong></td>
+                                    <td><strong>Text</strong></td>
+                                    <td><strong>Exception</strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">Date/Time</a></strong></td>
+                                </tr>
+                            </thead>
 
-                        <thead>
-                            <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Id")">Id</a></strong></td>
-                                <td><strong>Text</strong></td>
-                                <td><strong>Exception</strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "CreatedDate")">Date/Time</a></strong></td>
-                            </tr>
-                        </thead>
+                            @foreach (var ex in Model.Exceptions)
+                            {
+                                <tr>
+                                    <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
+                                    <td>@ex.Text</td>
+                                    <td>@ex.ExceptionText</td>
+                                    <td>@ex.CreatedDate</td>
+                                </tr>
+                            }
+                        </table>
 
-                        @foreach (var ex in Model.Exceptions)
-                        {
-                            <tr>
-                                <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
-                                <td>@ex.Text</td>
-                                <td>@ex.ExceptionText</td>
-                                <td>@ex.CreatedDate</td>
-                            </tr>
-                        }
-                    </table>
-
-                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                    }
                 }
             </td>
         </tr>

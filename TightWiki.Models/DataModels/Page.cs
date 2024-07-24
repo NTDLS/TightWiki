@@ -1,13 +1,36 @@
-﻿namespace TightWiki.Models.DataModels
+﻿using TightWiki.Library.Interfaces;
+
+namespace TightWiki.Models.DataModels
 {
-    public class Page
+    public class Page : IPage
     {
         public int Id { get; set; } = 0;
+
+        /// <summary>
+        /// The revision of this page that is being viewed. May not be the latest revision.
+        /// </summary>
+        public int Revision { get; set; }
+        /// <summary>
+        /// The most current revision of this page.
+        /// </summary>
+        public int MostCurrentRevision { get; set; }
+
+        public bool IsHistoricalVersion => Revision != MostCurrentRevision;
+
+        /// <summary>
+        /// Lets us know whether this page exists and is loaded.
+        /// </summary>
+        public bool Exists => Id > 0;
+
+        /// <summary>
+        /// Count of revisions higher than Revision.
+        /// </summary>
         public int HigherRevisionCount { get; set; }
         public int DeletedRevisionCount { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
+        public int DataHash { get; set; }
 
         public string EllipseDescription
         {
@@ -35,7 +58,6 @@
             }
         }
 
-        public int Revision { get; set; }
         public Guid CreatedByUserId { get; set; }
         public DateTime CreatedDate { get; set; }
         public Guid ModifiedByUserId { get; set; }
@@ -49,7 +71,8 @@
         public string Body { get; set; } = string.Empty;
         public string CreatedByUserName { get; set; } = string.Empty;
         public string ModifiedByUserName { get; set; } = string.Empty;
-        public int LatestRevision { get; set; }
+
+
         public int PaginationPageCount { get; set; }
         public decimal Match { get; set; }
         public decimal Weight { get; set; }

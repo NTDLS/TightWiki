@@ -1,7 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Utility.NotifyViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
     bool _isFirst = true;
 }
 
@@ -25,76 +25,67 @@
     </script>
 }
 
-<table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">
+        @{
+            var errorMessages = @Model.ErrorMessage.Replace("\r\n", "\n").Split("\n");
+        }
+        @foreach (var message in errorMessages)
+        {
+            if (_isFirst)
+            {
+                <strong>@message</strong>
+                if (errorMessages.Count() > 1)
                 {
-                    <div class="alert alert-danger">
-                        @{
-                            var errorMessages = @Model.ErrorMessage.Replace("\r\n", "\n").Split("\n");
-                        }
-                        @foreach (var message in errorMessages)
-                        {
-                            if (_isFirst)
-                            {
-                                <strong>@message</strong>
-                                if (errorMessages.Count() > 1)
-                                {
-                                    <br />
-                                    <hr />
-                                }
-                                _isFirst = false;
-                            }
-                            else
-                            {
-                                @message
-                                <br />
-                            }
-                        }
-                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
-                        {
-                            <br />
-                            <a href="@Model.RedirectURL">Continue</a>
-                        }
-                    </div>
+                    <br />
+                    <hr />
                 }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+                _isFirst = false;
+            }
+            else
+            {
+                @message
+                <br />
+            }
+        }
+        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
+        {
+            <br />
+            <a href="@Model.RedirectURL">Continue</a>
+        }
+    </div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">
+        @{
+            var successMessages = @Model.SuccessMessage.Replace("\r\n", "\n").Split("\n");
+        }
+        @foreach (var message in successMessages)
+        {
+            if (_isFirst)
+            {
+                <strong>@message</strong>
+                if (successMessages.Count() > 1)
                 {
-                    <div class="alert alert-success">
-                        @{
-                            var successMessages = @Model.SuccessMessage.Replace("\r\n", "\n").Split("\n");
-                        }
-                        @foreach (var message in successMessages)
-                        {
-                            if (_isFirst)
-                            {
-                                <strong>@message</strong>
-                                if (successMessages.Count() > 1)
-                                {
-                                    <br />
-                                    <hr />
-                                }
-                                _isFirst = false;
-                            }
-                            else
-                            {
-                                @message
-                                <br />
-                            }
-                        }
-
-                        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
-                        {
-                            <p>
-                                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown">@Model.RedirectTimeout</span> seconds.
-                            </p>
-                        }
-                    </div>
+                    <br />
+                    <hr />
                 }
-            </td>
-        </tr>
-    </tbody>
-</table>
+                _isFirst = false;
+            }
+            else
+            {
+                @message
+                <br />
+            }
+        }
+
+        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
+        {
+            <p>
+                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown">@Model.RedirectTimeout</span> seconds.
+            </p>
+        }
+    </div>
+}

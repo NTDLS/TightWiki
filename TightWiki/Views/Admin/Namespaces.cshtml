@@ -2,16 +2,16 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
     Namespaces
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     All namespaces contained in the wiki.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -28,24 +28,27 @@
 
                 @using (Html.BeginForm(FormMethod.Get))
                 {
-                    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Pages")">Pages</a></strong></td>
-                            </tr>
-                        </thead>
+                    @if (Model.Namespaces.Count > 0)
+                    {
+                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Pages")">Pages</a></strong></td>
+                                </tr>
+                            </thead>
 
-                        @foreach (var p in Model.Namespaces)
-                        {
-                            <tr>
-                                <td><a href="/Admin/Namespace/@(p.Namespace?? string.Empty)">@(string.IsNullOrEmpty(p.Namespace) ? "(Default)" : p.Namespace)</a></td>
-                                <td>@p.CountOfPages.ToString("N0")</td>
-                            </tr>
-                        }
-                    </table>
+                            @foreach (var p in Model.Namespaces)
+                            {
+                                <tr>
+                                    <td><a href="/Admin/Namespace/@(p.Namespace?? string.Empty)">@(string.IsNullOrEmpty(p.Namespace) ? "(Default)" : p.Namespace)</a></td>
+                                    <td>@p.CountOfPages.ToString("N0")</td>
+                                </tr>
+                            }
+                        </table>
 
-                    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+                    }
                 }
             </td>
         </tr>

@@ -1,7 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <link rel="stylesheet" href="/codemirror/codemirror.css">
@@ -50,7 +50,7 @@
 <script type="text/javascript">
 
     function readyFn(jQuery) {
-        $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigationEscaped");
+        $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
     }
 
     $(document).ready(readyFn);
@@ -59,7 +59,7 @@
         $("#dropSection").filedrop({
             fallback_id: 'btnUpload',
             fallback_dropzoneClick: true,
-            url: '@Url.Action("UploadDragDrop", "File")/@wikiContext.PageNavigationEscaped',
+            url: '@Url.Action("UploadDragDrop", "File")/@sessionState.PageNavigationEscaped',
             paramname: 'postedFiles',
             maxfiles: 5, //Maximum Number of Files allowed at a time.
             maxfilesize: 25, //Maximum File Size in MB.
@@ -87,7 +87,7 @@
             },
             afterAll: function (e) {
                 //To do some task after all uploads done.
-                $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigationEscaped");
+                $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
             }
         })
     })
@@ -100,7 +100,7 @@
             formData.append('fileData', $('input[type=file]')[0].files[0]);
 
             $.ajax({
-                url: '@Url.Action("ManualUpload", "File")/@wikiContext.PageNavigationEscaped',
+                url: '@Url.Action("ManualUpload", "File")/@sessionState.PageNavigationEscaped',
                 type: 'POST',
                 data: formData,
                 async: false,
@@ -109,7 +109,7 @@
                 enctype: 'multipart/form-data',
                 processData: false,
                 success: function (response) {
-                    $("#uploadedFiles").load("/File/PageAttachments/@wikiContext.PageNavigationEscaped");
+                    $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 }
             });
             return false;
@@ -136,7 +136,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    <a href="/@wikiContext.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">Preview</a>
+                    <a href="/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">Preview</a>
                 </div>
                 <strong>@Html.LabelFor(x => x.Name)</strong>
 
@@ -160,7 +160,7 @@
                 <textarea id=Body name="Body">@Model.Body</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
-                        theme: "@wikiContext.UserTheme.EditorTheme",
+                        theme: "@sessionState.UserTheme.EditorTheme",
                         lineNumbers: true,
                         mode: "text/x-tightwiki",
                         matchBrackets: true,
@@ -181,7 +181,7 @@
     <div class="card">
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @wikiContext.CanCreate == true)
+            @if (Model?.Id > 0 && @sessionState.CanCreate == true)
             {
                 <div id="dropSection" class="dropSection">
                     <br />Attach files by dropping them here or by manually selecting them below:<br /><br />

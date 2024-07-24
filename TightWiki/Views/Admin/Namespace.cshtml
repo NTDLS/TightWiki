@@ -2,16 +2,16 @@
 @using TightWiki.Library
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
     Namespace
 </h3>
 
-<font size="3" face="ARIAL,HELVETICA">
+<p class="text-dark">
     All pages contained in the namespace.<br /><br />
-</font>
+</p>
 
 <table class="fixedTable100" border="0" cellpadding="0">
     <tbody>
@@ -31,10 +31,10 @@
                     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                         <thead>
                             <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Name")">Name</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "Revision")">Revision</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedBy")">Modified By</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(wikiContext, "ModifiedDate")">Modified Date</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
+                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
                             </tr>
                         </thead>
 

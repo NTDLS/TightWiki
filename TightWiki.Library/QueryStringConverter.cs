@@ -12,7 +12,7 @@ namespace TightWiki.Library
         /// if the string already sorts on the given field then the order is inverted (asc/desc).
         /// </summary>
         /// <returns></returns>
-        public static string OrderHelper(IWikiContext context, string value)
+        public static string OrderHelper(ISessionState context, string value)
         {
             string orderByKey = "OrderBy";
             string orderByDirectionKey = "OrderByDirection";

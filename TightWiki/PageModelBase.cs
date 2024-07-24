@@ -7,7 +7,7 @@ namespace TightWiki
 {
     public class PageModelBase : PageModel
     {
-        public WikiContextState WikiContext { get; private set; } = new();
+        public SessionState SessionState { get; private set; } = new();
 
         private readonly SignInManager<IdentityUser> SignInManager;
 
@@ -21,7 +21,7 @@ namespace TightWiki
 
         public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
-            ViewData["WikiContext"] = WikiContext.Hydrate(SignInManager, this);
+            ViewData["SessionState"] = SessionState.Hydrate(SignInManager, this);
         }
 
         /*

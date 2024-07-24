@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,53 +14,47 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
-    public class WikiContextState : IWikiContext
+    public class SessionState : ISessionState
     {
+        public IQueryCollection? QueryString { get; set; }
+
         #region Authentication.
 
         public bool IsAuthenticated { get; set; }
-        public AccountProfile? Profile { get; set; }
+        public IAccountProfile? Profile { get; set; }
         public string Role { get; set; } = string.Empty;
         public Theme UserTheme { get; set; } = new();
 
         #endregion
 
         #region Current Page.
-        public IQueryCollection? QueryString { get; set; }
+
         public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
         public string PageNavigationEscaped { get; set; } = string.Empty;
-        public string PageRevision { get; set; } = string.Empty;
-        public string PathAndQuery { get; set; } = string.Empty;
         public string PageTags { get; set; } = string.Empty;
-        public string PageDescription { get; set; } = string.Empty;
-        public string Title { get; set; } = string.Empty;
-        public int? PageId { get; private set; } = null;
-        public int? Revision { get; private set; } = null;
-        public ProcessingInstructionCollection ProcessingInstructions { get; set; } = new();
-        public bool IsViewingOldVersion => (Revision ?? 0) > 0;
-        public bool IsPageLoaded => (PageId ?? 0) > 0;
+        public ProcessingInstructionCollection PageInstructions { get; set; } = new();
+
+        /// <summary>
+        /// The "page" here is more of a "mock page", we use the name for various stuff.
+        /// </summary>
+        public IPage Page { get; set; } = new Models.DataModels.Page() { Name = GlobalConfiguration.Name };
 
         #endregion
 
-        public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
-            Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             QueryString = pageModel.Request.Query;
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
         }
 
-        public WikiContextState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
+        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
         {
-            Title = GlobalConfiguration.Name; //Default the title to the name. This will be replaced when the page is found and loaded.
             QueryString = controller.Request.Query;
-
-            PathAndQuery = controller.Request.GetEncodedPathAndQuery();
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
-            PageRevision = RouteValue("pageRevision");
 
             HydrateSecurityContext(controller.HttpContext, signInManager, controller.User);
 
@@ -112,20 +105,6 @@ namespace TightWiki
             }
         }
 
-        public DateTime LocalizeDateTime(DateTime datetime)
-        {
-            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
-        }
-
-        public TimeZoneInfo GetPreferredTimeZone()
-        {
-            if (Profile == null || string.IsNullOrEmpty(Profile.TimeZone))
-            {
-                return TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
-            }
-            return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
-        }
-
         /// <summary>
         /// Sets the current context pageId and optionally the revision.
         /// </summary>
@@ -134,29 +113,21 @@ namespace TightWiki
         /// <exception cref="Exception"></exception>
         public void SetPageId(int? pageId, int? revision = null)
         {
-            PageId = pageId;
-            Revision = revision;
+            Page = new Models.DataModels.Page();
+            PageInstructions = new();
+            PageTags = string.Empty;
+
             if (pageId != null)
             {
-                var page = PageRepository.GetPageInfoById((int)pageId) ?? throw new Exception("Page not found");
+                Page = PageRepository.GetLimitedPageInfoByIdAndRevision((int)pageId, revision)
+                    ?? throw new Exception("Page not found");
 
-                ProcessingInstructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
+                PageInstructions = PageRepository.GetPageProcessingInstructionsByPageId(Page.Id);
 
-                Title = $"{page.Name}";
-
-                if (GlobalConfiguration.IncludeWikiDescriptionInMeta)
-                {
-                    PageDescription = page.Description;
-                }
                 if (GlobalConfiguration.IncludeWikiTagsInMeta)
                 {
-                    var tags = PageRepository.GetPageTagsById(page.Id)?.Select(o => o.Tag).ToList() ?? new();
-                    PageTags = string.Join(",", tags);
+                    PageTags = string.Join(",", PageRepository.GetPageTagsById(Page.Id)?.Select(o => o.Tag) ?? []);
                 }
-            }
-            else
-            {
-                ProcessingInstructions = new();
             }
         }
 
@@ -214,7 +185,7 @@ namespace TightWiki
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Contains(WikiInstruction.Protect))
+                    if (PageInstructions.Contains(WikiInstruction.Protect))
                     {
                         return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
                     }
@@ -252,7 +223,7 @@ namespace TightWiki
             {
                 if (IsAuthenticated)
                 {
-                    if (ProcessingInstructions.Contains(WikiInstruction.Protect))
+                    if (PageInstructions.Contains(WikiInstruction.Protect))
                     {
                         return false;
                     }
@@ -265,5 +236,19 @@ namespace TightWiki
         }
 
         #endregion
+
+        public DateTime LocalizeDateTime(DateTime datetime)
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(datetime, GetPreferredTimeZone());
+        }
+
+        public TimeZoneInfo GetPreferredTimeZone()
+        {
+            if (string.IsNullOrEmpty(Profile?.TimeZone))
+            {
+                return TimeZoneInfo.FindSystemTimeZoneById(GlobalConfiguration.DefaultTimeZone);
+            }
+            return TimeZoneInfo.FindSystemTimeZoneById(Profile.TimeZone);
+        }
     }
 }

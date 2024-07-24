@@ -1,13 +1,16 @@
 ﻿@page
 @model ResendEmailConfirmationModel
 @{
-    ViewData["Title"] = "Resend email confirmation";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h1>@ViewData["Title"]</h1>
-<h2>Enter your email.</h2>
+<h3>
+    Resend email confirmation
+</h3>
+
+<p class="text-dark">Enter your email.</p>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form method="post">

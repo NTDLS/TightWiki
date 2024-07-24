@@ -1,13 +1,16 @@
 ﻿@page
 @model LoginWith2faModel
 @{
-    ViewData["Title"] = "Two-factor authentication";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h1>@ViewData["Title"]</h1>
+<h3>
+    Two-factor authentication
+</h3>
+
+<p class="text-dark">Your login is protected with an authenticator app. Enter your authenticator code below.</p>
 <hr />
-<p>Your login is protected with an authenticator app. Enter your authenticator code below.</p>
+
 <div class="row">
     <div class="col-md-4">
         <form method="post" asp-route-returnUrl="@Model.ReturnUrl">

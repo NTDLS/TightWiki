@@ -130,7 +130,7 @@ namespace TightWiki.Controllers
         [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            WikiContext.RequireViewPermission();
+            SessionState.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -209,7 +209,7 @@ namespace TightWiki.Controllers
         [HttpGet("Binary/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            WikiContext.RequireViewPermission();
+            SessionState.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -234,7 +234,7 @@ namespace TightWiki.Controllers
         [HttpGet("Revisions/{givenPageNavigation}/{givenFileNavigation}")]
         public ActionResult Revisions(string givenPageNavigation, string givenFileNavigation)
         {
-            WikiContext.RequireViewPermission();
+            SessionState.RequireViewPermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -259,7 +259,7 @@ namespace TightWiki.Controllers
         [HttpGet("PageAttachments/{givenPageNavigation}")]
         public ActionResult PageAttachments(string givenPageNavigation)
         {
-            WikiContext.RequireCreatePermission();
+            SessionState.RequireCreatePermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
@@ -289,7 +289,7 @@ namespace TightWiki.Controllers
         [HttpPost("UploadDragDrop/{givenPageNavigation}")]
         public IActionResult UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
         {
-            WikiContext.RequireCreatePermission();
+            SessionState.RequireCreatePermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
@@ -313,7 +313,7 @@ namespace TightWiki.Controllers
                             FileNavigation = Navigation.Clean(fileName),
                             Size = fileSize,
                             ContentType = Utility.GetMimeType(fileName)
-                        }, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
+                        }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
 
                         return Content("Success");
                     }
@@ -332,7 +332,7 @@ namespace TightWiki.Controllers
         [HttpPost("ManualUpload/{givenPageNavigation}")]
         public IActionResult ManualUpload(string givenPageNavigation, IFormFile fileData)
         {
-            WikiContext.RequireCreatePermission();
+            SessionState.RequireCreatePermission();
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
@@ -354,7 +354,7 @@ namespace TightWiki.Controllers
                         FileNavigation = Navigation.Clean(fileName),
                         Size = fileSize,
                         ContentType = Utility.GetMimeType(fileName)
-                    }, (WikiContext.Profile?.UserId).EnsureNotNullOrEmpty());
+                    }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
 
                     return Content("Success");
                 }
@@ -371,7 +371,7 @@ namespace TightWiki.Controllers
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
         public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
-            WikiContext.RequireDeletePermission();
+            SessionState.RequireDeletePermission();
 
             PageFileRepository.DetachPageRevisionAttachment(
                 new NamespaceNavigation(givenPageNavigation).Canonical,
@@ -390,7 +390,7 @@ namespace TightWiki.Controllers
         [HttpGet("Emoji/{givenPageNavigation}")]
         public ActionResult Emoji(string givenPageNavigation)
         {
-            WikiContext.RequireViewPermission();
+            SessionState.RequireViewPermission();
 
             var pageNavigation = Navigation.Clean(givenPageNavigation);
 

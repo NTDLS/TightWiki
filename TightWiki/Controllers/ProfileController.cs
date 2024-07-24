@@ -35,8 +35,8 @@ namespace TightWiki.Site.Controllers
         [HttpGet("{userAccountName}/Avatar")]
         public ActionResult Avatar(string userAccountName)
         {
-            WikiContext.RequireViewPermission();
-            WikiContext.Title = $"Avatar";
+            SessionState.RequireViewPermission();
+            SessionState.Page.Name = $"Avatar";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
@@ -171,10 +171,10 @@ namespace TightWiki.Site.Controllers
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("Public/{userAccountName}")]
+        [HttpGet("{userAccountName}/Public")]
         public ActionResult Public(string userAccountName)
         {
-            WikiContext.Title = $"Public Profile";
+            SessionState.Page.Name = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             var profile = UsersRepository.GetAccountProfileByNavigation(userAccountName);
@@ -221,13 +221,13 @@ namespace TightWiki.Site.Controllers
         [HttpGet("My")]
         public ActionResult My()
         {
-            WikiContext.RequireAuthorizedPermission();
-            WikiContext.Title = $"My Profile";
+            SessionState.RequireAuthorizedPermission();
+            SessionState.Page.Name = $"My Profile";
 
             var model = new AccountProfileViewModel()
             {
                 AccountProfile = AccountProfileAccountViewModel.FromDataModel(
-                    UsersRepository.GetAccountProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId)),
+                    UsersRepository.GetAccountProfileByUserId(SessionState.Profile.EnsureNotNull().UserId)),
 
                 Themes = ConfigurationRepository.GetAllThemes(),
                 TimeZones = TimeZoneItem.GetAll(),
@@ -235,8 +235,8 @@ namespace TightWiki.Site.Controllers
                 Languages = LanguageItem.GetAll()
             };
 
-            model.AccountProfile.CreatedDate = WikiContext.LocalizeDateTime(model.AccountProfile.CreatedDate);
-            model.AccountProfile.ModifiedDate = WikiContext.LocalizeDateTime(model.AccountProfile.ModifiedDate);
+            model.AccountProfile.CreatedDate = SessionState.LocalizeDateTime(model.AccountProfile.CreatedDate);
+            model.AccountProfile.ModifiedDate = SessionState.LocalizeDateTime(model.AccountProfile.ModifiedDate);
 
             return View(model);
         }
@@ -250,9 +250,9 @@ namespace TightWiki.Site.Controllers
         [HttpPost("My")]
         public ActionResult My(AccountProfileViewModel model)
         {
-            WikiContext.RequireAuthorizedPermission();
+            SessionState.RequireAuthorizedPermission();
 
-            WikiContext.Title = $"My Profile";
+            SessionState.Page.Name = $"My Profile";
 
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
@@ -260,7 +260,7 @@ namespace TightWiki.Site.Controllers
             model.Themes = ConfigurationRepository.GetAllThemes();
 
             //Get the UserId from the logged in context because we do not trust anything from the model.
-            var userId = WikiContext.Profile.EnsureNotNull().UserId;
+            var userId = SessionState.Profile.EnsureNotNull().UserId;
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
@@ -320,7 +320,7 @@ namespace TightWiki.Site.Controllers
             model.SuccessMessage = "Your profile has been saved.";
 
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
-            WikiContext.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
+            SessionState.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
 
             return View(model);
         }
@@ -338,9 +338,9 @@ namespace TightWiki.Site.Controllers
         [HttpPost("Delete")]
         public ActionResult Delete(DeleteAccountViewModel model)
         {
-            WikiContext.RequireAuthorizedPermission();
+            SessionState.RequireAuthorizedPermission();
 
-            var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
+            var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
             bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
             if (confirmAction == true && profile != null)
@@ -377,10 +377,10 @@ namespace TightWiki.Site.Controllers
         [HttpGet("Delete")]
         public ActionResult Delete()
         {
-            WikiContext.RequireAuthorizedPermission();
-            WikiContext.Title = $"Delete Account";
+            SessionState.RequireAuthorizedPermission();
+            SessionState.Page.Name = $"Delete Account";
 
-            var profile = UsersRepository.GetBasicProfileByUserId(WikiContext.Profile.EnsureNotNull().UserId);
+            var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
             var model = new DeleteAccountViewModel()
             {
@@ -389,7 +389,7 @@ namespace TightWiki.Site.Controllers
 
             if (profile != null)
             {
-                WikiContext.Title = $"Delete {profile.AccountName}";
+                SessionState.Page.Name = $"Delete {profile.AccountName}";
             }
 
             return View(model);

@@ -14,7 +14,7 @@ namespace TightWiki.Engine
         /// <param name="query"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static int UpsertPage(Models.DataModels.Page page, IWikiContext? context = null)
+        public static int UpsertPage(Models.DataModels.Page page, ISessionState? context = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
@@ -37,7 +37,7 @@ namespace TightWiki.Engine
         /// <param name="context"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static void RefreshPageMetadata(Models.DataModels.Page page, IWikiContext? context = null)
+        public static void RefreshPageMetadata(Models.DataModels.Page page, ISessionState? context = null)
         {
             var wikifier = new Wikifier(context, page, null, [WikiMatchType.Function]);
 

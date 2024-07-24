@@ -1,17 +1,24 @@
 ﻿@page
 @model LogoutModel
 @{
-    ViewData["Title"] = "Log out";
-    var wikiContext = ViewData["WikiContext"] as TightWiki.WikiContextState ?? throw new Exception("Wiki State Context cannot be null.");
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
+<h3>
+    Logout
+</h3>
+
+<p class="text-dark">
+    Logging out will make sure that others cant use this session to make changes to the wiki. You'll need to log back in before making changes.<br /><br />
+</p>
+<hr />
+
 <header>
-    <h1>@ViewData["Title"]</h1>
     @{
         if (User.Identity?.IsAuthenticated ?? false)
         {
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
+                <button type="submit" class="btn btn-primary rounded-0">Logout</button>
             </form>
         }
         else
