@@ -99,6 +99,16 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<PageRevision>("GetTopRecentlyModifiedPagesInfoByUserId.sql", param).ToList();
         }
 
+        public static string? GetPageNavigationByPageId(int pageId)
+        {
+            var param = new
+            {
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.Pages.ExecuteScalar<string>("GetPageNavigationByPageId.sql", param);
+        }
+
         public static List<Page> GetTopRecentlyModifiedPagesInfo(int topCount)
         {
             var param = new
@@ -275,6 +285,13 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<RelatedPage>("GetRelatedPagesPaged.sql", param).ToList();
         }
 
+        public static void FlushPageCache(int pageId)
+        {
+            var pageNavigation = GetPageNavigationByPageId(pageId);
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [pageNavigation]));
+            WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [pageId]));
+        }
+
         public static void InsertPageComment(int pageId, Guid userId, string body)
         {
             var param = new
@@ -286,6 +303,8 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.Pages.Execute("InsertPageComment.sql", param);
+
+            FlushPageCache(pageId);
         }
 
         public static void DeletePageCommentById(int pageId, int commentId)
@@ -297,6 +316,8 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.Pages.Execute("DeletePageCommentById.sql", param);
+
+            FlushPageCache(pageId);
         }
 
         public static void DeletePageCommentByUserAndId(int pageId, Guid userId, int commentId)
@@ -309,6 +330,8 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.Pages.Execute("DeletePageCommentByUserAndId.sql", param);
+
+            FlushPageCache(pageId);
         }
 
         public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, bool allowCache = true)
@@ -364,6 +387,8 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.Pages.Execute("UpdateSinglePageReference.sql", param);
+
+            FlushPageCache(pageId);
         }
 
         public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
@@ -378,6 +403,8 @@ namespace TightWiki.Repository
                 using var tempTable = o.CreateTempTableFrom("TempReferences", referencesPageNavigations.Distinct());
                 return o.Query<Page>("UpdatePageReferences.sql", param).ToList();
             });
+
+            FlushPageCache(pageId);
         }
 
         public static List<Page> GetAllPagesByInstructionPaged(int pageNumber, string? instruction = null)
@@ -575,6 +602,8 @@ namespace TightWiki.Repository
                 using var tempTable = o.CreateTempTableFrom("TempInstructions", instructions);
                 return o.Query<Page>("UpdatePageProcessingInstructions.sql", param).ToList();
             });
+
+            FlushPageCache(pageId);
         }
 
         public static Page? GetPageRevisionById(int pageId, int? revision = null)
@@ -812,6 +841,8 @@ namespace TightWiki.Repository
                     throw;
                 }
             });
+
+            FlushPageCache(pageId);
         }
 
         public static void MovePageRevisionToDeletedById(int pageId, int revision, Guid userId)
@@ -839,6 +870,8 @@ namespace TightWiki.Repository
                     throw;
                 }
             });
+
+            FlushPageCache(pageId);
         }
 
         public static void MovePageToDeletedById(int pageId, Guid userId)
@@ -867,6 +900,8 @@ namespace TightWiki.Repository
                     throw;
                 }
             });
+
+            FlushPageCache(pageId);
         }
 
         public static void PurgeDeletedPageByPageId(int pageId)
@@ -879,6 +914,8 @@ namespace TightWiki.Repository
             ManagedDataStorage.DeletedPages.Execute("PurgeDeletedPageByPageId.sql", param);
 
             PurgeDeletedPageRevisionsByPageId(pageId);
+
+            FlushPageCache(pageId);
         }
 
         public static void PurgeDeletedPages()
@@ -982,6 +1019,8 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.DeletedPageRevisions.Execute("PurgeDeletedPageRevisionsByPageId.sql", param);
+
+            FlushPageCache(pageId);
         }
 
         public static void PurgeDeletedPageRevisionByPageIdAndRevision(int pageId, int revision)
@@ -993,6 +1032,8 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.DeletedPageRevisions.Execute("PurgeDeletedPageRevisionByPageIdAndRevision.sql", param);
+
+            FlushPageCache(pageId);
         }
 
         public static void RestoreDeletedPageRevisionByPageIdAndRevision(int pageId, int revision)
@@ -1008,6 +1049,8 @@ namespace TightWiki.Repository
                 using var users_db = o.Attach("pages.db", "pages_db");
                 o.Execute("RestoreDeletedPageRevisionByPageIdAndRevision.sql", param);
             });
+
+            FlushPageCache(pageId);
         }
 
         public static DeletedPageRevision? GetDeletedPageRevisionById(int pageId, int revision)

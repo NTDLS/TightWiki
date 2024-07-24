@@ -86,6 +86,7 @@
     <None Remove="Scripts\GetPageInfoByNamespaces.sql" />
     <None Remove="Scripts\GetPageInfoByNavigation.sql" />
     <None Remove="Scripts\GetPageInfoByTags.sql" />
+    <None Remove="Scripts\GetPageNavigationByPageId.sql" />
     <None Remove="Scripts\GetPageNextRevision.sql" />
     <None Remove="Scripts\GetPagePreviousRevision.sql" />
     <None Remove="Scripts\GetPageProcessingInstructionsByPageId.sql" />
@@ -160,6 +161,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\GetPageNavigationByPageId.sql" />
     <EmbeddedResource Include="Scripts\VacuumDatabase.sql" />
     <EmbeddedResource Include="Scripts\OptimizeDatabase.sql" />
     <EmbeddedResource Include="Scripts\IntegrityCheckDatabase.sql" />
