@@ -347,7 +347,7 @@ namespace TightWiki.Repository
                     WikiCache.Put(cacheKey, result);
                 }
 
-                return result.Select(o => o.Clone()).ToList();
+                return result;
             }
 
             var param = new

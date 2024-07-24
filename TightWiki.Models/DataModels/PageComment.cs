@@ -11,21 +11,5 @@ namespace TightWiki.Models.DataModels
         public string PageName { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         public int PaginationPageCount { get; set; }
-
-        public PageComment Clone()
-        {
-            return new PageComment
-            {
-                Id = Id,
-                PageId = PageId,
-                UserId = UserId,
-                Body = Body,
-                UserName = UserName,
-                UserNavigation = UserNavigation,
-                PageName = PageName,
-                CreatedDate = CreatedDate,
-                PaginationPageCount = PaginationPageCount
-            };
-        }
     }
 }

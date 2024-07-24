@@ -44,10 +44,12 @@
         if (@sessionState.IsAuthenticated == true)
         {
             <form method="post" action="/@sessionState.PageNavigation/Comments">
-                <div class="form-outline mb-4">
-                    <button type="submit" value="Find" style="float: right" class="btn btn-primary rounded-0">Post</button>
-                    <div style="overflow: hidden; padding-right: .5em;">
-                        <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+                <div class="container">
+                    <div class="d-flex justify-content-end mb-4">
+                        <div class="flex-grow-1 me-2">
+                            <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+                        </div>
+                        <button type="submit" value="Post" class="btn btn-outline-primary">Post</button>
                     </div>
                 </div>
             </form>
@@ -60,26 +62,24 @@
     }
     @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
     {
-        @foreach (var h in Model.Comments)
-        {
-            <div class="card mb-4">
-                <div class="card-body">
-                    <p>@Html.Raw(h.Body)</p>
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-row align-items-center">
-                            <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" />
-                            <p class="small mb-0 ms-2"><cite><a href="/Profile/@h.UserNavigation/Public">@Html.DisplayTextFor(x => h.UserName)</a> @@ @Html.DisplayTextFor(x => h.CreatedDate)</cite></p>
+        <div class="container mt-4">
+            @foreach (var h in Model.Comments)
+            {
+                <div class="border rounded mb-2 p-2">
+                    <p class="mb-1">@Html.Raw(h.Body)</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
+                            <a href="/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
                         </div>
-                        @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
-                        {
-                            <div class="d-flex flex-row align-items-center">
-                                <p class="small text-muted mb-0"><a href="/@sessionState.PageNavigation/Comments?Delete=@h.Id" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a></p>
-                            </div>
-                        }
+                        <a href="/@sessionState.PageNavigation/Comments?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+                    </div>
+                    <div>
+                        <p class="small text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
                     </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     }
     @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
