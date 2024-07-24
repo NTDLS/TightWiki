@@ -10,6 +10,7 @@ namespace TightWiki.Repository
         {
             var param = new
             {
+                CreatedDate = DateTime.UtcNow,
                 PageId = pageId,
                 WikifyTimeMs = wikifyTimeMs,
                 MatchCount = matchCount,

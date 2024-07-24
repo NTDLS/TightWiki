@@ -181,6 +181,11 @@ namespace TightWiki.Site.Controllers
 
             model.PaginationPageCount = (model.Statistics.FirstOrDefault()?.PaginationPageCount ?? 0);
 
+            model.Statistics.ForEach(o =>
+            {
+                o.LatestBuild = SessionState.LocalizeDateTime(o.LatestBuild);
+            });
+
             return View(model);
         }
 

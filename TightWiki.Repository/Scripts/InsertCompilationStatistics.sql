@@ -12,7 +12,7 @@ INSERT INTO CompilationStatistics
 )
 SELECT
 	@PageId,
-	datetime('now', 'utc'),
+	@CreatedDate,
 	@WikifyTimeMs,
 	@MatchCount,
 	@ErrorCount,
