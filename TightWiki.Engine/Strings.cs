@@ -2,13 +2,23 @@
 
 namespace TightWiki.Engine
 {
-    public static class HTML
+    public static class Strings
     {
-        public static string StripHTML(string input)
-        {
-            return Regex.Replace(input ?? "", "<.*?>", String.Empty);
-        }
+        /// <summary>
+        /// Removes all whitespace from a string.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string RemoveWhitespace(string input)
+            => new(input.ToCharArray()
+                .Where(c => !char.IsWhiteSpace(c))
+                .ToArray());
 
+        /// <summary>
+        /// Removes all traces of HTML tags from a given string.
+        /// </summary>
+        /// <param name="html"></param>
+        /// <returns></returns>
         public static string StripHtml(string html)
         {
             html = html.Replace("\'", ""); //Compress "don't" -> "dont"

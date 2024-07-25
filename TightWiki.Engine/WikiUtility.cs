@@ -51,9 +51,9 @@ namespace TightWiki.Engine
 
         public static BGFGStyle GetBackgroundStyle(string style)
         {
-            if (BackgroundStyles.TryGetValue(style, out var bgfgStyle))
+            if (BackgroundStyles.TryGetValue(style, out var html))
             {
-                return bgfgStyle;
+                return html;
             }
 
             return new BGFGStyle();
@@ -61,9 +61,9 @@ namespace TightWiki.Engine
 
         public static BGFGStyle GetForegroundStyle(string style)
         {
-            if (ForegroundStyles.TryGetValue(style, out var bgfgStyle))
+            if (ForegroundStyles.TryGetValue(style, out var html))
             {
-                return bgfgStyle;
+                return html;
             }
 
             return new BGFGStyle();
@@ -215,7 +215,7 @@ namespace TightWiki.Engine
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
-            var strippedContent = HTML.StripHtml(content);
+            var strippedContent = Strings.StripHtml(content);
             var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList<string>().ToList();
 
             if (searchConfig?.Value<bool>("Split Camel Case") == true)

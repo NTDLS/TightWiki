@@ -280,7 +280,7 @@ namespace TightWiki.Engine
 
             var linkText = arguments[1];
 
-            string compareString = linkText.ToLower().RemoveWhitespace();
+            string compareString = Strings.RemoveWhitespace(linkText.ToLower());
 
             //Internal page attached image:
             if (compareString.StartsWith("img="))
