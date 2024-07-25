@@ -30,7 +30,7 @@ namespace TightWiki.Library
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Danger");
 
-            return $"<a class=\"btn btn-danger btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+            return $"<a class=\"btn btn-outline-danger btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace TightWiki.Library
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Safe");
 
-            return $"<a class=\"btn btn-success btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+            return $"<a class=\"btn btn-outline-success btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace TightWiki.Library
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Warn");
 
-            return $"<a class=\"btn btn-warning btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+            return $"<a class=\"btn btn-outline-warning btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
         /*
@@ -115,7 +115,7 @@ namespace TightWiki.Library
             html.Append($"<input type='hidden' name='NoRedirectURL' value='{noRedirectURL}' />");
             html.Append($"<input type='hidden' name='Message' value='{message}' />");
             html.Append($"<input type='hidden' name='Style' value='Danger' />");
-            html.Append($"<button type='submit' class='btn btn-danger rounded-0' name='ActionToConfirm' value='PurgeDeletedPages'>{buttonLabel}</button>");
+            html.Append($"<button type='submit' class='btn btn-outline-danger rounded-0' name='ActionToConfirm' value='PurgeDeletedPages'>{buttonLabel}</button>");
             html.Append("</form>");
 
             return html.ToString();
@@ -146,7 +146,7 @@ namespace TightWiki.Library
             html.Append($"<input type='hidden' name='NoRedirectURL' value='{noRedirectURL}' />");
             html.Append($"<input type='hidden' name='Message' value='{message}' />");
             html.Append($"<input type='hidden' name='Style' value='Safe' />");
-            html.Append($"<button type='submit' class='btn btn-success rounded-0' name='ActionToConfirm' value='PurgeDeletedPages'>{buttonLabel}</button>");
+            html.Append($"<button type='submit' class='btn btn-outline-success rounded-0' name='ActionToConfirm' value='PurgeDeletedPages'>{buttonLabel}</button>");
             html.Append("</form>");
 
             return html.ToString();
@@ -177,7 +177,7 @@ namespace TightWiki.Library
             html.Append($"<input type='hidden' name='NoRedirectURL' value='{noRedirectURL}' />");
             html.Append($"<input type='hidden' name='Message' value='{message}' />");
             html.Append($"<input type='hidden' name='Style' value='Warn' />");
-            html.Append($"<button type='submit' class='btn btn-warning rounded-0' name='ActionToConfirm' value='PurgeDeletedPages'>{buttonLabel}</button>");
+            html.Append($"<button type='submit' class='btn btn-outline-warning rounded-0' name='ActionToConfirm' value='PurgeDeletedPages'>{buttonLabel}</button>");
             html.Append("</form>");
 
             return html.ToString();
