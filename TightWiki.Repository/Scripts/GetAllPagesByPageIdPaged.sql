@@ -22,9 +22,9 @@ SELECT
 	) as PaginationPageCount
 FROM
 	[Page] as P
-INNER JOIN users_db.Profile as ModifiedUser
+LEFT OUTER JOIN users_db.Profile as ModifiedUser
 	ON ModifiedUser.UserId = P.ModifiedByUserId
-INNER JOIN users_db.Profile as Createduser
+LEFT OUTER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
 WHERE
 	P.Id IN (SELECT PID.Value FROM TempPageIds as PID)

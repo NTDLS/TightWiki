@@ -20,7 +20,7 @@ SELECT
 			ON P.Id = PF.PageId
 		INNER JOIN PageFileRevision as PFR
 			ON PFR.PageFileId = PF.Id
-		INNER JOIN users_db.Profile UP
+		LEFT OUTER JOIN users_db.Profile UP
 			ON UP.UserId = PFR.CreatedByUserId
 		WHERE
 			P.Navigation = @PageNavigation
@@ -32,7 +32,7 @@ INNER JOIN [Page] as P
 	ON P.Id = PF.PageId
 INNER JOIN PageFileRevision as PFR
 	ON PFR.PageFileId = PF.Id
-INNER JOIN users_db.Profile UP
+LEFT OUTER JOIN users_db.Profile UP
 	ON UP.UserId = PFR.CreatedByUserId
 WHERE
 	P.Navigation = @PageNavigation

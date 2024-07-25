@@ -11,7 +11,7 @@ FROM
 INNER JOIN DeletionMeta as DM
 	ON DM.PageId = PR.PageId
 	AND DM.Revision = PR.Revision
-INNER JOIN users_db.Profile as DeletedUser
+LEFT OUTER JOIN users_db.Profile as DeletedUser
 	ON DeletedUser.UserId = DM.DeletedByUserID
 WHERE
 	PR.PageId = @PageId

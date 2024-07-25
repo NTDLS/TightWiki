@@ -16,7 +16,7 @@ FROM
 INNER JOIN [PageRevision] as PR
 	ON PR.PageId = P.Id
 	AND PR.Revision = P.Revision
-INNER JOIN users_db.Profile as MBU
+LEFT OUTER JOIN users_db.Profile as MBU
 	ON MBU.UserId = P.ModifiedByUserId
 WHERE
 	P.Id = @PageId

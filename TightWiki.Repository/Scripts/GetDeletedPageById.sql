@@ -21,11 +21,11 @@ INNER JOIN [PageRevision] as PR
 	AND PR.Revision = P.Revision
 INNER JOIN DeletionMeta as DM
 	ON DM.PageId = P.Id
-INNER JOIN users_db.Profile as ModifiedUser
+LEFT OUTER JOIN users_db.Profile as ModifiedUser
 	ON ModifiedUser.UserId = P.ModifiedByUserId
-INNER JOIN users_db.Profile as Createduser
+LEFT OUTER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
-INNER JOIN users_db.Profile as DeletedUser
+LEFT OUTER JOIN users_db.Profile as DeletedUser
 	ON DeletedUser.UserId = DM.DeletedByUserID
 WHERE
 	P.Id = @PageId
