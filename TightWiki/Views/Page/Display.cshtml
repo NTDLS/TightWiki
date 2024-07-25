@@ -14,10 +14,10 @@
             <p class="card-text">
                 You are viewing revision @Model.Revision of "@Model.Name" modified by @Model.ModifiedByUserName on @Model.ModifiedDate.<br />
 
-                <a class="btn btn-outline-success btn-thin" href="/@Model.Navigation">View latest revision</a>
+                <a class="btn btn-success btn-thin" href="/@Model.Navigation">View latest revision</a>
                 @if(sessionState.CanModerate)
                 {
-                    <a class="btn btn-outline-warning btn-thin" href="/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
+                    <a class="btn btn-warning btn-thin" href="/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
                 }
             </p>
         </div>
@@ -51,7 +51,7 @@
                         <div class="flex-grow-1 me-2">
                             <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
                         </div>
-                        <button type="submit" value="Post" class="btn btn-outline-primary">Post</button>
+                        <button type="submit" value="Post" class="btn btn-primary">Post</button>
                     </div>
                 </div>
             </form>

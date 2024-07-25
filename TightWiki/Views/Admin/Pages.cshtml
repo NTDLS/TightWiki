@@ -35,14 +35,15 @@
 
 @using (Html.BeginForm(FormMethod.Get))
 {
-    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
-        <tr>
-            <td width="80%">
-                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
-            </td>
-            <td colspan="2"><button type="submit" class="btn btn-outline-primary rounded-0 btn-sm">Search</button></td>
-        </tr>
-    </table>
+    <div class="container">
+        <div class="d-flex justify-content-end mb-4">
+            <div class="flex-grow-1 me-2">
+                @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+    <br />
 
     @if (Model.Pages.Count > 0)
     {
