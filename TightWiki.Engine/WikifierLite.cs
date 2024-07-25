@@ -240,7 +240,7 @@ namespace TightWiki.Engine
                         linkText = page.Name;
                     }
 
-                    pageContent.Replace(match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
+                    pageContent.Replace(match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else
                 {
@@ -280,7 +280,7 @@ namespace TightWiki.Engine
 
             var linkText = arguments[1];
 
-            string compareString = Strings.RemoveWhitespace(linkText.ToLower());
+            string compareString = Text.RemoveWhitespace(linkText.ToLower());
 
             //Internal page attached image:
             if (compareString.StartsWith("img="))

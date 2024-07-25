@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
-    <PackageReference Include="NTDLS.Helpers" Version="1.0.6" />
+    <PackageReference Include="NTDLS.Helpers" Version="1.1.0" />
     <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.1" />
     <PackageReference Include="PhotoSauce.MagicScaler" Version="0.14.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />

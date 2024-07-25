@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
+using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Types;
 using TightWiki.EngineFunction;
 using TightWiki.Library;
@@ -661,7 +662,7 @@ namespace TightWiki.Engine
 
             var linkText = arguments[1];
 
-            string compareString = Strings.RemoveWhitespace(linkText.ToLower());
+            string compareString = Text.RemoveWhitespace(linkText.ToLower());
 
             //Internal page attached image:
             if (compareString.StartsWith("image="))
@@ -970,7 +971,7 @@ namespace TightWiki.Engine
                         linkText = page.Name;
                     }
 
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}") + $"\">{linkText}</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
                 else if (_sessionState?.CanCreate == true)
                 {
@@ -984,7 +985,7 @@ namespace TightWiki.Engine
                     }
 
                     linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{pageNavigation}/Edit/") + $"?Name={pageName}\">{linkText}</a>");
+                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{pageNavigation}/Edit/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
@@ -1448,7 +1449,7 @@ namespace TightWiki.Engine
                     case "editlink": //(##EditLink(link text))
                         {
                             var linkText = function.Parameters.Get<string>("linkText");
-                            StoreMatch(function, pageContent, match.Value, "<a href=\"" + WikiUtility.CleanFullURI($"/{_page.Navigation}/Edit") + $"\">{linkText}</a>");
+                            StoreMatch(function, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{_page.Navigation}/Edit") + $"\">{linkText}</a>");
                         }
                         break;
                     //------------------------------------------------------------------------------------------------------------------------------
@@ -2308,7 +2309,7 @@ namespace TightWiki.Engine
                             var top = function.Parameters.Get<int>("Top");
                             string seedTag = function.Parameters.Get<string>("pageTag");
 
-                            string cloudHtml = WikiUtility.BuildTagCloud(seedTag, top);
+                            string cloudHtml = TagCloud.Build(seedTag, top);
                             StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
                         break;
@@ -2319,7 +2320,7 @@ namespace TightWiki.Engine
                             var top = function.Parameters.Get<int>("Top");
                             var tokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
 
-                            string cloudHtml = WikiUtility.BuildSearchCloud(tokens, top);
+                            string cloudHtml = SearchCloud.Build(tokens, top);
                             StoreMatch(function, pageContent, match.Value, cloudHtml);
                         }
                         break;
@@ -2486,7 +2487,7 @@ namespace TightWiki.Engine
             };
             Matches.Add(identifier, matchSet);
 
-            var pageContentCopy = WikiUtility.ReplaceFirst(pageContent.ToString(), match, identifier);
+            var pageContentCopy = Text.ReplaceFirstOccurrence(pageContent.ToString(), match, identifier);
             pageContent.Clear();
             pageContent.Append(pageContentCopy);
 

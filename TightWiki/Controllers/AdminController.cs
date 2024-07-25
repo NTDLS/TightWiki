@@ -1560,7 +1560,7 @@ namespace TightWiki.Site.Controllers
             {
                 Id = model.Emoji.Id,
                 Name = model.Emoji.Name.ToLowerInvariant(),
-                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {WikiUtility.SeperateCamelCase(model.Emoji.Name)}")
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {Text.SeperateCamelCase(model.Emoji.Name)}")
             };
 
             var file = Request.Form.Files["ImageData"];
@@ -1640,7 +1640,7 @@ namespace TightWiki.Site.Controllers
             {
                 Id = model.Id,
                 Name = model.Name.ToLowerInvariant(),
-                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {WikiUtility.SeperateCamelCase(model.Name)}")
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {Text.SeperateCamelCase(model.Name)}")
             };
 
             var file = Request.Form.Files["ImageData"];

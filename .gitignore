@@ -72,3 +72,7 @@ MarkdigTester/
 TightWiki.Engine.Types/obj/
 
 TightWiki.Engine.Types/bin/
+
+TightWiki.Engine.Implementation/bin/
+
+TightWiki.Engine.Implementation/obj/
