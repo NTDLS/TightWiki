@@ -6,12 +6,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
+using TightWiki.Engine.Types;
+using TightWiki.EngineFunction;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using TightWiki.Wiki.Function;
+using static TightWiki.Engine.Types.Constants;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine

@@ -62,3 +62,11 @@ TightWiki.Security/obj/
 DummyPageGenerator/bin/
 
 DummyPageGenerator/obj/
+
+TightWiki.Engine.Function/bin/
+
+TightWiki.Engine.Function/obj/
+
+MarkdigTester/
+
+TightWiki.Engine.Types/obj/

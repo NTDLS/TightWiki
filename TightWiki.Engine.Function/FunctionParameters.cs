@@ -1,6 +1,6 @@
-﻿using TightWiki.Library;
+﻿using NTDLS.Helpers;
 
-namespace TightWiki.Wiki.Function
+namespace TightWiki.EngineFunction
 {
     public class FunctionParameters
     {
@@ -28,10 +28,10 @@ namespace TightWiki.Wiki.Function
                 if (value == null)
                 {
                     var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name.ToLower()).First();
-                    return Utility.ConvertTo<T>(prototype.DefaultValue) ?? throw new Exception("Value cannot be null");
+                    return Converters.ConvertTo<T>(prototype.DefaultValue) ?? throw new Exception("Value cannot be null");
                 }
 
-                return Utility.ConvertTo<T>(value) ?? throw new Exception("Value cannot be null");
+                return Converters.ConvertTo<T>(value) ?? throw new Exception("Value cannot be null");
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace TightWiki.Wiki.Function
                     return defaultValue;
                 }
 
-                return Utility.ConvertTo<T>(value) ?? throw new Exception("Value cannot be null");
+                return Converters.ConvertTo<T>(value) ?? throw new Exception("Value cannot be null");
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@ namespace TightWiki.Wiki.Function
             try
             {
                 var values = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase))?
-                    .Select(o => Utility.ConvertTo<T>(o.Value) ?? throw new Exception("Value cannot be null"))?.ToList();
+                    .Select(o => Converters.ConvertTo<T>(o.Value) ?? throw new Exception("Value cannot be null"))?.ToList();
 
                 return values ?? new List<T>();
             }

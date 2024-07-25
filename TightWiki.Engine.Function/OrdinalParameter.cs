@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Wiki.Function
+﻿namespace TightWiki.EngineFunction
 {
     public class OrdinalParameter
     {

@@ -38,7 +38,7 @@ namespace TightWiki.Library
         public static List<string> SplitToTokens(string? tokenString)
         {
             var tokens = (tokenString ?? string.Empty).Trim().ToLower()
-                .Split(new char[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
+                .Split([' ', ',', '\t'], StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
             return tokens;
         }
 
@@ -52,7 +52,6 @@ namespace TightWiki.Library
 
             return checksum % int.MaxValue;
         }
-
 
         public static int SimpleChecksum(byte[] input)
         {
@@ -76,68 +75,6 @@ namespace TightWiki.Library
             using var stream = image.OpenReadStream();
             using BinaryReader reader = new BinaryReader(stream);
             return reader.ReadBytes((int)image.Length);
-        }
-
-        public static T ConvertTo<T>(string? value, T defaultValue)
-            => ConvertTo<T>(value) ?? defaultValue;
-
-        public static T? ConvertTo<T>(string? value)
-        {
-            if (value == null)
-            {
-                return default;
-            }
-
-            if (typeof(T) == typeof(string))
-            {
-                return (T)Convert.ChangeType(value, typeof(T));
-            }
-            else if (typeof(T) == typeof(int))
-            {
-                if (int.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Error converting value [{value}] to integer.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else if (typeof(T) == typeof(float))
-            {
-                if (float.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Error converting value [{value}] to float.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else if (typeof(T) == typeof(double))
-            {
-                if (double.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Error converting value [{value}] to double.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else if (typeof(T) == typeof(bool))
-            {
-                value = value.ToLower();
-
-                if (value.All(char.IsNumber))
-                {
-                    if (int.Parse(value) != 0)
-                        value = "true";
-                    else
-                        value = "false";
-                }
-
-                if (bool.TryParse(value, out var parsedResult) == false)
-                {
-                    throw new Exception($"Error converting value [{value}] to boolean.");
-                }
-                return (T)Convert.ChangeType(parsedResult, typeof(T));
-            }
-            else
-            {
-                throw new Exception($"Unsupported conversion type.");
-            }
         }
 
         public static byte[] Compress(byte[]? data)

@@ -1,4 +1,4 @@
-﻿using TightWiki.Library;
+﻿using NTDLS.Helpers;
 
 namespace TightWiki.Models.DataModels
 {
@@ -14,7 +14,7 @@ namespace TightWiki.Models.DataModels
 
         public T? As<T>()
         {
-            return Utility.ConvertTo<T>(Value);
+            return Converters.ConvertTo<T>(Value);
         }
 
         public T? As<T>(T defaultValue)
@@ -24,7 +24,7 @@ namespace TightWiki.Models.DataModels
                 return defaultValue;
             }
 
-            return Utility.ConvertTo<T>(Value);
+            return Converters.ConvertTo<T>(Value);
         }
 
         public string DataType { get; set; } = string.Empty;

@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine
+﻿namespace TightWiki.Engine.Types
 {
     //Table of contents tag.
     public class TOCTag

@@ -1,7 +1,7 @@
 ﻿using TightWiki.Caching;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
+using static TightWiki.Engine.Types.Constants;
 
 namespace TightWiki.Engine
 {

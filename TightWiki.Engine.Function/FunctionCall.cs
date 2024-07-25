@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Wiki.Function
+﻿namespace TightWiki.EngineFunction
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.

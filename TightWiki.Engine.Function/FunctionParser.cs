@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace TightWiki.Wiki.Function
+namespace TightWiki.EngineFunction
 {
     public static partial class FunctionParser
     {
