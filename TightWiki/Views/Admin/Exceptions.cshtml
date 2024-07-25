@@ -13,52 +13,45 @@
     Server and page exceptions.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will permanently purge all exceptions. Continue?",
-                         "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
-                <br /><br />
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("This will permanently purge all exceptions. Continue?",
+                  "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
+<br />
+<br />
 
-                @using (Html.BeginForm(FormMethod.Get))
-                {
-                    @if (Model.Exceptions.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Id")">Id</a></strong></td>
-                                    <td><strong>Text</strong></td>
-                                    <td><strong>Exception</strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">Date/Time</a></strong></td>
-                                </tr>
-                            </thead>
+@using (Html.BeginForm(FormMethod.Get))
+{
+    @if (Model.Exceptions.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Id")">Id</a></strong></td>
+                    <td><strong>Text</strong></td>
+                    <td><strong>Exception</strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">Date/Time</a></strong></td>
+                </tr>
+            </thead>
 
-                            @foreach (var ex in Model.Exceptions)
-                            {
-                                <tr>
-                                    <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
-                                    <td>@ex.Text</td>
-                                    <td>@ex.ExceptionText</td>
-                                    <td>@ex.CreatedDate</td>
-                                </tr>
-                            }
-                        </table>
+            @foreach (var ex in Model.Exceptions)
+            {
+                <tr>
+                    <td><a href="/Admin/Exception/@ex.Id">@ex.Id</a></td>
+                    <td>@ex.Text</td>
+                    <td>@ex.ExceptionText</td>
+                    <td>@ex.CreatedDate</td>
+                </tr>
+            }
+        </table>
 
-                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                    }
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+}

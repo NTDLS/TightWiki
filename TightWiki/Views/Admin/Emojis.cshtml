@@ -13,60 +13,54 @@
     Global configuration for Emojis.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
+
+<a class="btn btn-outline-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a>
+<br />
+<br />
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
         <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
-
-                <a class="btn btn-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a><br /><br />
-
-                @using (Html.BeginForm(FormMethod.Get))
-                {
-                    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
-                        <tr>
-                            <td width="80%">
-                                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
-                            </td>
-                            <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Search</button></td>
-                        </tr>
-                    </table>
-
-                    @if (Model.Emojis.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">Shortcut</a></strong></td>
-                                    <td><strong>Image</strong></td>
-                                </tr>
-                            </thead>
-
-                            @foreach (var emoji in Model.Emojis)
-                            {
-                                <tr>
-                                    <td><a href="/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
-                                    <td>@emoji.Shortcut</td>
-                                    <td><img src="/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
-                                </tr>
-                            }
-                        </table>
-
-                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                    }
-                }
-
-                <br />
-                <a class="btn btn-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a>
+            <td width="80%">
+                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
             </td>
+            <td colspan="2"><button type="submit" class="btn btn-outline-primary rounded-0 btn-sm">Search</button></td>
         </tr>
-    </tbody>
-</table>
+    </table>
+
+    @if (Model.Emojis.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">Shortcut</a></strong></td>
+                    <td><strong>Image</strong></td>
+                </tr>
+            </thead>
+
+            @foreach (var emoji in Model.Emojis)
+            {
+                <tr>
+                    <td><a href="/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
+                    <td>@emoji.Shortcut</td>
+                    <td><img src="/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
+                </tr>
+            }
+        </table>
+
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+}
+
+<br />
+<a class="btn btn-outline-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a>

@@ -12,50 +12,42 @@
     Various utilities to assist in management of the SQLite database.
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                @using (Html.BeginForm(FormMethod.Get))
-                {
-                    <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <tr>
-                                <td><strong>Name</strong></td>
-                                <td><strong>Version</strong></td>
-                                <td><strong>Size</strong></td>
-                                <td><strong>Action</strong></td>
-                            </tr>
-                        </thead>
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong>Name</strong></td>
+                <td><strong>Version</strong></td>
+                <td><strong>Size</strong></td>
+                <td><strong>Action</strong></td>
+            </tr>
+        </thead>
 
-                        @foreach (var info in Model.Info)
-                        {
-                            <tr>
-                                <td>@info.Name</td>
-                                <td>@info.Version</td>
-                                <td>@NTDLS.Helpers.Formatters.FileSize((long)info.DatabaseSize)</td>
-                                <td>
-                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will optimize the database indexes and structure. Continue?",
-                                             "Optimize", $"/Admin/Database/Optimize/{info.Name}", Context.Request.Path.Value))
-                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?",
-                                             "Vacuum", $"/Admin/Database/Vacuum/{info.Name}", Context.Request.Path.Value))
-                                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will check the database integrity and validate all foreign keys. Continue?",
-                                             "Verify", $"/Admin/Database/Verify/{info.Name}", Context.Request.Path.Value))
-                                </td>
-                            </tr>
-                        }
-                    </table>
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+        @foreach (var info in Model.Info)
+        {
+            <tr>
+                <td>@info.Name</td>
+                <td>@info.Version</td>
+                <td>@NTDLS.Helpers.Formatters.FileSize((long)info.DatabaseSize)</td>
+                <td>
+                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will optimize the database indexes and structure. Continue?",
+                             "Optimize", $"/Admin/Database/Optimize/{info.Name}", Context.Request.Path.Value))
+                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?",
+                             "Vacuum", $"/Admin/Database/Vacuum/{info.Name}", Context.Request.Path.Value))
+                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will check the database integrity and validate all foreign keys. Continue?",
+                             "Verify", $"/Admin/Database/Verify/{info.Name}", Context.Request.Path.Value))
+                </td>
+            </tr>
+        }
+    </table>
+}

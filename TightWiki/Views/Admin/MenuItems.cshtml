@@ -13,51 +13,45 @@
     Global configuration for the site menu.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                <a class="btn btn-success btn-thin" href="/Admin/MenuItem">Add new item</a><br /><br />
+<a class="btn btn-outline-success btn-thin" href="/Admin/MenuItem">Add new item</a>
+<br />
+<br />
 
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-                    @if (Model.Items.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">Link</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">Ordinal</a></strong></td>
-                                </tr>
-                            </thead>
+    @if (Model.Items.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">Link</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">Ordinal</a></strong></td>
+                </tr>
+            </thead>
 
-                            @foreach (var item in Model.Items)
-                            {
-                                <tr>
-                                    <td><a href="/Admin/MenuItem/@item.Id">@item.Name</a></td>
-                                    <td>@item.Link</td>
-                                    <td>@item.Ordinal</td>
-                                </tr>
-                            }
-                        </table>
-                    }
-                }
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td><a href="/Admin/MenuItem/@item.Id">@item.Name</a></td>
+                    <td>@item.Link</td>
+                    <td>@item.Ordinal</td>
+                </tr>
+            }
+        </table>
+    }
+}
 
-                <br />
-                <a class="btn btn-success btn-thin" href="/Admin/MenuItem">Add new item</a>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<br />
+<a class="btn btn-outline-success btn-thin" href="/Admin/MenuItem">Add new item</a>

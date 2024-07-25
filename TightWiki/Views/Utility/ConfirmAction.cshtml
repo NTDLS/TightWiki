@@ -2,6 +2,20 @@
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+
+    string cardClass = "card mb-3";
+    string cardHeaderClass = "card-header";
+
+    if (string.Equals(Model.Style, "Danger", StringComparison.InvariantCultureIgnoreCase))
+    {
+        cardHeaderClass += "bg-danger text-white";
+        cardClass += " border-danger";
+    }
+    if (string.Equals(Model.Style, "Warn", StringComparison.InvariantCultureIgnoreCase))
+    {
+        cardHeaderClass += " bg-warning";
+        cardClass += " border-warning";
+    }
 }
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
@@ -13,8 +27,10 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-<div class="panel panel-danger">
-    <div class="card-header"><strong>Are you sure?</strong></div>
+<div class="@cardClass">
+    <div class="@cardHeaderClass">
+        <strong>Are you sure?</strong>
+    </div>
     <div class="card-body">
 
         @Html.Raw(@Model.Message)<br /><br />

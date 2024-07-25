@@ -4,26 +4,19 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
-    <div class="card-header">
-        <h3>Account Deleted!</h3>
+<div class="card border-danger mb-3">
+    <div class="card-header bg-danger text-white">
+        <strong>Account Deleted!</strong>
     </div>
     <div class="card-body">
-        <table class="fixedTable100" border="0" cellpadding="5">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile..<br /><br />
+        The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile..<br /><br />
 
-                        <br /><br />
-                        @if (TightWiki.Configuration.GlobalConfiguration.AllowSignup == true)
-                        {
-                            @:Not a member? <a href="/Identity/Account/Register">Register as a new user</a>.<br />
-                        }
-                        Already a member? <a href="/Identity/Account/Login">Login</a>.<br />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <br /><br />
+        @if (TightWiki.Configuration.GlobalConfiguration.AllowSignup == true)
+        {
+            @:Not a member? <a href="/Identity/Account/Register">Register as a new user</a>.<br />
+        }
+        Already a member? <a href="/Identity/Account/Login">Login</a>.<br />
+
     </div>
 </div>

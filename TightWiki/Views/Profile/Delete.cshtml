@@ -4,38 +4,35 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<table class="fixedTable100" border="0" cellspacing="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
 
-                @if (string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="panel panel-danger">
-                        <div class="card-header"><strong>Delete account "@Model.AccountName"?</strong></div>
-                        <div class="card-body">
-                            <strong>Deleting "@Model.AccountName" will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account.</strong><br />
-                            You will not be able to revert this deletion.
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                            Are you sure you want to continue with this deletion?<br /><br />
+@if (string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="card border-danger mb-3">
+        <div class="card-header bg-danger text-white">
+            <strong>Delete account "@Model.AccountName"?</strong>
+        </div>
+        <div class="card-body">
+            Deleting "@Model.AccountName" will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account.
+            <strong>You will not be able to revert this action. </strong>
+            <br /><br />
 
-                            @using (Html.BeginForm())
-                            {
-                                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
-                            }
-                        </div>
-                    </div>
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+            Are you sure you want to continue with this deletion?<br /><br />
+
+            @using (Html.BeginForm())
+            {
+                <div class="form-group"><button type="submit" class="btn btn-outline-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-outline-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
+            }
+        </div>
+    </div>
+}
+
 

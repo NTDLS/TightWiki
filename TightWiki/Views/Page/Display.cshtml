@@ -6,16 +6,18 @@
 
 @if (Model.Revision < Model.MostCurrentRevision)
 {
-    <div class="card bg-info mb-3">
-        <div class="card-header"><strong>Viewing a historical version</strong></div>
+    <div class="card border-info mb-3">
+        <div class="card-header bg-info">
+        <strong>Viewing a historical version</strong>
+        </div>
         <div class="card-body">
             <p class="card-text">
                 You are viewing revision @Model.Revision of "@Model.Name" modified by @Model.ModifiedByUserName on @Model.ModifiedDate.<br />
 
-                <a class="btn btn-success btn-thin" href="/@Model.Navigation">View latest revision</a>
+                <a class="btn btn-outline-success btn-thin" href="/@Model.Navigation">View latest revision</a>
                 @if(sessionState.CanModerate)
                 {
-                    <a class="btn btn-warning btn-thin" href="/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
+                    <a class="btn btn-outline-warning btn-thin" href="/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
                 }
             </p>
         </div>

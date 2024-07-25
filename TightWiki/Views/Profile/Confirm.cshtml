@@ -8,26 +8,18 @@
         <h3>Account Email Verification</h3>
     </div>
     <div class="card-body">
-        <table class="fixedTable100" border="0" cellpadding="5">
-            <tbody>
-                <tr>
-                    <td height="52" valign="middle" align="left">
-                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                        {
-                            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                        }
-                        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                        {
-                            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                        }
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+        }
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+        }
 
-                        <p>
-                            Already a member? <a href="/Account/Login">Login</a>.<br />
-                            Forgot your password? @Html.ActionLink("Reset it.", "Forgot", "Account").<br />
-                        </p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <p>
+            Already a member? <a href="/Account/Login">Login</a>.<br />
+            Forgot your password? @Html.ActionLink("Reset it.", "Forgot", "Account").<br />
+        </p>
     </div>
 </div>

@@ -4,8 +4,10 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card bg-warning mb-3">
-    <div class="card-header"><strong>Viewing a deleted page</strong></div>
+<div class="card border-warning mb-3">
+    <div class="card-header bg-warning">
+        <strong>Viewing a deleted page</strong>
+    </div>
     <div class="card-body">
         <p class="card-text">
             You are viewing a page which was deleted on @Model.DeletedDate by @Model.DeletedByUserName.<br />

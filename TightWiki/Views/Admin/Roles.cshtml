@@ -13,44 +13,36 @@
     Global configuration for security roles and membership.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
-                    @if (Model.Roles.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Description")">Description</a></strong></td>
-                                </tr>
-                            </thead>
+    @if (Model.Roles.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Description")">Description</a></strong></td>
+                </tr>
+            </thead>
 
-                            @foreach (var role in Model.Roles)
-                            {
-                                <tr>
-                                    <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
-                                    <td>@role.Description</td>
-                                </tr>
-                            }
-                        </table>
-                    }
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
+                    <td>@role.Description</td>
+                </tr>
+            }
+        </table>
+    }
+}

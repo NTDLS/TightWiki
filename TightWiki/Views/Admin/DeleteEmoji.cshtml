@@ -4,38 +4,33 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                @if (string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="panel panel-danger">
-                        <div class="card-header"><strong>Delete emoji "@Model?.OriginalName"?</strong></div>
-                        <div class="card-body">
-                            <strong>Deleting the emoji "@Model?.OriginalName" will permanently remove the image. Any references to it will be orphaned.</strong><br />
-                            You will not be able to revert this deletion.
+@if (string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="card card-danger border-danger">
+        <div class="card-header bg-danger text-white">
+            <strong>Delete emoji "@Model?.OriginalName"?</strong>
+        </div>
+        <div class="card-body">
+            Deleting the emoji "@Model?.OriginalName" will permanently remove the image. Any references to it will be orphaned.
+            <strong>You will not be able to revert this deletion.</strong>
+            <br /><br />
 
-                            Are you sure you want to continue with this deletion?<br /><br />
+            Are you sure you want to continue with this deletion?<br /><br />
 
-                            @using (Html.BeginForm())
-                            {
-                                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
-                            }
-                        </div>
-                    </div>
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+            @using (Html.BeginForm())
+            {
+                <div class="form-group"><button type="submit" class="btn btn-outline-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-outline-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
+            }
+        </div>
+    </div>
+}
 

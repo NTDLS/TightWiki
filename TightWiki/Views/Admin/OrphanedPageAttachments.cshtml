@@ -13,60 +13,53 @@
     These are all of the page attachments that are no longer attached to any page revision.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all orphaned page attachments. Continue?",
-                         "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
-                <br /><br />
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all orphaned page attachments. Continue?",
+                  "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
+<br />
+<br />
 
-                @using (Html.BeginForm(FormMethod.Get))
-                {
-                    @if (Model.Files.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">Page</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "File")">File</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Size")">Size</a></strong></td>
-                                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                                <td><strong>Action</strong></td>
-                            </tr>
+@using (Html.BeginForm(FormMethod.Get))
+{
+    @if (Model.Files.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">Page</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "File")">File</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Size")">Size</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
+                <td><strong>Action</strong></td>
+            </tr>
 
-                            @foreach (var p in Model.Files)
-                            {
-                                <tr>
-                                    <td>
-                                        @if (string.IsNullOrEmpty(@p.Namespace) == false)
-                                        {
-                                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                                        } <a href="/@p.PageNavigation">@p.PageTitle</a>
-                                    </td>
-                                    <td><a href="/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
-                                    <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
-                                    <td>@p.FileRevision</td>
-                                    <td>
-                                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified attachment. Continue?",
-                                                 "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId, Context.Request.Path.Value))
-                                    </td>
-                                </tr>
-                            }
-                        </table>
+            @foreach (var p in Model.Files)
+            {
+                <tr>
+                    <td>
+                        @if (string.IsNullOrEmpty(@p.Namespace) == false)
+                        {
+                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                        } <a href="/@p.PageNavigation">@p.PageTitle</a>
+                    </td>
+                    <td><a href="/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
+                    <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
+                    <td>@p.FileRevision</td>
+                    <td>
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified attachment. Continue?",
+                                 "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId, Context.Request.Path.Value))
+                    </td>
+                </tr>
+            }
+        </table>
 
-                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                    }
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+}

@@ -12,89 +12,80 @@
     <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> version @Model.ApplicationVersion<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                <h2>General</h2>
-                <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td><strong>Pages</strong></td>
-                        <td><strong>Page Revisions</strong></td>
-                        <td><strong>Page Attachments</strong></td>
-                        <td><strong>Inter-Page Links</strong></td>
-                    </tr>
+<h2>General</h2>
+<table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td><strong>Pages</strong></td>
+        <td><strong>Page Revisions</strong></td>
+        <td><strong>Page Attachments</strong></td>
+        <td><strong>Inter-Page Links</strong></td>
+    </tr>
 
-                    <tr>
-                        <td><a href="/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
-                        <td>@Model.Metrics.PageRevisions.ToString("N0")</td>
-                        <td>@Model.Metrics.PageAttachments.ToString("N0")</td>
-                        <td>@Model.Metrics.IntraLinks.ToString("N0")</td>
-                    </tr>
+    <tr>
+        <td><a href="/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
+        <td>@Model.Metrics.PageRevisions.ToString("N0")</td>
+        <td>@Model.Metrics.PageAttachments.ToString("N0")</td>
+        <td>@Model.Metrics.IntraLinks.ToString("N0")</td>
+    </tr>
 
-                    <tr>
-                        <td><strong>Page Tags</strong></td>
-                        <td><strong>Page Attachment Revisions</strong></td>
-                        <td><strong>Page Search Tokens</strong></td>
-                        <td><strong>Namespaces</strong></td>
-                    </tr>
+    <tr>
+        <td><strong>Page Tags</strong></td>
+        <td><strong>Page Attachment Revisions</strong></td>
+        <td><strong>Page Search Tokens</strong></td>
+        <td><strong>Namespaces</strong></td>
+    </tr>
 
-                    <tr>
-                        <td>@Model.Metrics.PageTags.ToString("N0")</td>
-                        <td>@Model.Metrics.PageAttachmentRevisions.ToString("N0")</td>
-                        <td><a href="/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
-                        <td><a href="/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
-                    </tr>
+    <tr>
+        <td>@Model.Metrics.PageTags.ToString("N0")</td>
+        <td>@Model.Metrics.PageAttachmentRevisions.ToString("N0")</td>
+        <td><a href="/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
+        <td><a href="/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
+    </tr>
 
-                    <tr>
-                        <td><strong>Users</strong></td>
-                        <td><strong>Profiles</strong></td>
-                        <td><strong>Exceptions</strong></td>
-                        <td><strong>&nbsp;</strong></td>
-                    </tr>
+    <tr>
+        <td><strong>Users</strong></td>
+        <td><strong>Profiles</strong></td>
+        <td><strong>Exceptions</strong></td>
+        <td><strong>&nbsp;</strong></td>
+    </tr>
 
-                    <tr>
-                        <td><a href="/Admin/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
-                        <td><a href="/Admin/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
-                        <td><a href="/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
-                        <td>&nbsp;</td>
-                    </tr>
-                </table>
+    <tr>
+        <td><a href="/Admin/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
+        <td><a href="/Admin/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
+        <td><a href="/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
 
-                <h2>Cache</h2>
-                @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?",
-                         "Purge Memory Cache", "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
-                <br />
+<h2>Cache</h2>
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?",
+                  "Purge Memory Cache", "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
+<br />
 
-                <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td><strong>Items</strong></td>
-                        <td><strong>Puts</strong></td>
-                        <td><strong>Gets</strong></td>
-                        <td><strong>Hits</strong></td>
-                        <td><strong>Misses</strong></td>
-                        <td><strong>Limit(MB)</strong></td>
-                    </tr>
-
-                    <tr>
-                        <td>@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>
-                        <td>@TightWiki.Caching.WikiCache.CachePuts.ToString("N0")</td>
-                        <td>@TightWiki.Caching.WikiCache.CacheGets.ToString("N0")</td>
-                        <td>@TightWiki.Caching.WikiCache.CacheHits.ToString("N0")</td>
-                        <td>@TightWiki.Caching.WikiCache.CacheMisses.ToString("N0")</td>
-                        <td>@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Caching.WikiCache.CacheMemoryLimit)</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </tbody>
+<table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td><strong>Items</strong></td>
+        <td><strong>Puts</strong></td>
+        <td><strong>Gets</strong></td>
+        <td><strong>Hits</strong></td>
+        <td><strong>Misses</strong></td>
+        <td><strong>Limit(MB)</strong></td>
+    </tr>
+    <tr>
+        <td>@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>
+        <td>@TightWiki.Caching.WikiCache.CachePuts.ToString("N0")</td>
+        <td>@TightWiki.Caching.WikiCache.CacheGets.ToString("N0")</td>
+        <td>@TightWiki.Caching.WikiCache.CacheHits.ToString("N0")</td>
+        <td>@TightWiki.Caching.WikiCache.CacheMisses.ToString("N0")</td>
+        <td>@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Caching.WikiCache.CacheMemoryLimit)</td>
+    </tr>
 </table>

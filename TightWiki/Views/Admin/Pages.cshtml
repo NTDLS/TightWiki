@@ -13,79 +13,72 @@
     All pages contained in the wiki.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
+
+@Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
+                  "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
+
+@Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
+                  "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
+
+@Html.Raw(ConfirmActionHelper.GenerateDangerLink("Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
+                  "Truncate Page Revisions", "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
+<br />
+<br />
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
         <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
-
-                @Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
-                         "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
-
-                @Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
-                         "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
-
-                @Html.Raw(ConfirmActionHelper.GenerateDangerLink("Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
-                         "Truncate Page Revisions", "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
-                <br /><br />
-
-                @using (Html.BeginForm(FormMethod.Get))
-                {
-                    <table class="fixedTable100" border="0" cellspacing="0" cellpadding="5">
-                        <tr>
-                            <td width="80%">
-                                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
-                            </td>
-                            <td colspan="2"><button type="submit" class="btn btn-primary rounded-0 btn-sm">Search</button></td>
-                        </tr>
-                    </table>
-
-                    @if (Model.Pages.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                                    <td><strong>Deleted Revisions</strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
-                                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
-                                    <td><strong>Action</strong></td>
-                                </tr>
-                            </thead>
-
-                            @foreach (var p in Model.Pages)
-                            {
-                                <tr>
-                                    <td>
-                                        @if (string.IsNullOrEmpty(@p.Namespace) == false)
-                                        {
-                                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                                        } <a href="/@p.Navigation">@p.Title</a>
-                                    </td>
-                                    <td><a href="/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
-                                    <td><a href="/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
-                                    <td>@p.ModifiedByUserName</td>
-                                    <td>@p.ModifiedDate</td>
-                                    <td>
-                                        @Html.Raw(ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
-                                                 "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
-                                    </td>
-                                </tr>
-                            }
-                        </table>
-
-                        @Html.Raw(PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                    }
-                }
+            <td width="80%">
+                @Html.TextBoxFor(x => x.SearchString, new { style = "width:100%" })
             </td>
+            <td colspan="2"><button type="submit" class="btn btn-outline-primary rounded-0 btn-sm">Search</button></td>
         </tr>
-    </tbody>
-</table>
+    </table>
+
+    @if (Model.Pages.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
+                    <td><strong>Deleted Revisions</strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
+                    <td><strong>Action</strong></td>
+                </tr>
+            </thead>
+
+            @foreach (var p in Model.Pages)
+            {
+                <tr>
+                    <td>
+                        @if (string.IsNullOrEmpty(@p.Namespace) == false)
+                        {
+                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                        } <a href="/@p.Navigation">@p.Title</a>
+                    </td>
+                    <td><a href="/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
+                    <td><a href="/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
+                    <td>@p.ModifiedByUserName</td>
+                    <td>@p.ModifiedDate</td>
+                    <td>
+                        @Html.Raw(ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                                 "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
+                    </td>
+                </tr>
+            }
+        </table>
+
+        @Html.Raw(PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+}
