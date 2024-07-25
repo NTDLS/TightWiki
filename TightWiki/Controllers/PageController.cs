@@ -105,6 +105,7 @@ namespace TightWiki.Controllers
                     {
                         model.Comments.Add(new PageComment
                         {
+                            PaginationPageCount = comment.PaginationPageCount,
                             UserNavigation = comment.UserNavigation,
                             Id = comment.Id,
                             UserName = comment.UserName,
@@ -250,6 +251,7 @@ namespace TightWiki.Controllers
             {
                 model.Comments.Add(new PageComment
                 {
+                    PaginationPageCount = comment.PaginationPageCount,
                     UserNavigation = comment.UserNavigation,
                     Id = comment.Id,
                     UserName = comment.UserName,
@@ -312,6 +314,7 @@ namespace TightWiki.Controllers
             {
                 model.Comments.Add(new PageComment
                 {
+                    PaginationPageCount = comment.PaginationPageCount,
                     UserNavigation = comment.UserNavigation,
                     Id = comment.Id,
                     UserName = comment.UserName,
