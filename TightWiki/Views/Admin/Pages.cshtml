@@ -82,4 +82,12 @@
 
         @Html.Raw(PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                Either there are no pages or your search criteria returned no results.
+            </strong>
+        </div>
+    }
 }

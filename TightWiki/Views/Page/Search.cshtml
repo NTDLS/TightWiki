@@ -47,6 +47,15 @@
         }
     </table>
 
+    if (Model.Pages.Count == 0)
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                Your search criteria resulted in no pages, simplify your search text.
+            </strong>
+        </div>
+    }
+
     @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
 }
 

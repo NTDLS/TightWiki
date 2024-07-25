@@ -54,4 +54,12 @@
 
         @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                The exception log is currently empty.
+            </strong>
+        </div>
+    }
 }

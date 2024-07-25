@@ -62,4 +62,12 @@
 
         @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                The selected page does not have any revisions.
+            </strong>
+        </div>
+    }
 }

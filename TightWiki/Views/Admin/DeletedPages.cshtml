@@ -23,7 +23,7 @@
 }
 
 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all deleted pages. Continue?",
-                  "Purge Deleted Pages", "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
+                      "Purge Deleted Pages", "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -68,5 +68,13 @@
         </table>
 
         @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                Either the deleted pages queue is empty or your search criteria returned no results.
+			</strong>
+        </div>
     }
 }

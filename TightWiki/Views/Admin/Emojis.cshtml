@@ -61,6 +61,14 @@
 
         @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                Either there are no emojis configured or your search criteria returned no results.
+            </strong>
+        </div>
+    }
 }
 
 <br />

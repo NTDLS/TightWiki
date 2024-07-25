@@ -12,65 +12,69 @@
     Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc.<br /><br />
 </p>
 
-<table class="fixedTable100" border="0" cellpadding="0">
-    <tbody>
-        <tr>
-            <td height="52" valign="middle" align="left">
-                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-                {
-                    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-                }
-                @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-                {
-                    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-                }
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
+}
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
+}
 
-                @using (Html.BeginForm(FormMethod.Get))
-                {
-                    <table border="0" cellspacing="0" cellpadding="5">
-                        <tr>
-                            <td>
-                                @Html.DropDownListFor(m => m.Instruction,
-                                         new SelectList(Model.Instructions),
-                                         "Select Instruction", new { id = "instructionDropdown" })
-                            </td>
-                            <td colspan="2"><button type="submit" class="btn btn-primary btn-thin rounded-0 btn-sm">Refresh</button></td>
-                        </tr>
-                    </table>
-                    <br />
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                @Html.DropDownListFor(m => m.Instruction,
+                         new SelectList(Model.Instructions),
+                         "Select an instruction",
+                         new { @class = "form-control", id = "instructionDropdown" })
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Refresh</button>
+            </div>
+        </div>
+    </div>
+    <br />
 
-                    @if (Model.Pages.Count > 0)
-                    {
-                        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <td><strong>Name</strong></td>
-                                    <td><strong>Revision</strong></td>
-                                    <td><strong>Modified By</strong></td>
-                                    <td><strong>Modified Date</strong></td>
-                                </tr>
-                            </thead>
+    @if (Model.Pages.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+            <thead>
+                <tr>
+                    <td><strong>Name</strong></td>
+                    <td><strong>Revision</strong></td>
+                    <td><strong>Modified By</strong></td>
+                    <td><strong>Modified Date</strong></td>
+                </tr>
+            </thead>
 
-                            @foreach (var p in Model.Pages)
-                            {
-                                <tr>
-                                    <td><a href="/@p.Navigation">@p.Name</a></td>
-                                    <td><a href="/@p.Navigation/Revisions">@p.Revision</a></td>
-                                    <td>@p.ModifiedByUserName</td>
-                                    <td>@p.ModifiedDate</td>
-                                </tr>
-                            }
-                        </table>
+            @foreach (var p in Model.Pages)
+            {
+                <tr>
+                    <td><a href="/@p.Navigation">@p.Name</a></td>
+                    <td><a href="/@p.Navigation/Revisions">@p.Revision</a></td>
+                    <td>@p.ModifiedByUserName</td>
+                    <td>@p.ModifiedDate</td>
+                </tr>
+            }
+        </table>
 
-                        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-                    }
-                    <script>
-                        document.getElementById("instructionDropdown").addEventListener("change", function () {
-                            this.form.submit();
-                        });
-                    </script>
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                There are no pages which contain the selected processing instruction.
+            </strong>
+        </div>
+    }
+}
+
+<script>
+    document.getElementById("instructionDropdown").addEventListener("change", function () {
+        this.form.submit();
+    });
+</script>

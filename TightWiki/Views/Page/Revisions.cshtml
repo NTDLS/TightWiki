@@ -24,28 +24,39 @@
 
 @using (Html.BeginForm(FormMethod.Get))
 {
-    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-        <thead>
-            <tr>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
-                <td><strong>Summary</strong></td>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var h in Model.Revisions)
-            {
+    @if (Model.Revisions.Count > 0)
+    {
+        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+            <thead>
                 <tr>
-                    <td><a href="/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
-                    <td><a href="/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
-                    <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
-                    <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
+                    <td><strong>Summary</strong></td>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+            <tbody>
+                @foreach (var h in Model.Revisions)
+                {
+                    <tr>
+                        <td><a href="/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                        <td><a href="/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
+                        <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
+                        <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>
+                The selected page does not have any revisions.
+            </strong>
+        </div>
+    }
 }

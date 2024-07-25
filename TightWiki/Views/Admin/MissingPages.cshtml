@@ -46,4 +46,12 @@
 
             @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
         }
+        else
+        {
+            <div class="d-flex small text-muted mb-0">
+                <strong>
+                    There are currently no missing pages being referenced by other wiki pages.
+                </strong>
+            </div>
+        }
     }

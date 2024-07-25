@@ -39,24 +39,34 @@
         @:<a href="/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
     }
 
-    <div class="container mt-4">
-        @foreach (var h in Model.Comments)
-        {
-            <div class="border rounded mb-2 p-2">
-                <p class="mb-1">@Html.Raw(h.Body)</p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center small text-muted mb-0">
-                        <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
-                        <a href="/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
-                        &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
+    if (Model.Comments.Count > 0)
+    {
+        <div class="container mt-4">
+            @foreach (var h in Model.Comments)
+            {
+                <div class="border rounded mb-2 p-2">
+                    <p class="mb-1">@Html.Raw(h.Body)</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center small text-muted mb-0">
+                            <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
+                            <a href="/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
+                            &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
+                        </div>
+                        @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
+                        {
+                            <a href="?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+                        }
                     </div>
-                    @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
-                    {
-                        <a href="?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
-                    }
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="d-flex small text-muted mb-0">
+            <strong>The page does not have any comments, why don't you add one?</strong>
+        </div>
+    }
+
     @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
 }
