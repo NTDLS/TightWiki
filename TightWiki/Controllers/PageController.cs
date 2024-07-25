@@ -81,7 +81,7 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        var wiki = new Wikifier(SessionState, page, pageRevision);
+                        var wiki = Factories.CreateWikifier(SessionState, page, pageRevision);
 
                         model.Body = wiki.ProcessedBody;
 
@@ -93,7 +93,7 @@ namespace TightWiki.Controllers
                 }
                 else
                 {
-                    var wiki = new Wikifier(SessionState, page, pageRevision);
+                    var wiki = Factories.CreateWikifier(SessionState, page, pageRevision);
                     model.Body = wiki.ProcessedBody;
                 }
 
@@ -124,7 +124,7 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, pageRevision);
 
-                var wiki = new Wikifier(SessionState, notExistsPage);
+                var wiki = Factories.CreateWikifier(SessionState, notExistsPage);
                 SessionState.Page.Name = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
@@ -143,7 +143,7 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, null);
 
-                var wiki = new Wikifier(SessionState, notExistsPage);
+                var wiki = Factories.CreateWikifier(SessionState, notExistsPage);
                 SessionState.Page.Name = notExistsPage.Name;
                 model.Body = wiki.ProcessedBody;
 
@@ -351,7 +351,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                WikiHelper.RefreshPageMetadata(page, SessionState);
+                TightWiki.Wiki.Helpers.RefreshPageMetadata(page, SessionState);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -390,7 +390,7 @@ namespace TightWiki.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                p.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                p.ChangeSummary = Engine.Library.Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             if (model.Revisions != null && model.Revisions.Count > 0)
@@ -478,7 +478,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                WikiHelper.UpsertPage(page, SessionState);
+                TightWiki.Wiki.Helpers.UpsertPage(page, SessionState);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
@@ -603,7 +603,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = WikiHelper.UpsertPage(page, SessionState);
+                page.Id = TightWiki.Wiki.Helpers.UpsertPage(page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 
@@ -640,7 +640,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                WikiHelper.UpsertPage(page, SessionState);
+                TightWiki.Wiki.Helpers.UpsertPage(page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 

@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Types
+﻿namespace TightWiki.Engine.Library
 {
     public class Constants
     {
@@ -13,6 +13,14 @@
             Link,
             Heading,
             Literal
+        }
+
+        public enum HandlerResultInstruction
+        {
+            //Do nothing.
+            Skip,
+            //Kill single trailing newline after match.
+            KillTrailingLine
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DuoVia.FuzzyStrings;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
+using TightWiki.Engine.Library;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Shared.Models.Data;

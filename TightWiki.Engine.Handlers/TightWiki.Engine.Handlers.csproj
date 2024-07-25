@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TightWiki.Engine.Library\TightWiki.Engine.Library.csproj" />
+    <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
     <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
     <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
   </ItemGroup>

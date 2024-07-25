@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Models.DataModels
+﻿namespace TightWiki.Engine.Library
 {
     public class NameNav
     {

@@ -76,3 +76,21 @@ TightWiki.Engine.Types/bin/
 TightWiki.Engine.Implementation/bin/
 
 TightWiki.Engine.Implementation/obj/
+
+TightWiki.Engine.Factory/bin/
+
+TightWiki.Engine.Factory/obj/
+
+TightWiki.Engine.Function.Handlers/obj/
+
+TightWiki.Engine.Handlers/bin/
+
+TightWiki.Engine.Handlers/obj/
+
+TightWiki.Engine.Library/bin/
+
+TightWiki.Engine.Library/obj/
+
+TightWiki.Wiki/bin/
+
+TightWiki.Wiki/obj/

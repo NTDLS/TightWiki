@@ -1,7 +1,7 @@
 ﻿using NTDLS.Helpers;
 using System.Text.RegularExpressions;
 using TightWiki.Configuration;
-using TightWiki.Engine.Types;
+using TightWiki.Engine.Library;
 using TightWiki.EngineFunction;
 using TightWiki.Repository;
 

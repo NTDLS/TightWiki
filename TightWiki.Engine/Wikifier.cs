@@ -1,26 +1,25 @@
 ﻿using DuoVia.FuzzyStrings;
 using Microsoft.AspNetCore.Http;
 using NTDLS.Helpers;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
 using TightWiki.Engine.Implementation;
-using TightWiki.Engine.Types;
+using TightWiki.Engine.Library;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
-using TightWiki.Library;
 using TightWiki.Library.Interfaces;
-using TightWiki.Models;
-using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using static TightWiki.Engine.Types.Constants;
+using static TightWiki.Engine.Library.Constants;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine
 {
-    public partial class Wikifier
+    public partial class Wikifier : IWikifier
     {
+        private IFunctionHandler _functionHandler;
+
         public int ErrorCount { get; private set; }
         public int MatchCount { get; private set; }
         public TimeSpan ProcessingTime { get; private set; }
@@ -28,37 +27,40 @@ namespace TightWiki.Engine
         private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
         private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
 
-        public readonly Dictionary<string, string> UserVariables = new();
-        public readonly Dictionary<string, string> Snippets = new();
+        public Dictionary<string, string> Variables { get; } = new();
+        public Dictionary<string, string> Snippets { get; } = new();
+
         public List<NameNav> OutgoingLinks { get; private set; } = new();
         public List<string> ProcessingInstructions { get; private set; } = new();
         public string ProcessedBody { get; private set; } = string.Empty;
-        public List<string> Tags { get; private set; } = new();
+        public List<string> Tags { get; set; } = new();
         public Dictionary<string, MatchSet> Matches { get; private set; } = new();
 
-        private readonly Dictionary<string, int> _sequences = new();
+        public IPage Page { get; }
+        public int? Revision { get; }
+        public IQueryCollection QueryString { get; }
+        public ISessionState? SessionState { get; }
+
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
         private readonly List<TOCTag> _tocTags = new();
-        private readonly Page _page;
-        private readonly int? _revision;
-        private readonly IQueryCollection _queryString;
-        private readonly ISessionState? _sessionState;
         private readonly int _nestLevel;
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
-        public Wikifier(ISessionState? sessionState, Page page, int? revision = null,
+        public Wikifier(IFunctionHandler functionHandler, ISessionState? sessionState, IPage page, int? revision = null,
              WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
 
+            _functionHandler = functionHandler;
+
             _nestLevel = nestLevel;
-            _queryString = sessionState?.QueryString ?? new QueryCollection();
-            _page = page;
-            _revision = revision;
+            QueryString = sessionState?.QueryString ?? new QueryCollection();
+            Page = page;
+            Revision = revision;
             Matches = new Dictionary<string, MatchSet>();
-            _sessionState = sessionState;
+            SessionState = sessionState;
 
             if (omitMatches != null)
             {
@@ -94,9 +96,9 @@ namespace TightWiki.Engine
             var allTokens = new List<WeightedToken>();
 
             allTokens.AddRange(WikiUtility.ParsePageTokens(ProcessedBody, 1));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Description, 1.2));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(Page.Description, 1.2));
             allTokens.AddRange(WikiUtility.ParsePageTokens(string.Join(" ", Tags), 1.4));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(_page.Name, 1.6));
+            allTokens.AddRange(WikiUtility.ParsePageTokens(Page.Name, 1.6));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {
@@ -110,7 +112,7 @@ namespace TightWiki.Engine
 
         private void Transform()
         {
-            var pageContent = new WikiString(_page.Body);
+            var pageContent = new WikiString(Page.Body);
 
             pageContent.Replace("\r\n", "\n");
 
@@ -689,9 +691,9 @@ namespace TightWiki.Engine
                         scale = arguments[2];
                     }
 
-                    if (_revision != null)
+                    if (Revision != null)
                     {
-                        string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
+                        string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{Revision}";
                         linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                     else
@@ -711,14 +713,14 @@ namespace TightWiki.Engine
                         scale = arguments[2];
                     }
 
-                    if (_revision != null)
+                    if (Revision != null)
                     {
-                        string attachmentLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{_revision}";
+                        string attachmentLink = $"/Page/Image/{Page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{Revision}";
                         linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                     else
                     {
-                        string attachmentLink = $"/Page/Image/{_page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
+                        string attachmentLink = $"/Page/Image/{Page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
                         linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
                     }
                 }
@@ -807,13 +809,13 @@ namespace TightWiki.Engine
                     key = sections[0].Trim();
                     var value = sections[1].Trim();
 
-                    if (UserVariables.ContainsKey(key))
+                    if (Variables.ContainsKey(key))
                     {
-                        UserVariables[key] = value;
+                        Variables[key] = value;
                     }
                     else
                     {
-                        UserVariables.Add(key, value);
+                        Variables.Add(key, value);
                     }
 
                     var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
@@ -821,9 +823,9 @@ namespace TightWiki.Engine
                 }
                 else
                 {
-                    if (UserVariables.ContainsKey(key))
+                    if (Variables.ContainsKey(key))
                     {
-                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, UserVariables[key]);
+                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, Variables[key]);
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
 
                     }
@@ -937,7 +939,7 @@ namespace TightWiki.Engine
                 string pageNavigation = NamespaceNavigation.CleanAndValidate(pageName);
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
-                if (page == null && explicitNamespace == false && _page.Namespace != null)
+                if (page == null && explicitNamespace == false && Page.Namespace != null)
                 {
                     if (explicitLinkText.IsNullOrEmpty())
                     {
@@ -945,12 +947,12 @@ namespace TightWiki.Engine
                     }
 
                     //If the page does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    if (string.IsNullOrEmpty(_page.Namespace) == false)
+                    if (string.IsNullOrEmpty(Page.Namespace) == false)
                     {
-                        pageName = $"{_page.Namespace} :: {keyword}";
+                        pageName = $"{Page.Namespace} :: {keyword}";
                     }
 
-                    pageNavigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace} :: {pageNavigation}");
+                    pageNavigation = NamespaceNavigation.CleanAndValidate($"{Page.Namespace} :: {pageNavigation}");
                     page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
                 }
 
@@ -973,7 +975,7 @@ namespace TightWiki.Engine
 
                     StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{pageNavigation}") + $"\">{linkText}</a>");
                 }
-                else if (_sessionState?.CanCreate == true)
+                else if (SessionState?.CanCreate == true)
                 {
                     if (explicitLinkText.Length > 0)
                     {
@@ -1053,7 +1055,7 @@ namespace TightWiki.Engine
                             html.Append($"</tr>");
                             html.Append($"</thead>");
 
-                            string category = _queryString["Category"].ToString();
+                            string category = QueryString["Category"].ToString();
 
                             html.Append($"<tbody>");
 
@@ -1252,999 +1254,30 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                switch (function.Name.ToLower())
+                try
                 {
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary all user profiles.
-                    case "profileglossary":
+                    var result = _functionHandler.Handle(this, function);
+
+                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        continue;
+                    }
+
+                    var identifier = StoreMatch(function, pageContent, match.Value, result.Content);
+
+                    foreach (var instruction in result.Instructions)
+                    {
+                        switch (instruction)
                         {
-                            var html = new StringBuilder();
-                            string refTag = GenerateQueryToken();
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var searchToken = function.Parameters.Get<string>("searchToken");
-                            var topCount = function.Parameters.Get<int>("top");
-                            var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
-
-                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
-                            var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpper()).Distinct();
-
-                            if (profiles.Count() > 0)
-                            {
-                                html.Append("<center>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
-                                }
-                                html.Append("</center>");
-
-                                html.Append("<ul>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
-
-                                    html.Append("<ul>");
-                                    foreach (var profile in profiles.Where(p => p.AccountName.ToLower().StartsWith(alpha.ToLower())))
-                                    {
-                                        html.Append($"<li><a href=\"/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
-                                        html.Append("</li>");
-                                    }
-                                    html.Append("</ul>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of all user profiles.
-                    case "profilelist":
-                        {
-                            var html = new StringBuilder();
-                            string refTag = GenerateQueryToken();
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var searchToken = function.Parameters.Get<string>("searchToken");
-                            var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
-
-                            if (profiles.Count() > 0)
-                            {
-                                html.Append("<ul>");
-
-                                foreach (var profile in profiles)
-                                {
-                                    html.Append($"<li><a href=\"/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
-                                    html.Append("</li>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
-                            {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, profiles.First().PaginationPageCount));
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "attachments":
-                        {
-                            string refTag = GenerateQueryToken();
-
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-
-                            var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", _page.Navigation));
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, _revision);
-                            var html = new StringBuilder();
-
-                            if (attachments.Count() > 0)
-                            {
-                                html.Append("<ul>");
-                                foreach (var file in attachments)
-                                {
-                                    if (_revision != null)
-                                    {
-                                        html.Append($"<li><a href=\"/Page/Binary/{_page.Navigation}/{file.FileNavigation}/{_revision}\">{file.Name}</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append($"<li><a href=\"/Page/Binary/{_page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
-                                    }
-
-                                    if (styleName == "full")
-                                    {
-                                        html.Append($" - ({file.FriendlySize})");
-                                    }
-
-                                    html.Append("</li>");
-                                }
-                                html.Append("</ul>");
-
-                                if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
-                                {
-                                    html.Append(PageSelectorGenerator.Generate(refTag, _queryString, attachments.First().PaginationPageCount));
-                                }
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "revisions":
-                        {
-                            if (_sessionState == null)
-                            {
-                                StoreError(pageContent, match.Value, $"Localization is not supported without SessionState.");
-                                continue;
-                            }
-
-                            string refTag = GenerateQueryToken();
-
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-
-                            var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", _page.Navigation));
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
-                            var html = new StringBuilder();
-
-                            if (revisions.Count() > 0)
-                            {
-                                html.Append("<ul>");
-                                foreach (var item in revisions)
-                                {
-                                    html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {_sessionState.LocalizeDateTime(item.ModifiedDate)}</a>");
-
-                                    if (styleName == "full")
-                                    {
-                                        var thisRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision);
-                                        var prevRev = PageRepository.GetPageRevisionByNavigation(_page.Navigation, item.Revision - 1);
-
-                                        var summaryText = Differentiator.GetComparisonSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
-
-                                        if (summaryText.Length > 0)
-                                        {
-                                            html.Append(" - " + summaryText);
-                                        }
-                                    }
-                                    html.Append("</li>");
-                                }
-                                html.Append("</ul>");
-
-                                if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
-                                {
-                                    html.Append(PageSelectorGenerator.Generate(refTag, _queryString, revisions.First().PaginationPageCount));
-                                }
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "seq": //##Seq({Key})   Inserts a sequence into the document.
-                        {
-                            var key = function.Parameters.Get<string>("Key");
-
-                            if (_sequences.ContainsKey(key) == false)
-                            {
-                                _sequences.Add(key, 0);
-                            }
-
-                            _sequences[key]++;
-
-                            StoreFirstMatch(function, pageContent, match.Value, _sequences[key].ToString());
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "editlink": //(##EditLink(link text))
-                        {
-                            var linkText = function.Parameters.Get<string>("linkText");
-                            StoreMatch(function, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{_page.Navigation}/Edit") + $"\">{linkText}</a>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //injects an un-processed wiki body into the calling page.
-                    case "inject": //(PageName)
-                        {
-                            var navigation = function.Parameters.Get<string>("pageName");
-
-                            var page = WikiUtility.GetPageFromPathInfo(navigation);
-                            if (page != null)
-                            {
-                                pageContent.Replace($"{match.Value}\n", page.Body);
-                            }
-                            else
-                            {
-                                StoreError(pageContent, match.Value, $"The include page was not found: [{navigation}]");
-                            }
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Includes a processed wiki body into the calling page.
-                    case "include": //(PageName)
-                        {
-                            var navigation = function.Parameters.Get<string>("pageName");
-
-                            var page = WikiUtility.GetPageFromPathInfo(navigation);
-                            if (page != null)
-                            {
-                                var wikify = new Wikifier(_sessionState, page, null, _omitMatches.ToArray(), _nestLevel + 1);
-
-                                MergeUserVariables(wikify.UserVariables);
-                                MergeSnippets(wikify.Snippets);
-
-                                var identifier = StoreMatch(function, pageContent, match.Value, wikify.ProcessedBody);
+                            case HandlerResultInstruction.KillTrailingLine:
                                 pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                            }
-                            else
-                            {
-                                StoreError(pageContent, match.Value, $"The include page was not found: [{navigation}]");
-                            }
+                                break;
                         }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "set":
-                        {
-                            var key = function.Parameters.Get<string>("key");
-                            var value = function.Parameters.Get<string>("value");
-
-                            if (UserVariables.ContainsKey(key))
-                            {
-                                UserVariables[key] = value;
-                            }
-                            else
-                            {
-                                UserVariables.Add(key, value);
-                            }
-                            var identifier = StoreMatch(function, pageContent, match.Value, string.Empty);
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "get":
-                        {
-                            var key = function.Parameters.Get<string>("key");
-
-                            if (UserVariables.ContainsKey(key))
-                            {
-                                StoreMatch(function, pageContent, match.Value, UserVariables[key]);
-                            }
-                            else
-                            {
-                                throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
-                            }
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "color":
-                        {
-                            var color = function.Parameters.Get<string>("color");
-                            var text = function.Parameters.Get<string>("text");
-                            StoreMatch(function, pageContent, match.Value, $"<font color=\"{color}\">{text}</font>");
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Associates tags with a page. These are saved with the page and can also be displayed.
-                    case "tag": //##tag(pipe|separated|list|of|tags)
-                        {
-                            var tags = function.Parameters.GetList<string>("pageTags");
-                            Tags.AddRange(tags);
-                            Tags = Tags.Distinct().ToList();
-                            var identifier = StoreMatch(function, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays an image that is attached to the page.
-                    case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
-                        {
-                            string imageName = function.Parameters.Get<string>("name");
-                            string alt = function.Parameters.Get("alttext", imageName);
-                            int scale = function.Parameters.Get<int>("scale");
-
-                            bool explicitNamespace = imageName.Contains("::");
-                            bool isPageForeignImage = false;
-
-                            string navigation = _page.Navigation;
-                            if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
-                            {
-                                string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(function, pageContent, match.Value, image);
-                            }
-                            else if (imageName.Contains('/'))
-                            {
-                                //Allow loading attached images from other pages.
-                                int slashIndex = imageName.IndexOf("/");
-                                navigation = NamespaceNavigation.CleanAndValidate(imageName.Substring(0, slashIndex));
-                                imageName = imageName.Substring(slashIndex + 1);
-                                isPageForeignImage = true;
-                            }
-
-                            if (explicitNamespace == false && _page.Namespace != null)
-                            {
-                                if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), _revision) == null)
-                                {
-                                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{imageName}");
-                                }
-                            }
-
-                            if (_revision != null && isPageForeignImage == false)
-                            {
-                                //Check for isPageForeignImage because we don't version foreign page files.
-                                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{_revision}";
-                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(function, pageContent, match.Value, image);
-                            }
-                            else
-                            {
-                                string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                                string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
-                                StoreMatch(function, pageContent, match.Value, image);
-                            }
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays an file download link
-                    case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
-                        {
-                            string fileName = function.Parameters.Get<string>("name");
-
-                            bool explicitNamespace = fileName.Contains("::");
-                            bool isPageForeignFile = false;
-
-                            string navigation = _page.Navigation;
-                            if (fileName.Contains('/'))
-                            {
-                                //Allow loading attached images from other pages.
-                                int slashIndex = fileName.IndexOf("/");
-                                navigation = NamespaceNavigation.CleanAndValidate(fileName.Substring(0, slashIndex));
-                                fileName = fileName.Substring(slashIndex + 1);
-                                isPageForeignFile = true;
-                            }
-
-                            if (explicitNamespace == false && _page.Namespace != null)
-                            {
-                                if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), _revision) == null)
-                                {
-                                    //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                    navigation = NamespaceNavigation.CleanAndValidate($"{_page.Namespace}::{fileName}");
-                                }
-                            }
-
-                            var attachment = PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), _revision);
-                            if (attachment != null)
-                            {
-                                string alt = function.Parameters.Get("linkText", fileName);
-
-                                if (function.Parameters.Get<bool>("showSize"))
-                                {
-                                    alt += $" ({attachment.FriendlySize})";
-                                }
-
-                                if (_revision != null && isPageForeignFile == false)
-                                {
-                                    //Check for isPageForeignImage because we don't version foreign page files.
-                                    string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}/{_revision}";
-                                    string image = $"<a href=\"{link}\">{alt}</a>";
-                                    StoreMatch(function, pageContent, match.Value, image);
-                                }
-                                else
-                                {
-                                    string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}";
-                                    string image = $"<a href=\"{link}\">{alt}</a>";
-                                    StoreMatch(function, pageContent, match.Value, image);
-                                }
-                            }
-                            else
-                            {
-                                StoreError(pageContent, match.Value, $"File not found [{fileName}]");
-                            }
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of pages that have been recently modified.
-                    case "recentlymodified": //##RecentlyModified(TopCount)
-                        {
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var takeCount = function.Parameters.Get<int>("top");
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            var pages = PageRepository.GetTopRecentlyModifiedPagesInfo(takeCount)
-                                .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Title).ToList();
-
-                            var html = new StringBuilder();
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<ul>");
-                                foreach (var page in pages)
-                                {
-                                    if (showNamespace)
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                    }
-
-                                    if (styleName == "full")
-                                    {
-                                        if (page?.Description?.Length > 0)
-                                        {
-                                            html.Append(" - " + page.Description);
-                                        }
-                                    }
-                                    html.Append("</li>");
-                                }
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary of pages in the specified namespace.
-                    case "namespaceglossary":
-                        {
-                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
-                            var namespaces = function.Parameters.GetList<string>("namespaces");
-
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var topCount = function.Parameters.Get<int>("top");
-                            var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
-                            var html = new StringBuilder();
-                            var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<center>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
-                                }
-                                html.Append("</center>");
-
-                                html.Append("<ul>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
-
-                                    html.Append("<ul>");
-                                    foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
-                                    {
-                                        if (showNamespace)
-                                        {
-                                            html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                        }
-                                        else
-                                        {
-                                            html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                        }
-
-                                        if (styleName == "full")
-                                        {
-                                            if (page?.Description?.Length > 0)
-                                            {
-                                                html.Append(" - " + page.Description);
-                                            }
-                                        }
-                                        html.Append("</li>");
-                                    }
-                                    html.Append("</ul>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of pages by searching the page tags.
-                    case "namespacelist":
-                        {
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var topCount = function.Parameters.Get<int>("top");
-                            var namespaces = function.Parameters.GetList<string>("namespaces");
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
-                            var html = new StringBuilder();
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<ul>");
-
-                                foreach (var page in pages)
-                                {
-                                    if (showNamespace)
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                    }
-
-                                    if (styleName == "full")
-                                    {
-                                        if (page?.Description?.Length > 0)
-                                        {
-                                            html.Append(" - " + page.Description);
-                                        }
-                                    }
-
-                                    html.Append("</li>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary of pages with the specified comma separated tags.
-                    case "tagglossary":
-                        {
-                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
-                            var tags = function.Parameters.GetList<string>("pageTags");
-
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var topCount = function.Parameters.Get<int>("top");
-                            var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
-                            var html = new StringBuilder();
-                            var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<center>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
-                                }
-                                html.Append("</center>");
-
-                                html.Append("<ul>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
-
-                                    html.Append("<ul>");
-                                    foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
-                                    {
-                                        if (showNamespace)
-                                        {
-                                            html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                        }
-                                        else
-                                        {
-                                            html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                        }
-
-                                        if (styleName == "full")
-                                        {
-                                            if (page?.Description?.Length > 0)
-                                            {
-                                                html.Append(" - " + page.Description);
-                                            }
-                                        }
-                                        html.Append("</li>");
-                                    }
-                                    html.Append("</ul>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a glossary by searching page's body text for the specified comma separated list of words.
-                    case "textglossary":
-                        {
-                            string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
-                            var searchTokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-                            var topCount = function.Parameters.Get<int>("top");
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            var pages = PageRepository.PageSearch(searchTokens).Take(topCount).OrderBy(o => o.Name).ToList();
-                            var html = new StringBuilder();
-                            var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<center>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<a href=\"#" + glossaryName + "_" + alpha + "\">" + alpha + "</a>&nbsp;");
-                                }
-                                html.Append("</center>");
-
-                                html.Append("<ul>");
-                                foreach (var alpha in alphabet)
-                                {
-                                    html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
-
-                                    html.Append("<ul>");
-                                    foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
-                                    {
-                                        if (showNamespace)
-                                        {
-                                            html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                        }
-                                        else
-                                        {
-                                            html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                        }
-
-                                        if (styleName == "full")
-                                        {
-                                            if (page?.Description?.Length > 0)
-                                            {
-                                                html.Append(" - " + page.Description);
-                                            }
-                                        }
-                                        html.Append("</li>");
-                                    }
-                                    html.Append("</ul>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of pages by searching the page body for the specified text.
-                    case "searchlist":
-                        {
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            string refTag = GenerateQueryToken();
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            var allowFuzzyMatching = function.Parameters.Get<bool>("allowFuzzyMatching");
-                            var searchTokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            var pages = PageRepository.PageSearchPaged(searchTokens, pageNumber, pageSize, allowFuzzyMatching);
-                            var html = new StringBuilder();
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<ul>");
-
-                                foreach (var page in pages)
-                                {
-                                    if (showNamespace)
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                    }
-
-                                    if (styleName == "full")
-                                    {
-                                        if (page?.Description?.Length > 0)
-                                        {
-                                            html.Append(" - " + page.Description);
-                                        }
-                                    }
-
-                                    html.Append("</li>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            if (pageSelector && (pageNumber > 1 || (pages.Count > 0 && pages.First().PaginationPageCount > 1)))
-                            {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1));
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Creates a list of pages by searching the page tags.
-                    case "taglist":
-                        {
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var topCount = function.Parameters.Get<int>("top");
-                            var tags = function.Parameters.GetList<string>("pageTags");
-                            var showNamespace = function.Parameters.Get<bool>("showNamespace");
-
-                            var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
-                            var html = new StringBuilder();
-
-                            if (pages.Count() > 0)
-                            {
-                                html.Append("<ul>");
-
-                                foreach (var page in pages)
-                                {
-                                    if (showNamespace)
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
-                                    }
-                                    else
-                                    {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                    }
-
-                                    if (styleName == "full")
-                                    {
-                                        if (page?.Description?.Length > 0)
-                                        {
-                                            html.Append(" - " + page.Description);
-                                        }
-                                    }
-
-                                    html.Append("</li>");
-                                }
-
-                                html.Append("</ul>");
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays a list of other related pages based on tags.
-                    case "similar": //##Similar()
-                        {
-                            string refTag = GenerateQueryToken();
-
-                            var similarity = function.Parameters.Get<int>("similarity");
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var html = new StringBuilder();
-
-                            var pages = PageRepository.GetSimilarPagesPaged(_page.Id, similarity, pageNumber, pageSize);
-
-                            if (styleName == "list")
-                            {
-                                html.Append("<ul>");
-                                foreach (var page in pages)
-                                {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                }
-                                html.Append("</ul>");
-                            }
-                            else if (styleName == "flat")
-                            {
-                                foreach (var page in pages)
-                                {
-                                    if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                }
-                            }
-                            else if (styleName == "full")
-                            {
-                                html.Append("<ul>");
-                                foreach (var page in pages)
-                                {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a> - {page.Description}");
-                                }
-                                html.Append("</ul>");
-                            }
-
-                            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
-                            {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays a list of other related pages based incoming links.
-                    case "related": //##related
-                        {
-                            string refTag = GenerateQueryToken();
-
-                            int pageNumber = int.Parse(_queryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
-                            var pageSize = function.Parameters.Get<int>("pageSize");
-                            var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var html = new StringBuilder();
-
-                            var pages = PageRepository.GetRelatedPagesPaged(_page.Id, pageNumber, pageSize);
-
-                            if (styleName == "list")
-                            {
-                                html.Append("<ul>");
-                                foreach (var page in pages)
-                                {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                }
-                                html.Append("</ul>");
-                            }
-                            else if (styleName == "flat")
-                            {
-                                foreach (var page in pages)
-                                {
-                                    if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/{page.Navigation}\">{page.Title}</a>");
-                                }
-                            }
-                            else if (styleName == "full")
-                            {
-                                html.Append("<ul>");
-                                foreach (var page in pages)
-                                {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a> - {page.Description}");
-                                }
-                                html.Append("</ul>");
-                            }
-
-                            if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
-                            {
-                                html.Append(PageSelectorGenerator.Generate(refTag, _queryString, pages.First().PaginationPageCount));
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the date and time that the current page was last modified.
-                    case "lastmodified":
-                        {
-                            if (_sessionState == null)
-                            {
-                                StoreError(pageContent, match.Value, $"Localization is not supported without SessionState.");
-                                continue;
-                            }
-
-                            DateTime lastModified = DateTime.MinValue;
-                            lastModified = _page.ModifiedDate;
-                            if (lastModified != DateTime.MinValue)
-                            {
-                                var localized = _sessionState.LocalizeDateTime(lastModified);
-                                StoreMatch(function, pageContent, match.Value, $"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
-                            }
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the date and time that the current page was created.
-                    case "created":
-                        {
-                            if (_sessionState == null)
-                            {
-                                StoreError(pageContent, match.Value, $"Localization is not supported without SessionState.");
-                                continue;
-                            }
-
-                            DateTime createdDate = DateTime.MinValue;
-                            createdDate = _page.CreatedDate;
-                            if (createdDate != DateTime.MinValue)
-                            {
-                                var localized = _sessionState.LocalizeDateTime(createdDate);
-                                StoreMatch(function, pageContent, match.Value, $"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
-                            }
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the version of the wiki.
-                    case "appversion":
-                        {
-                            var version = string.Join('.', (Assembly.GetExecutingAssembly()
-                                .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
-
-                            StoreMatch(function, pageContent, match.Value, version);
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the title of the current page.
-                    case "name":
-                        {
-                            StoreMatch(function, pageContent, match.Value, _page.Title);
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the title of the current page in title form.
-                    case "title":
-                        {
-                            StoreMatch(function, pageContent, match.Value, $"<h1>{_page.Title}</h1>");
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the namespace of the current page.
-                    case "namespace":
-                        {
-                            StoreMatch(function, pageContent, match.Value, _page.Namespace ?? string.Empty);
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the namespace of the current page.
-                    case "snippet":
-                        {
-                            string name = function.Parameters.Get<string>("name");
-
-                            if (Snippets.ContainsKey(name))
-                            {
-                                StoreMatch(function, pageContent, match.Value, Snippets[name]);
-                            }
-                            else
-                            {
-                                StoreMatch(function, pageContent, match.Value, string.Empty);
-                            }
-                        }
-                        break;
-
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Inserts empty lines into the page.
-                    case "br":
-                    case "nl":
-                    case "newline": //##NewLine([optional:default=1]count)
-                        {
-                            int count = function.Parameters.Get<int>("Count");
-                            for (int i = 0; i < count; i++)
-                            {
-                                StoreMatch(function, pageContent, match.Value, $"<br />");
-                            }
-                        }
-                        break;
-
-                    //Inserts a horizontal rule
-                    case "hr":
-                        {
-                            int size = function.Parameters.Get<int>("height");
-                            StoreMatch(function, pageContent, match.Value, $"<hr class=\"mt-{size} mb-{size}\">");
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays the navigation text for the current page.
-                    case "navigation":
-                        {
-                            string navigation = _page.Navigation;
-                            if (navigation != string.Empty)
-                            {
-                                StoreMatch(function, pageContent, match.Value, navigation);
-                            }
-                        }
-                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -2402,7 +1435,7 @@ namespace TightWiki.Engine
 
         private void StoreCriticalError(Exception ex)
         {
-            ExceptionRepository.InsertException(ex, $"Page: {_page.Navigation}, Error: {ex.Message}");
+            ExceptionRepository.InsertException(ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
 
             ErrorCount++;
             ProcessedBody = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
@@ -2410,7 +1443,7 @@ namespace TightWiki.Engine
 
         private string StoreError(WikiString pageContent, string match, string value)
         {
-            ExceptionRepository.InsertException($"Page: {_page.Navigation}, Error: {value}");
+            ExceptionRepository.InsertException($"Page: {Page.Navigation}, Error: {value}");
 
             ErrorCount++;
             _matchesPerIteration++;
@@ -2546,7 +1579,7 @@ namespace TightWiki.Engine
         /// Used to generate unique and regenerable query string tokens for page links.
         /// </summary>
         /// <returns></returns>
-        private string GenerateQueryToken()
+        public string GenerateQueryToken()
         {
             _queryTokenState = Security.Helpers.Sha256(Security.Helpers.EncryptString(_queryTokenState, _queryTokenState));
             return $"H{Security.Helpers.Crc32(_queryTokenState)}";
@@ -2581,7 +1614,7 @@ namespace TightWiki.Engine
         {
             foreach (var item in items)
             {
-                UserVariables[item.Key] = item.Value;
+                Variables[item.Key] = item.Value;
             }
         }
 
