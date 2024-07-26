@@ -167,13 +167,16 @@ namespace TightWiki.Engine
 
             TransformComments(pageContent);
             TransformSectionHeadings(pageContent);
-            TransformBlocks(pageContent);
+
+            TransformScopFunctions(pageContent);
+
             TransformVariables(pageContent);
             TransformLinks(pageContent);
             TransformMarkup(pageContent);
             TransformEmoji(pageContent);
-            TransformFunctions(pageContent, true);
-            TransformFunctions(pageContent, false);
+
+            TransformStandardFunctions(pageContent, true);
+            TransformStandardFunctions(pageContent, false);
             TransformProcessingInstructions(pageContent);
 
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
@@ -270,7 +273,7 @@ namespace TightWiki.Engine
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
         /// <param name="pageContent"></param>
-        private void TransformBlocks(WikiString pageContent)
+        private void TransformScopFunctions(WikiString pageContent)
         {
             var content = pageContent.ToString();
 
@@ -301,8 +304,8 @@ namespace TightWiki.Engine
 
                 rawBlock = content.Substring(startPos, endPos - startPos + 2);
                 var transformBlock = new WikiString(rawBlock);
-                TransformBlock(transformBlock, true);
-                TransformBlock(transformBlock, false);
+                TransformScopFunctions(transformBlock, true);
+                TransformScopFunctions(transformBlock, false);
                 content = content.Replace(rawBlock, transformBlock.ToString());
             }
 
@@ -314,8 +317,8 @@ namespace TightWiki.Engine
         /// Transform blocks or sections of code, these are thinks like panels and alerts.
         /// </summary>
         /// <param name="pageContent"></param>
-        /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
-        private void TransformBlock(WikiString pageContent, bool firstBlocks)
+        /// <param name="isFirstChance">Only process early functions (like code blocks)</param>
+        private void TransformScopFunctions(WikiString pageContent, bool isFirstChance)
         {
             // {{([\\S\\s]*)}}
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -328,20 +331,25 @@ namespace TightWiki.Engine
                 FunctionCall function;
 
                 //We are going to mock up a function call:
-                var originalMatchValue = match.Value;
-                match.Value = "##" + match.Value.Trim(new char[] { ' ', '\t', '{', '}' });
+                string mockFunctionCall = "##" + match.Value.Trim([' ', '\t', '{', '}']);
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(_scopeFunctionHandler.Prototypes(), match.Value, out paramEndIndex);
+                    function = FunctionParser.ParseFunctionCall(_scopeFunctionHandler.Prototypes(), mockFunctionCall, out paramEndIndex);
+
+                    var firstChanceFunctions = new string[] { "code" }; //Process these the first time through.
+                    if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
+                    {
+                        continue;
+                    }
                 }
                 catch (Exception ex)
                 {
-                    StoreError(pageContent, originalMatchValue, ex.Message);
+                    StoreError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
-                string scopeBody = match.Value.Substring(paramEndIndex).Trim();
+                string scopeBody = mockFunctionCall.Substring(paramEndIndex).Trim();
 
                 try
                 {
@@ -353,7 +361,7 @@ namespace TightWiki.Engine
                     }
 
                     bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
-                    var identifier = StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, result.Content, allowNestedDecode);
+                    var identifier = StoreMatch(WikiMatchType.Block, pageContent, match.Value, result.Content, allowNestedDecode);
 
                     foreach (var instruction in result.Instructions)
                     {
@@ -827,7 +835,7 @@ namespace TightWiki.Engine
         /// Transform functions is used to call wiki functions such as including template pages, setting tags and displaying images.
         /// </summary>
         /// <param name="pageContent"></param>
-        private void TransformFunctions(WikiString pageContent, bool isFirstChance)
+        private void TransformStandardFunctions(WikiString pageContent, bool isFirstChance)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
