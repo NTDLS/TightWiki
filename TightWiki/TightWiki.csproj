@@ -11,6 +11,11 @@
     <_ContentIncludedByDefault Remove="wwwroot\css\base.css" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="wwwroot\Avatar.png" />
   </ItemGroup>
