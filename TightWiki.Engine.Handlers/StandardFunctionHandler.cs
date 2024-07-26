@@ -10,11 +10,16 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Handlers
 {
-    public class FunctionsHandler : IFunctionHandler
+    public class StandardFunctionHandler : IFunctionHandler
     {
         private readonly Dictionary<string, int> _sequences = new();
 
-        public HandlerResult Handle(IWikifier wikifier, FunctionCall function)
+        public FunctionPrototypeCollection Prototypes()
+        {
+            return StandardFunctionPrototypes.Collection;
+        }
+
+        public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
         {
             switch (function.Name.ToLower())
             {

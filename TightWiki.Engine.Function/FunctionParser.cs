@@ -15,7 +15,7 @@ namespace TightWiki.EngineFunction
         /// <param name="parseEndIndex"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static FunctionCall ParseFunctionCall(string functionCall, out int parseEndIndex)
+        public static FunctionCall ParseFunctionCall(FunctionPrototypeCollection prototypes, string functionCall, out int parseEndIndex)
         {
             var rawArguments = new List<string>();
 
@@ -49,7 +49,7 @@ namespace TightWiki.EngineFunction
                 parseEndIndex = endOfLine + 2;
             }
 
-            var prototype = FunctionPrototypeDefinitions.Get(functionPrefix, functionName);
+            var prototype = prototypes.Get(functionPrefix, functionName);
             if (prototype == null)
             {
                 throw new Exception($"Function ({functionName}) does not have a defined prototype.");

@@ -9,7 +9,12 @@ namespace TightWiki
     {
         public static IWikifier CreateWikifier(ISessionState? sessionState, IPage page, int? pageRevision = null, WikiMatchType[]? omitMatches = null)
         {
-            return new Wikifier(new Engine.Handlers.FunctionsHandler(), sessionState, page, pageRevision, omitMatches);
+            return new Wikifier(
+                new Engine.Handlers.StandardFunctionHandler(),
+                new Engine.Handlers.ScopeFunctionHandler(),
+                new Engine.Handlers.ProcessingInstructionFunctionHandler(),
+                new Engine.Handlers.StandardPostProcessingFunctionHandler(),
+                sessionState, page, pageRevision, omitMatches);
         }
     }
 }

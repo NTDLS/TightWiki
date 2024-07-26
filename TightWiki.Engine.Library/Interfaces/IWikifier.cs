@@ -15,6 +15,9 @@ namespace TightWiki.Engine.Library.Interfaces
         public List<string> ProcessingInstructions { get; }
         public List<NameNav> OutgoingLinks { get; }
         public string ProcessedBody { get; }
+        public List<TOCTag> TableOfContents { get; }
+        public int CurrentNestLevel { get; }
+        public List<string> Headers { get; }
 
         public string GenerateQueryToken();
         public List<WeightedToken> ParsePageTokens();

@@ -5,57 +5,63 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
-using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine
 {
     public partial class Wikifier : IWikifier
     {
-        private IFunctionHandler _functionHandler;
+        private readonly IFunctionHandler _scopeFunctionHandler;
+        private readonly IFunctionHandler _standardFunctionHandler;
+        private readonly IFunctionHandler _processingInstructionHandler;
+        private readonly IFunctionHandler _standardFunctionPostProcessHandler;
+        private string _queryTokenState = Security.Helpers.MachineKey;
+        private int _matchesPerIteration = 0;
+        private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
+        private readonly HashSet<WikiMatchType> _omitMatches = new();
+
+        #region Public properties.
 
         public int ErrorCount { get; private set; }
         public int MatchCount { get; private set; }
         public TimeSpan ProcessingTime { get; private set; }
-
-        private const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
-        private const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
-
         public Dictionary<string, string> Variables { get; } = new();
         public Dictionary<string, string> Snippets { get; } = new();
-
         public List<NameNav> OutgoingLinks { get; private set; } = new();
         public List<string> ProcessingInstructions { get; private set; } = new();
         public string ProcessedBody { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
         public Dictionary<string, MatchSet> Matches { get; private set; } = new();
-
         public IPage Page { get; }
         public int? Revision { get; }
         public IQueryCollection QueryString { get; }
         public ISessionState? SessionState { get; }
+        public List<TOCTag> TableOfContents { get; } = new();
+        public List<string> Headers { get; } = new();
+        public int CurrentNestLevel { get; }
 
-        private string _queryTokenState = Security.Helpers.MachineKey;
-        private int _matchesPerIteration = 0;
-        private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
-        private readonly List<TOCTag> _tocTags = new();
-        private readonly int _nestLevel;
-        private readonly HashSet<WikiMatchType> _omitMatches = new();
+        #endregion
 
-        public Wikifier(IFunctionHandler functionHandler, ISessionState? sessionState, IPage page, int? revision = null,
+        public Wikifier(IFunctionHandler standardFunctionHandler,
+            IFunctionHandler scopeFunctionHandler,
+            IFunctionHandler processingInstructionHandler,
+            IFunctionHandler standardFunctionPostProcessHandler,
+            ISessionState? sessionState, IPage page, int? revision = null,
              WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
 
-            _functionHandler = functionHandler;
+            _scopeFunctionHandler = scopeFunctionHandler;
+            _standardFunctionHandler = standardFunctionHandler;
+            _processingInstructionHandler = processingInstructionHandler;
+            _standardFunctionPostProcessHandler = standardFunctionPostProcessHandler;
 
-            _nestLevel = nestLevel;
+            CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
             Page = page;
             Revision = revision;
@@ -145,6 +151,12 @@ namespace TightWiki.Engine
 
             pageContent.Replace(SoftBreak, "\r\n");
             pageContent.Replace(HardBreak, "<br />");
+
+            //Prepend any headers that were added by wiki handlers.
+            foreach (var header in Headers)
+            {
+                pageContent.Insert(0, header);
+            }
 
             ProcessedBody = pageContent.ToString();
         }
@@ -258,7 +270,6 @@ namespace TightWiki.Engine
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
         /// <param name="pageContent"></param>
-        /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlocks(WikiString pageContent)
         {
             var content = pageContent.ToString();
@@ -306,6 +317,7 @@ namespace TightWiki.Engine
         /// <param name="firstBlocks">Only process early functions (like code blocks)</param>
         private void TransformBlock(WikiString pageContent, bool firstBlocks)
         {
+            // {{([\\S\\s]*)}}
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
 
@@ -321,7 +333,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(match.Value, out paramEndIndex);
+                    function = FunctionParser.ParseFunctionCall(_scopeFunctionHandler.Prototypes(), match.Value, out paramEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -331,286 +343,31 @@ namespace TightWiki.Engine
 
                 string scopeBody = match.Value.Substring(paramEndIndex).Trim();
 
-                var html = new StringBuilder();
-
-                bool allowNestedDecode = true;
-
-                if (firstBlocks == true)//Process early blocks, like code because they need to be processed first.
+                try
                 {
-                    switch (function.Name.ToLower())
+                    var result = _scopeFunctionHandler.Handle(this, function, scopeBody);
+
+                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "code":
-                            {
-                                string language = function.Parameters.Get<string>("language");
-                                if (string.IsNullOrEmpty(language) || language?.ToLower() == "auto")
-                                {
-                                    html.Append($"<pre>");
-                                    html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
-                                }
-                                else
-                                {
-                                    html.Append($"<pre class=\"language-{language}\">");
-                                    html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
-                                }
-                                allowNestedDecode = false;
-                            }
-                            break;
-                        default:
-                            continue; //We don't want to replace tags that we cant match because we are only partially matching the possible functions with earlyt matching.
+                        continue;
                     }
-                    StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, html.ToString(), allowNestedDecode);
-                }
-                else if (firstBlocks == false)
-                {
-                    switch (function.Name.ToLower())
+
+                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
+                    var identifier = StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, result.Content, allowNestedDecode);
+
+                    foreach (var instruction in result.Instructions)
                     {
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "stripedtable":
-                        case "table":
-                            {
-                                var hasBorder = function.Parameters.Get<bool>("hasBorder");
-                                var isFirstRowHeader = function.Parameters.Get<bool>("isFirstRowHeader");
-
-                                html.Append($"<table class=\"table");
-
-                                if (function.Name.ToLower() == "stripedtable")
-                                {
-                                    html.Append(" table-striped");
-                                }
-                                if (hasBorder)
-                                {
-                                    html.Append(" table-bordered");
-                                }
-
-                                html.Append($"\">");
-
-                                var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                int rowNumber = 0;
-
-                                foreach (var lineText in lines)
-                                {
-                                    var columns = lineText.Split("||");
-
-                                    if (rowNumber == 0 && isFirstRowHeader)
-                                    {
-                                        html.Append($"<thead>");
-                                    }
-                                    else if (rowNumber == 1 && isFirstRowHeader || rowNumber == 0 && isFirstRowHeader == false)
-                                    {
-                                        html.Append($"<tbody>");
-                                    }
-
-                                    html.Append($"<tr>");
-                                    foreach (var columnText in columns)
-                                    {
-                                        if (rowNumber == 0 && isFirstRowHeader)
-                                        {
-                                            html.Append($"<td><strong>{columnText}</strong></td>");
-                                        }
-                                        else
-                                        {
-                                            html.Append($"<td>{columnText}</td>");
-                                        }
-                                    }
-
-                                    if (rowNumber == 0 && isFirstRowHeader)
-                                    {
-                                        html.Append($"</thead>");
-                                    }
-                                    html.Append($"</tr>");
-
-                                    rowNumber++;
-                                }
-
-                                html.Append($"</tbody>");
-                                html.Append($"</table>");
-
+                        switch (instruction)
+                        {
+                            case HandlerResultInstruction.KillTrailingLine:
+                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                                 break;
-                            }
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "bullets":
-                            {
-                                string type = function.Parameters.Get<string>("type");
-
-                                if (type == "unordered")
-                                {
-                                    var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                    int currentLevel = 0;
-
-                                    foreach (var line in lines)
-                                    {
-                                        int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
-
-                                        if (newIndent < currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel--)
-                                            {
-                                                html.Append($"</ul>");
-                                            }
-                                        }
-                                        else if (newIndent > currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel++)
-                                            {
-                                                html.Append($"<ul>");
-                                            }
-                                        }
-
-                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
-                                    }
-
-                                    for (; currentLevel > 0; currentLevel--)
-                                    {
-                                        html.Append($"</ul>");
-                                    }
-                                }
-                                else if (type == "ordered")
-                                {
-                                    var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                                    int currentLevel = 0;
-
-                                    foreach (var line in lines)
-                                    {
-                                        int newIndent = WikiUtility.StartsWithHowMany(line, '>') + 1;
-
-                                        if (newIndent < currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel--)
-                                            {
-                                                html.Append($"</ol>");
-                                            }
-                                        }
-                                        else if (newIndent > currentLevel)
-                                        {
-                                            for (; currentLevel != newIndent; currentLevel++)
-                                            {
-                                                html.Append($"<ol>");
-                                            }
-                                        }
-
-                                        html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
-                                    }
-
-                                    for (; currentLevel > 0; currentLevel--)
-                                    {
-                                        html.Append($"</ol>");
-                                    }
-                                }
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "definesnippet":
-                            {
-                                string name = function.Parameters.Get<string>("name");
-
-                                if (Snippets.ContainsKey(name))
-                                {
-                                    Snippets[name] = scopeBody;
-                                }
-                                else
-                                {
-                                    Snippets.Add(name, scopeBody);
-                                }
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "alert":
-                            {
-                                string titleText = function.Parameters.Get<string>("titleText");
-                                string style = function.Parameters.Get<string>("styleName").ToLower();
-                                style = style == "default" ? "" : $"alert-{style}";
-
-                                if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
-                                html.Append($"<div class=\"alert {style}\">{scopeBody}</div>");
-                            }
-                            break;
-
-                        case "order":
-                            {
-                                string direction = function.Parameters.Get<string>("direction");
-                                var lines = scopeBody.Split("\n").Select(o => o.Trim()).ToList();
-
-                                if (direction == "ascending")
-                                {
-                                    html.Append(string.Join("\r\n", lines.OrderBy(o => o)));
-                                }
-                                else
-                                {
-                                    html.Append(string.Join("\r\n", lines.OrderByDescending(o => o)));
-                                }
-                            }
-                            break;
-
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "jumbotron":
-                            {
-                                string titleText = function.Parameters.Get("titleText", "");
-                                html.Append($"<div class=\"mt-4 p-5 bg-secondary text-white rounded\">");
-                                if (!string.IsNullOrEmpty(titleText)) html.Append($"<h1>{titleText}</h1>");
-                                html.Append($"<p>{scopeBody}</p>");
-                                html.Append($"</div>");
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "foreground":
-                            {
-                                var style = WikiUtility.GetForegroundStyle(function.Parameters.Get("styleName", "default")).Swap();
-                                html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "background":
-                            {
-                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
-                                html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "collapse":
-                            {
-                                string linkText = function.Parameters.Get<string>("linktext");
-                                string uid = "A" + Guid.NewGuid().ToString().Replace("-", "");
-                                html.Append($"<a data-bs-toggle=\"collapse\" href=\"#{uid}\" role=\"button\" aria-expanded=\"false\" aria-controls=\"{uid}\">{linkText}</a>");
-                                html.Append($"<div class=\"collapse\" id=\"{uid}\">");
-                                html.Append($"<div class=\"card card-body\"><p class=\"card-text\">{scopeBody}</p></div></div>");
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "callout":
-                            {
-                                string titleText = function.Parameters.Get<string>("titleText");
-                                string style = function.Parameters.Get<string>("styleName").ToLower();
-                                style = style == "default" ? "" : style;
-
-                                html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
-                                if (string.IsNullOrWhiteSpace(titleText) == false) html.Append($"<h4>{titleText}</h4>");
-                                html.Append($"{scopeBody}");
-                                html.Append($"</div>");
-                            }
-                            break;
-                        //------------------------------------------------------------------------------------------------------------------------------
-                        case "card":
-                            {
-                                string titleText = function.Parameters.Get<string>("titleText");
-                                var style = WikiUtility.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
-
-                                html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
-                                if (string.IsNullOrEmpty(titleText) == false)
-                                {
-                                    html.Append($"<div class=\"card-header\">{titleText}</div>");
-                                }
-                                html.Append("<div class=\"card-body\">");
-                                html.Append($"<p class=\"card-text\">{scopeBody}</p>");
-                                html.Append("</div>");
-                                html.Append("</div>");
-                            }
-                            break;
+                        }
                     }
-                    StoreMatch(WikiMatchType.Block, pageContent, originalMatchValue, html.ToString(), allowNestedDecode);
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -637,7 +394,7 @@ namespace TightWiki.Engine
                 }
                 if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
-                    string tag = _tocName + "_" + _tocTags.Count().ToString();
+                    string tag = _tocName + "_" + TableOfContents.Count().ToString();
                     string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
 
                     int fontSize = 8 - headingMarkers;
@@ -645,7 +402,7 @@ namespace TightWiki.Engine
 
                     string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (headingMarkers - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
                     StoreMatch(WikiMatchType.Heading, pageContent, match.Value, link);
-                    _tocTags.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
+                    TableOfContents.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
                 }
             }
         }
@@ -1019,6 +776,7 @@ namespace TightWiki.Engine
         /// <param name="pageContent"></param>
         private void TransformProcessingInstructions(WikiString pageContent)
         {
+            // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
@@ -1028,7 +786,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(_processingInstructionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1036,190 +794,31 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                switch (function.Name.ToLower())
+                try
                 {
-                    //We check _nestLevel here because we don't want to include the processing instructions on any parent pages that are injecting this one.
+                    var result = _processingInstructionHandler.Handle(this, function, string.Empty);
 
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "systememojilist":
+                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        continue;
+                    }
+
+                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
+                    var identifier = StoreMatch(function, pageContent, match.Value, result.Content, allowNestedDecode);
+
+                    foreach (var instruction in result.Instructions)
+                    {
+                        switch (instruction)
                         {
-                            StringBuilder html = new();
-
-                            html.Append($"<table class=\"table table-striped table-bordered \">");
-
-                            html.Append($"<thead>");
-                            html.Append($"<tr>");
-                            html.Append($"<td><strong>Name</strong></td>");
-                            html.Append($"<td><strong>Image</strong></td>");
-                            html.Append($"<td><strong>Shortcut</strong></td>");
-                            html.Append($"</tr>");
-                            html.Append($"</thead>");
-
-                            string category = QueryString["Category"].ToString();
-
-                            html.Append($"<tbody>");
-
-                            if (string.IsNullOrWhiteSpace(category) == false)
-                            {
-                                var emojis = EmojiRepository.GetEmojisByCategory(category);
-
-                                foreach (var emoji in emojis)
-                                {
-                                    html.Append($"<tr>");
-                                    html.Append($"<td>{emoji.Name}</td>");
-                                    //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
-                                    html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
-                                    html.Append($"<td>{emoji.Shortcut}</td>");
-                                    html.Append($"</tr>");
-                                }
-                            }
-
-                            html.Append($"</tbody>");
-                            html.Append($"</table>");
-
-
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, html.ToString(), false);
+                            case HandlerResultInstruction.KillTrailingLine:
+                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                                break;
                         }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "systememojicategorylist":
-                        {
-                            var categories = EmojiRepository.GetEmojiCategoriesGrouped();
-
-                            StringBuilder html = new();
-
-                            html.Append($"<table class=\"table table-striped table-bordered \">");
-
-                            int rowNumber = 0;
-
-                            html.Append($"<thead>");
-                            html.Append($"<tr>");
-                            html.Append($"<td><strong>Name</strong></td>");
-                            html.Append($"<td><strong>Count of Emojis</strong></td>");
-                            html.Append($"</tr>");
-                            html.Append($"</thead>");
-
-                            foreach (var category in categories)
-                            {
-                                if (rowNumber == 1)
-                                {
-                                    html.Append($"<tbody>");
-                                }
-
-                                html.Append($"<tr>");
-                                html.Append($"<td><a href=\"/wiki_help::list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
-                                html.Append($"<td>{category.EmojiCount:N0}</td>");
-                                html.Append($"</tr>");
-                                rowNumber++;
-                            }
-
-                            html.Append($"</tbody>");
-                            html.Append($"</table>");
-
-
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, html.ToString(), false);
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "hidefooterlastmodified":
-                        {
-                            ProcessingInstructions.Add(WikiInstruction.HideFooterLastModified);
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "hidefootercomments":
-                        {
-                            ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "nocache":
-                        {
-                            ProcessingInstructions.Add(WikiInstruction.NoCache);
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "deprecate":
-                        {
-                            if (_nestLevel == 0)
-                            {
-                                ProcessingInstructions.Add(WikiInstruction.Deprecate);
-                                pageContent.Insert(0, "<div class=\"alert alert-danger\">This page has been deprecated and will eventually be deleted.</div>");
-                            }
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "protect":
-                        {
-                            if (_nestLevel == 0)
-                            {
-                                bool isSilent = function.Parameters.Get<bool>("isSilent");
-                                ProcessingInstructions.Add(WikiInstruction.Protect);
-                                if (isSilent == false)
-                                {
-                                    pageContent.Insert(0, "<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
-                                }
-                            }
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "template":
-                        {
-                            if (_nestLevel == 0)
-                            {
-                                ProcessingInstructions.Add(WikiInstruction.Template);
-                                pageContent.Insert(0, "<div class=\"alert alert-secondary\">This page is a template and will not appear in indexes or glossaries.</div>");
-                            }
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "review":
-                        {
-                            if (_nestLevel == 0)
-                            {
-                                ProcessingInstructions.Add(WikiInstruction.Review);
-                                pageContent.Insert(0, "<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
-                            }
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "include":
-                        {
-                            if (_nestLevel == 0)
-                            {
-                                ProcessingInstructions.Add(WikiInstruction.Include);
-                                pageContent.Insert(0, "<div class=\"alert alert-secondary\">This page is an include and will not appear in indexes or glossaries.</div>");
-                            }
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "draft":
-                        {
-                            if (_nestLevel == 0)
-                            {
-                                ProcessingInstructions.Add(WikiInstruction.Draft);
-                                pageContent.Insert(0, "<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
-                            }
-                            var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                            pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        }
-                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
                 }
             }
         }
@@ -1240,7 +839,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(_standardFunctionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1248,7 +847,7 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                var firstChanceFunctions = new string[] { "include", "inject" }; //Process these the first time though.
+                var firstChanceFunctions = new string[] { "include", "inject" }; //Process these the first time through.
                 if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
                 {
                     continue;
@@ -1256,14 +855,15 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    var result = _functionHandler.Handle(this, function);
+                    var result = _standardFunctionHandler.Handle(this, function, string.Empty);
 
                     if (result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
                         continue;
                     }
 
-                    var identifier = StoreMatch(function, pageContent, match.Value, result.Content);
+                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
+                    var identifier = StoreMatch(function, pageContent, match.Value, result.Content, allowNestedDecode);
 
                     foreach (var instruction in result.Instructions)
                     {
@@ -1297,7 +897,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(_standardFunctionPostProcessHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -1305,130 +905,32 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                switch (function.Name.ToLower())
+                try
                 {
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Displays a tag link list.
-                    case "tags": //##tags
+                    var result = _standardFunctionPostProcessHandler.Handle(this, function, string.Empty);
+
+                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        continue;
+                    }
+
+                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
+                    //TODO: are these really [WikiMatchType.Instruction]s?
+                    var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, result.Content, allowNestedDecode);
+
+                    foreach (var instruction in result.Instructions)
+                    {
+                        switch (instruction)
                         {
-                            string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                            var html = new StringBuilder();
-
-                            if (styleName == "list")
-                            {
-                                html.Append("<ul>");
-                                foreach (var tag in Tags)
-                                {
-                                    html.Append($"<li><a href=\"/Tag/Browse/{tag}\">{tag}</a>");
-                                }
-                                html.Append("</ul>");
-                            }
-                            else if (styleName == "flat")
-                            {
-                                foreach (var tag in Tags)
-                                {
-                                    if (html.Length > 0) html.Append(" | ");
-                                    html.Append($"<a href=\"/Tag/Browse/{tag}\">{tag}</a>");
-                                }
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
+                            case HandlerResultInstruction.KillTrailingLine:
+                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                                break;
                         }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "tagcloud":
-                        {
-                            var top = function.Parameters.Get<int>("Top");
-                            string seedTag = function.Parameters.Get<string>("pageTag");
-
-                            string cloudHtml = TagCloud.Build(seedTag, top);
-                            StoreMatch(function, pageContent, match.Value, cloudHtml);
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    case "searchcloud":
-                        {
-                            var top = function.Parameters.Get<int>("Top");
-                            var tokens = function.Parameters.Get<string>("searchPhrase").Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
-
-                            string cloudHtml = SearchCloud.Build(tokens, top);
-                            StoreMatch(function, pageContent, match.Value, cloudHtml);
-                        }
-                        break;
-
-                    //------------------------------------------------------------------------------------------------------------------------------
-                    //Diplays a table of contents for the page based on the header tags.
-                    case "toc":
-                        {
-                            bool alphabetized = function.Parameters.Get<bool>("alphabetized");
-
-                            var html = new StringBuilder();
-
-                            var tags = (from t in _tocTags
-                                        orderby t.StartingPosition
-                                        select t).ToList();
-
-                            var unordered = new List<TOCTag>();
-                            var ordered = new List<TOCTag>();
-
-                            if (alphabetized)
-                            {
-                                int level = tags.FirstOrDefault()?.Level ?? 0;
-
-                                foreach (var tag in tags)
-                                {
-                                    if (level != tag.Level)
-                                    {
-                                        ordered.AddRange(unordered.OrderBy(o => o.Text));
-                                        unordered.Clear();
-                                        level = tag.Level;
-                                    }
-
-                                    unordered.Add(tag);
-                                }
-
-                                ordered.AddRange(unordered.OrderBy(o => o.Text));
-                                unordered.Clear();
-
-                                tags = ordered.ToList();
-                            }
-
-                            int currentLevel = 0;
-
-                            foreach (var tag in tags)
-                            {
-                                if (tag.Level > currentLevel)
-                                {
-                                    while (currentLevel < tag.Level)
-                                    {
-                                        html.Append("<ul>");
-                                        currentLevel++;
-                                    }
-                                }
-                                else if (tag.Level < currentLevel)
-                                {
-                                    while (currentLevel > tag.Level)
-                                    {
-
-                                        html.Append("</ul>");
-                                        currentLevel--;
-                                    }
-                                }
-
-                                html.Append("<li><a href=\"#" + tag.HrefTag + "\">" + tag.Text + "</a></li>");
-                            }
-
-                            while (currentLevel > 0)
-                            {
-                                html.Append("</ul>");
-                                currentLevel--;
-                            }
-
-                            StoreMatch(function, pageContent, match.Value, html.ToString());
-                        }
-                        break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
                 }
             }
         }

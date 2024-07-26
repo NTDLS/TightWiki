@@ -2,6 +2,9 @@
 {
     public class Constants
     {
+        public const string SoftBreak = "<!--SoftBreak-->"; //These will remain as \r\n in the final HTML.
+        public const string HardBreak = "<!--HardBreak-->"; //These will remain as <br /> in the final HTML.
+
         public enum WikiMatchType
         {
             Block,
@@ -20,7 +23,8 @@
             //Do nothing.
             Skip,
             //Kill single trailing newline after match.
-            KillTrailingLine
+            KillTrailingLine,
+            DisallowNestedDecode
         }
     }
 }
