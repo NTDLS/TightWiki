@@ -1,4 +1,6 @@
-﻿namespace TightWiki.EngineFunction
+﻿using static TightWiki.EngineFunction.FunctionPrototypeCollection;
+
+namespace TightWiki.EngineFunction
 {
     public static class StandardPostProcessingFunctionPrototypes
     {
@@ -10,7 +12,7 @@
             {
                 if (_collection == null)
                 {
-                    _collection = new FunctionPrototypeCollection();
+                    _collection = new FunctionPrototypeCollection(WikiFunctionType.Instruction);
 
                     //Standard functions:
                     _collection.Add("##Tags: <string>{styleName(Flat,List)}='List'");

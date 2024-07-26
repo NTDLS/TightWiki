@@ -168,7 +168,7 @@ namespace TightWiki.Engine
             TransformComments(pageContent);
             TransformSectionHeadings(pageContent);
 
-            TransformScopFunctions(pageContent);
+            TransformScopeFunctions(pageContent);
 
             TransformVariables(pageContent);
             TransformLinks(pageContent);
@@ -273,7 +273,7 @@ namespace TightWiki.Engine
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
         /// <param name="pageContent"></param>
-        private void TransformScopFunctions(WikiString pageContent)
+        private void TransformScopeFunctions(WikiString pageContent)
         {
             var content = pageContent.ToString();
 
@@ -304,8 +304,8 @@ namespace TightWiki.Engine
 
                 rawBlock = content.Substring(startPos, endPos - startPos + 2);
                 var transformBlock = new WikiString(rawBlock);
-                TransformScopFunctions(transformBlock, true);
-                TransformScopFunctions(transformBlock, false);
+                TransformScopeFunctions(transformBlock, true);
+                TransformScopeFunctions(transformBlock, false);
                 content = content.Replace(rawBlock, transformBlock.ToString());
             }
 
@@ -318,11 +318,13 @@ namespace TightWiki.Engine
         /// </summary>
         /// <param name="pageContent"></param>
         /// <param name="isFirstChance">Only process early functions (like code blocks)</param>
-        private void TransformScopFunctions(WikiString pageContent, bool isFirstChance)
+        private void TransformScopeFunctions(WikiString pageContent, bool isFirstChance)
         {
             // {{([\\S\\s]*)}}
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
+
+            var functionHandler = _scopeFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -335,7 +337,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(_scopeFunctionHandler.Prototypes(), mockFunctionCall, out paramEndIndex);
+                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), mockFunctionCall, out paramEndIndex);
 
                     var firstChanceFunctions = new string[] { "code" }; //Process these the first time through.
                     if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
@@ -353,29 +355,44 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    var result = _scopeFunctionHandler.Handle(this, function, scopeBody);
-
-                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
-                    {
-                        continue;
-                    }
-
-                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
-                    var identifier = StoreMatch(WikiMatchType.Block, pageContent, match.Value, result.Content, allowNestedDecode);
-
-                    foreach (var instruction in result.Instructions)
-                    {
-                        switch (instruction)
-                        {
-                            case HandlerResultInstruction.KillTrailingLine:
-                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                                break;
-                        }
-                    }
+                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Block, pageContent, match.Value, function, scopeBody);
                 }
                 catch (Exception ex)
                 {
                     StoreError(pageContent, match.Value, ex.Message);
+                }
+            }
+        }
+
+        void HandleFunctionAndStoreMatch(IFunctionHandler handler, WikiMatchType matchType, WikiString pageContent, string matchValue, FunctionCall function, string scopeBody)
+        {
+            var result = handler.Handle(this, function, scopeBody);
+
+            if (result.Instructions.Contains(HandlerResultInstruction.Skip))
+            {
+                return;
+            }
+
+            bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
+
+            string identifier;
+
+            if (result.Instructions.Contains(HandlerResultInstruction.OnlyReplaceFirstMatch))
+            {
+                identifier = StoreFirstMatch(matchType, function, pageContent, matchValue, result.Content, allowNestedDecode);
+            }
+            else
+            {
+                identifier = StoreMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
+            }
+
+            foreach (var instruction in result.Instructions)
+            {
+                switch (instruction)
+                {
+                    case HandlerResultInstruction.KillTrailingLine:
+                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                        break;
                 }
             }
         }
@@ -788,13 +805,15 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
+            var functionHandler = _processingInstructionHandler;
+
             foreach (var match in orderedMatches)
             {
                 FunctionCall function;
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(_processingInstructionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -804,25 +823,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    var result = _processingInstructionHandler.Handle(this, function, string.Empty);
-
-                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
-                    {
-                        continue;
-                    }
-
-                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
-                    var identifier = StoreMatch(function, pageContent, match.Value, result.Content, allowNestedDecode);
-
-                    foreach (var instruction in result.Instructions)
-                    {
-                        switch (instruction)
-                        {
-                            case HandlerResultInstruction.KillTrailingLine:
-                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                                break;
-                        }
-                    }
+                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Instruction, pageContent, match.Value, function, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -841,16 +842,20 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
+            var functionHandler = _standardFunctionHandler;
+
             foreach (var match in orderedMatches)
             {
                 FunctionCall function;
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(_standardFunctionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
+                    //TODO: We blow up here because the TOC function is not a standard function, but rather a post processing instruction.
+                    //          We need to be able to handle this without simply skipping it because skipping could cause infinite looping.
                     StoreError(pageContent, match.Value, ex.Message);
                     continue;
                 }
@@ -863,25 +868,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    var result = _standardFunctionHandler.Handle(this, function, string.Empty);
-
-                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
-                    {
-                        continue;
-                    }
-
-                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
-                    var identifier = StoreMatch(function, pageContent, match.Value, result.Content, allowNestedDecode);
-
-                    foreach (var instruction in result.Instructions)
-                    {
-                        switch (instruction)
-                        {
-                            case HandlerResultInstruction.KillTrailingLine:
-                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                                break;
-                        }
-                    }
+                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Function, pageContent, match.Value, function, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -899,13 +886,15 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
+            var functionHandler = _standardFunctionPostProcessHandler;
+
             foreach (var match in orderedMatches)
             {
                 FunctionCall function;
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(_standardFunctionPostProcessHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -915,26 +904,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    var result = _standardFunctionPostProcessHandler.Handle(this, function, string.Empty);
-
-                    if (result.Instructions.Contains(HandlerResultInstruction.Skip))
-                    {
-                        continue;
-                    }
-
-                    bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
-                    //TODO: are these really [WikiMatchType.Instruction]s?
-                    var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, result.Content, allowNestedDecode);
-
-                    foreach (var instruction in result.Instructions)
-                    {
-                        switch (instruction)
-                        {
-                            case HandlerResultInstruction.KillTrailingLine:
-                                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                                break;
-                        }
-                    }
+                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Function, pageContent, match.Value, function, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -1014,7 +984,7 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private string StoreFirstMatch(FunctionCall function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
+        private string StoreFirstMatch(WikiMatchType matchType, FunctionCall function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
             _matchesPerIteration++;
@@ -1023,7 +993,7 @@ namespace TightWiki.Engine
 
             var matchSet = new MatchSet()
             {
-                MatchType = WikiMatchType.Function,
+                MatchType = matchType,
                 Content = value,
                 Function = function,
                 AllowNestedDecode = allowNestedDecode

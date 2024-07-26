@@ -1,4 +1,6 @@
-﻿namespace TightWiki.EngineFunction
+﻿using static TightWiki.EngineFunction.FunctionPrototypeCollection;
+
+namespace TightWiki.EngineFunction
 {
     public static class ScopeFunctionPrototypes
     {
@@ -10,7 +12,7 @@
             {
                 if (_collection == null)
                 {
-                    _collection = new FunctionPrototypeCollection();
+                    _collection = new FunctionPrototypeCollection(WikiFunctionType.Scope);
 
                     //Scope functions:
                     _collection.Add("$$Code: <string>{language(auto,wiki,cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}='auto'");

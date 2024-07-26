@@ -1,4 +1,6 @@
-﻿namespace TightWiki.EngineFunction
+﻿using static TightWiki.EngineFunction.FunctionPrototypeCollection;
+
+namespace TightWiki.EngineFunction
 {
     public static class StandardFunctionPrototypes
     {
@@ -10,7 +12,7 @@
             {
                 if (_collection == null)
                 {
-                    _collection = new FunctionPrototypeCollection();
+                    _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
 
                     //Standard functions:
                     _collection.Add("##Snippet: <string>[name]");

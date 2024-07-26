@@ -18,13 +18,15 @@
             Literal
         }
 
+
         public enum HandlerResultInstruction
         {
             //Do nothing.
             Skip,
             //Kill single trailing newline after match.
             KillTrailingLine,
-            DisallowNestedDecode
+            DisallowNestedDecode,
+            OnlyReplaceFirstMatch
         }
     }
 }

@@ -207,7 +207,10 @@ namespace TightWiki.Engine.Handlers
 
                         _sequences[key]++;
 
-                        return new HandlerResult(_sequences[key].ToString());
+                        return new HandlerResult(_sequences[key].ToString())
+                        {
+                            Instructions = [HandlerResultInstruction.OnlyReplaceFirstMatch]
+                        };
                     }
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "editlink": //(##EditLink(link text))

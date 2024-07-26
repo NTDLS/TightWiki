@@ -2,7 +2,20 @@
 {
     public class FunctionPrototypeCollection
     {
+        public enum WikiFunctionType
+        {
+            Standard,
+            Scope,
+            Instruction
+        }
+
+        public WikiFunctionType FunctionTypes { get; private set; }
         public List<PrototypeSet> Items { get; set; } = new();
+
+        public FunctionPrototypeCollection(WikiFunctionType functionTypes)
+        {
+            FunctionTypes = functionTypes;
+        }
 
         public void Add(string prototypeString)
         {
