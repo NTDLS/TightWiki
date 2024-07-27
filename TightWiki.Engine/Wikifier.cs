@@ -540,7 +540,7 @@ namespace TightWiki.Engine
                     link = args[0];
                     string? text = args[1];
 
-                    string imageTag = "image=";
+                    string imageTag = "image:";
                     string? image = null;
 
                     if (text.StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
@@ -573,7 +573,7 @@ namespace TightWiki.Engine
                     link = args[0];
                     string? text = args[1];
 
-                    string imageTag = "image=";
+                    string imageTag = "image:";
                     string? image = null;
 
                     if (text.StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
@@ -618,7 +618,7 @@ namespace TightWiki.Engine
                     //Page navigation and explicit text (possibly image).
                     pageName = args[0];
 
-                    string imageTag = "image=";
+                    string imageTag = "image:";
                     if (args[1].StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
                     {
                         image = args[1].Substring(imageTag.Length).Trim();
