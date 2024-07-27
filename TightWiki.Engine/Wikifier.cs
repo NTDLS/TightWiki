@@ -893,9 +893,6 @@ namespace TightWiki.Engine
                 }
                 catch (Exception ex)
                 {
-                    //_processingInstructionFunctionHandler
-                    //TODO: We blow up here because the TOC function is not a standard function, but rather a post processing instruction.
-                    //          We need to be able to handle this without simply skipping it because skipping could cause infinite looping.
                     StoreError(pageContent, match.Value, ex.Message);
                     continue;
                 }
