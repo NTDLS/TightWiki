@@ -213,7 +213,7 @@ namespace TightWiki.Engine
             TransformVariables(pageContent); //Moved to handler.
             TransformLinks(pageContent); //TODO: Move.
             TransformMarkup(pageContent); //Moved to handler.
-            TransformEmoji(pageContent); //TODO: Move.
+            TransformEmoji(pageContent); //Moved to handler.
 
             TransformStandardFunctions(pageContent, true); //Moved to handler.
             TransformStandardFunctions(pageContent, false); //Moved to handler.
