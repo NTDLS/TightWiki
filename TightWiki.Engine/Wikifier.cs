@@ -25,6 +25,7 @@ namespace TightWiki.Engine
         private readonly IHeadingHandler _headingHandler;
         private readonly ICommentHandler _commentHandler;
         private readonly IEmojiHandler _emojiHandler;
+        private readonly ILinkHandler _linkHandler;
 
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesStoredPerIteration = 0;
@@ -73,6 +74,7 @@ namespace TightWiki.Engine
             IHeadingHandler headingHandler,
             ICommentHandler commentHandler,
             IEmojiHandler emojiHandler,
+            ILinkHandler linkHandler,
             ISessionState? sessionState, IPage page, int? revision = null,
             WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
@@ -86,6 +88,7 @@ namespace TightWiki.Engine
             _headingHandler = headingHandler;
             _commentHandler = commentHandler;
             _emojiHandler = emojiHandler;
+            _linkHandler = linkHandler;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -134,6 +137,7 @@ namespace TightWiki.Engine
                 _headingHandler,
                 _commentHandler,
                 _emojiHandler,
+                _linkHandler,
                 SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
         }
 
@@ -707,24 +711,30 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+                string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
+                var args = FunctionParser.ParseRawArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
-                    string linkText = args[1];
-                    if (linkText.StartsWith("image=", StringComparison.CurrentCultureIgnoreCase))
+                    link = args[0];
+                    string? text = args[1];
+
+                    string imageTag = "image=";
+                    string? image = null;
+
+                    if (text.StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        linkText = $"<img {linkText} border =\"0\" > ";
+                        image = text.Substring(imageTag.Length).Trim();
+                        text = null;
                     }
 
-                    keyword = args[0];
-
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>", false);
+                    var result = _linkHandler.Handle(this, link, text, image);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>", false);
+                    var result = _linkHandler.Handle(this, link, link, null);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
 
@@ -734,24 +744,30 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+                string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
+                var args = FunctionParser.ParseRawArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
-                    string linkText = args[1];
-                    if (linkText.StartsWith("image=", StringComparison.CurrentCultureIgnoreCase))
+                    link = args[0];
+                    string? text = args[1];
+
+                    string imageTag = "image=";
+                    string? image = null;
+
+                    if (text.StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        linkText = $"<img {linkText} border =\"0\" > ";
+                        image = text.Substring(imageTag.Length).Trim();
+                        text = null;
                     }
 
-                    keyword = args[0];
-
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + linkText + "</a>", false);
+                    var result = _linkHandler.Handle(this, link, text, image);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + keyword + "\">" + keyword + "</a>", false);
+                    var result = _linkHandler.Handle(this, link, link, null);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
 

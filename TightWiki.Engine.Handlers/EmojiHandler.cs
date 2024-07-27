@@ -17,28 +17,19 @@ namespace TightWiki.Engine.Handlers
                 {
                     var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
 
-                    return new HandlerResult(emojiImage) { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
-                    //var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
-                    //pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                    return new HandlerResult(emojiImage);
                 }
                 else
                 {
                     var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
 
-                    return new HandlerResult(emojiImage) { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
-
-                    //var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
-                    //pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                    return new HandlerResult(emojiImage);
                 }
             }
             else
             {
-                return new HandlerResult(key) { Instructions = [HandlerResultInstruction.TruncateTrailingLine, HandlerResultInstruction.DisallowNestedProcessing] };
-                //var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, match.Value, false);
-                //pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                return new HandlerResult(key) { Instructions = [HandlerResultInstruction.DisallowNestedProcessing] };
             }
-
-            return new HandlerResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
         }
     }
 }
