@@ -22,6 +22,7 @@ namespace TightWiki.Engine
         private readonly IFunctionHandler _processingInstructionFunctionHandler;
         private readonly IFunctionHandler _standardPostProcessingFunctionHandler;
         private readonly IMarkupHandler _markupHandler;
+        private readonly IHeadingHandler _headingHandler;
 
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesStoredPerIteration = 0;
@@ -67,8 +68,9 @@ namespace TightWiki.Engine
             IFunctionHandler processingInstructionHandler,
             IFunctionHandler standardFunctionPostProcessHandler,
             IMarkupHandler markupHandler,
+            IHeadingHandler headingHandler,
             ISessionState? sessionState, IPage page, int? revision = null,
-             WikiMatchType[]? omitMatches = null, int nestLevel = 0)
+            WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
             DateTime startTime = DateTime.UtcNow;
 
@@ -77,6 +79,7 @@ namespace TightWiki.Engine
             _processingInstructionFunctionHandler = processingInstructionHandler;
             _standardPostProcessingFunctionHandler = standardFunctionPostProcessHandler;
             _markupHandler = markupHandler;
+            _headingHandler = headingHandler;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -122,6 +125,7 @@ namespace TightWiki.Engine
                 _processingInstructionFunctionHandler,
                 _standardPostProcessingFunctionHandler,
                 _markupHandler,
+                _headingHandler,
                 SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
         }
 
@@ -156,7 +160,7 @@ namespace TightWiki.Engine
             {
             }
 
-            TransformPostProcess(pageContent);
+            TransformPostProcessingFunctions(pageContent);
             TransformWhitespace(pageContent);
 
             int length;
@@ -194,7 +198,7 @@ namespace TightWiki.Engine
             _matchesStoredPerIteration = 0;
 
             TransformComments(pageContent); //TODO: Move.
-            TransformSectionHeadings(pageContent); //TODO: Move.
+            TransformHeadings(pageContent); //Moved to handler.
 
             TransformScopeFunctions(pageContent); //Moved to handler.
 
@@ -205,7 +209,7 @@ namespace TightWiki.Engine
 
             TransformStandardFunctions(pageContent, true); //Moved to handler.
             TransformStandardFunctions(pageContent, false); //Moved to handler.
-            TransformProcessingInstructions(pageContent); //Moved to handler.
+            TransformProcessingInstructionFunctions(pageContent); //Moved to handler.
 
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
             int length;
@@ -485,7 +489,7 @@ namespace TightWiki.Engine
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
         /// <param name="pageContent"></param>
-        void TransformSectionHeadings(WikiString pageContent)
+        void TransformHeadings(WikiString pageContent)
         {
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
@@ -501,17 +505,13 @@ namespace TightWiki.Engine
                     }
                     headingMarkers++;
                 }
-                if (headingMarkers >= 2 && headingMarkers <= 6)
+                if (headingMarkers >= 2)
                 {
-                    string tag = _tocName + "_" + TableOfContents.Count().ToString();
-                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
+                    string link = _tocName + "_" + TableOfContents.Count().ToString();
+                    string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
 
-                    int fontSize = 8 - headingMarkers;
-                    if (fontSize < 5) fontSize = 5;
-
-                    string link = "<font size=\"" + fontSize + "\"><a name=\"" + tag + "\"><span class=\"WikiH" + (headingMarkers - 1).ToString() + "\">" + value + "</span></a></font>\r\n";
-                    StoreMatch(WikiMatchType.Heading, pageContent, match.Value, link);
-                    TableOfContents.Add(new TOCTag(headingMarkers - 1, match.Index, tag, value));
+                    var result = _headingHandler.Handle(this, headingMarkers, link, text);
+                    StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value, result.Content);
                 }
             }
         }
@@ -883,7 +883,7 @@ namespace TightWiki.Engine
         /// Transform processing instructions are used to flag pages for specific needs such as deletion, review, draft, etc.
         /// </summary>
         /// <param name="pageContent"></param>
-        private void TransformProcessingInstructions(WikiString pageContent)
+        private void TransformProcessingInstructionFunctions(WikiString pageContent)
         {
             // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -980,7 +980,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform post-process are functions that must be called after all other transformations. For example, we can't build a table-of-contents until we have parsed the entire page.
         /// </summary>
-        private void TransformPostProcess(WikiString pageContent)
+        private void TransformPostProcessingFunctions(WikiString pageContent)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
