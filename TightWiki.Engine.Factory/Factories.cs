@@ -18,6 +18,7 @@ namespace TightWiki
                 new MarkupHandler(),
                 new HeadingHandler(),
                 new CommentHandler(),
+                new EmojiHandler(),
                 sessionState, page, pageRevision, omitMatches);
         }
     }

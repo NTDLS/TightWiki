@@ -24,6 +24,7 @@ namespace TightWiki.Engine
         private readonly IMarkupHandler _markupHandler;
         private readonly IHeadingHandler _headingHandler;
         private readonly ICommentHandler _commentHandler;
+        private readonly IEmojiHandler _emojiHandler;
 
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesStoredPerIteration = 0;
@@ -71,6 +72,7 @@ namespace TightWiki.Engine
             IMarkupHandler markupHandler,
             IHeadingHandler headingHandler,
             ICommentHandler commentHandler,
+            IEmojiHandler emojiHandler,
             ISessionState? sessionState, IPage page, int? revision = null,
             WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
@@ -83,6 +85,7 @@ namespace TightWiki.Engine
             _markupHandler = markupHandler;
             _headingHandler = headingHandler;
             _commentHandler = commentHandler;
+            _emojiHandler = emojiHandler;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -130,6 +133,7 @@ namespace TightWiki.Engine
                 _markupHandler,
                 _headingHandler,
                 _commentHandler,
+                _emojiHandler,
                 SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
         }
 
@@ -640,30 +644,8 @@ namespace TightWiki.Engine
                     scale = int.Parse(parts[1]); //Image scale.
                 }
 
-                key = $"%%{key}%%";
-
-                var emoji = GlobalConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
-
-                if (GlobalConfiguration.Emojis.Exists(o => o.Shortcut == key))
-                {
-                    if (scale != 100 && scale > 0 && scale <= 500)
-                    {
-                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
-                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
-                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                    }
-                    else
-                    {
-                        var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
-                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, emojiImage);
-                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                    }
-                }
-                else
-                {
-                    var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, match.Value, false);
-                    pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                }
+                var result = _emojiHandler.Handle(this, $"%%{key}%%", scale);
+                StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value, result.Content);
             }
         }
 

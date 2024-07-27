@@ -8,6 +8,7 @@
         public enum WikiMatchType
         {
             Block,
+            Emoji,
             Instruction,
             Comment,
             Variable,
@@ -18,7 +19,6 @@
             Heading,
             Literal
         }
-
 
         public enum HandlerResultInstruction
         {
