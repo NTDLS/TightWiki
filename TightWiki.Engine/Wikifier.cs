@@ -18,8 +18,8 @@ namespace TightWiki.Engine
     {
         private readonly IFunctionHandler _scopeFunctionHandler;
         private readonly IFunctionHandler _standardFunctionHandler;
-        private readonly IFunctionHandler _processingInstructionHandler;
-        private readonly IFunctionHandler _standardFunctionPostProcessHandler;
+        private readonly IFunctionHandler _processingInstructionFunctionHandler;
+        private readonly IFunctionHandler _standardPostProcessingFunctionHandler;
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
@@ -47,6 +47,18 @@ namespace TightWiki.Engine
 
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="standardFunctionHandler">Handler for standard functions</param>
+        /// <param name="scopeFunctionHandler">Handler for scope functions.</param>
+        /// <param name="processingInstructionHandler">Handler for processing instructions.</param>
+        /// <param name="standardFunctionPostProcessHandler">Handler for post process functions.</param>
+        /// <param name="sessionState">The users current state, used for localization.</param>
+        /// <param name="page">The page that is being processed.</param>
+        /// <param name="revision">The revision of the page that is being processed.</param>
+        /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
+        /// <param name="nestLevel">Internal use only, used for recursive processing.</param>
         public Wikifier(IFunctionHandler standardFunctionHandler,
             IFunctionHandler scopeFunctionHandler,
             IFunctionHandler processingInstructionHandler,
@@ -58,8 +70,8 @@ namespace TightWiki.Engine
 
             _scopeFunctionHandler = scopeFunctionHandler;
             _standardFunctionHandler = standardFunctionHandler;
-            _processingInstructionHandler = processingInstructionHandler;
-            _standardFunctionPostProcessHandler = standardFunctionPostProcessHandler;
+            _processingInstructionFunctionHandler = processingInstructionHandler;
+            _standardPostProcessingFunctionHandler = standardFunctionPostProcessHandler;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -95,6 +107,16 @@ namespace TightWiki.Engine
                     ProcessedBody.Length,
                     page.Body.Length);
             }
+        }
+
+        public IWikifier CreateChildWikifier(IPage page)
+        {
+            return new Wikifier(
+                _standardFunctionHandler,
+                _scopeFunctionHandler,
+                _processingInstructionFunctionHandler,
+                _standardPostProcessingFunctionHandler,
+                SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
         }
 
         public List<WeightedToken> ParsePageTokens()
@@ -805,7 +827,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
-            var functionHandler = _processingInstructionHandler;
+            var functionHandler = _processingInstructionFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -886,7 +908,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
-            var functionHandler = _standardFunctionPostProcessHandler;
+            var functionHandler = _standardPostProcessingFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -1087,22 +1109,6 @@ namespace TightWiki.Engine
                 string markup = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
 
                 StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{markup}</{htmlTag}>");
-            }
-        }
-
-        private void MergeUserVariables(Dictionary<string, string> items)
-        {
-            foreach (var item in items)
-            {
-                Variables[item.Key] = item.Value;
-            }
-        }
-
-        private void MergeSnippets(Dictionary<string, string> items)
-        {
-            foreach (var item in items)
-            {
-                Snippets[item.Key] = item.Value;
             }
         }
     }

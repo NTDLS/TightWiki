@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
     <ProjectReference Include="..\TightWiki.Engine.Function\TightWiki.Engine.Function.csproj" />
-    <ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
     <ProjectReference Include="..\TightWiki.Engine.Library\TightWiki.Engine.Library.csproj" />
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
     <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />

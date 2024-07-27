@@ -2,7 +2,7 @@
 using TightWiki.Models;
 using TightWiki.Repository;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Handlers.Utility
 {
     public class SearchCloud
     {

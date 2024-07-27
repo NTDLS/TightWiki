@@ -2,7 +2,6 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using TightWiki.Engine.Library;
-using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine
@@ -20,13 +19,6 @@ namespace TightWiki.Engine
             html.Append("</div>");
             html.Append("</div>");
             return html.ToString();
-        }
-
-        internal static Page? GetPageFromPathInfo(string routeData)
-        {
-            routeData = NamespaceNavigation.CleanAndValidate(routeData);
-            var page = PageRepository.GetPageRevisionByNavigation(routeData);
-            return page;
         }
 
         internal static int StartsWithHowMany(string value, char ch)

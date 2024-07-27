@@ -5,7 +5,7 @@
         public enum WikiFunctionType
         {
             Standard,
-            Scope,
+            Scoped,
             Instruction
         }
 

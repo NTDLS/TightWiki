@@ -11,17 +11,17 @@ namespace TightWiki.Wiki
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static int UpsertPage(Page page, ISessionState? context = null)
+        public static int UpsertPage(Page page, ISessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
             page.Id = PageRepository.SavePage(page);
 
-            RefreshPageMetadata(page, context);
+            RefreshPageMetadata(page, sessionState);
 
             if (isNewlyCreated)
             {
@@ -35,12 +35,12 @@ namespace TightWiki.Wiki
         /// <summary>
         /// Rebuilds the page and writes all aspects to the database.
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static void RefreshPageMetadata(Page page, ISessionState? context = null)
+        public static void RefreshPageMetadata(Page page, ISessionState? sessionState = null)
         {
-            var wikifier = Factories.CreateWikifier(context, page, null, [WikiMatchType.Function]);
+            var wikifier = Factories.CreateWikifier(sessionState, page, null, [WikiMatchType.Function]);
 
             PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);

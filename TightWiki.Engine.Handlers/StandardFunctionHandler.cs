@@ -5,18 +5,87 @@ using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
+using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Handlers
 {
     public class StandardFunctionHandler : IFunctionHandler
     {
         private readonly Dictionary<string, int> _sequences = new();
+        private static FunctionPrototypeCollection? _collection;
 
         public FunctionPrototypeCollection Prototypes()
         {
-            return StandardFunctionPrototypes.Collection;
+            if (_collection == null)
+            {
+                _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
+
+                #region Prototypes.
+
+                _collection.Add("##Snippet: <string>[name]");
+                _collection.Add("##Seq: <string>{key}='Default'");
+                _collection.Add("##Set: <string>[key] | <string>[value]");
+                _collection.Add("##Get: <string>[key]");
+                _collection.Add("##Color: <string>[color] | <string>[text]");
+                _collection.Add("##Tag: <string:infinite>[pageTags]");
+                _collection.Add("##SearchList: <string>[searchPhrase] | <string>{styleName(List,Full)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <bool>{allowFuzzyMatching}='false' | <bool>{showNamespace}='false'");
+                _collection.Add("##TagList: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
+                _collection.Add("##NamespaceGlossary: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
+                _collection.Add("##NamespaceList: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
+                _collection.Add("##TagGlossary: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
+                _collection.Add("##RecentlyModified: <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
+                _collection.Add("##TextGlossary: <string>[searchPhrase] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
+                _collection.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}=''");
+                _collection.Add("##File: <string>[name] | <string>{linkText} | <bool>{showSize}='false'");
+                _collection.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
+                _collection.Add("##Similar: <integer>{similarity}='80' | <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
+                _collection.Add("##EditLink: <string>{linkText}='edit'");
+                _collection.Add("##Inject: <string>[pageName]");
+                _collection.Add("##Include: <string>[pageName]");
+                _collection.Add("##BR: <integer>{Count}='1'");
+                _collection.Add("##HR: <integer>{Height}='1'");
+                _collection.Add("##Revisions:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
+                _collection.Add("##Attachments:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
+                _collection.Add("##Title:");
+                _collection.Add("##Navigation:");
+                _collection.Add("##Name:");
+                _collection.Add("##Namespace:");
+                _collection.Add("##Created:");
+                _collection.Add("##LastModified:");
+                _collection.Add("##AppVersion:");
+                _collection.Add("##ProfileGlossary: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
+                _collection.Add("##ProfileList: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
+
+                #endregion
+            }
+
+            return _collection;
+        }
+
+        private static Page? GetPageFromPathInfo(string routeData)
+        {
+            routeData = NamespaceNavigation.CleanAndValidate(routeData);
+            var page = PageRepository.GetPageRevisionByNavigation(routeData);
+            return page;
+        }
+
+        private void MergeUserVariables(ref IWikifier wikifier, Dictionary<string, string> items)
+        {
+            foreach (var item in items)
+            {
+                wikifier.Variables[item.Key] = item.Value;
+            }
+        }
+
+        private void MergeSnippets(ref IWikifier wikifier, Dictionary<string, string> items)
+        {
+            foreach (var item in items)
+            {
+                wikifier.Snippets[item.Key] = item.Value;
+            }
         }
 
         public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
@@ -219,45 +288,47 @@ namespace TightWiki.Engine.Handlers
                         return new HandlerResult("<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{wikifier.Page.Navigation}/Edit") + $"\">{linkText}</a>");
                     }
 
-                /*
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 //injects an un-processed wiki body into the calling page.
                 case "inject": //(PageName)
                     {
                         var navigation = function.Parameters.Get<string>("pageName");
 
-                        var page = WikiUtility.GetPageFromPathInfo(navigation);
+                        var page = GetPageFromPathInfo(navigation);
                         if (page != null)
                         {
-                            pageContent.Replace($"{match.Value}\n", page.Body);
+                            return new HandlerResult(page.Body)
+                            {
+                                Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            };
                         }
                         throw new Exception($"The include page was not found: [{navigation}]");
 
                     }
-                */
-                /*
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Includes a processed wiki body into the calling page.
                 case "include": //(PageName)
                     {
                         var navigation = function.Parameters.Get<string>("pageName");
 
-                        var page = WikiUtility.GetPageFromPathInfo(navigation);
+                        var page = GetPageFromPathInfo(navigation);
                         if (page != null)
                         {
-                            var wikify = new Wikifier(wikifier.SessionState, page, null, _omitMatches.ToArray(), _nestLevel + 1);
+                            var wikify = wikifier.CreateChildWikifier(page);
 
-                            MergeUserVariables(wikify.UserVariables);
-                            MergeSnippets(wikify.Snippets);
+                            MergeUserVariables(ref wikifier, wikify.Variables);
+                            MergeSnippets(ref wikifier, wikify.Snippets);
 
                             return new HandlerResult(wikify.ProcessedBody)
                             {
-                                Instructions = [HandlerResultInstructions.KillTrailingLine]
+                                Instructions = [HandlerResultInstruction.KillTrailingLine]
                             };
                         }
                         throw new Exception($"The include page was not found: [{navigation}]");
                     }
-                */
+
                 //------------------------------------------------------------------------------------------------------------------------------
 
                 case "set":

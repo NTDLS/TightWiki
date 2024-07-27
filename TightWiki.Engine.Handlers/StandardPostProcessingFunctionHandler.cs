@@ -1,19 +1,34 @@
 ﻿using System.Text;
-using TightWiki.Engine.Implementation;
+using TightWiki.Engine.Handlers.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
 using static TightWiki.Engine.Library.Constants;
+using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Handlers
 {
     public class StandardPostProcessingFunctionHandler : IFunctionHandler
     {
-        private readonly Dictionary<string, int> _sequences = new();
+        private static FunctionPrototypeCollection? _collection;
 
         public FunctionPrototypeCollection Prototypes()
         {
-            return StandardPostProcessingFunctionPrototypes.Collection;
+            if (_collection == null)
+            {
+                _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
+
+                #region Prototypes.
+
+                _collection.Add("##Tags: <string>{styleName(Flat,List)}='List'");
+                _collection.Add("##TagCloud: <string>[pageTag] | <integer>{Top}='1000'");
+                _collection.Add("##SearchCloud: <string>[searchPhrase] | <integer>{Top}='1000'");
+                _collection.Add("##TOC:<bool>{alphabetized}='false'");
+
+                #endregion
+            }
+
+            return _collection;
         }
 
         public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)

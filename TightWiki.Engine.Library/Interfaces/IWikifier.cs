@@ -21,5 +21,6 @@ namespace TightWiki.Engine.Library.Interfaces
 
         public string GenerateQueryToken();
         public List<WeightedToken> ParsePageTokens();
+        public IWikifier CreateChildWikifier(IPage page);
     }
 }

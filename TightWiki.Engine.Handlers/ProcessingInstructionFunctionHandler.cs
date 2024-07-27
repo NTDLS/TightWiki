@@ -4,17 +4,41 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
+using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Handlers
 {
     public class ProcessingInstructionFunctionHandler : IFunctionHandler
     {
-        private readonly Dictionary<string, int> _sequences = new();
+        private static FunctionPrototypeCollection? _collection;
 
         public FunctionPrototypeCollection Prototypes()
         {
-            return ProcessingInstructionFunctionPrototypes.Collection;
+            if (_collection == null)
+            {
+                _collection = new FunctionPrototypeCollection(WikiFunctionType.Instruction);
+
+                #region Prototypes.
+
+                //Processing instructions:
+                _collection.Add("@@Deprecate:");
+                _collection.Add("@@Protect:<bool>{isSilent}='false'");
+                _collection.Add("@@Template:");
+                _collection.Add("@@Review:");
+                _collection.Add("@@NoCache:");
+                _collection.Add("@@Include:");
+                _collection.Add("@@Draft:");
+                _collection.Add("@@HideFooterComments:");
+                _collection.Add("@@HideFooterLastModified:");
+
+                //System functions:
+                _collection.Add("@@SystemEmojiCategoryList:");
+                _collection.Add("@@SystemEmojiList:");
+                #endregion
+            }
+
+            return _collection;
         }
 
         public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
