@@ -1,4 +1,5 @@
 ﻿using TightWiki.Engine;
+using TightWiki.Engine.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
@@ -10,10 +11,11 @@ namespace TightWiki
         public static IWikifier CreateWikifier(ISessionState? sessionState, IPage page, int? pageRevision = null, WikiMatchType[]? omitMatches = null)
         {
             return new Wikifier(
-                new Engine.Handlers.StandardFunctionHandler(),
-                new Engine.Handlers.ScopeFunctionHandler(),
-                new Engine.Handlers.ProcessingInstructionFunctionHandler(),
-                new Engine.Handlers.StandardPostProcessingFunctionHandler(),
+                new StandardFunctionHandler(),
+                new ScopeFunctionHandler(),
+                new ProcessingInstructionFunctionHandler(),
+                new StandardPostProcessingFunctionHandler(),
+                new MarkupHandler(),
                 sessionState, page, pageRevision, omitMatches);
         }
     }

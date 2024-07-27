@@ -21,8 +21,10 @@ namespace TightWiki.Engine
         private readonly IFunctionHandler _standardFunctionHandler;
         private readonly IFunctionHandler _processingInstructionFunctionHandler;
         private readonly IFunctionHandler _standardPostProcessingFunctionHandler;
+        private readonly IMarkupHandler _markupHandler;
+
         private string _queryTokenState = Security.Helpers.MachineKey;
-        private int _matchesPerIteration = 0;
+        private int _matchesStoredPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
@@ -64,6 +66,7 @@ namespace TightWiki.Engine
             IFunctionHandler scopeFunctionHandler,
             IFunctionHandler processingInstructionHandler,
             IFunctionHandler standardFunctionPostProcessHandler,
+            IMarkupHandler markupHandler,
             ISessionState? sessionState, IPage page, int? revision = null,
              WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
@@ -73,6 +76,7 @@ namespace TightWiki.Engine
             _standardFunctionHandler = standardFunctionHandler;
             _processingInstructionFunctionHandler = processingInstructionHandler;
             _standardPostProcessingFunctionHandler = standardFunctionPostProcessHandler;
+            _markupHandler = markupHandler;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -117,6 +121,7 @@ namespace TightWiki.Engine
                 _scopeFunctionHandler,
                 _processingInstructionFunctionHandler,
                 _standardPostProcessingFunctionHandler,
+                _markupHandler,
                 SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
         }
 
@@ -186,21 +191,21 @@ namespace TightWiki.Engine
 
         public int TransformAll(WikiString pageContent)
         {
-            _matchesPerIteration = 0;
+            _matchesStoredPerIteration = 0;
 
-            TransformComments(pageContent);
-            TransformSectionHeadings(pageContent);
+            TransformComments(pageContent); //TODO: Move.
+            TransformSectionHeadings(pageContent); //TODO: Move.
 
-            TransformScopeFunctions(pageContent);
+            TransformScopeFunctions(pageContent); //Moved to handler.
 
-            TransformVariables(pageContent);
-            TransformLinks(pageContent);
-            TransformMarkup(pageContent);
-            TransformEmoji(pageContent);
+            TransformVariables(pageContent); //Moved to handler.
+            TransformLinks(pageContent); //TODO: Move.
+            TransformMarkup(pageContent); //Moved to handler.
+            TransformEmoji(pageContent); //TODO: Move.
 
-            TransformStandardFunctions(pageContent, true);
-            TransformStandardFunctions(pageContent, false);
-            TransformProcessingInstructions(pageContent);
+            TransformStandardFunctions(pageContent, true); //Moved to handler.
+            TransformStandardFunctions(pageContent, false); //Moved to handler.
+            TransformProcessingInstructions(pageContent); //Moved to handler.
 
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
             int length;
@@ -225,7 +230,7 @@ namespace TightWiki.Engine
                 }
             } while (length != pageContent.Length);
 
-            return _matchesPerIteration;
+            return _matchesStoredPerIteration;
         }
 
         /// <summary>
@@ -234,21 +239,34 @@ namespace TightWiki.Engine
         /// <param name="pageContent"></param>
         private void TransformMarkup(WikiString pageContent)
         {
+            var symbols = GetApplicableSymbols(pageContent.Value);
+
+            foreach (var symbol in symbols)
+            {
+                var sequence = new string(symbol, 2);
+                var escapedSequence = Regex.Escape(sequence);
+
+                var rgx = new Regex(@$"{escapedSequence}([^\/\n\r]*){escapedSequence}", RegexOptions.IgnoreCase);
+                var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+                foreach (var match in orderedMatches)
+                {
+                    string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
+
+                    var result = _markupHandler.Handle(this, symbol, body);
+
+                    StoreHandlerResult(result, WikiMatchType.Formatting, pageContent, match.Value, result.Content);
+                }
+            }
+
             //ReplaceWholeLineHTMLMarker(pageContent, "**", "strong", true); //Single line bold.
             //ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
             //ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
             //ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
 
-            ReplaceInlineHTMLMarker(pageContent, "~~", "strike", true); //inline bold.
-            ReplaceInlineHTMLMarker(pageContent, "**", "strong", true); //inline bold.
-            ReplaceInlineHTMLMarker(pageContent, "__", "u", false); //inline highlight.
-            ReplaceInlineHTMLMarker(pageContent, "//", "i", true); //inline highlight.
-            ReplaceInlineHTMLMarker(pageContent, "!!", "mark", true); //inline highlight.
-
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
+            var sizeUpOrderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
 
-            foreach (var match in orderedMatches)
+            foreach (var match in sizeUpOrderedMatches)
             {
                 int headingMarkers = 0;
                 foreach (char c in match.Value)
@@ -271,6 +289,50 @@ namespace TightWiki.Engine
                 }
             }
         }
+
+        /// <summary>
+        /// Gets a list of symbols where the symbol occurs consecutively, more than once. (e.g.  "##This##")
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        static HashSet<char> GetApplicableSymbols(string input)
+        {
+            var symbolCounts = new Dictionary<char, int>();
+            char? previousChar = null;
+            int consecutiveCount = 0;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                char currentChar = input[i];
+
+                if (char.IsLetterOrDigit(currentChar) || char.IsWhiteSpace(currentChar))
+                {
+                    continue;
+                }
+
+                if (previousChar.HasValue && currentChar == previousChar.Value)
+                {
+                    consecutiveCount++;
+
+                    if (consecutiveCount > 1)
+                    {
+                        symbolCounts.TryGetValue(previousChar.Value, out int count);
+                        symbolCounts[previousChar.Value] = count + 1;
+
+                        consecutiveCount = 1;
+                    }
+                }
+                else
+                {
+                    consecutiveCount = 1;
+                }
+
+                previousChar = currentChar;
+            }
+
+            return symbolCounts.Where(o => o.Value > 1).Select(o => o.Key).ToHashSet();
+        }
+
 
         /// <summary>
         /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
@@ -378,7 +440,8 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Block, pageContent, match.Value, function, scopeBody);
+                    var result = functionHandler.Handle(this, function, scopeBody);
+                    StoreHandlerResult(result, WikiMatchType.Block, pageContent, match.Value, scopeBody);
                 }
                 catch (Exception ex)
                 {
@@ -387,10 +450,8 @@ namespace TightWiki.Engine
             }
         }
 
-        void HandleFunctionAndStoreMatch(IFunctionHandler handler, WikiMatchType matchType, WikiString pageContent, string matchValue, FunctionCall function, string scopeBody)
+        void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue, string scopeBody)
         {
-            var result = handler.Handle(this, function, scopeBody);
-
             if (result.Instructions.Contains(HandlerResultInstruction.Skip))
             {
                 return;
@@ -402,7 +463,7 @@ namespace TightWiki.Engine
 
             if (result.Instructions.Contains(HandlerResultInstruction.OnlyReplaceFirstMatch))
             {
-                identifier = StoreFirstMatch(matchType, function, pageContent, matchValue, result.Content, allowNestedDecode);
+                identifier = StoreFirstMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
             }
             else
             {
@@ -846,7 +907,8 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Instruction, pageContent, match.Value, function, string.Empty);
+                    var result = functionHandler.Handle(this, function, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Instruction, pageContent, match.Value, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -905,7 +967,8 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Function, pageContent, match.Value, function, string.Empty);
+                    var result = functionHandler.Handle(this, function, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Function, pageContent, match.Value, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -941,7 +1004,8 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    HandleFunctionAndStoreMatch(functionHandler, WikiMatchType.Function, pageContent, match.Value, function, string.Empty);
+                    var result = functionHandler.Handle(this, function, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Function, pageContent, match.Value, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -963,7 +1027,7 @@ namespace TightWiki.Engine
             ExceptionRepository.InsertException($"Page: {Page.Navigation}, Error: {value}");
 
             ErrorCount++;
-            _matchesPerIteration++;
+            _matchesStoredPerIteration++;
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
@@ -983,7 +1047,7 @@ namespace TightWiki.Engine
         private string StoreMatch(WikiMatchType matchType, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
-            _matchesPerIteration++;
+            _matchesStoredPerIteration++;
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
@@ -1000,31 +1064,11 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private string StoreMatch(FunctionCall function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
+
+        private string StoreFirstMatch(WikiMatchType matchType, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
-            _matchesPerIteration++;
-
-            string identifier = $"<!--{Guid.NewGuid()}-->";
-
-            var matchSet = new MatchSet()
-            {
-                MatchType = WikiMatchType.Function,
-                Content = value,
-                Function = function,
-                AllowNestedDecode = allowNestedDecode
-            };
-
-            Matches.Add(identifier, matchSet);
-            pageContent.Replace(match, identifier);
-
-            return identifier;
-        }
-
-        private string StoreFirstMatch(WikiMatchType matchType, FunctionCall function, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
-        {
-            MatchCount++;
-            _matchesPerIteration++;
+            _matchesStoredPerIteration++;
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
@@ -1032,7 +1076,6 @@ namespace TightWiki.Engine
             {
                 MatchType = matchType,
                 Content = value,
-                Function = function,
                 AllowNestedDecode = allowNestedDecode
             };
             Matches.Add(identifier, matchSet);
