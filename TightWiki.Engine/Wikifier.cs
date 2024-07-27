@@ -47,12 +47,12 @@ namespace TightWiki.Engine
         public List<string> ProcessingInstructions { get; private set; } = new();
         public string ProcessedBody { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
-        public Dictionary<string, MatchSet> Matches { get; private set; } = new();
+        public Dictionary<string, WikiMatchSet> Matches { get; private set; } = new();
         public IPage Page { get; }
         public int? Revision { get; }
         public IQueryCollection QueryString { get; }
         public ISessionState? SessionState { get; }
-        public List<TOCTag> TableOfContents { get; } = new();
+        public List<TableOfContentsTag> TableOfContents { get; } = new();
         public List<string> Headers { get; } = new();
         public int CurrentNestLevel { get; }
 
@@ -105,7 +105,7 @@ namespace TightWiki.Engine
             QueryString = sessionState?.QueryString ?? new QueryCollection();
             Page = page;
             Revision = revision;
-            Matches = new Dictionary<string, MatchSet>();
+            Matches = new Dictionary<string, WikiMatchSet>();
             SessionState = sessionState;
 
             if (omitMatches != null)
@@ -286,7 +286,7 @@ namespace TightWiki.Engine
             }
         }
 
- 
+
         /// <summary>
         /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
         /// </summary>
@@ -403,7 +403,7 @@ namespace TightWiki.Engine
             }
         }
 
-         /// <summary>
+        /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
         /// <param name="pageContent"></param>
@@ -432,7 +432,7 @@ namespace TightWiki.Engine
 
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
-                        TableOfContents.Add(new TOCTag(headingMarkers - 1, match.Index, link, text));
+                        TableOfContents.Add(new TableOfContentsTag(headingMarkers - 1, match.Index, link, text));
                     }
 
                     StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value, result.Content);
@@ -869,7 +869,7 @@ namespace TightWiki.Engine
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
-            var matchSet = new MatchSet()
+            var matchSet = new WikiMatchSet()
             {
                 Content = $"<i><font size=\"3\" color=\"#BB0000\">{{{value}}}</font></a>",
                 AllowNestedDecode = false,
@@ -889,7 +889,7 @@ namespace TightWiki.Engine
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
-            var matchSet = new MatchSet()
+            var matchSet = new WikiMatchSet()
             {
                 MatchType = matchType,
                 Content = value,
@@ -909,7 +909,7 @@ namespace TightWiki.Engine
 
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
-            var matchSet = new MatchSet()
+            var matchSet = new WikiMatchSet()
             {
                 MatchType = matchType,
                 Content = value,

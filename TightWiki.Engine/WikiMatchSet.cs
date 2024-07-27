@@ -1,8 +1,8 @@
 ﻿using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Library
+namespace TightWiki.Engine
 {
-    public class MatchSet
+    public class WikiMatchSet
     {
         /// <summary>
         /// The type of match that was found.

@@ -1,5 +1,8 @@
 ﻿namespace TightWiki.Engine.Library
 {
+    /// <summary>
+    /// TODO: This is used by some curiously diverse portions of code, that needs to be fixed.
+    /// </summary>
     public class NameNav
     {
         public string Name { get; set; } = string.Empty;

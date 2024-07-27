@@ -8,6 +8,7 @@ using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
+using TightWiki.Engine.Handlers.Utility;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -464,7 +465,7 @@ namespace TightWiki.Site.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                p.ChangeSummary = Engine.Library.Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                p.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             if (model.Revisions != null && model.Revisions.Count > 0)

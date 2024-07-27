@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using TightWiki.Engine.Library;
 
 namespace TightWiki.Engine
 {
@@ -34,13 +33,13 @@ namespace TightWiki.Engine
             return html.ToString();
         }
 
-        internal static List<OrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
+        internal static List<WikiOrderedMatch> OrderMatchesByLengthDescending(MatchCollection matches)
         {
-            var result = new List<OrderedMatch>();
+            var result = new List<WikiOrderedMatch>();
 
             foreach (Match match in matches)
             {
-                result.Add(new OrderedMatch
+                result.Add(new WikiOrderedMatch
                 {
                     Value = match.Value,
                     Index = match.Index

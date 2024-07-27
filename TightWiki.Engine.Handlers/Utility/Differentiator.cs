@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace TightWiki.Engine.Library
+namespace TightWiki.Engine.Handlers.Utility
 {
     public static class Differentiator
     {

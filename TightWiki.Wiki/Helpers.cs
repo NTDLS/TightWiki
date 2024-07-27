@@ -70,10 +70,10 @@ namespace TightWiki.Wiki
         {
             var allTokens = new List<WeightedToken>();
 
-            allTokens.AddRange(ParsePageTokens(wikifier.ProcessedBody, 1));
-            allTokens.AddRange(ParsePageTokens(wikifier.Page.Description, 1.2));
-            allTokens.AddRange(ParsePageTokens(string.Join(" ", wikifier.Tags), 1.4));
-            allTokens.AddRange(ParsePageTokens(wikifier.Page.Name, 1.6));
+            allTokens.AddRange(ComputeParsedPageTokens(wikifier.ProcessedBody, 1));
+            allTokens.AddRange(ComputeParsedPageTokens(wikifier.Page.Description, 1.2));
+            allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", wikifier.Tags), 1.4));
+            allTokens.AddRange(ComputeParsedPageTokens(wikifier.Page.Name, 1.6));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {
@@ -85,7 +85,7 @@ namespace TightWiki.Wiki
             return allTokens;
         }
 
-        internal static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)
+        internal static List<WeightedToken> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 

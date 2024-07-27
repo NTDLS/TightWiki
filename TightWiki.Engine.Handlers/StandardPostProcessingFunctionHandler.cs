@@ -95,8 +95,8 @@ namespace TightWiki.Engine.Handlers
                                     orderby t.StartingPosition
                                     select t).ToList();
 
-                        var unordered = new List<TOCTag>();
-                        var ordered = new List<TOCTag>();
+                        var unordered = new List<TableOfContentsTag>();
+                        var ordered = new List<TableOfContentsTag>();
 
                         if (alphabetized)
                         {

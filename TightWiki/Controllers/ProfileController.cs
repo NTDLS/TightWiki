@@ -9,6 +9,7 @@ using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
 using TightWiki.Engine;
+using TightWiki.Engine.Handlers.Utility;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
@@ -206,7 +207,7 @@ namespace TightWiki.Site.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
-                item.ChangeSummary = Engine.Library.Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                item.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             return View(model);

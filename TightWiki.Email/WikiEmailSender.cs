@@ -7,11 +7,11 @@ using TightWiki.Repository;
 
 namespace TightWiki.Email
 {
-    public class EmailSender : IWikiEmailSender
+    public class WikiEmailSender : IWikiEmailSender
     {
-        private readonly ILogger<EmailSender> _logger;
+        private readonly ILogger<WikiEmailSender> _logger;
 
-        public EmailSender(ILogger<EmailSender> logger)
+        public WikiEmailSender(ILogger<WikiEmailSender> logger)
         {
             _logger = logger;
         }
