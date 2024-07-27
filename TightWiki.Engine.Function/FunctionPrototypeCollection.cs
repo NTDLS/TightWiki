@@ -1,4 +1,6 @@
-﻿namespace TightWiki.EngineFunction
+﻿using TightWiki.Engine.Function.Exceptions;
+
+namespace TightWiki.EngineFunction
 {
     public class FunctionPrototypeCollection
     {
@@ -30,6 +32,15 @@
             });
         }
 
+        public bool Exists(string functionPrefix, string functionName)
+        {
+            functionName = functionName.ToLower();
+
+            //$$ are scope functions and are not called by prefix, we only have prefixes to make it easier to parse
+            //  the functions in the wikitext and scope functions are easy enough since they start with curly braces.
+            return Items.Any(o => (o.FunctionPrefix == functionPrefix || o.FunctionPrefix == "$$") && o.FunctionName == functionName);
+        }
+
         public FunctionPrototype Get(string functionPrefix, string functionName)
         {
             functionName = functionName.ToLower();
@@ -40,7 +51,7 @@
 
             if (functionPrototype == null)
             {
-                throw new Exception($"Function ({functionName}) does not have a defined prototype.");
+                throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");
             }
 
             return functionPrototype;

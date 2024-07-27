@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using TightWiki.Configuration;
+using TightWiki.Engine.Function.Exceptions;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
@@ -359,7 +360,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), mockFunctionCall, out paramEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), mockFunctionCall, out paramEndIndex);
 
                     var firstChanceFunctions = new string[] { "code" }; //Process these the first time through.
                     if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
@@ -835,7 +836,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -872,10 +873,27 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                }
+                catch (WikiFunctionPrototypeNotDefinedException ex)
+                {
+                    var postProcessPrototypes = _standardPostProcessingFunctionHandler.Prototypes();
+
+                    var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
+
+                    if (parsed != default)
+                    {
+                        if (postProcessPrototypes.Exists(parsed.Prefix, parsed.Name))
+                        {
+                            continue; //This IS a function, but it is meant to be parsed at the end of processing.
+                        }
+                    }
+                    StoreError(pageContent, match.Value, ex.Message);
+                    continue;
                 }
                 catch (Exception ex)
                 {
+                    //_processingInstructionFunctionHandler
                     //TODO: We blow up here because the TOC function is not a standard function, but rather a post processing instruction.
                     //          We need to be able to handle this without simply skipping it because skipping could cause infinite looping.
                     StoreError(pageContent, match.Value, ex.Message);
@@ -916,7 +934,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {

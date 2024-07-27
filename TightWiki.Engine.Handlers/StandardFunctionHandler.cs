@@ -281,13 +281,13 @@ namespace TightWiki.Engine.Handlers
                             Instructions = [HandlerResultInstruction.OnlyReplaceFirstMatch]
                         };
                     }
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "editlink": //(##EditLink(link text))
                     {
                         var linkText = function.Parameters.Get<string>("linkText");
                         return new HandlerResult("<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{wikifier.Page.Navigation}/Edit") + $"\">{linkText}</a>");
                     }
-
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //injects an un-processed wiki body into the calling page.
@@ -328,7 +328,6 @@ namespace TightWiki.Engine.Handlers
                         }
                         throw new Exception($"The include page was not found: [{navigation}]");
                     }
-
                 //------------------------------------------------------------------------------------------------------------------------------
 
                 case "set":
@@ -351,6 +350,7 @@ namespace TightWiki.Engine.Handlers
                         };
                     }
                 //------------------------------------------------------------------------------------------------------------------------------
+
                 case "get":
                     {
                         var key = function.Parameters.Get<string>("key");
@@ -362,6 +362,7 @@ namespace TightWiki.Engine.Handlers
 
                         throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
                     }
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "color":
                     {
@@ -370,6 +371,7 @@ namespace TightWiki.Engine.Handlers
 
                         return new HandlerResult($"<font color=\"{color}\">{text}</font>");
                     }
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Associates tags with a page. These are saved with the page and can also be displayed.
                 case "tag": //##tag(pipe|separated|list|of|tags)
@@ -433,6 +435,7 @@ namespace TightWiki.Engine.Handlers
                             return new HandlerResult(image);
                         }
                     }
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays an file download link
                 case "file": //##file(Name | Alt-Text | [optional display file size] true/false)
@@ -487,6 +490,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         throw new Exception($"File not found [{fileName}]");
                     }
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Creates a list of pages that have been recently modified.
                 case "recentlymodified": //##RecentlyModified(TopCount)

@@ -1,5 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
+using TightWiki.Engine.Function;
+using TightWiki.Engine.Function.Exceptions;
 
 namespace TightWiki.EngineFunction
 {
@@ -15,11 +17,28 @@ namespace TightWiki.EngineFunction
         /// <param name="parseEndIndex"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static FunctionCall ParseFunctionCall(FunctionPrototypeCollection prototypes, string functionCall, out int parseEndIndex)
+        public static FunctionCall ParseAndGetFunctionCall(FunctionPrototypeCollection prototypes, string functionCall, out int parseEndIndex)
         {
             var rawArguments = new List<string>();
 
+            var parsed = ParseFunctionCall(prototypes, functionCall);
+
+            var prototype = prototypes.Get(parsed.Prefix, parsed.Name);
+            if (prototype == null)
+            {
+                throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
+            }
+
+            parseEndIndex = parsed.EndIndex;
+
+            return new FunctionCall(prototype, parsed.RawArguments);
+        }
+
+        public static ParsedFunctionCall ParseFunctionCall(FunctionPrototypeCollection prototypes, string functionCall)
+        {
             string functionName = string.Empty;
+            int parseEndIndex = 0;
+            var rawArguments = new List<string>();
 
             var firstLine = functionCall.Split('\n')?.FirstOrDefault();
 
@@ -49,13 +68,7 @@ namespace TightWiki.EngineFunction
                 parseEndIndex = endOfLine + 2;
             }
 
-            var prototype = prototypes.Get(functionPrefix, functionName);
-            if (prototype == null)
-            {
-                throw new Exception($"Function ({functionName}) does not have a defined prototype.");
-            }
-
-            return new FunctionCall(prototype, rawArguments);
+            return new ParsedFunctionCall(functionPrefix, functionName, parseEndIndex, rawArguments);
         }
 
         /// <summary>
