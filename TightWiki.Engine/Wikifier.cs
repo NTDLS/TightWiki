@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using NTDLS.Helpers;
-using SixLabors.ImageSharp;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -241,7 +240,7 @@ namespace TightWiki.Engine
         /// <param name="pageContent"></param>
         private void TransformMarkup(WikiString pageContent)
         {
-            var symbols = GetApplicableSymbols(pageContent.Value);
+            var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
 
             foreach (var symbol in symbols)
             {
@@ -259,11 +258,6 @@ namespace TightWiki.Engine
                     StoreHandlerResult(result, WikiMatchType.Formatting, pageContent, match.Value, result.Content);
                 }
             }
-
-            //ReplaceWholeLineHTMLMarker(pageContent, "**", "strong", true); //Single line bold.
-            //ReplaceWholeLineHTMLMarker(pageContent, "__", "u", false); //Single line underline.
-            //ReplaceWholeLineHTMLMarker(pageContent, "//", "i", true); //Single line italics.
-            //ReplaceWholeLineHTMLMarker(pageContent, "!!", "mark", true); //Single line highlight.
 
             var sizeUpOrderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
@@ -292,50 +286,7 @@ namespace TightWiki.Engine
             }
         }
 
-        /// <summary>
-        /// Gets a list of symbols where the symbol occurs consecutively, more than once. (e.g.  "##This##")
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        static HashSet<char> GetApplicableSymbols(string input)
-        {
-            var symbolCounts = new Dictionary<char, int>();
-            char? previousChar = null;
-            int consecutiveCount = 0;
-
-            for (int i = 0; i < input.Length; i++)
-            {
-                char currentChar = input[i];
-
-                if (char.IsLetterOrDigit(currentChar) || char.IsWhiteSpace(currentChar))
-                {
-                    continue;
-                }
-
-                if (previousChar.HasValue && currentChar == previousChar.Value)
-                {
-                    consecutiveCount++;
-
-                    if (consecutiveCount > 1)
-                    {
-                        symbolCounts.TryGetValue(previousChar.Value, out int count);
-                        symbolCounts[previousChar.Value] = count + 1;
-
-                        consecutiveCount = 1;
-                    }
-                }
-                else
-                {
-                    consecutiveCount = 1;
-                }
-
-                previousChar = currentChar;
-            }
-
-            return symbolCounts.Where(o => o.Value > 1).Select(o => o.Key).ToHashSet();
-        }
-
-
+ 
         /// <summary>
         /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
         /// </summary>
@@ -452,38 +403,7 @@ namespace TightWiki.Engine
             }
         }
 
-        void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue, string scopeBody)
-        {
-            if (result.Instructions.Contains(HandlerResultInstruction.Skip))
-            {
-                return;
-            }
-
-            bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedProcessing);
-
-            string identifier;
-
-            if (result.Instructions.Contains(HandlerResultInstruction.OnlyReplaceFirstMatch))
-            {
-                identifier = StoreFirstMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
-            }
-            else
-            {
-                identifier = StoreMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
-            }
-
-            foreach (var instruction in result.Instructions)
-            {
-                switch (instruction)
-                {
-                    case HandlerResultInstruction.TruncateTrailingLine:
-                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
+         /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
         /// <param name="pageContent"></param>
@@ -690,7 +610,7 @@ namespace TightWiki.Engine
                 if (args.Count == 1)
                 {
                     //Page navigation only.
-                    text = GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                    text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
                     pageName = args[0];
                 }
                 else if (args.Count >= 2)
@@ -702,7 +622,7 @@ namespace TightWiki.Engine
                     if (args[1].StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
                     {
                         image = args[1].Substring(imageTag.Length).Trim();
-                        text = GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                        text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
                     }
                     else
                     {
@@ -745,21 +665,6 @@ namespace TightWiki.Engine
 
                 StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
             }
-        }
-
-        /// <summary>
-        /// Skips the namespace and returns just the page name part of the navigation.
-        /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
-        private string GetPageNamePart(string navigation)
-        {
-            var parts = navigation.Trim(':').Trim().Split("::");
-            if (parts.Length > 1)
-            {
-                return string.Join('_', parts.Skip(1));
-            }
-            return navigation.Trim(':');
         }
 
         /// <summary>
@@ -897,6 +802,56 @@ namespace TightWiki.Engine
             }
         }
 
+        private void TransformWhitespace(WikiString pageContent)
+        {
+            string identifier = $"<!--{Guid.NewGuid()}-->";
+
+            //Replace new-lines with single character new line:
+            pageContent.Replace("\r\n", "\n");
+
+            //Replace new-lines with an identifier so we can identify the places we are going to introduce line-breaks:
+            pageContent.Replace("\n", identifier);
+
+            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifiers.
+            pageContent.Replace($"{identifier}{identifier}", identifier);
+
+            //Swap in the real line-breaks.
+            pageContent.Replace(identifier, "<br />");
+        }
+
+        #region Utility.
+
+        void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue, string scopeBody)
+        {
+            if (result.Instructions.Contains(HandlerResultInstruction.Skip))
+            {
+                return;
+            }
+
+            bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedProcessing);
+
+            string identifier;
+
+            if (result.Instructions.Contains(HandlerResultInstruction.OnlyReplaceFirstMatch))
+            {
+                identifier = StoreFirstMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
+            }
+            else
+            {
+                identifier = StoreMatch(matchType, pageContent, matchValue, result.Content, allowNestedDecode);
+            }
+
+            foreach (var instruction in result.Instructions)
+            {
+                switch (instruction)
+                {
+                    case HandlerResultInstruction.TruncateTrailingLine:
+                        pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                        break;
+                }
+            }
+        }
+
         private void StoreCriticalError(Exception ex)
         {
             _exceptionLogger?.Invoke(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
@@ -947,7 +902,6 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-
         private string StoreFirstMatch(WikiMatchType matchType, WikiString pageContent, string match, string value, bool allowNestedDecode = true)
         {
             MatchCount++;
@@ -970,54 +924,6 @@ namespace TightWiki.Engine
             return identifier;
         }
 
-        private void TransformWhitespace(WikiString pageContent)
-        {
-            string identifier = $"<!--{Guid.NewGuid()}-->";
-
-            //Replace new-lines with single character new line:
-            pageContent.Replace("\r\n", "\n");
-
-            //Replace new-lines with an identifier so we can identify the places we are going to introduce line-breaks:
-            pageContent.Replace("\n", identifier);
-
-            //Replace any consecutive to-be-line-breaks that we are introducing with single line-break identifiers.
-            pageContent.Replace($"{identifier}{identifier}", identifier);
-
-            //Swap in the real line-breaks.
-            pageContent.Replace(identifier, "<br />");
-        }
-
-        /// <summary>
-        /// Replaces HTML where we are transforming the entire line, such as "*this will be bold" - > "<b>this will be bold</b>
-        /// </summary>
-        /// <param name="regex"></param>
-        /// <param name="htmlTag"></param>
-        void ReplaceWholeLineHTMLMarker(WikiString pageContent, string mark, string htmlTag, bool escape)
-        {
-            string marker = string.Empty;
-            if (escape)
-            {
-                foreach (var c in mark)
-                {
-                    marker += $"\\{c}";
-                }
-            }
-            else
-            {
-                marker = mark;
-            }
-
-            var rgx = new Regex($"^{marker}.*?\n", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            //We roll-through these matches in reverse order because we are replacing by position. We don't move the earlier positions by replacing from the bottom up.
-            foreach (var match in orderedMatches)
-            {
-                string value = match.Value.Substring(mark.Length, match.Value.Length - mark.Length).Trim();
-                var matchString = match.Value.Trim(); //We trim the match because we are matching to the end of the line which includes the \r\n, which we do not want to replace.
-                StoreMatch(WikiMatchType.Formatting, pageContent, matchString, $"<{htmlTag}>{value}</{htmlTag}> ");
-            }
-        }
-
         /// <summary>
         /// Used to generate unique and regenerable query string tokens for page links.
         /// </summary>
@@ -1028,29 +934,6 @@ namespace TightWiki.Engine
             return $"H{Security.Helpers.Crc32(_queryTokenState)}";
         }
 
-        void ReplaceInlineHTMLMarker(WikiString pageContent, string mark, string htmlTag, bool escape)
-        {
-            string marker = string.Empty;
-            if (escape)
-            {
-                foreach (var c in mark)
-                {
-                    marker += $"\\{c}";
-                }
-            }
-            else
-            {
-                marker = mark;
-            }
-
-            var rgx = new Regex(@$"{marker}([^\/\n\r]*){marker}", RegexOptions.IgnoreCase);
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            foreach (var match in orderedMatches)
-            {
-                string markup = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
-
-                StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, $"<{htmlTag}>{markup}</{htmlTag}>");
-            }
-        }
+        #endregion
     }
 }

@@ -5,7 +5,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
-using static TightWiki.Engine.Wikifier;
 
 namespace TightWiki
 {
