@@ -10,6 +10,10 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Wiki
 {
+    /// <summary>
+    /// This is only compartmentalized out here so it can be shared with the DummyPageGenerator.
+    /// In reality, this code belongs to the TightWiki web project.
+    /// </summary>
     public class Helpers
     {
         /// <summary>

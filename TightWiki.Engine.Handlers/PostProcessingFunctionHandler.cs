@@ -8,7 +8,7 @@ using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Handlers
 {
-    public class StandardPostProcessingFunctionHandler : IFunctionHandler
+    public class PostProcessingFunctionHandler : IFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

@@ -16,7 +16,7 @@ namespace TightWiki
                 new StandardFunctionHandler(),
                 new ScopeFunctionHandler(),
                 new ProcessingInstructionFunctionHandler(),
-                new StandardPostProcessingFunctionHandler(),
+                new PostProcessingFunctionHandler(),
                 new MarkupHandler(),
                 new HeadingHandler(),
                 new CommentHandler(),
