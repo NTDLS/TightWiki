@@ -17,6 +17,7 @@ namespace TightWiki
                 new StandardPostProcessingFunctionHandler(),
                 new MarkupHandler(),
                 new HeadingHandler(),
+                new CommentHandler(),
                 sessionState, page, pageRevision, omitMatches);
         }
     }

@@ -23,6 +23,7 @@ namespace TightWiki.Engine
         private readonly IFunctionHandler _standardPostProcessingFunctionHandler;
         private readonly IMarkupHandler _markupHandler;
         private readonly IHeadingHandler _headingHandler;
+        private readonly ICommentHandler _commentHandler;
 
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesStoredPerIteration = 0;
@@ -69,6 +70,7 @@ namespace TightWiki.Engine
             IFunctionHandler standardFunctionPostProcessHandler,
             IMarkupHandler markupHandler,
             IHeadingHandler headingHandler,
+            ICommentHandler commentHandler,
             ISessionState? sessionState, IPage page, int? revision = null,
             WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
@@ -80,6 +82,7 @@ namespace TightWiki.Engine
             _standardPostProcessingFunctionHandler = standardFunctionPostProcessHandler;
             _markupHandler = markupHandler;
             _headingHandler = headingHandler;
+            _commentHandler = commentHandler;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -126,6 +129,7 @@ namespace TightWiki.Engine
                 _standardPostProcessingFunctionHandler,
                 _markupHandler,
                 _headingHandler,
+                _commentHandler,
                 SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
         }
 
@@ -197,7 +201,7 @@ namespace TightWiki.Engine
         {
             _matchesStoredPerIteration = 0;
 
-            TransformComments(pageContent); //TODO: Move.
+            TransformComments(pageContent); //Moved to handler.
             TransformHeadings(pageContent); //Moved to handler.
 
             TransformScopeFunctions(pageContent); //Moved to handler.
@@ -461,7 +465,7 @@ namespace TightWiki.Engine
                 return;
             }
 
-            bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedDecode);
+            bool allowNestedDecode = !result.Instructions.Contains(HandlerResultInstruction.DisallowNestedProcessing);
 
             string identifier;
 
@@ -478,7 +482,7 @@ namespace TightWiki.Engine
             {
                 switch (instruction)
                 {
-                    case HandlerResultInstruction.KillTrailingLine:
+                    case HandlerResultInstruction.TruncateTrailingLine:
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                         break;
                 }
@@ -511,6 +515,12 @@ namespace TightWiki.Engine
                     string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
 
                     var result = _headingHandler.Handle(this, headingMarkers, link, text);
+
+                    if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                    {
+                        TableOfContents.Add(new TOCTag(headingMarkers - 1, match.Index, link, text));
+                    }
+
                     StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value, result.Content);
                 }
             }
@@ -608,8 +618,8 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
-                pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
+                var result = _commentHandler.Handle(this, match.Value);
+                StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value, result.Content);
             }
         }
 

@@ -300,7 +300,7 @@ namespace TightWiki.Engine.Handlers
                         {
                             return new HandlerResult(page.Body)
                             {
-                                Instructions = [HandlerResultInstruction.KillTrailingLine]
+                                Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                             };
                         }
                         throw new Exception($"The include page was not found: [{navigation}]");
@@ -323,7 +323,7 @@ namespace TightWiki.Engine.Handlers
 
                             return new HandlerResult(wikify.ProcessedBody)
                             {
-                                Instructions = [HandlerResultInstruction.KillTrailingLine]
+                                Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                             };
                         }
                         throw new Exception($"The include page was not found: [{navigation}]");
@@ -346,7 +346,7 @@ namespace TightWiki.Engine.Handlers
 
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -382,7 +382,7 @@ namespace TightWiki.Engine.Handlers
 
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 

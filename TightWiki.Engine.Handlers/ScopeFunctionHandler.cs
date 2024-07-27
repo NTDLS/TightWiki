@@ -62,7 +62,7 @@ namespace TightWiki.Engine.Handlers
 
                         return new HandlerResult(html.ToString())
                         {
-                            Instructions = [HandlerResultInstruction.DisallowNestedDecode]
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
                     }
 

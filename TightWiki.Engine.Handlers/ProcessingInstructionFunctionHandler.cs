@@ -124,7 +124,7 @@ namespace TightWiki.Engine.Handlers
 
                         return new HandlerResult(html.ToString())
                         {
-                            Instructions = [HandlerResultInstruction.DisallowNestedDecode]
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                         };
                     }
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -134,7 +134,7 @@ namespace TightWiki.Engine.Handlers
 
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -144,7 +144,7 @@ namespace TightWiki.Engine.Handlers
                         wikifier.ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -154,7 +154,7 @@ namespace TightWiki.Engine.Handlers
                         wikifier.ProcessingInstructions.Add(WikiInstruction.NoCache);
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -168,7 +168,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -186,7 +186,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -200,7 +200,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -214,7 +214,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -228,7 +228,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
 
@@ -242,7 +242,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         return new HandlerResult(string.Empty)
                         {
-                            Instructions = [HandlerResultInstruction.KillTrailingLine]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
             }
