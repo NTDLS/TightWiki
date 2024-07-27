@@ -317,9 +317,11 @@ namespace TightWiki.Engine
 
             string rawBlock = string.Empty;
 
+            int startPos = content.Length - 1;
+
             while (true)
             {
-                int startPos = content.LastIndexOf("{{");
+                startPos = content.LastIndexOf("{{", startPos);
                 if (startPos < 0)
                 {
                     break;
