@@ -1,8 +1,6 @@
-﻿using NTDLS.Helpers;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 using TightWiki.Engine.Library;
-using TightWiki.Repository;
 
 namespace TightWiki.Engine
 {
@@ -55,46 +53,6 @@ namespace TightWiki.Engine
             return result.OrderByDescending(o => o.Value.Length).ToList();
         }
 
-        internal static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)
-        {
-            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
-            var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
-            var strippedContent = Html.StripHtml(content);
-            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList<string>().ToList();
-
-            if (searchConfig?.Value<bool>("Split Camel Case") == true)
-            {
-                var casedTokens = new List<string>();
-
-                foreach (var token in tokens)
-                {
-                    var splitTokens = NTDLS.Helpers.Text.SeperateCamelCase(token).Split(' ');
-                    if (splitTokens.Count() > 1)
-                    {
-                        foreach (var lowerToken in splitTokens)
-                        {
-                            casedTokens.Add(lowerToken.ToLower());
-                        }
-                    }
-                }
-
-                tokens.AddRange(casedTokens);
-            }
-
-            tokens = tokens.ConvertAll(d => d.ToLower());
-
-            tokens.RemoveAll(o => exclusionWords.Contains(o));
-
-            var searchTokens = (from w in tokens
-                                group w by w into g
-                                select new WeightedToken
-                                {
-                                    Token = g.Key,
-                                    Weight = g.Count() * weightMultiplier
-                                }).ToList();
-
-            return searchTokens.Where(o => string.IsNullOrWhiteSpace(o.Token) == false).ToList();
-        }
     }
 }

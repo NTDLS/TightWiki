@@ -20,7 +20,6 @@ namespace TightWiki.Engine.Library.Interfaces
         public List<string> Headers { get; }
 
         public string GenerateQueryToken();
-        public List<WeightedToken> ParsePageTokens();
         public IWikifier CreateChildWikifier(IPage page);
     }
 }

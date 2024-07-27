@@ -1,4 +1,8 @@
-﻿using TightWiki.Caching;
+﻿using DuoVia.FuzzyStrings;
+using NTDLS.Helpers;
+using TightWiki.Caching;
+using TightWiki.Engine.Library;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
@@ -45,7 +49,7 @@ namespace TightWiki.Wiki
             PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
 
-            var pageTokens = wikifier.ParsePageTokens().Select(o =>
+            var pageTokens = ParsePageTokens(wikifier).Select(o =>
                       new PageToken
                       {
                           PageId = page.Id,
@@ -60,6 +64,67 @@ namespace TightWiki.Wiki
 
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
+        }
+
+        public static List<WeightedToken> ParsePageTokens(IWikifier wikifier)
+        {
+            var allTokens = new List<WeightedToken>();
+
+            allTokens.AddRange(ParsePageTokens(wikifier.ProcessedBody, 1));
+            allTokens.AddRange(ParsePageTokens(wikifier.Page.Description, 1.2));
+            allTokens.AddRange(ParsePageTokens(string.Join(" ", wikifier.Tags), 1.4));
+            allTokens.AddRange(ParsePageTokens(wikifier.Page.Name, 1.6));
+
+            allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
+            {
+                Token = o.Key,
+                DoubleMetaphone = o.Key.ToDoubleMetaphone(),
+                Weight = o.Sum(g => g.Weight)
+            }).ToList();
+
+            return allTokens;
+        }
+
+        internal static List<WeightedToken> ParsePageTokens(string content, double weightMultiplier)
+        {
+            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
+
+            var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
+            var strippedContent = Html.StripHtml(content);
+            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList<string>().ToList();
+
+            if (searchConfig?.Value<bool>("Split Camel Case") == true)
+            {
+                var casedTokens = new List<string>();
+
+                foreach (var token in tokens)
+                {
+                    var splitTokens = Text.SeperateCamelCase(token).Split(' ');
+                    if (splitTokens.Count() > 1)
+                    {
+                        foreach (var lowerToken in splitTokens)
+                        {
+                            casedTokens.Add(lowerToken.ToLower());
+                        }
+                    }
+                }
+
+                tokens.AddRange(casedTokens);
+            }
+
+            tokens = tokens.ConvertAll(d => d.ToLower());
+
+            tokens.RemoveAll(o => exclusionWords.Contains(o));
+
+            var searchTokens = (from w in tokens
+                                group w by w into g
+                                select new WeightedToken
+                                {
+                                    Token = g.Key,
+                                    Weight = g.Count() * weightMultiplier
+                                }).ToList();
+
+            return searchTokens.Where(o => string.IsNullOrWhiteSpace(o.Token) == false).ToList();
         }
     }
 }

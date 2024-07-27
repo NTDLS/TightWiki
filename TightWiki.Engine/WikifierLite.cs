@@ -2,8 +2,6 @@
 using System.Text.RegularExpressions;
 using TightWiki.Configuration;
 using TightWiki.Engine.Library;
-using TightWiki.EngineFunction;
-using TightWiki.Repository;
 
 namespace TightWiki.Engine
 {
@@ -22,7 +20,7 @@ namespace TightWiki.Engine
 
             var content = new WikiString(unprocessedText);
             TransformEmoji(content);
-            TransformLinks(content);
+            //TransformLinks(content);
             TransformMarkup(content);
             return content.ToString();
         }
@@ -130,6 +128,7 @@ namespace TightWiki.Engine
             }
         }
 
+        /*
         /// <summary>
         /// Transform links, these can be internal Wiki links or external links.
         /// </summary>
@@ -265,6 +264,7 @@ namespace TightWiki.Engine
                 }
             }
         }
+        */
 
         private static string GetLinkImage(List<string> arguments)
         {

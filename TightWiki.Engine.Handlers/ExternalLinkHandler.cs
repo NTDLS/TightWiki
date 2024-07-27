@@ -4,7 +4,7 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Handlers
 {
-    public class LinkHandler : ILinkHandler
+    public class ExternalLinkHandler : IExternalLinkHandler
     {
         public HandlerResult Handle(IWikifier wikifier, string link, string? text, string? image)
         {
@@ -22,8 +22,6 @@ namespace TightWiki.Engine.Handlers
                     Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
                 };
             }
-
-            return new HandlerResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
         }
     }
 }

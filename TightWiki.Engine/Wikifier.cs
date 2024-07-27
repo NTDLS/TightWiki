@@ -1,16 +1,14 @@
-﻿using DuoVia.FuzzyStrings;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using NTDLS.Helpers;
+using SixLabors.ImageSharp;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using TightWiki.Configuration;
 using TightWiki.Engine.Function.Exceptions;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
 using TightWiki.Library.Interfaces;
-using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine
@@ -25,12 +23,19 @@ namespace TightWiki.Engine
         private readonly IHeadingHandler _headingHandler;
         private readonly ICommentHandler _commentHandler;
         private readonly IEmojiHandler _emojiHandler;
-        private readonly ILinkHandler _linkHandler;
+        private readonly IExternalLinkHandler _externalLinkHandler;
+        private readonly IInternalLinkHandler _internalLinkHandler;
 
         private string _queryTokenState = Security.Helpers.MachineKey;
         private int _matchesStoredPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
         private readonly HashSet<WikiMatchType> _omitMatches = new();
+
+        public delegate void ExceptionLogger(Wikifier wikifier, Exception? ex, string exceptionText);
+        private readonly ExceptionLogger? _exceptionLogger;
+
+        public delegate void OnCompletion(Wikifier wikifier);
+        private readonly OnCompletion? _onCompletion;
 
         #region Public properties.
 
@@ -74,7 +79,10 @@ namespace TightWiki.Engine
             IHeadingHandler headingHandler,
             ICommentHandler commentHandler,
             IEmojiHandler emojiHandler,
-            ILinkHandler linkHandler,
+            IExternalLinkHandler externalLinkHandler,
+            IInternalLinkHandler internalLinkHandler,
+            ExceptionLogger? exceptionLogger,
+            OnCompletion? onCompletion,
             ISessionState? sessionState, IPage page, int? revision = null,
             WikiMatchType[]? omitMatches = null, int nestLevel = 0)
         {
@@ -88,7 +96,11 @@ namespace TightWiki.Engine
             _headingHandler = headingHandler;
             _commentHandler = commentHandler;
             _emojiHandler = emojiHandler;
-            _linkHandler = linkHandler;
+            _externalLinkHandler = externalLinkHandler;
+            _internalLinkHandler = internalLinkHandler;
+
+            _exceptionLogger = exceptionLogger;
+            _onCompletion = onCompletion;
 
             CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -113,17 +125,7 @@ namespace TightWiki.Engine
 
             ProcessingTime = DateTime.UtcNow - startTime;
 
-            if (GlobalConfiguration.RecordCompilationMetrics)
-            {
-                StatisticsRepository.InsertCompilationStatistics(page.Id,
-                    ProcessingTime.TotalMilliseconds,
-                    MatchCount,
-                    ErrorCount,
-                    OutgoingLinks.Count,
-                    Tags.Count,
-                    ProcessedBody.Length,
-                    page.Body.Length);
-            }
+            _onCompletion?.Invoke(this);
         }
 
         public IWikifier CreateChildWikifier(IPage page)
@@ -137,27 +139,11 @@ namespace TightWiki.Engine
                 _headingHandler,
                 _commentHandler,
                 _emojiHandler,
-                _linkHandler,
+                _externalLinkHandler,
+                _internalLinkHandler,
+                _exceptionLogger,
+                _onCompletion,
                 SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
-        }
-
-        public List<WeightedToken> ParsePageTokens()
-        {
-            var allTokens = new List<WeightedToken>();
-
-            allTokens.AddRange(WikiUtility.ParsePageTokens(ProcessedBody, 1));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(Page.Description, 1.2));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(string.Join(" ", Tags), 1.4));
-            allTokens.AddRange(WikiUtility.ParsePageTokens(Page.Name, 1.6));
-
-            allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
-            {
-                Token = o.Key,
-                DoubleMetaphone = o.Key.ToDoubleMetaphone(),
-                Weight = o.Sum(g => g.Weight)
-            }).ToList();
-
-            return allTokens;
         }
 
         private void Transform()
@@ -209,19 +195,19 @@ namespace TightWiki.Engine
         {
             _matchesStoredPerIteration = 0;
 
-            TransformComments(pageContent); //Moved to handler.
-            TransformHeadings(pageContent); //Moved to handler.
+            TransformComments(pageContent);
+            TransformHeadings(pageContent);
 
-            TransformScopeFunctions(pageContent); //Moved to handler.
+            TransformScopeFunctions(pageContent);
 
-            TransformVariables(pageContent); //Moved to handler.
-            TransformLinks(pageContent); //TODO: Move.
-            TransformMarkup(pageContent); //Moved to handler.
-            TransformEmoji(pageContent); //Moved to handler.
+            TransformVariables(pageContent);
+            TransformLinks(pageContent);
+            TransformMarkup(pageContent);
+            TransformEmoji(pageContent);
 
-            TransformStandardFunctions(pageContent, true); //Moved to handler.
-            TransformStandardFunctions(pageContent, false); //Moved to handler.
-            TransformProcessingInstructionFunctions(pageContent); //Moved to handler.
+            TransformStandardFunctions(pageContent, true);
+            TransformStandardFunctions(pageContent, false);
+            TransformProcessingInstructionFunctions(pageContent);
 
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
             int length;
@@ -534,91 +520,6 @@ namespace TightWiki.Engine
             }
         }
 
-        private string GetLinkImage(List<string> arguments)
-        {
-            //This function excepts an argument array with up to three arguments:
-            //[0] link text.
-            //[1] image link, which starts with "img=".
-            //[2] scale of image.
-
-            if (arguments.Count < 1 || arguments.Count > 3)
-            {
-                throw new Exception($"The link parameters are invalid. Expected: [[page, text/image, scale.]], found :[[\"{string.Join("\",\"", arguments)}]]\"");
-            }
-
-            var linkText = arguments[1];
-
-            string compareString = Text.RemoveWhitespace(linkText.ToLower());
-
-            //Internal page attached image:
-            if (compareString.StartsWith("image="))
-            {
-                if (linkText.Contains("/"))
-                {
-                    linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-
-                    if (linkText.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        linkText = $"<img src=\"{linkText}\" border=\"0\" />";
-                        return linkText;
-                    }
-
-                    string scale = "100";
-
-                    //Allow loading attached images from other pages.
-                    int slashIndex = linkText.IndexOf("/");
-                    string navigation = NamespaceNavigation.CleanAndValidate(linkText.Substring(0, slashIndex));
-                    linkText = linkText.Substring(slashIndex + 1);
-
-                    if (arguments.Count > 2)
-                    {
-                        scale = arguments[2];
-                    }
-
-                    if (Revision != null)
-                    {
-                        string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{Revision}";
-                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
-                    }
-                    else
-                    {
-                        string attachmentLink = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
-                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
-                    }
-                }
-                else
-                {
-                    linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                    string scale = "100";
-
-                    if (arguments.Count > 2)
-                    {
-                        linkText = arguments[1].Substring(arguments[1].IndexOf("=") + 1);
-                        scale = arguments[2];
-                    }
-
-                    if (Revision != null)
-                    {
-                        string attachmentLink = $"/Page/Image/{Page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}/{Revision}";
-                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
-                    }
-                    else
-                    {
-                        string attachmentLink = $"/Page/Image/{Page.Navigation}/{NamespaceNavigation.CleanAndValidate(linkText)}";
-                        linkText = $"<img src=\"{attachmentLink}?Scale={scale}\" border=\"0\" />";
-                    }
-                }
-            }
-            //External site image:
-            else if (compareString.StartsWith("image="))
-            {
-                linkText = linkText.Substring(linkText.IndexOf("=") + 1);
-                linkText = $"<img src=\"{linkText}\" border=\"0\" />";
-            }
-
-            return linkText;
-        }
-
         private void TransformComments(WikiString pageContent)
         {
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -728,12 +629,12 @@ namespace TightWiki.Engine
                         text = null;
                     }
 
-                    var result = _linkHandler.Handle(this, link, text, image);
+                    var result = _externalLinkHandler.Handle(this, link, text, image);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    var result = _linkHandler.Handle(this, link, link, null);
+                    var result = _externalLinkHandler.Handle(this, link, link, null);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
@@ -761,12 +662,12 @@ namespace TightWiki.Engine
                         text = null;
                     }
 
-                    var result = _linkHandler.Handle(this, link, text, image);
+                    var result = _externalLinkHandler.Handle(this, link, text, image);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    var result = _linkHandler.Handle(this, link, link, null);
+                    var result = _externalLinkHandler.Handle(this, link, link, null);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
@@ -779,112 +680,86 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                bool explicitNamespace = false;
-
-                string explicitLinkText = "";
-                string linkText;
-
-                if (keyword.Contains("::"))
-                {
-                    explicitLinkText = keyword.Substring(keyword.IndexOf("::") + 2).Trim();
-                    string ns = keyword.Substring(0, keyword.IndexOf("::")).Trim();
-                    explicitNamespace = true;
-
-                    if (ns.IsNullOrEmpty())
-                    {
-                        //The user explicitly specified an empty namespace, they want this link to go to the root "unnamed" namespace.
-                        keyword = keyword.Trim().Trim(':').Trim(); //Trim off the empty namespace name.
-                    }
-                }
-
                 var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+
+                string pageName;
+                string text;
+                string? image = null;
+                int imageScale = 100;
 
                 if (args.Count == 1)
                 {
-                    //Text only.
+                    //Page navigation only.
+                    text = GetPageNamePart(args[0]); //Text will be page name since we have an image.
+                    pageName = args[0];
                 }
                 else if (args.Count >= 2)
                 {
-                    keyword = args[0];
-                    explicitLinkText = args[1];
-                }
+                    //Page navigation and explicit text (possibly image).
+                    pageName = args[0];
 
-                string pageName = keyword;
-                string pageNavigation = NamespaceNavigation.CleanAndValidate(pageName);
-                var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-
-                if (page == null && explicitNamespace == false && Page.Namespace != null)
-                {
-                    if (explicitLinkText.IsNullOrEmpty())
+                    string imageTag = "image=";
+                    if (args[1].StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
                     {
-                        explicitLinkText = keyword;
-                    }
-
-                    //If the page does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                    if (string.IsNullOrEmpty(Page.Namespace) == false)
-                    {
-                        pageName = $"{Page.Namespace} :: {keyword}";
-                    }
-
-                    pageNavigation = NamespaceNavigation.CleanAndValidate($"{Page.Namespace} :: {pageNavigation}");
-                    page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
-                }
-
-                OutgoingLinks.Add(new NameNav(pageName, pageNavigation));
-
-                if (page != null)
-                {
-                    if (explicitLinkText.Length > 0 && explicitLinkText.Contains("image="))
-                    {
-                        linkText = GetLinkImage(args);
-                    }
-                    else if (explicitLinkText.Length > 0)
-                    {
-                        linkText = explicitLinkText;
+                        image = args[1].Substring(imageTag.Length).Trim();
+                        text = GetPageNamePart(args[0]); //Text will be page name since we have an image.
                     }
                     else
                     {
-                        linkText = page.Name;
+                        text = args[1]; //Explicit text.
                     }
 
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{pageNavigation}") + $"\">{linkText}</a>");
-                }
-                else if (SessionState?.CanCreate == true)
-                {
-                    if (explicitLinkText.Length > 0)
+                    if (args.Count >= 3)
                     {
-                        linkText = explicitLinkText;
+                        //Get the specified image scale.
+                        int.TryParse(args[2], out imageScale);
                     }
-                    else
-                    {
-                        linkText = pageName;
-                    }
-
-                    linkText += "<font color=\"#cc0000\" size=\"2\">?</font>";
-                    StoreMatch(WikiMatchType.Link, pageContent, match.Value, "<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{pageNavigation}/Edit/") + $"?Name={pageName}\">{linkText}</a>");
                 }
                 else
                 {
-                    if (explicitLinkText.Length > 0)
-                    {
-                        linkText = explicitLinkText;
-                    }
-                    else
-                    {
-                        linkText = pageName;
-                    }
-
-                    //Remove wiki tags for pages which were not found or which we do not have permission to view.
-                    if (linkText.Length > 0)
-                    {
-                        StoreMatch(WikiMatchType.Link, pageContent, match.Value, linkText);
-                    }
-                    else
-                    {
-                        StoreError(pageContent, match.Value, $"The page has no name for [{keyword}]");
-                    }
+                    StoreError(pageContent, match.Value, "The external link contains no page name.");
+                    continue;
                 }
+
+                var pageNavigation = new NamespaceNavigation(pageName);
+
+                if (pageName.Trim().StartsWith("::"))
+                {
+                    //The user explicitly specified the root (unnamed) namespace. 
+                }
+                else if (string.IsNullOrEmpty(pageNavigation.Namespace))
+                {
+                    //No namespace was specified, use the current page namespace.
+                    pageNavigation.Namespace = Page.Namespace;
+                }
+                else
+                {
+                    //Use the namespace that the user explicitly specified.
+                }
+
+                var result = _internalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
+                if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
+                {
+                    OutgoingLinks.Add(new NameNav(pageName, pageNavigation.Canonical));
+                }
+
+                StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
             }
+        }
+
+        /// <summary>
+        /// Skips the namespace and returns just the page name part of the navigation.
+        /// </summary>
+        /// <param name="navigation"></param>
+        /// <returns></returns>
+        private string GetPageNamePart(string navigation)
+        {
+            var parts = navigation.Trim(':').Trim().Split("::");
+            if (parts.Length > 1)
+            {
+                return string.Join('_', parts.Skip(1));
+            }
+            return navigation.Trim(':');
         }
 
         /// <summary>
@@ -1024,7 +899,7 @@ namespace TightWiki.Engine
 
         private void StoreCriticalError(Exception ex)
         {
-            ExceptionRepository.InsertException(ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
+            _exceptionLogger?.Invoke(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
 
             ErrorCount++;
             ProcessedBody = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
@@ -1032,7 +907,7 @@ namespace TightWiki.Engine
 
         private string StoreError(WikiString pageContent, string match, string value)
         {
-            ExceptionRepository.InsertException($"Page: {Page.Navigation}, Error: {value}");
+            _exceptionLogger?.Invoke(this, null, $"Page: {Page.Navigation}, Error: {value}");
 
             ErrorCount++;
             _matchesStoredPerIteration++;
