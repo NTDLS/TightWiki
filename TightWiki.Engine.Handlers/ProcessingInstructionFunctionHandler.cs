@@ -13,32 +13,35 @@ namespace TightWiki.Engine.Handlers
     {
         private static FunctionPrototypeCollection? _collection;
 
-        public FunctionPrototypeCollection Prototypes()
+        public FunctionPrototypeCollection Prototypes
         {
-            if (_collection == null)
+            get
             {
-                _collection = new FunctionPrototypeCollection(WikiFunctionType.Instruction);
+                if (_collection == null)
+                {
+                    _collection = new FunctionPrototypeCollection(WikiFunctionType.Instruction);
 
-                #region Prototypes.
+                    #region Prototypes.
 
-                //Processing instructions:
-                _collection.Add("@@Deprecate:");
-                _collection.Add("@@Protect:<bool>{isSilent}='false'");
-                _collection.Add("@@Template:");
-                _collection.Add("@@Review:");
-                _collection.Add("@@NoCache:");
-                _collection.Add("@@Include:");
-                _collection.Add("@@Draft:");
-                _collection.Add("@@HideFooterComments:");
-                _collection.Add("@@HideFooterLastModified:");
+                    //Processing instructions:
+                    _collection.Add("@@Deprecate:");
+                    _collection.Add("@@Protect:<bool>{isSilent}='false'");
+                    _collection.Add("@@Template:");
+                    _collection.Add("@@Review:");
+                    _collection.Add("@@NoCache:");
+                    _collection.Add("@@Include:");
+                    _collection.Add("@@Draft:");
+                    _collection.Add("@@HideFooterComments:");
+                    _collection.Add("@@HideFooterLastModified:");
 
-                //System functions:
-                _collection.Add("@@SystemEmojiCategoryList:");
-                _collection.Add("@@SystemEmojiList:");
-                #endregion
+                    //System functions:
+                    _collection.Add("@@SystemEmojiCategoryList:");
+                    _collection.Add("@@SystemEmojiList:");
+                    #endregion
+                }
+
+                return _collection;
             }
-
-            return _collection;
         }
 
         public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)

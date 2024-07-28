@@ -12,23 +12,26 @@ namespace TightWiki.Engine.Handlers
     {
         private static FunctionPrototypeCollection? _collection;
 
-        public FunctionPrototypeCollection Prototypes()
+        public FunctionPrototypeCollection Prototypes
         {
-            if (_collection == null)
+            get
             {
-                _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
+                if (_collection == null)
+                {
+                    _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
 
-                #region Prototypes.
+                    #region Prototypes.
 
-                _collection.Add("##Tags: <string>{styleName(Flat,List)}='List'");
-                _collection.Add("##TagCloud: <string>[pageTag] | <integer>{Top}='1000'");
-                _collection.Add("##SearchCloud: <string>[searchPhrase] | <integer>{Top}='1000'");
-                _collection.Add("##TOC:<bool>{alphabetized}='false'");
+                    _collection.Add("##Tags: <string>{styleName(Flat,List)}='List'");
+                    _collection.Add("##TagCloud: <string>[pageTag] | <integer>{Top}='1000'");
+                    _collection.Add("##SearchCloud: <string>[searchPhrase] | <integer>{Top}='1000'");
+                    _collection.Add("##TOC:<bool>{alphabetized}='false'");
 
-                #endregion
+                    #endregion
+                }
+
+                return _collection;
             }
-
-            return _collection;
         }
 
         public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)

@@ -8,7 +8,7 @@ namespace TightWiki.Engine.Library.Interfaces
         /// Returns a collection of function prototypes.
         /// </summary>
         /// <returns></returns>
-        public FunctionPrototypeCollection Prototypes();
+        public FunctionPrototypeCollection Prototypes { get; }
 
         /// <summary>
         /// When a function prototype is found, this function is called to process the call.

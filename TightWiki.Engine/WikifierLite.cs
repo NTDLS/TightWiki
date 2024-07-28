@@ -1,5 +1,4 @@
-﻿using NTDLS.Helpers;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using TightWiki.Configuration;
 using TightWiki.EngineFunction;
 

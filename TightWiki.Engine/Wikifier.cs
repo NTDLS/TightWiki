@@ -255,7 +255,7 @@ namespace TightWiki.Engine
 
                     var result = _markupHandler.Handle(this, symbol, body);
 
-                    StoreHandlerResult(result, WikiMatchType.Formatting, pageContent, match.Value, result.Content);
+                    StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value, result.Content);
                 }
             }
 
@@ -281,7 +281,7 @@ namespace TightWiki.Engine
                     if (fontSize < 1) fontSize = 1;
 
                     string markup = "<font size=\"" + fontSize + "\">" + value + "</font>\r\n";
-                    StoreMatch(WikiMatchType.Formatting, pageContent, match.Value, markup);
+                    StoreMatch(WikiMatchType.Markup, pageContent, match.Value, markup);
                 }
             }
         }
@@ -377,7 +377,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), mockFunctionCall, out paramEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, mockFunctionCall, out paramEndIndex);
 
                     var firstChanceFunctions = new string[] { "code" }; //Process these the first time through.
                     if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
@@ -396,7 +396,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, scopeBody);
-                    StoreHandlerResult(result, WikiMatchType.Block, pageContent, match.Value, scopeBody);
+                    StoreHandlerResult(result, WikiMatchType.ScopeFunction, pageContent, match.Value, scopeBody);
                 }
                 catch (Exception ex)
                 {
@@ -503,7 +503,7 @@ namespace TightWiki.Engine
                         Variables.Add(key, value);
                     }
 
-                    var identifier = StoreMatch(WikiMatchType.Instruction, pageContent, match.Value, "");
+                    var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, "");
                     pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
                 }
                 else
@@ -687,7 +687,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -725,11 +725,11 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out int matchEndIndex);
                 }
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {
-                    var postProcessPrototypes = _standardPostProcessingFunctionHandler.Prototypes();
+                    var postProcessPrototypes = _standardPostProcessingFunctionHandler.Prototypes;
 
                     var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
 
@@ -758,7 +758,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, string.Empty);
-                    StoreHandlerResult(result, WikiMatchType.Function, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value, string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -784,7 +784,7 @@ namespace TightWiki.Engine
 
                 try
                 {
-                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes(), match.Value, out int matchEndIndex);
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out int matchEndIndex);
                 }
                 catch (Exception ex)
                 {
@@ -795,7 +795,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, string.Empty);
-                    StoreHandlerResult(result, WikiMatchType.Function, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value, string.Empty);
                 }
                 catch (Exception ex)
                 {

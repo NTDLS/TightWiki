@@ -48,7 +48,9 @@ namespace TightWiki.Wiki
         /// <param name="page"></param>
         public static void RefreshPageMetadata(Page page, ISessionState? sessionState = null)
         {
-            var wikifier = Factories.CreateWikifier(sessionState, page, null, [WikiMatchType.Function]);
+            //We omit function calls from the tokenization process because they are too dynamic for static searching.
+            var wikifier = Factories.CreateWikifier(sessionState, page, null,
+                [WikiMatchType.StandardFunction, WikiMatchType.ScopeFunction]);
 
             PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
             PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);

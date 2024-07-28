@@ -7,14 +7,14 @@
 
         public enum WikiMatchType
         {
-            Block,
+            ScopeFunction,
             Emoji,
             Instruction,
             Comment,
             Variable,
-            Formatting,
+            Markup,
             Error,
-            Function,
+            StandardFunction,
             Link,
             Heading,
             Literal
