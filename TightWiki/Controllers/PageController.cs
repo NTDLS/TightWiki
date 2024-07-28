@@ -264,12 +264,6 @@ namespace TightWiki.Controllers
 
             model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
 
-            model.Comments.ForEach(o =>
-            {
-                o.Body = WikifierLite.Process(o.Body);
-                o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
-            });
-
             SessionState.SetPageId(pageInfo.Id);
 
             return View(model);
@@ -326,12 +320,6 @@ namespace TightWiki.Controllers
             }
 
             model.PaginationPageCount = (model.Comments.FirstOrDefault()?.PaginationPageCount ?? 0);
-
-            model.Comments.ForEach(o =>
-            {
-                o.Body = WikifierLite.Process(o.Body);
-                o.CreatedDate = SessionState.LocalizeDateTime(o.CreatedDate);
-            });
 
             SessionState.SetPageId(pageInfo.Id);
 
