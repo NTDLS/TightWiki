@@ -19,7 +19,7 @@ namespace TightWiki.Engine.Library.Interfaces
         public int CurrentNestLevel { get; }
         public List<string> Headers { get; }
 
-        public string GenerateQueryToken();
+        public string CreateNextQueryToken();
         public IWikifier CreateChildWikifier(IPage page);
     }
 }

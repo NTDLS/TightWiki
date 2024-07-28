@@ -25,7 +25,7 @@ namespace TightWiki.Engine
         private readonly IExternalLinkHandler _externalLinkHandler;
         private readonly IInternalLinkHandler _internalLinkHandler;
 
-        private string _queryTokenState = Security.Helpers.MachineKey;
+        private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
         private readonly HashSet<WikiMatchType> _omitMatches = new();
@@ -927,13 +927,15 @@ namespace TightWiki.Engine
         }
 
         /// <summary>
-        /// Used to generate unique and regenerable query string tokens for page links.
+        /// Used to generate unique and regenerable tokens so different wikification process can identify
+        ///     their own query strings. For instance, we can have more than one pager on a wiki page, this
+            /// allows each pager to track its own current page in the query string.
         /// </summary>
         /// <returns></returns>
-        public string GenerateQueryToken()
+        public string CreateNextQueryToken()
         {
-            _queryTokenState = Security.Helpers.Sha256(Security.Helpers.EncryptString(_queryTokenState, _queryTokenState));
-            return $"H{Security.Helpers.Crc32(_queryTokenState)}";
+            _queryTokenHash = Security.Helpers.Sha256(Security.Helpers.EncryptString(Security.Helpers.MachineKey, _queryTokenHash));
+            return $"H{Security.Helpers.Crc32(_queryTokenHash)}";
         }
 
         #endregion

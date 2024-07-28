@@ -101,7 +101,7 @@ namespace TightWiki.Engine.Handlers
                 case "profileglossary":
                     {
                         var html = new StringBuilder();
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.Get<string>("searchToken");
@@ -144,7 +144,7 @@ namespace TightWiki.Engine.Handlers
                 case "profilelist":
                     {
                         var html = new StringBuilder();
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.Get<string>("searchToken");
@@ -174,7 +174,7 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "attachments":
                     {
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
 
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
@@ -225,7 +225,7 @@ namespace TightWiki.Engine.Handlers
                             throw new Exception($"Localization is not supported without SessionState.");
                         }
 
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
 
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
@@ -760,7 +760,7 @@ namespace TightWiki.Engine.Handlers
                 case "searchlist":
                     {
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
@@ -856,7 +856,7 @@ namespace TightWiki.Engine.Handlers
                 //Displays a list of other related pages based on tags.
                 case "similar": //##Similar()
                     {
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
 
                         var similarity = function.Parameters.Get<int>("similarity");
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
@@ -906,7 +906,7 @@ namespace TightWiki.Engine.Handlers
                 //Displays a list of other related pages based incoming links.
                 case "related": //##related
                     {
-                        string refTag = wikifier.GenerateQueryToken();
+                        string refTag = wikifier.CreateNextQueryToken();
 
                         int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
