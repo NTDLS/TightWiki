@@ -53,7 +53,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestLevel">Internal use only, used for recursive processing.</param>
-        public WikifierSession(Wikifier wikifier, ISessionState? sessionState, IPage page, int? revision = null,
+        public WikifierSession(WikifierFactory wikifier, ISessionState? sessionState, IPage page, int? revision = null,
             WikiMatchType[]? omitMatches = null)
         {
             QueryString = sessionState?.QueryString ?? new QueryCollection();
@@ -862,7 +862,7 @@ namespace TightWiki.Engine
             };
             Matches.Add(identifier, matchSet);
 
-            var pageContentCopy = Text.ReplaceFirstOccurrence(pageContent.ToString(), match, identifier);
+            var pageContentCopy = NTDLS.Helpers.Text.ReplaceFirstOccurrence(pageContent.ToString(), match, identifier);
             pageContent.Clear();
             pageContent.Append(pageContentCopy);
 

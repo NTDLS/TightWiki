@@ -25,7 +25,7 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController(Wikifier wikifier, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class AdminController(WikifierFactory wikifier, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
         #region Metrics.

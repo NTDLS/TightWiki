@@ -18,7 +18,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(Wikifier wikifier, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class PageController(WikifierFactory wikifier, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
         [AllowAnonymous]

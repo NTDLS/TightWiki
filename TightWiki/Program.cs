@@ -103,7 +103,7 @@ namespace TightWiki
                 containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
-                containerBuilder.RegisterType<Wikifier>();
+                containerBuilder.RegisterType<WikifierFactory>();
             });
 
             var app = builder.Build();
