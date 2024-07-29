@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.7" />
@@ -35,7 +37,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
     <ProjectReference Include="..\TightWiki.Email\TightWiki.Email.csproj" />
-    <ProjectReference Include="..\TightWiki.Engine.Factory\TightWiki.Engine.Factory.csproj" />
     <ProjectReference Include="..\TightWiki.Engine.Handlers\TightWiki.Engine.Handlers.csproj" />
     <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />

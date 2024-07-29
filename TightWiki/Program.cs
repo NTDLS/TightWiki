@@ -1,7 +1,12 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
+using TightWiki.Engine;
+using TightWiki.Engine.Handlers;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
@@ -80,6 +85,26 @@ namespace TightWiki
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddRazorPages();
+
+            // Configure Autofac
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+            {
+                containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
+                containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
+
+                containerBuilder.RegisterType<Wikifier>();
+            });
 
             var app = builder.Build();
 

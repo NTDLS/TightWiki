@@ -2,6 +2,6 @@
 {
     public interface IExternalLinkHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, string link, string? text, string? image);
+        public HandlerResult Handle(IWikifierSession wikifierSession, string link, string? text, string? image);
     }
 }

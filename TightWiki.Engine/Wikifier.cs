@@ -12,29 +12,89 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine
 {
-    public partial class Wikifier : IWikifier
+    public class Wikifier : IWikifier
     {
-        private readonly IScopeFunctionHandler _scopeFunctionHandler;
-        private readonly IStandardFunctionHandler _standardFunctionHandler;
-        private readonly IProcessingInstructionFunctionHandler _processingInstructionFunctionHandler;
-        private readonly IPostProcessingFunctionHandler _PostProcessingFunctionHandler;
-        private readonly IMarkupHandler _markupHandler;
-        private readonly IHeadingHandler _headingHandler;
-        private readonly ICommentHandler _commentHandler;
-        private readonly IEmojiHandler _emojiHandler;
-        private readonly IExternalLinkHandler _externalLinkHandler;
-        private readonly IInternalLinkHandler _internalLinkHandler;
+        public IScopeFunctionHandler ScopeFunctionHandler { get; private set; }
+        public IStandardFunctionHandler StandardFunctionHandler { get; private set; }
+        public IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; private set; }
+        public IPostProcessingFunctionHandler PostProcessingFunctionHandler { get; private set; }
+        public IMarkupHandler MarkupHandler { get; private set; }
+        public IHeadingHandler HeadingHandler { get; private set; }
+        public ICommentHandler CommentHandler { get; private set; }
+        public IEmojiHandler EmojiHandler { get; private set; }
+        public IExternalLinkHandler ExternalLinkHandler { get; private set; }
+        public IInternalLinkHandler InternalLinkHandler { get; private set; }
+        public IExceptionHandler ExceptionHandler { get; private set; }
+        public ICompletionHandler CompletionHandler { get; private set; }
+        public int CurrentNestLevel { get; private set; }
+
+        public Wikifier(
+            IStandardFunctionHandler standardFunctionHandler,
+            IScopeFunctionHandler scopeFunctionHandler,
+            IProcessingInstructionFunctionHandler processingInstructionFunctionHandler,
+            IPostProcessingFunctionHandler postProcessingFunctionHandler,
+            IMarkupHandler markupHandler,
+            IHeadingHandler headingHandler,
+            ICommentHandler commentHandler,
+            IEmojiHandler emojiHandler,
+            IExternalLinkHandler externalLinkHandler,
+            IInternalLinkHandler internalLinkHandler,
+            IExceptionHandler exceptionHandler,
+            ICompletionHandler completionHandler,
+            int nestLevel = 0)
+        {
+            StandardFunctionHandler = standardFunctionHandler;
+
+            StandardFunctionHandler = standardFunctionHandler;
+            ScopeFunctionHandler = scopeFunctionHandler;
+            ProcessingInstructionFunctionHandler = processingInstructionFunctionHandler;
+            PostProcessingFunctionHandler = postProcessingFunctionHandler;
+            MarkupHandler = markupHandler;
+            HeadingHandler = headingHandler;
+            CommentHandler = commentHandler;
+            EmojiHandler = emojiHandler;
+            ExternalLinkHandler = externalLinkHandler;
+            InternalLinkHandler = internalLinkHandler;
+            ExceptionHandler = exceptionHandler;
+            CompletionHandler = completionHandler;
+
+            CurrentNestLevel = nestLevel;
+        }
+
+        public IWikifierSession Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+        {
+            var wikifierSession = new WikifierSession(this, sessionState, page, revision, omitMatches);
+            wikifierSession.Process();
+            return wikifierSession;
+        }
+
+        public IWikifier CreateChild(IPage page)
+        {
+            return new Wikifier(StandardFunctionHandler,
+                ScopeFunctionHandler,
+                ProcessingInstructionFunctionHandler,
+                PostProcessingFunctionHandler,
+                MarkupHandler,
+                HeadingHandler,
+                CommentHandler,
+                EmojiHandler,
+                ExternalLinkHandler,
+                InternalLinkHandler,
+                ExceptionHandler,
+                CompletionHandler,
+                CurrentNestLevel + 1
+            );
+        }
+    }
+
+    public class WikifierSession : IWikifierSession
+    {
+        public IWikifier Wikifier { get; private set; }
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
         private readonly HashSet<WikiMatchType> _omitMatches = new();
-
-        public delegate void ExceptionLogger(Wikifier wikifier, Exception? ex, string exceptionText);
-        private readonly ExceptionLogger? _exceptionLogger;
-
-        public delegate void OnCompletion(Wikifier wikifier);
-        private readonly OnCompletion? _onCompletion;
 
         #region Public properties.
 
@@ -45,7 +105,7 @@ namespace TightWiki.Engine
         public Dictionary<string, string> Snippets { get; } = new();
         public List<NameNav> OutgoingLinks { get; private set; } = new();
         public List<string> ProcessingInstructions { get; private set; } = new();
-        public string ProcessedBody { get; private set; } = string.Empty;
+        public string BodyResult { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
         public Dictionary<string, WikiMatchSet> Matches { get; private set; } = new();
         public IPage Page { get; }
@@ -54,7 +114,6 @@ namespace TightWiki.Engine
         public ISessionState? SessionState { get; }
         public List<TableOfContentsTag> TableOfContents { get; } = new();
         public List<string> Headers { get; } = new();
-        public int CurrentNestLevel { get; }
 
         #endregion
 
@@ -70,38 +129,9 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestLevel">Internal use only, used for recursive processing.</param>
-        public Wikifier(IStandardFunctionHandler standardFunctionHandler,
-            IScopeFunctionHandler scopeFunctionHandler,
-            IProcessingInstructionFunctionHandler processingInstructionHandler,
-            IPostProcessingFunctionHandler postProcessingFunctionHandler,
-            IMarkupHandler markupHandler,
-            IHeadingHandler headingHandler,
-            ICommentHandler commentHandler,
-            IEmojiHandler emojiHandler,
-            IExternalLinkHandler externalLinkHandler,
-            IInternalLinkHandler internalLinkHandler,
-            ExceptionLogger? exceptionLogger,
-            OnCompletion? onCompletion,
-            ISessionState? sessionState, IPage page, int? revision = null,
-            WikiMatchType[]? omitMatches = null, int nestLevel = 0)
+        public WikifierSession(Wikifier wikifier, ISessionState? sessionState, IPage page, int? revision = null,
+            WikiMatchType[]? omitMatches = null)
         {
-            DateTime startTime = DateTime.UtcNow;
-
-            _scopeFunctionHandler = scopeFunctionHandler;
-            _standardFunctionHandler = standardFunctionHandler;
-            _processingInstructionFunctionHandler = processingInstructionHandler;
-            _PostProcessingFunctionHandler = postProcessingFunctionHandler;
-            _markupHandler = markupHandler;
-            _headingHandler = headingHandler;
-            _commentHandler = commentHandler;
-            _emojiHandler = emojiHandler;
-            _externalLinkHandler = externalLinkHandler;
-            _internalLinkHandler = internalLinkHandler;
-
-            _exceptionLogger = exceptionLogger;
-            _onCompletion = onCompletion;
-
-            CurrentNestLevel = nestLevel;
             QueryString = sessionState?.QueryString ?? new QueryCollection();
             Page = page;
             Revision = revision;
@@ -112,6 +142,13 @@ namespace TightWiki.Engine
             {
                 _omitMatches.UnionWith(omitMatches);
             }
+
+            Wikifier = wikifier;
+        }
+
+        public void Process()
+        {
+            var startTime = DateTime.UtcNow;
 
             try
             {
@@ -124,25 +161,7 @@ namespace TightWiki.Engine
 
             ProcessingTime = DateTime.UtcNow - startTime;
 
-            _onCompletion?.Invoke(this);
-        }
-
-        public IWikifier CreateChildWikifier(IPage page)
-        {
-            return new Wikifier(
-                _standardFunctionHandler,
-                _scopeFunctionHandler,
-                _processingInstructionFunctionHandler,
-                _PostProcessingFunctionHandler,
-                _markupHandler,
-                _headingHandler,
-                _commentHandler,
-                _emojiHandler,
-                _externalLinkHandler,
-                _internalLinkHandler,
-                _exceptionLogger,
-                _onCompletion,
-                SessionState, page, null, _omitMatches.ToArray(), CurrentNestLevel + 1);
+            Wikifier.CompletionHandler.Complete(this);
         }
 
         private void Transform()
@@ -187,7 +206,7 @@ namespace TightWiki.Engine
                 pageContent.Insert(0, header);
             }
 
-            ProcessedBody = pageContent.ToString();
+            BodyResult = pageContent.ToString();
         }
 
         public int TransformAll(WikiString pageContent)
@@ -253,7 +272,7 @@ namespace TightWiki.Engine
                 {
                     string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
 
-                    var result = _markupHandler.Handle(this, symbol, body);
+                    var result = Wikifier.MarkupHandler.Handle(this, symbol, body);
 
                     StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value, result.Content);
                 }
@@ -364,7 +383,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
 
-            var functionHandler = _scopeFunctionHandler;
+            var functionHandler = Wikifier.ScopeFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -430,7 +449,7 @@ namespace TightWiki.Engine
                     string link = _tocName + "_" + TableOfContents.Count().ToString();
                     string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
 
-                    var result = _headingHandler.Handle(this, headingMarkers, link, text);
+                    var result = Wikifier.HeadingHandler.Handle(this, headingMarkers, link, text);
 
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
@@ -449,7 +468,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var result = _commentHandler.Handle(this, match.Value);
+                var result = Wikifier.CommentHandler.Handle(this, match.Value);
                 StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value, result.Content);
             }
         }
@@ -471,7 +490,7 @@ namespace TightWiki.Engine
                     scale = int.Parse(parts[1]); //Image scale.
                 }
 
-                var result = _emojiHandler.Handle(this, $"%%{key}%%", scale);
+                var result = Wikifier.EmojiHandler.Handle(this, $"%%{key}%%", scale);
                 StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value, result.Content);
             }
         }
@@ -551,12 +570,12 @@ namespace TightWiki.Engine
                         text = null;
                     }
 
-                    var result = _externalLinkHandler.Handle(this, link, text, image);
+                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, text, image);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    var result = _externalLinkHandler.Handle(this, link, link, null);
+                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, link, null);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
@@ -584,12 +603,12 @@ namespace TightWiki.Engine
                         text = null;
                     }
 
-                    var result = _externalLinkHandler.Handle(this, link, text, image);
+                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, text, image);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    var result = _externalLinkHandler.Handle(this, link, link, null);
+                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, link, null);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
@@ -659,7 +678,7 @@ namespace TightWiki.Engine
                     //Use the namespace that the user explicitly specified.
                 }
 
-                var result = _internalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
+                var result = Wikifier.InternalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
                 if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                 {
                     OutgoingLinks.Add(new NameNav(pageName, pageNavigation.Canonical));
@@ -679,7 +698,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
-            var functionHandler = _processingInstructionFunctionHandler;
+            var functionHandler = Wikifier.ProcessingInstructionFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -717,7 +736,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-            var functionHandler = _standardFunctionHandler;
+            var functionHandler = Wikifier.StandardFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -729,7 +748,7 @@ namespace TightWiki.Engine
                 }
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {
-                    var postProcessPrototypes = _PostProcessingFunctionHandler.Prototypes;
+                    var postProcessPrototypes = Wikifier.PostProcessingFunctionHandler.Prototypes;
 
                     var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
 
@@ -776,7 +795,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
-            var functionHandler = _PostProcessingFunctionHandler;
+            var functionHandler = Wikifier.PostProcessingFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -856,15 +875,15 @@ namespace TightWiki.Engine
 
         private void StoreCriticalError(Exception ex)
         {
-            _exceptionLogger?.Invoke(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
+            Wikifier.ExceptionHandler.Log(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
 
             ErrorCount++;
-            ProcessedBody = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
+            BodyResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
         private string StoreError(WikiString pageContent, string match, string value)
         {
-            _exceptionLogger?.Invoke(this, null, $"Page: {Page.Navigation}, Error: {value}");
+            Wikifier.ExceptionHandler.Log(this, null, $"Page: {Page.Navigation}, Error: {value}");
 
             ErrorCount++;
             _matchesStoredPerIteration++;

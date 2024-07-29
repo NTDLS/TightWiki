@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using NTDLS.Helpers;
-using System.Security.Claims;
-using System.Text;
-using TightWiki.Library;
-using TightWiki.Models.DataModels;
-using TightWiki.Repository;
-
-namespace DummyPageGenerator
+﻿namespace DummyPageGenerator
 {
     internal class PageGenerator
     {
+        /*
         private readonly object _lockObject = new();
         private List<Page> _pagePool;
         private readonly Random _random;
@@ -375,5 +368,6 @@ namespace DummyPageGenerator
                     return text;
             }
         }
+        */
     }
 }

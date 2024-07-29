@@ -7,13 +7,13 @@ namespace TightWiki.Engine.Handlers
 {
     public class InternalLinkHandler : IInternalLinkHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, NamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale)
+        public HandlerResult Handle(IWikifierSession wikifierSession, NamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale)
         {
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
 
             if (page == null)
             {
-                if (wikifier.SessionState?.CanCreate == true)
+                if (wikifierSession.SessionState?.CanCreate == true)
                 {
                     if (image != null)
                     {
@@ -119,7 +119,7 @@ namespace TightWiki.Engine.Handlers
                     else
                     {
                         //The image is located on this page.
-                        href = $"<a href=\"/{page.Navigation}\"><img src=\"/Page/Image/{wikifier.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
+                        href = $"<a href=\"/{page.Navigation}\"><img src=\"/Page/Image/{wikifierSession.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
                     }
                 }
                 else

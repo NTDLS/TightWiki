@@ -23,13 +23,13 @@ namespace TightWiki.Wiki
         /// <param name="query"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static int UpsertPage(Page page, ISessionState? sessionState = null)
+        public static int UpsertPage(IWikifier wikifier, Page page, ISessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
             page.Id = PageRepository.SavePage(page);
 
-            RefreshPageMetadata(page, sessionState);
+            RefreshPageMetadata(wikifier, page, sessionState);
 
             if (isNewlyCreated)
             {
@@ -46,16 +46,16 @@ namespace TightWiki.Wiki
         /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static void RefreshPageMetadata(Page page, ISessionState? sessionState = null)
+        public static void RefreshPageMetadata(IWikifier wikifier, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var wikifier = Factories.CreateWikifier(sessionState, page, null,
+            var wikifierSession = wikifier.Process(sessionState, page, null,
                 [WikiMatchType.StandardFunction, WikiMatchType.ScopeFunction]);
 
-            PageRepository.UpdatePageTags(page.Id, wikifier.Tags);
-            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifier.ProcessingInstructions);
+            PageRepository.UpdatePageTags(page.Id, wikifierSession.Tags);
+            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifierSession.ProcessingInstructions);
 
-            var pageTokens = ParsePageTokens(wikifier).Select(o =>
+            var pageTokens = ParsePageTokens(wikifierSession).Select(o =>
                       new PageToken
                       {
                           PageId = page.Id,
@@ -66,20 +66,20 @@ namespace TightWiki.Wiki
 
             PageRepository.SavePageSearchTokens(pageTokens);
 
-            PageRepository.UpdatePageReferences(page.Id, wikifier.OutgoingLinks);
+            PageRepository.UpdatePageReferences(page.Id, wikifierSession.OutgoingLinks);
 
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
-        public static List<WeightedToken> ParsePageTokens(IWikifier wikifier)
+        public static List<WeightedToken> ParsePageTokens(IWikifierSession wikifierSession)
         {
             var allTokens = new List<WeightedToken>();
 
-            allTokens.AddRange(ComputeParsedPageTokens(wikifier.ProcessedBody, 1));
-            allTokens.AddRange(ComputeParsedPageTokens(wikifier.Page.Description, 1.2));
-            allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", wikifier.Tags), 1.4));
-            allTokens.AddRange(ComputeParsedPageTokens(wikifier.Page.Name, 1.6));
+            allTokens.AddRange(ComputeParsedPageTokens(wikifierSession.BodyResult, 1));
+            allTokens.AddRange(ComputeParsedPageTokens(wikifierSession.Page.Description, 1.2));
+            allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", wikifierSession.Tags), 1.4));
+            allTokens.AddRange(ComputeParsedPageTokens(wikifierSession.Page.Name, 1.6));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {

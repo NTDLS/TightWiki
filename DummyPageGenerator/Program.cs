@@ -1,19 +1,10 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using TightWiki;
-using TightWiki.Library;
-using TightWiki.Repository;
-
-namespace DummyPageGenerator
+﻿namespace DummyPageGenerator
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            /*
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
 
             var builder = new ConfigurationBuilder()
@@ -78,6 +69,7 @@ namespace DummyPageGenerator
 
                 workload.WaitForCompletion();
             }
+            */
         }
     }
 }

@@ -6,7 +6,7 @@ namespace TightWiki.Engine.Handlers
 {
     public class CommentHandler : ICommentHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, string text)
+        public HandlerResult Handle(IWikifierSession wikifierSession, string text)
         {
             return new HandlerResult() { Instructions = [HandlerResultInstruction.TruncateTrailingLine] };
         }

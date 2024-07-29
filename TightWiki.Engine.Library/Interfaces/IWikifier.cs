@@ -1,25 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
-using TightWiki.Library.Interfaces;
+﻿using TightWiki.Library.Interfaces;
+using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
     public interface IWikifier
     {
-        public Dictionary<string, string> Variables { get; }
-        public Dictionary<string, string> Snippets { get; }
-        public List<string> Tags { get; set; }
-        public IPage Page { get; }
-        public int? Revision { get; }
-        public IQueryCollection QueryString { get; }
-        public ISessionState? SessionState { get; }
-        public List<string> ProcessingInstructions { get; }
-        public List<NameNav> OutgoingLinks { get; }
-        public string ProcessedBody { get; }
-        public List<TableOfContentsTag> TableOfContents { get; }
-        public int CurrentNestLevel { get; }
-        public List<string> Headers { get; }
+        IScopeFunctionHandler ScopeFunctionHandler { get; }
+        IStandardFunctionHandler StandardFunctionHandler { get; }
+        IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; }
+        IPostProcessingFunctionHandler PostProcessingFunctionHandler { get; }
+        IMarkupHandler MarkupHandler { get; }
+        IHeadingHandler HeadingHandler { get; }
+        ICommentHandler CommentHandler { get; }
+        IEmojiHandler EmojiHandler { get; }
+        IExternalLinkHandler ExternalLinkHandler { get; }
+        IInternalLinkHandler InternalLinkHandler { get; }
+        IExceptionHandler ExceptionHandler { get; }
+        ICompletionHandler CompletionHandler { get; }
+        int CurrentNestLevel { get; }
 
-        public string CreateNextQueryToken();
-        public IWikifier CreateChildWikifier(IPage page);
+        IWikifierSession Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
+        IWikifier CreateChild(IPage page);
     }
 }

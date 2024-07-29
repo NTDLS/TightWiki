@@ -76,23 +76,23 @@ namespace TightWiki.Engine.Handlers
             return page;
         }
 
-        private void MergeUserVariables(ref IWikifier wikifier, Dictionary<string, string> items)
+        private void MergeUserVariables(ref IWikifierSession wikifierSession, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
-                wikifier.Variables[item.Key] = item.Value;
+                wikifierSession.Variables[item.Key] = item.Value;
             }
         }
 
-        private void MergeSnippets(ref IWikifier wikifier, Dictionary<string, string> items)
+        private void MergeSnippets(ref IWikifierSession wikifierSession, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
-                wikifier.Snippets[item.Key] = item.Value;
+                wikifierSession.Snippets[item.Key] = item.Value;
             }
         }
 
-        public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
+        public HandlerResult Handle(IWikifierSession wikifierSession, FunctionCall function, string scopeBody)
         {
             switch (function.Name.ToLower())
             {
@@ -101,8 +101,8 @@ namespace TightWiki.Engine.Handlers
                 case "profileglossary":
                     {
                         var html = new StringBuilder();
-                        string refTag = wikifier.CreateNextQueryToken();
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        string refTag = wikifierSession.CreateNextQueryToken();
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.Get<string>("searchToken");
                         var topCount = function.Parameters.Get<int>("top");
@@ -144,8 +144,8 @@ namespace TightWiki.Engine.Handlers
                 case "profilelist":
                     {
                         var html = new StringBuilder();
-                        string refTag = wikifier.CreateNextQueryToken();
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        string refTag = wikifierSession.CreateNextQueryToken();
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.Get<string>("searchToken");
                         var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
@@ -165,7 +165,7 @@ namespace TightWiki.Engine.Handlers
 
                         if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, wikifier.QueryString, profiles.First().PaginationPageCount));
+                            html.Append(PageSelectorGenerator.Generate(refTag, wikifierSession.QueryString, profiles.First().PaginationPageCount));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -174,15 +174,15 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "attachments":
                     {
-                        string refTag = wikifier.CreateNextQueryToken();
+                        string refTag = wikifierSession.CreateNextQueryToken();
 
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
-                        var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", wikifier.Page.Navigation));
+                        var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", wikifierSession.Page.Navigation));
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                        var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, wikifier.Revision);
+                        var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, wikifierSession.Revision);
                         var html = new StringBuilder();
 
                         if (attachments.Count() > 0)
@@ -190,13 +190,13 @@ namespace TightWiki.Engine.Handlers
                             html.Append("<ul>");
                             foreach (var file in attachments)
                             {
-                                if (wikifier.Revision != null)
+                                if (wikifierSession.Revision != null)
                                 {
-                                    html.Append($"<li><a href=\"/Page/Binary/{wikifier.Page.Navigation}/{file.FileNavigation}/{wikifier.Revision}\">{file.Name}</a>");
+                                    html.Append($"<li><a href=\"/Page/Binary/{wikifierSession.Page.Navigation}/{file.FileNavigation}/{wikifierSession.Revision}\">{file.Name}</a>");
                                 }
                                 else
                                 {
-                                    html.Append($"<li><a href=\"/Page/Binary/{wikifier.Page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
+                                    html.Append($"<li><a href=\"/Page/Binary/{wikifierSession.Page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
                                 }
 
                                 if (styleName == "full")
@@ -210,7 +210,7 @@ namespace TightWiki.Engine.Handlers
 
                             if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, wikifier.QueryString, attachments.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate(refTag, wikifierSession.QueryString, attachments.First().PaginationPageCount));
                             }
                         }
 
@@ -220,16 +220,16 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "revisions":
                     {
-                        if (wikifier.SessionState == null)
+                        if (wikifierSession.SessionState == null)
                         {
                             throw new Exception($"Localization is not supported without SessionState.");
                         }
 
-                        string refTag = wikifier.CreateNextQueryToken();
+                        string refTag = wikifierSession.CreateNextQueryToken();
 
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
-                        var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", wikifier.Page.Navigation));
+                        var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", wikifierSession.Page.Navigation));
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
@@ -241,12 +241,12 @@ namespace TightWiki.Engine.Handlers
                             html.Append("<ul>");
                             foreach (var item in revisions)
                             {
-                                html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {wikifier.SessionState.LocalizeDateTime(item.ModifiedDate)}</a>");
+                                html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {wikifierSession.SessionState.LocalizeDateTime(item.ModifiedDate)}</a>");
 
                                 if (styleName == "full")
                                 {
-                                    var thisRev = PageRepository.GetPageRevisionByNavigation(wikifier.Page.Navigation, item.Revision);
-                                    var prevRev = PageRepository.GetPageRevisionByNavigation(wikifier.Page.Navigation, item.Revision - 1);
+                                    var thisRev = PageRepository.GetPageRevisionByNavigation(wikifierSession.Page.Navigation, item.Revision);
+                                    var prevRev = PageRepository.GetPageRevisionByNavigation(wikifierSession.Page.Navigation, item.Revision - 1);
 
                                     var summaryText = Differentiator.GetComparisonSummary(thisRev?.Body ?? string.Empty, prevRev?.Body ?? string.Empty);
 
@@ -261,7 +261,7 @@ namespace TightWiki.Engine.Handlers
 
                             if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, wikifier.QueryString, revisions.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate(refTag, wikifierSession.QueryString, revisions.First().PaginationPageCount));
                             }
                         }
 
@@ -290,7 +290,7 @@ namespace TightWiki.Engine.Handlers
                 case "editlink": //(##EditLink(link text))
                     {
                         var linkText = function.Parameters.Get<string>("linkText");
-                        return new HandlerResult("<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{wikifier.Page.Navigation}/Edit") + $"\">{linkText}</a>");
+                        return new HandlerResult("<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{wikifierSession.Page.Navigation}/Edit") + $"\">{linkText}</a>");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -320,12 +320,13 @@ namespace TightWiki.Engine.Handlers
                         var page = GetPageFromPathInfo(navigation);
                         if (page != null)
                         {
-                            var wikify = wikifier.CreateChildWikifier(page);
+                            var childWikifier = wikifierSession.Wikifier.CreateChild(page);
+                            var childWikifierSession = childWikifier.Process(wikifierSession.SessionState, page);
 
-                            MergeUserVariables(ref wikifier, wikify.Variables);
-                            MergeSnippets(ref wikifier, wikify.Snippets);
+                            MergeUserVariables(ref wikifierSession, childWikifierSession.Variables);
+                            MergeSnippets(ref wikifierSession, childWikifierSession.Snippets);
 
-                            return new HandlerResult(wikify.ProcessedBody)
+                            return new HandlerResult(childWikifierSession.BodyResult)
                             {
                                 Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                             };
@@ -339,13 +340,13 @@ namespace TightWiki.Engine.Handlers
                         var key = function.Parameters.Get<string>("key");
                         var value = function.Parameters.Get<string>("value");
 
-                        if (wikifier.Variables.ContainsKey(key))
+                        if (wikifierSession.Variables.ContainsKey(key))
                         {
-                            wikifier.Variables[key] = value;
+                            wikifierSession.Variables[key] = value;
                         }
                         else
                         {
-                            wikifier.Variables.Add(key, value);
+                            wikifierSession.Variables.Add(key, value);
                         }
 
                         return new HandlerResult(string.Empty)
@@ -359,7 +360,7 @@ namespace TightWiki.Engine.Handlers
                     {
                         var key = function.Parameters.Get<string>("key");
 
-                        if (wikifier.Variables.TryGetValue(key, out var variable))
+                        if (wikifierSession.Variables.TryGetValue(key, out var variable))
                         {
                             return new HandlerResult(variable);
                         }
@@ -381,8 +382,8 @@ namespace TightWiki.Engine.Handlers
                 case "tag": //##tag(pipe|separated|list|of|tags)
                     {
                         var tags = function.Parameters.GetList<string>("pageTags");
-                        wikifier.Tags.AddRange(tags);
-                        wikifier.Tags = wikifier.Tags.Distinct().ToList();
+                        wikifierSession.Tags.AddRange(tags);
+                        wikifierSession.Tags = wikifierSession.Tags.Distinct().ToList();
 
                         return new HandlerResult(string.Empty)
                         {
@@ -401,7 +402,7 @@ namespace TightWiki.Engine.Handlers
                         bool explicitNamespace = imageName.Contains("::");
                         bool isPageForeignImage = false;
 
-                        string navigation = wikifier.Page.Navigation;
+                        string navigation = wikifierSession.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
                             string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
@@ -416,19 +417,19 @@ namespace TightWiki.Engine.Handlers
                             isPageForeignImage = true;
                         }
 
-                        if (explicitNamespace == false && wikifier.Page.Namespace != null)
+                        if (explicitNamespace == false && wikifierSession.Page.Namespace != null)
                         {
-                            if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), wikifier.Revision) == null)
+                            if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(imageName), wikifierSession.Revision) == null)
                             {
                                 //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                navigation = NamespaceNavigation.CleanAndValidate($"{wikifier.Page.Namespace}::{imageName}");
+                                navigation = NamespaceNavigation.CleanAndValidate($"{wikifierSession.Page.Namespace}::{imageName}");
                             }
                         }
 
-                        if (wikifier.Revision != null && isPageForeignImage == false)
+                        if (wikifierSession.Revision != null && isPageForeignImage == false)
                         {
                             //Check for isPageForeignImage because we don't version foreign page files.
-                            string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{wikifier.Revision}";
+                            string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{wikifierSession.Revision}";
                             string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
@@ -449,7 +450,7 @@ namespace TightWiki.Engine.Handlers
                         bool explicitNamespace = fileName.Contains("::");
                         bool isPageForeignFile = false;
 
-                        string navigation = wikifier.Page.Navigation;
+                        string navigation = wikifierSession.Page.Navigation;
                         if (fileName.Contains('/'))
                         {
                             //Allow loading attached images from other pages.
@@ -459,16 +460,16 @@ namespace TightWiki.Engine.Handlers
                             isPageForeignFile = true;
                         }
 
-                        if (explicitNamespace == false && wikifier.Page.Namespace != null)
+                        if (explicitNamespace == false && wikifierSession.Page.Namespace != null)
                         {
-                            if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), wikifier.Revision) == null)
+                            if (PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), wikifierSession.Revision) == null)
                             {
                                 //If the image does not exist, and no namespace was specified, but the page has a namespace - then default to the pages namespace.
-                                navigation = NamespaceNavigation.CleanAndValidate($"{wikifier.Page.Namespace}::{fileName}");
+                                navigation = NamespaceNavigation.CleanAndValidate($"{wikifierSession.Page.Namespace}::{fileName}");
                             }
                         }
 
-                        var attachment = PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), wikifier.Revision);
+                        var attachment = PageFileRepository.GetPageFileAttachmentInfoByPageNavigationPageRevisionAndFileNavigation(navigation, NamespaceNavigation.CleanAndValidate(fileName), wikifierSession.Revision);
                         if (attachment != null)
                         {
                             string alt = function.Parameters.Get("linkText", fileName);
@@ -478,10 +479,10 @@ namespace TightWiki.Engine.Handlers
                                 alt += $" ({attachment.FriendlySize})";
                             }
 
-                            if (wikifier.Revision != null && isPageForeignFile == false)
+                            if (wikifierSession.Revision != null && isPageForeignFile == false)
                             {
                                 //Check for isPageForeignImage because we don't version foreign page files.
-                                string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}/{wikifier.Revision}";
+                                string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}/{wikifierSession.Revision}";
                                 string image = $"<a href=\"{link}\">{alt}</a>";
                                 return new HandlerResult(image);
                             }
@@ -760,8 +761,8 @@ namespace TightWiki.Engine.Handlers
                 case "searchlist":
                     {
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                        string refTag = wikifier.CreateNextQueryToken();
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        string refTag = wikifierSession.CreateNextQueryToken();
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
                         var allowFuzzyMatching = function.Parameters.Get<bool>("allowFuzzyMatching");
@@ -802,7 +803,7 @@ namespace TightWiki.Engine.Handlers
 
                         if (pageSelector && (pageNumber > 1 || (pages.Count > 0 && pages.First().PaginationPageCount > 1)))
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, wikifier.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1));
+                            html.Append(PageSelectorGenerator.Generate(refTag, wikifierSession.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -856,16 +857,16 @@ namespace TightWiki.Engine.Handlers
                 //Displays a list of other related pages based on tags.
                 case "similar": //##Similar()
                     {
-                        string refTag = wikifier.CreateNextQueryToken();
+                        string refTag = wikifierSession.CreateNextQueryToken();
 
                         var similarity = function.Parameters.Get<int>("similarity");
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
                         var html = new StringBuilder();
 
-                        var pages = PageRepository.GetSimilarPagesPaged(wikifier.Page.Id, similarity, pageNumber, pageSize);
+                        var pages = PageRepository.GetSimilarPagesPaged(wikifierSession.Page.Id, similarity, pageNumber, pageSize);
 
                         if (styleName == "list")
                         {
@@ -896,7 +897,7 @@ namespace TightWiki.Engine.Handlers
 
                         if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, wikifier.QueryString, pages.First().PaginationPageCount));
+                            html.Append(PageSelectorGenerator.Generate(refTag, wikifierSession.QueryString, pages.First().PaginationPageCount));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -906,15 +907,15 @@ namespace TightWiki.Engine.Handlers
                 //Displays a list of other related pages based incoming links.
                 case "related": //##related
                     {
-                        string refTag = wikifier.CreateNextQueryToken();
+                        string refTag = wikifierSession.CreateNextQueryToken();
 
-                        int pageNumber = int.Parse(wikifier.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
+                        int pageNumber = int.Parse(wikifierSession.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
                         var html = new StringBuilder();
 
-                        var pages = PageRepository.GetRelatedPagesPaged(wikifier.Page.Id, pageNumber, pageSize);
+                        var pages = PageRepository.GetRelatedPagesPaged(wikifierSession.Page.Id, pageNumber, pageSize);
 
                         if (styleName == "list")
                         {
@@ -945,7 +946,7 @@ namespace TightWiki.Engine.Handlers
 
                         if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, wikifier.QueryString, pages.First().PaginationPageCount));
+                            html.Append(PageSelectorGenerator.Generate(refTag, wikifierSession.QueryString, pages.First().PaginationPageCount));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -955,14 +956,14 @@ namespace TightWiki.Engine.Handlers
                 //Displays the date and time that the current page was last modified.
                 case "lastmodified":
                     {
-                        if (wikifier.SessionState == null)
+                        if (wikifierSession.SessionState == null)
                         {
                             throw new Exception($"Localization is not supported without SessionState.");
                         }
 
-                        if (wikifier.Page.ModifiedDate != DateTime.MinValue)
+                        if (wikifierSession.Page.ModifiedDate != DateTime.MinValue)
                         {
-                            var localized = wikifier.SessionState.LocalizeDateTime(wikifier.Page.ModifiedDate);
+                            var localized = wikifierSession.SessionState.LocalizeDateTime(wikifierSession.Page.ModifiedDate);
                             return new HandlerResult($"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
                         }
 
@@ -973,14 +974,14 @@ namespace TightWiki.Engine.Handlers
                 //Displays the date and time that the current page was created.
                 case "created":
                     {
-                        if (wikifier.SessionState == null)
+                        if (wikifierSession.SessionState == null)
                         {
                             throw new Exception($"Localization is not supported without SessionState.");
                         }
 
-                        if (wikifier.Page.CreatedDate != DateTime.MinValue)
+                        if (wikifierSession.Page.CreatedDate != DateTime.MinValue)
                         {
-                            var localized = wikifier.SessionState.LocalizeDateTime(wikifier.Page.CreatedDate);
+                            var localized = wikifierSession.SessionState.LocalizeDateTime(wikifierSession.Page.CreatedDate);
                             return new HandlerResult($"{localized.ToShortDateString()} {localized.ToShortTimeString()}");
                         }
 
@@ -1001,21 +1002,21 @@ namespace TightWiki.Engine.Handlers
                 //Displays the title of the current page.
                 case "name":
                     {
-                        return new HandlerResult(wikifier.Page.Title);
+                        return new HandlerResult(wikifierSession.Page.Title);
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the title of the current page in title form.
                 case "title":
                     {
-                        return new HandlerResult($"<h1>{wikifier.Page.Title}</h1>");
+                        return new HandlerResult($"<h1>{wikifierSession.Page.Title}</h1>");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the namespace of the current page.
                 case "namespace":
                     {
-                        return new HandlerResult(wikifier.Page.Namespace ?? string.Empty);
+                        return new HandlerResult(wikifierSession.Page.Namespace ?? string.Empty);
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1024,9 +1025,9 @@ namespace TightWiki.Engine.Handlers
                     {
                         string name = function.Parameters.Get<string>("name");
 
-                        if (wikifier.Snippets.ContainsKey(name))
+                        if (wikifierSession.Snippets.ContainsKey(name))
                         {
-                            return new HandlerResult(wikifier.Snippets[name]);
+                            return new HandlerResult(wikifierSession.Snippets[name]);
                         }
                         else
                         {
@@ -1060,7 +1061,7 @@ namespace TightWiki.Engine.Handlers
                 //Displays the navigation text for the current page.
                 case "navigation":
                     {
-                        return new HandlerResult(wikifier.Page.Navigation);
+                        return new HandlerResult(wikifierSession.Page.Navigation);
                     }
             }
 

@@ -13,6 +13,6 @@ namespace TightWiki.Engine.Library.Interfaces
         /// <summary>
         /// When a function prototype is found, this function is called to process the call.
         /// </summary>
-        public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody);
+        public HandlerResult Handle(IWikifierSession wikifierSession, FunctionCall function, string scopeBody);
     }
 }
