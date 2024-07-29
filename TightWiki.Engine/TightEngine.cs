@@ -20,7 +20,7 @@ namespace TightWiki.Engine
         public ICompletionHandler CompletionHandler { get; private set; }
         public int CurrentNestLevel { get; private set; }
 
-        internal TightEngine(
+        public TightEngine(
             IStandardFunctionHandler standardFunctionHandler,
             IScopeFunctionHandler scopeFunctionHandler,
             IProcessingInstructionFunctionHandler processingInstructionFunctionHandler,
