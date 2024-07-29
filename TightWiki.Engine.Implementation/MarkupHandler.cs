@@ -2,7 +2,7 @@
 using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Implementation
 {
     public class MarkupHandler : IMarkupHandler
     {

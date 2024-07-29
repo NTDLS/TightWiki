@@ -8,7 +8,7 @@ using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Implementation
 {
     /// <summary>
     /// This is only compartmentalized out here so it can be shared with the DummyPageGenerator.

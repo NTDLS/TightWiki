@@ -9,7 +9,7 @@ using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
 using TightWiki.Engine;
-using TightWiki.Engine.Handlers.Utility;
+using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -371,7 +371,7 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                Engine.Handlers.Helpers.UpsertPage(tightEngine, page, SessionState);
+                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
@@ -505,7 +505,7 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    Engine.Handlers.Helpers.UpsertPage(tightEngine, previousPageRevision, SessionState);
+                    Engine.Implementation.Helpers.UpsertPage(tightEngine, previousPageRevision, SessionState);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -574,7 +574,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    Engine.Handlers.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                    Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -746,7 +746,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    Engine.Handlers.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                    Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }

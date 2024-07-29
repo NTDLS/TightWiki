@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
 using TightWiki.Controllers;
-using TightWiki.Engine.Handlers.Utility;
+using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
 

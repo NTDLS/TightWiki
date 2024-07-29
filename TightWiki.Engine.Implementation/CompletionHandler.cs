@@ -2,7 +2,7 @@
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Repository;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Implementation
 {
     public class CompletionHandler : ICompletionHandler
     {

@@ -7,7 +7,7 @@ using System.Text;
 using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Engine;
-using TightWiki.Engine.Handlers.Utility;
+using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Page;
@@ -342,7 +342,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                Engine.Handlers.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -469,7 +469,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                Engine.Handlers.Helpers.UpsertPage(tightEngine, page, SessionState);
+                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
@@ -594,7 +594,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = Engine.Handlers.Helpers.UpsertPage(tightEngine, page, SessionState);
+                page.Id = Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 
@@ -631,7 +631,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                Engine.Handlers.Helpers.UpsertPage(tightEngine, page, SessionState);
+                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 

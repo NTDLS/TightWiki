@@ -7,7 +7,7 @@ using static TightWiki.Engine.Library.Constants;
 using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 using static TightWiki.Library.Constants;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Implementation
 {
     public class ProcessingInstructionFunctionHandler : IProcessingInstructionFunctionHandler
     {

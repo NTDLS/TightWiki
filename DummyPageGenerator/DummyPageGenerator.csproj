@@ -31,12 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.0.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7" />
     <PackageReference Include="NTDLS.DelegateThreadPooling" Version="1.2.15" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
     <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
+    <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
     <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
   </ItemGroup>
 

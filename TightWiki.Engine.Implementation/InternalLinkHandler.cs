@@ -3,7 +3,7 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Implementation
 {
     public class InternalLinkHandler : IInternalLinkHandler
     {

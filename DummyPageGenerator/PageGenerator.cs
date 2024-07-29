@@ -1,8 +1,16 @@
-﻿namespace DummyPageGenerator
+﻿using Microsoft.AspNetCore.Identity;
+using NTDLS.Helpers;
+using System.Security.Claims;
+using System.Text;
+using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
+using TightWiki.Models.DataModels;
+using TightWiki.Repository;
+
+namespace DummyPageGenerator
 {
     internal class PageGenerator
     {
-        /*
         private readonly object _lockObject = new();
         private List<Page> _pagePool;
         private readonly Random _random;
@@ -180,7 +188,7 @@
         /// Creates a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public void GeneratePage(Guid userId)
+        public void GeneratePage(ITightEngine engine, Guid userId)
         {
             try
             {
@@ -232,7 +240,7 @@
                     ModifiedDate = DateTime.UtcNow,
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
-                int newPageId = TightWiki.Wiki.Helpers.UpsertPage(page);
+                int newPageId = TightWiki.Engine.Implementation.Helpers.UpsertPage(engine, page);
 
                 if (_random.Next(100) >= 70)
                 {
@@ -269,7 +277,7 @@
         /// Modifies a random page on the wiki.
         /// </summary>
         /// <param name="userId"></param>
-        public void ModifyRandomPages(Guid userId)
+        public void ModifyRandomPages(ITightEngine engine, Guid userId)
         {
             Console.WriteLine($"{userId} is modifying a page.");
 
@@ -293,7 +301,7 @@
                     + "\r\n" + bottomText.Trim();
                 pageToModify.ModifiedByUserId = userId;
                 pageToModify.ModifiedByUserId = userId;
-                TightWiki.Wiki.Helpers.UpsertPage(pageToModify);
+                TightWiki.Engine.Implementation.Helpers.UpsertPage(engine, pageToModify);
 
                 if (_random.Next(100) >= 90)
                 {
@@ -368,6 +376,5 @@
                     return text;
             }
         }
-        */
     }
 }

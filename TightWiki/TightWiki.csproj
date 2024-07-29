@@ -37,7 +37,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
     <ProjectReference Include="..\TightWiki.Email\TightWiki.Email.csproj" />
-    <ProjectReference Include="..\TightWiki.Engine.Handlers\TightWiki.Engine.Handlers.csproj" />
+    <ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
     <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
     <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />

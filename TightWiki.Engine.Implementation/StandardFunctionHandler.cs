@@ -1,7 +1,7 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
-using TightWiki.Engine.Handlers.Utility;
+using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
@@ -11,7 +11,7 @@ using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
-namespace TightWiki.Engine.Handlers
+namespace TightWiki.Engine.Implementation
 {
     public class StandardFunctionHandler : IStandardFunctionHandler
     {
