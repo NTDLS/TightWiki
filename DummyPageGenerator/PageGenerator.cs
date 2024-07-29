@@ -279,9 +279,10 @@ namespace DummyPageGenerator
         /// <param name="userId"></param>
         public void ModifyRandomPages(ITightEngine engine, Guid userId)
         {
-            Console.WriteLine($"{userId} is modifying a page.");
-
             var pageToModify = GetRandomPage();
+
+            Console.WriteLine($"{userId} is modifying page: {pageToModify.Id}.");
+
 
             AddRecentPageName(pageToModify.Name);
 
