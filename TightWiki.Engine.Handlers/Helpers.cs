@@ -8,7 +8,7 @@ using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Wiki
+namespace TightWiki.Engine.Handlers
 {
     /// <summary>
     /// This is only compartmentalized out here so it can be shared with the DummyPageGenerator.
@@ -49,13 +49,13 @@ namespace TightWiki.Wiki
         public static void RefreshPageMetadata(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var wikifierSession = wikifier.Process(sessionState, page, null,
+            var state = wikifier.Process(sessionState, page, null,
                 [WikiMatchType.StandardFunction, WikiMatchType.ScopeFunction]);
 
-            PageRepository.UpdatePageTags(page.Id, wikifierSession.Tags);
-            PageRepository.UpdatePageProcessingInstructions(page.Id, wikifierSession.ProcessingInstructions);
+            PageRepository.UpdatePageTags(page.Id, state.Tags);
+            PageRepository.UpdatePageProcessingInstructions(page.Id, state.ProcessingInstructions);
 
-            var pageTokens = ParsePageTokens(wikifierSession).Select(o =>
+            var pageTokens = ParsePageTokens(state).Select(o =>
                       new PageToken
                       {
                           PageId = page.Id,
@@ -66,20 +66,20 @@ namespace TightWiki.Wiki
 
             PageRepository.SavePageSearchTokens(pageTokens);
 
-            PageRepository.UpdatePageReferences(page.Id, wikifierSession.OutgoingLinks);
+            PageRepository.UpdatePageReferences(page.Id, state.OutgoingLinks);
 
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
-        public static List<WeightedToken> ParsePageTokens(ITightEngineState stateSession)
+        public static List<WeightedToken> ParsePageTokens(ITightEngineState state)
         {
             var allTokens = new List<WeightedToken>();
 
-            allTokens.AddRange(ComputeParsedPageTokens(wikifierSession.BodyResult, 1));
-            allTokens.AddRange(ComputeParsedPageTokens(wikifierSession.Page.Description, 1.2));
-            allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", wikifierSession.Tags), 1.4));
-            allTokens.AddRange(ComputeParsedPageTokens(wikifierSession.Page.Name, 1.6));
+            allTokens.AddRange(ComputeParsedPageTokens(state.BodyResult, 1));
+            allTokens.AddRange(ComputeParsedPageTokens(state.Page.Description, 1.2));
+            allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", state.Tags), 1.4));
+            allTokens.AddRange(ComputeParsedPageTokens(state.Page.Name, 1.6));
 
             allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
             {

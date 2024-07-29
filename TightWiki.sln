@@ -41,8 +41,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Engine.Handlers",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Engine.Library", "TightWiki.Engine.Library\TightWiki.Engine.Library.csproj", "{9FF1674E-15AD-4D20-B1D0-1249A027C95B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Wiki", "TightWiki.Wiki\TightWiki.Wiki.csproj", "{6D9CD868-2333-4D4B-886D-01E69017EE26}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,10 +99,6 @@ Global
 		{9FF1674E-15AD-4D20-B1D0-1249A027C95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FF1674E-15AD-4D20-B1D0-1249A027C95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FF1674E-15AD-4D20-B1D0-1249A027C95B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D9CD868-2333-4D4B-886D-01E69017EE26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D9CD868-2333-4D4B-886D-01E69017EE26}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D9CD868-2333-4D4B-886D-01E69017EE26}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D9CD868-2333-4D4B-886D-01E69017EE26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,7 +116,6 @@ Global
 		{8736FD63-2E5D-4A74-9B6B-AD076088CDB5} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
 		{C7D0D32F-5565-45F8-852C-E4D78ACC9925} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
 		{9FF1674E-15AD-4D20-B1D0-1249A027C95B} = {E877E5D9-BD3A-486A-ABA6-B890133D5220}
-		{6D9CD868-2333-4D4B-886D-01E69017EE26} = {66FB66E3-739C-44E8-B692-B714F41C3641}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3299E570-76FA-4831-9150-C1CCF4CB50E0}

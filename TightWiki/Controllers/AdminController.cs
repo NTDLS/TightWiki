@@ -371,7 +371,7 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                TightWiki.Wiki.Helpers.UpsertPage(tightEngine, page, SessionState);
+                Engine.Handlers.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
@@ -505,7 +505,7 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    TightWiki.Wiki.Helpers.UpsertPage(tightEngine, previousPageRevision, SessionState);
+                    Engine.Handlers.Helpers.UpsertPage(tightEngine, previousPageRevision, SessionState);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -574,7 +574,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    TightWiki.Wiki.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                    Engine.Handlers.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -746,7 +746,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    TightWiki.Wiki.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                    Engine.Handlers.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }
