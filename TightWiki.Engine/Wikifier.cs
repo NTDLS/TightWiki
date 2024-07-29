@@ -14,10 +14,10 @@ namespace TightWiki.Engine
 {
     public partial class Wikifier : IWikifier
     {
-        private readonly IFunctionHandler _scopeFunctionHandler;
-        private readonly IFunctionHandler _standardFunctionHandler;
-        private readonly IFunctionHandler _processingInstructionFunctionHandler;
-        private readonly IFunctionHandler _standardPostProcessingFunctionHandler;
+        private readonly IScopeFunctionHandler _scopeFunctionHandler;
+        private readonly IStandardFunctionHandler _standardFunctionHandler;
+        private readonly IProcessingInstructionFunctionHandler _processingInstructionFunctionHandler;
+        private readonly IPostProcessingFunctionHandler _PostProcessingFunctionHandler;
         private readonly IMarkupHandler _markupHandler;
         private readonly IHeadingHandler _headingHandler;
         private readonly ICommentHandler _commentHandler;
@@ -70,10 +70,10 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestLevel">Internal use only, used for recursive processing.</param>
-        public Wikifier(IFunctionHandler standardFunctionHandler,
-            IFunctionHandler scopeFunctionHandler,
-            IFunctionHandler processingInstructionHandler,
-            IFunctionHandler standardFunctionPostProcessHandler,
+        public Wikifier(IStandardFunctionHandler standardFunctionHandler,
+            IScopeFunctionHandler scopeFunctionHandler,
+            IProcessingInstructionFunctionHandler processingInstructionHandler,
+            IPostProcessingFunctionHandler postProcessingFunctionHandler,
             IMarkupHandler markupHandler,
             IHeadingHandler headingHandler,
             ICommentHandler commentHandler,
@@ -90,7 +90,7 @@ namespace TightWiki.Engine
             _scopeFunctionHandler = scopeFunctionHandler;
             _standardFunctionHandler = standardFunctionHandler;
             _processingInstructionFunctionHandler = processingInstructionHandler;
-            _standardPostProcessingFunctionHandler = standardFunctionPostProcessHandler;
+            _PostProcessingFunctionHandler = postProcessingFunctionHandler;
             _markupHandler = markupHandler;
             _headingHandler = headingHandler;
             _commentHandler = commentHandler;
@@ -133,7 +133,7 @@ namespace TightWiki.Engine
                 _standardFunctionHandler,
                 _scopeFunctionHandler,
                 _processingInstructionFunctionHandler,
-                _standardPostProcessingFunctionHandler,
+                _PostProcessingFunctionHandler,
                 _markupHandler,
                 _headingHandler,
                 _commentHandler,
@@ -729,7 +729,7 @@ namespace TightWiki.Engine
                 }
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {
-                    var postProcessPrototypes = _standardPostProcessingFunctionHandler.Prototypes;
+                    var postProcessPrototypes = _PostProcessingFunctionHandler.Prototypes;
 
                     var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
 
@@ -776,7 +776,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
-            var functionHandler = _standardPostProcessingFunctionHandler;
+            var functionHandler = _PostProcessingFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -929,7 +929,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Used to generate unique and regenerable tokens so different wikification process can identify
         ///     their own query strings. For instance, we can have more than one pager on a wiki page, this
-            /// allows each pager to track its own current page in the query string.
+        /// allows each pager to track its own current page in the query string.
         /// </summary>
         /// <returns></returns>
         public string CreateNextQueryToken()

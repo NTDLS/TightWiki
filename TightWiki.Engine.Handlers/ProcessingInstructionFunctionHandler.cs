@@ -9,7 +9,7 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Handlers
 {
-    public class ProcessingInstructionFunctionHandler : IFunctionHandler
+    public class ProcessingInstructionFunctionHandler : IProcessingInstructionFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

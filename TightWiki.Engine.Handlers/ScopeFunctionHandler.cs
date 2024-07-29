@@ -8,7 +8,7 @@ using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Handlers
 {
-    public class ScopeFunctionHandler : IFunctionHandler
+    public class ScopeFunctionHandler : IScopeFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

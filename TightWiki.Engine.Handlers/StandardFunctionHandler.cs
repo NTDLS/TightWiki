@@ -13,7 +13,7 @@ using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Handlers
 {
-    public class StandardFunctionHandler : IFunctionHandler
+    public class StandardFunctionHandler : IStandardFunctionHandler
     {
         private readonly Dictionary<string, int> _sequences = new();
         private static FunctionPrototypeCollection? _collection;
