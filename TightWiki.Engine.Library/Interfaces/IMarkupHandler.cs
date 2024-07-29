@@ -2,6 +2,6 @@
 {
     public interface IMarkupHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, char sequence, string scopeBody);
+        public HandlerResult Handle(ITightEngineState state, char sequence, string scopeBody);
     }
 }

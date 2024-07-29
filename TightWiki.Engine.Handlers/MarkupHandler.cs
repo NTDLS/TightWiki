@@ -6,7 +6,7 @@ namespace TightWiki.Engine.Handlers
 {
     public class MarkupHandler : IMarkupHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, char sequence, string scopeBody)
+        public HandlerResult Handle(ITightEngineState state, char sequence, string scopeBody)
         {
             switch (sequence)
             {

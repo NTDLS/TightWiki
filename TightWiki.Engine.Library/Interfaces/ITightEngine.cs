@@ -3,7 +3,7 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
-    public interface IWikifierFactory
+    public interface ITightEngine
     {
         IScopeFunctionHandler ScopeFunctionHandler { get; }
         IStandardFunctionHandler StandardFunctionHandler { get; }
@@ -19,7 +19,7 @@ namespace TightWiki.Engine.Library.Interfaces
         ICompletionHandler CompletionHandler { get; }
         int CurrentNestLevel { get; }
 
-        IWikifier Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
-        IWikifierFactory CreateChild(IPage page);
+        ITightEngineState Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
+        ITightEngine CreateChild(IPage page);
     }
 }

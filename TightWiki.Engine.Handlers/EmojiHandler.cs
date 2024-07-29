@@ -7,7 +7,7 @@ namespace TightWiki.Engine.Handlers
 {
     public class EmojiHandler : IEmojiHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, string key, int scale)
+        public HandlerResult Handle(ITightEngineState state, string key, int scale)
         {
             var emoji = GlobalConfiguration.Emojis.FirstOrDefault(o => o.Shortcut == key);
 

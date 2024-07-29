@@ -3,16 +3,16 @@ using TightWiki.Library.Interfaces;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
-    public interface IWikifier
+    public interface ITightEngineState
     {
-        IWikifierFactory Factory { get; }
+        ITightEngine Engine { get; }
         Dictionary<string, string> Variables { get; }
         Dictionary<string, string> Snippets { get; }
         List<string> Tags { get; set; }
         IPage Page { get; }
         int? Revision { get; }
         IQueryCollection QueryString { get; }
-        ISessionState? SessionState { get; }
+        ISessionState? Session { get; }
         List<string> ProcessingInstructions { get; }
         List<NameNav> OutgoingLinks { get; }
         string BodyResult { get; }

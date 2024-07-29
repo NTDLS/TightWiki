@@ -18,7 +18,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(WikifierFactory wikifier, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class PageController(TightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
         [AllowAnonymous]
@@ -82,18 +82,20 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        var processed = wikifier.Process(SessionState, page, pageRevision);
-                        model.Body = processed.BodyResult;
-                        if (processed.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                        var state = tightEngine.Process(SessionState, page, pageRevision);
+
+                        model.Body = state.BodyResult;
+                        if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            WikiCache.Put(cacheKey, processed.BodyResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                            WikiCache.Put(cacheKey, state.BodyResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                         }
                     }
                 }
                 else
                 {
-                    var processed = wikifier.Process(SessionState, page, pageRevision);
-                    model.Body = processed.BodyResult;
+                    var state = tightEngine.Process(SessionState, page, pageRevision);
+
+                    model.Body = state.BodyResult;
                 }
 
                 if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
@@ -123,10 +125,10 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, pageRevision);
 
-                var processed = wikifier.Process(SessionState, notExistsPage);
+                var state = tightEngine.Process(SessionState, notExistsPage);
 
                 SessionState.Page.Name = notExistsPage.Name;
-                model.Body = processed.BodyResult;
+                model.Body = state.BodyResult;
 
                 model.HideFooterComments = true;
 
@@ -143,9 +145,10 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, null);
 
-                var processed = wikifier.Process(SessionState, notExistsPage);
+                var state = tightEngine.Process(SessionState, notExistsPage);
+
                 SessionState.Page.Name = notExistsPage.Name;
-                model.Body = processed.BodyResult;
+                model.Body = state.BodyResult;
 
                 model.HideFooterComments = true;
 
@@ -339,7 +342,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                TightWiki.Wiki.Helpers.RefreshPageMetadata(wikifier, page, SessionState);
+                TightWiki.Wiki.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
             }
 
             return Redirect($"/{pageNavigation}");
@@ -466,7 +469,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                TightWiki.Wiki.Helpers.UpsertPage(wikifier, page, SessionState);
+                TightWiki.Wiki.Helpers.UpsertPage(tightEngine, page, SessionState);
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
@@ -591,7 +594,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = TightWiki.Wiki.Helpers.UpsertPage(wikifier, page, SessionState);
+                page.Id = TightWiki.Wiki.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 
@@ -628,7 +631,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                TightWiki.Wiki.Helpers.UpsertPage(wikifier, page, SessionState);
+                TightWiki.Wiki.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 

@@ -23,7 +23,7 @@ namespace TightWiki.Wiki
         /// <param name="query"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static int UpsertPage(IWikifierFactory wikifier, Page page, ISessionState? sessionState = null)
+        public static int UpsertPage(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;
 
@@ -46,7 +46,7 @@ namespace TightWiki.Wiki
         /// <param name="sessionState"></param>
         /// <param name="query"></param>
         /// <param name="page"></param>
-        public static void RefreshPageMetadata(IWikifierFactory wikifier, Page page, ISessionState? sessionState = null)
+        public static void RefreshPageMetadata(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
             var wikifierSession = wikifier.Process(sessionState, page, null,
@@ -72,7 +72,7 @@ namespace TightWiki.Wiki
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
-        public static List<WeightedToken> ParsePageTokens(IWikifier wikifierSession)
+        public static List<WeightedToken> ParsePageTokens(ITightEngineState stateSession)
         {
             var allTokens = new List<WeightedToken>();
 

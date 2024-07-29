@@ -2,6 +2,6 @@
 {
     public interface ICommentHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, string text);
+        public HandlerResult Handle(ITightEngineState state, string text);
     }
 }

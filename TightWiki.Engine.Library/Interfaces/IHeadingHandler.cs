@@ -2,6 +2,6 @@
 {
     public interface IHeadingHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, int depth, string link, string text);
+        public HandlerResult Handle(ITightEngineState state, int depth, string link, string text);
     }
 }

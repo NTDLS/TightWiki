@@ -43,7 +43,7 @@ namespace TightWiki.Engine.Handlers
             }
         }
 
-        public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody)
         {
             switch (function.Name.ToLower())
             {
@@ -230,13 +230,13 @@ namespace TightWiki.Engine.Handlers
 
                         string name = function.Parameters.Get<string>("name");
 
-                        if (wikifier.Snippets.ContainsKey(name))
+                        if (state.Snippets.ContainsKey(name))
                         {
-                            wikifier.Snippets[name] = scopeBody;
+                            state.Snippets[name] = scopeBody;
                         }
                         else
                         {
-                            wikifier.Snippets.Add(name, scopeBody);
+                            state.Snippets.Add(name, scopeBody);
                         }
                         return new HandlerResult(html.ToString());
                     }

@@ -34,7 +34,7 @@ namespace TightWiki.Engine.Handlers
             }
         }
 
-        public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody)
         {
             switch (function.Name.ToLower())
             {
@@ -48,7 +48,7 @@ namespace TightWiki.Engine.Handlers
                         if (styleName == "list")
                         {
                             html.Append("<ul>");
-                            foreach (var tag in wikifier.Tags)
+                            foreach (var tag in state.Tags)
                             {
                                 html.Append($"<li><a href=\"/Tag/Browse/{tag}\">{tag}</a>");
                             }
@@ -56,7 +56,7 @@ namespace TightWiki.Engine.Handlers
                         }
                         else if (styleName == "flat")
                         {
-                            foreach (var tag in wikifier.Tags)
+                            foreach (var tag in state.Tags)
                             {
                                 if (html.Length > 0) html.Append(" | ");
                                 html.Append($"<a href=\"/Tag/Browse/{tag}\">{tag}</a>");
@@ -94,7 +94,7 @@ namespace TightWiki.Engine.Handlers
 
                         var html = new StringBuilder();
 
-                        var tags = (from t in wikifier.TableOfContents
+                        var tags = (from t in state.TableOfContents
                                     orderby t.StartingPosition
                                     select t).ToList();
 

@@ -6,7 +6,7 @@ namespace TightWiki.Engine.Handlers
 {
     public class ExternalLinkHandler : IExternalLinkHandler
     {
-        public HandlerResult Handle(IWikifier wikifier, string link, string? text, string? image)
+        public HandlerResult Handle(ITightEngineState state, string link, string? text, string? image)
         {
             if (string.IsNullOrEmpty(image))
             {

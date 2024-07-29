@@ -2,6 +2,6 @@
 {
     public interface ICompletionHandler
     {
-        public void Complete(IWikifier wikifier);
+        public void Complete(ITightEngineState state);
     }
 }
