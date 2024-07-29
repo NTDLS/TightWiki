@@ -49,7 +49,7 @@ namespace TightWiki.Engine.Implementation
         public static void RefreshPageMetadata(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
         {
             //We omit function calls from the tokenization process because they are too dynamic for static searching.
-            var state = wikifier.Process(sessionState, page, null,
+            var state = wikifier.Transform(sessionState, page, null,
                 [WikiMatchType.StandardFunction, WikiMatchType.ScopeFunction]);
 
             PageRepository.UpdatePageTags(page.Id, state.Tags);
@@ -76,7 +76,7 @@ namespace TightWiki.Engine.Implementation
         {
             var allTokens = new List<WeightedToken>();
 
-            allTokens.AddRange(ComputeParsedPageTokens(state.BodyResult, 1));
+            allTokens.AddRange(ComputeParsedPageTokens(state.HtmlResult, 1));
             allTokens.AddRange(ComputeParsedPageTokens(state.Page.Description, 1.2));
             allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", state.Tags), 1.4));
             allTokens.AddRange(ComputeParsedPageTokens(state.Page.Name, 1.6));

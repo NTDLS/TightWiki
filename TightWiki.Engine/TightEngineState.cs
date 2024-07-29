@@ -29,7 +29,7 @@ namespace TightWiki.Engine
         public Dictionary<string, string> Snippets { get; } = new();
         public List<NameNav> OutgoingLinks { get; private set; } = new();
         public List<string> ProcessingInstructions { get; private set; } = new();
-        public string BodyResult { get; private set; } = string.Empty;
+        public string HtmlResult { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
         public Dictionary<string, WikiMatchSet> Matches { get; private set; } = new();
         public IPage Page { get; }
@@ -42,18 +42,13 @@ namespace TightWiki.Engine
         #endregion
 
         /// <summary>
-        /// 
+        /// Creates a new instance of the TightEngineState class. Typically created by a call to TightEngine.Transform().
         /// </summary>
-        /// <param name="standardFunctionHandler">Handler for standard functions</param>
-        /// <param name="scopeFunctionHandler">Handler for scope functions.</param>
-        /// <param name="processingInstructionHandler">Handler for processing instructions.</param>
-        /// <param name="standardFunctionPostProcessHandler">Handler for post process functions.</param>
         /// <param name="session">The users current state, used for localization.</param>
         /// <param name="page">The page that is being processed.</param>
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
-        /// <param name="nestLevel">Internal use only, used for recursive processing.</param>
-        public TightEngineState(TightEngine engine, ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+        internal TightEngineState(TightEngine engine, ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
         {
             QueryString = session?.QueryString ?? new QueryCollection();
             Page = page;
@@ -69,13 +64,53 @@ namespace TightWiki.Engine
             Engine = engine;
         }
 
-        public void Process()
+        internal ITightEngineState Transform()
         {
             var startTime = DateTime.UtcNow;
 
             try
             {
-                Transform();
+                var pageContent = new WikiString(Page.Body);
+
+                pageContent.Replace("\r\n", "\n");
+
+                TransformLiterals(pageContent);
+
+                while (TransformAll(pageContent) > 0)
+                {
+                }
+
+                TransformPostProcessingFunctions(pageContent);
+                TransformWhitespace(pageContent);
+
+                int length;
+                do
+                {
+                    length = pageContent.Length;
+                    foreach (var v in Matches)
+                    {
+                        if (_omitMatches.Contains(v.Value.MatchType))
+                        {
+                            /// When matches are omitted, the entire match will be removed from the resulting wiki text.
+                            pageContent.Replace(v.Key, string.Empty);
+                        }
+                        else
+                        {
+                            pageContent.Replace(v.Key, v.Value.Content);
+                        }
+                    }
+                } while (length != pageContent.Length);
+
+                pageContent.Replace(SoftBreak, "\r\n");
+                pageContent.Replace(HardBreak, "<br />");
+
+                //Prepend any headers that were added by wiki handlers.
+                foreach (var header in Headers)
+                {
+                    pageContent.Insert(0, header);
+                }
+
+                HtmlResult = pageContent.ToString();
             }
             catch (Exception ex)
             {
@@ -85,54 +120,11 @@ namespace TightWiki.Engine
             ProcessingTime = DateTime.UtcNow - startTime;
 
             Engine.CompletionHandler.Complete(this);
+
+            return this;
         }
 
-        private void Transform()
-        {
-            var pageContent = new WikiString(Page.Body);
-
-            pageContent.Replace("\r\n", "\n");
-
-            TransformLiterals(pageContent);
-
-            while (TransformAll(pageContent) > 0)
-            {
-            }
-
-            TransformPostProcessingFunctions(pageContent);
-            TransformWhitespace(pageContent);
-
-            int length;
-            do
-            {
-                length = pageContent.Length;
-                foreach (var v in Matches)
-                {
-                    if (_omitMatches.Contains(v.Value.MatchType))
-                    {
-                        /// When matches are omitted, the entire match will be removed from the resulting wiki text.
-                        pageContent.Replace(v.Key, string.Empty);
-                    }
-                    else
-                    {
-                        pageContent.Replace(v.Key, v.Value.Content);
-                    }
-                }
-            } while (length != pageContent.Length);
-
-            pageContent.Replace(SoftBreak, "\r\n");
-            pageContent.Replace(HardBreak, "<br />");
-
-            //Prepend any headers that were added by wiki handlers.
-            foreach (var header in Headers)
-            {
-                pageContent.Insert(0, header);
-            }
-
-            BodyResult = pageContent.ToString();
-        }
-
-        public int TransformAll(WikiString pageContent)
+        private int TransformAll(WikiString pageContent)
         {
             _matchesStoredPerIteration = 0;
 
@@ -351,7 +343,7 @@ namespace TightWiki.Engine
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
         /// <param name="pageContent"></param>
-        void TransformHeadings(WikiString pageContent)
+        private void TransformHeadings(WikiString pageContent)
         {
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformSectionHeadings().Matches(pageContent.ToString()));
@@ -765,7 +757,7 @@ namespace TightWiki.Engine
 
         #region Utility.
 
-        void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue, string scopeBody)
+        private void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue, string scopeBody)
         {
             if (result.Instructions.Contains(HandlerResultInstruction.Skip))
             {
@@ -801,7 +793,7 @@ namespace TightWiki.Engine
             Engine.ExceptionHandler.Log(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
 
             ErrorCount++;
-            BodyResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
+            HtmlResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
         }
 
         private string StoreError(WikiString pageContent, string match, string value)
@@ -874,7 +866,7 @@ namespace TightWiki.Engine
         /// allows each pager to track its own current page in the query string.
         /// </summary>
         /// <returns></returns>
-        public string CreateNextQueryToken()
+        public string GetNextQueryToken()
         {
             _queryTokenHash = Security.Helpers.Sha256(Security.Helpers.EncryptString(Security.Helpers.MachineKey, _queryTokenHash));
             return $"H{Security.Helpers.Crc32(_queryTokenHash)}";

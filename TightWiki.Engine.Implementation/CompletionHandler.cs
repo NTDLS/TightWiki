@@ -16,7 +16,7 @@ namespace TightWiki.Engine.Implementation
                     state.ErrorCount,
                     state.OutgoingLinks.Count,
                     state.Tags.Count,
-                    state.BodyResult.Length,
+                    state.HtmlResult.Length,
                     state.Page.Body.Length);
             }
         }

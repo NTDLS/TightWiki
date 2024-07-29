@@ -20,7 +20,7 @@ namespace TightWiki.Engine
         public ICompletionHandler CompletionHandler { get; private set; }
         public int CurrentNestLevel { get; private set; }
 
-        public TightEngine(
+        internal TightEngine(
             IStandardFunctionHandler standardFunctionHandler,
             IScopeFunctionHandler scopeFunctionHandler,
             IProcessingInstructionFunctionHandler processingInstructionFunctionHandler,
@@ -50,15 +50,19 @@ namespace TightWiki.Engine
             ExceptionHandler = exceptionHandler;
             CompletionHandler = completionHandler;
 
-            CurrentNestLevel = nestLevel;
+            CurrentNestLevel = nestLevel; //Used for recursion.
         }
 
-        public ITightEngineState Process(ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
-        {
-            var wikifierSession = new TightEngineState(this, session, page, revision, omitMatches);
-            wikifierSession.Process();
-            return wikifierSession;
-        }
+        /// <summary>
+        /// Transforms the content for the given page.
+        /// </summary>
+        /// <param name="session">The users current state, used for localization.</param>
+        /// <param name="page">The page that is being processed.</param>
+        /// <param name="revision">The revision of the page that is being processed.</param>
+        /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
+        /// <returns></returns>
+        public ITightEngineState Transform(ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+            => new TightEngineState(this, session, page, revision, omitMatches).Transform();
 
         public ITightEngine CreateChild(IPage page)
         {

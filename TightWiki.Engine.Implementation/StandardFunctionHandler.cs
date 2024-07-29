@@ -101,7 +101,7 @@ namespace TightWiki.Engine.Implementation
                 case "profileglossary":
                     {
                         var html = new StringBuilder();
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.Get<string>("searchToken");
@@ -144,7 +144,7 @@ namespace TightWiki.Engine.Implementation
                 case "profilelist":
                     {
                         var html = new StringBuilder();
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var searchToken = function.Parameters.Get<string>("searchToken");
@@ -174,7 +174,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "attachments":
                     {
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
 
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
@@ -225,7 +225,7 @@ namespace TightWiki.Engine.Implementation
                             throw new Exception($"Localization is not supported without SessionState.");
                         }
 
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
 
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
@@ -321,12 +321,12 @@ namespace TightWiki.Engine.Implementation
                         if (page != null)
                         {
                             var childEngine = state.Engine.CreateChild(page);
-                            var childState = childEngine.Process(state.Session, page);
+                            var childState = childEngine.Transform(state.Session, page);
 
                             MergeUserVariables(ref state, childState.Variables);
                             MergeSnippets(ref state, childState.Snippets);
 
-                            return new HandlerResult(childState.BodyResult)
+                            return new HandlerResult(childState.HtmlResult)
                             {
                                 Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                             };
@@ -761,7 +761,7 @@ namespace TightWiki.Engine.Implementation
                 case "searchlist":
                     {
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
@@ -857,7 +857,7 @@ namespace TightWiki.Engine.Implementation
                 //Displays a list of other related pages based on tags.
                 case "similar": //##Similar()
                     {
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
 
                         var similarity = function.Parameters.Get<int>("similarity");
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
@@ -907,7 +907,7 @@ namespace TightWiki.Engine.Implementation
                 //Displays a list of other related pages based incoming links.
                 case "related": //##related
                     {
-                        string refTag = state.CreateNextQueryToken();
+                        string refTag = state.GetNextQueryToken();
 
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");

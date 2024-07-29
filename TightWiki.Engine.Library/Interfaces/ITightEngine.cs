@@ -19,7 +19,7 @@ namespace TightWiki.Engine.Library.Interfaces
         ICompletionHandler CompletionHandler { get; }
         int CurrentNestLevel { get; }
 
-        ITightEngineState Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
+        ITightEngineState Transform(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
         ITightEngine CreateChild(IPage page);
     }
 }

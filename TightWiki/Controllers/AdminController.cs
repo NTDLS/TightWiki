@@ -426,10 +426,10 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var state = tightEngine.Process(SessionState, page);
+                var state = tightEngine.Transform(SessionState, page);
                 model.PageId = pageId;
                 model.Revision = pageId;
-                model.Body = state.BodyResult;
+                model.Body = state.HtmlResult;
                 model.DeletedDate = SessionState.LocalizeDateTime(page.DeletedDate);
                 model.DeletedByUserName = page.DeletedByUserName;
             }
@@ -532,9 +532,9 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var state = tightEngine.Process(SessionState, page);
+                var state = tightEngine.Transform(SessionState, page);
                 model.PageId = pageId;
-                model.Body = state.BodyResult;
+                model.Body = state.HtmlResult;
                 model.DeletedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
                 model.DeletedByUserName = page.DeletedByUserName;
             }
@@ -609,12 +609,12 @@ namespace TightWiki.Site.Controllers
                         var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                         if (WikiCache.Contains(cacheKey) == false)
                         {
-                            var state = tightEngine.Process(SessionState, page, page.Revision);
-                            page.Body = state.BodyResult;
+                            var state = tightEngine.Transform(SessionState, page, page.Revision);
+                            page.Body = state.HtmlResult;
 
                             if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                             {
-                                WikiCache.Put(cacheKey, state.BodyResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                WikiCache.Put(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     });

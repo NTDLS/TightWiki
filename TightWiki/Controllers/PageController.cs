@@ -82,20 +82,20 @@ namespace TightWiki.Controllers
                     }
                     else
                     {
-                        var state = tightEngine.Process(SessionState, page, pageRevision);
+                        var state = tightEngine.Transform(SessionState, page, pageRevision);
 
-                        model.Body = state.BodyResult;
+                        model.Body = state.HtmlResult;
                         if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            WikiCache.Put(cacheKey, state.BodyResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                            WikiCache.Put(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                         }
                     }
                 }
                 else
                 {
-                    var state = tightEngine.Process(SessionState, page, pageRevision);
+                    var state = tightEngine.Transform(SessionState, page, pageRevision);
 
-                    model.Body = state.BodyResult;
+                    model.Body = state.HtmlResult;
                 }
 
                 if (GlobalConfiguration.EnablePageComments && GlobalConfiguration.ShowCommentsOnPageFooter && model.HideFooterComments == false)
@@ -125,10 +125,10 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, pageRevision);
 
-                var state = tightEngine.Process(SessionState, notExistsPage);
+                var state = tightEngine.Transform(SessionState, notExistsPage);
 
                 SessionState.Page.Name = notExistsPage.Name;
-                model.Body = state.BodyResult;
+                model.Body = state.HtmlResult;
 
                 model.HideFooterComments = true;
 
@@ -145,10 +145,10 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(null, null);
 
-                var state = tightEngine.Process(SessionState, notExistsPage);
+                var state = tightEngine.Transform(SessionState, notExistsPage);
 
                 SessionState.Page.Name = notExistsPage.Name;
-                model.Body = state.BodyResult;
+                model.Body = state.HtmlResult;
 
                 model.HideFooterComments = true;
 
