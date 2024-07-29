@@ -22,7 +22,6 @@ namespace DummyPageGenerator
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
 
-
             var host = Host.CreateDefaultBuilder(args)
                        .ConfigureAppConfiguration((context, config) =>
                        {
