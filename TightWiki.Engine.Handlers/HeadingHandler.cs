@@ -6,7 +6,7 @@ namespace TightWiki.Engine.Handlers
 {
     public class HeadingHandler : IHeadingHandler
     {
-        public HandlerResult Handle(IWikifierSession wikifierSession, int depth, string link, string text)
+        public HandlerResult Handle(IWikifier wikifier, int depth, string link, string text)
         {
             if (depth >= 2 && depth <= 6)
             {

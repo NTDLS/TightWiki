@@ -2,6 +2,6 @@
 {
     public interface IEmojiHandler
     {
-        public HandlerResult Handle(IWikifierSession wikifierSession, string key, int scale);
+        public HandlerResult Handle(IWikifier wikifier, string key, int scale);
     }
 }

@@ -44,11 +44,11 @@ namespace TightWiki.Engine.Handlers
             }
         }
 
-        public HandlerResult Handle(IWikifierSession wikifierSession, FunctionCall function, string scopeBody)
+        public HandlerResult Handle(IWikifier wikifier, FunctionCall function, string scopeBody)
         {
             switch (function.Name.ToLower())
             {
-                //We check wikifierSession.Wikifier.CurrentNestLevel here because we don't want to include the processing instructions on any parent pages that are injecting this one.
+                //We check wikifierSession.Factory.CurrentNestLevel here because we don't want to include the processing instructions on any parent pages that are injecting this one.
 
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "systememojilist":
@@ -65,7 +65,7 @@ namespace TightWiki.Engine.Handlers
                         html.Append($"</tr>");
                         html.Append($"</thead>");
 
-                        string category = wikifierSession.QueryString["Category"].ToString();
+                        string category = wikifier.QueryString["Category"].ToString();
 
                         html.Append($"<tbody>");
 
@@ -133,7 +133,7 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "hidefooterlastmodified":
                     {
-                        wikifierSession.ProcessingInstructions.Add(WikiInstruction.HideFooterLastModified);
+                        wikifier.ProcessingInstructions.Add(WikiInstruction.HideFooterLastModified);
 
                         return new HandlerResult(string.Empty)
                         {
@@ -144,7 +144,7 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "hidefootercomments":
                     {
-                        wikifierSession.ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
+                        wikifier.ProcessingInstructions.Add(WikiInstruction.HideFooterComments);
                         return new HandlerResult(string.Empty)
                         {
                             Instructions = [HandlerResultInstruction.TruncateTrailingLine]
@@ -154,7 +154,7 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "nocache":
                     {
-                        wikifierSession.ProcessingInstructions.Add(WikiInstruction.NoCache);
+                        wikifier.ProcessingInstructions.Add(WikiInstruction.NoCache);
                         return new HandlerResult(string.Empty)
                         {
                             Instructions = [HandlerResultInstruction.TruncateTrailingLine]
@@ -164,10 +164,10 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "deprecate":
                     {
-                        if (wikifierSession.Wikifier.CurrentNestLevel == 0)
+                        if (wikifier.Factory.CurrentNestLevel == 0)
                         {
-                            wikifierSession.ProcessingInstructions.Add(WikiInstruction.Deprecate);
-                            wikifierSession.Headers.Add("<div class=\"alert alert-danger\">This page has been deprecated and will eventually be deleted.</div>");
+                            wikifier.ProcessingInstructions.Add(WikiInstruction.Deprecate);
+                            wikifier.Headers.Add("<div class=\"alert alert-danger\">This page has been deprecated and will eventually be deleted.</div>");
                         }
                         return new HandlerResult(string.Empty)
                         {
@@ -178,13 +178,13 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "protect":
                     {
-                        if (wikifierSession.Wikifier.CurrentNestLevel == 0)
+                        if (wikifier.Factory.CurrentNestLevel == 0)
                         {
                             bool isSilent = function.Parameters.Get<bool>("isSilent");
-                            wikifierSession.ProcessingInstructions.Add(WikiInstruction.Protect);
+                            wikifier.ProcessingInstructions.Add(WikiInstruction.Protect);
                             if (isSilent == false)
                             {
-                                wikifierSession.Headers.Add("<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
+                                wikifier.Headers.Add("<div class=\"alert alert-info\">This page has been protected and can not be changed by non-moderators.</div>");
                             }
                         }
                         return new HandlerResult(string.Empty)
@@ -196,10 +196,10 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "template":
                     {
-                        if (wikifierSession.Wikifier.CurrentNestLevel == 0)
+                        if (wikifier.Factory.CurrentNestLevel == 0)
                         {
-                            wikifierSession.ProcessingInstructions.Add(WikiInstruction.Template);
-                            wikifierSession.Headers.Add("<div class=\"alert alert-secondary\">This page is a template and will not appear in indexes or glossaries.</div>");
+                            wikifier.ProcessingInstructions.Add(WikiInstruction.Template);
+                            wikifier.Headers.Add("<div class=\"alert alert-secondary\">This page is a template and will not appear in indexes or glossaries.</div>");
                         }
                         return new HandlerResult(string.Empty)
                         {
@@ -210,10 +210,10 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "review":
                     {
-                        if (wikifierSession.Wikifier.CurrentNestLevel == 0)
+                        if (wikifier.Factory.CurrentNestLevel == 0)
                         {
-                            wikifierSession.ProcessingInstructions.Add(WikiInstruction.Review);
-                            wikifierSession.Headers.Add("<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
+                            wikifier.ProcessingInstructions.Add(WikiInstruction.Review);
+                            wikifier.Headers.Add("<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
                         }
                         return new HandlerResult(string.Empty)
                         {
@@ -224,10 +224,10 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "include":
                     {
-                        if (wikifierSession.Wikifier.CurrentNestLevel == 0)
+                        if (wikifier.Factory.CurrentNestLevel == 0)
                         {
-                            wikifierSession.ProcessingInstructions.Add(WikiInstruction.Include);
-                            wikifierSession.Headers.Add("<div class=\"alert alert-secondary\">This page is an include and will not appear in indexes or glossaries.</div>");
+                            wikifier.ProcessingInstructions.Add(WikiInstruction.Include);
+                            wikifier.Headers.Add("<div class=\"alert alert-secondary\">This page is an include and will not appear in indexes or glossaries.</div>");
                         }
                         return new HandlerResult(string.Empty)
                         {
@@ -238,10 +238,10 @@ namespace TightWiki.Engine.Handlers
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "draft":
                     {
-                        if (wikifierSession.Wikifier.CurrentNestLevel == 0)
+                        if (wikifier.Factory.CurrentNestLevel == 0)
                         {
-                            wikifierSession.ProcessingInstructions.Add(WikiInstruction.Draft);
-                            wikifierSession.Headers.Add("<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
+                            wikifier.ProcessingInstructions.Add(WikiInstruction.Draft);
+                            wikifier.Headers.Add("<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");
                         }
                         return new HandlerResult(string.Empty)
                         {

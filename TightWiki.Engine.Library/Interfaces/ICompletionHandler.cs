@@ -2,6 +2,6 @@
 {
     public interface ICompletionHandler
     {
-        public void Complete(IWikifierSession wikifier);
+        public void Complete(IWikifier wikifier);
     }
 }

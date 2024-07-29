@@ -6,18 +6,18 @@ namespace TightWiki.Engine.Handlers
 {
     public class CompletionHandler : ICompletionHandler
     {
-        public void Complete(IWikifierSession wikifierSession)
+        public void Complete(IWikifier wikifier)
         {
             if (GlobalConfiguration.RecordCompilationMetrics)
             {
-                StatisticsRepository.InsertCompilationStatistics(wikifierSession.Page.Id,
-                    wikifierSession.ProcessingTime.TotalMilliseconds,
-                    wikifierSession.MatchCount,
-                    wikifierSession.ErrorCount,
-                    wikifierSession.OutgoingLinks.Count,
-                    wikifierSession.Tags.Count,
-                    wikifierSession.BodyResult.Length,
-                    wikifierSession.Page.Body.Length);
+                StatisticsRepository.InsertCompilationStatistics(wikifier.Page.Id,
+                    wikifier.ProcessingTime.TotalMilliseconds,
+                    wikifier.MatchCount,
+                    wikifier.ErrorCount,
+                    wikifier.OutgoingLinks.Count,
+                    wikifier.Tags.Count,
+                    wikifier.BodyResult.Length,
+                    wikifier.Page.Body.Length);
             }
         }
     }

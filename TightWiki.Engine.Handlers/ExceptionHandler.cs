@@ -5,7 +5,7 @@ namespace TightWiki.Engine.Handlers
 {
     public class ExceptionHandler : IExceptionHandler
     {
-        public void Log(IWikifierSession wikifier, Exception? ex, string customText)
+        public void Log(IWikifier wikifier, Exception? ex, string customText)
         {
             if (ex != null)
             {

@@ -2,6 +2,6 @@
 {
     public interface IInternalLinkHandler
     {
-        public HandlerResult Handle(IWikifierSession wikifierSession, NamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale);
+        public HandlerResult Handle(IWikifier wikifier, NamespaceNavigation pageNavigation, string pageName, string linkText, string? image, int imageScale);
     }
 }

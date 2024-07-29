@@ -2,6 +2,6 @@
 {
     public interface IExceptionHandler
     {
-        public void Log(IWikifierSession wikifier, Exception? ex, string customText);
+        public void Log(IWikifier wikifier, Exception? ex, string customText);
     }
 }

@@ -11,9 +11,9 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine
 {
-    public class WikifierSession : IWikifierSession
+    public class Wikifier : IWikifier
     {
-        public IWikifier Wikifier { get; private set; }
+        public IWikifierFactory Factory { get; private set; }
 
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
@@ -53,8 +53,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestLevel">Internal use only, used for recursive processing.</param>
-        public WikifierSession(WikifierFactory wikifier, ISessionState? sessionState, IPage page, int? revision = null,
-            WikiMatchType[]? omitMatches = null)
+        public Wikifier(WikifierFactory factory, ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
         {
             QueryString = sessionState?.QueryString ?? new QueryCollection();
             Page = page;
@@ -67,7 +66,7 @@ namespace TightWiki.Engine
                 _omitMatches.UnionWith(omitMatches);
             }
 
-            Wikifier = wikifier;
+            Factory = factory;
         }
 
         public void Process()
@@ -85,7 +84,7 @@ namespace TightWiki.Engine
 
             ProcessingTime = DateTime.UtcNow - startTime;
 
-            Wikifier.CompletionHandler.Complete(this);
+            Factory.CompletionHandler.Complete(this);
         }
 
         private void Transform()
@@ -196,7 +195,7 @@ namespace TightWiki.Engine
                 {
                     string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
 
-                    var result = Wikifier.MarkupHandler.Handle(this, symbol, body);
+                    var result = Factory.MarkupHandler.Handle(this, symbol, body);
 
                     StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value, result.Content);
                 }
@@ -307,7 +306,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformBlock().Matches(pageContent.ToString()));
 
-            var functionHandler = Wikifier.ScopeFunctionHandler;
+            var functionHandler = Factory.ScopeFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -373,7 +372,7 @@ namespace TightWiki.Engine
                     string link = _tocName + "_" + TableOfContents.Count().ToString();
                     string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
 
-                    var result = Wikifier.HeadingHandler.Handle(this, headingMarkers, link, text);
+                    var result = Factory.HeadingHandler.Handle(this, headingMarkers, link, text);
 
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
@@ -392,7 +391,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                var result = Wikifier.CommentHandler.Handle(this, match.Value);
+                var result = Factory.CommentHandler.Handle(this, match.Value);
                 StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value, result.Content);
             }
         }
@@ -414,7 +413,7 @@ namespace TightWiki.Engine
                     scale = int.Parse(parts[1]); //Image scale.
                 }
 
-                var result = Wikifier.EmojiHandler.Handle(this, $"%%{key}%%", scale);
+                var result = Factory.EmojiHandler.Handle(this, $"%%{key}%%", scale);
                 StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value, result.Content);
             }
         }
@@ -494,12 +493,12 @@ namespace TightWiki.Engine
                         text = null;
                     }
 
-                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, text, image);
+                    var result = Factory.ExternalLinkHandler.Handle(this, link, text, image);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, link, null);
+                    var result = Factory.ExternalLinkHandler.Handle(this, link, link, null);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
@@ -527,12 +526,12 @@ namespace TightWiki.Engine
                         text = null;
                     }
 
-                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, text, image);
+                    var result = Factory.ExternalLinkHandler.Handle(this, link, text, image);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
                 else
                 {
-                    var result = Wikifier.ExternalLinkHandler.Handle(this, link, link, null);
+                    var result = Factory.ExternalLinkHandler.Handle(this, link, link, null);
                     StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
                 }
             }
@@ -602,7 +601,7 @@ namespace TightWiki.Engine
                     //Use the namespace that the user explicitly specified.
                 }
 
-                var result = Wikifier.InternalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
+                var result = Factory.InternalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
                 if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                 {
                     OutgoingLinks.Add(new NameNav(pageName, pageNavigation.Canonical));
@@ -622,7 +621,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformProcessingInstructions().Matches(pageContent.ToString()));
 
-            var functionHandler = Wikifier.ProcessingInstructionFunctionHandler;
+            var functionHandler = Factory.ProcessingInstructionFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -660,7 +659,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformFunctions().Matches(pageContent.ToString()));
 
-            var functionHandler = Wikifier.StandardFunctionHandler;
+            var functionHandler = Factory.StandardFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -672,7 +671,7 @@ namespace TightWiki.Engine
                 }
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {
-                    var postProcessPrototypes = Wikifier.PostProcessingFunctionHandler.Prototypes;
+                    var postProcessPrototypes = Factory.PostProcessingFunctionHandler.Prototypes;
 
                     var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
 
@@ -719,7 +718,7 @@ namespace TightWiki.Engine
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformPostProcess().Matches(pageContent.ToString()));
 
-            var functionHandler = Wikifier.PostProcessingFunctionHandler;
+            var functionHandler = Factory.PostProcessingFunctionHandler;
 
             foreach (var match in orderedMatches)
             {
@@ -799,7 +798,7 @@ namespace TightWiki.Engine
 
         private void StoreCriticalError(Exception ex)
         {
-            Wikifier.ExceptionHandler.Log(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
+            Factory.ExceptionHandler.Log(this, ex, $"Page: {Page.Navigation}, Error: {ex.Message}");
 
             ErrorCount++;
             BodyResult = WikiUtility.WarningCard("Wiki Parser Exception", ex.Message);
@@ -807,7 +806,7 @@ namespace TightWiki.Engine
 
         private string StoreError(WikiString pageContent, string match, string value)
         {
-            Wikifier.ExceptionHandler.Log(this, null, $"Page: {Page.Navigation}, Error: {value}");
+            Factory.ExceptionHandler.Log(this, null, $"Page: {Page.Navigation}, Error: {value}");
 
             ErrorCount++;
             _matchesStoredPerIteration++;

@@ -4,7 +4,7 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine
 {
-    public class WikifierFactory : IWikifier
+    public class WikifierFactory : IWikifierFactory
     {
         public IScopeFunctionHandler ScopeFunctionHandler { get; private set; }
         public IStandardFunctionHandler StandardFunctionHandler { get; private set; }
@@ -53,14 +53,14 @@ namespace TightWiki.Engine
             CurrentNestLevel = nestLevel;
         }
 
-        public IWikifierSession Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+        public IWikifier Process(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
         {
-            var wikifierSession = new WikifierSession(this, sessionState, page, revision, omitMatches);
+            var wikifierSession = new Wikifier(this, sessionState, page, revision, omitMatches);
             wikifierSession.Process();
             return wikifierSession;
         }
 
-        public IWikifier CreateChild(IPage page)
+        public IWikifierFactory CreateChild(IPage page)
         {
             return new WikifierFactory(StandardFunctionHandler,
                 ScopeFunctionHandler,

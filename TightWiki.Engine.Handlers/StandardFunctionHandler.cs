@@ -76,15 +76,15 @@ namespace TightWiki.Engine.Handlers
             return page;
         }
 
-        private void MergeUserVariables(ref IWikifierSession wikifierSession, Dictionary<string, string> items)
+        private void MergeUserVariables(ref IWikifier wikifier, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
-                wikifierSession.Variables[item.Key] = item.Value;
+                wikifier.Variables[item.Key] = item.Value;
             }
         }
 
-        private void MergeSnippets(ref IWikifierSession wikifierSession, Dictionary<string, string> items)
+        private void MergeSnippets(ref IWikifier wikifierSession, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
@@ -92,7 +92,7 @@ namespace TightWiki.Engine.Handlers
             }
         }
 
-        public HandlerResult Handle(IWikifierSession wikifierSession, FunctionCall function, string scopeBody)
+        public HandlerResult Handle(IWikifier wikifierSession, FunctionCall function, string scopeBody)
         {
             switch (function.Name.ToLower())
             {
@@ -320,7 +320,7 @@ namespace TightWiki.Engine.Handlers
                         var page = GetPageFromPathInfo(navigation);
                         if (page != null)
                         {
-                            var childWikifier = wikifierSession.Wikifier.CreateChild(page);
+                            var childWikifier = wikifierSession.Factory.CreateChild(page);
                             var childWikifierSession = childWikifier.Process(wikifierSession.SessionState, page);
 
                             MergeUserVariables(ref wikifierSession, childWikifierSession.Variables);
