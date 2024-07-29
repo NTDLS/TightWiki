@@ -12,10 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\TightWiki.Engine.Function\TightWiki.Engine.Function.csproj" />
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
   </ItemGroup>
