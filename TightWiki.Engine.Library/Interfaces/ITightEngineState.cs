@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Diagnostics.CodeAnalysis;
 using TightWiki.Library.Interfaces;
 
 namespace TightWiki.Engine.Library.Interfaces
@@ -36,6 +37,21 @@ namespace TightWiki.Engine.Library.Interfaces
         int MatchCount { get; }
 
         #endregion
+
+        /// <summary>
+        /// Used to store values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public void SetStateValue<T>(string key, T value);
+
+        /// <summary>
+        /// Used to get values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public bool TryGetStateValue<T>(string key, [MaybeNullWhen(false)] out T? outValue);
+
+        /// <summary>
+        /// Used to get values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public T GetStateValue<T>(string key, T defaultValue);
 
         string GetNextQueryToken();
     }

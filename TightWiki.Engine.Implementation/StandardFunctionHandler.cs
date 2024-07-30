@@ -15,7 +15,6 @@ namespace TightWiki.Engine.Implementation
 {
     public class StandardFunctionHandler : IStandardFunctionHandler
     {
-        private readonly Dictionary<string, int> _sequences = new();
         private static FunctionPrototypeCollection? _collection;
 
         public FunctionPrototypeCollection Prototypes
@@ -76,7 +75,7 @@ namespace TightWiki.Engine.Implementation
             return page;
         }
 
-        private void MergeUserVariables(ref ITightEngineState state, Dictionary<string, string> items)
+        private static void MergeUserVariables(ref ITightEngineState state, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
@@ -84,7 +83,7 @@ namespace TightWiki.Engine.Implementation
             }
         }
 
-        private void MergeSnippets(ref ITightEngineState state, Dictionary<string, string> items)
+        private static void MergeSnippets(ref ITightEngineState state, Dictionary<string, string> items)
         {
             foreach (var item in items)
             {
@@ -273,14 +272,16 @@ namespace TightWiki.Engine.Implementation
                     {
                         var key = function.Parameters.Get<string>("Key");
 
-                        if (_sequences.ContainsKey(key) == false)
+                        var sequences = state.GetStateValue("_sequences", new Dictionary<string, int>());
+
+                        if (sequences.ContainsKey(key) == false)
                         {
-                            _sequences.Add(key, 0);
+                            sequences.Add(key, 0);
                         }
 
-                        _sequences[key]++;
+                        sequences[key]++;
 
-                        return new HandlerResult(_sequences[key].ToString())
+                        return new HandlerResult(sequences[key].ToString())
                         {
                             Instructions = [HandlerResultInstruction.OnlyReplaceFirstMatch]
                         };

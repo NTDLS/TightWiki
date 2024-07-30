@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -21,6 +22,48 @@ namespace TightWiki.Engine
         private readonly HashSet<WikiMatchType> _omitMatches = new();
 
         #region Public properties.
+
+        private readonly Dictionary<string, object> _handlerState = new();
+
+        /// <summary>
+        /// Used to store values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public void SetStateValue<T>(string key, T value)
+        {
+            if (value == null)
+            {
+                return;
+            }
+            _handlerState[key] = value;
+        }
+
+        /// <summary>
+        /// Used to get values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public T GetStateValue<T>(string key, T defaultValue)
+        {
+            if (_handlerState.TryGetValue(key, out var value))
+            {
+                return (T)value;
+            }
+            SetStateValue(key, defaultValue);
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Used to get values for handlers that needs to survive only a single wiki processing session.
+        /// </summary>
+        public bool TryGetStateValue<T>(string key, [MaybeNullWhen(false)] out T? outValue)
+        {
+            if (_handlerState.TryGetValue(key, out var value))
+            {
+                outValue = (T)value;
+                return true;
+            }
+
+            outValue = default;
+            return false;
+        }
 
         public int ErrorCount { get; private set; }
         public int MatchCount { get; private set; }

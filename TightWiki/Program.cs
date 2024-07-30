@@ -90,16 +90,16 @@ namespace TightWiki
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {
-                containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().InstancePerDependency();
-                containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().InstancePerDependency();
+                containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
+                containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
+                containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
+                containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
+                containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
+                containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
                 containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
