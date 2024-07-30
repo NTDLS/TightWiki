@@ -3,6 +3,7 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Library.Interfaces
 {
+
     public interface ITightEngine
     {
         IScopeFunctionHandler ScopeFunctionHandler { get; }
@@ -17,9 +18,7 @@ namespace TightWiki.Engine.Library.Interfaces
         IInternalLinkHandler InternalLinkHandler { get; }
         IExceptionHandler ExceptionHandler { get; }
         ICompletionHandler CompletionHandler { get; }
-        int CurrentNestLevel { get; }
-
         ITightEngineState Transform(ISessionState? sessionState, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null);
-        ITightEngine CreateChild(IPage page);
+        //ITightEngineState TransformChild(ITightEngineState parent, IPage page, int? revision = null);
     }
 }

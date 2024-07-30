@@ -19,11 +19,9 @@ namespace TightWiki.Engine
         private string _queryTokenHash = "c03a1c9e-da83-479b-87e8-21d7906bd866";
         private int _matchesStoredPerIteration = 0;
         private readonly string _tocName = "TOC_" + new Random().Next(0, 1000000).ToString();
-        private readonly HashSet<WikiMatchType> _omitMatches = new();
+        private readonly Dictionary<string, object> _handlerState = new();
 
         #region Public properties.
-
-        private readonly Dictionary<string, object> _handlerState = new();
 
         /// <summary>
         /// Used to store values for handlers that needs to survive only a single wiki processing session.
@@ -65,8 +63,20 @@ namespace TightWiki.Engine
             return false;
         }
 
+        #region Input parameters.
+
+        public IPage Page { get; }
+        public int? Revision { get; }
+        public IQueryCollection QueryString { get; }
+        public ISessionState? Session { get; }
+        public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
+        public int NestDepth { get; private set; } //Used for recursion.
+
+        #endregion
+
         public int ErrorCount { get; private set; }
         public int MatchCount { get; private set; }
+        public int TransformIterations { get; private set; }
         public TimeSpan ProcessingTime { get; private set; }
         public Dictionary<string, string> Variables { get; } = new();
         public Dictionary<string, string> Snippets { get; } = new();
@@ -75,10 +85,6 @@ namespace TightWiki.Engine
         public string HtmlResult { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
         public Dictionary<string, WikiMatchSet> Matches { get; private set; } = new();
-        public IPage Page { get; }
-        public int? Revision { get; }
-        public IQueryCollection QueryString { get; }
-        public ISessionState? Session { get; }
         public List<TableOfContentsTag> TableOfContents { get; } = new();
         public List<string> Headers { get; } = new();
 
@@ -91,20 +97,35 @@ namespace TightWiki.Engine
         /// <param name="page">The page that is being processed.</param>
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
-        internal TightEngineState(TightEngine engine, ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
+        /// <param name="nestDepth">The current depth of recursion.</param>
+        internal TightEngineState(ITightEngine engine, ISessionState? session,
+            IPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
             QueryString = session?.QueryString ?? new QueryCollection();
             Page = page;
             Revision = revision;
             Matches = new Dictionary<string, WikiMatchSet>();
             Session = session;
+            NestDepth = nestDepth;
 
             if (omitMatches != null)
             {
-                _omitMatches.UnionWith(omitMatches);
+                OmitMatches.UnionWith(omitMatches);
             }
 
             Engine = engine;
+        }
+
+        /// <summary>
+        /// Transforms "included" wiki pages, for example if a wiki function
+        /// injected additional wiki markup, this 'could' be processed separately.
+        /// </summary>
+        /// <param name="page">The child page to process</param>
+        /// <param name="revision">The optional revision of the child page to process</param>
+        /// <returns></returns>
+        public ITightEngineState TransformChild(IPage page, int? revision = null)
+        {
+            return new TightEngineState(Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
         }
 
         internal ITightEngineState Transform()
@@ -132,7 +153,7 @@ namespace TightWiki.Engine
                     length = pageContent.Length;
                     foreach (var v in Matches)
                     {
-                        if (_omitMatches.Contains(v.Value.MatchType))
+                        if (OmitMatches.Contains(v.Value.MatchType))
                         {
                             /// When matches are omitted, the entire match will be removed from the resulting wiki text.
                             pageContent.Replace(v.Key, string.Empty);
@@ -169,6 +190,8 @@ namespace TightWiki.Engine
 
         private int TransformAll(WikiString pageContent)
         {
+            TransformIterations++;
+
             _matchesStoredPerIteration = 0;
 
             TransformComments(pageContent);
@@ -194,7 +217,7 @@ namespace TightWiki.Engine
                 {
                     if (v.Value.AllowNestedDecode)
                     {
-                        if (_omitMatches.Contains(v.Value.MatchType))
+                        if (OmitMatches.Contains(v.Value.MatchType))
                         {
                             /// When matches are omitted, the entire match will be removed from the resulting wiki text.
                             pageContent.Replace(v.Key, string.Empty);
@@ -571,7 +594,7 @@ namespace TightWiki.Engine
                 }
             }
 
-            //Parse internal dynamic links. eg [[AboutUs|About Us]].
+            //Parse internal links. eg [[About Us]], [[About Us, Learn about us]], etc..
             orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformInternalDynamicLinks().Matches(pageContent.ToString()));
 
@@ -707,7 +730,6 @@ namespace TightWiki.Engine
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {
                     var postProcessPrototypes = Engine.PostProcessingFunctionHandler.Prototypes;
-
                     var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
 
                     if (parsed != default)
@@ -781,7 +803,7 @@ namespace TightWiki.Engine
             }
         }
 
-        private void TransformWhitespace(WikiString pageContent)
+        private static void TransformWhitespace(WikiString pageContent)
         {
             string identifier = $"<!--{Guid.NewGuid()}-->";
 
@@ -917,5 +939,4 @@ namespace TightWiki.Engine
 
         #endregion
     }
-
 }

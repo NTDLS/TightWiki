@@ -8,8 +8,8 @@ using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
-using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -25,7 +25,7 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController(TightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
         #region Metrics.

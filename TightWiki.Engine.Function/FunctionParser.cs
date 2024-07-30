@@ -44,7 +44,7 @@ namespace TightWiki.EngineFunction
 
             if (firstLine == null || firstLine.Where(x => x == '(').Count() != firstLine.Where(x => x == ')').Count())
             {
-                throw new Exception($"Function parentheses mismatch.");
+                throw new WikiFunctionPrototypeSyntaxError($"Function parentheses mismatch.");
             }
 
             string functionPrefix = functionCall.Substring(0, 2);
@@ -82,7 +82,7 @@ namespace TightWiki.EngineFunction
         {
             if (paramString.StartsWith('(') || paramString.EndsWith(')'))
             {
-                throw new Exception($"Unexpected '(' or ')'.");
+                throw new WikiFunctionPrototypeSyntaxError($"Unexpected '(' or ')'.");
             }
 
             return ParseRawArguments($"({paramString})");
@@ -105,7 +105,7 @@ namespace TightWiki.EngineFunction
 
             if (paramString[readPos] != '(')
             {
-                throw new Exception($"Expected '('.");
+                throw new WikiFunctionPrototypeSyntaxError($"Expected '('.");
             }
 
             int parenNest = 1;
@@ -127,7 +127,7 @@ namespace TightWiki.EngineFunction
 
                 if (readPos == paramString.Length)
                 {
-                    throw new Exception($"Expected ')'.");
+                    throw new WikiFunctionPrototypeSyntaxError($"Expected ')'.");
                 }
                 else if (paramString[readPos] == ')' && parenNest == 0)
                 {
@@ -135,7 +135,7 @@ namespace TightWiki.EngineFunction
 
                     if (parenNest == 0 && readPos != paramString.Length)
                     {
-                        throw new Exception($"Expected end of statement.");
+                        throw new WikiFunctionPrototypeSyntaxError($"Expected end of statement.");
                     }
 
                     if (singleParam.Length > 0)
@@ -158,7 +158,7 @@ namespace TightWiki.EngineFunction
                     {
                         if (readPos == paramString.Length)
                         {
-                            throw new Exception($"Expected end of string.");
+                            throw new WikiFunctionPrototypeSyntaxError($"Expected end of string.");
                         }
                         else if (paramString[readPos] == '\\')
                         {

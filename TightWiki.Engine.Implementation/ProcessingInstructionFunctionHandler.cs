@@ -9,6 +9,9 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation
 {
+    /// <summary>
+    /// Handles processing-instruction function calls.
+    /// </summary>
     public class ProcessingInstructionFunctionHandler : IProcessingInstructionFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
@@ -44,7 +47,13 @@ namespace TightWiki.Engine.Implementation
             }
         }
 
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody)
+        /// <summary>
+        /// Called to handle function calls when proper prototypes are matched.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="function">The parsed function call and all its parameters and their values.</param>
+        /// <param name="scopeBody">This is not a scope function, this should always be null</param>
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             switch (function.Name.ToLower())
             {
@@ -164,7 +173,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "deprecate":
                     {
-                        if (state.Engine.CurrentNestLevel == 0)
+                        if (state.NestDepth == 0)
                         {
                             state.ProcessingInstructions.Add(WikiInstruction.Deprecate);
                             state.Headers.Add("<div class=\"alert alert-danger\">This page has been deprecated and will eventually be deleted.</div>");
@@ -178,7 +187,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "protect":
                     {
-                        if (state.Engine.CurrentNestLevel == 0)
+                        if (state.NestDepth == 0)
                         {
                             bool isSilent = function.Parameters.Get<bool>("isSilent");
                             state.ProcessingInstructions.Add(WikiInstruction.Protect);
@@ -196,7 +205,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "template":
                     {
-                        if (state.Engine.CurrentNestLevel == 0)
+                        if (state.NestDepth == 0)
                         {
                             state.ProcessingInstructions.Add(WikiInstruction.Template);
                             state.Headers.Add("<div class=\"alert alert-secondary\">This page is a template and will not appear in indexes or glossaries.</div>");
@@ -210,7 +219,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "review":
                     {
-                        if (state.Engine.CurrentNestLevel == 0)
+                        if (state.NestDepth == 0)
                         {
                             state.ProcessingInstructions.Add(WikiInstruction.Review);
                             state.Headers.Add("<div class=\"alert alert-warning\">This page has been flagged for review, its content may be inaccurate.</div>");
@@ -224,7 +233,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "include":
                     {
-                        if (state.Engine.CurrentNestLevel == 0)
+                        if (state.NestDepth == 0)
                         {
                             state.ProcessingInstructions.Add(WikiInstruction.Include);
                             state.Headers.Add("<div class=\"alert alert-secondary\">This page is an include and will not appear in indexes or glossaries.</div>");
@@ -238,7 +247,7 @@ namespace TightWiki.Engine.Implementation
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "draft":
                     {
-                        if (state.Engine.CurrentNestLevel == 0)
+                        if (state.NestDepth == 0)
                         {
                             state.ProcessingInstructions.Add(WikiInstruction.Draft);
                             state.Headers.Add("<div class=\"alert alert-warning\">This page is a draft and may contain incorrect information and/or experimental styling.</div>");

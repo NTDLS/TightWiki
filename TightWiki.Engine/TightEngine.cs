@@ -18,7 +18,6 @@ namespace TightWiki.Engine
         public IInternalLinkHandler InternalLinkHandler { get; private set; }
         public IExceptionHandler ExceptionHandler { get; private set; }
         public ICompletionHandler CompletionHandler { get; private set; }
-        public int CurrentNestLevel { get; private set; }
 
         public TightEngine(
             IStandardFunctionHandler standardFunctionHandler,
@@ -32,8 +31,7 @@ namespace TightWiki.Engine
             IExternalLinkHandler externalLinkHandler,
             IInternalLinkHandler internalLinkHandler,
             IExceptionHandler exceptionHandler,
-            ICompletionHandler completionHandler,
-            int nestLevel = 0)
+            ICompletionHandler completionHandler)
         {
             StandardFunctionHandler = standardFunctionHandler;
 
@@ -49,8 +47,6 @@ namespace TightWiki.Engine
             InternalLinkHandler = internalLinkHandler;
             ExceptionHandler = exceptionHandler;
             CompletionHandler = completionHandler;
-
-            CurrentNestLevel = nestLevel; //Used for recursion.
         }
 
         /// <summary>
@@ -63,23 +59,5 @@ namespace TightWiki.Engine
         /// <returns></returns>
         public ITightEngineState Transform(ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
             => new TightEngineState(this, session, page, revision, omitMatches).Transform();
-
-        public ITightEngine CreateChild(IPage page)
-        {
-            return new TightEngine(StandardFunctionHandler,
-                ScopeFunctionHandler,
-                ProcessingInstructionFunctionHandler,
-                PostProcessingFunctionHandler,
-                MarkupHandler,
-                HeadingHandler,
-                CommentHandler,
-                EmojiHandler,
-                ExternalLinkHandler,
-                InternalLinkHandler,
-                ExceptionHandler,
-                CompletionHandler,
-                CurrentNestLevel + 1
-            );
-        }
     }
 }

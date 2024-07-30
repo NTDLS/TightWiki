@@ -8,6 +8,9 @@ using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Implementation
 {
+    /// <summary>
+    /// Handles post-processing function calls.
+    /// </summary>
     public class PostProcessingFunctionHandler : IPostProcessingFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
@@ -34,7 +37,13 @@ namespace TightWiki.Engine.Implementation
             }
         }
 
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody)
+        /// <summary>
+        /// Called to handle function calls when proper prototypes are matched.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="function">The parsed function call and all its parameters and their values.</param>
+        /// <param name="scopeBody">This is not a scope function, this should always be null</param>
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             switch (function.Name.ToLower())
             {

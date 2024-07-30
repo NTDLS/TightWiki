@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NTDLS.Helpers;
+using System.Text;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
@@ -8,6 +9,9 @@ using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Implementation
 {
+    /// <summary>
+    /// Handled scope function calls.
+    /// </summary>
     public class ScopeFunctionHandler : IScopeFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
@@ -43,8 +47,16 @@ namespace TightWiki.Engine.Implementation
             }
         }
 
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody)
+        /// <summary>
+        /// Called to handle function calls when proper prototypes are matched.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="function">The parsed function call and all its parameters and their values.</param>
+        /// <param name="scopeBody">The the text that the function is designed to affect.</param>
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
+            scopeBody.EnsureNotNull($"The function '{function.Name}' scope body can not be null");
+
             switch (function.Name.ToLower())
             {
                 //------------------------------------------------------------------------------------------------------------------------------

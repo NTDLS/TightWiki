@@ -9,7 +9,6 @@
         public WikiFunctionPrototypeNotDefinedException(string message)
             : base(message)
         {
-
         }
     }
 }

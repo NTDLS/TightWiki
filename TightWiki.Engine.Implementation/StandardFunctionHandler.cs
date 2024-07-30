@@ -13,6 +13,9 @@ using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Implementation
 {
+    /// <summary>
+    /// Handled standard function calls.
+    /// </summary>
     public class StandardFunctionHandler : IStandardFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
@@ -91,7 +94,13 @@ namespace TightWiki.Engine.Implementation
             }
         }
 
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody)
+        /// <summary>
+        /// Called to handle function calls when proper prototypes are matched.
+        /// </summary>
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="function">The parsed function call and all its parameters and their values.</param>
+        /// <param name="scopeBody">This is not a scope function, this should always be null</param>
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
             switch (function.Name.ToLower())
             {
@@ -321,8 +330,7 @@ namespace TightWiki.Engine.Implementation
                         var page = GetPageFromPathInfo(navigation);
                         if (page != null)
                         {
-                            var childEngine = state.Engine.CreateChild(page);
-                            var childState = childEngine.Transform(state.Session, page);
+                            var childState = state.TransformChild(page);
 
                             MergeUserVariables(ref state, childState.Variables);
                             MergeSnippets(ref state, childState.Snippets);

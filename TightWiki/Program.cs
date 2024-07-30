@@ -103,7 +103,7 @@ namespace TightWiki
                 containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
-                containerBuilder.RegisterType<TightEngine>();
+                containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
             });
 
             var app = builder.Build();

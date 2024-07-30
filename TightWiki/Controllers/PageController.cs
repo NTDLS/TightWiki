@@ -8,6 +8,7 @@ using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Page;
@@ -18,7 +19,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(TightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
         [AllowAnonymous]

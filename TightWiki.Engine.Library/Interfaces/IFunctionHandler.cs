@@ -2,6 +2,9 @@
 
 namespace TightWiki.Engine.Library.Interfaces
 {
+    /// <summary>
+    /// Base function handler for standard, post-processing, scoped and processing-instruction functions.
+    /// </summary>
     public interface IFunctionHandler
     {
         /// <summary>
@@ -11,8 +14,11 @@ namespace TightWiki.Engine.Library.Interfaces
         public FunctionPrototypeCollection Prototypes { get; }
 
         /// <summary>
-        /// When a function prototype is found, this function is called to process the call.
+        /// Called to handle function calls when proper prototypes are matched.
         /// </summary>
-        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string scopeBody);
+        /// <param name="state">Reference to the wiki state object</param>
+        /// <param name="function">The parsed function call and all its parameters and their values.</param>
+        /// <param name="scopeBody">For scope functions, this is the text that the function is designed to affect.</param>
+        public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null);
     }
 }
