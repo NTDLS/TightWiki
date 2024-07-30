@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using NTDLS.Helpers;
+using System.Data;
 using System.Diagnostics;
 using TightWiki.Caching;
 using TightWiki.Configuration;
@@ -233,7 +234,7 @@ namespace TightWiki.Repository
         public static T? Get<T>(string groupName, string entryName)
         {
             var value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
-            return Utility.ConvertTo<T>(value);
+            return Converters.ConvertTo<T>(value);
         }
 
         public static T? Get<T>(string groupName, string entryName, T defaultValue)
@@ -245,7 +246,7 @@ namespace TightWiki.Repository
                 return defaultValue;
             }
 
-            return Utility.ConvertTo<T>(value);
+            return Converters.ConvertTo<T>(value);
         }
 
         #region Menu Items.

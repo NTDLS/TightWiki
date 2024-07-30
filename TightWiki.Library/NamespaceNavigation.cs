@@ -7,6 +7,7 @@ namespace TightWiki
     {
         private string _namespace = string.Empty;
         private string _page = string.Empty;
+        private readonly bool _lowerCase = false;
 
         public string Namespace
         {
@@ -32,7 +33,7 @@ namespace TightWiki
             }
             set
             {
-                var cleanedAndValidatedValue = CleanAndValidate(value);
+                var cleanedAndValidatedValue = CleanAndValidate(value, _lowerCase);
 
                 var parts = cleanedAndValidatedValue.Split("::");
                 if (parts.Length < 2)
@@ -47,8 +48,24 @@ namespace TightWiki
             }
         }
 
+        /// <summary>
+        /// Creates a new instance of NamespaceNavigation.
+        /// </summary>
+        /// <param name="givenCanonical">Page navigation with optional namespace.</param>
         public NamespaceNavigation(string givenCanonical)
         {
+            _lowerCase = true;
+            Canonical = givenCanonical;
+        }
+
+        /// <summary>
+        /// Creates a new instance of NamespaceNavigation.
+        /// </summary>
+        /// <param name="givenCanonical">Page navigation with optional namespace.</param>
+        /// <param name="lowerCase">If false, the namespace and page name will not be lowercased.</param>
+        public NamespaceNavigation(string givenCanonical, bool lowerCase)
+        {
+            _lowerCase = lowerCase;
             Canonical = givenCanonical;
         }
 
@@ -57,7 +74,14 @@ namespace TightWiki
             return Canonical;
         }
 
-        public static string CleanAndValidate(string? str)
+        /// <summary>
+        /// Takes a page name with optional namespace and returns the cleaned version that can be used for matching Navigations.
+        /// </summary>
+        /// <param name="givenCanonical">Page navigation with optional namespace.</param>
+        /// <param name="lowerCase">If false, the namespace and page name will not be lowercased.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static string CleanAndValidate(string? str, bool lowerCase = true)
         {
             if (str == null)
             {
@@ -74,7 +98,7 @@ namespace TightWiki
                 {
                     throw new Exception("Navigation can not contain more than one namespace.");
                 }
-                return $"{CleanAndValidate(parts[0].Trim())}::{CleanAndValidate(parts[1].Trim())}";
+                return $"{CleanAndValidate(parts[0].Trim())}::{CleanAndValidate(parts[1].Trim(), lowerCase)}";
             }
 
             // Decode common HTML entities
@@ -106,7 +130,15 @@ namespace TightWiki
             result = Regex.Replace(result, @"[_]{2,}", "_");
             result = Regex.Replace(result, @"[/]{2,}", "/");
 
-            return result.ToLower();
+
+            if (lowerCase)
+            {
+                return result.TrimEnd(['/', '\\']).ToLowerInvariant();
+            }
+            else
+            {
+                return result.TrimEnd(['/', '\\']);
+            }
         }
     }
 }

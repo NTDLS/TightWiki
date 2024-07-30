@@ -9,6 +9,7 @@ using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
 using TightWiki.Engine;
+using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
@@ -24,7 +25,7 @@ namespace TightWiki.Site.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class AdminController(TightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         : WikiControllerBase(signInManager, userManager)
     {
         #region Metrics.
@@ -370,7 +371,7 @@ namespace TightWiki.Site.Controllers
                     return NotifyOfError("You cannot revert to the current page revision.");
                 }
 
-                WikiHelper.UpsertPage(page, SessionState);
+                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
 
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
@@ -425,10 +426,10 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var wiki = new Wikifier(SessionState, page);
+                var state = tightEngine.Transform(SessionState, page);
                 model.PageId = pageId;
                 model.Revision = pageId;
-                model.Body = wiki.ProcessedBody;
+                model.Body = state.HtmlResult;
                 model.DeletedDate = SessionState.LocalizeDateTime(page.DeletedDate);
                 model.DeletedByUserName = page.DeletedByUserName;
             }
@@ -504,7 +505,7 @@ namespace TightWiki.Site.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    WikiHelper.UpsertPage(previousPageRevision, SessionState);
+                    Engine.Implementation.Helpers.UpsertPage(tightEngine, previousPageRevision, SessionState);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -531,9 +532,9 @@ namespace TightWiki.Site.Controllers
 
             if (page != null)
             {
-                var wiki = new Wikifier(SessionState, page);
+                var state = tightEngine.Transform(SessionState, page);
                 model.PageId = pageId;
-                model.Body = wiki.ProcessedBody;
+                model.Body = state.HtmlResult;
                 model.DeletedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
                 model.DeletedByUserName = page.DeletedByUserName;
             }
@@ -573,7 +574,7 @@ namespace TightWiki.Site.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    WikiHelper.RefreshPageMetadata(page, SessionState);
+                    Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
@@ -608,12 +609,12 @@ namespace TightWiki.Site.Controllers
                         var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                         if (WikiCache.Contains(cacheKey) == false)
                         {
-                            var wiki = new Wikifier(SessionState, page, page.Revision);
-                            page.Body = wiki.ProcessedBody;
+                            var state = tightEngine.Transform(SessionState, page, page.Revision);
+                            page.Body = state.HtmlResult;
 
-                            if (wiki.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
+                            if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                             {
-                                WikiCache.Put(cacheKey, wiki.ProcessedBody); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                                WikiCache.Put(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                             }
                         }
                     });
@@ -745,7 +746,7 @@ namespace TightWiki.Site.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    WikiHelper.RefreshPageMetadata(page, SessionState);
+                    Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }
@@ -1560,7 +1561,7 @@ namespace TightWiki.Site.Controllers
             {
                 Id = model.Emoji.Id,
                 Name = model.Emoji.Name.ToLowerInvariant(),
-                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {WikiUtility.SeperateCamelCase(model.Emoji.Name)}")
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {Text.SeperateCamelCase(model.Emoji.Name)}")
             };
 
             var file = Request.Form.Files["ImageData"];
@@ -1640,7 +1641,7 @@ namespace TightWiki.Site.Controllers
             {
                 Id = model.Id,
                 Name = model.Name.ToLowerInvariant(),
-                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {WikiUtility.SeperateCamelCase(model.Name)}")
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {Text.SeperateCamelCase(model.Name)}")
             };
 
             var file = Request.Form.Files["ImageData"];

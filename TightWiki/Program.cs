@@ -1,7 +1,12 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
+using TightWiki.Engine;
+using TightWiki.Engine.Implementation;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
@@ -39,7 +44,7 @@ namespace TightWiki
 
             builder.Services.AddControllersWithViews(); // Adds support for controllers and views
 
-            builder.Services.AddSingleton<IWikiEmailSender, EmailSender>();
+            builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -80,6 +85,26 @@ namespace TightWiki
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddRazorPages();
+
+            // Configure Autofac
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+            {
+                containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().SingleInstance();
+                containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
+                containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
+                containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
+                containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
+                containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
+                containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
+                containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
+                containerBuilder.RegisterType<CompletionHandler>().As<ICompletionHandler>().SingleInstance();
+
+                containerBuilder.RegisterType<TightEngine>();
+            });
 
             var app = builder.Build();
 

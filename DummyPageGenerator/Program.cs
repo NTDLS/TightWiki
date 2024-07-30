@@ -1,10 +1,16 @@
-﻿using Dapper;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Dapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TightWiki;
+using TightWiki.Engine;
+using TightWiki.Engine.Implementation;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Repository;
 
@@ -12,15 +18,44 @@ namespace DummyPageGenerator
 {
     internal class Program
     {
+        public class NoOpCompletionHandler : ICompletionHandler
+        {
+            public void Complete(ITightEngineState state)
+            {
+            }
+        }
+
         static void Main(string[] args)
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
 
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            var host = Host.CreateDefaultBuilder(args)
+                       .ConfigureAppConfiguration((context, config) =>
+                       {
+                           config.SetBasePath(AppContext.BaseDirectory)
+                                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+                       })
+                       .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                       .ConfigureContainer<ContainerBuilder>(containerBuilder =>
+                       {
+                           containerBuilder.RegisterType<StandardFunctionHandler>().As<IStandardFunctionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ScopeFunctionHandler>().As<IScopeFunctionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ProcessingInstructionFunctionHandler>().As<IProcessingInstructionFunctionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<PostProcessingFunctionHandler>().As<IPostProcessingFunctionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<MarkupHandler>().As<IMarkupHandler>().SingleInstance();
+                           containerBuilder.RegisterType<HeadingHandler>().As<IHeadingHandler>().SingleInstance();
+                           containerBuilder.RegisterType<CommentHandler>().As<ICommentHandler>().SingleInstance();
+                           containerBuilder.RegisterType<EmojiHandler>().As<IEmojiHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExternalLinkHandler>().As<IExternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<InternalLinkHandler>().As<IInternalLinkHandler>().SingleInstance();
+                           containerBuilder.RegisterType<ExceptionHandler>().As<IExceptionHandler>().SingleInstance();
+                           containerBuilder.RegisterType<NoOpCompletionHandler>().As<ICompletionHandler>().SingleInstance();
 
-            var configuration = builder.Build();
+                           containerBuilder.RegisterType<TightEngine>();
+                       }).Build();
+
+
+            var configuration = host.Services.GetRequiredService<IConfiguration>();
             var services = new ServiceCollection();
 
             services.AddLogging(configure => configure.AddConsole());
@@ -64,14 +99,19 @@ namespace DummyPageGenerator
                 {
                     workload.Enqueue(() =>
                     {
-                        //Create a new page.
-                        pg.GeneratePage(user.UserId);
-
-                        //Modify existing pages:
-                        int modifications = pg.Random.Next(0, 10);
-                        for (int i = 0; i < modifications; i++)
+                        using (var scope = host.Services.CreateScope())
                         {
-                            pg.ModifyRandomPages(user.UserId);
+                            var engine = scope.ServiceProvider.GetRequiredService<TightEngine>();
+
+                            //Create a new page:
+                            pg.GeneratePage(engine, user.UserId);
+
+                            //Modify existing pages:
+                            int modifications = pg.Random.Next(0, 10);
+                            for (int i = 0; i < modifications; i++)
+                            {
+                                pg.ModifyRandomPages(engine, user.UserId);
+                            }
                         }
                     });
                 }

@@ -9,6 +9,7 @@ using TightWiki.Caching;
 using TightWiki.Configuration;
 using TightWiki.Controllers;
 using TightWiki.Engine;
+using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;

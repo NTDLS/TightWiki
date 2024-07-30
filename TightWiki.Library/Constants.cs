@@ -61,18 +61,5 @@
             /// </summary>
             public static string Moderator = "Moderator";
         }
-
-        public enum WikiMatchType
-        {
-            Block,
-            Instruction,
-            Variable,
-            Formatting,
-            Error,
-            Function,
-            Link,
-            Heading,
-            Literal
-        }
     }
 }
