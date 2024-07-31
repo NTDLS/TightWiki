@@ -392,7 +392,7 @@ namespace TightWiki.Repository
             FlushPageCache(pageId);
         }
 
-        public static void UpdatePageReferences(int pageId, List<NameNav> referencesPageNavigations)
+        public static void UpdatePageReferences(int pageId, List<PageReference> referencesPageNavigations)
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
             {

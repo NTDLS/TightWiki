@@ -1,21 +1,27 @@
 ﻿namespace TightWiki.Engine.Library
 {
-    /// <summary>
-    /// TODO: This is used by some curiously diverse portions of code, that needs to be fixed.
-    /// </summary>
-    public class NameNav
+    public class PageReference
     {
+        /// <summary>
+        /// The name of the page. Such as "Sand Box" or "Some Namespace : SandBox". 
+        /// </summary>
         public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The namespace part of the Name.
+        /// </summary>
         public string Namespace { get; set; } = string.Empty;
+
+        /// The cleaned up version of the name, safe for passing in URLs.
         public string Navigation { get; set; } = string.Empty;
 
-        public NameNav()
+        public PageReference()
         {
         }
 
         public override bool Equals(object? obj)
         {
-            return obj is NameNav other
+            return obj is PageReference other
                 && string.Equals(Navigation, other.Navigation, StringComparison.OrdinalIgnoreCase);
         }
 
@@ -24,7 +30,7 @@
             return Navigation.GetHashCode();
         }
 
-        public NameNav(string name, string navigation)
+        public PageReference(string name, string navigation)
         {
             var parts = name.Split("::");
 

@@ -26,7 +26,7 @@ namespace TightWiki.Engine.Library.Interfaces
         Dictionary<string, string> Snippets { get; }
         List<string> Tags { get; set; }
         List<string> ProcessingInstructions { get; }
-        List<NameNav> OutgoingLinks { get; }
+        List<PageReference> OutgoingLinks { get; }
         List<TableOfContentsTag> TableOfContents { get; }
         List<string> Headers { get; }
 

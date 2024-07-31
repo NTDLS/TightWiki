@@ -80,7 +80,7 @@ namespace TightWiki.Engine
         public TimeSpan ProcessingTime { get; private set; }
         public Dictionary<string, string> Variables { get; } = new();
         public Dictionary<string, string> Snippets { get; } = new();
-        public List<NameNav> OutgoingLinks { get; private set; } = new();
+        public List<PageReference> OutgoingLinks { get; private set; } = new();
         public List<string> ProcessingInstructions { get; private set; } = new();
         public string HtmlResult { get; private set; } = string.Empty;
         public List<string> Tags { get; set; } = new();
@@ -662,7 +662,7 @@ namespace TightWiki.Engine
                 var result = Engine.InternalLinkHandler.Handle(this, pageNavigation, pageName.Trim(':'), text, image, imageScale);
                 if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                 {
-                    OutgoingLinks.Add(new NameNav(pageName, pageNavigation.Canonical));
+                    OutgoingLinks.Add(new PageReference(pageName, pageNavigation.Canonical));
                 }
 
                 StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
