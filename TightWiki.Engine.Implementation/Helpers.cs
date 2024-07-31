@@ -1,7 +1,6 @@
 ﻿using DuoVia.FuzzyStrings;
 using NTDLS.Helpers;
 using TightWiki.Caching;
-using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
@@ -68,59 +67,58 @@ namespace TightWiki.Engine.Implementation
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
         }
 
-        public static List<WeightedToken> ParsePageTokens(ITightEngineState state)
+        public static List<AggregatedSearchToken> ParsePageTokens(ITightEngineState state)
         {
-            var allTokens = new List<WeightedToken>();
+            var parsedTokens = new List<WeightedSearchToken>();
 
-            allTokens.AddRange(ComputeParsedPageTokens(state.HtmlResult, 1));
-            allTokens.AddRange(ComputeParsedPageTokens(state.Page.Description, 1.2));
-            allTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", state.Tags), 1.4));
-            allTokens.AddRange(ComputeParsedPageTokens(state.Page.Name, 1.6));
+            parsedTokens.AddRange(ComputeParsedPageTokens(state.HtmlResult, 1));
+            parsedTokens.AddRange(ComputeParsedPageTokens(state.Page.Description, 1.2));
+            parsedTokens.AddRange(ComputeParsedPageTokens(string.Join(" ", state.Tags), 1.4));
+            parsedTokens.AddRange(ComputeParsedPageTokens(state.Page.Name, 1.6));
 
-            allTokens = allTokens.GroupBy(o => o.Token).Select(o => new WeightedToken
+            var aggregatedTokens = parsedTokens.GroupBy(o => o.Token).Select(o => new AggregatedSearchToken
             {
                 Token = o.Key,
                 DoubleMetaphone = o.Key.ToDoubleMetaphone(),
                 Weight = o.Sum(g => g.Weight)
             }).ToList();
 
-            return allTokens;
+            return aggregatedTokens;
         }
 
-        internal static List<WeightedToken> ComputeParsedPageTokens(string content, double weightMultiplier)
+        internal static List<WeightedSearchToken> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
             var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
 
-            var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
+            var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
+                .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();
             var strippedContent = Html.StripHtml(content);
-            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList<string>().ToList();
+
+            var tokens = strippedContent.Split([' ', '\n', '\t', '-', '_']).ToList();
 
             if (searchConfig?.Value<bool>("Split Camel Case") == true)
             {
-                var casedTokens = new List<string>();
+                var allSplitTokens = new List<string>();
 
                 foreach (var token in tokens)
                 {
-                    var splitTokens = Text.SeperateCamelCase(token).Split(' ');
-                    if (splitTokens.Count() > 1)
+                    var splitTokens = Text.SplitCamelCase(token);
+                    if (splitTokens.Count > 1)
                     {
-                        foreach (var lowerToken in splitTokens)
-                        {
-                            casedTokens.Add(lowerToken.ToLower());
-                        }
+                        splitTokens.ForEach(t => allSplitTokens.Add(t));
                     }
                 }
 
-                tokens.AddRange(casedTokens);
+                tokens.AddRange(allSplitTokens);
             }
 
-            tokens = tokens.ConvertAll(d => d.ToLower());
+            tokens = tokens.ConvertAll(d => d.ToLowerInvariant());
 
             tokens.RemoveAll(o => exclusionWords.Contains(o));
 
             var searchTokens = (from w in tokens
                                 group w by w into g
-                                select new WeightedToken
+                                select new WeightedSearchToken
                                 {
                                     Token = g.Key,
                                     Weight = g.Count() * weightMultiplier

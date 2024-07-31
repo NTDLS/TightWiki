@@ -1,6 +1,6 @@
-﻿namespace TightWiki.Engine.Library
+﻿namespace TightWiki.Engine.Implementation
 {
-    public class WeightedToken
+    public class AggregatedSearchToken
     {
         public string Token { get; set; } = string.Empty;
         public double Weight { get; set; }
