@@ -247,7 +247,7 @@ namespace TightWiki.Engine
                 var sequence = new string(symbol, 2);
                 var escapedSequence = Regex.Escape(sequence);
 
-                var rgx = new Regex(@$"{escapedSequence}([^\/\n\r]*){escapedSequence}", RegexOptions.IgnoreCase);
+                var rgx = new Regex(@$"{escapedSequence}(.*?){escapedSequence}", RegexOptions.IgnoreCase);
                 var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
                 foreach (var match in orderedMatches)
                 {
