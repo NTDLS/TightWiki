@@ -93,7 +93,7 @@ namespace DummyPageGenerator
 
             while (true)
             {
-                var workload = pool.CreateQueueStateTracker();
+                var workload = pool.CreateChildQueue();
 
                 foreach (var user in pg.Users)
                 {

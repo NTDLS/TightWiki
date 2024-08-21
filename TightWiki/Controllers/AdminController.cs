@@ -594,7 +594,7 @@ namespace TightWiki.Site.Controllers
 
             if (model.UserSelection == true)
             {
-                var workload = pool.CreateQueueStateTracker();
+                var workload = pool.CreateChildQueue();
 
                 foreach (var page in PageRepository.GetAllPages())
                 {
