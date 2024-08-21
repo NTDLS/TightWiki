@@ -234,7 +234,7 @@ namespace TightWiki.Repository
         public static T? Get<T>(string groupName, string entryName)
         {
             var value = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName);
-            return Converters.ConvertTo<T>(value);
+            return Converters.ConvertTo<T>(value.EnsureNotNull());
         }
 
         public static T? Get<T>(string groupName, string entryName, T defaultValue)
