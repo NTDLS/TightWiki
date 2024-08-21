@@ -22,6 +22,11 @@ namespace TightWiki.Engine.Library.Interfaces
 
         #region State.
 
+        /// <summary>
+        /// Custom page title set by a call to @@Title("...")
+        /// </summary>
+        public string? PageTitle { get; set; }
+
         Dictionary<string, string> Variables { get; }
         Dictionary<string, string> Snippets { get; }
         List<string> Tags { get; set; }

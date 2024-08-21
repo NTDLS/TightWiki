@@ -29,6 +29,10 @@ namespace TightWiki
 
         #region Current Page.
 
+        /// <summary>
+        /// Custom page title set by a call to @@Title("...")
+        /// </summary>
+        public string? PageTitle { get; set; }
         public bool ShouldCreatePage { get; set; }
         public string PageNavigation { get; set; } = string.Empty;
         public string PageNavigationEscaped { get; set; } = string.Empty;

@@ -35,7 +35,7 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("##Set: <string>[key] | <string>[value]");
                     _collection.Add("##Get: <string>[key]");
                     _collection.Add("##Color: <string>[color] | <string>[text]");
-                    _collection.Add("##Tag: <string:infinite>[pageTags]");
+                    _collection.Add("##Tag: <string:infinite>[pageTags]"); //This is left here for backwards compatibility, Tag does not change the output so it should be a processing instruction.
                     _collection.Add("##SearchList: <string>[searchPhrase] | <string>{styleName(List,Full)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <bool>{allowFuzzyMatching}='false' | <bool>{showNamespace}='false'");
                     _collection.Add("##TagList: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
                     _collection.Add("##NamespaceGlossary: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
@@ -57,12 +57,17 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("##Title:");
                     _collection.Add("##Navigation:");
                     _collection.Add("##Name:");
+                    _collection.Add("##SiteName:");
                     _collection.Add("##Namespace:");
                     _collection.Add("##Created:");
                     _collection.Add("##LastModified:");
                     _collection.Add("##AppVersion:");
                     _collection.Add("##ProfileGlossary: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
                     _collection.Add("##ProfileList: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
+
+                    //System functions (we don't advertize these, but they aren't unsafe):
+                    _collection.Add("##SystemEmojiCategoryList:");
+                    _collection.Add("##SystemEmojiList:");
 
                     #endregion
                 }
@@ -1015,6 +1020,13 @@ namespace TightWiki.Engine.Implementation
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the title of the site.
+                case "sitename":
+                    {
+                        return new HandlerResult(TightWiki.Configuration.GlobalConfiguration.Name);
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the title of the current page in title form.
                 case "title":
                     {
@@ -1071,6 +1083,87 @@ namespace TightWiki.Engine.Implementation
                 case "navigation":
                     {
                         return new HandlerResult(state.Page.Navigation);
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                case "systememojilist":
+                    {
+                        StringBuilder html = new();
+
+                        html.Append($"<table class=\"table table-striped table-bordered \">");
+
+                        html.Append($"<thead>");
+                        html.Append($"<tr>");
+                        html.Append($"<td><strong>Name</strong></td>");
+                        html.Append($"<td><strong>Image</strong></td>");
+                        html.Append($"<td><strong>Shortcut</strong></td>");
+                        html.Append($"</tr>");
+                        html.Append($"</thead>");
+
+                        string category = state.QueryString["Category"].ToString();
+
+                        html.Append($"<tbody>");
+
+                        if (string.IsNullOrWhiteSpace(category) == false)
+                        {
+                            var emojis = EmojiRepository.GetEmojisByCategory(category);
+
+                            foreach (var emoji in emojis)
+                            {
+                                html.Append($"<tr>");
+                                html.Append($"<td>{emoji.Name}</td>");
+                                //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
+                                html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
+                                html.Append($"<td>{emoji.Shortcut}</td>");
+                                html.Append($"</tr>");
+                            }
+                        }
+
+                        html.Append($"</tbody>");
+                        html.Append($"</table>");
+
+                        return new HandlerResult(html.ToString());
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                case "systememojicategorylist":
+                    {
+                        var categories = EmojiRepository.GetEmojiCategoriesGrouped();
+
+                        StringBuilder html = new();
+
+                        html.Append($"<table class=\"table table-striped table-bordered \">");
+
+                        int rowNumber = 0;
+
+                        html.Append($"<thead>");
+                        html.Append($"<tr>");
+                        html.Append($"<td><strong>Name</strong></td>");
+                        html.Append($"<td><strong>Count of Emojis</strong></td>");
+                        html.Append($"</tr>");
+                        html.Append($"</thead>");
+
+                        foreach (var category in categories)
+                        {
+                            if (rowNumber == 1)
+                            {
+                                html.Append($"<tbody>");
+                            }
+
+                            html.Append($"<tr>");
+                            html.Append($"<td><a href=\"/wiki_help::list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
+                            html.Append($"<td>{category.EmojiCount:N0}</td>");
+                            html.Append($"</tr>");
+                            rowNumber++;
+                        }
+
+                        html.Append($"</tbody>");
+                        html.Append($"</table>");
+
+                        return new HandlerResult(html.ToString())
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
             }
 

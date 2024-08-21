@@ -24,6 +24,37 @@ namespace TightWiki.Engine
         #region Public properties.
 
         /// <summary>
+        /// Custom page title set by a call to @@Title("...")
+        /// </summary>
+        public string? PageTitle { get; set; }
+        public int ErrorCount { get; private set; }
+        public int MatchCount { get; private set; }
+        public int TransformIterations { get; private set; }
+        public TimeSpan ProcessingTime { get; private set; }
+        public Dictionary<string, string> Variables { get; } = new();
+        public Dictionary<string, string> Snippets { get; } = new();
+        public List<PageReference> OutgoingLinks { get; private set; } = new();
+        public List<string> ProcessingInstructions { get; private set; } = new();
+        public string HtmlResult { get; private set; } = string.Empty;
+        public List<string> Tags { get; set; } = new();
+        public Dictionary<string, WikiMatchSet> Matches { get; private set; } = new();
+        public List<TableOfContentsTag> TableOfContents { get; } = new();
+        public List<string> Headers { get; } = new();
+
+        #endregion
+
+        #region Input parameters.
+
+        public IPage Page { get; }
+        public int? Revision { get; }
+        public IQueryCollection QueryString { get; }
+        public ISessionState? Session { get; }
+        public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
+        public int NestDepth { get; private set; } //Used for recursion.
+
+        #endregion
+
+        /// <summary>
         /// Used to store values for handlers that needs to survive only a single wiki processing session.
         /// </summary>
         public void SetStateValue<T>(string key, T value)
@@ -62,33 +93,6 @@ namespace TightWiki.Engine
             outValue = default;
             return false;
         }
-
-        #region Input parameters.
-
-        public IPage Page { get; }
-        public int? Revision { get; }
-        public IQueryCollection QueryString { get; }
-        public ISessionState? Session { get; }
-        public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
-        public int NestDepth { get; private set; } //Used for recursion.
-
-        #endregion
-
-        public int ErrorCount { get; private set; }
-        public int MatchCount { get; private set; }
-        public int TransformIterations { get; private set; }
-        public TimeSpan ProcessingTime { get; private set; }
-        public Dictionary<string, string> Variables { get; } = new();
-        public Dictionary<string, string> Snippets { get; } = new();
-        public List<PageReference> OutgoingLinks { get; private set; } = new();
-        public List<string> ProcessingInstructions { get; private set; } = new();
-        public string HtmlResult { get; private set; } = string.Empty;
-        public List<string> Tags { get; set; } = new();
-        public Dictionary<string, WikiMatchSet> Matches { get; private set; } = new();
-        public List<TableOfContentsTag> TableOfContents { get; } = new();
-        public List<string> Headers { get; } = new();
-
-        #endregion
 
         /// <summary>
         /// Creates a new instance of the TightEngineState class. Typically created by a call to TightEngine.Transform().
@@ -146,6 +150,15 @@ namespace TightWiki.Engine
 
                 TransformPostProcessingFunctions(pageContent);
                 TransformWhitespace(pageContent);
+
+                if (PageTitle != null)
+                {
+                    if (Matches.TryGetValue(PageTitle, out var pageTitle))
+                    {
+                        PageTitle = pageTitle.Content;
+                    }
+                }
+
 
                 int length;
                 do

@@ -43,6 +43,7 @@ namespace TightWiki.Controllers
         public IActionResult Display()
             => Display("home", null);
 
+
         [HttpGet("{givenCanonical}/{pageRevision:int?}")]
         public IActionResult Display(string givenCanonical, int? pageRevision)
         {
@@ -76,19 +77,26 @@ namespace TightWiki.Controllers
                     }
 
                     var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
-                    if (WikiCache.TryGet<string>(cacheKey, out var result))
+                    if (WikiCache.TryGet<PageCache>(cacheKey, out var cached))
                     {
-                        model.Body = result;
-                        WikiCache.Put(cacheKey, result); //Update the cache expiration.
+                        model.Body = cached.Body;
+                        SessionState.PageTitle = cached.PageTitle;
+                        WikiCache.Put(cacheKey, cached); //Update the cache expiration.
                     }
                     else
                     {
                         var state = tightEngine.Transform(SessionState, page, pageRevision);
+                        SessionState.PageTitle = state.PageTitle;
 
                         model.Body = state.HtmlResult;
                         if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
                         {
-                            WikiCache.Put(cacheKey, state.HtmlResult); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
+                            var toBeCached = new PageCache(state.HtmlResult)
+                            {
+                                PageTitle = state.PageTitle
+                            };
+
+                            WikiCache.Put(cacheKey, toBeCached); //This is cleared with the call to Cache.ClearCategory($"Page:{page.Navigation}");
                         }
                     }
                 }

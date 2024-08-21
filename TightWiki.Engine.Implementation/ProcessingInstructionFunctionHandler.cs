@@ -1,8 +1,6 @@
-﻿using System.Text;
-using TightWiki.Engine.Library;
+﻿using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.EngineFunction;
-using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 using static TightWiki.Library.Constants;
@@ -10,7 +8,7 @@ using static TightWiki.Library.Constants;
 namespace TightWiki.Engine.Implementation
 {
     /// <summary>
-    /// Handles processing-instruction function calls.
+    /// Handles processing-instruction function calls, these functions affect the way the page is processed, but are not directly replaced with text.
     /// </summary>
     public class ProcessingInstructionFunctionHandler : IProcessingInstructionFunctionHandler
     {
@@ -29,17 +27,16 @@ namespace TightWiki.Engine.Implementation
                     //Processing instructions:
                     _collection.Add("@@Deprecate:");
                     _collection.Add("@@Protect:<bool>{isSilent}='false'");
+                    _collection.Add("@@Tags: <string:infinite>[pageTags]");
                     _collection.Add("@@Template:");
                     _collection.Add("@@Review:");
                     _collection.Add("@@NoCache:");
                     _collection.Add("@@Include:");
                     _collection.Add("@@Draft:");
                     _collection.Add("@@HideFooterComments:");
+                    _collection.Add("@@Title:<string>[pageTitle]");
                     _collection.Add("@@HideFooterLastModified:");
 
-                    //System functions:
-                    _collection.Add("@@SystemEmojiCategoryList:");
-                    _collection.Add("@@SystemEmojiList:");
                     #endregion
                 }
 
@@ -60,85 +57,30 @@ namespace TightWiki.Engine.Implementation
                 //We check wikifierSession.Factory.CurrentNestLevel here because we don't want to include the processing instructions on any parent pages that are injecting this one.
 
                 //------------------------------------------------------------------------------------------------------------------------------
-                case "systememojilist":
+                //Associates tags with a page. These are saved with the page and can also be displayed.
+                case "tags": //##tag(pipe|separated|list|of|tags)
                     {
-                        StringBuilder html = new();
+                        var tags = function.Parameters.GetList<string>("pageTags");
+                        state.Tags.AddRange(tags);
+                        state.Tags = state.Tags.Distinct().ToList();
 
-                        html.Append($"<table class=\"table table-striped table-bordered \">");
-
-                        html.Append($"<thead>");
-                        html.Append($"<tr>");
-                        html.Append($"<td><strong>Name</strong></td>");
-                        html.Append($"<td><strong>Image</strong></td>");
-                        html.Append($"<td><strong>Shortcut</strong></td>");
-                        html.Append($"</tr>");
-                        html.Append($"</thead>");
-
-                        string category = state.QueryString["Category"].ToString();
-
-                        html.Append($"<tbody>");
-
-                        if (string.IsNullOrWhiteSpace(category) == false)
+                        return new HandlerResult(string.Empty)
                         {
-                            var emojis = EmojiRepository.GetEmojisByCategory(category);
-
-                            foreach (var emoji in emojis)
-                            {
-                                html.Append($"<tr>");
-                                html.Append($"<td>{emoji.Name}</td>");
-                                //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
-                                html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
-                                html.Append($"<td>{emoji.Shortcut}</td>");
-                                html.Append($"</tr>");
-                            }
-                        }
-
-                        html.Append($"</tbody>");
-                        html.Append($"</table>");
-
-                        return new HandlerResult(html.ToString());
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
-                case "systememojicategorylist":
+                case "title":
                     {
-                        var categories = EmojiRepository.GetEmojiCategoriesGrouped();
+                        state.PageTitle = function.Parameters.Get<string>("pageTitle");
 
-                        StringBuilder html = new();
-
-                        html.Append($"<table class=\"table table-striped table-bordered \">");
-
-                        int rowNumber = 0;
-
-                        html.Append($"<thead>");
-                        html.Append($"<tr>");
-                        html.Append($"<td><strong>Name</strong></td>");
-                        html.Append($"<td><strong>Count of Emojis</strong></td>");
-                        html.Append($"</tr>");
-                        html.Append($"</thead>");
-
-                        foreach (var category in categories)
+                        return new HandlerResult(string.Empty)
                         {
-                            if (rowNumber == 1)
-                            {
-                                html.Append($"<tbody>");
-                            }
-
-                            html.Append($"<tr>");
-                            html.Append($"<td><a href=\"/wiki_help::list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
-                            html.Append($"<td>{category.EmojiCount:N0}</td>");
-                            html.Append($"</tr>");
-                            rowNumber++;
-                        }
-
-                        html.Append($"</tbody>");
-                        html.Append($"</table>");
-
-                        return new HandlerResult(html.ToString())
-                        {
-                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                            Instructions = [HandlerResultInstruction.TruncateTrailingLine]
                         };
                     }
+
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "hidefooterlastmodified":
                     {
