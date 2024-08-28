@@ -26,7 +26,6 @@ namespace TightWiki.Engine
                 TransformEmoji(content, matchStore);
                 TransformLinks(content, matchStore);
                 TransformMarkup(content, matchStore);
-                TransformHeadings(content, matchStore);
 
                 foreach (var match in matchStore)
                 {
@@ -121,35 +120,6 @@ namespace TightWiki.Engine
                         _ => body,
                     };
 
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, markup));
-                }
-            }
-        }
-
-        private static void TransformHeadings(WikiString pageContent, Dictionary<string, string> matchStore)
-        {
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
-                PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
-
-            foreach (var match in orderedMatches)
-            {
-                int headingMarkers = 0;
-                foreach (char c in match.Value)
-                {
-                    if (c != '^')
-                    {
-                        break;
-                    }
-                    headingMarkers++;
-                }
-                if (headingMarkers >= 2 && headingMarkers <= 6)
-                {
-                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
-
-                    int fontSize = 1 + headingMarkers;
-                    if (fontSize < 1) fontSize = 1;
-
-                    string markup = $"<font size=\"{fontSize}\">{value}</font>\r\n";
                     pageContent.Replace(match.Value, StoreMatch(matchStore, markup));
                 }
             }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
+using System.Runtime.Caching;
 using System.Text;
 using TightWiki.Caching;
 using TightWiki.Engine;
@@ -683,6 +684,12 @@ namespace TightWiki.Controllers
 
             if (file != null)
             {
+                if (file.ContentType == "image/x-icon")
+                {
+                    //We do not handle the resizing of icon file. Maybe later....
+                    return File(file.Data, file.ContentType);
+                }
+
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
                 string contentType = file.ContentType;

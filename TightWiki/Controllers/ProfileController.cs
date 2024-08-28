@@ -59,6 +59,12 @@ namespace TightWiki.Controllers
 
             if (avatar.Bytes != null && avatar.Bytes.Length > 0)
             {
+                if (avatar.ContentType == "image/x-icon")
+                {
+                    //We do not handle the resizing of icon file. Maybe later....
+                    return File(avatar.Bytes, avatar.ContentType);
+                }
+
                 var img = Image.Load(new MemoryStream(avatar.Bytes));
 
                 int parsedScale = int.Parse(givenScale);

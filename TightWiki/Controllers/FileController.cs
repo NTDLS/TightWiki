@@ -42,6 +42,12 @@ namespace TightWiki.Controllers
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
             if (file != null)
             {
+                if (file.ContentType == "image/x-icon")
+                {
+                    //We do not handle the resizing of icon file. Maybe later....
+                    return File(file.Data, file.ContentType);
+                }
+
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
                 string contentType = file.ContentType;
