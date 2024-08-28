@@ -12,7 +12,7 @@ namespace TightWiki.Models.DataModels
         public string ContentType { get; set; } = string.Empty;
         public long Size { get; set; }
         public DateTime CreatedDate { get; set; }
-        public byte[] Data { get; set; } = new byte[0];
+        public byte[] Data { get; set; } = Array.Empty<byte>();
         public string FileNavigation { get; set; } = string.Empty;
         public string PageNavigation { get; set; } = string.Empty;
         public string FriendlySize => Formatters.FileSize(Size);

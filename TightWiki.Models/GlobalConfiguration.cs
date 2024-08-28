@@ -1,7 +1,7 @@
 ﻿using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
-namespace TightWiki.Configuration
+namespace TightWiki.Models
 {
     public static class GlobalConfiguration
     {

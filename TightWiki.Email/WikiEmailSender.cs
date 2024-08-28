@@ -39,14 +39,12 @@ namespace TightWiki.Email
                 message.Subject = subject;
                 message.Body = new TextPart("html") { Text = htmlMessage };
 
-                using (var client = new SmtpClient())
-                {
-                    var options = smtpUseSSL ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTlsWhenAvailable;
-                    await client.ConnectAsync(smtpAddress, smtpPort, options);
-                    await client.AuthenticateAsync(smtpUsername, smtpPassword);
-                    await client.SendAsync(message);
-                    await client.DisconnectAsync(true);
-                }
+                using var client = new SmtpClient();
+                var options = smtpUseSSL ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTlsWhenAvailable;
+                await client.ConnectAsync(smtpAddress, smtpPort, options);
+                await client.AuthenticateAsync(smtpUsername, smtpPassword);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
             }
             catch (Exception ex)
             {

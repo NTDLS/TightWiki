@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using TightWiki.Configuration;
-using TightWiki.EngineFunction;
+using TightWiki.Engine.Function;
+using TightWiki.Models;
 
 namespace TightWiki.Engine
 {

@@ -1,11 +1,11 @@
 ﻿using NTDLS.Helpers;
 using System.Text;
+using TightWiki.Engine.Function;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.EngineFunction;
+using static TightWiki.Engine.Function.FunctionPrototypeCollection;
 using static TightWiki.Engine.Library.Constants;
-using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Implementation
 {
@@ -93,7 +93,7 @@ namespace TightWiki.Engine.Implementation
 
                         html.Append($"<table class=\"table");
 
-                        if (function.Name.ToLower() == "stripedtable")
+                        if (function.Name.Equals("stripedtable", StringComparison.InvariantCultureIgnoreCase))
                         {
                             html.Append(" table-striped");
                         }
@@ -104,7 +104,7 @@ namespace TightWiki.Engine.Implementation
 
                         html.Append($"\">");
 
-                        var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+                        var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
 
                         int rowNumber = 0;
 
@@ -158,7 +158,7 @@ namespace TightWiki.Engine.Implementation
 
                         if (type == "unordered")
                         {
-                            var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+                            var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
 
                             int currentLevel = 0;
 
@@ -186,7 +186,7 @@ namespace TightWiki.Engine.Implementation
                                     }
                                 }
 
-                                html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                html.Append($"<li>{line.Trim(['>'])}</li>");
                             }
 
                             for (; currentLevel > 0; currentLevel--)
@@ -196,7 +196,7 @@ namespace TightWiki.Engine.Implementation
                         }
                         else if (type == "ordered")
                         {
-                            var lines = scopeBody.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+                            var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
 
                             int currentLevel = 0;
 
@@ -224,7 +224,7 @@ namespace TightWiki.Engine.Implementation
                                     }
                                 }
 
-                                html.Append($"<li>{line.Trim(new char[] { '>' })}</li>");
+                                html.Append($"<li>{line.Trim(['>'])}</li>");
                             }
 
                             for (; currentLevel > 0; currentLevel--)
@@ -242,14 +242,11 @@ namespace TightWiki.Engine.Implementation
 
                         string name = function.Parameters.Get<string>("name");
 
-                        if (state.Snippets.ContainsKey(name))
+                        if (!state.Snippets.TryAdd(name, scopeBody))
                         {
                             state.Snippets[name] = scopeBody;
                         }
-                        else
-                        {
-                            state.Snippets.Add(name, scopeBody);
-                        }
+
                         return new HandlerResult(html.ToString());
                     }
 

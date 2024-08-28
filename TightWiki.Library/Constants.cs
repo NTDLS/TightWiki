@@ -47,19 +47,19 @@
             /// <summary>
             /// Administrators can do anything. Add, edit, delete, pages, users, etc.
             /// </summary>
-            public static string Administrator = "Administrator";
+            public const string Administrator = "Administrator";
             /// <summary>
             /// Read-only user with a profile.
             /// </summary>
-            public static string Member = "Member";
+            public const string Member = "Member";
             /// <summary>
             /// Contributor can add and edit pages.
             /// </summary>
-            public static string Contributor = "Contributor";
+            public const string Contributor = "Contributor";
             /// <summary>
             /// Moderators can add, edit and delete pages.
             /// </summary>
-            public static string Moderator = "Moderator";
+            public const string Moderator = "Moderator";
         }
     }
 }

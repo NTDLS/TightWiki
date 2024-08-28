@@ -4,7 +4,7 @@ namespace TightWiki.Models.ViewModels.Shared
 {
     public class CredentialViewModel
     {
-        public static string NOTSET = "\\__!!_PASSWORD_NOT_SET_!!__//";
+        public const string NOTSET = "\\__!!_PASSWORD_NOT_SET_!!__//";
 
         [Required]
         [Display(Name = "Password")]

@@ -26,7 +26,7 @@
 
 @Html.Raw(Model.Body)
 
-@if (TightWiki.Configuration.GlobalConfiguration.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
+@if (TightWiki.Models.GlobalConfiguration.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
 {
     <br />
 
@@ -36,12 +36,12 @@
 
 @if (Model.HideFooterComments == false)
 {
-    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
+    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
         <hr class="mt-5 mb-5">
         <h2>Comments</h2>
     }
-    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
+    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
         if (@sessionState.IsAuthenticated == true)
         {
@@ -62,7 +62,7 @@
             <br />
         }
     }
-    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
     {
         <div class="container mt-4">
             @foreach (var h in Model.Comments)
@@ -84,7 +84,7 @@
             }
         </div>
     }
-    @if (TightWiki.Configuration.GlobalConfiguration.EnablePageComments && TightWiki.Configuration.GlobalConfiguration.ShowCommentsOnPageFooter)
+    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
         <a href="/@sessionState.PageNavigation/Comments">View all comments</a>
     }

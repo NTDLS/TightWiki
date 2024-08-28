@@ -5,8 +5,8 @@ using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Web;
 using TightWiki.Caching;
-using TightWiki.Configuration;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
@@ -278,7 +278,7 @@ namespace TightWiki.Controllers
 
             return View(new FileAttachmentViewModel
             {
-                Files = new List<PageFileAttachmentInfo>()
+                Files = new()
             });
         }
 

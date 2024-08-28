@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
-using TightWiki.Controllers;
 using TightWiki.Models.ViewModels.Utility;
 
-namespace TightWiki.Site.Controllers
+namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]

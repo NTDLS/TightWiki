@@ -86,7 +86,6 @@ namespace TightWiki
 
             builder.Services.AddRazorPages();
 
-            // Configure Autofac
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
             {

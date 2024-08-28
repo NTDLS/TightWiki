@@ -2,8 +2,8 @@
 using System.Data;
 using System.Diagnostics;
 using TightWiki.Caching;
-using TightWiki.Configuration;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository

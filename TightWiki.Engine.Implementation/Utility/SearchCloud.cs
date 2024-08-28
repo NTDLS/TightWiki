@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using TightWiki.Models;
+using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Utility
@@ -15,7 +15,7 @@ namespace TightWiki.Engine.Implementation.Utility
                 pages = pages.Take((int)maxCount).ToList();
             }
 
-            int pageCount = pages.Count();
+            int pageCount = pages.Count;
             int fontSize = 7;
             int sizeStep = (pageCount > fontSize ? pageCount : (fontSize * 2)) / fontSize;
             int pageIndex = 0;

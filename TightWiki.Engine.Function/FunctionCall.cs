@@ -1,4 +1,4 @@
-﻿namespace TightWiki.EngineFunction
+﻿namespace TightWiki.Engine.Function
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
@@ -183,18 +183,16 @@
 
             foreach (var named in Parameters.Named)
             {
-                var param = Prototype.Parameters.Where(o => o.Name.Equals(named.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
-                if (param == null)
-                {
-                    throw new Exception($"Function [{Name}], the named parameter [{named.Name}] is not defined in the function prototype.");
-                }
+                var param = Prototype.Parameters.Where(o => o.Name.Equals(named.Name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()
+                    ?? throw new Exception($"Function [{Name}], the named parameter [{named.Name}] is not defined in the function prototype.");
+
                 EnforcePrototypeParamValue(param, named.Value);
             }
 
             Parameters.Named.AddRange(namedToAddLater);
 
             var unmatchedParams = Parameters.Ordinals.Where(o => o.IsMatched == false).ToList();
-            if (unmatchedParams.Any())
+            if (unmatchedParams.Count != 0)
             {
                 throw new Exception($"Function [{Name}], unmatched parameter value [{unmatchedParams.First().Value}].");
             }

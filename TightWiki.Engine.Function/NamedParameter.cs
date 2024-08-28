@@ -1,4 +1,4 @@
-﻿namespace TightWiki.EngineFunction
+﻿namespace TightWiki.Engine.Function
 {
     public class NamedParameter
     {

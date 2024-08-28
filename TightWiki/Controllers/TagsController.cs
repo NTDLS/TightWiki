@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text;
-using TightWiki.Controllers;
 using TightWiki.Engine.Implementation.Utility;
+using TightWiki.Library;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
 
-namespace TightWiki.Site.Controllers
+namespace TightWiki.Controllers
 {
     [Authorize]
     public class TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
@@ -42,7 +42,7 @@ namespace TightWiki.Site.Controllers
                     glossaryHtml.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                     glossaryHtml.Append("<ul>");
-                    foreach (var page in pages.Where(p => p.Name.ToLower().StartsWith(alpha.ToLower())))
+                    foreach (var page in pages.Where(p => p.Name.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         glossaryHtml.Append("<li><a href=\"/" + page.Navigation + "\">" + page.Name + "</a>");
 

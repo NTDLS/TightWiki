@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Shared.Models.Data
+﻿namespace TightWiki.Models.DataModels
 {
     public class NamespaceStat
     {

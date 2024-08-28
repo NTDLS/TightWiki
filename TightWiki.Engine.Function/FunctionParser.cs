@@ -1,9 +1,8 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
-using TightWiki.Engine.Function;
 using TightWiki.Engine.Function.Exceptions;
 
-namespace TightWiki.EngineFunction
+namespace TightWiki.Engine.Function
 {
     public static partial class FunctionParser
     {

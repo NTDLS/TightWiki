@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Models
+﻿namespace TightWiki.Models.DataModels
 {
     public class TagCloudItem
     {

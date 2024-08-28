@@ -6,15 +6,14 @@ using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
 using TightWiki.Caching;
-using TightWiki.Configuration;
-using TightWiki.Controllers;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
 
-namespace TightWiki.Site.Controllers
+namespace TightWiki.Controllers
 {
 
     [AllowAnonymous]

@@ -91,7 +91,7 @@ namespace TightWiki.Library
         {
             if (data == null)
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
 
             using var compressedStream = new MemoryStream();
@@ -106,7 +106,7 @@ namespace TightWiki.Library
         {
             if (data == null)
             {
-                return new byte[0];
+                return Array.Empty<byte>();
             }
 
             using var compressedStream = new MemoryStream(data);

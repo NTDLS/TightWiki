@@ -6,7 +6,7 @@
 
         public ConfigurationEntries()
         {
-            Collection = new List<ConfigurationEntry>();
+            Collection = new();
         }
 
         public ConfigurationEntries(List<ConfigurationEntry> entries)

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.RegularExpressions;
 
-namespace TightWiki
+namespace TightWiki.Library
 {
     public class NamespaceNavigation
     {

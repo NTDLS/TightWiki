@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using TightWiki;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Library.Interfaces;
@@ -99,19 +98,17 @@ namespace DummyPageGenerator
                 {
                     workload.Enqueue(() =>
                     {
-                        using (var scope = host.Services.CreateScope())
+                        using var scope = host.Services.CreateScope();
+                        var engine = scope.ServiceProvider.GetRequiredService<TightEngine>();
+
+                        //Create a new page:
+                        pg.GeneratePage(engine, user.UserId);
+
+                        //Modify existing pages:
+                        int modifications = pg.Random.Next(0, 10);
+                        for (int i = 0; i < modifications; i++)
                         {
-                            var engine = scope.ServiceProvider.GetRequiredService<TightEngine>();
-
-                            //Create a new page:
-                            pg.GeneratePage(engine, user.UserId);
-
-                            //Modify existing pages:
-                            int modifications = pg.Random.Next(0, 10);
-                            for (int i = 0; i < modifications; i++)
-                            {
-                                pg.ModifyRandomPages(engine, user.UserId);
-                            }
+                            pg.ModifyRandomPages(engine, user.UserId);
                         }
                     });
                 }

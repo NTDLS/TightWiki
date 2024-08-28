@@ -5,11 +5,11 @@ using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Text;
 using TightWiki.Caching;
-using TightWiki.Configuration;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
@@ -194,7 +194,7 @@ namespace TightWiki.Controllers
 
             return View(new PageSearchViewModel()
             {
-                Pages = new List<Page>(),
+                Pages = new(),
                 SearchString = searchString
             });
         }
@@ -219,7 +219,7 @@ namespace TightWiki.Controllers
 
             return View(new PageSearchViewModel()
             {
-                Pages = new List<Page>(),
+                Pages = new(),
                 SearchString = searchString
             });
         }
@@ -557,10 +557,7 @@ namespace TightWiki.Controllers
                 string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
                 var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
 
-                if (templatePage == null)
-                {
-                    templatePage = new Page();
-                }
+                templatePage ??= new Page();
 
                 return View(new PageEditViewModel()
                 {
@@ -622,7 +619,7 @@ namespace TightWiki.Controllers
 
                 model.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
 
-                if (page.Navigation.ToLower() != model.Navigation.ToLower())
+                if (!page.Navigation.Equals(model.Navigation, StringComparison.InvariantCultureIgnoreCase))
                 {
                     if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
                     {

@@ -1,6 +1,6 @@
 ﻿using TightWiki.Engine.Function.Exceptions;
 
-namespace TightWiki.EngineFunction
+namespace TightWiki.Engine.Function
 {
     public class FunctionPrototypeCollection
     {
@@ -37,7 +37,7 @@ namespace TightWiki.EngineFunction
             functionName = functionName.ToLower();
 
             //$$ are scope functions and are not called by prefix, we only have prefixes to make it easier to parse
-            //  the functions in the wikitext and scope functions are easy enough since they start with curly braces.
+            //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
             return Items.Any(o => (o.FunctionPrefix == functionPrefix || o.FunctionPrefix == "$$") && o.FunctionName == functionName);
         }
 
@@ -46,15 +46,11 @@ namespace TightWiki.EngineFunction
             functionName = functionName.ToLower();
 
             //$$ are scope functions and are not called by prefix, we only have prefixes to make it easier to parse
-            //  the functions in the wikitext and scope functions are easy enough since they start with curly braces.
+            //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
             var functionPrototype = Items.Where(o => (o.FunctionPrefix == functionPrefix || o.FunctionPrefix == "$$") && o.FunctionName == functionName).FirstOrDefault()?.Value;
 
-            if (functionPrototype == null)
-            {
-                throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");
-            }
-
-            return functionPrototype;
+            return functionPrototype
+                ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");
         }
 
         private FunctionPrototype ParsePrototype(string prototypeString)
@@ -93,7 +89,7 @@ namespace TightWiki.EngineFunction
                     {
                         var splitSeg = prototypeSegment.Type.Split(':');
                         prototypeSegment.Type = splitSeg[0];
-                        if (splitSeg[1].ToLower() == "infinite")
+                        if (splitSeg[1].Equals("infinite", StringComparison.InvariantCultureIgnoreCase))
                         {
                             prototypeSegment.IsInfinite = true;
                             if (prototype.Parameters.Any(o => o.IsInfinite))
@@ -200,7 +196,7 @@ namespace TightWiki.EngineFunction
             return token;
         }
 
-        private void SkipWhiteSpace(string str, ref int index)
+        private static void SkipWhiteSpace(string str, ref int index)
         {
             while (index < str.Length && char.IsWhiteSpace(str[index]))
             {

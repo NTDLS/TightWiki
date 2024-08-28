@@ -1,6 +1,6 @@
 ﻿using NTDLS.Helpers;
 
-namespace TightWiki.EngineFunction
+namespace TightWiki.Engine.Function
 {
     public class FunctionParameters
     {
@@ -13,7 +13,7 @@ namespace TightWiki.EngineFunction
         /// </summary>
         public List<NamedParameter> Named { get; private set; } = new();
 
-        private FunctionCall _owner;
+        private readonly FunctionCall _owner;
 
         public FunctionParameters(FunctionCall owner)
         {
@@ -27,7 +27,7 @@ namespace TightWiki.EngineFunction
                 var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
                 if (value == null)
                 {
-                    var prototype = _owner.Prototype.Parameters.Where(o => o.Name.ToLower() == name.ToLower()).First();
+                    var prototype = _owner.Prototype.Parameters.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).First();
                     return Converters.ConvertTo<T>(prototype.DefaultValue) ?? throw new Exception("Value cannot be null");
                 }
 

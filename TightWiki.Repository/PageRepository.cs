@@ -4,7 +4,6 @@ using TightWiki.Caching;
 using TightWiki.Engine.Library;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
-using TightWiki.Shared.Models.Data;
 
 namespace TightWiki.Repository
 {
@@ -127,7 +126,7 @@ namespace TightWiki.Repository
                 var param = new
                 {
                     MinimumMatchScore = minimumMatchScore,
-                    TokenCount = tokens.Count()
+                    TokenCount = tokens.Count
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());
@@ -142,7 +141,7 @@ namespace TightWiki.Repository
                 var param = new
                 {
                     MinimumMatchScore = minimumMatchScore,
-                    TokenCount = tokens.Count()
+                    TokenCount = tokens.Count
                 };
 
                 using var tempTable = o.CreateTempTableFrom("TempSearchTerms", tokens.Distinct());

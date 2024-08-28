@@ -10,8 +10,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
-using TightWiki.Configuration;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 

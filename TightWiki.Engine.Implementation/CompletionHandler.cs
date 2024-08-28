@@ -1,5 +1,5 @@
-﻿using TightWiki.Configuration;
-using TightWiki.Engine.Library.Interfaces;
+﻿using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation

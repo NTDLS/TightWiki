@@ -1,15 +1,15 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
 using System.Text;
+using TightWiki.Engine.Function;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.EngineFunction;
 using TightWiki.Library;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
+using static TightWiki.Engine.Function.FunctionPrototypeCollection;
 using static TightWiki.Engine.Library.Constants;
-using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Implementation
 {
@@ -1023,7 +1023,7 @@ namespace TightWiki.Engine.Implementation
                 //Displays the title of the site.
                 case "sitename":
                     {
-                        return new HandlerResult(TightWiki.Configuration.GlobalConfiguration.Name);
+                        return new HandlerResult(TightWiki.Models.GlobalConfiguration.Name);
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------

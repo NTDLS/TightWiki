@@ -6,11 +6,10 @@ using NTDLS.Helpers;
 using System.Reflection;
 using System.Security.Claims;
 using TightWiki.Caching;
-using TightWiki.Configuration;
-using TightWiki.Controllers;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Admin;
 using TightWiki.Models.ViewModels.Page;
@@ -21,7 +20,7 @@ using TightWiki.Repository;
 using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
-namespace TightWiki.Site.Controllers
+namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
@@ -227,7 +226,7 @@ namespace TightWiki.Site.Controllers
 
             return View(new PageModerateViewModel()
             {
-                Pages = new List<Page>(),
+                Pages = new(),
                 Instruction = string.Empty,
                 Instructions = typeof(WikiInstruction).GetProperties().Select(o => o.Name).ToList()
             });
@@ -831,7 +830,7 @@ namespace TightWiki.Site.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            var pageNumber = GetQueryValue("page", 1);
+            //var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
             var orderByDirection = GetQueryValue("OrderByDirection");
 
@@ -882,7 +881,7 @@ namespace TightWiki.Site.Controllers
                 return View(model);
             }
 
-            if (ConfigurationRepository.GetAllMenuItems().Where(o => o.Name.ToLower() == model.Name.ToLower() && o.Id != model.Id).Any())
+            if (ConfigurationRepository.GetAllMenuItems().Where(o => o.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase) && o.Id != model.Id).Any())
             {
                 ModelState.AddModelError("Name", $"The menu name '{model.Name}' is already in use.");
                 return View(model);
@@ -1517,13 +1516,12 @@ namespace TightWiki.Site.Controllers
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            var model = new EmojiViewModel()
+            var model = new EmojiViewModel
             {
                 Emoji = emoji ?? new Emoji(),
-                Categories = string.Join(",", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList())
+                Categories = string.Join(",", EmojiRepository.GetEmojiCategoriesByName(name).Select(o => o.Category).ToList()),
+                OriginalName = emoji?.Name ?? string.Empty
             };
-
-            model.OriginalName = emoji?.Name ?? string.Empty;
 
             return View(model);
         }
@@ -1546,7 +1544,7 @@ namespace TightWiki.Site.Controllers
 
             bool nameChanged = false;
 
-            if (model.OriginalName.ToLowerInvariant() != model.Emoji.Name.ToLowerInvariant())
+            if (!model.OriginalName.Equals(model.Emoji.Name, StringComparison.InvariantCultureIgnoreCase))
             {
                 nameChanged = true;
                 var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLowerInvariant());
@@ -1627,7 +1625,7 @@ namespace TightWiki.Site.Controllers
                 return View(model);
             }
 
-            if (string.IsNullOrEmpty(model.OriginalName) == true || model.OriginalName.ToLowerInvariant() != model.Name.ToLowerInvariant())
+            if (string.IsNullOrEmpty(model.OriginalName) == true || !model.OriginalName.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase))
             {
                 var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
                 if (checkName != null)

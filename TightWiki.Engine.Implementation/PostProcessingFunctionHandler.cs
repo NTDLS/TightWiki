@@ -1,10 +1,10 @@
 ﻿using System.Text;
+using TightWiki.Engine.Function;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.EngineFunction;
+using static TightWiki.Engine.Function.FunctionPrototypeCollection;
 using static TightWiki.Engine.Library.Constants;
-using static TightWiki.EngineFunction.FunctionPrototypeCollection;
 
 namespace TightWiki.Engine.Implementation
 {
@@ -96,7 +96,7 @@ namespace TightWiki.Engine.Implementation
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
-                //Diplays a table of contents for the page based on the header tags.
+                //Displays a table of contents for the page based on the header tags.
                 case "toc":
                     {
                         bool alphabetized = function.Parameters.Get<bool>("alphabetized");

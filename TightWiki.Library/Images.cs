@@ -17,18 +17,16 @@ namespace TightWiki.Library
 
         public static byte[] ResizeImageBytes(byte[] imageBytes, int newWidth, int newHeight)
         {
-            using (MemoryStream outStream = new())
+            using MemoryStream outStream = new();
+            ProcessImageSettings processImageSettings = new()
             {
-                ProcessImageSettings processImageSettings = new()
-                {
-                    Width = newWidth,
-                    Height = newHeight,
-                    ResizeMode = CropScaleMode.Stretch,
-                    HybridMode = HybridScaleMode.Turbo
-                };
-                MagicImageProcessor.ProcessImage(imageBytes, outStream, processImageSettings);
-                return outStream.ToArray();
-            }
+                Width = newWidth,
+                Height = newHeight,
+                ResizeMode = CropScaleMode.Stretch,
+                HybridMode = HybridScaleMode.Turbo
+            };
+            MagicImageProcessor.ProcessImage(imageBytes, outStream, processImageSettings);
+            return outStream.ToArray();
         }
 
         public static Image ResizeImage(Image image, int width, int height)

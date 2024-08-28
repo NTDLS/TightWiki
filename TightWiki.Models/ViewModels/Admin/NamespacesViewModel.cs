@@ -1,4 +1,4 @@
-﻿using TightWiki.Shared.Models.Data;
+﻿using TightWiki.Models.DataModels;
 
 namespace TightWiki.Models.ViewModels.Admin
 {

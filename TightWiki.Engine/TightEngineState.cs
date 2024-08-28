@@ -3,10 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using TightWiki.Engine.Function;
 using TightWiki.Engine.Function.Exceptions;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.EngineFunction;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
@@ -440,8 +441,8 @@ namespace TightWiki.Engine
                 }
                 if (headingMarkers >= 2)
                 {
-                    string link = _tocName + "_" + TableOfContents.Count().ToString();
-                    string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(new char[] { '=' }).Trim();
+                    string link = _tocName + "_" + TableOfContents.Count.ToString();
+                    string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(['=']).Trim();
 
                     var result = Engine.HeadingHandler.Handle(this, headingMarkers, link, text);
 
@@ -500,20 +501,16 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                string key = match.Value.Trim(new char[] { '{', '}', ' ', '\t', '$' });
+                string key = match.Value.Trim(['{', '}', ' ', '\t', '$']);
                 if (key.Contains("="))
                 {
                     var sections = key.Split('=');
                     key = sections[0].Trim();
                     var value = sections[1].Trim();
 
-                    if (Variables.ContainsKey(key))
+                    if (!Variables.TryAdd(key, value))
                     {
                         Variables[key] = value;
-                    }
-                    else
-                    {
-                        Variables.Add(key, value);
                     }
 
                     var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, "");
@@ -521,9 +518,9 @@ namespace TightWiki.Engine
                 }
                 else
                 {
-                    if (Variables.ContainsKey(key))
+                    if (Variables.TryGetValue(key, out string? value))
                     {
-                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, Variables[key]);
+                        var identifier = StoreMatch(WikiMatchType.Variable, pageContent, match.Value, value);
                         pageContent.Replace($"{identifier}\n", $"{identifier}"); //Kill trailing newline.
 
                     }
@@ -647,7 +644,10 @@ namespace TightWiki.Engine
                     if (args.Count >= 3)
                     {
                         //Get the specified image scale.
-                        int.TryParse(args[2], out imageScale);
+                        if (int.TryParse(args[2], out imageScale) == false)
+                        {
+                            imageScale = 100;
+                        }
                     }
                 }
                 else

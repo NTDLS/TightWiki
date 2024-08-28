@@ -16,8 +16,8 @@ namespace TightWiki.Engine.Implementation.Utility
 
             var thisRevLines = thisRev.Split('\n');
             var prevRevLines = prevRev.Split('\n');
-            int thisRevLineCount = thisRevLines.Count();
-            int prevRevLinesCount = prevRevLines.Count();
+            int thisRevLineCount = thisRevLines.Length;
+            int prevRevLinesCount = prevRevLines.Length;
 
             int linesAdded = prevRevLines.Except(thisRevLines).Count();
             int linesDeleted = thisRevLines.Except(prevRevLines).Count();
@@ -29,13 +29,13 @@ namespace TightWiki.Engine.Implementation.Utility
 
             if (linesAdded > 0)
             {
-                if (summary.Length > 0) summary.Append(" ");
+                if (summary.Length > 0) summary.Append(' ');
                 summary.Append($"{linesAdded:N0} lines added.");
             }
 
             if (linesDeleted > 0)
             {
-                if (summary.Length > 0) summary.Append(" ");
+                if (summary.Length > 0) summary.Append(' ');
                 summary.Append($"{linesDeleted:N0} lines deleted.");
             }
 

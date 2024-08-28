@@ -1,6 +1,6 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 
-namespace TightWiki
+namespace TightWiki.Repository
 {
     /// <summary>
     /// Stores instances of ManagedDataStorageFactories that are used to store various parts of the data for the site.

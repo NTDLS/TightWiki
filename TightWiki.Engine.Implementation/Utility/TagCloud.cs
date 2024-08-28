@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using TightWiki.Models;
+using TightWiki.Library;
+using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
 namespace TightWiki.Engine.Implementation.Utility
@@ -15,7 +16,7 @@ namespace TightWiki.Engine.Implementation.Utility
                 tags = tags.Take((int)maxCount).ToList();
             }
 
-            int tagCount = tags.Count();
+            int tagCount = tags.Count;
             int fontSize = 7;
             int sizeStep = (tagCount > fontSize ? tagCount : (fontSize * 2)) / fontSize;
             int tagIndex = 0;
