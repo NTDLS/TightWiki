@@ -33,5 +33,7 @@ namespace TightWiki.Models
         public static string Address { get; set; } = string.Empty;
         public static int DefaultEmojiHeight { get; set; }
         public static bool AllowGoogleAuthentication { get; set; }
+        public static int MaxAvatarFileSize { get; set; } = 1024 * 1024 * 5;
+        public static int MaxAttachmentFileSize { get; set; } = 1024 * 1024 * 5;
     }
 }
