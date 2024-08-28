@@ -12,13 +12,13 @@ namespace TightWiki
         public string Namespace
         {
             get => _namespace;
-            set => _namespace = value.Replace("::", "_").Trim();
+            set => _namespace = CleanAndValidate(value.Replace("::", "_")).Trim();
         }
 
         public string Page
         {
             get => _page;
-            set => _page = value.Replace("::", "_").Trim();
+            set => _page = CleanAndValidate(value.Replace("::", "_")).Trim();
         }
 
         public string Canonical
