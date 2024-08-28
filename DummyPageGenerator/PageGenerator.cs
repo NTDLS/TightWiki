@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
@@ -322,6 +323,11 @@ namespace DummyPageGenerator
         /// <param name="fileData"></param>
         private void AttachFile(int pageId, Guid userId, string fileName, byte[] fileData)
         {
+            if (fileData.Length > GlobalConfiguration.MaxAttachmentFileSize)
+            {
+                throw new Exception("Could not save the attached file, too large");
+            }
+
             PageFileRepository.UpsertPageFile(new PageFileAttachment()
             {
                 Data = fileData,

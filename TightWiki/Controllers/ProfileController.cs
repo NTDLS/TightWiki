@@ -284,15 +284,22 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                try
+                if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
-                    var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                    UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                    model.ErrorMessage += "Could not save the attached image, too large.\r\n";
                 }
-                catch
+                else
                 {
-                    ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                    try
+                    {
+                        var imageBytes = Utility.ConvertHttpFileToBytes(file);
+                        var image = Image.Load(new MemoryStream(imageBytes));
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                    }
                 }
             }
 

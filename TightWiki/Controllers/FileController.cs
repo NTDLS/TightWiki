@@ -302,6 +302,11 @@ namespace TightWiki.Controllers
                     var fileSize = file.Length;
                     if (fileSize > 0)
                     {
+                        if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                        {
+                            return Content("Could not save the attached file, too large");
+                        }
+
                         var fileName = HttpUtility.UrlDecode(file.FileName);
 
                         PageFileRepository.UpsertPageFile(new PageFileAttachment()
@@ -343,6 +348,11 @@ namespace TightWiki.Controllers
                 var fileSize = fileData.Length;
                 if (fileSize > 0)
                 {
+                    if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                    {
+                        return Content("Could not save the attached file, too large");
+                    }
+
                     var fileName = HttpUtility.UrlDecode(fileData.FileName);
 
                     PageFileRepository.UpsertPageFile(new PageFileAttachment()
