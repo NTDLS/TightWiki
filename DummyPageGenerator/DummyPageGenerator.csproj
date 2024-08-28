@@ -33,7 +33,7 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="NTDLS.DelegateThreadPooling" Version="1.4.4" />
+    <PackageReference Include="NTDLS.DelegateThreadPooling" Version="1.4.8" />
   </ItemGroup>
 
   <ItemGroup>
