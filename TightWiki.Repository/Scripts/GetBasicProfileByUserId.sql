@@ -2,6 +2,7 @@ SELECT
 	U.UserId,
 	U.AccountName,
 	U.Navigation,
+	U.Biography,
 	(select UC.ClaimValue from AspNetUserClaims as UC WHERE UC.UserId = U.UserId AND UC.ClaimType = 'theme') as Theme,
 	UCR.ClaimValue as Role
 FROM

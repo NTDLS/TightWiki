@@ -167,9 +167,6 @@ namespace TightWiki.Controllers
             }
         }
 
-
-
-
         /// <summary>
         /// Get user profile.
         /// </summary>
