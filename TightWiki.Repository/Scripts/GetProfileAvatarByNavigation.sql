@@ -1,5 +1,6 @@
 SELECT
-	[Avatar]
+	[Avatar] as Bytes,
+	AvatarContentType as ContentType
 FROM
 	Profile
 WHERE

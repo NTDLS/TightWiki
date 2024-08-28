@@ -12,7 +12,6 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "wiki_help::sitename",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -253,14 +253,14 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
-        public static byte[]? GetProfileAvatarByNavigation(string navigation)
+        public static ProfileAvatar GetProfileAvatarByNavigation(string navigation)
         {
             var param = new
             {
                 Navigation = navigation
             };
 
-            return ManagedDataStorage.Users.QuerySingle<byte[]>("GetProfileAvatarByNavigation.sql", param);
+            return ManagedDataStorage.Users.QuerySingle<ProfileAvatar>("GetProfileAvatarByNavigation.sql", param);
         }
 
         public static void UpdateProfile(AccountProfile item)
@@ -277,12 +277,13 @@ namespace TightWiki.Repository
             ManagedDataStorage.Users.Execute("UpdateProfile.sql", param);
         }
 
-        public static void UpdateProfileAvatar(Guid userId, byte[] imageData)
+        public static void UpdateProfileAvatar(Guid userId, byte[] imageData, string contentType)
         {
             var param = new
             {
                 UserId = userId,
                 Avatar = imageData,
+                ContentType = contentType
             };
 
             ManagedDataStorage.Users.Execute("UpdateProfileAvatar.sql", param);

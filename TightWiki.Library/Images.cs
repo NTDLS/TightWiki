@@ -35,27 +35,28 @@ namespace TightWiki.Library
             return image;
         }
 
-        public static void ChangeImageType(Image img, ImageFormat format, MemoryStream ms)
+        public static string BestEffortConvertImage(Image image, MemoryStream ms, string preferredContentType)
         {
-            switch (format)
+            switch (preferredContentType.ToLower())
             {
-                case ImageFormat.Png:
-                    img.SaveAsPng(ms);
-                    break;
-                case ImageFormat.Gif:
-                    img.SaveAsGif(ms);
-                    break;
-                case ImageFormat.Jpeg:
-                    img.SaveAsJpeg(ms);
-                    break;
-                case ImageFormat.Bmp:
-                    img.SaveAsBmp(ms);
-                    break;
-                case ImageFormat.Tiff:
-                    img.SaveAsTiff(ms);
-                    break;
+                case "image/png":
+                    image.SaveAsPng(ms);
+                    return preferredContentType;
+                case "image/jpeg":
+                    image.SaveAsJpeg(ms);
+                    return preferredContentType;
+                case "image/bmp":
+                    image.SaveAsBmp(ms);
+                    return preferredContentType;
+                case "image/gif":
+                    image.SaveAsGif(ms);
+                    return preferredContentType;
+                case "image/tiff":
+                    image.SaveAsTiff(ms);
+                    return preferredContentType;
                 default:
-                    throw new System.Exception("Unsupported image type.");
+                    image.SaveAsPng(ms);
+                    return "image/png";
             }
         }
     }

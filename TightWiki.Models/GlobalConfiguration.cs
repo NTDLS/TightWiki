@@ -5,6 +5,8 @@ namespace TightWiki.Models
 {
     public static class GlobalConfiguration
     {
+        public static readonly string[] AllowableImageTypes = ["image/png", "image/jpeg", "image/bmp", "image/gif", "image/tiff"];
+
         public static Theme SystemTheme { get; set; } = new();
         public static bool IsDebug { get; set; }
         public static bool AllowSignup { get; set; }

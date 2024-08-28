@@ -12,6 +12,7 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
+using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
 {
@@ -43,21 +44,22 @@ namespace TightWiki.Controllers
             string givenMax = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
             string? givenExact = Request.Query["exact"];
 
-            var imageBytes = UsersRepository.GetProfileAvatarByNavigation(userAccountName);
+            var avatar = UsersRepository.GetProfileAvatarByNavigation(userAccountName);
 
-            if (imageBytes == null || imageBytes.Length == 0)
+            if (avatar.Bytes == null || avatar.Bytes.Length == 0)
             {
                 //Load the default avatar.
                 var filePath = Path.Combine(_environment.WebRootPath, "Avatar.png");
                 var image = Image.Load(filePath);
                 using var ms = new MemoryStream();
                 image.SaveAsPng(ms);
-                imageBytes = ms.ToArray();
+                avatar.ContentType = "image/png";
+                avatar.Bytes = ms.ToArray();
             }
 
-            if (imageBytes != null && imageBytes.Length > 0)
+            if (avatar.Bytes != null && avatar.Bytes.Length > 0)
             {
-                var img = Image.Load(new MemoryStream(imageBytes));
+                var img = Image.Load(new MemoryStream(avatar.Bytes));
 
                 int parsedScale = int.Parse(givenScale);
                 int parsedMax = int.Parse(givenMax);
@@ -94,10 +96,10 @@ namespace TightWiki.Controllers
                         width += difference;
                     }
 
-                    using var image = Images.ResizeImage(img, width, height);
+                    using var image = ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
+                    string contentType = Images.BestEffortConvertImage(image, ms, avatar.ContentType);
+                    return File(ms.ToArray(), contentType);
                 }
                 else if (parsedMax != 0 && (img.Width > parsedMax || img.Height > parsedMax))
                 {
@@ -121,11 +123,10 @@ namespace TightWiki.Controllers
                         width += difference;
                     }
 
-                    using var image = Images.ResizeImage(img, width, height);
+                    using var image = ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
-
+                    string contentType = BestEffortConvertImage(image, ms, avatar.ContentType);
+                    return File(ms.ToArray(), contentType);
                 }
                 else if (parsedScale != 100)
                 {
@@ -148,16 +149,16 @@ namespace TightWiki.Controllers
                         width += difference;
                     }
 
-                    using var image = Images.ResizeImage(img, width, height);
+                    using var image = ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    image.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
+                    string contentType = BestEffortConvertImage(image, ms, avatar.ContentType);
+                    return File(ms.ToArray(), contentType);
                 }
                 else
                 {
                     using var ms = new MemoryStream();
-                    img.SaveAsPng(ms);
-                    return File(ms.ToArray(), "image/png");
+                    string contentType = BestEffortConvertImage(img, ms, avatar.ContentType);
+                    return File(ms.ToArray(), contentType);
                 }
             }
             else
@@ -165,6 +166,9 @@ namespace TightWiki.Controllers
                 return NotFound();
             }
         }
+
+
+
 
         /// <summary>
         /// Get user profile.
@@ -284,7 +288,11 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
+                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLower()) == false)
+                {
+                    model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
+                }
+                else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
                     model.ErrorMessage += "Could not save the attached image, too large.\r\n";
                 }
@@ -294,7 +302,7 @@ namespace TightWiki.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         var image = Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLower());
                     }
                     catch
                     {

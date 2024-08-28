@@ -10,6 +10,7 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
+using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
@@ -46,30 +47,6 @@ namespace TightWiki.Controllers
 
                 string contentType = file.ContentType;
 
-                ImageFormat format;
-                switch (file.ContentType.ToLower())
-                {
-                    case "image/png":
-                        format = ImageFormat.Png;
-                        break;
-                    case "image/jpeg":
-                        format = ImageFormat.Jpeg;
-                        break;
-                    case "image/bmp":
-                        format = ImageFormat.Bmp;
-                        break;
-                    case "image/gif":
-                        format = ImageFormat.Gif;
-                        break;
-                    case "image/tiff":
-                        format = ImageFormat.Tiff;
-                        break;
-                    default:
-                        contentType = "image/png";
-                        format = ImageFormat.Png;
-                        break;
-                }
-
                 if (givenScale > 500)
                 {
                     givenScale = 500;
@@ -95,10 +72,9 @@ namespace TightWiki.Controllers
                         width += difference;
                     }
 
-                    using var image = Images.ResizeImage(img, width, height);
+                    using var image = ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    ChangeImageType(image, format, ms);
-
+                    contentType = BestEffortConvertImage(image, ms, file.ContentType);
                     var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
                     WikiCache.Put(cacheKey, cacheItem);
                     return File(cacheItem.Data, cacheItem.ContentType);
@@ -106,8 +82,7 @@ namespace TightWiki.Controllers
                 else
                 {
                     using var ms = new MemoryStream();
-                    ChangeImageType(img, format, ms);
-
+                    contentType = BestEffortConvertImage(img, ms, file.ContentType);
                     var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
                     WikiCache.Put(cacheKey, cacheItem);
                     return File(cacheItem.Data, cacheItem.ContentType);

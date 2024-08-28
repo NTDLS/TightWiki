@@ -1,6 +1,7 @@
 UPDATE
 	Profile
 SET
-	Avatar = @Avatar
+	Avatar = @Avatar,
+	AvatarContentType = @ContentType
 WHERE
 	UserId = @UserId

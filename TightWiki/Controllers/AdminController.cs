@@ -1074,7 +1074,11 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
+                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLower()) == false)
+                {
+                    model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
+                }
+                else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
                     model.ErrorMessage += "Could not save the attached image, too large.\r\n";
                 }
@@ -1084,7 +1088,7 @@ namespace TightWiki.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLower());
                     }
                     catch
                     {
@@ -1286,7 +1290,11 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
+                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLower()) == false)
+                {
+                    model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
+                }
+                else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
                     model.ErrorMessage += "Could not save the attached image, too large.\r\n";
                 }
@@ -1296,7 +1304,7 @@ namespace TightWiki.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes);
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLower());
                     }
                     catch
                     {
