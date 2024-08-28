@@ -17,19 +17,32 @@ namespace TightWiki.Engine
                 return string.Empty;
             }
 
-            var matchStore = new Dictionary<string, string>();
-
-            var content = new WikiString(unprocessedText);
-            TransformEmoji(content, matchStore);
-            TransformLinks(content, matchStore);
-            TransformMarkup(content, matchStore);
-
-            foreach (var match in matchStore)
+            for (int i = 0; i < 100; i++) //We don't want to process nested wiki forever.
             {
-                content.Replace(match.Key, match.Value);
+                bool processedMatches = false;
+                var matchStore = new Dictionary<string, string>();
+
+                var content = new WikiString(unprocessedText);
+                TransformEmoji(content, matchStore);
+                TransformLinks(content, matchStore);
+                TransformMarkup(content, matchStore);
+                TransformHeadings(content, matchStore);
+
+                foreach (var match in matchStore)
+                {
+                    processedMatches = true;
+                    content.Replace(match.Key, match.Value);
+                }
+
+                if (!processedMatches)
+                {
+                    break;
+                }
+
+                unprocessedText = content.ToString();
             }
 
-            return content.ToString();
+            return unprocessedText;
         }
 
         private static string StoreMatch(Dictionary<string, string> matchStore, string value)
@@ -85,12 +98,36 @@ namespace TightWiki.Engine
         /// <param name="pageContent"></param>
         private static void TransformMarkup(WikiString pageContent, Dictionary<string, string> matchStore)
         {
-            ReplaceInlineHTMLMarker(pageContent, matchStore, "~~", "strike", true); //inline bold.
-            ReplaceInlineHTMLMarker(pageContent, matchStore, "**", "strong", true); //inline bold.
-            ReplaceInlineHTMLMarker(pageContent, matchStore, "__", "u", false); //inline highlight.
-            ReplaceInlineHTMLMarker(pageContent, matchStore, "//", "i", true); //inline highlight.
-            ReplaceInlineHTMLMarker(pageContent, matchStore, "!!", "mark", true); //inline highlight.
+            var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
 
+            foreach (var symbol in symbols)
+            {
+                var sequence = new string(symbol, 2);
+                var escapedSequence = Regex.Escape(sequence);
+
+                var rgx = new Regex(@$"{escapedSequence}(.*?){escapedSequence}", RegexOptions.IgnoreCase);
+                var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
+                foreach (var match in orderedMatches)
+                {
+                    string body = match.Value.Substring(sequence.Length, match.Value.Length - sequence.Length * 2);
+
+                    var markup = symbol switch
+                    {
+                        '~' => $"<strike>{body}</strike>",
+                        '*' => $"<strong>{body}</strong>",
+                        '_' => $"<u>{body}</u>",
+                        '/' => $"<i>{body}</i>",
+                        '!' => $"<mark>{body}</mark>",
+                        _ => body,
+                    };
+
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, markup));
+                }
+            }
+        }
+
+        private static void TransformHeadings(WikiString pageContent, Dictionary<string, string> matchStore)
+        {
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
                 PrecompiledRegex.TransformHeaderMarkup().Matches(pageContent.ToString()));
 
@@ -115,31 +152,6 @@ namespace TightWiki.Engine
                     string markup = $"<font size=\"{fontSize}\">{value}</font>\r\n";
                     pageContent.Replace(match.Value, StoreMatch(matchStore, markup));
                 }
-            }
-        }
-
-        private static void ReplaceInlineHTMLMarker(WikiString pageContent, Dictionary<string, string> matchStore, string mark, string htmlTag, bool escape)
-        {
-            string marker = string.Empty;
-            if (escape)
-            {
-                foreach (var c in mark)
-                {
-                    marker += $"\\{c}";
-                }
-            }
-            else
-            {
-                marker = mark;
-            }
-
-            var rgx = new Regex(@$"{marker}([^\/\n\r]*){marker}", RegexOptions.IgnoreCase);
-            var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
-            foreach (var match in orderedMatches)
-            {
-                string markup = match.Value.Substring(mark.Length, match.Value.Length - mark.Length * 2);
-                var finalMarkup = $"<{htmlTag}>{markup}</{htmlTag}>";
-                pageContent.Replace(match.Value, StoreMatch(matchStore, finalMarkup));
             }
         }
 
