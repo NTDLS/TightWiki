@@ -13,7 +13,6 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 

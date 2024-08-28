@@ -1,7 +1,6 @@
 ﻿using NTDLS.Helpers;
 using System.Data;
 using System.Diagnostics;
-using System.Net.Mail;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -370,8 +369,8 @@ namespace TightWiki.Repository
             GlobalConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
             GlobalConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
             GlobalConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
-            GlobalConfiguration.MaxAvatarFileSize =GlobalConfiguration.DefaultEmojiHeight = attachmentsConfig.Value<int>("Max Avatar File Size");
-            GlobalConfiguration.MaxAttachmentFileSize = GlobalConfiguration.DefaultEmojiHeight = attachmentsConfig.Value<int>("Max Attachment File Size");
+            GlobalConfiguration.MaxAvatarFileSize = attachmentsConfig.Value<int>("Max Avatar File Size");
+            GlobalConfiguration.MaxAttachmentFileSize = attachmentsConfig.Value<int>("Max Attachment File Size");
 
             GlobalConfiguration.MenuItems = GetAllMenuItems();
 

@@ -10,7 +10,6 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
-using static System.Net.Mime.MediaTypeNames;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
