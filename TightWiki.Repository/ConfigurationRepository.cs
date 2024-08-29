@@ -342,7 +342,7 @@ namespace TightWiki.Repository
             var functionalityConfig = GetConfigurationEntryValuesByGroupName("Functionality");
             var membershipConfig = GetConfigurationEntryValuesByGroupName("Membership");
             var searchConfig = GetConfigurationEntryValuesByGroupName("Search");
-            var attachmentsConfig = GetConfigurationEntryValuesByGroupName("Attachments");
+            var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName("Files and Attachments");
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
             GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
@@ -369,8 +369,8 @@ namespace TightWiki.Repository
             GlobalConfiguration.HTMLPostBody = htmlConfig?.Value<string>("Post-Body") ?? string.Empty;
             GlobalConfiguration.BrandImageSmall = customizationConfig?.Value<string>("Brand Image (Small)") ?? string.Empty;
             GlobalConfiguration.FooterBlurb = customizationConfig?.Value<string>("FooterBlurb") ?? string.Empty;
-            GlobalConfiguration.MaxAvatarFileSize = attachmentsConfig.Value<int>("Max Avatar File Size");
-            GlobalConfiguration.MaxAttachmentFileSize = attachmentsConfig.Value<int>("Max Attachment File Size");
+            GlobalConfiguration.MaxAvatarFileSize = filesAndAttachmentsConfig.Value<int>("Max Avatar File Size");
+            GlobalConfiguration.MaxAttachmentFileSize = filesAndAttachmentsConfig.Value<int>("Max Attachment File Size");
 
             GlobalConfiguration.MenuItems = GetAllMenuItems();
 
