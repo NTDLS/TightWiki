@@ -1587,15 +1587,22 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["ImageData"];
             if (file != null && file.Length > 0)
             {
-                try
+                if (file.Length > GlobalConfiguration.MaxEmojiFileSize)
                 {
-                    emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
-                    _ = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
-                    emoji.MimeType = file.ContentType;
+                    model.ErrorMessage += "Could not save the attached image, too large.";
                 }
-                catch
+                else
                 {
-                    model.ErrorMessage += "Could not save the attached image.";
+                    try
+                    {
+                        emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
+                        _ = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                        emoji.MimeType = file.ContentType;
+                    }
+                    catch
+                    {
+                        model.ErrorMessage += "Could not save the attached image.";
+                    }
                 }
             }
 
@@ -1667,15 +1674,22 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["ImageData"];
             if (file != null && file.Length > 0)
             {
-                try
+                if (file.Length > GlobalConfiguration.MaxEmojiFileSize)
                 {
-                    emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
-                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
-                    emoji.MimeType = file.ContentType;
+                    ModelState.AddModelError("Name", "Could not save the attached image, too large.");
                 }
-                catch
+                else
                 {
-                    ModelState.AddModelError("Name", "Could not save the attached image.");
+                    try
+                    {
+                        emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
+                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                        emoji.MimeType = file.ContentType;
+                    }
+                    catch
+                    {
+                        ModelState.AddModelError("Name", "Could not save the attached image.");
+                    }
                 }
             }
 
