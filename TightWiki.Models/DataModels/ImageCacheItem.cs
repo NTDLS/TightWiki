@@ -3,11 +3,11 @@
     public partial class ImageCacheItem
     {
         public string ContentType { get; set; } = string.Empty;
-        public byte[] Data { get; set; }
+        public byte[] Bytes { get; set; }
 
         public ImageCacheItem(byte[] bytes, string contentType)
         {
-            Data = bytes;
+            Bytes = bytes;
             ContentType = contentType;
         }
     }

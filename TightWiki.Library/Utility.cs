@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.IO.Compression;
-using System.Text;
 
 namespace TightWiki.Library
 {

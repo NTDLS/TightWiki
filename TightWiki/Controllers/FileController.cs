@@ -36,7 +36,7 @@ namespace TightWiki.Controllers
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
-                return File(cached.Data, cached.ContentType);
+                return File(cached.Bytes, cached.ContentType);
             }
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
@@ -49,8 +49,6 @@ namespace TightWiki.Controllers
                 }
 
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
-
-                string contentType = file.ContentType;
 
                 if (givenScale > 500)
                 {
@@ -77,20 +75,24 @@ namespace TightWiki.Controllers
                         width += difference;
                     }
 
-                    using var image = ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    contentType = BestEffortConvertImage(image, ms, file.ContentType);
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Data, cacheItem.ContentType);
+                    if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var resized = ResizeGifImage(file.Data, width, height);
+                        return File(resized, "image/gif");
+                    }
+                    else
+                    {
+                        using var image = ResizeImage(img, width, height);
+                        using var ms = new MemoryStream();
+                        file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
+                        var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                        WikiCache.Put(cacheKey, cacheItem);
+                        return File(cacheItem.Bytes, cacheItem.ContentType);
+                    }
                 }
                 else
                 {
-                    using var ms = new MemoryStream();
-                    contentType = BestEffortConvertImage(img, ms, file.ContentType);
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Data, cacheItem.ContentType);
+                    return File(file.Data, file.ContentType);
                 }
             }
             else
@@ -120,7 +122,7 @@ namespace TightWiki.Controllers
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
-                return File(cached.Data, cached.ContentType);
+                return File(cached.Bytes, cached.ContentType);
             }
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, fileRevision);
@@ -160,7 +162,7 @@ namespace TightWiki.Controllers
 
                     var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
                     WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Data, cacheItem.ContentType);
+                    return File(cacheItem.Bytes, cacheItem.ContentType);
                 }
                 else
                 {
@@ -169,7 +171,7 @@ namespace TightWiki.Controllers
 
                     var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
                     WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Data, cacheItem.ContentType);
+                    return File(cacheItem.Bytes, cacheItem.ContentType);
                 }
             }
             else
@@ -386,26 +388,39 @@ namespace TightWiki.Controllers
 
             if (string.IsNullOrEmpty(pageNavigation) == false)
             {
+                string scale = GetQueryValue("Scale", "100");
+
                 string shortcut = $"%%{pageNavigation.ToLower()}%%";
                 var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
-                    var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
-                    emoji.ImageData = WikiCache.Get<byte[]>(cacheKey);
+                    //Do we have this scale cached already?
+                    var scaledImageCacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut, scale]);
+                    if (WikiCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
+                    {
+                        return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
+                    }
+
+                    var imageCacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
+                    emoji.ImageData = WikiCache.Get<byte[]>(imageCacheKey);
                     if (emoji.ImageData == null)
                     {
                         //We don't get the bytes by default, that would be a lot of RAM for all the thousands of images.
                         emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
-                        if (emoji.ImageData != null)
+
+                        if (emoji.ImageData == null)
                         {
-                            WikiCache.Put(cacheKey, emoji.ImageData);
+                            return NotFound($"Emoji {pageNavigation} was not found");
                         }
+
+                        WikiCache.Put(imageCacheKey, emoji.ImageData);
                     }
 
                     if (emoji.ImageData != null)
                     {
-                        string scale = GetQueryValue("Scale", "100");
-                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(emoji.ImageData)));
+                        var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
+
+                        var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
 
                         int customScalePercent = int.Parse(scale);
                         if (customScalePercent > 500)
@@ -435,17 +450,23 @@ namespace TightWiki.Controllers
 
                         if (emoji.MimeType?.ToLower() == "image/gif")
                         {
-                            using var image = Images.ResizeImage(img, Width, Height);
-                            using var ms = new MemoryStream();
-                            image.SaveAsGif(ms);
-                            return File(ms.ToArray(), "image/gif");
+                            var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
+
+                            var itemCache = new ImageCacheItem(resized, "image/gif");
+                            WikiCache.Put(scaledImageCacheKey, itemCache);
+
+                            return File(itemCache.Bytes, itemCache.ContentType);
                         }
                         else
                         {
                             using var image = Images.ResizeImage(img, Width, Height);
                             using var ms = new MemoryStream();
                             image.SaveAsPng(ms);
-                            return File(ms.ToArray(), "image/png");
+
+                            var itemCache = new ImageCacheItem(ms.ToArray(), "image/png");
+                            WikiCache.Put(scaledImageCacheKey, itemCache);
+
+                            return File(itemCache.Bytes, itemCache.ContentType);
                         }
                     }
                 }

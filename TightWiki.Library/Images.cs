@@ -1,4 +1,4 @@
-﻿using PhotoSauce.MagicScaler;
+﻿using ImageMagick;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 
@@ -15,18 +15,16 @@ namespace TightWiki.Library
             Gif
         }
 
-        public static byte[] ResizeImageBytes(byte[] imageBytes, int newWidth, int newHeight)
+        public static byte[] ResizeGifImage(byte[] imageBytes, int width, int height)
         {
-            using MemoryStream outStream = new();
-            ProcessImageSettings processImageSettings = new()
+            using var imageCollection = new MagickImageCollection(imageBytes);
+
+            Parallel.ForEach(imageCollection, frame =>
             {
-                Width = newWidth,
-                Height = newHeight,
-                ResizeMode = CropScaleMode.Stretch,
-                HybridMode = HybridScaleMode.Turbo
-            };
-            MagicImageProcessor.ProcessImage(imageBytes, outStream, processImageSettings);
-            return outStream.ToArray();
+                frame.Resize(width, height);
+            });
+
+            return imageCollection.ToByteArray();
         }
 
         public static Image ResizeImage(Image image, int width, int height)
@@ -49,8 +47,9 @@ namespace TightWiki.Library
                     image.SaveAsBmp(ms);
                     return preferredContentType;
                 case "image/gif":
-                    image.SaveAsGif(ms);
-                    return preferredContentType;
+                    throw new NotImplementedException("Use [ResizeGifImage] for saving animated images.");
+                //image.SaveAsGif(ms);
+                //return preferredContentType;
                 case "image/tiff":
                     image.SaveAsTiff(ms);
                     return preferredContentType;

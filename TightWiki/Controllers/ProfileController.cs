@@ -67,6 +67,9 @@ namespace TightWiki.Controllers
 
                 var img = Image.Load(new MemoryStream(avatar.Bytes));
 
+                int width = img.Width;
+                int height = img.Height;
+
                 int parsedScale = int.Parse(givenScale);
                 int parsedMax = int.Parse(givenMax);
 
@@ -83,8 +86,8 @@ namespace TightWiki.Controllers
                     }
 
                     int diff = img.Width - parsedExact;
-                    int width = (int)(img.Width - diff);
-                    int height = (int)(img.Height - diff);
+                    width = (int)(img.Width - diff);
+                    height = (int)(img.Height - diff);
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -101,17 +104,12 @@ namespace TightWiki.Controllers
                         height += difference;
                         width += difference;
                     }
-
-                    using var image = ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    string contentType = Images.BestEffortConvertImage(image, ms, avatar.ContentType);
-                    return File(ms.ToArray(), contentType);
                 }
                 else if (parsedMax != 0 && (img.Width > parsedMax || img.Height > parsedMax))
                 {
                     int diff = img.Width - parsedMax;
-                    int width = (int)(img.Width - diff);
-                    int height = (int)(img.Height - diff);
+                    width = (int)(img.Width - diff);
+                    height = (int)(img.Height - diff);
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -128,16 +126,11 @@ namespace TightWiki.Controllers
                         height += difference;
                         width += difference;
                     }
-
-                    using var image = ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    string contentType = BestEffortConvertImage(image, ms, avatar.ContentType);
-                    return File(ms.ToArray(), contentType);
                 }
                 else if (parsedScale != 100)
                 {
-                    int width = (int)(img.Width * (parsedScale / 100.0));
-                    int height = (int)(img.Height * (parsedScale / 100.0));
+                    width = (int)(img.Width * (parsedScale / 100.0));
+                    height = (int)(img.Height * (parsedScale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -154,16 +147,22 @@ namespace TightWiki.Controllers
                         height += difference;
                         width += difference;
                     }
-
-                    using var image = ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    string contentType = BestEffortConvertImage(image, ms, avatar.ContentType);
-                    return File(ms.ToArray(), contentType);
                 }
                 else
                 {
+                    return File(avatar.Bytes, avatar.ContentType);
+                }
+
+                if (avatar.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var resized = ResizeGifImage(avatar.Bytes, width, height);
+                    return File(resized, "image/gif");
+                }
+                else
+                {
+                    using var image = ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
-                    string contentType = BestEffortConvertImage(img, ms, avatar.ContentType);
+                    string contentType = BestEffortConvertImage(image, ms, avatar.ContentType);
                     return File(ms.ToArray(), contentType);
                 }
             }

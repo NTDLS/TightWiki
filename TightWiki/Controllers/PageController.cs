@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
-using System.Runtime.Caching;
 using System.Text;
 using TightWiki.Caching;
 using TightWiki.Engine;
@@ -677,7 +676,7 @@ namespace TightWiki.Controllers
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, givenScale]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
-                return File(cached.Data, cached.ContentType);
+                return File(cached.Bytes, cached.ContentType);
             }
 
             var file = PageFileRepository.GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation.Canonical, fileNavigation.Canonical, pageRevision);
@@ -691,8 +690,6 @@ namespace TightWiki.Controllers
                 }
 
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
-
-                string contentType = file.ContentType;
 
                 int parsedScale = int.Parse(givenScale);
                 if (parsedScale > 500)
@@ -718,20 +715,24 @@ namespace TightWiki.Controllers
                         width += 16 - width;
                     }
 
-                    using var image = ResizeImage(img, width, height);
-                    using var ms = new MemoryStream();
-                    contentType = BestEffortConvertImage(image, ms, contentType);
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Data, cacheItem.ContentType);
+                    if (file.ContentType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var resized = ResizeGifImage(file.Data, width, height);
+                        return File(resized, "image/gif");
+                    }
+                    else
+                    {
+                        using var image = ResizeImage(img, width, height);
+                        using var ms = new MemoryStream();
+                        file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
+                        var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                        WikiCache.Put(cacheKey, cacheItem);
+                        return File(cacheItem.Bytes, cacheItem.ContentType);
+                    }
                 }
                 else
                 {
-                    using var ms = new MemoryStream();
-                    contentType = BestEffortConvertImage(img, ms, contentType);
-                    var cacheItem = new ImageCacheItem(ms.ToArray(), contentType);
-                    WikiCache.Put(cacheKey, cacheItem);
-                    return File(cacheItem.Data, cacheItem.ContentType);
+                    return File(file.Data, file.ContentType);
                 }
             }
             else

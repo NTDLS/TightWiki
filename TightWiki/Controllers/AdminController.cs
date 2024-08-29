@@ -1590,7 +1590,7 @@ namespace TightWiki.Controllers
                 try
                 {
                     emoji.ImageData = Utility.ConvertHttpFileToBytes(file);
-                    var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
+                    _ = SixLabors.ImageSharp.Image.Load(new MemoryStream(emoji.ImageData));
                     emoji.MimeType = file.ContentType;
                 }
                 catch

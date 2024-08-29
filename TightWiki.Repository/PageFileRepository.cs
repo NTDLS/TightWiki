@@ -1,6 +1,5 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
-using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
