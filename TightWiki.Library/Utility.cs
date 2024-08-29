@@ -43,37 +43,6 @@ namespace TightWiki.Library
             return tokens;
         }
 
-        public static int SimpleChecksum(string input)
-        {
-            var bytes = Encoding.UTF8.GetBytes(input);
-            int checksum = 0;
-
-            unchecked // Allow overflow, it will wrap around
-            {
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    checksum = (checksum * 31) + bytes[i];
-                }
-            }
-
-            return checksum;
-        }
-
-        public static int SimpleChecksum(byte[] bytes)
-        {
-            int checksum = 0;
-
-            unchecked // Allow overflow, it will wrap around
-            {
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    checksum = (checksum * 31) + bytes[i];
-                }
-            }
-
-            return checksum;
-        }
-
         public static string GetMimeType(string fileName)
         {
             MimeTypes.TryGetContentType(fileName, out var contentType);

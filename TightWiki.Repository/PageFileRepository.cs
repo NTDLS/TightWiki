@@ -203,7 +203,7 @@ namespace TightWiki.Repository
 
 
                     int currentFileRevision = 0;
-                    var newDataHash = Utility.SimpleChecksum(item.Data);
+                    var newDataHash = Security.Helpers.Crc32(item.Data);
 
                     var currentlyAttachedFile = GetPageCurrentRevisionAttachmentByFileNavigation(o, item.PageId, item.FileNavigation);
                     if (currentlyAttachedFile != null)

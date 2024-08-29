@@ -1122,7 +1122,10 @@ namespace TightWiki.Engine.Implementation
                         html.Append($"</tbody>");
                         html.Append($"</table>");
 
-                        return new HandlerResult(html.ToString());
+                        return new HandlerResult(html.ToString())
+                        {
+                            Instructions = [HandlerResultInstruction.DisallowNestedProcessing]
+                        };
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------

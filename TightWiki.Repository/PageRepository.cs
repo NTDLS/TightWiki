@@ -711,7 +711,7 @@ namespace TightWiki.Repository
                 ModifiedDate = DateTime.UtcNow
             };
 
-            int newDataHash = Utility.SimpleChecksum(page.Body ?? string.Empty);
+            var newDataHash = Security.Helpers.Crc32(page.Body ?? string.Empty);
 
             ManagedDataStorage.Pages.Ephemeral(o =>
             {

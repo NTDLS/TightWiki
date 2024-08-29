@@ -26,6 +26,9 @@ namespace TightWiki.Security
         public static uint Crc32(string text)
             => (new Crc32()).Get(Encoding.Unicode.GetBytes(text));
 
+        public static uint Crc32(byte[] bytes)
+            => (new Crc32()).Get(bytes);
+
         public static string Sha1(string text)
             => BitConverter.ToString(SHA1.HashData(Encoding.Unicode.GetBytes(text))).Replace("-", "");
 
