@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.10.0" />
+    <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.10.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="NTDLS.Helpers" Version="1.2.8" />
     <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.1" />
