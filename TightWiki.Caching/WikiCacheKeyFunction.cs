@@ -7,7 +7,7 @@ namespace TightWiki.Caching
     /// Contains a verbatim cache key which also includes the calling function name.
     /// </summary>
     /// <param name="key"></param>
-    public class WikiCacheKeyFunction(string key)
+    public class WikiCacheKeyFunction(string key) : IWikiCacheKey
     {
         public string Key { get; set; } = key;
 

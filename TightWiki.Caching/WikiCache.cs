@@ -45,7 +45,7 @@ namespace TightWiki.Caching
         /// <typeparam name="T"></typeparam>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
-        public static T? Get<T>(WikiCacheKeyFunction cacheKey)
+        public static T? Get<T>(IWikiCacheKey cacheKey)
         {
             CacheGets++;
             var result = (T)MemCache.Get(cacheKey.Key);
@@ -65,7 +65,7 @@ namespace TightWiki.Caching
         /// <typeparam name="T"></typeparam>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
-        public static bool Contains(WikiCacheKeyFunction cacheKey)
+        public static bool Contains(IWikiCacheKey cacheKey)
         {
             CacheGets++;
             if (MemCache.Contains(cacheKey.Key))
@@ -84,7 +84,7 @@ namespace TightWiki.Caching
         /// <typeparam name="T"></typeparam>
         /// <param name="cacheKey"></param>
         /// <returns></returns>
-        public static bool TryGet<T>(WikiCacheKeyFunction cacheKey, [NotNullWhen(true)] out T result)
+        public static bool TryGet<T>(IWikiCacheKey cacheKey, [NotNullWhen(true)] out T result)
         {
             CacheGets++;
             if ((result = (T)MemCache.Get(cacheKey.Key)) == null)
@@ -103,7 +103,7 @@ namespace TightWiki.Caching
         /// <param name="cacheKey"></param>
         /// <param name="value"></param>
         /// <param name="seconds"></param>
-        public static void Put(WikiCacheKeyFunction cacheKey, object value, int? seconds = null)
+        public static void Put(IWikiCacheKey cacheKey, object value, int? seconds = null)
         {
             CachePuts++;
 
@@ -117,6 +117,12 @@ namespace TightWiki.Caching
             {
                 AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
             };
+            MemCache.Add(cacheKey.Key, value, policy);
+        }
+
+        public static void Put(IWikiCacheKey cacheKey, object value, CacheItemPolicy policy)
+        {
+            CachePuts++;
             MemCache.Add(cacheKey.Key, value, policy);
         }
 

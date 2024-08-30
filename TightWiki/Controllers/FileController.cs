@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
+using System.Runtime.Caching;
 using System.Web;
 using TightWiki.Caching;
 using TightWiki.Library;
@@ -395,13 +396,13 @@ namespace TightWiki.Controllers
                 if (emoji != null)
                 {
                     //Do we have this scale cached already?
-                    var scaledImageCacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut, scale]);
+                    var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut, scale]);
                     if (WikiCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
                     {
                         return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
                     }
 
-                    var imageCacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Emoji, [shortcut]);
+                    var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut]);
                     emoji.ImageData = WikiCache.Get<byte[]>(imageCacheKey);
                     if (emoji.ImageData == null)
                     {
@@ -453,7 +454,9 @@ namespace TightWiki.Controllers
                             var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
 
                             var itemCache = new ImageCacheItem(resized, "image/gif");
-                            WikiCache.Put(scaledImageCacheKey, itemCache);
+
+                            //These are hard to generate, so just keep it forever.
+                            WikiCache.Put(scaledImageCacheKey, itemCache, new CacheItemPolicy());
 
                             return File(itemCache.Bytes, itemCache.ContentType);
                         }

@@ -29,6 +29,7 @@ namespace TightWiki.Models
         public static int PageCacheSeconds { get; set; }
         public static int CacheMemoryLimitMB { get; set; }
         public static int DefaultProfileRecentlyModifiedCount { get; set; }
+        public static bool PreLoadAnimatedEmojis { get; set; } = true;
         public static bool RecordCompilationMetrics { get; set; }
         public static bool ShowLastModifiedOnPageFooter { get; set; }
         public static string DefaultTimeZone { get; set; } = string.Empty;

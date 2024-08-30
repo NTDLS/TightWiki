@@ -1,10 +1,13 @@
 ﻿using NTDLS.Helpers;
+using SixLabors.ImageSharp;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.Caching;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TightWiki.Repository
 {
@@ -321,6 +324,60 @@ namespace TightWiki.Repository
         {
             WikiCache.ClearCategory(WikiCache.Category.Emoji);
             GlobalConfiguration.Emojis = EmojiRepository.GetAllEmojis();
+
+            if (GlobalConfiguration.PreLoadAnimatedEmojis)
+            {
+                new Thread(() =>
+                {
+                    var parallelOptions = new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = Environment.ProcessorCount / 2 < 2 ? 2 : Environment.ProcessorCount / 2
+                    };
+
+                    Parallel.ForEach(GlobalConfiguration.Emojis, parallelOptions, emoji =>
+                    {
+                        if (emoji.MimeType.Equals("image/gif", StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            var imageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [emoji.Shortcut]);
+                            emoji.ImageData = EmojiRepository.GetEmojiByName(emoji.Name)?.ImageData;
+
+                            if (emoji.ImageData != null)
+                            {
+                                var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [emoji.Shortcut, "100"]);
+                                var decompressedImageBytes = Utility.Decompress(emoji.ImageData);
+                                var img = Image.Load(new MemoryStream(decompressedImageBytes));
+
+                                int customScalePercent = 100;
+
+                                var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
+
+                                //Adjust to any specified scaling.
+                                Height = (int)(Height * (customScalePercent / 100.0));
+                                Width = (int)(Width * (customScalePercent / 100.0));
+
+                                //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
+                                //  dimension to become very small (or even negative). So here we will check the height and width
+                                //  to ensure they are both at least n pixels and adjust both dimensions.
+                                if (Height < 16)
+                                {
+                                    Height += 16 - Height;
+                                    Width += 16 - Height;
+                                }
+                                if (Width < 16)
+                                {
+                                    Height += 16 - Width;
+                                    Width += 16 - Width;
+                                }
+
+                                //These are hard to generate, so just keep it forever.
+                                var resized = Images.ResizeGifImage(decompressedImageBytes, Width, Height);
+                                var itemCache = new ImageCacheItem(resized, "image/gif");
+                                WikiCache.Put(scaledImageCacheKey, itemCache, new CacheItemPolicy());
+                            }
+                        }
+                    });
+                }).Start();
+            }
         }
 
         public static void ReloadEverything()
@@ -353,6 +410,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.FixedMenuPosition = customizationConfig.Value("Fixed Header Menu Position", false);
             GlobalConfiguration.AllowSignup = membershipConfig.Value("Allow Signup", false);
             GlobalConfiguration.DefaultProfileRecentlyModifiedCount = performanceConfig.Value<int>("Default Profile Recently Modified Count");
+            GlobalConfiguration.PreLoadAnimatedEmojis = performanceConfig.Value<bool>("Pre-Load Animated Emojis");
             GlobalConfiguration.SystemTheme = GetAllThemes().Single(o => o.Name == themeName);
             GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
             GlobalConfiguration.AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
