@@ -19,10 +19,20 @@ namespace TightWiki.Library
         {
             using var imageCollection = new MagickImageCollection(imageBytes);
 
-            Parallel.ForEach(imageCollection, frame =>
+            if (imageCollection.Count > 10)
             {
-                frame.Resize(width, height);
-            });
+                Parallel.ForEach(imageCollection, frame =>
+                {
+                    frame.Sample(width, height);
+                });
+            }
+            else
+            {
+                Parallel.ForEach(imageCollection, frame =>
+                {
+                    frame.Resize(width, height);
+                });
+            }
 
             return imageCollection.ToByteArray();
         }

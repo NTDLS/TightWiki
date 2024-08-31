@@ -452,12 +452,8 @@ namespace TightWiki.Controllers
                         if (emoji.MimeType?.ToLower() == "image/gif")
                         {
                             var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
-
                             var itemCache = new ImageCacheItem(resized, "image/gif");
-
-                            //These are hard to generate, so just keep it forever.
-                            WikiCache.Put(scaledImageCacheKey, itemCache, new CacheItemPolicy());
-
+                            WikiCache.Put(scaledImageCacheKey, itemCache);
                             return File(itemCache.Bytes, itemCache.ContentType);
                         }
                         else
