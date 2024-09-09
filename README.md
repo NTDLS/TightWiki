@@ -14,7 +14,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 :anguished: Its been like a modern retelling of Sisyphus, only this time the stone is RegEx.
 
 # :astonished: Features (some of them anyway)
-* LGPL license , you can use it for free at home or at your business.
+* MIT license, you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
 * Completely customizable and rebrandable including name, title, footer, copyright and all images.
 * User signup can be disabled, enabled and can require users to verify email before logging in.
