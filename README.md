@@ -9,12 +9,14 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 
 :eyes: Or check out the full wiki [documentation](https://tightwiki.com/Wiki%20Help%20::%20Wiki%20Help) to learn about the engine functionality.
 
+:star: Ready to run it for yourself? Check out the [installation instructions](https://tightwiki.com/wiki_help::installation)!
+
 :boom: Also be sure to check out the screenshots below the feature list...
 
 :anguished: Its been like a modern retelling of Sisyphus, only this time the stone is RegEx.
 
 # :astonished: Features (some of them anyway)
-* LGPL license , you can use it for free at home or at your business.
+* MIT license, you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
 * Completely customizable and rebrandable including name, title, footer, copyright and all images.
 * User signup can be disabled, enabled and can require users to verify email before logging in.
