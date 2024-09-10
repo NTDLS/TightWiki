@@ -4,13 +4,9 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-    Emoji
-</h3>
+<h3>Emoji</h3>
 
-<font size="3" face="ARIAL,HELVETICA">
-    Configuration for an emoji.<br /><br />
-</font>
+<p>Configuration for an emoji.</p>
 
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
@@ -27,47 +23,45 @@
     @Html.HiddenFor(m => m.OriginalName)
     @Html.HiddenFor(m => m.Emoji.Id)
 
-    <table border="0">
-
-        <tr class="padded">
-            <td width="200"><strong>Image</strong></td>
-            <td>
+    <div class="container">
+        <div class="form-group row mb-1">
+            <label for="ImageData" class="col-sm-2 col-form-label"><strong>Image</strong></label>
+            <div class="col-sm-10">
                 @if (@Model.Emoji.Name != "")
                 {
-                    <img src="/File/Emoji/@Model.Emoji.Name" />
-
-                    <br />
-
+                    <img src="/File/Emoji/@Model.Emoji.Name" class="mb-3" />
                     <br />
                 }
-                <input type="file" id="ImageData" name="ImageData" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
-            </td>
-        </tr>
+                <input type="file" id="ImageData" name="ImageData" class="form-control-file" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
+            </div>
+        </div>
 
-        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Emoji.Name)</div></td></tr>
-        <tr class="padded">
-            <td><strong>@Html.LabelFor(m => m.Emoji.Name)</strong></td>
-            <td>
-                @Html.TextBoxFor(m => m.Emoji.Name, new { @class = "input-control" })
-            </td>
-        </tr>
+        <div class="form-group row mb-1">
+            <label for="Name" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Emoji.Name)</strong></label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Emoji.Name, new { @class = "form-control" })
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Emoji.Name)</div>
+            </div>
+        </div>
 
-        <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div></td></tr>
-        <tr class="padded">
-            <td><strong>@Html.LabelFor(m => m.Categories)</strong> (comma separated)</td>
-            <td>
-                @Html.TextBoxFor(m => m.Categories, new { @class = "input-control" })
-            </td>
-        </tr>
+        <div class="form-group row mb-1">
+            <label for="Categories" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Categories)</strong> (comma separated)</label>
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Categories, new { @class = "form-control" })
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div>
+            </div>
+        </div>
 
-        <tr class="padded">
-            <td>&nbsp;</td>
-            <td>
-                <div class="form-group"><button type="submit" class="btn btn-success rounded-0">Save!</button></div>
-            </td>
-        </tr>
-    </table>
+        <div class="form-group row mb-1">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" class="btn btn-success rounded-0">Save!</button>
+            </div>
+        </div>
+    </div>
 }
+
 <br />
 
-<form action="/Admin/DeleteEmoji/@Model.Emoji.Name"><button type="submit" class="btn btn-danger">Delete Emoji</button></form>
+<form action="/Admin/DeleteEmoji/@Model.Emoji.Name">
+    <button type="submit" class="btn btn-danger rounded-0">Delete Emoji</button>
+</form>

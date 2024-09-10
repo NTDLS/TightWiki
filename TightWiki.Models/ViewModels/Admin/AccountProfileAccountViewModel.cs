@@ -10,11 +10,11 @@ namespace TightWiki.Models.ViewModels.Admin
         public Guid UserId { get; set; }
 
         [Display(Name = "Email Address")]
-        [Required(ErrorMessage = "Email Name is required")]
+        [Required(ErrorMessage = "Email address is required")]
         public string EmailAddress { get; set; } = string.Empty;
 
         [Display(Name = "Account Name")]
-        [Required(ErrorMessage = "Account Name is required")]
+        [Required(ErrorMessage = "Account name is required")]
         public string AccountName { get; set; } = string.Empty;
 
         public string? Navigation { get; set; } = string.Empty;

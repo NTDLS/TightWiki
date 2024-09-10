@@ -26,23 +26,32 @@
     }
 
     #dropSection {
-        width: 100%;
-        height: 150px;
+        width: 100%; /* Makes the section fully responsive */
+        height: auto; /* Allow the height to adjust with content */
+        min-height: 150px; /* Minimum height to allow space for content */
         border: 2px dashed #007bff;
         border-radius: 5px;
         text-align: center;
-        line-height: 150px;
         font-size: 18px;
         color: #007bff;
         margin-bottom: 20px;
-        background-color: var(--bs-card-bg); /* Bootstrap background */
+        padding: 20px;
+        background-color: var(--bs-card-bg); /* Uses Bootstrap background color */
+        word-wrap: break-word; /* Forces long words to break and wrap */
+        white-space: normal; /* Ensures normal text wrapping */
     }
 
-    #dropSection.dragover {
-        background-color: #e9ecef;
-        border-color: #007bff;
-        color: #007bff;
-    }
+        #dropSection span {
+            display: inline-block; /* Ensure the text behaves like inline elements */
+            max-width: 100%; /* Restrict the width to 100% of the container */
+            line-height: normal; /* Use normal line height for multi-line text */
+        }
+
+        #dropSection.dragover {
+            background-color: #e9ecef;
+            border-color: #007bff;
+            color: #007bff;
+        }
 
 </style>
 
@@ -53,7 +62,7 @@
 
     $(document).ready(readyFn);
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const dropSection = document.getElementById('dropSection');
         const fileInput = document.getElementById('fileInput');
         const uploadStatus = document.getElementById('uploadStatus');
@@ -107,22 +116,21 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())  // Read the response as JSON
-            .then(result => {
-                if (result.success) {
-                    uploadStatus.innerHTML = `<p>Upload successful: ${result.message}</p>`;
-                } else {
-                    uploadStatus.innerHTML = `<p>Error: ${result.message}</p>`;
-                }
-                $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
-            })
-            .catch(error => {
-                uploadStatus.innerHTML = `<p>Unexpected Error: ${error.message}</p>`;
-            });
+                .then(response => response.json())  // Read the response as JSON
+                .then(result => {
+                    if (result.success) {
+                        uploadStatus.innerHTML = `<p>Upload successful: ${result.message}</p>`;
+                    } else {
+                        uploadStatus.innerHTML = `<p>Error: ${result.message}</p>`;
+                    }
+                    $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
+                })
+                .catch(error => {
+                    uploadStatus.innerHTML = `<p>Unexpected Error: ${error.message}</p>`;
+                });
         }
     });
 </script>
-
 
 <div class="bodyDiv">
     <div class="card">
@@ -143,27 +151,27 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    <a href="/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">Preview</a>
+                    <a href="/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
                 </div>
+                <br />
                 <strong>@Html.LabelFor(x => x.Name)</strong>
 
                 <br />
                 @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })
-
-                <br />
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
                 <br />
 
                 <strong>@Html.LabelFor(x => x.Description)</strong>
 
                 <br />
                 @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
-
-                <br />
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Description)</div>
                 <br />
 
                 <strong>@Html.LabelFor(x => x.Body)</strong>
 
                 <br />
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
                 <textarea id=Body name="Body">@Model.Body</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
@@ -179,7 +187,10 @@
 
                 <br />
 
-                <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">Save</button></div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary rounded-0">Save</button>
+                    <a href="/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                </div>
             }
         </div>
     </div>
@@ -191,7 +202,7 @@
             @if (Model?.Id > 0 && @sessionState.CanCreate == true)
             {
                 <div id="dropSection" class="dropSection">
-                    Attach files by dropping them here or manually by clicking here.
+                    <span class="d-inline-block">Drop file attachments here or click to upload manually.</span>
                 </div>
                 <input type="file" id="fileInput" style="display:none" multiple>
                 <div id="uploadStatus"></div>

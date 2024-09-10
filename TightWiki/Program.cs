@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
@@ -30,7 +31,6 @@ namespace TightWiki
             ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetConnectionString("StatisticsConnection"));
             ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetConnectionString("EmojiConnection"));
             ManagedDataStorage.Exceptions.SetConnectionString(builder.Configuration.GetConnectionString("ExceptionsConnection"));
-            ManagedDataStorage.Words.SetConnectionString(builder.Configuration.GetConnectionString("WordsConnection"));
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
@@ -64,6 +64,16 @@ namespace TightWiki
                     {
                         options.ClientId = clientId;
                         options.ClientSecret = clientSecret;
+
+                        options.Events = new OAuthEvents
+                        {
+                            OnRemoteFailure = context =>
+                            {
+                                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.HandleResponse();
+                                return Task.CompletedTask;
+                            }
+                        };
                     });
                 }
             }
@@ -78,6 +88,17 @@ namespace TightWiki
                     {
                         options.ClientId = clientId;
                         options.ClientSecret = clientSecret;
+
+                        options.Events = new OAuthEvents
+                        {
+                            OnRemoteFailure = context =>
+                            {
+                                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.HandleResponse();
+                                return Task.CompletedTask;
+                            }
+                        };
+
                     });
                 }
             }

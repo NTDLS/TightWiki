@@ -8,8 +8,7 @@ namespace TightWiki
     public class PageModelBase : PageModel
     {
         public SessionState SessionState { get; private set; } = new();
-
-        private readonly SignInManager<IdentityUser> SignInManager;
+        public SignInManager<IdentityUser> SignInManager { get; private set; }
 
         public string CustomSuccessMessage { get; set; } = string.Empty;
         public string CustomErrorMessage { get; set; } = string.Empty;

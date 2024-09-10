@@ -876,7 +876,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1022,7 +1022,7 @@ namespace TightWiki.Controllers
             model.Roles = UsersRepository.GetAllRoles();
             model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1186,7 +1186,7 @@ namespace TightWiki.Controllers
             {
                 AccountProfile = new Models.ViewModels.Admin.AccountProfileAccountViewModel
                 {
-                    AccountName = UsersRepository.GetRandomUnusedAccountName(),
+                    AccountName = string.Empty,
                     Country = customizationConfig.Value<string>("Default Country", string.Empty),
                     TimeZone = customizationConfig.Value<string>("Default TimeZone", string.Empty),
                     Language = customizationConfig.Value<string>("Default Language", string.Empty),
@@ -1219,10 +1219,16 @@ namespace TightWiki.Controllers
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
             model.Roles = UsersRepository.GetAllRoles();
-            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLower());
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
+                return View(model);
+            }
+
+            if (string.IsNullOrWhiteSpace(model.AccountProfile.AccountName))
+            {
+                ModelState.AddModelError("AccountProfile.AccountName", "Account name is required.");
                 return View(model);
             }
 
@@ -1274,8 +1280,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                model.ErrorMessage = ex.Message;
-                return View(model);
+                return NotifyOfError(ex.Message);
             }
 
             UsersRepository.CreateProfile((Guid)userId, model.AccountProfile.AccountName);
@@ -1438,7 +1443,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1497,7 +1502,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                model.ErrorMessage = ex.Message;
+                return NotifyOfError(ex.Message);
             }
 
             return View(model);
@@ -1559,7 +1564,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1649,7 +1654,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

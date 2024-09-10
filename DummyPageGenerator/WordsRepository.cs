@@ -1,9 +1,13 @@
-﻿namespace TightWiki.Repository
+﻿using NTDLS.SqliteDapperWrapper;
+
+namespace DummyPageGenerator
 {
     public static class WordsRepository
     {
+        public static ManagedDataStorageFactory Words { get; private set; } = new();
+
         public static int GetWordsCount()
-            => ManagedDataStorage.Words.ExecuteScalar<int>("GetWordsCount.sql");
+            => Words.ExecuteScalar<int>("GetWordsCount.sql");
 
         public static List<string> GetRandomWords(int count)
         {
@@ -19,7 +23,7 @@
                     Offset = random.Next(countOfWords),
                 };
 
-                var word = ManagedDataStorage.Words.QueryFirstOrDefault<string>("GetSingleWordAt.sql", param);
+                var word = Words.QueryFirstOrDefault<string>("GetSingleWordAt.sql", param);
                 if (word != null)
                 {
                     result.Add(word);

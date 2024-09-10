@@ -1,19 +1,16 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-#nullable disable
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
-
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -42,49 +39,53 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public InputModel Input { get; set; } = new();
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public string ReturnUrl { get; set; }
+        [BindProperty]
+        public string? ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public IList<AuthenticationScheme>? ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
+            public List<TimeZoneItem> TimeZones { get; set; } = new();
+            public List<CountryItem> Countries { get; set; } = new();
+            public List<LanguageItem> Languages { get; set; } = new();
+
+
+            [Display(Name = "Account Name")]
+            [Required(ErrorMessage = "Account Name is required")]
+            public string AccountName { get; set; } = string.Empty;
+
+            [Display(Name = "First Name")]
+            public string? FirstName { get; set; }
+
+            [Display(Name = "Last Name")]
+            public string? LastName { get; set; } = string.Empty;
+
+            [Display(Name = "Time-Zone")]
+            [Required(ErrorMessage = "TimeZone is required")]
+            public string TimeZone { get; set; } = string.Empty;
+
+            [Display(Name = "Country")]
+            [Required(ErrorMessage = "Country is required")]
+            public string Country { get; set; } = string.Empty;
+
+            [Display(Name = "Language")]
+            [Required(ErrorMessage = "Language is required")]
+            public string Language { get; set; } = string.Empty;
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
-            public string Email { get; set; }
+            public string Email { get; set; } = string.Empty;
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
-            public string Password { get; set; }
+            public string Password { get; set; } = string.Empty;
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -93,26 +94,64 @@ namespace TightWiki.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
+            public string ConfirmPassword { get; set; } = string.Empty;
+        }
+
+        private void PopulateDefaults()
+        {
+            Input.TimeZones = TimeZoneItem.GetAll();
+            Input.Countries = CountryItem.GetAll();
+            Input.Languages = LanguageItem.GetAll();
+
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+
+            if (string.IsNullOrEmpty(Input.TimeZone))
+                Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
+
+            if (string.IsNullOrEmpty(Input.Country))
+                Input.Country = membershipConfig.Value<string>("Default Country").EnsureNotNull();
+
+            if (string.IsNullOrEmpty(Input.Language))
+                Input.Language = membershipConfig.Value<string>("Default Language").EnsureNotNull();
         }
 
 
-        public async Task<IActionResult> OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
         {
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
             }
+            PopulateDefaults();
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+            }
+
+            PopulateDefaults();
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(Input.AccountName))
+            {
+                ModelState.AddModelError("Input.AccountName", "Account Name is required.");
+                return Page();
+            }
+            else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
+            {
+                ModelState.AddModelError("Input.AccountName", "Account Name is already in use.");
+                return Page();
             }
 
             returnUrl ??= Url.Content("~/");
@@ -134,51 +173,51 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
 
-                    UsersRepository.CreateProfile(Guid.Parse(userId));
+                    UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
 
                     var claimsToAdd = new List<Claim>
                     {
-                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role")),
-                        new ("timezone", membershipConfig.Value<string>("Default TimeZone")),
-                        new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country")),
-                        new ("language", membershipConfig.Value<string>("Default Language")),
+                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
+                        new ("timezone", Input.TimeZone),
+                        new (ClaimTypes.Country, Input.Country),
+                        new ("language", Input.Language),
                     };
 
                     SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
-
-                    var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
-                    var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
-                    var siteName = basicConfig.Value<string>("Name");
-                    var address = basicConfig.Value<string>("Address");
-                    var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
-
-                    var emailSubject = "Confirm your email";
-                    emailTemplate.Replace("##SUBJECT##", emailSubject);
-                    emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
-                    emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
-                    emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
-                    emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
-                    emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
-                    emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
-                    emailTemplate.Replace("##CODE##", code);
-                    emailTemplate.Replace("##USERID##", userId);
-                    emailTemplate.Replace("##SITENAME##", siteName);
-                    emailTemplate.Replace("##SITEADDRESS##", address);
-                    emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
-
-                    await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
-
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                        var callbackUrl = Url.Page(
+                            "/Account/ConfirmEmail",
+                            pageHandler: null,
+                            values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
+                            protocol: Request.Scheme);
+
+                        var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
+                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                        var siteName = basicConfig.Value<string>("Name");
+                        var address = basicConfig.Value<string>("Address");
+                        var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+
+                        var emailSubject = "Confirm your email";
+                        emailTemplate.Replace("##SUBJECT##", emailSubject);
+                        emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
+                        emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
+                        emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
+                        emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
+                        emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
+                        emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
+                        emailTemplate.Replace("##CODE##", code);
+                        emailTemplate.Replace("##USERID##", userId);
+                        emailTemplate.Replace("##SITENAME##", siteName);
+                        emailTemplate.Replace("##SITEADDRESS##", address);
+                        emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty));
+
+                        await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
+
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
                     else
