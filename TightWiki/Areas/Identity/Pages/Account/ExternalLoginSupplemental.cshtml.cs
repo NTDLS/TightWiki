@@ -11,7 +11,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class ExternalLoginSupplementalModel : PageModelBase
     {
+        [BindProperty]
         public string? ReturnUrl { get; set; }
+
         private UserManager<IdentityUser> _userManager;
 
         public ExternalLoginSupplementalModel(SignInManager<IdentityUser> signInManager,
@@ -30,7 +32,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             public List<TimeZoneItem> TimeZones { get; set; } = new();
             public List<CountryItem> Countries { get; set; } = new();
             public List<LanguageItem> Languages { get; set; } = new();
-
 
             [Display(Name = "Theme")]
             public string? Theme { get; set; } = string.Empty;
@@ -145,11 +146,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
             await SignInManager.SignInAsync(user, isPersistent: false);
-            //return LocalRedirect(returnUrl ?? Url.Content("~/"));
 
-            //TODO: redirect to the return url.
-
-            return Page();
+            if (string.IsNullOrEmpty(ReturnUrl))
+            {
+                return LocalRedirect("/");
+            }
+            return LocalRedirect(ReturnUrl);
         }
     }
 }

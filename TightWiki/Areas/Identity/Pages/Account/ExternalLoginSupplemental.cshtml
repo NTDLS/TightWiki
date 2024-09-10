@@ -12,16 +12,6 @@
     You have successfully signed in with the external provider but we still need a bit of information.<br /><br />
 </p>
 
-
-@if (!string.IsNullOrEmpty(Model.CustomErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.CustomErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.CustomSuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.CustomSuccessMessage)</div>
-}
-
 <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <div class="container">
 
@@ -117,7 +107,7 @@
 
         <div class="form-group row mb-1">
             <div class="col-sm-10 offset-sm-2">
-                <button type="submit" class="btn btn-primary rounded-0">Signup!</button>
+                <button type="submit" class="btn btn-primary rounded-0">Complete Signup!</button>
             </div>
         </div>
     </div>
