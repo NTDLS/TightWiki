@@ -5,59 +5,184 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
+
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
             <hr />
+
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+
+            <div class="form-group row mb-3">
+                <label for="Input.Email" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Email)</strong></label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => Model.Input.Email, new { @class = "form-control", autocomplete = "email", placeholder = "name@example.com" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Email)</div>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+
+            <div class="form-group row mb-3">
+                <label for="Input.Password" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Password)</strong></label>
+                <div class="col-sm-10">
+                    @Html.PasswordFor(m => Model.Input.Password, new { @class = "form-control", autocomplete = "password", placeholder = "required" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Password)</div>
+                </div>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+
+            <div class="form-group row mb-3">
+                <label for="Input.ConfirmPassword" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.ConfirmPassword)</strong></label>
+                <div class="col-sm-10">
+                    @Html.PasswordFor(m => Model.Input.ConfirmPassword, new { @class = "form-control", autocomplete = "confirmpassword", placeholder = "required" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.ConfirmPassword)</div>
+                </div>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+            <div class="form-group row mb-3">
+                <label for="Input.AccountName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.AccountName)</strong></label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => Model.Input.AccountName, new { @class = "form-control", placeholder = "required" })
+                    <small class="form-text text-muted">This account name will be visible publicly.</small>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.AccountName)</div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="Input.FirstName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.FirstName)</strong></label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => Model.Input.FirstName, new { @class = "form-control", placeholder = "not required" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.FirstName)</div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-3">
+                <label for="Input.Input.LastName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.LastName)</strong></label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(m => Model.Input.LastName, new { @class = "form-control", placeholder = "not required" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.LastName)</div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="Input.Input.Country" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Country)</strong></label>
+                <div class="col-sm-10">
+                    <select name="Input.Country" id="Input.Country" class="form-control">
+                        <option value="" style="color:#ccc !important;">Select a country</option>
+                        @foreach (var item in Model.Input.Countries)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {
+                            <option value="@item.Value" selected=@(Model.Input.Country == item.Value ? "selected" : null)>
+                                @item.Text
+                            </option>
+                        }
+                    </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Country)</div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="Input.Input.Language" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Language)</strong></label>
+                <div class="col-sm-10">
+                    <select name="Input.Language" id="Input.Language" class="form-control">
+                        <option value="" style="color:#ccc !important;">Select a language</option>
+                        @foreach (var item in Model.Input.Languages)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {
+                            <option value="@item.Value" selected=@(Model.Input.Language == item.Value ? "selected" : null)>
+                                @item.Text
+                            </option>
+                        }
+                    </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Language)</div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <label for="Input.Input.TimeZone" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.TimeZone)</strong></label>
+                <div class="col-sm-10">
+                    <select name="Input.TimeZone" id="Input.TimeZone" class="form-control">
+                        <option value="" style="color:#ccc !important;">Select a time-zone</option>
+                        @foreach (var item in Model.Input.TimeZones)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {
+                            <option value="@item.Value" selected=@(Model.Input.TimeZone == item.Value ? "selected" : null)>
+                                @item.Text
+                            </option>
+                        }
+                    </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.TimeZone)</div>
+                </div>
+            </div>
+
+            <div class="form-group row mb-1">
+                <div class="col-sm-10 offset-sm-2">
+                    <button id="registerSubmit" type="submit" class="btn btn-primary rounded-0">Signup!</button>
+                </div>
+            </div>
         </form>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+
+    @if ((Model.ExternalLogins?.Count ?? 0) > 0)
+    {
+    <div class="col-md-4">
         <section>
             <h4>Use another service to register.</h4>
             <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <div>
+                    <p>
+                        @foreach (var provider in Model.ExternalLogins!)
+
+                        {
+                            <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                        }
+                    </p>
+                </div>
+            </form>
         </section>
     </div>
+    }
 </div>
 
 @section Scripts {

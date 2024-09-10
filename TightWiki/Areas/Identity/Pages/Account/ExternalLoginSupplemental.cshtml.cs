@@ -28,13 +28,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            public List<Theme> Themes { get; set; } = new();
             public List<TimeZoneItem> TimeZones { get; set; } = new();
             public List<CountryItem> Countries { get; set; } = new();
             public List<LanguageItem> Languages { get; set; } = new();
 
-            [Display(Name = "Theme")]
-            public string? Theme { get; set; } = string.Empty;
 
             [Display(Name = "Account Name")]
             [Required(ErrorMessage = "Account Name is required")]
@@ -75,7 +72,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private void PopulateDefaults()
         {
-            Input.Themes = ConfigurationRepository.GetAllThemes();
             Input.TimeZones = TimeZoneItem.GetAll();
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
@@ -90,9 +86,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrEmpty(Input.Language))
                 Input.Language = membershipConfig.Value<string>("Default Language").EnsureNotNull();
-
-            if (string.IsNullOrEmpty(Input.Theme))
-                Input.Theme = GlobalConfiguration.SystemTheme.Name;
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -126,17 +119,23 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 return NotifyOfError("An error occurred retrieving user information from the external provider.");
             }
 
-            var user = new IdentityUser { UserName = "", Email = "" };
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
+            if (string.IsNullOrEmpty(email))
+            {
+                return NotifyOfError("The email address was not supplied by the external provider.");
+            }
+
+            var user = new IdentityUser { UserName = email, Email = email };
             var result = await _userManager.CreateAsync(user);
             if (!result.Succeeded)
             {
-                return NotifyOfError("An error occurred retrieving user information from the external provider.");
+                return NotifyOfError("An error occurred while creating the user.");
             }
 
             result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                return NotifyOfError("An error occurred retrieving user information from the external provider.");
+                return NotifyOfError("An error occurred while adding the login.");
             }
 
             UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);

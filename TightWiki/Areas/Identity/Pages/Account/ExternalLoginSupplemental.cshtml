@@ -5,7 +5,7 @@
 }
 
 <h3>
-    Signup, almost there!
+    Signup. Almost there...
 </h3>
 
 <p>
@@ -14,50 +14,33 @@
 
 <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <div class="container">
-
         <div class="form-group row mb-3">
-            <label for="AccountName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.AccountName)</strong></label>
+            <label for="Input.AccountName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.AccountName)</strong></label>
             <div class="col-sm-10">
-                @Html.TextBoxFor(m => Model.Input.AccountName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => Model.Input.AccountName, new { @class = "form-control", placeholder = "required" })
                 <small class="form-text text-muted">This account name will be visible publicly.</small>
                 <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.AccountName)</div>
             </div>
         </div>
 
         <div class="form-group row mb-1">
-            <label for="FirstName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.FirstName)</strong></label>
+            <label for="Input.FirstName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.FirstName)</strong></label>
             <div class="col-sm-10">
-                @Html.TextBoxFor(m => Model.Input.FirstName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => Model.Input.FirstName, new { @class = "form-control", placeholder = "not required" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.FirstName)</div>
             </div>
         </div>
 
         <div class="form-group row mb-3">
-            <label for="LastName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.LastName)</strong></label>
+            <label for="Input.LastName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.LastName)</strong></label>
             <div class="col-sm-10">
-                @Html.TextBoxFor(m => Model.Input.LastName, new { @class = "form-control" })
+                @Html.TextBoxFor(m => Model.Input.LastName, new { @class = "form-control", placeholder = "not required" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.LastName)</div>
             </div>
         </div>
 
-        <div class="form-group row mb-3">
-            <label for="Theme" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Theme)</strong></label>
-            <div class="col-sm-10">
-                <select name="Input.Theme" id="Input.Theme" class="form-control">
-                    <option value="">System Default</option>
-                    @foreach (var item in Model.Input.Themes)
-                    {
-                        <option value="@item.Name" selected=@(Model.Input.Theme == item.Name ? "selected" : null)>
-                            @item.Name
-                        </option>
-                    }
-                </select>
-                <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.Theme)</div>
-            </div>
-        </div>
-
         <div class="form-group row mb-1">
-            <label for="Country" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Country)</strong></label>
+            <label for="Input.Country" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Country)</strong></label>
             <div class="col-sm-10">
                 <select name="Input.Country" id="Input.Country" class="form-control">
                     <option value="" style="color:#ccc !important;">Select a country</option>
@@ -73,7 +56,7 @@
         </div>
 
         <div class="form-group row mb-1">
-            <label for="Language" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Language)</strong></label>
+            <label for="Input.Language" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.Language)</strong></label>
             <div class="col-sm-10">
                 <select name="Input.Language" id="Input.Language" class="form-control">
                     <option value="" style="color:#ccc !important;">Select a language</option>
@@ -89,7 +72,7 @@
         </div>
 
         <div class="form-group row mb-1">
-            <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.TimeZone)</strong></label>
+            <label for="Input.TimeZone" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.TimeZone)</strong></label>
             <div class="col-sm-10">
                 <select name="Input.TimeZone" id="Input.TimeZone" class="form-control">
                     <option value="" style="color:#ccc !important;">Select a time-zone</option>
@@ -103,7 +86,6 @@
                 <div class="text-danger">@Html.ValidationMessageFor(m => Model.Input.TimeZone)</div>
             </div>
         </div>
-
 
         <div class="form-group row mb-1">
             <div class="col-sm-10 offset-sm-2">
