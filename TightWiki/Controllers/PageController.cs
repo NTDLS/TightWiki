@@ -293,7 +293,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireEditPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -575,7 +575,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireEditPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

@@ -43,14 +43,10 @@
             </div>
 
             <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.EmailAddress)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
                 <label for="EmailAddress" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.EmailAddress)</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.EmailAddress, new { @class = "form-control" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.EmailAddress)</div>
                 </div>
             </div>
             <div class="form-group row mb-1">
@@ -61,46 +57,29 @@
             </div>
 
             <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.AccountName)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
                 <label for="AccountName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.AccountName)</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.AccountName, new { @class = "form-control" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.AccountName)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.FirstName)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="FirstName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.FirstName)</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.FirstName, new { @class = "form-control" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.FirstName)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.LastName)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="LastName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.LastName)</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "form-control" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.LastName)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Role)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="Role" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Role)</strong></label>
                 <div class="col-sm-10">
@@ -113,14 +92,10 @@
                             </option>
                         }
                     </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Role)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Theme)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="Theme" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Theme)</strong></label>
                 <div class="col-sm-10">
@@ -133,14 +108,10 @@
                             </option>
                         }
                     </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Theme)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Country)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="Country" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Country)</strong></label>
                 <div class="col-sm-10">
@@ -153,14 +124,10 @@
                             </option>
                         }
                     </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Country)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Language)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="Language" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Language)</strong></label>
                 <div class="col-sm-10">
@@ -173,14 +140,10 @@
                             </option>
                         }
                     </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Language)</div>
                 </div>
             </div>
 
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)</div>
-                </div>
-            </div>
             <div class="form-group row mb-1">
                 <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.TimeZone)</strong></label>
                 <div class="col-sm-10">
@@ -193,41 +156,30 @@
                             </option>
                         }
                     </select>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)</div>
                 </div>
             </div>
 
             <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.Password)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
                 <label for="Password" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Credential.Password)</strong></label>
                 <div class="col-sm-10">
                     @Html.PasswordFor(m => m.Credential.Password, new { @class = "form-control", value = Model.Credential.Password })
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.ComparePassword)</div>
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.Password)</div>
                 </div>
             </div>
             <div class="form-group row mb-1">
                 <label for="ComparePassword" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Credential.ComparePassword)</strong></label>
                 <div class="col-sm-10">
                     @Html.PasswordFor(m => m.Credential.ComparePassword, new { @class = "form-control", value = Model.Credential.Password })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.Credential.ComparePassword)</div>
                 </div>
             </div>
 
             <div class="form-group row mb-1">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Biography)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
                 <label for="Biography" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Biography)</strong></label>
                 <div class="col-sm-10">
                     @Html.TextAreaFor(m => m.AccountProfile.Biography, new { @class = "form-control", style = "height:200px", Name = "Biography" })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Biography)</div>
                 </div>
             </div>
 

@@ -268,7 +268,7 @@ namespace TightWiki.Controllers
             //Get the UserId from the logged in context because we do not trust anything from the model.
             var userId = SessionState.Profile.EnsureNotNull().UserId;
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

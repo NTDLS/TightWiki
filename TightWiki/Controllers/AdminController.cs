@@ -876,7 +876,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1022,7 +1022,7 @@ namespace TightWiki.Controllers
             model.Roles = UsersRepository.GetAllRoles();
             model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1221,7 +1221,7 @@ namespace TightWiki.Controllers
             model.Roles = UsersRepository.GetAllRoles();
             model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLower());
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1444,7 +1444,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1565,7 +1565,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -1655,7 +1655,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            if (!model.ValidateModelAndSetErrors(ModelState))
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
