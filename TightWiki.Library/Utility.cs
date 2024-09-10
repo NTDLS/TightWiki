@@ -5,6 +5,24 @@ namespace TightWiki.Library
 {
     public static class Utility
     {
+        public static string SanitizeAccountName(string fileName, char[]? extraInvalidCharacters = null)
+        {
+            // Get array of invalid characters for file names
+            var invalidChars = Path.GetInvalidFileNameChars().ToList();
+
+            if (extraInvalidCharacters != null)
+            {
+                invalidChars.AddRange(extraInvalidCharacters);
+            }
+
+            foreach (char invalidChar in invalidChars)
+            {
+                fileName = fileName.Replace(invalidChar, '_');
+            }
+
+            return fileName.Replace("__", "_").Replace("__", "_");
+        }
+
         /// <summary>
         /// Take a height and width and enforces a max on both dimensions while maintaining the ratio.
         /// </summary>

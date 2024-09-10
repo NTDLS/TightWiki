@@ -28,7 +28,7 @@ namespace TightWiki.Repository
         /// <param name="userId"></param>
         public static void AnonymizeProfile(Guid userId)
         {
-            string anonymousName = $"User Deleted {DateTime.UtcNow.ToShortDateString()}";
+            string anonymousName = Utility.SanitizeAccountName($"User Deleted {DateTime.UtcNow.ToShortDateString()}", [' ']);
 
             var param = new
             {

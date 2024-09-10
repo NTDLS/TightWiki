@@ -181,6 +181,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         new ("timezone", Input.TimeZone),
                         new (ClaimTypes.Country, Input.Country),
                         new ("language", Input.Language),
+                        new ("firstname", Input.FirstName ?? ""),
+                        new ("lastname", Input.LastName ?? ""),
                     };
 
                     SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
