@@ -64,6 +64,19 @@ namespace TightWiki.Controllers
             {
                 // User exists, sign them in:
                 await SignInManager.SignInAsync(user, isPersistent: false);
+
+                if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(user.Id), out _) == false)
+                {
+                    if (GlobalConfiguration.AllowSignup != true)
+                    {
+                        return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                    }
+
+                    //User exits but does not have a profile.
+                    //This means that the user has authenticated externally, but has yet to complete the signup process.
+                    return RedirectToPage("/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                }
+
                 return LocalRedirect(returnUrl);
             }
             else
@@ -77,47 +90,7 @@ namespace TightWiki.Controllers
                 }
 
                 user = await UserManager.FindByEmailAsync(email);
-                if (user == null)
-                {
-                    // If user with this email does not exist, create a new user:
-
-                    if (GlobalConfiguration.AllowSignup != true)
-                    {
-                        return Redirect("/Identity/Account/RegistrationIsNotAllowed");
-                    }
-
-                    user = new IdentityUser { UserName = email, Email = email };
-                    var result = await UserManager.CreateAsync(user);
-                    if (!result.Succeeded)
-                    {
-                        model.ErrorMessage = string.Join("<br />\r\n", result.Errors.Select(o => o.Description));
-                        return View(model);
-                    }
-
-                    result = await UserManager.AddLoginAsync(user, info);
-                    if (!result.Succeeded)
-                    {
-                        model.ErrorMessage = string.Join("<br />\r\n", result.Errors.Select(o => o.Description));
-                        return View(model);
-                    }
-
-                    UsersRepository.CreateProfile(Guid.Parse(user.Id));
-
-                    var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
-                    var claimsToAdd = new List<Claim>
-                        {
-                            new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
-                            new ("timezone", membershipConfig.Value<string>("Default TimeZone").EnsureNotNull()),
-                            new (ClaimTypes.Country, membershipConfig.Value<string>("Default Country").EnsureNotNull()),
-                            new ("language", membershipConfig.Value<string>("Default Language").EnsureNotNull()),
-                        };
-
-                    SecurityRepository.UpsertUserClaims(UserManager, user, claimsToAdd);
-
-                    await SignInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl ?? Url.Content("~/"));
-                }
-                else
+                if (user != null)
                 {
                     // User with this email exists but not linked with this external login, link them:
                     var result = await UserManager.AddLoginAsync(user, info);
@@ -128,6 +101,17 @@ namespace TightWiki.Controllers
                     }
                     await SignInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
+                }
+                else
+                {
+                    // If user with this email does not exist, then we need to create the user and profile.
+
+                    if (GlobalConfiguration.AllowSignup != true)
+                    {
+                        return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                    }
+
+                    return RedirectToPage("/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                 }
             }
         }

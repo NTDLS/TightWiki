@@ -1,5 +1,7 @@
-﻿using TightWiki.Caching;
+﻿using System.Diagnostics.CodeAnalysis;
+using TightWiki.Caching;
 using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
 using static TightWiki.Library.Constants;
 
@@ -153,6 +155,36 @@ namespace TightWiki.Repository
             };
 
             return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist.sql", param) ?? 0) != 0;
+        }
+
+        public static bool TryGetBasicProfileByUserId(Guid userId,
+            [NotNullWhen(true)] out AccountProfile? accountProfile, bool allowCache = true)
+        {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out accountProfile))
+                {
+                    if (TryGetBasicProfileByUserId(userId, out accountProfile, false))
+                    {
+                        WikiCache.Put(cacheKey, accountProfile);
+                        return true;
+                    }
+                }
+
+                if (accountProfile != null)
+                {
+                    return true;
+                }
+            }
+
+            var param = new
+            {
+                UserId = userId
+            };
+
+            accountProfile = ManagedDataStorage.Users.QuerySingleOrDefault<AccountProfile>("GetBasicProfileByUserId.sql", param);
+            return accountProfile != null;
         }
 
         public static AccountProfile GetBasicProfileByUserId(Guid userId, bool allowCache = true)

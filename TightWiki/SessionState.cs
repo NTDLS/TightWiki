@@ -86,14 +86,22 @@ namespace TightWiki
                 {
                     string emailAddress = (user.Claims.First(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
 
-                    IsAuthenticated = user.Identity?.IsAuthenticated == true;
-                    if (IsAuthenticated)
+                    if (user.Identity?.IsAuthenticated == true)
                     {
                         var userId = Guid.Parse((user.Claims.First(x => x.Type == ClaimTypes.NameIdentifier)?.Value).EnsureNotNull());
 
-                        Profile = UsersRepository.GetBasicProfileByUserId(userId);
-                        Role = Profile.Role;
-                        UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
+                        if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
+                        {
+                            Profile = profile;
+                            Role = Profile.Role;
+                            UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
+                            IsAuthenticated = true;
+                        }
+                        else
+                        {
+                            //User is signed in, but does not have a profile.
+                            //This likely means that the user has authenticated externally, but has yet to complete the signup process.
+                        }
                     }
                 }
                 catch (Exception ex)
