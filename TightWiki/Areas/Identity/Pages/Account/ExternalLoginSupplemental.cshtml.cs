@@ -126,10 +126,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 return NotifyOfError("An error occurred retrieving user information from the external provider.");
             }
 
-            var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-            if (user == null)
+            var user = new IdentityUser { UserName = "", Email = "" };
+            var result = await _userManager.CreateAsync(user);
+            if (!result.Succeeded)
             {
-                return NotifyOfError("An error occurred retrieving user information from the user manager.");
+                return NotifyOfError("An error occurred retrieving user information from the external provider.");
+            }
+
+            result = await _userManager.AddLoginAsync(user, info);
+            if (!result.Succeeded)
+            {
+                return NotifyOfError("An error occurred retrieving user information from the external provider.");
             }
 
             UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
