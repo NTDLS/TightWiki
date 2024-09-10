@@ -5,10 +5,8 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-12 col-md-8 col-lg-4">
         <section>
-            <h4>Local login.</h4>
-            <hr />
             <form id="account" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
@@ -46,20 +44,33 @@
                 </div>
             </form>
         </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
         <section>
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) > 0)
                 {
-                    <h4>External login.</h4>
-                    <hr />
                     <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                         <div>
                             <p>
                                 @foreach (var provider in Model.ExternalLogins!)
                                 {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                                    if (provider.Name == "Google")
+                                    {
+                                        <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Google account">
+                                            <img src="/images/external/google-signin.svg" alt="Google" class="me-2" />
+                                        </button>
+                                    }
+                                    else if (provider.Name == "Microsoft")
+                                    {
+                                        <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Microsoft account">
+                                            <img src="/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2" />
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="submit" class="btn btn-primary w-100 mb-3" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                            @provider.DisplayName
+                                        </button>
+                                    }
                                 }
                             </p>
                         </div>
