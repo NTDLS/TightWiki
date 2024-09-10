@@ -48,15 +48,13 @@ namespace TightWiki.Controllers
             returnUrl ??= Url.Content("~/");
             if (remoteError != null)
             {
-                model.ErrorMessage = $"Error from external provider: {remoteError}";
-                return View(model);
+                return NotifyOfError($"Error from external provider: {remoteError}");
             }
 
             var info = await SignInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                model.ErrorMessage = $"Failed to get information from external provider";
-                return View(model);
+                return NotifyOfError($"Failed to get information from external provider");
             }
 
             var user = await UserManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
@@ -85,8 +83,7 @@ namespace TightWiki.Controllers
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
                 if (string.IsNullOrEmpty(email))
                 {
-                    model.ErrorMessage = $"The email address was not supplied by the external provider.";
-                    return View(model);
+                    return NotifyOfError($"The email address was not supplied by the external provider.");
                 }
 
                 user = await UserManager.FindByEmailAsync(email);
@@ -96,8 +93,7 @@ namespace TightWiki.Controllers
                     var result = await UserManager.AddLoginAsync(user, info);
                     if (!result.Succeeded)
                     {
-                        model.ErrorMessage = string.Join("<br />\r\n", result.Errors.Select(o => o.Description));
-                        return View(model);
+                        return NotifyOfError(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                     }
                     await SignInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);

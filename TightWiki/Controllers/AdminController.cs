@@ -1280,8 +1280,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                model.ErrorMessage = ex.Message;
-                return View(model);
+                return NotifyOfError(ex.Message);
             }
 
             UsersRepository.CreateProfile((Guid)userId, model.AccountProfile.AccountName);
@@ -1503,7 +1502,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                model.ErrorMessage = ex.Message;
+                return NotifyOfError(ex.Message);
             }
 
             return View(model);

@@ -417,8 +417,7 @@ namespace TightWiki.Controllers
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
             if (instructions.Contains(WikiInstruction.Protect))
             {
-                model.ErrorMessage = "The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.";
-                return View(model);
+                return NotifyOfError("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.");
             }
 
             bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
@@ -596,7 +595,7 @@ namespace TightWiki.Controllers
 
                 if (PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
                 {
-                    model.ErrorMessage = "The page name you entered already exists.";
+                    ModelState.AddModelError("Name", "The page name you entered already exists.");
                     return View(model);
                 }
 
@@ -623,7 +622,7 @@ namespace TightWiki.Controllers
                 {
                     if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
                     {
-                        model.ErrorMessage = "The page name you entered already exists.";
+                        ModelState.AddModelError("Name", "The page name you entered already exists.");
                         return View(model);
                     }
 

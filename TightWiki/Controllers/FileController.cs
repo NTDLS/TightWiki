@@ -306,7 +306,7 @@ namespace TightWiki.Controllers
                         }
                     }
                 }
-                return Json(new { success = true, message = $"{postedFiles.Count:n0} files uploaded." });
+                return Json(new { success = true, message = $"{postedFiles.Count:n0} file{(postedFiles.Count == 0 || postedFiles.Count > 1 ? "s" : string.Empty)}." });
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
@@ -63,6 +64,16 @@ namespace TightWiki
                     {
                         options.ClientId = clientId;
                         options.ClientSecret = clientSecret;
+
+                        options.Events = new OAuthEvents
+                        {
+                            OnRemoteFailure = context =>
+                            {
+                                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.HandleResponse();
+                                return Task.CompletedTask;
+                            }
+                        };
                     });
                 }
             }
@@ -77,6 +88,17 @@ namespace TightWiki
                     {
                         options.ClientId = clientId;
                         options.ClientSecret = clientSecret;
+
+                        options.Events = new OAuthEvents
+                        {
+                            OnRemoteFailure = context =>
+                            {
+                                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.HandleResponse();
+                                return Task.CompletedTask;
+                            }
+                        };
+
                     });
                 }
             }
