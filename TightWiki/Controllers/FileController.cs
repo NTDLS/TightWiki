@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
-using System.Runtime.Caching;
 using System.Web;
 using TightWiki.Caching;
 using TightWiki.Library;

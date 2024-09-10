@@ -54,6 +54,18 @@ namespace DummyPageGenerator
             }
         }
 
+        public static string GetRandomUnusedAccountName()
+        {
+            while (true)
+            {
+                var randomAccountName = string.Join(" ", WordsRepository.GetRandomWords(2));
+                if (UsersRepository.DoesProfileAccountExist(Navigation.Clean(randomAccountName)) == false)
+                {
+                    return randomAccountName;
+                }
+            }
+        }
+
         /// <summary>
         /// Creates a user and the associated profile with claims and such.
         /// </summary>
@@ -76,7 +88,7 @@ namespace DummyPageGenerator
             var userId = _userManager.GetUserIdAsync(user).Result;
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
 
-            UsersRepository.CreateProfile(Guid.Parse(userId));
+            UsersRepository.CreateProfile(Guid.Parse(userId), GetRandomUnusedAccountName());
 
             var claimsToAdd = new List<Claim>
                     {

@@ -138,6 +138,22 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             PopulateDefaults();
 
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            if (string.IsNullOrWhiteSpace(Input.AccountName))
+            {
+                ModelState.AddModelError("Input.AccountName", "Account Name is required.");
+                return Page();
+            }
+            else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
+            {
+                ModelState.AddModelError("Input.AccountName", "Account Name is already in use.");
+                return Page();
+            }
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -157,7 +173,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
 
-                    UsersRepository.CreateProfile(Guid.Parse(userId));
+                    UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
 
                     var claimsToAdd = new List<Claim>
                     {

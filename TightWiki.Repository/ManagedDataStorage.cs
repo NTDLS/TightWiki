@@ -21,7 +21,6 @@ namespace TightWiki.Repository
                         ("Statistics", Statistics),
                         ("Emoji", Emoji),
                         ("Exceptions", Exceptions),
-                        ("Words", Words),
                         ("Users", Users),
                         ("Config", Config)
                     ];
@@ -35,7 +34,6 @@ namespace TightWiki.Repository
         public static ManagedDataStorageFactory Statistics { get; private set; } = new();
         public static ManagedDataStorageFactory Emoji { get; private set; } = new();
         public static ManagedDataStorageFactory Exceptions { get; private set; } = new();
-        public static ManagedDataStorageFactory Words { get; private set; } = new();
         public static ManagedDataStorageFactory Users { get; private set; } = new();
         public static ManagedDataStorageFactory Config { get; private set; } = new();
     }

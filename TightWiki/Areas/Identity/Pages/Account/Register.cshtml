@@ -68,21 +68,6 @@
                     <select name="Input.Country" id="Input.Country" class="form-control">
                         <option value="" style="color:#ccc !important;">Select a country</option>
                         @foreach (var item in Model.Input.Countries)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         {
                             <option value="@item.Value" selected=@(Model.Input.Country == item.Value ? "selected" : null)>
                                 @item.Text
@@ -99,21 +84,6 @@
                     <select name="Input.Language" id="Input.Language" class="form-control">
                         <option value="" style="color:#ccc !important;">Select a language</option>
                         @foreach (var item in Model.Input.Languages)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         {
                             <option value="@item.Value" selected=@(Model.Input.Language == item.Value ? "selected" : null)>
                                 @item.Text
@@ -130,21 +100,6 @@
                     <select name="Input.TimeZone" id="Input.TimeZone" class="form-control">
                         <option value="" style="color:#ccc !important;">Select a time-zone</option>
                         @foreach (var item in Model.Input.TimeZones)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         {
                             <option value="@item.Value" selected=@(Model.Input.TimeZone == item.Value ? "selected" : null)>
                                 @item.Text

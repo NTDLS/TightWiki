@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
-using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
 using static TightWiki.Library.Constants;
 
@@ -29,14 +28,14 @@ namespace TightWiki.Repository
         /// <param name="userId"></param>
         public static void AnonymizeProfile(Guid userId)
         {
-            string bogusName = GetRandomUnusedAccountName();
+            string anonymousName = $"User Deleted {DateTime.UtcNow.ToShortDateString()}";
 
             var param = new
             {
                 UserId = userId,
                 ModifiedDate = DateTime.UtcNow,
-                StandinName = bogusName,
-                Navigation = Navigation.Clean(bogusName)
+                StandinName = anonymousName,
+                Navigation = Navigation.Clean(anonymousName)
             };
 
             ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);
@@ -90,22 +89,6 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.Query<AccountProfile>(query, param).ToList();
         }
 
-        public static int CreateProfile(Guid userId)
-        {
-            var randomAccountName = GetRandomUnusedAccountName();
-
-            var param = new
-            {
-                UserId = userId,
-                AccountName = randomAccountName,
-                Navigation = Navigation.Clean(randomAccountName),
-                CreatedDate = DateTime.UtcNow,
-                ModifiedDate = DateTime.UtcNow
-            };
-
-            return ManagedDataStorage.Users.ExecuteScalar<int>("CreateProfile.sql", param);
-        }
-
         public static void CreateProfile(Guid userId, string accountName)
         {
             if (DoesProfileAccountExist(Navigation.Clean(accountName)))
@@ -123,18 +106,6 @@ namespace TightWiki.Repository
             };
 
             ManagedDataStorage.Users.Execute("CreateProfile.sql", param);
-        }
-
-        public static string GetRandomUnusedAccountName()
-        {
-            while (true)
-            {
-                var randomAccountName = string.Join(" ", WordsRepository.GetRandomWords(2));
-                if (DoesProfileAccountExist(Navigation.Clean(randomAccountName)) == false)
-                {
-                    return randomAccountName;
-                }
-            }
         }
 
         public static bool DoesEmailAddressExist(string? emailAddress)

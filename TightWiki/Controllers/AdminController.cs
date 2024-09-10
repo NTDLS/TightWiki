@@ -1186,7 +1186,7 @@ namespace TightWiki.Controllers
             {
                 AccountProfile = new Models.ViewModels.Admin.AccountProfileAccountViewModel
                 {
-                    AccountName = UsersRepository.GetRandomUnusedAccountName(),
+                    AccountName = string.Empty,
                     Country = customizationConfig.Value<string>("Default Country", string.Empty),
                     TimeZone = customizationConfig.Value<string>("Default TimeZone", string.Empty),
                     Language = customizationConfig.Value<string>("Default Language", string.Empty),
@@ -1219,10 +1219,16 @@ namespace TightWiki.Controllers
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
             model.Roles = UsersRepository.GetAllRoles();
-            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLower());
 
             if (!model.ValidateModelAndSetErrors(ModelState))
             {
+                return View(model);
+            }
+
+            if (string.IsNullOrWhiteSpace(model.AccountProfile.AccountName))
+            {
+                ModelState.AddModelError("AccountProfile.AccountName", "Account name is required.");
                 return View(model);
             }
 
