@@ -274,41 +274,46 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireCreatePermission();
 
-            var pageNavigation = new NamespaceNavigation(givenPageNavigation);
-
-            var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
-
-            foreach (IFormFile file in postedFiles)
+            try
             {
-                if (file != null)
+                var pageNavigation = new NamespaceNavigation(givenPageNavigation);
+
+                var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
+
+                foreach (IFormFile file in postedFiles)
                 {
-                    var fileSize = file.Length;
-                    if (fileSize > 0)
+                    if (file != null)
                     {
-                        if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                        var fileSize = file.Length;
+                        if (fileSize > 0)
                         {
-                            return Content("Could not save the attached file, too large");
+                            if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
+                            {
+                                return Json(new { message = $"Could not attach file: [{file.FileName}], too large." });
+                            }
+
+                            var fileName = HttpUtility.UrlDecode(file.FileName);
+
+                            PageFileRepository.UpsertPageFile(new PageFileAttachment()
+                            {
+                                Data = Utility.ConvertHttpFileToBytes(file),
+                                CreatedDate = DateTime.UtcNow,
+                                PageId = page.Id,
+                                Name = fileName,
+                                FileNavigation = Navigation.Clean(fileName),
+                                Size = fileSize,
+                                ContentType = Utility.GetMimeType(fileName)
+                            }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
                         }
-
-                        var fileName = HttpUtility.UrlDecode(file.FileName);
-
-                        PageFileRepository.UpsertPageFile(new PageFileAttachment()
-                        {
-                            Data = Utility.ConvertHttpFileToBytes(file),
-                            CreatedDate = DateTime.UtcNow,
-                            PageId = page.Id,
-                            Name = fileName,
-                            FileNavigation = Navigation.Clean(fileName),
-                            Size = fileSize,
-                            ContentType = Utility.GetMimeType(fileName)
-                        }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
-
-                        return Content("Success");
                     }
                 }
+                return Json(new { success = true, message = $"{postedFiles.Count:n0} files uploaded." });
             }
-
-            return Content("Failure");
+            catch (Exception ex)
+            {
+                ExceptionRepository.InsertException(ex, "Failed to upload file.");
+                return StatusCode(500, new { success = false, message = $"An error occurred: {ex.Message}" });
+            }
         }
 
         /// <summary>

@@ -21,101 +21,108 @@
         height: 50em;
     }
 
-    #dropSection {
-        height: 150px;
-        width: 100%;
-        background-color: var(--bs-card-bg); /* Use Bootstrap card background color */
-        overflow: hidden;
-        text-align: center;
-    }
-
-    #btnUpload {
-        display: none;
-    }
-
     .active {
         background-color: lightgreen !important;
     }
+
+    #dropSection {
+        width: 100%;
+        height: 150px;
+        border: 2px dashed #007bff;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 150px;
+        font-size: 18px;
+        color: #007bff;
+        margin-bottom: 20px;
+        background-color: var(--bs-card-bg); /* Bootstrap background */
+    }
+
+    #dropSection.dragover {
+        background-color: #e9ecef;
+        border-color: #007bff;
+        color: #007bff;
+    }
+
 </style>
 
 <script>
-    function insertTextAtCursor(editor, text) {
-        var doc = editor.getDoc();
-        var cursor = doc.getCursor();
-        doc.replaceRange(text, cursor);
-    }
-</script>
-
-<script src="~/js/filedropAttachment.js"></script>
-<script type="text/javascript">
-
     function readyFn(jQuery) {
         $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
     }
 
     $(document).ready(readyFn);
 
-    $(function () {
-        $("#dropSection").filedrop({
-            fallback_id: 'btnUpload',
-            fallback_dropzoneClick: true,
-            url: '@Url.Action("UploadDragDrop", "File")/@sessionState.PageNavigationEscaped',
-            paramname: 'postedFiles',
-            maxfiles: 5, //Maximum Number of Files allowed at a time.
-            maxfilesize: 25, //Maximum File Size in MB.
-            dragOver: function () {
-                $('#dropSection').addClass('active');
-            },
-            dragLeave: function () {
-                $('#dropSection').removeClass('active');
-            },
-            drop: function () {
-                $('#dropSection').removeClass('active');
-            },
-            uploadFinished: function (i, file, response, time) {
-                //To do some task after one upload is done.
-                var editor = document.querySelector('.CodeMirror').CodeMirror;
+    document.addEventListener("DOMContentLoaded", function() {
+        const dropSection = document.getElementById('dropSection');
+        const fileInput = document.getElementById('fileInput');
+        const uploadStatus = document.getElementById('uploadStatus');
 
-                var ext = file.name.split('.').pop().toLowerCase();
-
-                if (ext.includes("png") || ext.includes("jpg") || ext.includes('jpeg') || ext.includes('gif') || ext.includes('bmp')) {
-                    insertTextAtCursor(editor, '##Image(' + file.name + ')');
-                }
-                else {
-                    insertTextAtCursor(editor, '##File(' + file.name + ')');
-                }
-            },
-            afterAll: function (e) {
-                //To do some task after all uploads done.
-                $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
-            }
-        })
-    })
-
-    $(document).ready(function () {
-        var frm = $('#manualUpload');
-        frm.submit(function (e) {
+        // Handle dragover event
+        dropSection.addEventListener('dragover', (e) => {
             e.preventDefault();
-            var formData = new FormData(e[0]);
-            formData.append('fileData', $('input[type=file]')[0].files[0]);
-
-            $.ajax({
-                url: '@Url.Action("ManualUpload", "File")/@sessionState.PageNavigationEscaped',
-                type: 'POST',
-                data: formData,
-                async: false,
-                cache: false,
-                contentType: false,
-                enctype: 'multipart/form-data',
-                processData: false,
-                success: function (response) {
-                    $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
-                }
-            });
-            return false;
+            dropSection.classList.add('dragover');
+            dropSection.textContent = "Drop files here...";
         });
+
+        // Handle dragleave event
+        dropSection.addEventListener('dragleave', () => {
+            dropSection.classList.remove('dragover');
+            dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
+        });
+
+        // Handle drop event
+        dropSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropSection.classList.remove('dragover');
+            dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
+            const files = e.dataTransfer.files;
+            handleFileUpload(files);
+        });
+
+        // Open file input dialog on click
+        dropSection.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Handle file input change (manual upload)
+        fileInput.addEventListener('change', () => {
+            const files = fileInput.files;
+            handleFileUpload(files);
+        });
+
+        // Function to handle file upload
+        function handleFileUpload(files) {
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('postedFiles', files[i]);
+            }
+
+            uploadFiles(formData);
+        }
+
+        // Function to upload files using fetch API
+        function uploadFiles(formData) {
+            fetch('@Url.Action("UploadDragDrop", "File")/@sessionState.PageNavigationEscaped', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())  // Read the response as JSON
+            .then(result => {
+                if (result.success) {
+                    uploadStatus.innerHTML = `<p>Upload successful: ${result.message}</p>`;
+                } else {
+                    uploadStatus.innerHTML = `<p>Error: ${result.message}</p>`;
+                }
+                $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
+            })
+            .catch(error => {
+                uploadStatus.innerHTML = `<p>Unexpected Error: ${error.message}</p>`;
+            });
+        }
     });
 </script>
+
 
 <div class="bodyDiv">
     <div class="card">
@@ -184,14 +191,11 @@
             @if (Model?.Id > 0 && @sessionState.CanCreate == true)
             {
                 <div id="dropSection" class="dropSection">
-                    <br />Attach files by dropping them here or by manually selecting them below:<br /><br />
-                    <div id="manualUpload">
-                        <form id="manualUpload" action="/manualUpload" enctype="multipart/form-data" method="post"><input type="file" name="fileData"><input type="submit" value="Upload"></form>
-                    </div>
-
+                    Attach files by dropping them here or manually by clicking here.
                 </div>
-                <div id="uploadedFiles">
-                </div>
+                <input type="file" id="fileInput" style="display:none" multiple>
+                <div id="uploadStatus"></div>
+                <div id="uploadedFiles"></div>
                 <input type="button" id="btnUpload" value="Upload" />
             }
             else

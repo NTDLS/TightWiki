@@ -8,6 +8,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <style>
+        .list-group-item:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+    </style>
+
     @foreach (var file in sessionState.UserTheme.Files)
     {
         <link rel="stylesheet" href="@file" />
@@ -35,30 +41,55 @@
                 }
             });
         });
+
+        function copyToClipboard(text, element) {
+
+            var ext = text.split('.').pop().toLowerCase();
+            if (ext.includes('png') || ext.includes('jpg') || ext.includes('jpeg') || ext.includes('gif') || ext.includes('bmp')) {
+                text = '##Image(' + text + ')';
+            }
+            else {
+                text = '##File(' + text + ')';
+            }
+
+            navigator.clipboard.writeText(text).then(function () {
+                var originalText = element.innerHTML;
+                var originalClass = element.className;
+
+                element.innerHTML = '<i class="bi bi-check-circle"></i> Tag Copied';
+                element.className = 'btn btn-sm btn-success';
+
+                setTimeout(function () {
+                    element.innerHTML = originalText;
+                    element.className = originalClass;
+                }, 2000);
+            }).catch(function (error) {
+                console.error('Error copying text: ', error);
+            });
+        }
+
     </script>
 </head>
 
 <body>
-    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-        <tbody>
-            @foreach (var x in Model.Files)
-            {
-                <tr>
-                    <td>
-                        <a href="/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank"> @x.Name</a> [@x.FriendlySize]
-                    </td>
-                    <td>
-                        <a href="/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision revisions</a>
-                    </td>
-                    <td>
-                        @if (@sessionState.CanDelete == true)
-                        {
-                            <a href="#detachLink" id="@x.FileNavigation"> Detach </a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var x in Model.Files)
+    {
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <a href="/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> (@x.FriendlySize)
+                                    <a href="/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision revisions</a>
+
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard('@x.Name', this); return false;">
+                    <i class="bi bi-clipboard"></i> Copy Tag
+                </button>&nbsp;
+                @if (@sessionState.CanDelete == true)
+                {
+                    <a href="#detachLink" id="@x.FileNavigation" class="btn btn-sm btn-outline-danger">Detach</a>
+                }
+            </div>
+        </div>
+    }
 </body>
 </html>
