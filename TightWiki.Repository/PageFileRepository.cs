@@ -36,11 +36,12 @@ namespace TightWiki.Repository
         public static void PurgeOrphanedPageAttachments()
             => ManagedDataStorage.Pages.Execute("PurgeOrphanedPageAttachments.sql");
 
-        public static void PurgeOrphanedPageAttachment(int pageFileId)
+        public static void PurgeOrphanedPageAttachment(int pageFileId, int revision)
         {
             var param = new
             {
-                PageFileId = pageFileId
+                PageFileId = pageFileId,
+                Revision = revision
             };
             ManagedDataStorage.Pages.Execute("PurgeOrphanedPageAttachment.sql", param);
         }

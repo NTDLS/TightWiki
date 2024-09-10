@@ -54,7 +54,7 @@
                     <td>@p.FileRevision</td>
                     <td>
                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified attachment. Continue?",
-                                 "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId, Context.Request.Path.Value))
+                                 "Delete", "/Admin/PurgeOrphanedAttachment/" + @p.PageFileId + "/" + @p.FileRevision, Context.Request.Path.Value))
                     </td>
                 </tr>
             }

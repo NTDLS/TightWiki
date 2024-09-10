@@ -1,8 +1,11 @@
+BEGIN TRANSACTION;
+
 --Delete orphaned PageFileRevision.
 DELETE FROM PageFileRevision
-WHERE PageFileId IN (
+WHERE (PageFileId, Revision) IN (
     SELECT
-        PFR.PageFileId
+        PFR.PageFileId,
+        PFR.Revision
     FROM
         PageFileRevision as PFR
     INNER JOIN PageFile as PF
@@ -19,3 +22,5 @@ WHERE PageFileId IN (
 --Delete orphaned PageFile.
 DELETE FROM PageFile
 WHERE Id NOT IN (SELECT PageFileId FROM PageFileRevision);
+
+COMMIT TRANSACTION

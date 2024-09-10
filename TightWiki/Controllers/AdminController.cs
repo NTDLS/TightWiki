@@ -806,14 +806,14 @@ namespace TightWiki.Controllers
 
 
         [Authorize]
-        [HttpPost("PurgeOrphanedAttachment/{pageFileId:int}")]
-        public ActionResult PurgeOrphanedAttachment(ConfirmActionViewModel model, int pageFileId)
+        [HttpPost("PurgeOrphanedAttachment/{pageFileId:int}/{revision:int}")]
+        public ActionResult PurgeOrphanedAttachment(ConfirmActionViewModel model, int pageFileId, int revision)
         {
             SessionState.RequireAdminPermission();
 
             if (model.UserSelection == true)
             {
-                PageFileRepository.PurgeOrphanedPageAttachment(pageFileId);
+                PageFileRepository.PurgeOrphanedPageAttachment(pageFileId, revision);
                 return NotifyOfSuccess("The pages orphaned attachments have been purged.", model.YesRedirectURL);
             }
 
