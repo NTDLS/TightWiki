@@ -420,7 +420,7 @@ namespace TightWiki.Controllers
         [HttpGet("Deleted")]
         public ActionResult Deleted()
         {
-            var model = new DeleteAccountViewModel()
+            var model = new DeletedAccountViewModel()
             {
             };
             return View(model);
