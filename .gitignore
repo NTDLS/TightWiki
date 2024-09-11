@@ -94,3 +94,7 @@ TightWiki.Engine.Library/obj/
 TightWiki.Wiki/bin/
 
 TightWiki.Wiki/obj/
+
+DumpConfiguration/bin/
+
+DumpConfiguration/obj/

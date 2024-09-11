@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DumpConfiguration": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\NTDLS\\TightWiki\\Data\\config.db\""
+    }
+  }
+}
