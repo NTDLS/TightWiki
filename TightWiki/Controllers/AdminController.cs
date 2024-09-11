@@ -1259,7 +1259,8 @@ namespace TightWiki.Controllers
                 var creationResult = UserManager.CreateAsync(identityUser, model.Credential.Password).Result;
                 if (!creationResult.Succeeded)
                 {
-                    throw new Exception(string.Join("<br />\r\n", creationResult.Errors.Select(o => o.Description)));
+                    model.ErrorMessage = string.Join("<br />\r\n", creationResult.Errors.Select(o => o.Description));
+                    return View(model);
                 }
                 identityUser = UserManager.FindByEmailAsync(model.AccountProfile.EmailAddress).Result.EnsureNotNull();
 
