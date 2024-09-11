@@ -183,9 +183,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
-            var profile = UsersRepository.GetAccountProfileByNavigation(userAccountName);
 
-            if (profile == null)
+            if (UsersRepository.TryGetAccountProfileByNavigation(userAccountName, out var accountProfile) == false)
             {
                 return View(new PublicViewModel
                 {
@@ -195,17 +194,17 @@ namespace TightWiki.Controllers
 
             var model = new PublicViewModel()
             {
-                AccountName = profile.AccountName,
-                Navigation = profile.Navigation,
-                Id = profile.UserId,
-                TimeZone = profile.TimeZone,
-                Language = profile.Language,
-                Country = profile.Country,
-                Biography = WikifierLite.Process(profile.Biography),
-                Avatar = profile.Avatar
+                AccountName = accountProfile.AccountName,
+                Navigation = accountProfile.Navigation,
+                Id = accountProfile.UserId,
+                TimeZone = accountProfile.TimeZone,
+                Language = accountProfile.Language,
+                Country = accountProfile.Country,
+                Biography = WikifierLite.Process(accountProfile.Biography),
+                Avatar = accountProfile.Avatar
             };
 
-            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(profile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount)
+            model.RecentlyModified = PageRepository.GetTopRecentlyModifiedPagesInfoByUserId(accountProfile.UserId, GlobalConfiguration.DefaultProfileRecentlyModifiedCount)
                 .OrderByDescending(o => o.ModifiedDate).ThenBy(o => o.Name).ToList();
 
             foreach (var item in model.RecentlyModified)
