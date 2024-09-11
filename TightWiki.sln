@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TightWiki.Engine.Implementa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DumpConfiguration", "DumpConfiguration\DumpConfiguration.csproj", "{A4B6DA90-0F22-4D31-8978-FAC0309092B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTDLS.SqliteDapperWrapper", "..\NTDLS.SqliteDapperWrapper\NTDLS.SqliteDapperWrapper\NTDLS.SqliteDapperWrapper.csproj", "{936B83A1-0176-421C-A26F-7B2F35F16D97}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,10 +105,6 @@ Global
 		{A4B6DA90-0F22-4D31-8978-FAC0309092B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4B6DA90-0F22-4D31-8978-FAC0309092B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4B6DA90-0F22-4D31-8978-FAC0309092B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{936B83A1-0176-421C-A26F-7B2F35F16D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{936B83A1-0176-421C-A26F-7B2F35F16D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{936B83A1-0176-421C-A26F-7B2F35F16D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{936B83A1-0176-421C-A26F-7B2F35F16D97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

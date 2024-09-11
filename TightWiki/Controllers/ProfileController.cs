@@ -44,7 +44,7 @@ namespace TightWiki.Controllers
             string givenMax = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
             string? givenExact = Request.Query["exact"];
 
-            ProfileAvatar? avatar ;
+            ProfileAvatar? avatar;
             if (GlobalConfiguration.EnablePublicProfiles)
             {
                 avatar = UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName));
