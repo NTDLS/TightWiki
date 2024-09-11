@@ -167,6 +167,7 @@ namespace TightWiki
                 {
                     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                     SecurityRepository.ValidateEncryptionAndCreateAdminUser(userManager);
+                    ConfigurationRepository.UpgradeDatabase();
                 }
                 catch (Exception ex)
                 {

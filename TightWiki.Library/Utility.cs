@@ -5,6 +5,9 @@ namespace TightWiki.Library
 {
     public static class Utility
     {
+        public static int PadVersionString(string versionString, int padLength = 3)
+            => int.Parse(string.Join("", versionString.Split('.').Select(x => x.Trim().PadLeft(padLength, '0'))));
+
         public static string SanitizeAccountName(string fileName, char[]? extraInvalidCharacters = null)
         {
             // Get array of invalid characters for file names

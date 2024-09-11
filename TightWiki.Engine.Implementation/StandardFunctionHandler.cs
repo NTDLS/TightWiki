@@ -113,6 +113,11 @@ namespace TightWiki.Engine.Implementation
                 //Creates a glossary all user profiles.
                 case "profileglossary":
                     {
+                        if (!Models.GlobalConfiguration.EnablePublicProfiles)
+                        {
+                            return new HandlerResult("Public profiles are disabled.");
+                        }
+
                         var html = new StringBuilder();
                         string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
@@ -156,6 +161,11 @@ namespace TightWiki.Engine.Implementation
                 //Creates a list of all user profiles.
                 case "profilelist":
                     {
+                        if (!Models.GlobalConfiguration.EnablePublicProfiles)
+                        {
+                            return new HandlerResult("Public profiles are disabled.");
+                        }
+
                         var html = new StringBuilder();
                         string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));

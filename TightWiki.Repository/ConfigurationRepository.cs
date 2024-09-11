@@ -2,6 +2,7 @@
 using SixLabors.ImageSharp;
 using System.Data;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.Caching;
 using TightWiki.Caching;
 using TightWiki.Library;
@@ -12,6 +13,94 @@ namespace TightWiki.Repository
 {
     public static class ConfigurationRepository
     {
+        #region Upgrade Database.
+
+        public static string GetVersionStateVersion()
+        {
+            var entries = ManagedDataStorage.Config.ExecuteScalar<string>(@"Scripts\Initialization\GetVersionStateVersion.sql");
+            return entries ?? "0.0.0";
+        }
+
+        public static void SetVersionStateVersion()
+        {
+            var version = string.Join('.',
+                (Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3));
+            ManagedDataStorage.Config.Execute(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
+        }
+
+        /// <summary>
+        /// See @Initialization.Versions.md
+        /// </summary>
+        public static void UpgradeDatabase()
+        {
+            try
+            {
+                var versionString = GetVersionStateVersion();
+                int storedPaddedVersion = Utility.PadVersionString(versionString);
+
+                var assembly = Assembly.GetExecutingAssembly();
+
+                int currentPaddedVersion = Utility.PadVersionString(
+                    string.Join('.', (assembly.GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)));
+
+                if (currentPaddedVersion == storedPaddedVersion)
+                {
+                    return; //The database version is already at the latest version.
+                }
+
+                var updateScriptNames = Assembly.GetExecutingAssembly().GetManifestResourceNames()
+                    .Where(o => o.Contains("Repository.Scripts.Initialization.Versions", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o);
+
+                string startVersionTag = ".Initialization.Versions.";
+                string endVersionTag = ".^";
+
+                foreach (var updateScriptName in updateScriptNames)
+                {
+                    int startIndex = updateScriptName.IndexOf(startVersionTag, StringComparison.InvariantCultureIgnoreCase);
+                    if (startIndex >= 0)
+                    {
+                        startIndex += startVersionTag.Length;
+
+                        int endIndex = updateScriptName.IndexOf(endVersionTag, startIndex, StringComparison.InvariantCultureIgnoreCase);
+                        if (endIndex > startIndex)
+                        {
+                            //The name of the script file without the namespaces, version numbers etc.
+                            var fullScriptName = updateScriptName.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
+
+                            int filesFolderVersion = Utility.PadVersionString(updateScriptName.Substring(startIndex, endIndex - startIndex).Trim().Replace("_", ""));
+                            if (filesFolderVersion > storedPaddedVersion)
+                            {
+                                //Get the script text.
+                                using var stream = assembly.GetManifestResourceStream(updateScriptName);
+                                using var reader = new StreamReader(stream.EnsureNotNull());
+                                var scriptText = reader.ReadToEnd();
+
+                                //Get the script "metadata" from the file name.
+                                var scriptNameParts = fullScriptName.Split('^');
+                                //string executionOrder = scriptNameParts[0];
+                                string databaseName = scriptNameParts[1];
+                                //string scriptName = scriptNameParts[2];
+
+                                var databaseFactory = ManagedDataStorage.Collection.Single(o => o.Name == databaseName).Factory;
+
+                                databaseFactory.Execute(scriptText);
+                            }
+                        }
+                    }
+
+                    Console.WriteLine(updateScriptName);
+                }
+
+                SetVersionStateVersion();
+            }
+            catch (Exception ex)
+            {
+                ExceptionRepository.InsertException(ex, "Database upgrade failed.");
+            }
+        }
+
+        #endregion
+
         public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
         {
             if (allowCache)
@@ -417,6 +506,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.IncludeWikiDescriptionInMeta = functionalityConfig.Value<bool>("Include wiki Description in Meta");
             GlobalConfiguration.IncludeWikiTagsInMeta = functionalityConfig.Value<bool>("Include wiki Tags in Meta");
             GlobalConfiguration.EnablePageComments = functionalityConfig.Value<bool>("Enable Page Comments");
+            GlobalConfiguration.EnablePublicProfiles = functionalityConfig.Value<bool>("Enable Public Profiles");
             GlobalConfiguration.ShowCommentsOnPageFooter = functionalityConfig.Value<bool>("Show Comments on Page Footer");
             GlobalConfiguration.ShowLastModifiedOnPageFooter = functionalityConfig.Value<bool>("Show Last Modified on Page Footer");
             GlobalConfiguration.IncludeSearchOnNavbar = searchConfig.Value<bool>("Include Search on Navbar");

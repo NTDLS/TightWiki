@@ -29,8 +29,14 @@
 @if (TightWiki.Models.GlobalConfiguration.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
 {
     <br />
-
-    <small><cite title="Modified By">Last modified by <a href="/Profile/@Model.ModifiedByUserName/Public">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small>
+    if (TightWiki.Models.GlobalConfiguration.EnablePublicProfiles)
+    {
+        <small><cite title="Modified By">Last modified by <a href="/Profile/@Model.ModifiedByUserName/Public">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small>
+    }
+    else
+    {
+        <small><cite title="Modified By">Last modified by @Model.ModifiedByUserName @@ @Model.ModifiedDate</cite></small>
+    }
     <br />
 }
 

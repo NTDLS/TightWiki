@@ -23,14 +23,14 @@ namespace TightWiki.Library
             {
                 Parallel.ForEach(imageCollection, frame =>
                 {
-                    frame.Sample(width, height);
+                    frame.Sample((uint)width, (uint)height);
                 });
             }
             else
             {
                 Parallel.ForEach(imageCollection, frame =>
                 {
-                    frame.Resize(width, height);
+                    frame.Resize((uint)width, (uint)height);
                 });
             }
 

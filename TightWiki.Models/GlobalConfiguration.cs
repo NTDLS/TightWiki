@@ -23,6 +23,7 @@ namespace TightWiki.Models
         public static bool IncludeWikiDescriptionInMeta { get; set; }
         public static bool IncludeWikiTagsInMeta { get; set; }
         public static bool EnablePageComments { get; set; }
+        public static bool EnablePublicProfiles { get; set; }
         public static bool FixedMenuPosition { get; set; }
         public static bool ShowCommentsOnPageFooter { get; set; }
         public static bool IncludeSearchOnNavbar { get; set; }

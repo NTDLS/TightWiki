@@ -233,7 +233,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByNavigation.sql", param);
         }
 
-        public static bool TryGetAccountProfileByNavigation(string ?navigation, [NotNullWhen(true)] out AccountProfile? accountProfile)
+        public static bool TryGetAccountProfileByNavigation(string? navigation, [NotNullWhen(true)] out AccountProfile? accountProfile)
         {
             var param = new
             {

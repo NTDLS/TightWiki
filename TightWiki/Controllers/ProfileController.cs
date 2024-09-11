@@ -10,6 +10,7 @@ using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
 using TightWiki.Models;
+using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Repository;
 using static TightWiki.Library.Images;
@@ -39,12 +40,19 @@ namespace TightWiki.Controllers
             SessionState.RequireViewPermission();
             SessionState.Page.Name = $"Avatar";
 
-            userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
             string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
             string givenMax = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
             string? givenExact = Request.Query["exact"];
 
-            var avatar = UsersRepository.GetProfileAvatarByNavigation(userAccountName);
+            ProfileAvatar? avatar ;
+            if (GlobalConfiguration.EnablePublicProfiles)
+            {
+                avatar = UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName));
+            }
+            else
+            {
+                avatar = new ProfileAvatar();
+            }
 
             if (avatar.Bytes == null || avatar.Bytes.Length == 0)
             {
@@ -183,6 +191,14 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = $"Public Profile";
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
+
+            if (!GlobalConfiguration.EnablePublicProfiles)
+            {
+                return View(new PublicViewModel
+                {
+                    ErrorMessage = "Public profiles are disabled."
+                });
+            }
 
             if (UsersRepository.TryGetAccountProfileByNavigation(userAccountName, out var accountProfile) == false)
             {
