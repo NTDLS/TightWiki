@@ -34,6 +34,7 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
+            ConfigurationRepository.UpgradeDatabase();
             ConfigurationRepository.ReloadEverything();
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
@@ -167,7 +168,6 @@ namespace TightWiki
                 {
                     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                     SecurityRepository.ValidateEncryptionAndCreateAdminUser(userManager);
-                    ConfigurationRepository.UpgradeDatabase();
                 }
                 catch (Exception ex)
                 {
