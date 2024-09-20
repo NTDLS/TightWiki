@@ -10,6 +10,7 @@ using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki
@@ -127,7 +128,30 @@ namespace TightWiki
                 containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
             });
 
+            var basePath = builder.Configuration.GetValue<string>("BasePath");
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                GlobalConfiguration.BasePath = basePath;
+
+                builder.Services.ConfigureApplicationCookie(options =>
+                {
+                    if (!string.IsNullOrEmpty(basePath))
+                    {
+                        options.LoginPath = new PathString($"{basePath}/Identity/Account/Login");
+                        options.LogoutPath = new PathString($"{basePath}/Identity/Account/Logout");
+                        options.AccessDeniedPath = new PathString($"{basePath}/Identity/Account/AccessDenied");
+                    }
+                    else
+                    {
+                        options.LoginPath = new PathString("/Identity/Account/Login");
+                        options.LogoutPath = new PathString("/Identity/Account/Logout");
+                        options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
+                    }
+                });
+            }
+
             var app = builder.Build();
+
 
             //Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -145,6 +169,30 @@ namespace TightWiki
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                app.UsePathBase(basePath);
+
+                // Redirect root requests to /TightWiki
+                app.Use(async (context, next) =>
+                {
+                    if (context.Request.Path == "/")
+                    {
+                        context.Response.Redirect(basePath);
+                        return;
+                    }
+                    await next();
+                });
+
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        ctx.Context.Request.PathBase = basePath;
+                    }
+                });
+            }
 
             app.UseRouting();
 

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
@@ -24,7 +25,7 @@ namespace TightWiki.Engine.Implementation.Utility
 
             foreach (var page in pages)
             {
-                pageList.Add(new TagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + "\"><a href=\"/" + page.Navigation + "\">" + page.Name + "</a></font>"));
+                pageList.Add(new TagCloudItem(page.Name, pageIndex, "<font size=\"" + fontSize + $"\"><a href=\"{GlobalConfiguration.BasePath}/" + page.Navigation + "\">" + page.Name + "</a></font>"));
 
                 if ((pageIndex % sizeStep) == 0)
                 {

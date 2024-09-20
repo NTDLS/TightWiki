@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 
@@ -25,7 +26,7 @@ namespace TightWiki.Engine.Implementation.Utility
 
             foreach (var tag in tags)
             {
-                tagList.Add(new TagCloudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + "\"><a href=\"/Tag/Browse/" + NamespaceNavigation.CleanAndValidate(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
+                tagList.Add(new TagCloudItem(tag.Tag, tagIndex, "<font size=\"" + fontSize + $"\"><a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/" + NamespaceNavigation.CleanAndValidate(tag.Tag) + "\">" + tag.Tag + "</a></font>"));
 
                 if ((tagIndex % sizeStep) == 0)
                 {

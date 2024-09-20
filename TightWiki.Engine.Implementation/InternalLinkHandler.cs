@@ -1,6 +1,7 @@
 ﻿using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
@@ -37,17 +38,17 @@ namespace TightWiki.Engine.Implementation
                             || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                         {
                             //The image is external.
-                            href = $"<a href=\"/Page/Create?Name={pageName}\"><img src=\"{image}?Scale={imageScale}\" /></a>";
+                            href = $"<a href=\"{GlobalConfiguration.BasePath}/Page/Create?Name={pageName}\"><img src=\"{GlobalConfiguration.BasePath}{image}?Scale={imageScale}\" /></a>";
                         }
                         else if (image.Contains('/'))
                         {
                             //The image is located on another page.
-                            href = $"<a href=\"/Page/Create?Name={pageName}\"><img src=\"/Page/Image/{image}?Scale={imageScale}\" /></a>";
+                            href = $"<a href=\"{GlobalConfiguration.BasePath}/Page/Create?Name={pageName}\"><img src=\"{GlobalConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
                         }
                         else
                         {
                             //The image is located on this page, but this page does not exist.
-                            href = $"<a href=\"/Page/Create?Name={pageName}\">{linkText}</a>";
+                            href = $"<a href=\"{GlobalConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>";
                         }
 
                         return new HandlerResult(href)
@@ -57,7 +58,7 @@ namespace TightWiki.Engine.Implementation
                     }
                     else if (linkText != null)
                     {
-                        var href = $"<a href=\"/Page/Create?Name={pageName}\">{linkText}</a>"
+                        var href = $"<a href=\"{GlobalConfiguration.BasePath}/Page/Create?Name={pageName}\">{linkText}</a>"
                             + "<font color=\"#cc0000\" size=\"2\">?</font>";
 
                         return new HandlerResult(href)
@@ -82,12 +83,12 @@ namespace TightWiki.Engine.Implementation
                             || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                         {
                             //The image is external.
-                            mockHref = $"<img src=\"{image}?Scale={imageScale}\" />";
+                            mockHref = $"<img src=\"{GlobalConfiguration.BasePath}{image}?Scale={imageScale}\" />";
                         }
                         else if (image.Contains('/'))
                         {
                             //The image is located on another page.
-                            mockHref = $"<img src=\"/Page/Image/{image}?Scale={imageScale}\" />";
+                            mockHref = $"<img src=\"{GlobalConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" />";
                         }
                         else
                         {
@@ -123,23 +124,23 @@ namespace TightWiki.Engine.Implementation
                         || image.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                     {
                         //The image is external.
-                        href = $"<a href=\"/{page.Navigation}\"><img src=\"{image}\" /></a>";
+                        href = $"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\"><img src=\"{GlobalConfiguration.BasePath}{image}\" /></a>";
                     }
                     else if (image.Contains('/'))
                     {
                         //The image is located on another page.
-                        href = $"<a href=\"/{page.Navigation}\"><img src=\"/Page/Image/{image}?Scale={imageScale}\" /></a>";
+                        href = $"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\"><img src=\"{GlobalConfiguration.BasePath}/Page/Image/{image}?Scale={imageScale}\" /></a>";
                     }
                     else
                     {
                         //The image is located on this page.
-                        href = $"<a href=\"/{page.Navigation}\"><img src=\"/Page/Image/{state.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
+                        href = $"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\"><img src=\"{GlobalConfiguration.BasePath}/Page/Image/{state.Page.Navigation}/{image}?Scale={imageScale}\" /></a>";
                     }
                 }
                 else
                 {
                     //Just a plain ol' internal page link.
-                    href = $"<a href=\"/{page.Navigation}\">{linkText}</a>";
+                    href = $"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{linkText}</a>";
                 }
 
                 return new HandlerResult(href)

@@ -1,11 +1,12 @@
-﻿@model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Comments for <a href="/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
+    Comments for <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
 </h3>
 
 <p>
@@ -21,7 +22,7 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@using (Html.BeginForm(FormMethod.Post))
+@using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     if (sessionState.IsAuthenticated == true)
     {
@@ -36,7 +37,7 @@
     }
     else
     {
-        @:<a href="/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
+        @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
     }
 
     if (Model.Comments.Count > 0)
@@ -51,7 +52,7 @@
                             <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
                             @if (TightWiki.Models.GlobalConfiguration.EnablePublicProfiles)
                             {
-                                <a href="/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
+                                <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
                             }
                             else
                             {

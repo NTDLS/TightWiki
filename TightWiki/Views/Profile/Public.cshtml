@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Profile.PublicViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Profile.PublicViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -67,7 +68,7 @@
                             @foreach (var h in Model.RecentlyModified)
                             {
                                 <tr>
-                                    <td><a href="/@h.Navigation">@Html.DisplayTextFor(x => h.Name)</a></td>
+                                    <td><a href="@GlobalConfiguration.BasePath/@h.Navigation">@Html.DisplayTextFor(x => h.Name)</a></td>
                                     <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                                     <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
                                 </tr>

@@ -1,14 +1,15 @@
-﻿@model TightWiki.Models.ViewModels.Page.PageEditViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<link rel="stylesheet" href="/codemirror/codemirror.css">
-<link rel="stylesheet" href="/codemirror/theme/light.css">
-<link rel="stylesheet" href="/codemirror/theme/dark.css">
+<link rel="stylesheet" href=@Url.Content("~/codemirror/codemirror.css")>
+<link rel="stylesheet" href=@Url.Content("~/codemirror/theme/light.css")>
+<link rel="stylesheet" href=@Url.Content("~/codemirror/theme/dark.css")>
 
-<link rel="stylesheet" href="/codemirror/addon/scroll/simplescrollbars.css">
+<link rel="stylesheet" href=@Url.Content("~/codemirror/addon/scroll/simplescrollbars.css")>
 
 <script src="/codemirror/codemirror.js"></script>
 <script src="/codemirror/addon/edit/matchbrackets.js"></script>
@@ -145,13 +146,13 @@
                 <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
             }
 
-            @using (Html.BeginForm())
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
                 @Html.HiddenFor(x => x.Id)
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    <a href="/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                    <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
                 </div>
                 <br />
                 <strong>@Html.LabelFor(x => x.Name)</strong>
@@ -189,7 +190,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    <a href="/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                    <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
                 </div>
             }
         </div>

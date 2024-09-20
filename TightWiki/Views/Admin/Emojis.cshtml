@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.EmojisViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -22,11 +23,11 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-<a class="btn btn-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">Add new emoji</a>
 <br />
 <br />
 
-@using (Html.BeginForm(FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     <div class="container">
         <div class="d-flex justify-content-end mb-4">
@@ -52,9 +53,9 @@
             @foreach (var emoji in Model.Emojis)
             {
                 <tr>
-                    <td><a href="/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
+                    <td><a href="@GlobalConfiguration.BasePath/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
                     <td>@emoji.Shortcut</td>
-                    <td><img src="/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
+                    <td><img src="@GlobalConfiguration.BasePath/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
                 </tr>
             }
         </table>
@@ -72,7 +73,7 @@
 }
 
 <br />
-<a class="btn btn-success btn-thin" href="/Admin/AddEmoji">Add new emoji</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">Add new emoji</a>
 
 <script>
     window.onload = function () {

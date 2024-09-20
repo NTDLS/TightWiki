@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PageCompilationStatisticsViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -23,8 +24,9 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink("Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?",
-                  "Purge Compilation Statistics", "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath, 
+    "Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?",
+    "Purge Compilation Statistics", "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -51,8 +53,8 @@
                 <td>
                     @if (string.IsNullOrEmpty(@stat.Namespace) == false)
                     {
-                        <text><a href="/Admin/Namespace/@stat.Namespace">@stat.Namespace</a> :: </text>
-                    } <a href="/@stat.Navigation">@stat.Title</a>
+                        <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@stat.Namespace">@stat.Namespace</a> :: </text>
+                    } <a href="@GlobalConfiguration.BasePath/@stat.Navigation">@stat.Title</a>
                 </td>
                 <td>@stat.LatestBuild</td>
                 <td>@stat.Compilations.ToString("N0")</td>

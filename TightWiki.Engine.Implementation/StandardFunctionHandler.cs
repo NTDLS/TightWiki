@@ -6,6 +6,7 @@ using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using static TightWiki.Engine.Function.FunctionPrototypeCollection;
@@ -146,7 +147,7 @@ namespace TightWiki.Engine.Implementation
                                 html.Append("<ul>");
                                 foreach (var profile in profiles.Where(p => p.AccountName.ToLower().StartsWith(alpha.ToLower())))
                                 {
-                                    html.Append($"<li><a href=\"/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
                                     html.Append("</li>");
                                 }
                                 html.Append("</ul>");
@@ -179,7 +180,7 @@ namespace TightWiki.Engine.Implementation
 
                             foreach (var profile in profiles)
                             {
-                                html.Append($"<li><a href=\"/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
                                 html.Append("</li>");
                             }
 
@@ -215,11 +216,11 @@ namespace TightWiki.Engine.Implementation
                             {
                                 if (state.Revision != null)
                                 {
-                                    html.Append($"<li><a href=\"/Page/Binary/{state.Page.Navigation}/{file.FileNavigation}/{state.Revision}\">{file.Name}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Page/Binary/{state.Page.Navigation}/{file.FileNavigation}/{state.Revision}\">{file.Name}</a>");
                                 }
                                 else
                                 {
-                                    html.Append($"<li><a href=\"/Page/Binary/{state.Page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Page/Binary/{state.Page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
                                 }
 
                                 if (styleName == "full")
@@ -264,7 +265,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("<ul>");
                             foreach (var item in revisions)
                             {
-                                html.Append($"<li><a href=\"/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {state.Session.LocalizeDateTime(item.ModifiedDate)}</a>");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {state.Session.LocalizeDateTime(item.ModifiedDate)}</a>");
 
                                 if (styleName == "full")
                                 {
@@ -315,7 +316,7 @@ namespace TightWiki.Engine.Implementation
                 case "editlink": //(##EditLink(link text))
                     {
                         var linkText = function.Parameters.Get<string>("linkText");
-                        return new HandlerResult("<a href=\"" + NamespaceNavigation.CleanAndValidate($"/{state.Page.Navigation}/Edit") + $"\">{linkText}</a>");
+                        return new HandlerResult($"<a href=\"{GlobalConfiguration.BasePath}" + NamespaceNavigation.CleanAndValidate($"/{state.Page.Navigation}/Edit") + $"\">{linkText}</a>");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -429,7 +430,7 @@ namespace TightWiki.Engine.Implementation
                         string navigation = state.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
                         else if (imageName.Contains('/'))
@@ -454,13 +455,13 @@ namespace TightWiki.Engine.Implementation
                         {
                             //Check for isPageForeignImage because we don't version foreign page files.
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{state.Revision}";
-                            string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
                         else
                         {
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                            string image = $"<a href=\"{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
                     }
@@ -507,13 +508,13 @@ namespace TightWiki.Engine.Implementation
                             {
                                 //Check for isPageForeignImage because we don't version foreign page files.
                                 string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}/{state.Revision}";
-                                string image = $"<a href=\"{link}\">{alt}</a>";
+                                string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\">{alt}</a>";
                                 return new HandlerResult(image);
                             }
                             else
                             {
                                 string link = $"/Page/Binary/{navigation}/{NamespaceNavigation.CleanAndValidate(fileName)}";
-                                string image = $"<a href=\"{link}\">{alt}</a>";
+                                string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\">{alt}</a>";
                                 return new HandlerResult(image);
                             }
                         }
@@ -540,11 +541,11 @@ namespace TightWiki.Engine.Implementation
                             {
                                 if (showNamespace)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 else
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                 }
 
                                 if (styleName == "full")
@@ -595,11 +596,11 @@ namespace TightWiki.Engine.Implementation
                                 {
                                     if (showNamespace)
                                     {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                     }
                                     else
                                     {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                     }
 
                                     if (styleName == "full")
@@ -640,11 +641,11 @@ namespace TightWiki.Engine.Implementation
                             {
                                 if (showNamespace)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 else
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                 }
 
                                 if (styleName == "full")
@@ -697,11 +698,11 @@ namespace TightWiki.Engine.Implementation
                                 {
                                     if (showNamespace)
                                     {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                     }
                                     else
                                     {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                     }
 
                                     if (styleName == "full")
@@ -755,11 +756,11 @@ namespace TightWiki.Engine.Implementation
                                 {
                                     if (showNamespace)
                                     {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                     }
                                     else
                                     {
-                                        html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                        html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                     }
 
                                     if (styleName == "full")
@@ -804,11 +805,11 @@ namespace TightWiki.Engine.Implementation
                             {
                                 if (showNamespace)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 else
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                 }
 
                                 if (styleName == "full")
@@ -853,11 +854,11 @@ namespace TightWiki.Engine.Implementation
                             {
                                 if (showNamespace)
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Name}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Name}</a>");
                                 }
                                 else
                                 {
-                                    html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                 }
 
                                 if (styleName == "full")
@@ -897,7 +898,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("<ul>");
                             foreach (var page in pages)
                             {
-                                html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                             }
                             html.Append("</ul>");
                         }
@@ -906,7 +907,7 @@ namespace TightWiki.Engine.Implementation
                             foreach (var page in pages)
                             {
                                 if (html.Length > 0) html.Append(" | ");
-                                html.Append($"<a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                html.Append($"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                             }
                         }
                         else if (styleName == "full")
@@ -914,7 +915,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("<ul>");
                             foreach (var page in pages)
                             {
-                                html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a> - {page.Description}");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
                             }
                             html.Append("</ul>");
                         }
@@ -946,7 +947,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("<ul>");
                             foreach (var page in pages)
                             {
-                                html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                             }
                             html.Append("</ul>");
                         }
@@ -955,7 +956,7 @@ namespace TightWiki.Engine.Implementation
                             foreach (var page in pages)
                             {
                                 if (html.Length > 0) html.Append(" | ");
-                                html.Append($"<a href=\"/{page.Navigation}\">{page.Title}</a>");
+                                html.Append($"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                             }
                         }
                         else if (styleName == "full")
@@ -963,7 +964,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("<ul>");
                             foreach (var page in pages)
                             {
-                                html.Append($"<li><a href=\"/{page.Navigation}\">{page.Title}</a> - {page.Description}");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
                             }
                             html.Append("</ul>");
                         }
@@ -1164,7 +1165,7 @@ namespace TightWiki.Engine.Implementation
                             }
 
                             html.Append($"<tr>");
-                            html.Append($"<td><a href=\"/wiki_help::list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
+                            html.Append($"<td><a href=\"{GlobalConfiguration.BasePath}/wiki_help::list_of_emojis_by_category?category={category.Category}\">{category.Category}</a></td>");
                             html.Append($"<td>{category.EmojiCount:N0}</td>");
                             html.Append($"</tr>");
                             rowNumber++;

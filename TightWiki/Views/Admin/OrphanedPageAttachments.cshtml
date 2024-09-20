@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.OrphanedPageAttachmentsViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -22,12 +23,13 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all orphaned page attachments. Continue?",
-                  "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
+    "This will permanently purge all orphaned page attachments. Continue?",
+    "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
 <br />
 <br />
 
-@using (Html.BeginForm(FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     @if (Model.Files.Count > 0)
     {
@@ -46,15 +48,16 @@
                     <td>
                         @if (string.IsNullOrEmpty(@p.Namespace) == false)
                         {
-                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                        } <a href="/@p.PageNavigation">@p.PageTitle</a>
+                            <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                        } <a href="@GlobalConfiguration.BasePath/@p.PageNavigation">@p.PageTitle</a>
                     </td>
-                    <td><a href="/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
+                    <td><a href="@GlobalConfiguration.BasePath/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
                     <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
                     <td>@p.FileRevision</td>
                     <td>
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified attachment. Continue?",
-                                 "Delete", $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
+                            "This will permanently delete the specified attachment. Continue?",
+                            "Delete", $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
                     </td>
                 </tr>
             }

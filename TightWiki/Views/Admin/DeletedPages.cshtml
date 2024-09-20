@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -22,12 +23,13 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently purge all deleted pages. Continue?",
-                      "Purge Deleted Pages", "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+    "This will permanently purge all deleted pages. Continue?",
+    "Purge Deleted Pages", "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
 <br />
 <br />
 
-@using (Html.BeginForm(FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     <div class="container">
         <div class="d-flex justify-content-end mb-4">
@@ -54,14 +56,16 @@
                     <td>
                         @if (string.IsNullOrEmpty(@p.Namespace) == false)
                         {
-                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                        } <a href="/Admin/DeletedPage/@p.Id">@p.Title</a>
+                            <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                        } <a href="@GlobalConfiguration.BasePath/Admin/DeletedPage/@p.Id">@p.Title</a>
                     </td>
                     <td>
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink("This will restore the deleted page and all of its history. Continue?",
-                                 "Restore", "/Admin/RestoreDeletedPage/" + @p.Id, Context.Request.Path.Value))
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink("This will permanently delete the specified page, all revisions and attachments. Continue?",
-                                 "Purge", "/Admin/PurgeDeletedPage/" + @p.Id, Context.Request.Path.Value))
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath, 
+                            "This will restore the deleted page and all of its history. Continue?",
+                            "Restore", "/Admin/RestoreDeletedPage/" + @p.Id, Context.Request.Path.Value))
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
+                            "This will permanently delete the specified page, all revisions and attachments. Continue?",
+                            "Purge", "/Admin/PurgeDeletedPage/" + @p.Id, Context.Request.Path.Value))
                     </td>
                 </tr>
             }

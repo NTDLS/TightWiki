@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Profile.DeletedAccountViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Profile.DeletedAccountViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -14,9 +15,9 @@
         <br /><br />
         @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
         {
-            @:Not a member? <a href="/Identity/Account/Register">Register as a new user</a>.<br />
+            @:Not a member? <a href="@GlobalConfiguration.BasePath/Identity/Account/Register">Register as a new user</a>.<br />
         }
-        Already a member? <a href="/Identity/Account/Login">Login</a>.<br />
+        Already a member? <a href="@GlobalConfiguration.BasePath/Identity/Account/Login">Login</a>.<br />
 
     </div>
 </div>
