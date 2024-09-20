@@ -354,7 +354,7 @@ namespace TightWiki.Controllers
                 Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
             }
 
-            return Redirect($"/{pageNavigation}");
+            return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
         }
 
         #endregion
@@ -429,7 +429,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page has been deleted.", $"/Home");
             }
 
-            return Redirect($"/{pageNavigation}");
+            return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
         }
 
         [Authorize]
@@ -481,7 +481,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
             }
 
-            return Redirect($"/{pageNavigation}");
+            return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
         }
 
         [Authorize]
@@ -646,7 +646,7 @@ namespace TightWiki.Controllers
                 {
                     WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [originalNavigation]));
                     WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-                    return Redirect($"/{page.Navigation}/Edit");
+                    return Redirect($"{GlobalConfiguration.BasePath}/{page.Navigation}/Edit");
                 }
 
                 return View(model);

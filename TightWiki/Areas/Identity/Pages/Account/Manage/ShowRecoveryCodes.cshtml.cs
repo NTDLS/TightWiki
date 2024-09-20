@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -35,7 +36,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         {
             if (RecoveryCodes == null || RecoveryCodes.Length == 0)
             {
-                return RedirectToPage("./TwoFactorAuthentication");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/TwoFactorAuthentication");
             }
 
             return Page();

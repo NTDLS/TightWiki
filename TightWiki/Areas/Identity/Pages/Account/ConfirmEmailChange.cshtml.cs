@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -32,7 +33,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             if (userId == null || email == null || code == null)
             {
-                return RedirectToPage("/Index");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Index");
             }
 
             var user = await _userManager.FindByIdAsync(userId);

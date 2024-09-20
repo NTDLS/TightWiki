@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TightWiki.Models;
 
 namespace TightWiki
 {
@@ -54,21 +55,21 @@ namespace TightWiki
             => int.Parse(GetFormString(key, defaultValue.ToString()));
 
         protected RedirectResult NotifyOfAction(string successMessage, string errorMessage, string redirectUrl)
-            => Redirect($"/Utility/NotifyWithRedirectCountdown?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={redirectUrl}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/NotifyWithRedirectCountdown?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={GlobalConfiguration.BasePath}{redirectUrl}");
 
         protected RedirectResult NotifyOfSuccessAction(string message, string redirectUrl)
-            => Redirect($"/Utility/NotifyWithRedirectCountdown?SuccessMessage={message}&RedirectUrl={redirectUrl}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/NotifyWithRedirectCountdown?SuccessMessage={message}&RedirectUrl={GlobalConfiguration.BasePath}{redirectUrl}");
 
         protected RedirectResult NotifyOfErrorAction(string message, string redirectUrl)
-            => Redirect($"/Utility/NotifyWithRedirectCountdown?ErrorMessage={message}&RedirectUrl={redirectUrl}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/NotifyWithRedirectCountdown?ErrorMessage={message}&RedirectUrl={GlobalConfiguration.BasePath}{redirectUrl}");
 
         protected RedirectResult Notify(string successMessage, string errorMessage)
-            => Redirect($"/Utility/Notify?SuccessMessage={successMessage}&ErrorMessage={errorMessage}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={successMessage}&ErrorMessage={GlobalConfiguration.BasePath}{errorMessage}");
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"/Utility/Notify?SuccessMessage={message}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={message}");
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"/Utility/Notify?ErrorMessage={message}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={message}");
     }
 }

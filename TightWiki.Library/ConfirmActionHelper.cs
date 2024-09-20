@@ -24,7 +24,7 @@ namespace TightWiki.Library
             noRedirectURL.EnsureNotNull();
 
             var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
@@ -52,7 +52,7 @@ namespace TightWiki.Library
             noRedirectURL.EnsureNotNull();
 
             var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
@@ -80,7 +80,7 @@ namespace TightWiki.Library
             noRedirectURL.EnsureNotNull();
 
             var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");

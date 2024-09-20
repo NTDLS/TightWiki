@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -75,7 +76,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (hasPassword)
             {
-                return RedirectToPage("./ChangePassword");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ChangePassword");
             }
 
             return Page();

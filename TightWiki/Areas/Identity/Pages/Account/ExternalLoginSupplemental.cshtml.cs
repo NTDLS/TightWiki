@@ -62,7 +62,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (GlobalConfiguration.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
             }
 
             PopulateDefaults();
@@ -92,7 +92,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             if (GlobalConfiguration.AllowSignup != true)
             {
-                return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
             }
 
             PopulateDefaults();
@@ -157,7 +157,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrEmpty(ReturnUrl))
             {
-                return LocalRedirect("/");
+                return LocalRedirect($"{GlobalConfiguration.BasePath}/");
             }
             return LocalRedirect(ReturnUrl);
         }
