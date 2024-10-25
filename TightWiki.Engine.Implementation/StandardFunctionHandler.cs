@@ -430,7 +430,7 @@ namespace TightWiki.Engine.Implementation
                         string navigation = state.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
                         else if (imageName.Contains('/'))
@@ -455,13 +455,13 @@ namespace TightWiki.Engine.Implementation
                         {
                             //Check for isPageForeignImage because we don't version foreign page files.
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{state.Revision}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
                         else
                         {
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
                             return new HandlerResult(image);
                         }
                     }
@@ -1124,7 +1124,7 @@ namespace TightWiki.Engine.Implementation
                                 html.Append($"<tr>");
                                 html.Append($"<td>{emoji.Name}</td>");
                                 //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
-                                html.Append($"<td><img src=\"/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
+                                html.Append($"<td><img src=\"{GlobalConfiguration.BasePath}/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
                                 html.Append($"<td>{emoji.Shortcut}</td>");
                                 html.Append($"</tr>");
                             }

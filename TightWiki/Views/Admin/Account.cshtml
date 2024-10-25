@@ -38,7 +38,7 @@
                 <div class="col-sm-10">
                     @if (@Model.AccountProfile.Navigation != "")
                     {
-                        <img src="/Profile/@Model.AccountProfile.Navigation/Avatar?max=150" class="mb-3" />
+                        <img src="@GlobalConfiguration.BasePath/Profile/@Model.AccountProfile.Navigation/Avatar?max=150" class="mb-3" />
                     }
                     <input type="file" id="Avatar" name="Avatar" class="form-control-file" onchange="fileCheck(this);" />
                 </div>

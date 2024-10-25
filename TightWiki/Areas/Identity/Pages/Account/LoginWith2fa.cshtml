@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Text.Encodings.Web
 @model LoginWith2faModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -13,7 +14,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form method="post" asp-route-returnUrl="@Model.ReturnUrl">
+        <form method="post" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">
             <input asp-for="RememberMe" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
@@ -35,7 +36,7 @@
 </div>
 <p>
     Don't have access to your authenticator device? You can
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@Model.ReturnUrl">log in with a recovery code</a>.
+    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">log in with a recovery code</a>.
 </p>
 
 @section Scripts {

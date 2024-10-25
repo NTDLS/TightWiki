@@ -1,4 +1,5 @@
 ﻿@using TightWiki;
+@using System.Text.Encodings.Web
 @using TightWiki.Models
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -15,7 +16,7 @@
     <title>@(sessionState.PageTitle ?? sessionState.Page.Name)</title>
 
     <!-- Syntax Highlighter:Begin -->
-    <script src="/syntax/highlight.min.js"></script>
+    <script src="@Url.Content("~/syntax/highlight.min.js")"></script>
     <script>hljs.highlightAll();</script>
     <!-- Syntax Highlighter:End -->
     @if (string.IsNullOrWhiteSpace(TightWiki.Models.GlobalConfiguration.HTMLHeader) == false)
@@ -39,8 +40,8 @@
         <!-- PageTags:Begin -->
     }
 
-    <script src=@Url.Content("~/lib/jquery/dist/jquery.min.js")></script>
-    <script src=@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")></script>
+    <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
 
     <!-- Theme:Begin -->
     @foreach (var file in sessionState.UserTheme.Files)
@@ -49,9 +50,9 @@
     }
     <!-- Theme:End-->
 
-    <link rel="stylesheet" href=@Url.Content("~/css/base.css") />
+    <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
 
-    <script src=@Url.Content("~/js/site.js") asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
 
     <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
@@ -74,7 +75,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="@GlobalConfiguration.BasePath/"><span class="glyphicon text-dark"><img src="@TightWiki.Models.GlobalConfiguration.BrandImageSmall" /> @TightWiki.Models.GlobalConfiguration.Name</span></a>
+                <a class="navbar-brand" href="@GlobalConfiguration.BasePath/"><span class="glyphicon text-dark"><img src="@Url.Content(TightWiki.Models.GlobalConfiguration.BrandImageSmall)" /> @TightWiki.Models.GlobalConfiguration.Name</span></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         @foreach (TightWiki.Models.DataModels.MenuItem item in TightWiki.Models.GlobalConfiguration.MenuItems)
@@ -197,7 +198,7 @@
 
                         @if (sessionState.IsAuthenticated == false)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{GlobalConfiguration.BasePath}{Context.Request.Path.Value}")">Login</a></li>
                         }
 
                         @if (TightWiki.Models.GlobalConfiguration.IncludeSearchOnNavbar)

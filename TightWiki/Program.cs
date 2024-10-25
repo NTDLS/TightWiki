@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -140,18 +141,19 @@ namespace TightWiki
                         options.LoginPath = new PathString($"{basePath}/Identity/Account/Login");
                         options.LogoutPath = new PathString($"{basePath}/Identity/Account/Logout");
                         options.AccessDeniedPath = new PathString($"{basePath}/Identity/Account/AccessDenied");
+                        options.Cookie.Path = basePath; // Ensure the cookie is scoped to the sub-site path.
                     }
                     else
                     {
                         options.LoginPath = new PathString("/Identity/Account/Login");
                         options.LogoutPath = new PathString("/Identity/Account/Logout");
                         options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
+                        options.Cookie.Path = "/"; // Use root path if no base path is set.
                     }
                 });
             }
 
             var app = builder.Build();
-
 
             //Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -174,7 +176,7 @@ namespace TightWiki
             {
                 app.UsePathBase(basePath);
 
-                // Redirect root requests to /TightWiki
+                // Redirect root requests to basePath (something like '/TightWiki').
                 app.Use(async (context, next) =>
                 {
                     if (context.Request.Path == "/")

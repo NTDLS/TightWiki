@@ -11,10 +11,10 @@
 
 <link rel="stylesheet" href=@Url.Content("~/codemirror/addon/scroll/simplescrollbars.css")>
 
-<script src="/codemirror/codemirror.js"></script>
-<script src="/codemirror/addon/edit/matchbrackets.js"></script>
-<script src="/codemirror/mode/tightwiki/tightwiki.js"></script>
-<script src="/codemirror/addon/scroll/simplescrollbars.js"></script>
+<script src="@Url.Content("~/codemirror/codemirror.js")"></script>
+<script src="@Url.Content("~/codemirror/addon/edit/matchbrackets.js")"></script>
+<script src="@Url.Content("~/codemirror/mode/tightwiki/tightwiki.js")"></script>
+<script src="@Url.Content("~/codemirror/addon/scroll/simplescrollbars.js")"></script>
 
 <style type="text/css">
     .CodeMirror {
@@ -58,7 +58,7 @@
 
 <script>
     function readyFn(jQuery) {
-        $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
+        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
     }
 
     $(document).ready(readyFn);
@@ -124,7 +124,7 @@
                     } else {
                         uploadStatus.innerHTML = `<p>Error: ${result.message}</p>`;
                     }
-                    $("#uploadedFiles").load("/File/PageAttachments/@sessionState.PageNavigationEscaped");
+                    $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 })
                 .catch(error => {
                     uploadStatus.innerHTML = `<p>Unexpected Error: ${error.message}</p>`;

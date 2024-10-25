@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Text.Encodings.Web
 @model ExternalLoginSupplementalModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -12,7 +13,7 @@
     You have successfully signed in with the external provider but we still need a bit of information.<br /><br />
 </p>
 
-<form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+<form asp-page-handler="Confirmation" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl ?? "")" method="post">
     <div class="container">
         <div class="form-group row mb-3">
             <label for="Input.AccountName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => Model.Input.AccountName)</strong></label>

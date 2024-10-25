@@ -34,9 +34,9 @@
                 if (confirm("Are you sure you want to detach '" + fileName + "'?")) {
                     $.ajax({
                         type: 'POST',
-                        url: '/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
+                        url: '@GlobalConfiguration.BasePath/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
                         success: function (result) {
-                            $("#uploadedFiles").load("/File/PageAttachments/@Model.PageNavigation");
+                            $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Model.PageNavigation");
                         }
                     });
                 }

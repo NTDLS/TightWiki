@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Text.Encodings.Web
 @model ExternalLoginModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -19,7 +20,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
                 <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email."/>
