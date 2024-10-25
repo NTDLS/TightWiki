@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Page.PageDisplayViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Page.PageDisplayViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -14,10 +15,10 @@
             <p class="card-text">
                 You are viewing revision @Model.Revision of "@Model.Name" modified by @Model.ModifiedByUserName on @Model.ModifiedDate.<br />
 
-                <a class="btn btn-success btn-thin" href="/@Model.Navigation">View latest revision</a>
+                <a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation">View latest revision</a>
                 @if(sessionState.CanModerate)
                 {
-                    <a class="btn btn-warning btn-thin" href="/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
+                    <a class="btn btn-warning btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
                 }
             </p>
         </div>
@@ -31,7 +32,7 @@
     <br />
     if (TightWiki.Models.GlobalConfiguration.EnablePublicProfiles)
     {
-        <small><cite title="Modified By">Last modified by <a href="/Profile/@Model.ModifiedByUserName/Public">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small>
+        <small><cite title="Modified By">Last modified by <a href="@GlobalConfiguration.BasePath/Profile/@Model.ModifiedByUserName/Public">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small>
     }
     else
     {
@@ -51,7 +52,7 @@
     {
         if (@sessionState.IsAuthenticated == true)
         {
-            <form method="post" action="/@sessionState.PageNavigation/Comments">
+            <form method="post" action="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">
                 <div class="container">
                     <div class="d-flex justify-content-end mb-4">
                         <div class="flex-grow-1 me-2">
@@ -64,7 +65,7 @@
         }
         else
         {
-            @:<a href="/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
+            @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
             <br />
         }
     }
@@ -77,13 +78,13 @@
                     <p class="mb-1">@Html.Raw(h.Body)</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center small text-muted mb-0">
-                            <img src="/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
-                            <a href="/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
+                            <img src="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
+                            <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
                             &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
                         </div>
                         @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
                         {
-                            <a href="/@sessionState.PageNavigation/Comments?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
                         }
                     </div>
                 </div>
@@ -92,6 +93,6 @@
     }
     @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
     {
-        <a href="/@sessionState.PageNavigation/Comments">View all comments</a>
+        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">View all comments</a>
     }
 }

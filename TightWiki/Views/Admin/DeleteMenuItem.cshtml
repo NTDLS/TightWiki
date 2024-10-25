@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -27,7 +28,7 @@
 
             Are you sure you want to continue with this deletion?<br /><br />
 
-            @using (Html.BeginForm())
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
                 <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
             }

@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Profile.ConfirmViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Profile.ConfirmViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
@@ -18,7 +19,7 @@
         }
 
         <p>
-            Already a member? <a href="/Account/Login">Login</a>.<br />
+            Already a member? <a href="@GlobalConfiguration.BasePath/Account/Login">Login</a>.<br />
             Forgot your password? @Html.ActionLink("Reset it.", "Forgot", "Account").<br />
         </p>
     </div>

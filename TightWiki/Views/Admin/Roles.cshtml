@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.RolesViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -22,7 +23,7 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     @Html.AntiForgeryToken()
 
@@ -39,7 +40,7 @@
             @foreach (var role in Model.Roles)
             {
                 <tr>
-                    <td><a href="/Admin/Role/@role.Name">@role.Name</a></td>
+                    <td><a href="@GlobalConfiguration.BasePath/Admin/Role/@role.Name">@role.Name</a></td>
                     <td>@role.Description</td>
                 </tr>
             }

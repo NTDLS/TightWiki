@@ -3,6 +3,7 @@ using TightWiki.Engine.Function;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Models;
 using static TightWiki.Engine.Function.FunctionPrototypeCollection;
 using static TightWiki.Engine.Library.Constants;
 
@@ -59,7 +60,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("<ul>");
                             foreach (var tag in state.Tags)
                             {
-                                html.Append($"<li><a href=\"/Tag/Browse/{tag}\">{tag}</a>");
+                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
                             }
                             html.Append("</ul>");
                         }
@@ -68,7 +69,7 @@ namespace TightWiki.Engine.Implementation
                             foreach (var tag in state.Tags)
                             {
                                 if (html.Length > 0) html.Append(" | ");
-                                html.Append($"<a href=\"/Tag/Browse/{tag}\">{tag}</a>");
+                                html.Append($"<a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
                             }
                         }
 

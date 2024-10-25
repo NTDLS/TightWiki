@@ -103,7 +103,7 @@ namespace TightWiki.Controllers
                 return NotifyOfError($"Unknown database action: '{databaseAction}'.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion
@@ -141,7 +141,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("Compilation statistics purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -156,7 +156,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("Memory cache purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion
@@ -375,7 +375,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -512,7 +512,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion
@@ -578,7 +578,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -624,7 +624,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("All pages have been cached.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -640,7 +640,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("All page revisions have been truncated.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -655,7 +655,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page deletion queue has been purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -670,7 +670,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page revision has been purged from the deletion queue.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -685,7 +685,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page revision has been restored.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -700,7 +700,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page deletion queue has been purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -715,7 +715,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page has been purged from the deletion queue.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -730,7 +730,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page has been moved to the deletion queue.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -750,7 +750,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion
@@ -801,7 +801,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("All orphaned page attachments have been purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
 
@@ -817,7 +817,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The pages orphaned attachments have been purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion
@@ -929,7 +929,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The menu item has been deleted.", $"/Admin/MenuItems");
             }
 
-            return Redirect($"/Admin/MenuItem/{model.Id}");
+            return Redirect($"{GlobalConfiguration.BasePath}/Admin/MenuItem/{model.Id}");
         }
 
         #endregion
@@ -1390,7 +1390,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The account has been deleted.", $"/Admin/Accounts");
             }
 
-            return Redirect($"/Admin/Account/{navigation}");
+            return Redirect($"{GlobalConfiguration.BasePath}/Admin/Account/{navigation}");
         }
 
         [Authorize]
@@ -1399,7 +1399,6 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
             SessionState.Page.Name = $"Delete Profile";
-
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
 
@@ -1720,7 +1719,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("The emoji has been deleted.", $"/Admin/Emojis");
             }
 
-            return Redirect($"/Admin/Emoji/{name}");
+            return Redirect($"{GlobalConfiguration.BasePath}/Admin/Emoji/{name}");
         }
 
         [Authorize]
@@ -1797,7 +1796,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess("All exceptions have been purged.", model.YesRedirectURL);
             }
 
-            return Redirect(model.NoRedirectURL);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion

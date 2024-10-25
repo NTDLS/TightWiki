@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -56,7 +57,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ForgotPasswordConfirmation");
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -89,7 +90,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ForgotPasswordConfirmation");
             }
 
             return Page();

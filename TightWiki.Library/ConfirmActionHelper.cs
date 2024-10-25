@@ -15,7 +15,7 @@ namespace TightWiki.Library
         /// <param name="yesOrDefaultRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected YES (or NO, if the NO link is not specified.</param>
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO, if not specified, the same link that is provided to yesOrDefaultRedirectURL is used.</param>
         /// <returns></returns>
-        public static string GenerateDangerLink(string message, string linkLabel, string controllerURL,
+        public static string GenerateDangerLink(string basePath, string message, string linkLabel, string controllerURL,
             string? yesOrDefaultRedirectURL, string? noRedirectURL = null)
         {
             noRedirectURL ??= yesOrDefaultRedirectURL;
@@ -24,13 +24,13 @@ namespace TightWiki.Library
             noRedirectURL.EnsureNotNull();
 
             var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Danger");
 
-            return $"<a class=\"btn btn-danger btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+            return $"<a class=\"btn btn-danger btn-thin\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace TightWiki.Library
         /// <param name="yesOrDefaultRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected YES (or NO, if the NO link is not specified.</param>
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO, if not specified, the same link that is provided to yesOrDefaultRedirectURL is used.</param>
         /// <returns></returns>
-        public static string GenerateSafeLink(string message, string linkLabel, string controllerURL,
+        public static string GenerateSafeLink(string basePath, string message, string linkLabel, string controllerURL,
             string? yesOrDefaultRedirectURL, string? noRedirectURL = null)
         {
             noRedirectURL ??= yesOrDefaultRedirectURL;
@@ -52,13 +52,13 @@ namespace TightWiki.Library
             noRedirectURL.EnsureNotNull();
 
             var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Safe");
 
-            return $"<a class=\"btn btn-success btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+            return $"<a class=\"btn btn-success btn-thin\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace TightWiki.Library
         /// <param name="yesOrDefaultRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected YES (or NO, if the NO link is not specified.</param>
         /// <param name="noRedirectURL">The URL to redirect to AFTER the controller has been called if the user selected NO, if not specified, the same link that is provided to yesOrDefaultRedirectURL is used.</param>
         /// <returns></returns>
-        public static string GenerateWarnLink(string message, string linkLabel, string controllerURL,
+        public static string GenerateWarnLink(string basePath, string message, string linkLabel, string controllerURL,
             string? yesOrDefaultRedirectURL, string? noRedirectURL = null)
         {
             noRedirectURL ??= yesOrDefaultRedirectURL;
@@ -80,13 +80,13 @@ namespace TightWiki.Library
             noRedirectURL.EnsureNotNull();
 
             var param = new StringBuilder();
-            param.Append($"ControllerURL={Uri.EscapeDataString(controllerURL)}");
+            param.Append($"ControllerURL={Uri.EscapeDataString($"{basePath}{controllerURL}")}");
             param.Append($"&YesRedirectURL={Uri.EscapeDataString(yesOrDefaultRedirectURL)}");
             param.Append($"&NoRedirectURL={Uri.EscapeDataString(noRedirectURL)}");
             param.Append($"&Message={Uri.EscapeDataString(message)}");
             param.Append($"&Style=Warn");
 
-            return $"<a class=\"btn btn-warning btn-thin\" href=\"/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
+            return $"<a class=\"btn btn-warning btn-thin\" href=\"{basePath}/Utility/ConfirmAction?{param}\">{linkLabel}</a>";
         }
 
         /*

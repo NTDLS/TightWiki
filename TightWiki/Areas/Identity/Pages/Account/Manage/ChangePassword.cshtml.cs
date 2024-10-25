@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -87,7 +88,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var hasPassword = await _userManager.HasPasswordAsync(user);
             if (!hasPassword)
             {
-                return RedirectToPage("./SetPassword");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/SetPassword");
             }
 
             return Page();

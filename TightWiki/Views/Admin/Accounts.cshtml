@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.AccountsViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -23,11 +24,11 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-<a class="btn btn-success btn-thin" href="/Admin/AddAccount">Add new account</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddAccount">Add new account</a>
 <br />
 <br />
 
-@using (Html.BeginForm(FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     <div class="container">
         <div class="d-flex justify-content-end mb-4">
@@ -56,7 +57,7 @@
             @foreach (var user in Model.Users)
             {
                 <tr>
-                    <td><a href="/Admin/Account/@user.Navigation">@user.AccountName</a></td>
+                    <td><a href="@GlobalConfiguration.BasePath/Admin/Account/@user.Navigation">@user.AccountName</a></td>
                     <td>@user.FirstName</td>
                     <td>@user.LastName</td>
                     <td>@user.Country</td>
@@ -80,7 +81,7 @@
 }
 
 <br />
-<a class="btn btn-success btn-thin" href="/Admin/AddAccount">Add new account</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddAccount">Add new account</a>
 
 <script>
     window.onload = function () {

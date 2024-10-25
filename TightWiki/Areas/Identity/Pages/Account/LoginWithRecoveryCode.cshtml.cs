@@ -5,6 +5,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Models;
+
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModelBase
@@ -95,7 +97,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             if (result.IsLockedOut)
             {
                 _logger.LogWarning("User account locked out.");
-                return RedirectToPage("./Lockout");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Lockout");
             }
             else
             {

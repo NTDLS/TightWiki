@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -11,7 +12,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     {
         public IActionResult OnGetAsync()
         {
-            return Redirect("./Manage/Email");
+            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Manage/Email");
         }
     }
 }

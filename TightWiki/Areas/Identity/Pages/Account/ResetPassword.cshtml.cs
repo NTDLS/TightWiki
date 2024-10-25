@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -95,13 +96,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ResetPasswordConfirmation");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ResetPasswordConfirmation");
             }
 
             foreach (var error in result.Errors)

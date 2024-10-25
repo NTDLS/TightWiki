@@ -177,11 +177,11 @@ namespace TightWiki.Engine
 
                 if (args.Count == 1)
                 {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"/{args[0]}\">{args[0]}</a>"));
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{GlobalConfiguration.BasePath}/{args[0]}\">{args[0]}</a>"));
                 }
                 else if (args.Count > 1)
                 {
-                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"/{args[0]}\">{args[1]}</a>"));
+                    pageContent.Replace(match.Value, StoreMatch(matchStore, $"<a href=\"{GlobalConfiguration.BasePath}/{args[0]}\">{args[1]}</a>"));
                 }
             }
         }

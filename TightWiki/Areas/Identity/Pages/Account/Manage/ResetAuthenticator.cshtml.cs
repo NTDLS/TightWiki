@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -59,7 +60,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
 
-            return RedirectToPage("./EnableAuthenticator");
+            return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/EnableAuthenticator");
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿@using TightWiki;
+@using System.Text.Encodings.Web
+@using TightWiki.Models
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
     string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(TightWiki.Models.GlobalConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
@@ -14,7 +16,7 @@
     <title>@(sessionState.PageTitle ?? sessionState.Page.Name)</title>
 
     <!-- Syntax Highlighter:Begin -->
-    <script src="/syntax/highlight.min.js"></script>
+    <script src="@Url.Content("~/syntax/highlight.min.js")"></script>
     <script>hljs.highlightAll();</script>
     <!-- Syntax Highlighter:End -->
     @if (string.IsNullOrWhiteSpace(TightWiki.Models.GlobalConfiguration.HTMLHeader) == false)
@@ -38,19 +40,19 @@
         <!-- PageTags:Begin -->
     }
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="@Url.Content("~/lib/jquery/dist/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/bootstrap/dist/js/bootstrap.bundle.min.js")"></script>
 
     <!-- Theme:Begin -->
     @foreach (var file in sessionState.UserTheme.Files)
     {
-        <link rel="stylesheet" href="@file" />
+        <link rel="stylesheet" href="@Url.Content($"~{file}")" />
     }
     <!-- Theme:End-->
 
-    <link rel="stylesheet" href="~/css/base.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
 
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
 
     <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
@@ -73,12 +75,16 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a class="navbar-brand" href="/"><span class="glyphicon text-dark"><img src="@TightWiki.Models.GlobalConfiguration.BrandImageSmall" /> @TightWiki.Models.GlobalConfiguration.Name</span></a>
+                <a class="navbar-brand" href="@GlobalConfiguration.BasePath/"><span class="glyphicon text-dark"><img src="@Url.Content(TightWiki.Models.GlobalConfiguration.BrandImageSmall)" /> @TightWiki.Models.GlobalConfiguration.Name</span></a>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         @foreach (TightWiki.Models.DataModels.MenuItem item in TightWiki.Models.GlobalConfiguration.MenuItems)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
+                            if (item.Link.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+                            {
+                                <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
+                            }
+                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath@item.Link">@item.Name</a></li>
                         }
 
                         @if (sessionState.CanCreate == true
@@ -94,10 +100,10 @@
                                     {
                                         if (sessionState.ShouldCreatePage == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Page/Create">Create "@sessionState.PageNavigation"</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Page/Create">Create "@sessionState.PageNavigation"</a>
                                         }
 
-                                        <a class="dropdown-item text-dark" href="/Page/Create">Create new page</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Page/Create">Create new page</a>
                                     }
 
                                     @if (sessionState.Page.Exists == true)
@@ -108,31 +114,31 @@
                                         }
                                         if (sessionState.CanView == true && TightWiki.Models.GlobalConfiguration.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Comments">Comments</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">Comments</a>
                                         }
                                         if (sessionState.CanDelete == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Delete">Delete this page</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">Delete this page</a>
                                         }
                                         if (sessionState.CanEdit == true && sessionState.Page.IsHistoricalVersion == false)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Edit">Edit</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">Edit</a>
                                         }
                                         if (sessionState.CanView == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Revisions">Revisions</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">Revisions</a>
                                         }
                                         if (sessionState.CanCreate == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/Refresh">Refresh</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Refresh">Refresh</a>
                                         }
                                         if (sessionState.CanModerate == true && sessionState.Page.IsHistoricalVersion == true)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">Revert to revision @sessionState.Page.Revision</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">Revert to revision @sessionState.Page.Revision</a>
                                         }
                                         if (sessionState.CanView == true && TightWiki.Models.GlobalConfiguration.EnablePageComments)
                                         {
-                                            <a class="dropdown-item text-dark" href="/@sessionState.PageNavigation">View</a>
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">View</a>
                                         }
                                     }
                                 </div>
@@ -146,32 +152,32 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     @if (sessionState.Role == TightWiki.Library.Constants.Roles.Administrator)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Admin/Accounts">Accounts</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Roles">Roles</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Accounts">Accounts</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Roles">Roles</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-dark" href="/Admin/Config">Configuration</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Emojis">Emojis</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/MenuItems">Site Menu</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Config">Configuration</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Emojis">Emojis</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MenuItems">Site Menu</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-dark" href="/Admin/CompilationStatistics">Compilations</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Database">Database</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Exceptions">Exceptions</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Metrics">Metrics</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/CompilationStatistics">Compilations</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Database">Database</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Exceptions">Exceptions</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Metrics">Metrics</a>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item text-dark" href="/Admin/DeletedPages">Deleted Pages</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/MissingPages">Missing Pages</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Moderate">Moderate</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Namespaces">Namespaces</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/OrphanedPageAttachments">Orphaned Attachments</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">Deleted Pages</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">Missing Pages</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Moderate">Moderate</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Namespaces">Namespaces</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/OrphanedPageAttachments">Orphaned Attachments</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">Pages</a>
                                     }
                                     else if (sessionState.CanModerate == true)
                                     {
-                                        <a class="dropdown-item text-dark" href="/Admin/DeletedPages">Deleted Pages</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/MissingPages">Missing Pages</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Moderate">Moderate</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Namespaces">Namespaces</a>
-                                        <a class="dropdown-item text-dark" href="/Admin/Pages">Pages</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">Deleted Pages</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">Missing Pages</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Moderate">Moderate</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Namespaces">Namespaces</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">Pages</a>
                                     }
                                 </div>
                             </li>
@@ -182,24 +188,24 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item text-dark" href="/Profile/My">Profile</a>
-                                    <a class="dropdown-item text-dark" href="/Identity/Account/Manage">Account</a>
+                                    <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Profile/My">Profile</a>
+                                    <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Manage">Account</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item text-dark" href="/Identity/Account/Logout?returnUrl=/">Logout</a>
+                                    <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Logout?returnUrl=/">Logout</a>
                                 </div>
                             </li>
                         }
 
                         @if (sessionState.IsAuthenticated == false)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" href="/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@UrlEncoder.Default.Encode($"{GlobalConfiguration.BasePath}{Context.Request.Path.Value}")">Login</a></li>
                         }
 
                         @if (TightWiki.Models.GlobalConfiguration.IncludeSearchOnNavbar)
                         {
                             <li class="nav-item ms-auto d-none d-lg-block">
                                 <div class="collapse navbar-collapse justify-content-end">
-                                    <form class="d-flex" role="search" method="GET" action="/Page/Search">
+                                    <form class="d-flex" role="search" method="GET" action="@GlobalConfiguration.BasePath/Page/Search">
                                         <input class="form-control me-2" type="search" placeholder="Search" name="SearchString" aria-label="Search">
                                         <button class="btn btn-outline-primary" type="submit">Search</button>
                                     </form>

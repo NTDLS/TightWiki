@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
@@ -16,7 +17,7 @@
 
     @foreach (var file in sessionState.UserTheme.Files)
     {
-        <link rel="stylesheet" href="@file" />
+        <link rel="stylesheet" href="@Url.Content($"~{file}")" />
     }
 
     <link id="themeStylesheet" rel="stylesheet" href="" />
@@ -33,9 +34,9 @@
                 if (confirm("Are you sure you want to detach '" + fileName + "'?")) {
                     $.ajax({
                         type: 'POST',
-                        url: '/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
+                        url: '@GlobalConfiguration.BasePath/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
                         success: function (result) {
-                            $("#uploadedFiles").load("/File/PageAttachments/@Model.PageNavigation");
+                            $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Model.PageNavigation");
                         }
                     });
                 }
@@ -76,8 +77,8 @@
     {
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <div>
-                <a href="/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> (@x.FriendlySize)
-                                    <a href="/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision revisions</a>
+                <a href="@GlobalConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> (@x.FriendlySize)
+                <a href="@GlobalConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision revisions</a>
 
             </div>
             <div class="btn-group">

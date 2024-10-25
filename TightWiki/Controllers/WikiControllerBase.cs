@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NTDLS.Helpers;
+using TightWiki.Models;
 
 namespace TightWiki.Controllers
 {
@@ -50,21 +51,21 @@ namespace TightWiki.Controllers
         /// </summary>
         /// <returns></returns>
         protected RedirectResult NotifyOf(string successMessage, string errorMessage, string redirectUrl)
-            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(successMessage)}&ErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={redirectUrl}&RedirectTimeout=5");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={Uri.EscapeDataString(successMessage)}&ErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
 
         protected RedirectResult NotifyOfSuccess(string message, string redirectUrl)
-            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(redirectUrl)}&RedirectTimeout=5");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
 
         protected RedirectResult NotifyOfError(string message, string redirectUrl)
-            => Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(redirectUrl)}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}"))}");
 
         protected RedirectResult NotifyOf(string successMessage, string errorMessage)
-            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(successMessage)}&ErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectTimeout=5");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={Uri.EscapeDataString(successMessage)}&ErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectTimeout=5");
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"/Utility/Notify?SuccessMessage={Uri.EscapeDataString(message)}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={Uri.EscapeDataString(message)}");
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString(message)}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString(message)}");
     }
 }

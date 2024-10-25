@@ -1,4 +1,6 @@
 ﻿@page
+@using System.Text.Encodings.Web
+@using TightWiki.Models
 @model LoginModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -35,7 +37,7 @@
                         <br />
                         @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
                         {
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                            <a asp-page="./Register" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">Register as a new user</a>
                             <br />
                         }
                         <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
@@ -48,7 +50,7 @@
             @{
                 if ((Model.ExternalLogins?.Count ?? 0) > 0)
                 {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)" method="post" class="form-horizontal">
                         <div>
                             <p>
                                 @foreach (var provider in Model.ExternalLogins!)
@@ -56,13 +58,13 @@
                                     if (provider.Name == "Google")
                                     {
                                         <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Google account">
-                                            <img src="/images/external/google-signin.svg" alt="Google" class="me-2" />
+                                            <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg" alt="Google" class="me-2" />
                                         </button>
                                     }
                                     else if (provider.Name == "Microsoft")
                                     {
                                         <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Microsoft account">
-                                            <img src="/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2" />
+                                            <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2" />
                                         </button>
                                     }
                                     else

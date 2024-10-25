@@ -67,12 +67,12 @@ namespace TightWiki.Controllers
                 {
                     if (GlobalConfiguration.AllowSignup != true)
                     {
-                        return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                     }
 
                     //User exits but does not have a profile.
                     //This means that the user has authenticated externally, but has yet to complete the signup process.
-                    return RedirectToPage("/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                    return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                 }
 
                 return LocalRedirect(returnUrl);
@@ -104,10 +104,10 @@ namespace TightWiki.Controllers
 
                     if (GlobalConfiguration.AllowSignup != true)
                     {
-                        return Redirect("/Identity/Account/RegistrationIsNotAllowed");
+                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                     }
 
-                    return RedirectToPage("/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
+                    return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                 }
             }
         }

@@ -24,13 +24,13 @@ namespace TightWiki.Engine.Implementation
             {
                 if (scale != 100 && scale > 0 && scale <= 500)
                 {
-                    var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
+                    var emojiImage = $"<img src=\"{GlobalConfiguration.BasePath}/file/Emoji/{key.Trim('%')}?Scale={scale}\" alt=\"{emoji?.Name}\" />";
 
                     return new HandlerResult(emojiImage);
                 }
                 else
                 {
-                    var emojiImage = $"<img src=\"/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
+                    var emojiImage = $"<img src=\"{GlobalConfiguration.BasePath}/file/Emoji/{key.Trim('%')}\" alt=\"{emoji?.Name}\" />";
 
                     return new HandlerResult(emojiImage);
                 }

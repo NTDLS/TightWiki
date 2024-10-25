@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -10,6 +11,7 @@ using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki
@@ -70,7 +72,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -94,7 +96,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -127,6 +129,30 @@ namespace TightWiki
                 containerBuilder.RegisterType<TightEngine>().As<ITightEngine>().SingleInstance();
             });
 
+            var basePath = builder.Configuration.GetValue<string>("BasePath");
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                GlobalConfiguration.BasePath = basePath;
+
+                builder.Services.ConfigureApplicationCookie(options =>
+                {
+                    if (!string.IsNullOrEmpty(basePath))
+                    {
+                        options.LoginPath = new PathString($"{basePath}/Identity/Account/Login");
+                        options.LogoutPath = new PathString($"{basePath}/Identity/Account/Logout");
+                        options.AccessDeniedPath = new PathString($"{basePath}/Identity/Account/AccessDenied");
+                        options.Cookie.Path = basePath; // Ensure the cookie is scoped to the sub-site path.
+                    }
+                    else
+                    {
+                        options.LoginPath = new PathString("/Identity/Account/Login");
+                        options.LogoutPath = new PathString("/Identity/Account/Logout");
+                        options.AccessDeniedPath = new PathString("/Identity/Account/AccessDenied");
+                        options.Cookie.Path = "/"; // Use root path if no base path is set.
+                    }
+                });
+            }
+
             var app = builder.Build();
 
             //Configure the HTTP request pipeline.
@@ -145,6 +171,30 @@ namespace TightWiki
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            if (!string.IsNullOrEmpty(basePath))
+            {
+                app.UsePathBase(basePath);
+
+                // Redirect root requests to basePath (something like '/TightWiki').
+                app.Use(async (context, next) =>
+                {
+                    if (context.Request.Path == "/")
+                    {
+                        context.Response.Redirect(basePath);
+                        return;
+                    }
+                    await next();
+                });
+
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    OnPrepareResponse = ctx =>
+                    {
+                        ctx.Context.Request.PathBase = basePath;
+                    }
+                });
+            }
 
             app.UseRouting();
 

@@ -1,5 +1,6 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PagesViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -22,18 +23,21 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will rebuild all pages in the wiki. This could take some time! Continue?",
-                  "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
+@Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+    "This will rebuild all pages in the wiki. This could take some time! Continue?",
+    "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
 
-@Html.Raw(ConfirmActionHelper.GenerateWarnLink("This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
-                  "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
+@Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+    "This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
+    "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
 
-@Html.Raw(ConfirmActionHelper.GenerateDangerLink("Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
-                  "Truncate Page Revisions", "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
+@Html.Raw(ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
+    "Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
+    "Truncate Page Revisions", "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
 <br />
 <br />
 
-@using (Html.BeginForm(FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     <div class="container">
         <div class="d-flex justify-content-end mb-4">
@@ -65,16 +69,17 @@
                     <td>
                         @if (string.IsNullOrEmpty(@p.Namespace) == false)
                         {
-                            <text><a href="/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                        } <a href="/@p.Navigation">@p.Title</a>
+                            <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                        } <a href="@GlobalConfiguration.BasePath/@p.Navigation">@p.Title</a>
                     </td>
-                    <td><a href="/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
-                    <td><a href="/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
+                    <td><a href="@GlobalConfiguration.BasePath/Admin/PageRevisions/@p.Navigation">@p.Revision</a></td>
+                    <td><a href="@GlobalConfiguration.BasePath/Admin/DeletedPageRevisions/@p.Id">@p.DeletedRevisionCount</a></td>
                     <td>@p.ModifiedByUserName</td>
                     <td>@p.ModifiedDate</td>
                     <td>
-                        @Html.Raw(ConfirmActionHelper.GenerateDangerLink($"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
-                                 "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
+                        @Html.Raw(ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
+                            $"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
+                            "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
                     </td>
                 </tr>
             }

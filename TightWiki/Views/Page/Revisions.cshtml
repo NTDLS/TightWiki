@@ -1,12 +1,13 @@
 ﻿@model TightWiki.Models.ViewModels.Page.RevisionsViewModel
 @using TightWiki.Library
+@using TightWiki.Models
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Page Revisions for <a href="/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
+    Page Revisions for <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
 </h3>
 
 <p>
@@ -22,7 +23,7 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@using (Html.BeginForm(FormMethod.Get))
+@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     @if (Model.Revisions.Count > 0)
     {
@@ -40,8 +41,8 @@
                 @foreach (var h in Model.Revisions)
                 {
                     <tr>
-                        <td><a href="/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
-                        <td><a href="/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
+                        <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
+                        <td><a href="@GlobalConfiguration.BasePath/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                         <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
                         <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
                     </tr>

@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Exceptions;
+using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki
@@ -50,7 +51,7 @@ namespace TightWiki
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";
 
-                context.Response.Redirect($"/Utility/Notify?ErrorMessage={Uri.EscapeDataString("An unexpected error has occurred. The details of this exception have been logged.")}");
+                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString("An unexpected error has occurred. The details of this exception have been logged.")}");
             }
         }
     }

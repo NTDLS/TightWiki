@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -130,11 +131,11 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             {
                 var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
                 RecoveryCodes = recoveryCodes.ToArray();
-                return RedirectToPage("./ShowRecoveryCodes");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ShowRecoveryCodes");
             }
             else
             {
-                return RedirectToPage("./TwoFactorAuthentication");
+                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/TwoFactorAuthentication");
             }
         }
 
