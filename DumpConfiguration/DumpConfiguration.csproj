@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.2" />
+    <PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.1.3" />
   </ItemGroup>
 
 </Project>
