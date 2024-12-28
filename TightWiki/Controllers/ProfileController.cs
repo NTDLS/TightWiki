@@ -17,8 +17,6 @@ using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
 {
-
-    [AllowAnonymous]
     [Route("[controller]")]
     public class ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
         : WikiControllerBase(signInManager, userManager)
