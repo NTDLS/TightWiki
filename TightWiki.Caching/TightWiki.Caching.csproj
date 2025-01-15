@@ -3,7 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.19.0</Version>
+    <Version>2.20.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -12,7 +12,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="System.Runtime.Caching" Version="9.0.0" />
+    <PackageReference Include="System.Runtime.Caching" Version="9.0.1" />
   </ItemGroup>
 
 </Project>
