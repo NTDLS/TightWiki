@@ -27,7 +27,7 @@
     "use strict";
 
     CodeMirror.defineMode("tightwiki", function () {
-        var functions = ["##systememojicategorylist", "##systememojilist", "##set", "##seq", "##get", "##color", "##searchlist", "##taglist", "##searchcloud", "##tagglossary", "##recentlymodified", "##textglossary", "##tagcloud", "##image", "##file", "##related", "##tags", "##editlink", "##inject", "##include", "##br", "##hr", "##revisions", "##attachments", "##toc", "##title", "##navigation", "##name", "##created", "##lastmodified", "##sitename", "##appversion", "##profileglossary", "##profilelist", "##namespaceglossary", "##namespacelist","##namespace", "##snippet"],
+      var functions = ["##systememojicategorylist", "##systememojilist", "##set", "##seq", "##get", "##color", "##searchlist", "##taglist", "##searchcloud", "##tagglossary", "##recentlymodified", "##textglossary", "##tagcloud", "##image", "##file", "##related", "##tags", "##editlink", "##inject", "##include", "##br", "##hr", "##revisions", "##attachments", "##toc", "##title", "##navigation", "##name", "##created", "##lastmodified", "##sitename", "##appversion", "##profileglossary", "##profilelist", "##namespaceglossary", "##namespacelist", "##namespace", "##snippet", "##description", "##figure"],
             instructions = ["@@protect", "@@hidefooterlastmodified", "@@tags", "@@title", "@@hidefootercomments", "@@nocache", "@@draft", "@@review", "@@deprecate", "@@include", "@@template"],
             scopes = ["bullets", "alert", "background", "collapse", "callout", "code", "foreground", "jumbotron", "card", "table", "stripedtable", "definesnippet", "order"];
 

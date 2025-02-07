@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using SixLabors.ImageSharp;
 using System.Reflection;
 using System.Text;
 using TightWiki.Engine.Function;
@@ -44,7 +45,7 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("##TagGlossary: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
                     _collection.Add("##RecentlyModified: <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
                     _collection.Add("##TextGlossary: <string>[searchPhrase] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}=''");
+                    _collection.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}='' | <string>{class}=''");
                     _collection.Add("##File: <string>[name] | <string>{linkText} | <bool>{showSize}='false'");
                     _collection.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
                     _collection.Add("##Similar: <integer>{similarity}='80' | <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
@@ -56,6 +57,8 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("##Revisions:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _collection.Add("##Attachments:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _collection.Add("##Title:");
+                    _collection.Add("##Description:");
+                    _collection.Add("##Figure: <string>[text] | <string>[caption] | <string>{class}=''");
                     _collection.Add("##Navigation:");
                     _collection.Add("##Name:");
                     _collection.Add("##SiteName:");
@@ -422,6 +425,7 @@ namespace TightWiki.Engine.Implementation
                     {
                         string imageName = function.Parameters.Get<string>("name");
                         string alt = function.Parameters.Get("alttext", imageName);
+                        string _class = function.Parameters.Get("class", imageName);
                         int scale = function.Parameters.Get<int>("scale");
 
                         bool explicitNamespace = imageName.Contains("::");
@@ -430,7 +434,7 @@ namespace TightWiki.Engine.Implementation
                         string navigation = state.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" class=\"{_class}\" /></a>";
                             return new HandlerResult(image);
                         }
                         else if (imageName.Contains('/'))
@@ -455,13 +459,13 @@ namespace TightWiki.Engine.Implementation
                         {
                             //Check for isPageForeignImage because we don't version foreign page files.
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{state.Revision}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" class=\"{_class}\" /></a>";
                             return new HandlerResult(image);
                         }
                         else
                         {
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" class=\"{_class}\" /></a>";
                             return new HandlerResult(image);
                         }
                     }
@@ -1042,6 +1046,27 @@ namespace TightWiki.Engine.Implementation
                 case "title":
                     {
                         return new HandlerResult($"<h1>{state.Page.Title}</h1>");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the description of the current page in title form.
+                case "description":
+                    {
+                        return new HandlerResult($"{state.Page.Description}");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the figure.
+                case "figure":
+                    {
+                        var text = function.Parameters.Get<string>("text");
+                        var caption = function.Parameters.Get<string>("caption");
+                        var _class = function.Parameters.Get<string>("class");
+                        var html = $"<figure class=\"{_class}\">" +
+                            $"<blockquote class=\"blockquote\"><p>{text}</p></blockquote>" +
+                            $"<figcaption class=\"blockquote-footer\">{caption}</figcaption>" +
+                            $"</figure>";
+                        return new HandlerResult(html);
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
