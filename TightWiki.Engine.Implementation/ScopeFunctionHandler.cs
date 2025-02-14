@@ -39,6 +39,8 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
                     _collection.Add("$$StripedTable: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
                     _collection.Add("$$DefineSnippet: <string>[name]");
+                    _collection.Add("$$Blockquote: <string>{styleName(default,start,center,end)}='default' | <string>{caption}=''");
+                    _collection.Add("$$Figure: <string>{styleName(default,start,center,end)}='default' | <string>{caption}=''");
 
                     #endregion
                 }
@@ -364,6 +366,68 @@ namespace TightWiki.Engine.Implementation
                         return new HandlerResult(html.ToString());
 
                     }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                case "blockquote":
+                    {
+                        var html = new StringBuilder();
+
+                        string caption = function.Parameters.Get<string>("caption");
+                        var style = AlignStyle.GetStyle(function.Parameters.Get("styleName", "default"));
+
+                        html.Append($"<figure class=\"{style.Style}\">");
+                        html.Append($"<blockquote class=\"blockquote\">{scopeBody}</blockquote >");
+
+                        if (string.IsNullOrEmpty(caption) == false)
+                        { 
+                            html.Append("<figcaption class=\"blockquote-footer\">");
+                            html.Append($"{caption}");
+                            html.Append("</figcaption>");
+                        }
+                        html.Append("</figure>");
+                        return new HandlerResult(html.ToString());
+
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                case "figure":
+                    {
+                        var html = new StringBuilder();
+
+                        string caption = function.Parameters.Get<string>("caption");
+                        var style = AlignStyle.GetStyle(function.Parameters.Get("styleName", "default"));
+
+                        html.Append($"<figure class=\"figure\">");
+                        html.Append($"{scopeBody}");
+
+                        if (string.IsNullOrEmpty(caption) == false)
+                        {
+                            html.Append($"<figcaption class=\"figure-caption {style.Style}\">");
+                            html.Append($"{caption}");
+                            html.Append("</figcaption>");
+                        }
+                        html.Append("</figure>");
+                        return new HandlerResult(html.ToString());
+
+                    }
+                    /*
+
+
+<figure class="text-center|text-end">
+<blockquote class="blockquote">
+<p>Text/html</p>
+</blockquote>
+<figcaption class="blockquote-footer">
+{Text/html}
+</figcaption>
+</figure>
+
+<figure class="figure">
+{html}
+<figcaption class="figure-caption text-end">A caption for the above image.</figcaption>
+</figure>
+
+                    */
 
             }
 

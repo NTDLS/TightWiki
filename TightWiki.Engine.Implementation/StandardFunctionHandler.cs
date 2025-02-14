@@ -58,7 +58,6 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("##Attachments:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
                     _collection.Add("##Title:");
                     _collection.Add("##Description:");
-                    _collection.Add("##Figure: <string>[text] | <string>[caption] | <string>{class}=''");
                     _collection.Add("##Navigation:");
                     _collection.Add("##Name:");
                     _collection.Add("##SiteName:");
@@ -1053,20 +1052,6 @@ namespace TightWiki.Engine.Implementation
                 case "description":
                     {
                         return new HandlerResult($"{state.Page.Description}");
-                    }
-
-                //------------------------------------------------------------------------------------------------------------------------------
-                //Displays the figure.
-                case "figure":
-                    {
-                        var text = function.Parameters.Get<string>("text");
-                        var caption = function.Parameters.Get<string>("caption");
-                        var _class = function.Parameters.Get<string>("class");
-                        var html = $"<figure class=\"{_class}\">" +
-                            $"<blockquote class=\"blockquote\"><p>{text}</p></blockquote>" +
-                            $"<figcaption class=\"blockquote-footer\">{caption}</figcaption>" +
-                            $"</figure>";
-                        return new HandlerResult(html);
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
