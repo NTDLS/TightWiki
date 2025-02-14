@@ -33,6 +33,15 @@ namespace TightWiki.Controllers
             return Content(sb.ToString(), "text/plain", Encoding.UTF8);
         }
 
+
+        [Authorize]
+        [Route("/ping")]
+        public JsonResult Ping()
+        {
+            return Json(new { now = DateTime.UtcNow });
+        }
+
+
         #region Display.
 
         /// <summary>

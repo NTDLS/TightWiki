@@ -130,7 +130,32 @@
                     uploadStatus.innerHTML = `<p>Unexpected Error: ${error.message}</p>`;
                 });
         }
+
+        setInterval(ping, 60000);
     });
+
+
+
+    function ping() {
+        const spans = document.querySelectorAll('.badge.text-bg-danger');
+        fetch('@Url.Action("Ping", "Page")?r=' + Math.random(), { method: 'GET' })
+            .then(response => response.json())
+            .then(result => {
+                if (result.now) {
+                    spans[0].classList.add("invisible");
+                    spans[1].classList.add("invisible");
+                }
+                else {
+                    spans[0].classList.remove("invisible");
+                    spans[1].classList.remove("invisible");
+                }
+            })
+            .catch(error => {
+                spans[0].classList.remove("invisible");
+                spans[1].classList.remove("invisible");
+            });
+    }
+
 </script>
 
 <div class="bodyDiv">
@@ -153,6 +178,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
                     <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                    <span class="badge text-bg-danger invisible">unauthorized</span>
                 </div>
                 <br />
                 <strong>@Html.LabelFor(x => x.Name)</strong>
@@ -191,6 +217,7 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
                     <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+          <span class="badge text-bg-danger invisible">unauthorized</span>
                 </div>
             }
         </div>
