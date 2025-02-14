@@ -529,6 +529,7 @@ namespace TightWiki.Controllers
         #region Edit.
 
         [Authorize]
+        [HttpGet("{givenCanonical}/Create")]
         [HttpGet("{givenCanonical}/Edit")]
         [HttpGet("Page/Create")]
         public ActionResult Edit(string givenCanonical)
@@ -577,6 +578,7 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
+        [HttpPost("{givenCanonical}/Create")]
         [HttpPost("{givenCanonical}/Edit")]
         [HttpPost("Page/Create")]
         public ActionResult Edit(PageEditViewModel model)

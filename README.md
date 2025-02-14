@@ -70,5 +70,3 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 
 # Admin role list
 ![Clip4](https://user-images.githubusercontent.com/11428567/208712960-70b13aff-0f0c-4b04-bbd7-3c8a66dbe70c.png)
-
-Its been like a modern retelling of Sisyphus, only this time with RegEx.

@@ -1586,7 +1586,7 @@ namespace TightWiki.Controllers
             {
                 Id = model.Emoji.Id,
                 Name = model.Emoji.Name.ToLowerInvariant(),
-                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {Text.SeperateCamelCase(model.Emoji.Name)}")
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Emoji.Name} {Text.SeparateCamelCase(model.Emoji.Name)}")
             };
 
             var file = Request.Form.Files["ImageData"];
@@ -1673,7 +1673,7 @@ namespace TightWiki.Controllers
             {
                 Id = model.Id,
                 Name = model.Name.ToLowerInvariant(),
-                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {Text.SeperateCamelCase(model.Name)}")
+                Categories = Utility.SplitToTokens($"{model.Categories} {model.Name} {Text.SeparateCamelCase(model.Name)}")
             };
 
             var file = Request.Form.Files["ImageData"];
