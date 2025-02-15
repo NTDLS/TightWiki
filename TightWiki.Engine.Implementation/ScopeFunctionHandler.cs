@@ -410,24 +410,6 @@ namespace TightWiki.Engine.Implementation
                         return new HandlerResult(html.ToString());
 
                     }
-                    /*
-
-
-<figure class="text-center|text-end">
-<blockquote class="blockquote">
-<p>Text/html</p>
-</blockquote>
-<figcaption class="blockquote-footer">
-{Text/html}
-</figcaption>
-</figure>
-
-<figure class="figure">
-{html}
-<figcaption class="figure-caption text-end">A caption for the above image.</figcaption>
-</figure>
-
-                    */
 
             }
 
