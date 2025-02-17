@@ -23,9 +23,9 @@
     <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
 }
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
-    "This will permanently purge all orphaned page attachments. Continue?",
-    "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
+@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+        "This will permanently purge all orphaned page attachments. Continue?",
+        "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -33,6 +33,9 @@
 {
     @if (Model.Files.Count > 0)
     {
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+        <br />
+
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">Page</a></strong></td>
@@ -55,9 +58,9 @@
                     <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
                     <td>@p.FileRevision</td>
                     <td>
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
-                            "This will permanently delete the specified attachment. Continue?",
-                            "Delete", $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
+                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                                 "This will permanently delete the specified attachment. Continue?",
+                                 "Delete", $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
                     </td>
                 </tr>
             }

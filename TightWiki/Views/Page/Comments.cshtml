@@ -40,6 +40,9 @@
         @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
     }
 
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    <br />
+
     if (Model.Comments.Count > 0)
     {
         <div class="container mt-4">

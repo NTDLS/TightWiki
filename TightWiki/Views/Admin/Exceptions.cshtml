@@ -24,8 +24,8 @@
 }
 
 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-    "This will permanently purge all exceptions. Continue?",
-    "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
+        "This will permanently purge all exceptions. Continue?",
+        "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -33,6 +33,9 @@
 {
     @if (Model.Exceptions.Count > 0)
     {
+        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+        <br />
+
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
