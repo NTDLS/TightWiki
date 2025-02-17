@@ -20,3 +20,5 @@ Copy .\Data\*.* Publish\TightWiki.Linux.x64\data
 
 rd .\Publish\TightWiki.Windows.x64 /q /s
 rd .\Publish\TightWiki.Linux.x64 /q /s
+
+pause
