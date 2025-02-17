@@ -35,7 +35,7 @@ INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId
 SELECT 3, 8, 'FooterBlurb', 'TightWiki is an aspnet core MVC Wiki built on top of SQLite.', 5, 'The footer of the wiki, this is shown at the bottom of all pages.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'FooterBlurb', DataTypeId = 5, Description = 'The footer of the wiki, this is shown at the bottom of all pages.', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
-SELECT 4, 1, 'Copyright', 'Copyright &copy; NetworkDLS 2024', 2, 'The copyright of the wiki, this is shown at the bottom of all pages.', 0, 0
+SELECT 4, 1, 'Copyright', 'Copyright &copy; NetworkDLS 2025', 2, 'The copyright of the wiki, this is shown at the bottom of all pages.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Copyright', DataTypeId = 2, Description = 'The copyright of the wiki, this is shown at the bottom of all pages.', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 5, 8, 'New Page Template', 'Builtin :: Wiki Default Page', 2, 'the name of the wiki page to use as the default content when new wiki pages are created.', 0, 1

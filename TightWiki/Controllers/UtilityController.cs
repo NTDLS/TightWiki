@@ -15,12 +15,11 @@ namespace TightWiki.Controllers
         [HttpGet("Notify")]
         public ActionResult Notify()
         {
-            SessionState.RequireViewPermission();
-
             var model = new NotifyViewModel()
             {
-                SuccessMessage = GetQueryValue("SuccessMessage", string.Empty),
-                ErrorMessage = GetQueryValue("ErrorMessage", string.Empty),
+                NotifySuccessMessage = GetQueryValue("NotifySuccessMessage", string.Empty),
+                NotifyErrorMessage = GetQueryValue("NotifyErrorMessage", string.Empty),
+                NotifyWarningMessage = GetQueryValue("NotifyWarningMessage", string.Empty),
                 RedirectURL = GetQueryValue("RedirectURL", string.Empty),
                 RedirectTimeout = GetQueryValue("RedirectTimeout", 0)
             };

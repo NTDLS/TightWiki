@@ -13,17 +13,6 @@
     Configuration for user account.<br /><br />
 </p>
 
-
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
-
 @using (Html.BeginForm(null, null, new { navigation = Model.AccountProfile.Navigation }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()

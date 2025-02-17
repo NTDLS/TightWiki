@@ -9,15 +9,6 @@
         <h3>Account Email Verification</h3>
     </div>
     <div class="card-body">
-        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-        {
-            <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-        }
-        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-        {
-            <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-        }
-
         <p>
             Already a member? <a href="@GlobalConfiguration.BasePath/Account/Login">Login</a>.<br />
             Forgot your password? @Html.ActionLink("Reset it.", "Forgot", "Account").<br />

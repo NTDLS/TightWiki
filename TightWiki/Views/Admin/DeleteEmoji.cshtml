@@ -5,15 +5,6 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
 @if (string.IsNullOrEmpty(Model.ErrorMessage))
 {
     <div class="card card-danger border-danger">

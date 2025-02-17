@@ -57,11 +57,11 @@
     <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
         $(document).ready(function () {
-            localStorage.setItem('theme', 'dark');
-            $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
-            $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
-            $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
-            $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
+        localStorage.setItem('theme', 'dark');
+        $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
+        $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
+        $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
+        $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
         });
     </script>
 
@@ -238,6 +238,52 @@
                             <br />
                         </p>
                     </div>
+                </div>
+            }
+
+            @{
+                Model.SuccessMessage = String.IsNullOrEmpty(Context.Request.Query["SuccessMessage"].ToString()) ? Model.SuccessMessage : Context.Request.Query["SuccessMessage"].ToString();
+                Model.WarningMessage = String.IsNullOrEmpty(Context.Request.Query["WarningMessage"].ToString()) ? Model.WarningMessage : Context.Request.Query["WarningMessage"].ToString();
+                Model.ErrorMessage = String.IsNullOrEmpty(Context.Request.Query["ErrorMessage"].ToString()) ? Model.ErrorMessage : Context.Request.Query["ErrorMessage"].ToString();
+            }
+
+            @if (!String.IsNullOrEmpty(Model.SuccessMessage))
+            {
+                <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <p class="fw-bold">@Html.Raw(Model.SuccessMessage)</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        setTimeout(function () {
+                            let alertElement = document.getElementById('success-alert');
+                            if (alertElement) {
+                                // Add fade-out effect
+                                alertElement.classList.remove('show');
+                                alertElement.classList.add('fade');
+
+                                // Remove the alert completely after the fade-out animation
+                                setTimeout(() => alertElement.remove(), 300);
+                            }
+                        }, 5000);
+                    });
+                </script>
+            }
+
+            @if (!String.IsNullOrEmpty(Model.WarningMessage))
+            {
+                <div id="success-alert" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <p class="fw-bold">@Html.Raw(Model.WarningMessage)</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (!String.IsNullOrEmpty(Model.ErrorMessage))
+            {
+                <div id="success-alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p class="fw-bold">@Html.Raw(Model.ErrorMessage)</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 

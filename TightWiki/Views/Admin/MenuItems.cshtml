@@ -14,15 +14,6 @@
     Global configuration for the site menu.<br /><br />
 </p>
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
 <a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">Add new item</a>
 <br />
 <br />

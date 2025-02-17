@@ -14,15 +14,6 @@
     Server and page exceptions.<br /><br />
 </p>
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
         "This will permanently purge all exceptions. Continue?",
         "Purge Exceptions", "/Admin/PurgeExceptions", Context.Request.Path.Value))

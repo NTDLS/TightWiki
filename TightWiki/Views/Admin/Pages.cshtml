@@ -14,15 +14,6 @@
     All pages contained in the wiki.<br /><br />
 </p>
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
 @Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
     "This will rebuild all pages in the wiki. This could take some time! Continue?",
     "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))

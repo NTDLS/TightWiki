@@ -1,11 +1,14 @@
 ﻿@model TightWiki.Models.ViewModels.Utility.NotifyViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+
     bool _isFirst = true;
 }
 
-@if (string.IsNullOrEmpty(@Model.RedirectURL) == false && string.IsNullOrEmpty(Model.ErrorMessage) == true && Model.RedirectTimeout > 0)
+@if (string.IsNullOrEmpty(@Model.RedirectURL) == false
+   && string.IsNullOrEmpty(Model.NotifyErrorMessage) == true
+   && string.IsNullOrEmpty(Model.NotifyWarningMessage) == true
+   && Model.RedirectTimeout > 0)
 {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -25,11 +28,11 @@
     </script>
 }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+@if (!string.IsNullOrEmpty(Model.NotifyErrorMessage))
 {
     <div class="alert alert-danger">
         @{
-            var errorMessages = @Model.ErrorMessage.Replace("\r\n", "\n").Split("\n");
+            var errorMessages = @Model.NotifyErrorMessage.Replace("\r\n", "\n").Split("\n");
         }
         @foreach (var message in errorMessages)
         {
@@ -56,11 +59,42 @@
         }
     </div>
 }
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+@if (!string.IsNullOrEmpty(Model.NotifyWarningMessage))
+{
+    <div class="alert alert-danger">
+        @{
+            var errorMessages = @Model.NotifyWarningMessage.Replace("\r\n", "\n").Split("\n");
+        }
+        @foreach (var message in errorMessages)
+        {
+            if (_isFirst)
+            {
+                <strong>@message</strong>
+                if (errorMessages.Count() > 1)
+                {
+                    <br />
+                    <hr />
+                }
+                _isFirst = false;
+            }
+            else
+            {
+                @message
+                <br />
+            }
+        }
+        @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
+        {
+            <br />
+            <a href="@Model.RedirectURL">Continue</a>
+        }
+    </div>
+}
+@if (!string.IsNullOrEmpty(Model.NotifySuccessMessage))
 {
     <div class="alert alert-success">
         @{
-            var successMessages = @Model.SuccessMessage.Replace("\r\n", "\n").Split("\n");
+            var successMessages = @Model.NotifySuccessMessage.Replace("\r\n", "\n").Split("\n");
         }
         @foreach (var message in successMessages)
         {
