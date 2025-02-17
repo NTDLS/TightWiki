@@ -22,7 +22,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
         public LockoutModel(SignInManager<IdentityUser> signInManager)
-                        : base(signInManager)
+            : base(signInManager)
         {
 
         }

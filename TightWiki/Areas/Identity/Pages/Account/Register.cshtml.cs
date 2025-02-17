@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -115,22 +116,24 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 Input.Language = membershipConfig.Value<string>("Default Language").EnsureNotNull();
         }
 
-
         public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
         {
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
             }
             PopulateDefaults();
 
-            ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
@@ -154,7 +157,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
@@ -195,7 +197,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         var callbackUrl = Url.Page(
                             "/Account/ConfirmEmail",
                             pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
+                            values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
                             protocol: Request.Scheme);
 
                         var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
@@ -220,12 +222,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?email={Input.Email}&returnUrl={WebUtility.UrlEncode(returnUrl)}");
                     }
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return Redirect(ReturnUrl);
                     }
                 }
                 foreach (var error in result.Errors)

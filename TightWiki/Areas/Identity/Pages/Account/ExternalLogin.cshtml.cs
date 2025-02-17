@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -83,29 +84,35 @@ namespace TightWiki.Areas.Identity.Pages.Account
             public string Email { get; set; }
         }
 
-        public IActionResult OnGet() => RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Login");
+        public IActionResult OnGet()
+        {
+            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login");
+        }
 
         public IActionResult OnPost(string provider, string returnUrl = null)
         {
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { returnUrl });
+            var redirectUrl = Url.Page("./ExternalLogin", pageHandler: "Callback", values: new { ReturnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return new ChallengeResult(provider, properties);
         }
 
         public async Task<IActionResult> OnGetCallbackAsync(string returnUrl = null, string remoteError = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             if (remoteError != null)
             {
                 ErrorMessage = $"Error from external provider: {remoteError}";
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Login", new { ReturnUrl = returnUrl });
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 ErrorMessage = "Error loading external login information.";
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Login", new { ReturnUrl = returnUrl });
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
             }
 
             // Sign in the user with this external login provider if the user already has a login.
@@ -113,16 +120,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
-                return LocalRedirect(returnUrl);
+                return Redirect(ReturnUrl);
             }
             if (result.IsLockedOut)
             {
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Lockout");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
             }
             else
             {
                 // If the user does not have an account, then ask the user to create an account.
-                ReturnUrl = returnUrl;
                 ProviderDisplayName = info.ProviderDisplayName;
                 if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
                 {
@@ -137,13 +143,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
                 ErrorMessage = "Error loading external login information during confirmation.";
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Login", new { ReturnUrl = returnUrl });
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
             }
 
             if (ModelState.IsValid)
@@ -195,11 +202,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/RegisterConfirmation", new { Email = Input.Email });
+                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?Email={Input.Email}");
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
-                        return LocalRedirect(returnUrl);
+                        return Redirect(ReturnUrl);
                     }
                 }
                 foreach (var error in result.Errors)
@@ -209,7 +216,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
 
             ProviderDisplayName = info.ProviderDisplayName;
-            ReturnUrl = returnUrl;
             return Page();
         }
 

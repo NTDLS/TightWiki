@@ -5,6 +5,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -26,74 +28,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
         {
-            await _signInManager.SignOutAsync();
-
-            /*
-            var allSchemes = await _schemeProvider.GetAllSchemesAsync();
-            foreach (var scheme in allSchemes)
-            {
-                try
-                {
-                    await HttpContext.SignOutAsync(scheme.Name);
-                }
-                catch
-                {
-                }
-            }
-            */
-
-            /*
-            // Explicitly delete the cookie with the correct path.
-            Response.Cookies.Delete(".AspNetCore.Identity.Application", new CookieOptions
-            {
-                Path = "/TightWiki", // Must match the cookie's path.
-                HttpOnly = true,
-                Secure = true // Use this if the cookie is secure.
-            });
-            */
-
-            /*
-            if (HttpContext.Request.Cookies.Count > 0)
-            {
-                var siteCookies = HttpContext.Request.Cookies
-                    .Where(c => c.Key.Contains(".AspNetCore.")
-                        || c.Key.Contains("Microsoft.Authentication"));
-                foreach (var cookie in siteCookies)
-                {
-                    Response.Cookies.Delete(cookie.Key);
-                }
-            }
-
-            await HttpContext.SignOutAsync(
-                user.AuthenticationScheme);
-
-            HttpContext.Session.Clear();
+            returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
             await _signInManager.SignOutAsync();
-            await HttpContext.SignOutAsync();
-
-            var allSchemes = await _schemeProvider.GetAllSchemesAsync();
-            foreach (var scheme in allSchemes)
-            {
-                try
-                {
-                    await HttpContext.SignOutAsync(scheme.Name);
-                }
-                catch
-                {
-                }
-            }
-
-            foreach (var cookie in Request.Cookies.Keys)
-            {
-                Response.Cookies.Delete(cookie);
-            }
-            */
 
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return Redirect(returnUrl);
             }
             else
             {

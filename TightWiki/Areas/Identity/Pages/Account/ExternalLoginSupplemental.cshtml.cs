@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using System.Security.Claims;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -58,7 +59,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
-            ReturnUrl ??= Url.Content("~/");
+            ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
             if (GlobalConfiguration.AllowSignup != true)
             {
@@ -90,6 +91,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
@@ -157,9 +160,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrEmpty(ReturnUrl))
             {
-                return LocalRedirect($"{GlobalConfiguration.BasePath}/");
+                return Redirect($"{GlobalConfiguration.BasePath}/");
             }
-            return LocalRedirect(ReturnUrl);
+            return Redirect(ReturnUrl);
         }
     }
 }

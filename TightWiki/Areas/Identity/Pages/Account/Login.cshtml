@@ -37,7 +37,7 @@
                         <br />
                         @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
                         {
-                            <a asp-page="./Register" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">Register as a new user</a>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
                             <br />
                         }
                         <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>

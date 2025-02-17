@@ -15,7 +15,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
 
         public ConfirmEmailModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-                        : base(signInManager)
+            : base(signInManager)
         {
             _userManager = userManager;
         }
@@ -30,7 +30,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             if (userId == null || code == null)
             {
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Index");
+                return Redirect($"{GlobalConfiguration.BasePath}/");
             }
 
             var user = await _userManager.FindByIdAsync(userId);

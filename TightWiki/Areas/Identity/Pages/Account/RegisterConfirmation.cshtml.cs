@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 
@@ -25,6 +26,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGetAsync(string email, string returnUrl = null)
         {
+            returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
