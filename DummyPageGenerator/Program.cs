@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
+using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Repository;

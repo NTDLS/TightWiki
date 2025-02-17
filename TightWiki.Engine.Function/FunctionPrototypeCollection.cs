@@ -141,20 +141,27 @@ namespace TightWiki.Engine.Function
                         index++; //Skip the '='
                         SkipWhiteSpace(segment, ref index);
 
-                        if (segment[index] != '\'')
+                        if (segment.Substring(index).StartsWith("null", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            throw new Exception($"Function [{functionName}], prototype error: expected [\'].");
+                            index += 4; //Skip the "null"
+                            prototypeSegment.DefaultValue = null;
                         }
-
-                        index++; //Skip the '''
-
-                        prototypeSegment.DefaultValue = segment.Substring(index, (segment.Length - index) - 1);
-
-                        index = segment.Length - 1;
-
-                        if (index < segment.Length && segment[index] != '\'')
+                        else if (segment[index] == '\'')
                         {
-                            throw new Exception($"Function [{functionName}], prototype error: expected [\'].");
+                            index++; //Skip the '''
+
+                            prototypeSegment.DefaultValue = segment.Substring(index, (segment.Length - index) - 1);
+
+                            index = segment.Length - 1;
+
+                            if (index < segment.Length && segment[index] != '\'')
+                            {
+                                throw new Exception($"Function [{functionName}], prototype error: expected [\'].");
+                            }
+                        }
+                        else
+                        {
+                            throw new Exception($"Function [{functionName}], prototype error: expected [\'] or NULL.");
                         }
                     }
                 }

@@ -5,7 +5,7 @@ using static TightWiki.Engine.Function.FunctionPrototypeCollection;
 using static TightWiki.Engine.Library.Constants;
 using static TightWiki.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles processing-instruction function calls, these functions affect the way the page is processed, but are not directly replaced with text.
@@ -22,9 +22,16 @@ namespace TightWiki.Engine.Implementation
                 {
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Instruction);
 
-                    #region Prototypes.
+                    // Pattern:
+                    //  @@FunctionName: <parameterType>{parameterName(valid,parameter,values)}='defaultValue' | <string>{titleText}=''
+                    // Notes:
+                    //  Parameters should be separated by a pipe character: |
+                    //  Parameters that are required are surrounded with [].
+                    //  Parameters that are optional are surrounded with {}.
+                    //  Parameters that only allow specific values should list the values after the parameter name in parentheses. e.g. paramName(valid,parameter,values)
+                    //  All optional parameters should have a default value, even if its null.
+                    //  All default values should be enclosed in single quotes (e.g. 'value') with the exception of NULL.
 
-                    //Processing instructions:
                     _collection.Add("@@Deprecate:");
                     _collection.Add("@@Protect:<bool>{isSilent}='false'");
                     _collection.Add("@@Tags: <string:infinite>[pageTags]");
@@ -36,8 +43,6 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("@@HideFooterComments:");
                     _collection.Add("@@Title:<string>[pageTitle]");
                     _collection.Add("@@HideFooterLastModified:");
-
-                    #endregion
                 }
 
                 return _collection;

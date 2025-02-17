@@ -7,10 +7,10 @@ using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Function.FunctionPrototypeCollection;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
-    /// Handled scope function calls.
+    /// Handled scope function calls, where the function applies to all of the text in the given scope.
     /// </summary>
     public class ScopeFunctionHandler : IScopeFunctionHandler
     {
@@ -24,7 +24,15 @@ namespace TightWiki.Engine.Implementation
                 {
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Scoped);
 
-                    #region Prototypes.
+                    // Pattern:
+                    //  $$FunctionName: <parameterType>{parameterName(valid,parameter,values)}='defaultValue' | <string>{titleText}=''
+                    // Notes:
+                    //  Parameters should be separated by a pipe character: |
+                    //  Parameters that are required are surrounded with [].
+                    //  Parameters that are optional are surrounded with {}.
+                    //  Parameters that only allow specific values should list the values after the parameter name in parentheses. e.g. paramName(valid,parameter,values)
+                    //  All optional parameters should have a default value, even if its null.
+                    //  All default values should be enclosed in single quotes (e.g. 'value') with the exception of NULL.
 
                     _collection.Add("$$Code: <string>{language(auto,wiki,cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}='auto'");
                     _collection.Add("$$Bullets: <string>{type(unordered,ordered)}='unordered'");
@@ -39,8 +47,6 @@ namespace TightWiki.Engine.Implementation
                     _collection.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
                     _collection.Add("$$StripedTable: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
                     _collection.Add("$$DefineSnippet: <string>[name]");
-
-                    #endregion
                 }
 
                 return _collection;

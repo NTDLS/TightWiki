@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
+using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
