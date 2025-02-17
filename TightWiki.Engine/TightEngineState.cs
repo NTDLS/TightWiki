@@ -269,7 +269,7 @@ namespace TightWiki.Engine
 
                     var result = Engine.MarkupHandler.Handle(this, symbol, body);
 
-                    StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value, result.Content);
+                    StoreHandlerResult(result, WikiMatchType.Markup, pageContent, match.Value);
                 }
             }
 
@@ -289,7 +289,7 @@ namespace TightWiki.Engine
                 }
                 if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
-                    string value = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim();
+                    string value = match.Value.Substring(headingMarkers).Trim();
 
                     int fontSize = 1 + headingMarkers;
                     if (fontSize < 1) fontSize = 1;
@@ -382,7 +382,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                int paramEndIndex = -1;
+                int paramEndIndex;
 
                 FunctionCall function;
 
@@ -410,7 +410,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, scopeBody);
-                    StoreHandlerResult(result, WikiMatchType.ScopeFunction, pageContent, match.Value, scopeBody);
+                    StoreHandlerResult(result, WikiMatchType.ScopeFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -442,7 +442,7 @@ namespace TightWiki.Engine
                 if (headingMarkers >= 2)
                 {
                     string link = _tocName + "_" + TableOfContents.Count.ToString();
-                    string text = match.Value.Substring(headingMarkers, match.Value.Length - headingMarkers).Trim().Trim(['=']).Trim();
+                    string text = match.Value.Substring(headingMarkers).Trim().Trim(['=']).Trim();
 
                     var result = Engine.HeadingHandler.Handle(this, headingMarkers, link, text);
 
@@ -451,7 +451,7 @@ namespace TightWiki.Engine
                         TableOfContents.Add(new TableOfContentsTag(headingMarkers - 1, match.Index, link, text));
                     }
 
-                    StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value, result.Content);
+                    StoreHandlerResult(result, WikiMatchType.Heading, pageContent, match.Value);
                 }
             }
         }
@@ -464,7 +464,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 var result = Engine.CommentHandler.Handle(this, match.Value);
-                StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value, result.Content);
+                StoreHandlerResult(result, WikiMatchType.Comment, pageContent, match.Value);
             }
         }
 
@@ -486,7 +486,7 @@ namespace TightWiki.Engine
                 }
 
                 var result = Engine.EmojiHandler.Handle(this, $"%%{key}%%", scale);
-                StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value, result.Content);
+                StoreHandlerResult(result, WikiMatchType.Emoji, pageContent, match.Value);
             }
         }
 
@@ -502,7 +502,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string key = match.Value.Trim(['{', '}', ' ', '\t', '$']);
-                if (key.Contains("="))
+                if (key.Contains('='))
                 {
                     var sections = key.Split('=');
                     key = sections[0].Trim();
@@ -562,12 +562,12 @@ namespace TightWiki.Engine
                     }
 
                     var result = Engine.ExternalLinkHandler.Handle(this, link, text, image);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                 }
                 else
                 {
                     var result = Engine.ExternalLinkHandler.Handle(this, link, link, null);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                 }
             }
 
@@ -595,12 +595,12 @@ namespace TightWiki.Engine
                     }
 
                     var result = Engine.ExternalLinkHandler.Handle(this, link, text, image);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                 }
                 else
                 {
                     var result = Engine.ExternalLinkHandler.Handle(this, link, link, null);
-                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
                 }
             }
 
@@ -678,7 +678,7 @@ namespace TightWiki.Engine
                     OutgoingLinks.Add(new PageReference(pageName, pageNavigation.Canonical));
                 }
 
-                StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value, string.Empty);
+                StoreHandlerResult(result, WikiMatchType.Link, pageContent, match.Value);
             }
         }
 
@@ -711,7 +711,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, string.Empty);
-                    StoreHandlerResult(result, WikiMatchType.Instruction, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.Instruction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -743,7 +743,7 @@ namespace TightWiki.Engine
                 catch (WikiFunctionPrototypeNotDefinedException ex)
                 {
                     var postProcessPrototypes = Engine.PostProcessingFunctionHandler.Prototypes;
-                    var parsed = FunctionParser.ParseFunctionCall(postProcessPrototypes, match.Value);
+                    var parsed = FunctionParser.ParseFunctionCall(match.Value);
 
                     if (parsed != default)
                     {
@@ -770,7 +770,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, string.Empty);
-                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -807,7 +807,7 @@ namespace TightWiki.Engine
                 try
                 {
                     var result = functionHandler.Handle(this, function, string.Empty);
-                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value, string.Empty);
+                    StoreHandlerResult(result, WikiMatchType.StandardFunction, pageContent, match.Value);
                 }
                 catch (Exception ex)
                 {
@@ -835,7 +835,7 @@ namespace TightWiki.Engine
 
         #region Utility.
 
-        private void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue, string scopeBody)
+        private void StoreHandlerResult(HandlerResult result, WikiMatchType matchType, WikiString pageContent, string matchValue)
         {
             if (result.Instructions.Contains(HandlerResultInstruction.Skip))
             {

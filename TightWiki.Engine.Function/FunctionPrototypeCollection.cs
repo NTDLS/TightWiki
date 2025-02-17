@@ -53,7 +53,7 @@ namespace TightWiki.Engine.Function
                 ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");
         }
 
-        private FunctionPrototype ParsePrototype(string prototypeString)
+        private static FunctionPrototype ParsePrototype(string prototypeString)
         {
             int nameStartIndex = prototypeString.TakeWhile(c => char.IsLetterOrDigit(c) == false).Count();
             int nameEndIndex = prototypeString.IndexOf(':');
@@ -82,7 +82,7 @@ namespace TightWiki.Engine.Function
                 if (segment[index] == '<')
                 {
                     index++; //Skip the '<'
-                    prototypeSegment.Type = Tok(segment, ref index);
+                    prototypeSegment.Type = NextToken(segment, ref index);
                     index++; //Skip the '>'
 
                     if (prototypeSegment.Type.Contains(':'))
@@ -114,7 +114,7 @@ namespace TightWiki.Engine.Function
 
                         index++; //Skip the '[' or '{'
 
-                        prototypeSegment.Name = Tok(segment, ref index);
+                        prototypeSegment.Name = NextToken(segment, ref index);
 
                         if (index < segment.Length && segment[index] == '(') //Parse allowed values.
                         {
@@ -179,10 +179,7 @@ namespace TightWiki.Engine.Function
         /// <summary>
         /// Gets the next token in a string.
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        private string Tok(string str, ref int index)
+        private static string NextToken(string str, ref int index)
         {
             var token = string.Empty;
 

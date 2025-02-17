@@ -18,22 +18,17 @@ namespace TightWiki.Engine.Function
         /// <exception cref="Exception"></exception>
         public static FunctionCall ParseAndGetFunctionCall(FunctionPrototypeCollection prototypes, string functionCall, out int parseEndIndex)
         {
-            var rawArguments = new List<string>();
+            var parsed = ParseFunctionCall(functionCall);
 
-            var parsed = ParseFunctionCall(prototypes, functionCall);
-
-            var prototype = prototypes.Get(parsed.Prefix, parsed.Name);
-            if (prototype == null)
-            {
-                throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
-            }
+            var prototype = prototypes.Get(parsed.Prefix, parsed.Name)
+                ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
 
             parseEndIndex = parsed.EndIndex;
 
             return new FunctionCall(prototype, parsed.RawArguments);
         }
 
-        public static ParsedFunctionCall ParseFunctionCall(FunctionPrototypeCollection prototypes, string functionCall)
+        public static ParsedFunctionCall ParseFunctionCall(string functionCall)
         {
             string functionName = string.Empty;
             int parseEndIndex = 0;

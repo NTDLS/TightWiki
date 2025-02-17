@@ -1,9 +1,12 @@
 ﻿namespace TightWiki.Engine.Implementation.Utility
 {
+    /// <summary>
+    /// Background and Foreground style.
+    /// </summary>
     public class BGFGStyle
     {
-        public string ForegroundStyle { get; set; } = String.Empty;
-        public string BackgroundStyle { get; set; } = String.Empty;
+        public string ForegroundStyle { get; set; } = string.Empty;
+        public string BackgroundStyle { get; set; } = string.Empty;
 
         public BGFGStyle(string foregroundStyle, string backgroundStyle)
         {
