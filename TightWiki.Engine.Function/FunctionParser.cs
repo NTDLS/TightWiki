@@ -20,7 +20,7 @@ namespace TightWiki.Engine.Function
         {
             var parsed = ParseFunctionCall(functionCall);
 
-            var prototype = prototypes.Get(parsed.Prefix, parsed.Name)
+            var prototype = prototypes.Get(parsed.Demarcation, parsed.Name)
                 ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
 
             parseEndIndex = parsed.EndIndex;
@@ -41,7 +41,7 @@ namespace TightWiki.Engine.Function
                 throw new WikiFunctionPrototypeSyntaxError($"Function parentheses mismatch.");
             }
 
-            string functionPrefix = functionCall.Substring(0, 2);
+            string functionDemarcation = functionCall.Substring(0, 2);
 
             var parameterMatches = FunctionCallParser().Matches(firstLine);
             if (parameterMatches.Count > 0)
@@ -62,7 +62,7 @@ namespace TightWiki.Engine.Function
                 parseEndIndex = endOfLine + 2;
             }
 
-            return new ParsedFunctionCall(functionPrefix, functionName, parseEndIndex, rawArguments);
+            return new ParsedFunctionCall(functionDemarcation, functionName, parseEndIndex, rawArguments);
         }
 
         /// <summary>

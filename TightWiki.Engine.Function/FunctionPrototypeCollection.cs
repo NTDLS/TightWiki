@@ -52,22 +52,22 @@ namespace TightWiki.Engine.Function
             });
         }
 
-        public bool Exists(string functionPrefix, string functionName)
+        public bool Exists(string functionDemarcation, string functionName)
         {
             functionName = functionName.ToLower();
 
-            //$$ are scope functions and are not called by prefix, we only have prefixes to make it easier to parse
+            //$$ are scope functions and are not called by demarcation, we only have demarcations to make it easier to parse
             //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
-            return Items.Any(o => (o.Demarcation == functionPrefix || o.Demarcation == "$$") && o.FunctionName == functionName);
+            return Items.Any(o => (o.Demarcation == functionDemarcation || o.Demarcation == "$$") && o.FunctionName == functionName);
         }
 
-        public FunctionPrototype Get(string functionPrefix, string functionName)
+        public FunctionPrototype Get(string functionDemarcation, string functionName)
         {
             functionName = functionName.ToLower();
 
-            //$$ are scope functions and are not called by prefix, we only have prefixes to make it easier to parse
+            //$$ are scope functions and are not called by demarcation, we only have demarcations to make it easier to parse
             //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
-            var functionPrototype = Items.Where(o => (o.Demarcation == functionPrefix || o.Demarcation == "$$") && o.FunctionName == functionName).FirstOrDefault()?.Value;
+            var functionPrototype = Items.Where(o => (o.Demarcation == functionDemarcation || o.Demarcation == "$$") && o.FunctionName == functionName).FirstOrDefault()?.Value;
 
             return functionPrototype
                 ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");

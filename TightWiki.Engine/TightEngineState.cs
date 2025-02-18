@@ -747,7 +747,7 @@ namespace TightWiki.Engine
 
                     if (parsed != default)
                     {
-                        if (postProcessPrototypes.Exists(parsed.Prefix, parsed.Name))
+                        if (postProcessPrototypes.Exists(parsed.Demarcation, parsed.Name))
                         {
                             continue; //This IS a function, but it is meant to be parsed at the end of processing.
                         }
