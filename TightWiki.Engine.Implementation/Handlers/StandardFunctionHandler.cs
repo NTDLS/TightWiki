@@ -9,7 +9,7 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+using static TightWiki.Engine.Function.FunctionConstants;
 using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers

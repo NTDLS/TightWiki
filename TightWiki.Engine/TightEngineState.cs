@@ -125,8 +125,8 @@ namespace TightWiki.Engine
         /// Transforms "included" wiki pages, for example if a wiki function
         /// injected additional wiki markup, this 'could' be processed separately.
         /// </summary>
-        /// <param name="page">The child page to process</param>
-        /// <param name="revision">The optional revision of the child page to process</param>
+        /// <param name="page">The child page to process.</param>
+        /// <param name="revision">The optional revision of the child page to process.</param>
         /// <returns></returns>
         public ITightEngineState TransformChild(IPage page, int? revision = null)
         {
@@ -251,7 +251,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformMarkup(WikiString pageContent)
         {
             var symbols = WikiUtility.GetApplicableSymbols(pageContent.Value);
@@ -300,11 +299,10 @@ namespace TightWiki.Engine
             }
         }
 
-
         /// <summary>
-        /// Transform inline and multi-line literal blocks. These are blocks where the content will not be wikified and contain code that is encoded to display verbatim on the page.
+        /// Transform inline and multi-line literal blocks. These are blocks where the content
+        /// will not be wikified and contain code that is encoded to display verbatim on the page.
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformLiterals(WikiString pageContent)
         {
             //TODO: May need to do the same thing we did with TransformBlocks() to match all these if they need to be nested.
@@ -324,7 +322,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformScopeFunctions(WikiString pageContent)
         {
             var content = pageContent.ToString();
@@ -371,8 +368,8 @@ namespace TightWiki.Engine
         /// Transform blocks or sections of code, these are thinks like panels and alerts.
         /// </summary>
         /// <param name="pageContent"></param>
-        /// <param name="isFirstChance">Only process early functions (like code blocks)</param>
-        private void TransformScopeFunctions(WikiString pageContent, bool isFirstChance)
+        /// <param name="onlyProcessFirstChanceFunctions">Only process early functions (like code blocks)</param>
+        private void TransformScopeFunctions(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             // {{([\\S\\s]*)}}
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -386,16 +383,14 @@ namespace TightWiki.Engine
 
                 FunctionCall function;
 
-                //We are going to mock up a function call:
-                string mockFunctionCall = "##" + match.Value.Trim([' ', '\t', '{', '}']);
+                var mockFunctionCall = "##" + match.Value.Trim([' ', '\t', '{', '}']);
 
                 try
                 {
                     function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, mockFunctionCall, out paramEndIndex);
-
-                    var firstChanceFunctions = new string[] { "code" }; //Process these the first time through.
-                    if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
+                    if (onlyProcessFirstChanceFunctions && !!function.Prototype.IsFirstChance)
                     {
+                        //We are only processing "first chance" functions, so skip processing this function.
                         continue;
                     }
                 }
@@ -545,7 +540,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(link);
+                var args = FunctionParser.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -578,7 +573,7 @@ namespace TightWiki.Engine
             foreach (var match in orderedMatches)
             {
                 string link = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(link);
+                var args = FunctionParser.ParseArgumentsAddParenthesis(link);
 
                 if (args.Count > 1)
                 {
@@ -612,7 +607,7 @@ namespace TightWiki.Engine
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
 
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 string pageName;
                 string text;
@@ -745,12 +740,9 @@ namespace TightWiki.Engine
                     var postProcessPrototypes = Engine.PostProcessingFunctionHandler.Prototypes;
                     var parsed = FunctionParser.ParseFunctionCall(match.Value);
 
-                    if (parsed != default)
+                    if (parsed != default && postProcessPrototypes.Exists(parsed.Demarcation, parsed.Name))
                     {
-                        if (postProcessPrototypes.Exists(parsed.Demarcation, parsed.Name))
-                        {
-                            continue; //This IS a function, but it is meant to be parsed at the end of processing.
-                        }
+                        continue; //This IS a function, but it is meant to be parsed at the end of processing.
                     }
                     StoreError(pageContent, match.Value, ex.Message);
                     continue;
@@ -780,7 +772,8 @@ namespace TightWiki.Engine
         }
 
         /// <summary>
-        /// Transform post-process are functions that must be called after all other transformations. For example, we can't build a table-of-contents until we have parsed the entire page.
+        /// Transform post-process are functions that must be called after all other transformations.
+        /// For example, we can't build a table-of-contents until we have parsed the entire page.
         /// </summary>
         private void TransformPostProcessingFunctions(WikiString pageContent)
         {

@@ -1,7 +1,7 @@
 ﻿using TightWiki.Engine.Function;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+using static TightWiki.Engine.Function.FunctionConstants;
 using static TightWiki.Engine.Library.Constants;
 using static TightWiki.Library.Constants;
 

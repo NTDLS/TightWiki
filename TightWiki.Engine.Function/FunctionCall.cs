@@ -1,4 +1,4 @@
-﻿using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+﻿using static TightWiki.Engine.Function.FunctionConstants;
 
 namespace TightWiki.Engine.Function
 {
@@ -11,7 +11,9 @@ namespace TightWiki.Engine.Function
         /// The name of the function being called.
         /// </summary>
         public string Name { get; private set; }
+
         public FunctionPrototype Prototype { get; set; }
+
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
@@ -21,7 +23,7 @@ namespace TightWiki.Engine.Function
         {
             Prototype = prototype;
             Parameters = new FunctionParameters(this);
-            Name = prototype.FunctionName;
+            Name = prototype.Key;
 
             foreach (var arg in args)
             {
@@ -46,9 +48,6 @@ namespace TightWiki.Engine.Function
         /// <summary>
         /// Checks the passed value against the function prototype to ensure that the variable is the correct type, value, etc.
         /// </summary>
-        /// <param name="segment"></param>
-        /// <param name="value"></param>
-        /// <exception cref="Exception"></exception>
         private void EnforcePrototypeParamValue(PrototypeParameter param, string value)
         {
             if (param.Type == WikiFunctionParamType.Boolean)

@@ -4,7 +4,7 @@ using TightWiki.Engine.Function;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+using static TightWiki.Engine.Function.FunctionConstants;
 using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers
@@ -46,7 +46,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     //---------------------------------------------------------------------------------------------------------
 
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Scoped);
-                    _collection.Add("Code (String language['auto','wiki','cpp','lua','graphql','swift','r','yaml','kotlin','scss','shell','vbnet','json','objectivec','perl','diff','wasm','php','xml','bash','csharp','css','go','ini','javascript','less','makefile','markdown','plaintext','python','python-repl','ruby','rust','sql','typescript']='auto')");
+                    _collection.Add("Code (String language['auto','wiki','cpp','lua','graphql','swift','r','yaml','kotlin','scss','shell','vbnet','json','objectivec','perl','diff','wasm','php','xml','bash','csharp','css','go','ini','javascript','less','makefile','markdown','plaintext','python','python-repl','ruby','rust','sql','typescript']='auto')").IsFirstChance = true;
                     _collection.Add("Bullets (String type['unordered','ordered']='unordered')");
                     _collection.Add("Order (String direction['ascending','descending']='ascending')");
                     _collection.Add("Jumbotron ()");

@@ -1,4 +1,4 @@
-﻿using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+﻿using static TightWiki.Engine.Function.FunctionConstants;
 
 namespace TightWiki.Engine.Function
 {

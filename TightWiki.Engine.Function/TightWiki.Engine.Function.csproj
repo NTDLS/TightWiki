@@ -15,4 +15,8 @@
     <PackageReference Include="NTDLS.Helpers" Version="1.3.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
+  </ItemGroup>
+
 </Project>
