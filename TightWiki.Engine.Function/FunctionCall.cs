@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Engine.Function
+﻿using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+
+namespace TightWiki.Engine.Function
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
@@ -49,21 +51,21 @@
         /// <exception cref="Exception"></exception>
         private void EnforcePrototypeParamValue(PrototypeParameter param, string value)
         {
-            if (param.Type == "bool")
+            if (param.Type == WikiFunctionParamType.Boolean)
             {
                 if (bool.TryParse(value, out bool _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
                 }
             }
-            if (param.Type == "integer")
+            if (param.Type == WikiFunctionParamType.Integer)
             {
                 if (int.TryParse(value, out int _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
                 }
             }
-            else if (param.Type == "float")
+            else if (param.Type == WikiFunctionParamType.Double)
             {
                 if (double.TryParse(value, out double _) == false)
                 {

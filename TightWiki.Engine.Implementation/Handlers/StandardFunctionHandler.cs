@@ -29,54 +29,44 @@ namespace TightWiki.Engine.Implementation.Handlers
                 {
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
 
-                    // Pattern:
-                    //  ##FunctionName: <parameterType>{parameterName(valid,parameter,values)}='defaultValue' | <string>{titleText}=''
-                    // Notes:
-                    //  Parameters should be separated by a pipe character: |
-                    //  Parameters that are required are surrounded with [].
-                    //  Parameters that are optional are surrounded with {}.
-                    //  Parameters that only allow specific values should list the values after the parameter name in parentheses. e.g. paramName(valid,parameter,values)
-                    //  All optional parameters should have a default value, even if its null.
-                    //  All default values should be enclosed in single quotes (e.g. 'value') with the exception of NULL.
-
-                    _collection.Add("##Snippet: <string>[name]");
-                    _collection.Add("##Seq: <string>{key}='Default'");
-                    _collection.Add("##Set: <string>[key] | <string>[value]");
-                    _collection.Add("##Get: <string>[key]");
-                    _collection.Add("##Color: <string>[color] | <string>[text]");
-                    _collection.Add("##Tag: <string:infinite>[pageTags]"); //This is left here for backwards compatibility, Tag does not change the output, so it should be a processing instruction.
-                    _collection.Add("##SearchList: <string>[searchPhrase] | <string>{styleName(List,Full)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <bool>{allowFuzzyMatching}='false' | <bool>{showNamespace}='false'");
-                    _collection.Add("##TagList: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##NamespaceGlossary: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##NamespaceList: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##TagGlossary: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##RecentlyModified: <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##TextGlossary: <string>[searchPhrase] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}=null | <string>{class}=null");
-                    _collection.Add("##File: <string>[name] | <string>{linkText} | <bool>{showSize}='false'");
-                    _collection.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
-                    _collection.Add("##Similar: <integer>{similarity}='80' | <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
-                    _collection.Add("##EditLink: <string>{linkText}='edit'");
-                    _collection.Add("##Inject: <string>[pageName]");
-                    _collection.Add("##Include: <string>[pageName]");
-                    _collection.Add("##BR: <integer>{Count}='1'");
-                    _collection.Add("##HR: <integer>{Height}='1'");
-                    _collection.Add("##Revisions:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=null");
-                    _collection.Add("##Attachments:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=null");
-                    _collection.Add("##Title:");
-                    _collection.Add("##Navigation:");
-                    _collection.Add("##Name:");
-                    _collection.Add("##SiteName:");
-                    _collection.Add("##Namespace:");
-                    _collection.Add("##Created:");
-                    _collection.Add("##LastModified:");
-                    _collection.Add("##AppVersion:");
-                    _collection.Add("##ProfileGlossary: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=null");
-                    _collection.Add("##ProfileList: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=null");
+                    _collection.Add("Snippet (String name)");
+                    _collection.Add("Seq (String key='Default')");
+                    _collection.Add("Set (String key, String value)");
+                    _collection.Add("Get (String key)");
+                    _collection.Add("Color (String color, String text)");
+                    _collection.Add("Tag (InfiniteString pageTags)"); //This is left here for backwards compatibility, Tag does not change the output, so it should be a processing instruction.
+                    _collection.Add("SearchList (String searchPhrase, String styleName['List','Full']='Full', Integer pageSize='5', Boolean pageSelector='true', Boolean allowFuzzyMatching='false', Boolean showNamespace='false')");
+                    _collection.Add("TagList (InfiniteString pageTags, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("NamespaceGlossary (InfiniteString namespaces, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("NamespaceList (InfiniteString namespaces, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("TagGlossary (InfiniteString pageTags, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("RecentlyModified (Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("TextGlossary (String searchPhrase, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("Image (String name, Integer scale='100', String altText=null, String class=null)");
+                    _collection.Add("File (String name, String linkText, Boolean showSize='false')");
+                    _collection.Add("Related (String styleName['List','Flat','Full']='Full', Integer pageSize='10', Boolean pageSelector='true')");
+                    _collection.Add("Similar (Integer similarity='80', String styleName['List','Flat','Full']='Full', Integer pageSize='10', Boolean pageSelector='true')");
+                    _collection.Add("EditLink (String linkText='edit')");
+                    _collection.Add("Inject (String pageName)");
+                    _collection.Add("Include (String pageName)");
+                    _collection.Add("BR (Integer Count='1')");
+                    _collection.Add("HR (Integer Height='1')");
+                    _collection.Add("Revisions (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
+                    _collection.Add("Attachments (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
+                    _collection.Add("Title ()");
+                    _collection.Add("Navigation ()");
+                    _collection.Add("Name ()");
+                    _collection.Add("SiteName ()");
+                    _collection.Add("Namespace ()");
+                    _collection.Add("Created ()");
+                    _collection.Add("LastModified ()");
+                    _collection.Add("AppVersion ()");
+                    _collection.Add("ProfileGlossary (Integer Top='1000', Integer pageSize='100', String searchToken=null)");
+                    _collection.Add("ProfileList (Integer Top='1000', Integer pageSize='100', String searchToken=null)");
 
                     //System functions (we don't advertise these, but they aren't unsafe):
-                    _collection.Add("##SystemEmojiCategoryList:");
-                    _collection.Add("##SystemEmojiList:");
+                    _collection.Add("SystemEmojiCategoryList ()");
+                    _collection.Add("SystemEmojiList ()");
                 }
 
                 return _collection;
