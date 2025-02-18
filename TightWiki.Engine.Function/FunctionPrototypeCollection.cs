@@ -39,6 +39,7 @@ namespace TightWiki.Engine.Function
             string demarcation = FunctionTypes switch
             {
                 WikiFunctionType.Standard => "##",
+                WikiFunctionType.Instruction => "##",
                 WikiFunctionType.Scoped => "$$",
                 WikiFunctionType.Instruction => "@@",
                 _ => string.Empty,
