@@ -22,23 +22,34 @@ namespace TightWiki.Engine.Implementation.Handlers
             {
                 if (_collection == null)
                 {
+                    //---------------------------------------------------------------------------------------------------------
+                    // Example function prototypes:                                                                           -
+                    //---------------------------------------------------------------------------------------------------------
+                    // Function with an optional parameter whose value is constrained to a given set of values:               -
+                    //     Example: functionName (parameterType parameterName[allowable,values]='default value')              -
+                    //--                                                                                                      -
+                    // Function with an optional parameter, which is just a parameter with a default value.                   -
+                    //     Example: functionName (parameterType parameterName='default value')                                -
+                    //--                                                                                                      -
+                    // Function with more than one required parameter:                                                        -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2)                 -
+                    //--                                                                                                      -
+                    // Function with a required parameter and an optional parameter.                                          -
+                    // Note that required parameter cannot come after optional parameters.                                    -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2='default value') -
+                    //--                                                                                                      -
+                    // Notes:                                                                                                 -
+                    //     Parameter types are defined by the enum: WikiFunctionParamType                                     -
+                    //     All values, with the exception of NULL should be enclosed in single-quotes                         -
+                    //     The single-quote enclosed escape character is back-slash (e.g. 'John\'s Literal')                  -
+                    //--                                                                                                      -
+                    //---------------------------------------------------------------------------------------------------------
+
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
-
-                    // Pattern:
-                    //  ##FunctionName: <parameterType>{parameterName(valid,parameter,values)}='defaultValue' | <string>{titleText}=''
-                    // Notes:
-                    //  Parameters should be separated by a pipe character: |
-                    //  Parameters that are required are surrounded with [].
-                    //  Parameters that are optional are surrounded with {}.
-                    //  Parameters that only allow specific values should list the values after the parameter name in parentheses. e.g. paramName(valid,parameter,values)
-                    //  All optional parameters should have a default value, even if its null.
-                    //  All default values should be enclosed in single quotes (e.g. 'value') with the exception of NULL.
-
-
-                    _collection.Add("##Tags: <string>{styleName(Flat,List)}='List'");
-                    _collection.Add("##TagCloud: <string>[pageTag] | <integer>{Top}='1000'");
-                    _collection.Add("##SearchCloud: <string>[searchPhrase] | <integer>{Top}='1000'");
-                    _collection.Add("##TOC:<bool>{alphabetized}='false'");
+                    _collection.Add("Tags (string styleName['Flat','List']='List')");
+                    _collection.Add("TagCloud (string pageTag, integer Top='1000')");
+                    _collection.Add("SearchCloud (string searchPhrase, integer top ='1000')");
+                    _collection.Add("TOC( boolean alphabetized='false')");
                 }
 
                 return _collection;

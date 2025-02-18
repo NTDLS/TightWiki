@@ -22,31 +22,43 @@ namespace TightWiki.Engine.Implementation.Handlers
             {
                 if (_collection == null)
                 {
+                    //---------------------------------------------------------------------------------------------------------
+                    // Example function prototypes:                                                                           -
+                    //---------------------------------------------------------------------------------------------------------
+                    // Function with an optional parameter whose value is constrained to a given set of values:               -
+                    //     Example: functionName (parameterType parameterName[allowable,values]='default value')              -
+                    //--                                                                                                      -
+                    // Function with an optional parameter, which is just a parameter with a default value.                   -
+                    //     Example: functionName (parameterType parameterName='default value')                                -
+                    //--                                                                                                      -
+                    // Function with more than one required parameter:                                                        -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2)                 -
+                    //--                                                                                                      -
+                    // Function with a required parameter and an optional parameter.                                          -
+                    // Note that required parameter cannot come after optional parameters.                                    -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2='default value') -
+                    //--                                                                                                      -
+                    // Notes:                                                                                                 -
+                    //     Parameter types are defined by the enum: WikiFunctionParamType                                     -
+                    //     All values, with the exception of NULL should be enclosed in single-quotes                         -
+                    //     The single-quote enclosed escape character is back-slash (e.g. 'John\'s Literal')                  -
+                    //--                                                                                                      -
+                    //---------------------------------------------------------------------------------------------------------
+
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Scoped);
-
-                    // Pattern:
-                    //  $$FunctionName: <parameterType>{parameterName(valid,parameter,values)}='defaultValue' | <string>{titleText}=''
-                    // Notes:
-                    //  Parameters should be separated by a pipe character: |
-                    //  Parameters that are required are surrounded with [].
-                    //  Parameters that are optional are surrounded with {}.
-                    //  Parameters that only allow specific values should list the values after the parameter name in parentheses. e.g. paramName(valid,parameter,values)
-                    //  All optional parameters should have a default value, even if its null.
-                    //  All default values should be enclosed in single quotes (e.g. 'value') with the exception of NULL.
-
-                    _collection.Add("$$Code: <string>{language(auto,wiki,cpp,lua,graphql,swift,r,yaml,kotlin,scss,shell,vbnet,json,objectivec,perl,diff,wasm,php,xml,bash,csharp,css,go,ini,javascript,less,makefile,markdown,plaintext,python,python-repl,ruby,rust,sql,typescript)}='auto'");
-                    _collection.Add("$$Bullets: <string>{type(unordered,ordered)}='unordered'");
-                    _collection.Add("$$Order: <string>{direction(ascending,descending)}='ascending'");
-                    _collection.Add("$$Jumbotron:");
-                    _collection.Add("$$Callout: <string>{styleName(default,primary,secondary,success,info,warning,danger)}='default' | <string>{titleText}=''");
-                    _collection.Add("$$Background: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger,muted)}='default'");
-                    _collection.Add("$$Foreground: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger,muted)}='default'");
-                    _collection.Add("$$Alert: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
-                    _collection.Add("$$Card: <string>{styleName(default,primary,secondary,light,dark,success,info,warning,danger)}='default' | <string>{titleText}=''");
-                    _collection.Add("$$Collapse: <string>{linkText}='Show'");
-                    _collection.Add("$$Table: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
-                    _collection.Add("$$StripedTable: <boolean>{hasBorder}='true' | <boolean>{isFirstRowHeader}='true'");
-                    _collection.Add("$$DefineSnippet: <string>[name]");
+                    _collection.Add("Code (String language['auto','wiki','cpp','lua','graphql','swift','r','yaml','kotlin','scss','shell','vbnet','json','objectivec','perl','diff','wasm','php','xml','bash','csharp','css','go','ini','javascript','less','makefile','markdown','plaintext','python','python-repl','ruby','rust','sql','typescript']='auto')");
+                    _collection.Add("Bullets (String type['unordered','ordered']='unordered')");
+                    _collection.Add("Order (String direction['ascending','descending']='ascending')");
+                    _collection.Add("Jumbotron ()");
+                    _collection.Add("Callout (String styleName['default','primary','secondary','success','info','warning','danger']='default', String titleText='')");
+                    _collection.Add("Background (String styleName['default','primary','secondary','light','dark','success','info','warning','danger','muted']='default')");
+                    _collection.Add("Foreground (String styleName['default','primary','secondary','light','dark','success','info','warning','danger','muted']='default')");
+                    _collection.Add("Alert (String styleName['default','primary','secondary','light','dark','success','info','warning','danger']='default', String titleText='')");
+                    _collection.Add("Card (String styleName['default','primary','secondary','light','dark','success','info','warning','danger']='default', String titleText='')");
+                    _collection.Add("Collapse (String linkText='Show')");
+                    _collection.Add("Table (Boolean hasBorder='true', Boolean isFirstRowHeader='true')");
+                    _collection.Add("StripedTable (Boolean hasBorder='true', Boolean isFirstRowHeader='true')");
+                    _collection.Add("DefineSnippet (String name)");
                 }
 
                 return _collection;
