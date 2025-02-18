@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.CompilerServices;
+using System.Text;
 using TightWiki.Engine.Function.Exceptions;
 
 namespace TightWiki.Engine.Function
@@ -32,9 +33,9 @@ namespace TightWiki.Engine.Function
 
         public void Add(string prototypeString)
         {
-            var prototype = ParsePrototype(prototypeString);
+            var prototype = Parse(prototypeString);
 
-            string demarcation = FunctionTypes switch
+            var demarcation = FunctionTypes switch
             {
                 WikiFunctionType.Standard => "##",
                 WikiFunctionType.Scoped => "$$",
@@ -72,12 +73,12 @@ namespace TightWiki.Engine.Function
                 ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");
         }
 
-        private static FunctionPrototype ParsePrototype(string prototypeString)
+        private static FunctionPrototype Parse(string prototypeString)
         {
             int index = 0;
 
             //Get function name.
-            var token = NextToken(prototypeString, ref index);
+            var token = GetNextToken(prototypeString, ref index);
             if (prototypeString[index] != '(')
             {
                 throw new Exception($"Unexpected token '{prototypeString[index]}' found  when parsing: [{prototypeString}]");
@@ -102,20 +103,18 @@ namespace TightWiki.Engine.Function
                 }
 
                 //Get parameter type.
-                token = NextToken(prototypeString, ref index);
+                token = GetNextToken(prototypeString, ref index);
                 if (string.IsNullOrEmpty(token))
                 {
                     throw new Exception($"Unexpected empty token when parsing [{prototype.ProperName}].");
                 }
-
-                //Alert (String styleName['default','primary','secondary','light','dark','success','info','warning','danger']='default', String titleText='')
 
                 //Parse parameter type.
                 if (Enum.TryParse<WikiFunctionParamType>(token, true, out var parsedParamType)
                     && Enum.IsDefined(parsedParamType) && int.TryParse(token, out _) == false)
                 {
                     //Get parameter name.
-                    string parameterName = NextToken(prototypeString, ref index);
+                    string parameterName = GetNextToken(prototypeString, ref index);
 
                     var prototypeParameter = new PrototypeParameter(parsedParamType, parameterName);
                     if (prototypeParameter.IsInfinite && prototype.Parameters.Any(o => o.IsInfinite))
@@ -132,12 +131,8 @@ namespace TightWiki.Engine.Function
 
                         while (true)
                         {
-                            var literalValue = ParseLiteral(prototypeString, ref index);
-
-                            if (literalValue == null)
-                            {
-                                throw new Exception($"Null values are not allowed in allowable value list for: [{prototype.ProperName}].");
-                            }
+                            var literalValue = ParseLiteral(prototypeString, ref index)
+                                ?? throw new Exception($"Null values are not allowed in allowable value list for: [{prototype.ProperName}].");
 
                             prototypeParameter.AllowedValues.Add(literalValue);
 
@@ -229,7 +224,8 @@ namespace TightWiki.Engine.Function
         /// <summary>
         /// Gets the next token in a string.
         /// </summary>
-        private static string NextToken(string str, ref int index)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static string GetNextToken(string str, ref int index)
         {
             var token = string.Empty;
 
@@ -250,6 +246,7 @@ namespace TightWiki.Engine.Function
             return token;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void SkipWhiteSpace(string str, ref int index)
         {
             while (index < str.Length && char.IsWhiteSpace(str[index]))
@@ -258,6 +255,11 @@ namespace TightWiki.Engine.Function
             }
         }
 
+        /// <summary>
+        /// Parses a literal value which is either "NULL" or a string enclosed in 'single quotes'.
+        /// In the case that the literal value needs to include a single quote, the backslash is
+        /// used as an escape character. (e.g. 'John\'s Literal')
+        /// </summary>
         private static string? ParseLiteral(string str, ref int index)
         {
             if (str.Substring(index).StartsWith("null", StringComparison.InvariantCultureIgnoreCase))

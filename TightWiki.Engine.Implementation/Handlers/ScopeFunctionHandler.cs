@@ -38,7 +38,11 @@ namespace TightWiki.Engine.Implementation.Handlers
                     // Note that required parameter cannot come after optional parameters.                                    -
                     //     Example: functionName (parameterType parameterName1, parameterType parameterName2='default value') -
                     //--                                                                                                      -
-                    // Parameter types are defined by the enum: WikiFunctionParamType                                         -
+                    // Notes:                                                                                                 -
+                    //     Parameter types are defined by the enum: WikiFunctionParamType                                     -
+                    //     All values, with the exception of NULL should be enclosed in single-quotes                         -
+                    //     The single-quote enclosed escape character is back-slash (e.g. 'John\'s Literal')                  -
+                    //--                                                                                                      -
                     //---------------------------------------------------------------------------------------------------------
 
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Scoped);
