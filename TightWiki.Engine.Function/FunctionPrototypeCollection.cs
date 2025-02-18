@@ -47,8 +47,8 @@ namespace TightWiki.Engine.Function
             Items.Add(new PrototypeSet()
             {
                 Demarcation = demarcation,
-                ProperName = $"{demarcation}{prototype.ProperName}",
-                FunctionName = $"{demarcation}{prototype.ProperName}".ToLower(),
+                ProperName = prototype.ProperName,
+                FunctionName = prototype.ProperName.ToLower(),
                 Value = prototype
             });
         }
