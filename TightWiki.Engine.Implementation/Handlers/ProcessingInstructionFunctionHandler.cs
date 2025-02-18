@@ -20,10 +20,26 @@ namespace TightWiki.Engine.Implementation.Handlers
             {
                 if (_collection == null)
                 {
+                    //---------------------------------------------------------------------------------------------------------
+                    // Example function prototypes:                                                                           -
+                    //---------------------------------------------------------------------------------------------------------
+                    // Function with an optional parameter whose value is constrained to a given set of values:               -
+                    //     Example: functionName (parameterType parameterName[allowable,values]='default value')              -
+                    //--                                                                                                      -
+                    // Function with an optional parameter, which is just a parameter with a default value.                   -
+                    //     Example: functionName (parameterType parameterName='default value')                                -
+                    //--                                                                                                      -
+                    // Function with more than one required parameter:                                                        -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2)                 -
+                    //--                                                                                                      -
+                    // Function with a required parameter and an optional parameter.                                          -
+                    // Note that required parameter cannot come after optional parameters.                                    -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2='default value') -
+                    //--                                                                                                      -
+                    // Parameter types are defined by the enum: WikiFunctionParamType                                         -
+                    //---------------------------------------------------------------------------------------------------------
+
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Instruction);
-
-                    //Valid parameter types: WikiFunctionParamType
-
                     _collection.Add("Deprecate ()");
                     _collection.Add("Protect(Boolean isSilent='false')");
                     _collection.Add("Tags (InfiniteString pageTags)");

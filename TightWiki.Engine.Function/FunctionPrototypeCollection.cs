@@ -1,6 +1,4 @@
-﻿using NTDLS.Helpers;
-using System;
-using System.Text;
+﻿using System.Text;
 using TightWiki.Engine.Function.Exceptions;
 
 namespace TightWiki.Engine.Function
@@ -39,7 +37,6 @@ namespace TightWiki.Engine.Function
             string demarcation = FunctionTypes switch
             {
                 WikiFunctionType.Standard => "##",
-                WikiFunctionType.Instruction => "##",
                 WikiFunctionType.Scoped => "$$",
                 WikiFunctionType.Instruction => "@@",
                 _ => string.Empty,

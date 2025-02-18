@@ -1,6 +1,4 @@
-﻿using System.Reflection.Metadata;
-
-namespace TightWiki.Engine.Function
+﻿namespace TightWiki.Engine.Function
 {
     public class FunctionPrototype
     {
