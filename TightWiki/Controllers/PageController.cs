@@ -38,7 +38,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Default controller for root requests. e.g. http://127.0.0.1/
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public IActionResult Display()
             => Display("home", null);
@@ -283,10 +282,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Insert new page comment.
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="givenCanonical"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("{givenCanonical}/Comments")]
         public ActionResult Comments(PageCommentsViewModel model, string givenCanonical)
@@ -665,7 +660,6 @@ namespace TightWiki.Controllers
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
-        /// <returns></returns>
         [HttpGet("Page/Image/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
         public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
@@ -748,7 +742,6 @@ namespace TightWiki.Controllers
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="pageRevision">The revision of the the PAGE that the file is attached to (NOT THE FILE REVISION)</param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("Page/Png/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
         public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)

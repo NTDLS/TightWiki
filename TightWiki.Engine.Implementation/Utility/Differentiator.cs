@@ -7,9 +7,6 @@ namespace TightWiki.Engine.Implementation.Utility
         /// <summary>
         /// This leaves a lot to be desired.
         /// </summary>
-        /// <param name="thisRev"></param>
-        /// <param name="prevRev"></param>
-        /// <returns></returns>
         public static string GetComparisonSummary(string thisRev, string prevRev)
         {
             var summary = new StringBuilder();

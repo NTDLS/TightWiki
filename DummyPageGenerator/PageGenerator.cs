@@ -69,8 +69,6 @@ namespace DummyPageGenerator
         /// <summary>
         /// Creates a user and the associated profile with claims and such.
         /// </summary>
-        /// <param name="emailAddress"></param>
-        /// <exception cref="Exception"></exception>
         public void CreateUserAndProfile(string emailAddress)
         {
             var user = new IdentityUser()
@@ -104,8 +102,6 @@ namespace DummyPageGenerator
         /// <summary>
         /// Creates a paragraph/sentence structure.
         /// </summary>
-        /// <param name="words"></param>
-        /// <returns></returns>
         private string GetParagraph(int words)
         {
             using var client = new HttpClient();
@@ -119,8 +115,6 @@ namespace DummyPageGenerator
         /// <summary>
         /// Creates a paragraph/sentence structure with links and wiki markup.
         /// </summary>
-        /// <param name="wordCount"></param>
-        /// <returns></returns>
         private string GenerateWikiParagraph(int wordCount)
         {
             var paragraph = GetParagraph(wordCount);
@@ -355,9 +349,6 @@ namespace DummyPageGenerator
         /// <summary>
         /// Returns a shuffled version of the input list.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <returns></returns>
         private List<T> ShuffleList<T>(List<T> list)
         {
             var newList = new List<T>(list);
@@ -377,8 +368,6 @@ namespace DummyPageGenerator
         /// <summary>
         /// Adds some random wiki text to a word.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
         private string AddWikiMarkup(string text)
         {
             switch (_random.Next(0, 5))

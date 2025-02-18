@@ -14,10 +14,6 @@ namespace TightWiki.Engine.Implementation
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.
         /// </summary>
-        /// <param name="sessionState"></param>
-        /// <param name="query"></param>
-        /// <param name="page"></param>
-        /// <returns></returns>
         public static int UpsertPage(ITightEngine wikifier, Page page, ISessionState? sessionState = null)
         {
             bool isNewlyCreated = page.Id == 0;

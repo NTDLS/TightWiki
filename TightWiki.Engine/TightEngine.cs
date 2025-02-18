@@ -56,7 +56,6 @@ namespace TightWiki.Engine
         /// <param name="page">The page that is being processed.</param>
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
-        /// <returns></returns>
         public ITightEngineState Transform(ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
             => new TightEngineState(this, session, page, revision, omitMatches).Transform();
     }

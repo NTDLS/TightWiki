@@ -8,8 +8,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Skips the namespace and returns just the page name part of the navigation.
         /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
         internal static string GetPageNamePart(string navigation)
         {
             var parts = navigation.Trim(':').Trim().Split("::");
@@ -52,8 +50,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Gets a list of symbols where the symbol occurs consecutively, more than once. (e.g.  "##This##")
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         internal static HashSet<char> GetApplicableSymbols(string input)
         {
             var symbolCounts = new Dictionary<char, int>();

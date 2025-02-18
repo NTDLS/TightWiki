@@ -487,10 +487,6 @@ namespace TightWiki.Repository
         /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
         /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
         /// </summary>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="searchTerms"></param>
-        /// <returns></returns>
         public static List<Page> GetAllPagesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null)
         {
@@ -531,10 +527,6 @@ namespace TightWiki.Repository
         /// Unlike the search, this method returns all pages and allows them to be paired down using the search terms.
         /// Whereas the search requires a search term to get results. The matching here is also exact, no score based matching.
         /// </summary>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="searchTerms"></param>
-        /// <returns></returns>
         public static List<Page> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,
             string? orderByDirection = null, List<string>? searchTerms = null)
         {
@@ -797,8 +789,6 @@ namespace TightWiki.Repository
         /// <summary>
         /// Gets the page info without the content.
         /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
         public static Page? GetPageInfoByNavigation(string navigation)
         {
             var param = new

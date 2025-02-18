@@ -49,7 +49,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.
         /// </summary>
-        /// <returns></returns>
         protected RedirectResult NotifyOf(string successMessage, string errorMessage, string redirectUrl)
             => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(successMessage)}&NotifyErrorMessage={Uri.EscapeDataString(errorMessage)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
 

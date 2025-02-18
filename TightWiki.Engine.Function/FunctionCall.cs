@@ -85,7 +85,6 @@ namespace TightWiki.Engine.Function
         /// Rolls through the supplied arguments and applies them to the prototype. Also identifies which supplied arguments are associated with each 
         /// prototype argument and adds the ordinal based arguments to the name based collection. Ensures that each argument conforms with the prototype.
         /// </summary>
-        /// <exception cref="Exception"></exception>
         private void ApplyPrototype()
         {
             int index = 0;

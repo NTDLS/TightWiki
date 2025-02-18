@@ -69,7 +69,6 @@ namespace TightWiki.Engine.Library.Interfaces
         /// </summary>
         /// <param name="page">The child page to process</param>
         /// <param name="revision">The optional revision of the child page to process</param>
-        /// <returns></returns>
         ITightEngineState TransformChild(IPage page, int? revision = null);
     }
 }

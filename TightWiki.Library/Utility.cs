@@ -29,10 +29,6 @@ namespace TightWiki.Library
         /// <summary>
         /// Take a height and width and enforces a max on both dimensions while maintaining the ratio.
         /// </summary>
-        /// <param name="originalWidth"></param>
-        /// <param name="originalHeight"></param>
-        /// <param name="maxSize"></param>
-        /// <returns></returns>
         public static (int Width, int Height) ScaleToMaxOf(int originalWidth, int originalHeight, int maxSize)
         {
             // Calculate aspect ratio

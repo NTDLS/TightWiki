@@ -28,8 +28,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// //Gets a users avatar.
         /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [HttpGet("{userAccountName}/Avatar")]
@@ -181,7 +179,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Get user profile.
         /// </summary>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("{userAccountName}/Public")]
         public ActionResult Public(string userAccountName)
@@ -234,7 +231,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Get user profile.
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         [HttpGet]
         [HttpGet("My")]
@@ -263,8 +259,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Save user profile.
         /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("My")]
         public ActionResult My(AccountProfileViewModel model)
@@ -362,8 +356,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// User is deleting their own profile.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("Delete")]
         public ActionResult Delete(DeleteAccountViewModel model)
@@ -402,7 +394,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// User is deleting their own profile.
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         [HttpGet("Delete")]
         public ActionResult Delete()
@@ -428,7 +419,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// User is deleting their own profile.
         /// </summary>
-        /// <returns></returns>
         [Authorize]
         [HttpGet("Deleted")]
         public ActionResult Deleted()

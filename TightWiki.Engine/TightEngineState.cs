@@ -127,7 +127,6 @@ namespace TightWiki.Engine
         /// </summary>
         /// <param name="page">The child page to process.</param>
         /// <param name="revision">The optional revision of the child page to process.</param>
-        /// <returns></returns>
         public ITightEngineState TransformChild(IPage page, int? revision = null)
         {
             return new TightEngineState(Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
@@ -936,7 +935,6 @@ namespace TightWiki.Engine
         ///     their own query strings. For instance, we can have more than one pager on a wiki page, this
         /// allows each pager to track its own current page in the query string.
         /// </summary>
-        /// <returns></returns>
         public string GetNextQueryToken()
         {
             _queryTokenHash = Security.Helpers.Sha256(Security.Helpers.EncryptString(Security.Helpers.MachineKey, _queryTokenHash));

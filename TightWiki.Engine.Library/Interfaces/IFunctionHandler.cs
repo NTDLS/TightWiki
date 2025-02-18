@@ -10,7 +10,6 @@ namespace TightWiki.Engine.Library.Interfaces
         /// <summary>
         /// Returns a collection of function prototypes.
         /// </summary>
-        /// <returns></returns>
         public FunctionPrototypeCollection Prototypes { get; }
 
         /// <summary>
