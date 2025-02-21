@@ -39,34 +39,35 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Built in search supports fuzzy matching to support even mild misspellings.
 
 # Default home page
-![image](https://github.com/NTDLS/TightWiki/assets/11428567/9cc75103-26b8-4732-8118-315335cddae9)
+![image](https://github.com/user-attachments/assets/7ed1dbcb-0763-4a0e-a875-fe1364e876c7)
 
 # Site Metrics
 We've beat the wiki up with more data than this, but this is our standard workload. ~45,000 pages, in ~400 namespaces, with ~250,000 revisions, created by ~1,000 users, manifesting ~5 million search tokens. The random fuzzy-match search time is 11 milliseconds. Not too shabby, right?
 
 ![image](https://github.com/user-attachments/assets/02d9da1f-e164-44ce-aee9-0c42eedc4180)
 
-
 # Page search (inexact fuzzy matching with weighted tokens)
-![Clip9](https://user-images.githubusercontent.com/11428567/208713076-118d981c-5cc3-4e33-a971-f63518da01ad.png)
+![image](https://github.com/user-attachments/assets/b3caf0eb-32cf-43ad-885d-b2c8d10ae1ef)
 
 # Page History
-![Clip2](https://user-images.githubusercontent.com/11428567/208713101-04646bf0-994a-423c-91bd-691d2e2e71fa.png)
+![image](https://github.com/user-attachments/assets/3dba0f07-5758-4039-9b2c-0b7a354e76f3)
 
 # Example edit page
-![Clip1](https://user-images.githubusercontent.com/11428567/208712847-7f15a68d-d373-49a2-a8f0-e2d8074b3413.png)
+![image](https://github.com/user-attachments/assets/10eb3281-dad9-41fe-ba11-55019515e343)
 
 # Build in documentation list
-![Clip7](https://user-images.githubusercontent.com/11428567/208712860-a92ba44d-28b2-4e36-9735-6c1f3bf78e3e.png)
+![image](https://github.com/user-attachments/assets/00b23663-972d-4791-8698-99e54bbc601c)
 
-# Build in documentation sample
-![Clip8](https://user-images.githubusercontent.com/11428567/208712889-9cf8eeca-7e0c-4019-af72-293f1ac50bc1.png)
+# Build in documentation example
+![image](https://github.com/user-attachments/assets/ab6a1893-d0b5-4ba5-8262-d71423d8d49d)
 
 # Configuration
-![Clip3](https://user-images.githubusercontent.com/11428567/208712916-2659d535-9b73-4ba9-bd4b-ccd003d365da.png)
+![image](https://github.com/user-attachments/assets/8afe427e-cafd-48cc-92e3-a67529c379a3)
 
 # Admin page list
-![Clip6](https://user-images.githubusercontent.com/11428567/208712947-b75dd885-0a40-4bcf-bb3c-afcea2194a38.png)
+![image](https://github.com/user-attachments/assets/9a8068c9-2176-4ee4-8670-5f74f3470002)
 
 # Admin role list
-![Clip4](https://user-images.githubusercontent.com/11428567/208712960-70b13aff-0f0c-4b04-bbd7-3c8a66dbe70c.png)
+![image](https://github.com/user-attachments/assets/2aa340d1-c1eb-4ee9-b3c7-91ff6e4f0a7b)
+
+
