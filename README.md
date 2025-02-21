@@ -39,7 +39,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Built in search supports fuzzy matching to support even mild misspellings.
 
 # Default home page
-![image](https://github.com/user-attachments/assets/7ed1dbcb-0763-4a0e-a875-fe1364e876c7)
+![image](https://github.com/user-attachments/assets/7a8c0c6f-b865-415c-9b29-9833ba2cf58f)
 
 # Site Metrics
 We've beat the wiki up with more data than this, but this is our standard workload. ~45,000 pages, in ~400 namespaces, with ~250,000 revisions, created by ~1,000 users, manifesting ~5 million search tokens. The random fuzzy-match search time is 11 milliseconds. Not too shabby, right?
