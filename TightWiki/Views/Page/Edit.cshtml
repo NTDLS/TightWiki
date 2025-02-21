@@ -164,7 +164,7 @@
 
                 <br />
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
-                <textarea id=Body name="Body">@Model.Body</textarea>
+                <textarea id="Body" name="Body" spellcheck="true">@Model.Body</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
                         theme: "@sessionState.UserTheme.EditorTheme",
@@ -173,8 +173,12 @@
                         matchBrackets: true,
                         viewportMargin: Infinity,
                         lineWrapping: true,
-                        scrollbarStyle: "simple"
+                        scrollbarStyle: "simple",
+                        inputStyle: "contenteditable", // Enables browser's native spellcheck
+                        spellcheck: true,              // Explicitly enables spellcheck
+                        autocorrect: true              // Enables autocorrect
                     });
+
                 </script>
 
                 <br />
