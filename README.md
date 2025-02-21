@@ -47,7 +47,7 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 ![image](https://github.com/user-attachments/assets/02d9da1f-e164-44ce-aee9-0c42eedc4180)
 
 
-# Page search
+# Page search (inexact fuzzy matching with weighted tokens)
 ![Clip9](https://user-images.githubusercontent.com/11428567/208713076-118d981c-5cc3-4e33-a971-f63518da01ad.png)
 
 # Page History
