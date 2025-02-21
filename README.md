@@ -55,6 +55,24 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Example edit page
 ![image](https://github.com/user-attachments/assets/10eb3281-dad9-41fe-ba11-55019515e343)
 
+# Emojis Configuration 
+![image](https://github.com/user-attachments/assets/3e78b853-d151-4ef4-ad7a-d4e68393643f)
+
+# Compiliation
+![image](https://github.com/user-attachments/assets/88510729-ce17-42aa-a2da-cb54ef2a87d6)
+
+# Deleted Pages
+![image](https://github.com/user-attachments/assets/80559132-60dc-42ab-bb51-cb66d25658df)
+
+# History and Revert
+![image](https://github.com/user-attachments/assets/92f74860-afab-421e-9db9-99040e1d4431)
+
+# Page Attachments
+![image](https://github.com/user-attachments/assets/751640d8-bd3f-4b63-ae69-916f624f09bc)
+
+# Attachment Revisions
+![image](https://github.com/user-attachments/assets/482f3bf0-f43e-4b37-be90-806e92b46175)
+
 # Build in documentation list
 ![image](https://github.com/user-attachments/assets/00b23663-972d-4791-8698-99e54bbc601c)
 
