@@ -1,4 +1,6 @@
-﻿namespace TightWiki.Engine.Function
+﻿using static TightWiki.Engine.Function.FunctionConstants;
+
+namespace TightWiki.Engine.Function
 {
     /// <summary>
     /// Contains information about an actual function call, its supplied parameters, and is matched with a defined function.
@@ -9,7 +11,9 @@
         /// The name of the function being called.
         /// </summary>
         public string Name { get; private set; }
+
         public FunctionPrototype Prototype { get; set; }
+
         /// <summary>
         /// The arguments supplied by the caller.
         /// </summary>
@@ -19,7 +23,7 @@
         {
             Prototype = prototype;
             Parameters = new FunctionParameters(this);
-            Name = prototype.FunctionName;
+            Name = prototype.Key;
 
             foreach (var arg in args)
             {
@@ -44,26 +48,23 @@
         /// <summary>
         /// Checks the passed value against the function prototype to ensure that the variable is the correct type, value, etc.
         /// </summary>
-        /// <param name="segment"></param>
-        /// <param name="value"></param>
-        /// <exception cref="Exception"></exception>
         private void EnforcePrototypeParamValue(PrototypeParameter param, string value)
         {
-            if (param.Type == "bool")
+            if (param.Type == WikiFunctionParamType.Boolean)
             {
                 if (bool.TryParse(value, out bool _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to boolean.");
                 }
             }
-            if (param.Type == "integer")
+            if (param.Type == WikiFunctionParamType.Integer)
             {
                 if (int.TryParse(value, out int _) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] could not be converted to integer.");
                 }
             }
-            else if (param.Type == "float")
+            else if (param.Type == WikiFunctionParamType.Double)
             {
                 if (double.TryParse(value, out double _) == false)
                 {
@@ -84,7 +85,6 @@
         /// Rolls through the supplied arguments and applies them to the prototype. Also identifies which supplied arguments are associated with each 
         /// prototype argument and adds the ordinal based arguments to the name based collection. Ensures that each argument conforms with the prototype.
         /// </summary>
-        /// <exception cref="Exception"></exception>
         private void ApplyPrototype()
         {
             int index = 0;

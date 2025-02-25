@@ -1,5 +1,4 @@
 ﻿using NTDLS.Helpers;
-using SixLabors.ImageSharp;
 using System.Reflection;
 using System.Text;
 using TightWiki.Engine.Function;
@@ -10,13 +9,13 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using static TightWiki.Engine.Function.FunctionPrototypeCollection;
+using static TightWiki.Engine.Function.FunctionConstants;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
-    /// Handled standard function calls.
+    /// Handled standard function calls, where the function call is replaced with the function result.
     /// </summary>
     public class StandardFunctionHandler : IStandardFunctionHandler
     {
@@ -28,51 +27,68 @@ namespace TightWiki.Engine.Implementation
             {
                 if (_collection == null)
                 {
+                    //---------------------------------------------------------------------------------------------------------
+                    // Example function prototypes:                                                                           -
+                    //---------------------------------------------------------------------------------------------------------
+                    // Function with an optional parameter whose value is constrained to a given set of values:               -
+                    //     Example: functionName (parameterType parameterName[allowable,values]='default value')              -
+                    //--                                                                                                      -
+                    // Function with an optional parameter, which is just a parameter with a default value.                   -
+                    //     Example: functionName (parameterType parameterName='default value')                                -
+                    //--                                                                                                      -
+                    // Function with more than one required parameter:                                                        -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2)                 -
+                    //--                                                                                                      -
+                    // Function with a required parameter and an optional parameter.                                          -
+                    // Note that required parameter cannot come after optional parameters.                                    -
+                    //     Example: functionName (parameterType parameterName1, parameterType parameterName2='default value') -
+                    //--                                                                                                      -
+                    // Notes:                                                                                                 -
+                    //     Parameter types are defined by the enum: WikiFunctionParamType                                     -
+                    //     All values, with the exception of NULL should be enclosed in single-quotes                         -
+                    //     The single-quote enclosed escape character is back-slash (e.g. 'John\'s Literal')                  -
+                    //--                                                                                                      -
+                    //---------------------------------------------------------------------------------------------------------
+
                     _collection = new FunctionPrototypeCollection(WikiFunctionType.Standard);
+                    _collection.Add("Snippet (String name)");
+                    _collection.Add("Seq (String key='Default')");
+                    _collection.Add("Set (String key, String value)");
+                    _collection.Add("Get (String key)");
+                    _collection.Add("Color (String color, String text)");
+                    _collection.Add("Tag (InfiniteString pageTags)"); //This is left here for backwards compatibility, Tag does not change the output, so it should be a processing instruction.
+                    _collection.Add("SearchList (String searchPhrase, String styleName['List','Full']='Full', Integer pageSize='5', Boolean pageSelector='true', Boolean allowFuzzyMatching='false', Boolean showNamespace='false')");
+                    _collection.Add("TagList (InfiniteString pageTags, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("NamespaceGlossary (InfiniteString namespaces, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("NamespaceList (InfiniteString namespaces, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("TagGlossary (InfiniteString pageTags, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("RecentlyModified (Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("TextGlossary (String searchPhrase, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
+                    _collection.Add("Image (String name, Integer scale='100', String altText=null, String class=null)");
+                    _collection.Add("File (String name, String linkText, Boolean showSize='false')");
+                    _collection.Add("Related (String styleName['List','Flat','Full']='Full', Integer pageSize='10', Boolean pageSelector='true')");
+                    _collection.Add("Similar (Integer similarity='80', String styleName['List','Flat','Full']='Full', Integer pageSize='10', Boolean pageSelector='true')");
+                    _collection.Add("EditLink (String linkText='edit')");
+                    _collection.Add("Inject (String pageName)");
+                    _collection.Add("Include (String pageName)");
+                    _collection.Add("BR (Integer Count='1')");
+                    _collection.Add("HR (Integer Height='1')");
+                    _collection.Add("Revisions (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
+                    _collection.Add("Attachments (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
+                    _collection.Add("Title ()");
+                    _collection.Add("Navigation ()");
+                    _collection.Add("Name ()");
+                    _collection.Add("SiteName ()");
+                    _collection.Add("Namespace ()");
+                    _collection.Add("Created ()");
+                    _collection.Add("LastModified ()");
+                    _collection.Add("AppVersion ()");
+                    _collection.Add("ProfileGlossary (Integer Top='1000', Integer pageSize='100', String searchToken=null)");
+                    _collection.Add("ProfileList (Integer Top='1000', Integer pageSize='100', String searchToken=null)");
 
-                    #region Prototypes.
-
-                    _collection.Add("##Snippet: <string>[name]");
-                    _collection.Add("##Seq: <string>{key}='Default'");
-                    _collection.Add("##Set: <string>[key] | <string>[value]");
-                    _collection.Add("##Get: <string>[key]");
-                    _collection.Add("##Color: <string>[color] | <string>[text]");
-                    _collection.Add("##Tag: <string:infinite>[pageTags]"); //This is left here for backwards compatibility, Tag does not change the output so it should be a processing instruction.
-                    _collection.Add("##SearchList: <string>[searchPhrase] | <string>{styleName(List,Full)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <bool>{allowFuzzyMatching}='false' | <bool>{showNamespace}='false'");
-                    _collection.Add("##TagList: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##NamespaceGlossary: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##NamespaceList: <string:infinite>[namespaces] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##TagGlossary: <string:infinite>[pageTags] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##RecentlyModified: <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##TextGlossary: <string>[searchPhrase] | <integer>{Top}='1000' | <string>{styleName(List,Full)}='Full' | <bool>{showNamespace}='false'");
-                    _collection.Add("##Image: <string>[name] | <integer>{scale}='100' | <string>{altText}='' | <string>{class}=''");
-                    _collection.Add("##File: <string>[name] | <string>{linkText} | <bool>{showSize}='false'");
-                    _collection.Add("##Related: <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
-                    _collection.Add("##Similar: <integer>{similarity}='80' | <string>{styleName(List,Flat,Full)}='Full' | <integer>{pageSize}='10' | <bool>{pageSelector}='true'");
-                    _collection.Add("##EditLink: <string>{linkText}='edit'");
-                    _collection.Add("##Inject: <string>[pageName]");
-                    _collection.Add("##Include: <string>[pageName]");
-                    _collection.Add("##BR: <integer>{Count}='1'");
-                    _collection.Add("##HR: <integer>{Height}='1'");
-                    _collection.Add("##Revisions:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
-                    _collection.Add("##Attachments:<string>{styleName(Full,List)}='Full' | <integer>{pageSize}='5' | <bool>{pageSelector}='true' | <string>{pageName}=''");
-                    _collection.Add("##Title:");
-                    _collection.Add("##Description:");
-                    _collection.Add("##Navigation:");
-                    _collection.Add("##Name:");
-                    _collection.Add("##SiteName:");
-                    _collection.Add("##Namespace:");
-                    _collection.Add("##Created:");
-                    _collection.Add("##LastModified:");
-                    _collection.Add("##AppVersion:");
-                    _collection.Add("##ProfileGlossary: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
-                    _collection.Add("##ProfileList: <integer>{Top}='1000' | <integer>{pageSize}='100' | <string>{searchToken}=''");
-
-                    //System functions (we don't advertize these, but they aren't unsafe):
-                    _collection.Add("##SystemEmojiCategoryList:");
-                    _collection.Add("##SystemEmojiList:");
-
-                    #endregion
+                    //System functions (we don't advertise these, but they aren't unsafe):
+                    _collection.Add("SystemEmojiCategoryList ()");
+                    _collection.Add("SystemEmojiList ()");
                 }
 
                 return _collection;
@@ -116,7 +132,7 @@ namespace TightWiki.Engine.Implementation
                 //Creates a glossary all user profiles.
                 case "profileglossary":
                     {
-                        if (!Models.GlobalConfiguration.EnablePublicProfiles)
+                        if (!GlobalConfiguration.EnablePublicProfiles)
                         {
                             return new HandlerResult("Public profiles are disabled.");
                         }
@@ -125,14 +141,14 @@ namespace TightWiki.Engine.Implementation
                         string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
-                        var searchToken = function.Parameters.Get<string>("searchToken");
+                        var searchToken = function.Parameters.GetNullable<string>("searchToken");
                         var topCount = function.Parameters.Get<int>("top");
                         var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                         string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                         var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpper()).Distinct();
 
-                        if (profiles.Count() > 0)
+                        if (profiles.Count > 0)
                         {
                             html.Append("<center>");
                             foreach (var alpha in alphabet)
@@ -147,7 +163,7 @@ namespace TightWiki.Engine.Implementation
                                 html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                                 html.Append("<ul>");
-                                foreach (var profile in profiles.Where(p => p.AccountName.ToLower().StartsWith(alpha.ToLower())))
+                                foreach (var profile in profiles.Where(p => p.AccountName.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
                                 {
                                     html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Profile/{profile.Navigation}/Public\">{profile.AccountName}</a>");
                                     html.Append("</li>");
@@ -164,7 +180,7 @@ namespace TightWiki.Engine.Implementation
                 //Creates a list of all user profiles.
                 case "profilelist":
                     {
-                        if (!Models.GlobalConfiguration.EnablePublicProfiles)
+                        if (!GlobalConfiguration.EnablePublicProfiles)
                         {
                             return new HandlerResult("Public profiles are disabled.");
                         }
@@ -173,7 +189,7 @@ namespace TightWiki.Engine.Implementation
                         string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
-                        var searchToken = function.Parameters.Get<string>("searchToken");
+                        var searchToken = function.Parameters.GetNullable<string>("searchToken");
                         var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                         if (profiles.Count() > 0)
@@ -211,7 +227,7 @@ namespace TightWiki.Engine.Implementation
                         var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, state.Revision);
                         var html = new StringBuilder();
 
-                        if (attachments.Count() > 0)
+                        if (attachments.Count > 0)
                         {
                             html.Append("<ul>");
                             foreach (var file in attachments)
@@ -262,7 +278,7 @@ namespace TightWiki.Engine.Implementation
                         var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
                         var html = new StringBuilder();
 
-                        if (revisions.Count() > 0)
+                        if (revisions.Count > 0)
                         {
                             html.Append("<ul>");
                             foreach (var item in revisions)
@@ -367,13 +383,9 @@ namespace TightWiki.Engine.Implementation
                         var key = function.Parameters.Get<string>("key");
                         var value = function.Parameters.Get<string>("value");
 
-                        if (state.Variables.ContainsKey(key))
+                        if (!state.Variables.TryAdd(key, value))
                         {
                             state.Variables[key] = value;
-                        }
-                        else
-                        {
-                            state.Variables.Add(key, value);
                         }
 
                         return new HandlerResult(string.Empty)
@@ -424,22 +436,27 @@ namespace TightWiki.Engine.Implementation
                     {
                         string imageName = function.Parameters.Get<string>("name");
                         string alt = function.Parameters.Get("alttext", imageName);
-                        string _class = function.Parameters.Get("class", imageName);
+                        var imgClass = function.Parameters.GetNullable<string>("class");
                         int scale = function.Parameters.Get<int>("scale");
 
                         bool explicitNamespace = imageName.Contains("::");
                         bool isPageForeignImage = false;
 
+                        if (imgClass != null)
+                        {
+                            imgClass = $"class=\"{imgClass}\"";
+                        }
+
                         string navigation = state.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
-                            string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" class=\"{_class}\" /></a>";
+                            string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
                             return new HandlerResult(image);
                         }
                         else if (imageName.Contains('/'))
                         {
                             //Allow loading attached images from other pages.
-                            int slashIndex = imageName.IndexOf("/");
+                            int slashIndex = imageName.IndexOf('/');
                             navigation = NamespaceNavigation.CleanAndValidate(imageName.Substring(0, slashIndex));
                             imageName = imageName.Substring(slashIndex + 1);
                             isPageForeignImage = true;
@@ -458,13 +475,13 @@ namespace TightWiki.Engine.Implementation
                         {
                             //Check for isPageForeignImage because we don't version foreign page files.
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{state.Revision}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" class=\"{_class}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
                             return new HandlerResult(image);
                         }
                         else
                         {
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" class=\"{_class}\" /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
                             return new HandlerResult(image);
                         }
                     }
@@ -537,7 +554,7 @@ namespace TightWiki.Engine.Implementation
 
                         var html = new StringBuilder();
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<ul>");
                             foreach (var page in pages)
@@ -580,7 +597,7 @@ namespace TightWiki.Engine.Implementation
                         var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<center>");
                             foreach (var alpha in alphabet)
@@ -595,7 +612,7 @@ namespace TightWiki.Engine.Implementation
                                 html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                                 html.Append("<ul>");
-                                foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
+                                foreach (var page in pages.Where(p => p.Title.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
                                 {
                                     if (showNamespace)
                                     {
@@ -636,7 +653,7 @@ namespace TightWiki.Engine.Implementation
                         var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<ul>");
 
@@ -682,7 +699,7 @@ namespace TightWiki.Engine.Implementation
                         var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<center>");
                             foreach (var alpha in alphabet)
@@ -697,7 +714,7 @@ namespace TightWiki.Engine.Implementation
                                 html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                                 html.Append("<ul>");
-                                foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
+                                foreach (var page in pages.Where(p => p.Title.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
                                 {
                                     if (showNamespace)
                                     {
@@ -740,7 +757,7 @@ namespace TightWiki.Engine.Implementation
                         var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
                         string styleName = function.Parameters.Get<string>("styleName").ToLower();
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<center>");
                             foreach (var alpha in alphabet)
@@ -755,7 +772,7 @@ namespace TightWiki.Engine.Implementation
                                 html.Append("<li><a name=\"" + glossaryName + "_" + alpha + "\">" + alpha + "</a></li>");
 
                                 html.Append("<ul>");
-                                foreach (var page in pages.Where(p => p.Title.ToLower().StartsWith(alpha.ToLower())))
+                                foreach (var page in pages.Where(p => p.Title.StartsWith(alpha, StringComparison.InvariantCultureIgnoreCase)))
                                 {
                                     if (showNamespace)
                                     {
@@ -800,7 +817,7 @@ namespace TightWiki.Engine.Implementation
                         var pages = PageRepository.PageSearchPaged(searchTokens, pageNumber, pageSize, allowFuzzyMatching);
                         var html = new StringBuilder();
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<ul>");
 
@@ -829,7 +846,7 @@ namespace TightWiki.Engine.Implementation
                             html.Append("</ul>");
                         }
 
-                        if (pageSelector && (pageNumber > 1 || (pages.Count > 0 && pages.First().PaginationPageCount > 1)))
+                        if (pageSelector && (pageNumber > 1 || pages.Count > 0 && pages.First().PaginationPageCount > 1))
                         {
                             html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1));
                         }
@@ -849,7 +866,7 @@ namespace TightWiki.Engine.Implementation
                         var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
 
-                        if (pages.Count() > 0)
+                        if (pages.Count > 0)
                         {
                             html.Append("<ul>");
 
@@ -1037,7 +1054,7 @@ namespace TightWiki.Engine.Implementation
                 //Displays the title of the site.
                 case "sitename":
                     {
-                        return new HandlerResult(TightWiki.Models.GlobalConfiguration.Name);
+                        return new HandlerResult(GlobalConfiguration.Name);
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1045,13 +1062,6 @@ namespace TightWiki.Engine.Implementation
                 case "title":
                     {
                         return new HandlerResult($"<h1>{state.Page.Title}</h1>");
-                    }
-
-                //------------------------------------------------------------------------------------------------------------------------------
-                //Displays the description of the current page in title form.
-                case "description":
-                    {
-                        return new HandlerResult($"{state.Page.Description}");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
@@ -1067,9 +1077,9 @@ namespace TightWiki.Engine.Implementation
                     {
                         string name = function.Parameters.Get<string>("name");
 
-                        if (state.Snippets.ContainsKey(name))
+                        if (state.Snippets.TryGetValue(name, out string? value))
                         {
-                            return new HandlerResult(state.Snippets[name]);
+                            return new HandlerResult(value);
                         }
                         else
                         {

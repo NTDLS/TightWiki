@@ -42,9 +42,6 @@ namespace TightWiki.Caching
         /// <summary>
         /// Gets an item from the cache.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="cacheKey"></param>
-        /// <returns></returns>
         public static T? Get<T>(IWikiCacheKey cacheKey)
         {
             CacheGets++;
@@ -62,9 +59,6 @@ namespace TightWiki.Caching
         /// <summary>
         /// Determines if the cache contains a given key.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="cacheKey"></param>
-        /// <returns></returns>
         public static bool Contains(IWikiCacheKey cacheKey)
         {
             CacheGets++;
@@ -81,9 +75,6 @@ namespace TightWiki.Caching
         /// <summary>
         /// Gets an item from the cache.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="cacheKey"></param>
-        /// <returns></returns>
         public static bool TryGet<T>(IWikiCacheKey cacheKey, [NotNullWhen(true)] out T result)
         {
             CacheGets++;

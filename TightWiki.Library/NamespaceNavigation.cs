@@ -79,8 +79,6 @@ namespace TightWiki.Library
         /// </summary>
         /// <param name="givenCanonical">Page navigation with optional namespace.</param>
         /// <param name="lowerCase">If false, the namespace and page name will not be lowercased.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public static string CleanAndValidate(string? str, bool lowerCase = true)
         {
             if (str == null)

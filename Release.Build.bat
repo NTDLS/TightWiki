@@ -9,8 +9,8 @@ md Publish\TightWiki.Windows.x64\data
 md Publish\TightWiki.Linux.x64
 md Publish\TightWiki.Linux.x64\data
 
-dotnet publish .\TightWiki -c Release -o publish\TightWiki.Windows.x64 --runtime win-x64 --self-contained false
-dotnet publish .\TightWiki -c Release -o publish\TightWiki.Linux.x64 --runtime linux-x64 --self-contained false
+dotnet publish .\TightWiki -c Release -o publish\TightWiki.Windows.x64\Site --runtime win-x64 --self-contained false
+dotnet publish .\TightWiki -c Release -o publish\TightWiki.Linux.x64\Site --runtime linux-x64 --self-contained false
 
 Copy .\Data\*.* Publish\TightWiki.Windows.x64\data
 Copy .\Data\*.* Publish\TightWiki.Linux.x64\data
@@ -20,3 +20,5 @@ Copy .\Data\*.* Publish\TightWiki.Linux.x64\data
 
 rd .\Publish\TightWiki.Windows.x64 /q /s
 rd .\Publish\TightWiki.Linux.x64 /q /s
+
+pause

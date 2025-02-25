@@ -12,32 +12,23 @@ namespace TightWiki.Engine.Function
         /// <summary>
         /// Parsed a function call, its parameters and matches it to a defined function and its prototype.
         /// </summary>
-        /// <param name="functionCall"></param>
-        /// <param name="parseEndIndex"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
         public static FunctionCall ParseAndGetFunctionCall(FunctionPrototypeCollection prototypes, string functionCall, out int parseEndIndex)
         {
-            var rawArguments = new List<string>();
+            var parsed = ParseFunctionCall(functionCall);
 
-            var parsed = ParseFunctionCall(prototypes, functionCall);
-
-            var prototype = prototypes.Get(parsed.Prefix, parsed.Name);
-            if (prototype == null)
-            {
-                throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
-            }
+            var prototype = prototypes.Get(parsed.Demarcation, parsed.Name)
+                ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({parsed.Name}) does not have a defined prototype.");
 
             parseEndIndex = parsed.EndIndex;
 
-            return new FunctionCall(prototype, parsed.RawArguments);
+            return new FunctionCall(prototype, parsed.Arguments);
         }
 
-        public static ParsedFunctionCall ParseFunctionCall(FunctionPrototypeCollection prototypes, string functionCall)
+        public static ParsedFunctionCall ParseFunctionCall(string functionCall)
         {
             string functionName = string.Empty;
             int parseEndIndex = 0;
-            var rawArguments = new List<string>();
+            var arguments = new List<string>();
 
             var firstLine = functionCall.Split('\n')?.FirstOrDefault();
 
@@ -46,55 +37,49 @@ namespace TightWiki.Engine.Function
                 throw new WikiFunctionPrototypeSyntaxError($"Function parentheses mismatch.");
             }
 
-            string functionPrefix = functionCall.Substring(0, 2);
+            string functionDemarcation = functionCall.Substring(0, 2);
 
             var parameterMatches = FunctionCallParser().Matches(firstLine);
             if (parameterMatches.Count > 0)
             {
                 var match = parameterMatches[0];
-                int paramStartIndex = match.Value.IndexOf('(');
+                int argumentStartIndex = match.Value.IndexOf('(');
 
-                functionName = match.Value[..paramStartIndex].ToLower().TrimStart(['{', '#', '@']).Trim();
+                functionName = match.Value[..argumentStartIndex].ToLower().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = match.Index + match.Length;
 
-                string rawArgTrimmed = match.ToString().Substring(paramStartIndex, (match.ToString().Length - paramStartIndex));
-                rawArguments = ParseRawArguments(rawArgTrimmed);
+                var trimmedArguments = match.ToString().Substring(argumentStartIndex);
+                arguments = ParseArguments(trimmedArguments);
             }
             else //The function call has no parameters.
             {
-                int endOfLine = functionCall.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function identifier (##, @@, etc).
+                int endOfLine = functionCall.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function demarcation (##, @@, etc).
                 functionName = functionCall.Substring(2, endOfLine).ToLower().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = endOfLine + 2;
             }
 
-            return new ParsedFunctionCall(functionPrefix, functionName, parseEndIndex, rawArguments);
+            return new ParsedFunctionCall(functionDemarcation, functionName, parseEndIndex, arguments);
         }
 
         /// <summary>
         /// Parses function parameters into a list of arguments based on comma separation.
         /// String do not need to be enclosed in double-quotes unless they contain commas.
         /// </summary>
-        /// <param name="paramString"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static List<string> ParseRawArgumentsAddParenthesis(string paramString)
+        public static List<string> ParseArgumentsAddParenthesis(string paramString)
         {
             if (paramString.StartsWith('(') || paramString.EndsWith(')'))
             {
                 throw new WikiFunctionPrototypeSyntaxError($"Unexpected '(' or ')'.");
             }
 
-            return ParseRawArguments($"({paramString})");
+            return ParseArguments($"({paramString})");
         }
 
         /// <summary>
         /// Parses function parameters into a list of arguments based on comma separation.
         /// String do not need to be enclosed in double-quotes unless they contain commas.
         /// </summary>
-        /// <param name="paramString"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public static List<string> ParseRawArguments(string paramString)
+        public static List<string> ParseArguments(string paramString)
         {
             List<string> ps = new();
 

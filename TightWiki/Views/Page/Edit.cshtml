@@ -162,15 +162,6 @@
     <div class="card">
         <div class="card-header"><h3>Content</h3></div>
         <div class="card-body">
-            @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-            {
-                <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-            }
-            @if (!string.IsNullOrEmpty(Model.SuccessMessage))
-            {
-                <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-            }
-
             @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
                 @Html.HiddenFor(x => x.Id)
@@ -199,7 +190,7 @@
 
                 <br />
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
-                <textarea id=Body name="Body">@Model.Body</textarea>
+                <textarea id="Body" name="Body" spellcheck="true">@Model.Body</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
                         theme: "@sessionState.UserTheme.EditorTheme",
@@ -208,8 +199,12 @@
                         matchBrackets: true,
                         viewportMargin: Infinity,
                         lineWrapping: true,
-                        scrollbarStyle: "simple"
+                        scrollbarStyle: "simple",
+                        inputStyle: "contenteditable", // Enables browser's native spellcheck
+                        spellcheck: true,              // Explicitly enables spellcheck
+                        autocorrect: true              // Enables autocorrect
                     });
+
                 </script>
 
                 <br />

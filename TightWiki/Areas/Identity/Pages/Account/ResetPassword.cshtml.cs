@@ -69,9 +69,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string encodedCode = null)
         {
-            if (code == null)
+            if (encodedCode == null)
             {
                 return BadRequest("A code must be supplied for password reset.");
             }
@@ -79,7 +79,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(encodedCode))
                 };
                 return Page();
             }
@@ -96,13 +96,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ResetPasswordConfirmation");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ResetPasswordConfirmation");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
             }
 
             foreach (var error in result.Errors)

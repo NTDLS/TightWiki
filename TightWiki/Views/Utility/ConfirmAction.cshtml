@@ -18,15 +18,6 @@
     }
 }
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
 <div class="@cardClass">
     <div class="@cardHeaderClass">
         <strong>Are you sure?</strong>

@@ -11,8 +11,9 @@ namespace TightWiki
         public SessionState SessionState { get; private set; } = new();
         public SignInManager<IdentityUser> SignInManager { get; private set; }
 
-        public string CustomSuccessMessage { get; set; } = string.Empty;
-        public string CustomErrorMessage { get; set; } = string.Empty;
+        public string SuccessMessage { get; set; } = string.Empty;
+        public string WarningMessage { get; set; } = string.Empty;
+        public string ErrorMessage { get; set; } = string.Empty;
 
         public PageModelBase(SignInManager<IdentityUser> signInManager)
         {
@@ -54,22 +55,22 @@ namespace TightWiki
         protected int GetFormString(string key, int defaultValue)
             => int.Parse(GetFormString(key, defaultValue.ToString()));
 
-        protected RedirectResult NotifyOfAction(string successMessage, string errorMessage, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/NotifyWithRedirectCountdown?SuccessMessage={successMessage}&ErrorMessage={errorMessage}&RedirectUrl={GlobalConfiguration.BasePath}{redirectUrl}");
+        protected RedirectResult NotifyOfSuccess(string message, string redirectUrl)
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}")}&RedirectTimeout=5");
 
-        protected RedirectResult NotifyOfSuccessAction(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/NotifyWithRedirectCountdown?SuccessMessage={message}&RedirectUrl={GlobalConfiguration.BasePath}{redirectUrl}");
+        protected RedirectResult NotifyOfWarning(string message, string redirectUrl)
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}"))}");
 
-        protected RedirectResult NotifyOfErrorAction(string message, string redirectUrl)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/NotifyWithRedirectCountdown?ErrorMessage={message}&RedirectUrl={GlobalConfiguration.BasePath}{redirectUrl}");
-
-        protected RedirectResult Notify(string successMessage, string errorMessage)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={successMessage}&ErrorMessage={GlobalConfiguration.BasePath}{errorMessage}");
+        protected RedirectResult NotifyOfError(string message, string redirectUrl)
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}&RedirectUrl={Uri.EscapeDataString(Uri.EscapeDataString($"{GlobalConfiguration.BasePath}{redirectUrl}"))}");
 
         protected RedirectResult NotifyOfSuccess(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?SuccessMessage={message}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifySuccessMessage={Uri.EscapeDataString(message)}");
+
+        protected RedirectResult NotifyOfWarning(string message)
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyWarningMessage={Uri.EscapeDataString(message)}");
 
         protected RedirectResult NotifyOfError(string message)
-            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={message}");
+            => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
     }
 }

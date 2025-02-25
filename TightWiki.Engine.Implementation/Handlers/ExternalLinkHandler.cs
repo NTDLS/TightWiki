@@ -2,7 +2,7 @@
 using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles links the wiki to another site.

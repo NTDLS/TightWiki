@@ -120,9 +120,6 @@ namespace TightWiki
         /// <summary>
         /// Sets the current context pageId and optionally the revision.
         /// </summary>
-        /// <param name="pageId"></param>
-        /// <param name="revision"></param>
-        /// <exception cref="Exception"></exception>
         public void SetPageId(int? pageId, int? revision = null)
         {
             Page = new Models.DataModels.Page();

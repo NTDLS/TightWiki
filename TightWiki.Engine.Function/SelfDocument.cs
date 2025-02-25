@@ -12,20 +12,20 @@
             foreach (var item in FunctionPrototypeDefinitions.Collection.Items)
             {
                 string functionType = "Function";
-                string functionPrefix = item.FunctionPrefix;
+                string functionDemarcation = item.FunctionDemarcation;
 
-                if (item.FunctionPrefix == "##")
+                if (item.FunctionDemarcation == "##")
                 {
                     functionType = "Standard Function";
                 }
-                if (item.FunctionPrefix == "@@")
+                if (item.FunctionDemarcation == "@@")
                 {
                     functionType = "Instruction Function";
                 }
-                if (item.FunctionPrefix == "$$")
+                if (item.FunctionDemarcation == "$$")
                 {
                     functionType = "Scope Function";
-                    functionPrefix = string.Empty;
+                    functionDemarcation = string.Empty;
                 }
 
                 string topic = $"Wiki Help :: {item.ProperName}";
@@ -55,7 +55,7 @@
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
-                    html.Append($"##Color(${{keywordColor}}, **#{{ {functionPrefix}{item.ProperName} }}#**)");
+                    html.Append($"##Color(${{keywordColor}}, **#{{ {functionDemarcation}{item.ProperName} }}#**)");
                     if ((item.Value.Parameters?.Count ?? 0) == 0)
                     {
                         html.AppendLine("()");
@@ -112,7 +112,7 @@
                     html.AppendLine("{{Code(wiki)#{");
 
 
-                    if (item.FunctionPrefix == "$$")
+                    if (item.FunctionDemarcation == "$$")
                     {
                         html.Append("{{ " + $"{item.ProperName}");
                         if ((item.Value.Parameters?.Count ?? 0) == 0)
@@ -130,7 +130,7 @@
                     }
                     else
                     {
-                        html.Append($"{item.FunctionPrefix}{item.ProperName}");
+                        html.Append($"{item.FunctionDemarcation}{item.ProperName}");
                         if ((item.Value.Parameters?.Count ?? 0) == 0)
                         {
                             html.AppendLine("()");

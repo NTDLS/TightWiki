@@ -2,7 +2,7 @@
 using TightWiki.Engine.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles basic markup/style instructions like bole, italic, underline, etc.

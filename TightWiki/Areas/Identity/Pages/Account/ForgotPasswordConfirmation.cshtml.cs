@@ -22,7 +22,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
         public ForgotPasswordConfirmation(SignInManager<IdentityUser> signInManager)
-                        : base(signInManager)
+            : base(signInManager)
         {
 
         }

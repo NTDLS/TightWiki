@@ -137,7 +137,7 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count > 1)
                 {
@@ -155,7 +155,7 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4).Trim();
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
                 {
@@ -173,7 +173,7 @@ namespace TightWiki.Engine
             foreach (var match in matches)
             {
                 string keyword = match.Value.Substring(2, match.Value.Length - 4);
-                var args = FunctionParser.ParseRawArgumentsAddParenthesis(keyword);
+                var args = FunctionParser.ParseArgumentsAddParenthesis(keyword);
 
                 if (args.Count == 1)
                 {

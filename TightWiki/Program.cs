@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
+using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
@@ -71,7 +72,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }
@@ -95,7 +96,7 @@ namespace TightWiki
                         {
                             OnRemoteFailure = context =>
                             {
-                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?ErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
+                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("External login was canceled.")}");
                                 context.HandleResponse();
                                 return Task.CompletedTask;
                             }

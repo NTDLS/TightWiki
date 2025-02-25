@@ -868,8 +868,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Save site menu item.
         /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("MenuItem/{id:int?}")]
         public ActionResult MenuItem(int? id, MenuItemViewModel model)
@@ -1007,8 +1005,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Save user profile.
         /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("Account/{navigation}")]
         public ActionResult Account(string navigation, Models.ViewModels.Admin.AccountProfileViewModel model)
@@ -1206,8 +1202,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Create a new user profile.
         /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("AddAccount")]
         public ActionResult AddAccount(Models.ViewModels.Admin.AccountProfileViewModel model)
@@ -1556,8 +1550,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Update an existing emoji.
         /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("Emoji/{name}")]
         public ActionResult Emoji(EmojiViewModel model)
@@ -1646,8 +1638,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Save user profile.
         /// </summary>
-        /// <param name="profile"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("AddEmoji")]
         public ActionResult AddEmoji(AddEmojiViewModel model)

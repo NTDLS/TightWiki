@@ -24,7 +24,6 @@ namespace TightWiki.Controllers
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the file (NOT THE PAGE REVISION).</param>
-        /// <returns></returns>
         [HttpGet("Image/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Image(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
@@ -107,7 +106,6 @@ namespace TightWiki.Controllers
         /// <param name="givenPageNavigation">The navigation link of the page.</param>
         /// <param name="givenFileNavigation">The navigation link of the file.</param>
         /// <param name="fileRevision">The revision of the the FILE (NOT THE PAGE REVISION)</param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
@@ -318,8 +316,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Uploads a file by manually selecting it for upload.
         /// </summary>
-        /// <param name="postData"></param>
-        /// <returns></returns>
         [Authorize]
         [HttpPost("ManualUpload/{givenPageNavigation}")]
         public IActionResult ManualUpload(string givenPageNavigation, IFormFile fileData)
@@ -363,8 +359,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Allows a user to delete a page attachment from a page.
         /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
         public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
@@ -381,8 +375,6 @@ namespace TightWiki.Controllers
         /// <summary>
         /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>
-        /// <param name="navigation"></param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("Emoji/{givenPageNavigation}")]
         public ActionResult Emoji(string givenPageNavigation)

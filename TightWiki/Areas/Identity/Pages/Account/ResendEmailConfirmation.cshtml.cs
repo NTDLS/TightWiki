@@ -83,7 +83,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             var callbackUrl = Url.Page(
                 "/Account/ConfirmEmail",
                 pageHandler: null,
-                values: new { userId = userId, code = encodedCode },
+                values: new { area = "Identity", userId = userId, code = encodedCode },
                 protocol: Request.Scheme);
 
             var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));

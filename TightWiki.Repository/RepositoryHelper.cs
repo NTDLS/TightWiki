@@ -7,9 +7,6 @@ namespace TightWiki.Repository
         /// <summary>
         /// Fills in a custom orderby on a given sql script.
         /// </summary>
-        /// <param name="filename"></param>
-        /// <param name="orderBy"></param>
-        /// <returns></returns>
         public static string TransposeOrderby(string filename, string? orderBy, string? orderByDirection)
         {
             var script = ManagedDataStorageInstance.TranslateSqlScript(filename);

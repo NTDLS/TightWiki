@@ -8,10 +8,9 @@ namespace TightWiki.Library
     public static class QueryStringConverter
     {
         /// <summary>
-        /// Takes the current page query string and upserts the given order-by field,
+        /// Takes the current page query string and "upserts" the given order-by field,
         /// if the string already sorts on the given field then the order is inverted (asc/desc).
         /// </summary>
-        /// <returns></returns>
         public static string OrderHelper(ISessionState context, string value)
         {
             string orderByKey = "OrderBy";
@@ -54,12 +53,8 @@ namespace TightWiki.Library
         }
 
         /// <summary>
-        /// Takes the current page query string and upserts a query key/value, replacing any conflicting query string entry.
+        /// Takes the current page query string and "upserts" a query key/value, replacing any conflicting query string entry.
         /// </summary>
-        /// <param name="queryString"></param>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static string Upsert(IQueryCollection? queryString, string name, string value)
         {
             var collection = ToDictionary(queryString);

@@ -20,7 +20,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
         public AccessDeniedModel(SignInManager<IdentityUser> signInManager)
-                        : base(signInManager)
+            : base(signInManager)
         {
 
         }

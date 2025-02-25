@@ -165,7 +165,6 @@ namespace TightWiki.Repository
         /// <summary>
         /// Determines if this is the first time the wiki has run. Returns true if it is the first time.
         /// </summary>
-        /// <returns></returns>
         public static bool IsFirstRun()
         {
             bool isEncryptionValid = GetCryptoCheck();
@@ -181,9 +180,8 @@ namespace TightWiki.Repository
         /// Reads an encrypted value from the database so we can determine if encryption is setup.
         /// If the value is missing then we are NOT setup.
         /// If the value is present but we cant decrypt it, then we are NOT setup.
-        /// /// If the value is present and we can decrypt it, then we are setup and good to go!
+        /// If the value is present and we can decrypt it, then we are setup and good to go!
         /// </summary>
-        /// <returns></returns>
         public static bool GetCryptoCheck()
         {
             var value = ManagedDataStorage.Config.QueryFirstOrDefault<string>("GetCryptoCheck.sql") ?? string.Empty;
@@ -227,7 +225,7 @@ namespace TightWiki.Repository
 
             ManagedDataStorage.Config.Execute("SaveConfigurationEntryValueByGroupAndEntry.sql", param);
 
-            ConfigurationRepository.ReloadEverything();
+            ReloadEverything();
         }
 
         public static List<ConfigurationNest> GetConfigurationNest()

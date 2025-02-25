@@ -13,15 +13,6 @@
     Role membership.<br /><br />
 </p>
 
-@if (!string.IsNullOrEmpty(Model.ErrorMessage))
-{
-    <div class="alert alert-danger">@Html.Raw(Model.ErrorMessage)</div>
-}
-@if (!string.IsNullOrEmpty(Model.SuccessMessage))
-{
-    <div class="alert alert-success">@Html.Raw(Model.SuccessMessage)</div>
-}
-
 @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
     @Html.AntiForgeryToken()

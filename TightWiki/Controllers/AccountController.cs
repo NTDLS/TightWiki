@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
+using System.Net;
 using System.Security.Claims;
 using TightWiki.Models;
 using TightWiki.Models.ViewModels;
@@ -26,6 +27,8 @@ namespace TightWiki.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLoginHttpGet(string provider, string? returnUrl = null)
         {
+            returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
+
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { area = "Identity", ReturnUrl = returnUrl });
             var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return Challenge(properties, provider);
@@ -35,6 +38,8 @@ namespace TightWiki.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ExternalLoginHttpPost(string provider, string? returnUrl = null)
         {
+            returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
+
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { area = "Identity", ReturnUrl = returnUrl });
             var properties = SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return Challenge(properties, provider);
@@ -42,10 +47,11 @@ namespace TightWiki.Controllers
 
         public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
         {
+            returnUrl = WebUtility.UrlDecode(returnUrl ?? Url.Content("~/"));
+
             //We use this model to display any errors that occur.
             var model = new ExternalLoginCallbackViewModel();
 
-            returnUrl ??= Url.Content("~/");
             if (remoteError != null)
             {
                 return NotifyOfError($"Error from external provider: {remoteError}");
@@ -75,7 +81,7 @@ namespace TightWiki.Controllers
                     return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/ExternalLoginSupplemental", new { ReturnUrl = returnUrl });
                 }
 
-                return LocalRedirect(returnUrl);
+                return Redirect(returnUrl);
             }
             else
             {
@@ -96,7 +102,7 @@ namespace TightWiki.Controllers
                         return NotifyOfError(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                     }
                     await SignInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return Redirect(returnUrl);
                 }
                 else
                 {

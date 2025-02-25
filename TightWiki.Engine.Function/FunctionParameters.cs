@@ -20,6 +20,25 @@ namespace TightWiki.Engine.Function
             _owner = owner;
         }
 
+        public T? GetNullable<T>(string name)
+        {
+            try
+            {
+                var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
+                if (value == null)
+                {
+                    var prototype = _owner.Prototype.Parameters.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).First();
+                    return Converters.ConvertToNullable<T>(prototype.DefaultValue);
+                }
+
+                return Converters.ConvertToNullable<T>(value);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Function [{_owner.Name}], {ex.Message}");
+            }
+        }
+
         public T Get<T>(string name)
         {
             try
@@ -28,10 +47,12 @@ namespace TightWiki.Engine.Function
                 if (value == null)
                 {
                     var prototype = _owner.Prototype.Parameters.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).First();
-                    return Converters.ConvertTo<T>(prototype.DefaultValue) ?? throw new Exception("Value cannot be null");
+                    return Converters.ConvertTo<T>(prototype.DefaultValue ?? throw new Exception("Default value cannot be null"))
+                        ?? throw new Exception("Value cannot be null");
                 }
 
-                return Converters.ConvertTo<T>(value) ?? throw new Exception("Value cannot be null");
+                return Converters.ConvertTo<T>(value)
+                    ?? throw new Exception("Value cannot be null");
             }
             catch (Exception ex)
             {
@@ -46,7 +67,7 @@ namespace TightWiki.Engine.Function
                 var value = Named.Where(o => o.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault()?.Value;
                 if (value == null)
                 {
-                    return defaultValue;
+                    return defaultValue ?? throw new Exception("Default value cannot be null");
                 }
 
                 return Converters.ConvertTo<T>(value) ?? throw new Exception("Value cannot be null");

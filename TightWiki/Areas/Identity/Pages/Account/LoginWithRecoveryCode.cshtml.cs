@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -58,6 +59,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             // Ensure the user has gone through the username & password screen first
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
@@ -65,13 +68,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 throw new InvalidOperationException($"Unable to load two-factor authentication user.");
             }
 
-            ReturnUrl = returnUrl;
-
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -92,12 +95,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 _logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
-                return LocalRedirect(returnUrl ?? Url.Content("~/"));
+                return Redirect(ReturnUrl);
             }
             if (result.IsLockedOut)
             {
                 _logger.LogWarning("User account locked out.");
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/Lockout");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
             }
             else
             {

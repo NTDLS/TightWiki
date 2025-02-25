@@ -57,7 +57,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ForgotPasswordConfirmation");
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
@@ -90,7 +90,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ForgotPasswordConfirmation");
+                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
             }
 
             return Page();

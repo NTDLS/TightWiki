@@ -5,7 +5,7 @@ using TightWiki.Models;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Engine.Implementation.Handlers
 {
     /// <summary>
     /// Handles links from one wiki page to another.
