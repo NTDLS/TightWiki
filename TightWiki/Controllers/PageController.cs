@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Text;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
@@ -836,6 +838,31 @@ namespace TightWiki.Controllers
                 HttpContext.Response.StatusCode = 404;
                 return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
             }
+        }
+
+        #endregion
+
+        #region Export/import
+
+        [Authorize]
+        [HttpGet("{givenCanonical}/Export")]
+        public IActionResult Export(string givenCanonical)
+        {
+            SessionState.RequireViewPermission();
+
+            var model = new PageDisplayViewModel();
+            var navigation = new NamespaceNavigation(givenCanonical);
+
+            var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical);
+            if (page == null)
+                return NotFound();
+
+            var sr = new StringWriter();
+            var writer = new System.Xml.XmlTextWriter(sr);
+            var serializer = new XmlSerializer(typeof(Page));
+            serializer.Serialize(writer, page);
+            
+            return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");
         }
 
         #endregion
