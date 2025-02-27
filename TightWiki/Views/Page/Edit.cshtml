@@ -168,8 +168,11 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
-                    <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                    @if (Model?.Id > 0 && sessionState.CanView == true)
+                    {
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                    }
                     <span class="badge text-bg-danger invisible">unauthorized</span>
                 </div>
                 <br />
@@ -212,8 +215,11 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
-                    <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                    @if (Model?.Id > 0 && sessionState.CanView == true)
+                    {
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                    }
                     <span class="badge text-bg-danger invisible">unauthorized</span>
                 </div>
             }
