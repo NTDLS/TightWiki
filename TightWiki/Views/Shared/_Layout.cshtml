@@ -140,6 +140,10 @@
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">View</a>
                                         }
+                                        if (sessionState.CanView == true)
+                                        {
+                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export">Export</a>
+                                        }
                                     }
                                 </div>
                             </li>

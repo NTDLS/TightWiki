@@ -76,6 +76,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("Revisions (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
                     _collection.Add("Attachments (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
                     _collection.Add("Title ()");
+                    _collection.Add("Description ()");
                     _collection.Add("Navigation ()");
                     _collection.Add("Name ()");
                     _collection.Add("SiteName ()");
@@ -1062,6 +1063,13 @@ namespace TightWiki.Engine.Implementation.Handlers
                 case "title":
                     {
                         return new HandlerResult($"<h1>{state.Page.Title}</h1>");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the description of the current page.
+                case "description":
+                    {
+                        return new HandlerResult($"<h1>{state.Page.Description}</h1>");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
