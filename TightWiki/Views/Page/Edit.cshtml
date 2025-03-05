@@ -1,8 +1,8 @@
 ﻿@using TightWiki.Models
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+  Layout = "/Views/Shared/_Layout.cshtml";
+  var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <link rel="stylesheet" href=@Url.Content("~/codemirror/codemirror.css")>
@@ -57,6 +57,8 @@
 </style>
 
 <script>
+    const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
+
     function readyFn(jQuery) {
         $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
     }
@@ -64,42 +66,59 @@
     $(document).ready(readyFn);
 
     document.addEventListener("DOMContentLoaded", function () {
-        const dropSection = document.getElementById('dropSection');
-        const fileInput = document.getElementById('fileInput');
-        const uploadStatus = document.getElementById('uploadStatus');
+        var templatesModal = new bootstrap.Modal('#templatesModal');
 
-        // Handle dragover event
-        dropSection.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropSection.classList.add('dragover');
-            dropSection.textContent = "Drop files here...";
-        });
+        if (editMode) {
+            const dropSection = document.getElementById('dropSection');
+            const fileInput = document.getElementById('fileInput');
+            const uploadStatus = document.getElementById('uploadStatus');
+            // Handle dragover event
+            dropSection.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropSection.classList.add('dragover');
+                dropSection.textContent = "Drop files here...";
+            });
 
-        // Handle dragleave event
-        dropSection.addEventListener('dragleave', () => {
-            dropSection.classList.remove('dragover');
-            dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
-        });
+            // Handle dragleave event
+            dropSection.addEventListener('dragleave', () => {
+                dropSection.classList.remove('dragover');
+                dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
+            });
 
-        // Handle drop event
-        dropSection.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropSection.classList.remove('dragover');
-            dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
-            const files = e.dataTransfer.files;
-            handleFileUpload(files);
-        });
+            // Handle drop event
+            dropSection.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropSection.classList.remove('dragover');
+                dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
+                const files = e.dataTransfer.files;
+                handleFileUpload(files);
+            });
 
-        // Open file input dialog on click
-        dropSection.addEventListener('click', () => {
-            fileInput.click();
-        });
+            // Open file input dialog on click
+            dropSection.addEventListener('click', () => {
+                fileInput.click();
+            });
 
-        // Handle file input change (manual upload)
-        fileInput.addEventListener('change', () => {
-            const files = fileInput.files;
-            handleFileUpload(files);
-        });
+            // Handle file input change (manual upload)
+            fileInput.addEventListener('change', () => {
+                const files = fileInput.files;
+                handleFileUpload(files);
+            });
+        }
+        else {
+
+            $('#templatesModal .js_use-template').on('click', function(e) {
+                e.preventDefault();
+                $.ajax($(this).attr('data-tmpurl'), {
+                    success: function(data) {
+                        editor.getDoc().setValue(data.body);
+                    },
+                    complete: function() {
+                        templatesModal.hide();
+                    }
+                });
+            });
+        }
 
         // Function to handle file upload
         function handleFileUpload(files) {
@@ -168,10 +187,17 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    @if (Model?.Id > 0 && sessionState.CanView == true)
+                    @if (sessionState.CanView == true)
                     {
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                        if (Model?.Id > 0)
+                        {
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-link rounded-0" data-bs-toggle="modal" data-bs-target="#templatesModal">Choose template</button>
+                        }
                     }
                     <span class="badge text-bg-danger invisible">unauthorized</span>
                 </div>
@@ -243,6 +269,45 @@
             {
                 <div>Save the page before uploading files.</div>
             }
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal" tabindex="-1" id="templatesModal" aria-labelledby="templatesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="templatesModalLabel">Choose template</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            @if (Model.Templates?.Any() ?? false)
+            {
+                <div class="list-group list-group-flush">
+
+                @foreach (var template in Model.Templates)
+                {
+                    <a href="#" data-tmpurl="@GlobalConfiguration.BasePath/Page/Template/@template.Id" class="list-group-item list-group-item-action js_use-template" aria-current="true">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@template.Title</h5>
+                        <small>@template.CreatedByUserName</small>
+                      </div>
+                      <p class="mb-1">@template.Description</p>
+                    </a>
+                }
+
+                </div>
+            }
+
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <em class="small">* - Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template.</em>
+                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
