@@ -11,5 +11,6 @@ namespace TightWiki.Models.ViewModels.Page
         public string Navigation { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
         public string? Body { get; set; } = string.Empty;
+        public List<DataModels.Page> Templates { get; set; } = new();
     }
 }

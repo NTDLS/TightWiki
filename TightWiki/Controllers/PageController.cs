@@ -563,13 +563,19 @@ namespace TightWiki.Controllers
                 string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
                 var templatePage = PageRepository.GetPageRevisionByNavigation(templateNavigation);
 
-                templatePage ??= new Page();
+                var templates = PageRepository.GetAllTemplatePages();
+
+                if (templatePage == null)
+                    templatePage = new Page();
+                else
+                    templates.Insert(0, templatePage);
 
                 return View(new PageEditViewModel()
                 {
                     Body = templatePage.Body,
                     Name = pageName?.Replace('_', ' ') ?? string.Empty,
-                    Navigation = NamespaceNavigation.CleanAndValidate(pageNavigation)
+                    Navigation = NamespaceNavigation.CleanAndValidate(pageNavigation),
+                    Templates = templates
                 });
             }
         }
@@ -659,6 +665,16 @@ namespace TightWiki.Controllers
 
                 return View(model);
             }
+        }
+
+        [Authorize]
+        [HttpGet("Page/Template/{id:int}")]
+        public IActionResult Template(int id)
+        {
+            var template = PageRepository.GetPageRevisionById(id);
+            if (template == null)
+                return Json(new { body = "" });
+            return Json(new { body = template.Body });
         }
 
         #endregion
