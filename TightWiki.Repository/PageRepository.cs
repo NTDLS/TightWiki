@@ -580,6 +580,9 @@ namespace TightWiki.Repository
         public static List<Page> GetAllPages()
             => ManagedDataStorage.Pages.Query<Page>("GetAllPages.sql").ToList();
 
+        public static List<Page> GetAllTemplatePages()
+            => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql").ToList();
+
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
