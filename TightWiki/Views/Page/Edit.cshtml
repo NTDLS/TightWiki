@@ -220,7 +220,7 @@
 
                 <br />
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
-                <textarea id="Body" name="Body" spellcheck="true">@Model.Body</textarea>
+                <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
                         theme: "@sessionState.UserTheme.EditorTheme",
@@ -284,7 +284,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            @if (Model.Templates?.Any() ?? false)
+            @if (Model?.Templates.Any() ?? false)
             {
                 <div class="list-group list-group-flush">
 
