@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Text;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using TightWiki.Caching;
 using TightWiki.Engine;
@@ -877,7 +876,7 @@ namespace TightWiki.Controllers
             var writer = new System.Xml.XmlTextWriter(sr);
             var serializer = new XmlSerializer(typeof(Page));
             serializer.Serialize(writer, page);
-            
+
             return File(Encoding.UTF8.GetBytes(sr.ToString()), "text/xml", $"{givenCanonical}.xml");
         }
 
