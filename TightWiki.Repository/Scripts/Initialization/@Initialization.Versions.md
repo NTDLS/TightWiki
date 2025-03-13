@@ -4,7 +4,7 @@ When TightWiki is run, any scripts in the folders contained in "TightWiki.Reposi
 are executed. The "previous version" of TightWiki is stored in the Config database VersionState table.
 
 The scripts are executed in the order denoted by the name of the folders in "Version\*", these folders are
-expected to be named with a three-part version scheme. MM.mm.pp (major.minor.patch).
+expected to be named with a three-part version scheme. MMM.mmm.ppp (major.minor.patch).
 
 The scripts are only executed if the three-part folder version is
 greater than the "previous version" from the VersionState table.
