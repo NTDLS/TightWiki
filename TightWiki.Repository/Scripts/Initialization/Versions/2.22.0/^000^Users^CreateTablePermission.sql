@@ -1,0 +1,10 @@
+﻿CREATE TABLE "Permission" (
+	"Id"	INTEGER NOT NULL UNIQUE,
+	"Name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
+	PRIMARY KEY("Id" AUTOINCREMENT)
+);
+
+INSERT INTO Permission(Name) SELECT 'View';
+INSERT INTO Permission(Name) SELECT 'Edit';
+INSERT INTO Permission(Name) SELECT 'Delete';
+INSERT INTO Permission(Name) SELECT 'Moderate';
