@@ -85,7 +85,7 @@
                 <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard('@x.Name', this); return false;">
                     <i class="bi bi-clipboard"></i> Copy Tag
                 </button>&nbsp;
-                @if (@sessionState.CanDelete == true)
+                @if (@sessionState.CanDelete(Model.PageNavigation) == true)
                 {
                     <a href="#detachLink" id="@x.FileNavigation" class="btn btn-sm btn-outline-danger">Detach</a>
                 }

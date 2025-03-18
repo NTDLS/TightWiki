@@ -156,111 +156,99 @@ namespace TightWiki
 
         public void RequireEditPermission(string givenPageNavigation)
         {
-            var nav = new NamespaceNavigation(givenPageNavigation);
-
-            if (!CanEdit) throw new UnauthorizedException();
+            if (!CanEdit(givenPageNavigation)) throw new UnauthorizedException();
         }
 
         public void RequireViewPermission(string givenPageNavigation)
         {
-            var nav = new NamespaceNavigation(givenPageNavigation);
-
-            if (!CanView) throw new UnauthorizedException();
+            if (!CanView(givenPageNavigation)) throw new UnauthorizedException();
         }
 
         public void RequireAdminPermission()
         {
-            if (!CanAdmin) throw new UnauthorizedException();
+            if (!CanAdmin()) throw new UnauthorizedException();
         }
 
         public void RequireModeratePermission(string givenPageNavigation)
         {
-            var nav = new NamespaceNavigation(givenPageNavigation);
-
-            if (!CanModerate) throw new UnauthorizedException();
+            if (!CanModerate(givenPageNavigation)) throw new UnauthorizedException();
         }
 
         public void RequireModeratePermission()
         {
-            if (!CanModerate) throw new UnauthorizedException();
+            if (!CanModerate()) throw new UnauthorizedException();
         }
 
         public void RequireCreatePermission(string givenPageNavigation)
         {
-            var nav = new NamespaceNavigation(givenPageNavigation);
-
-            if (!CanCreate) throw new UnauthorizedException();
+            if (!CanCreate(givenPageNavigation)) throw new UnauthorizedException();
         }
 
         public void RequireDeletePermission(string givenPageNavigation)
         {
-            var nav = new NamespaceNavigation(givenPageNavigation);
-
-            if (!CanDelete) throw new UnauthorizedException();
+            if (!CanDelete(givenPageNavigation)) throw new UnauthorizedException();
         }
 
         /// <summary>
         /// Is the current user (or anonymous) allowed to view?
         /// </summary>
-        public bool CanView => true;
+        public bool CanView(string givenPageNavigation)
+            => true;
 
         /// <summary>
         /// Is the current user allowed to edit?
         /// </summary>
-        public bool CanEdit
+        public bool CanEdit(string givenPageNavigation)
         {
-            get
+            if (IsAuthenticated)
             {
-                if (IsAuthenticated)
+                if (PageInstructions.Contains(WikiInstruction.Protect))
                 {
-                    if (PageInstructions.Contains(WikiInstruction.Protect))
-                    {
-                        return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
-                    }
-
-                    return IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
+                    return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
                 }
-                return false;
+
+                return IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
             }
+            return false;
         }
 
         /// <summary>
         /// Is the current user allowed to perform administrative functions?
         /// </summary>
-        public bool CanAdmin =>
+        public bool CanAdmin() =>
             IsAuthenticated && IsMemberOf(Role, [Roles.Administrator]);
 
         /// <summary>
         /// Is the current user allowed to moderate content (such as delete comments, and view moderation tools)?
         /// </summary>
-        public bool CanModerate =>
+        public bool CanModerate(string givenPageNavigation) =>
+            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
+
+        public bool CanModerate() =>
             IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
 
         /// <summary>
         /// Is the current user allowed to create pages?
         /// </summary>
-        public bool CanCreate =>
+        public bool CanCreate(string givenPageNavigation) =>
             IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
 
         /// <summary>
         /// Is the current user allowed to delete unprotected pages?
         /// </summary>
-        public bool CanDelete
+        public bool CanDelete(string givenPageNavigation)
         {
-            get
+            if (IsAuthenticated)
             {
-                if (IsAuthenticated)
+                if (PageInstructions.Contains(WikiInstruction.Protect))
                 {
-                    if (PageInstructions.Contains(WikiInstruction.Protect))
-                    {
-                        return false;
-                    }
-
-                    return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
+                    return false;
                 }
 
-                return false;
+                return IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
             }
+
+            return false;
         }
 
         #endregion

@@ -57,7 +57,7 @@
 </style>
 
 <script>
-    const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
+    const editMode = @(Model.Id > 0 && @sessionState.CanCreate(Model.Navigation) == true ? "true" : "false");
 
     function readyFn(jQuery) {
         $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
@@ -187,9 +187,9 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    @if (sessionState.CanView == true)
+                    @if (sessionState.CanView(Model.Navigation) == true)
                     {
-                        if (Model?.Id > 0)
+                        if (Model.Id > 0)
                         {
                             <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
                             <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
@@ -220,7 +220,7 @@
 
                 <br />
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
-                <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
+                <textarea id="Body" name="Body" spellcheck="true">@(Model.Body ?? String.Empty)</textarea>
                 <script>
                     var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
                         theme: "@sessionState.UserTheme.EditorTheme",
@@ -241,7 +241,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary rounded-0">Save</button>
-                    @if (Model?.Id > 0 && sessionState.CanView == true)
+                    @if (Model.Id > 0 && sessionState.CanView(Model.Navigation) == true)
                     {
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
@@ -256,7 +256,7 @@
     <div class="card">
         <div class="card-header"><h3>Attachments</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @sessionState.CanCreate == true)
+            @if (Model.Id > 0 && @sessionState.CanCreate(Model.Navigation) == true)
             {
                 <div id="dropSection" class="dropSection">
                     <span class="d-inline-block">Drop file attachments here or click to upload manually.</span>
@@ -284,7 +284,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
-            @if (Model?.Templates.Any() ?? false)
+            @if (Model.Templates.Any())
             {
                 <div class="list-group list-group-flush">
 

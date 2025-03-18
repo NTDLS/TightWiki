@@ -150,7 +150,7 @@ namespace TightWiki.Controllers
 
                 model.HideFooterComments = true;
 
-                if (SessionState.IsAuthenticated && SessionState.CanCreate)
+                if (SessionState.IsAuthenticated && SessionState.CanCreate(givenCanonical))
                 {
                     SessionState.ShouldCreatePage = false;
                 }
@@ -170,7 +170,7 @@ namespace TightWiki.Controllers
 
                 model.HideFooterComments = true;
 
-                if (SessionState.IsAuthenticated && SessionState.CanCreate)
+                if (SessionState.IsAuthenticated && SessionState.CanCreate(givenCanonical))
                 {
                     SessionState.ShouldCreatePage = true;
                 }
@@ -254,7 +254,7 @@ namespace TightWiki.Controllers
             var deleteAction = GetQueryValue("Delete");
             if (string.IsNullOrEmpty(deleteAction) == false && SessionState.IsAuthenticated)
             {
-                if (SessionState.CanModerate)
+                if (SessionState.CanModerate(givenCanonical))
                 {
                     //Moderators and administrators can delete comments that they do not own.
                     PageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
@@ -265,7 +265,10 @@ namespace TightWiki.Controllers
                 }
             }
 
-            var model = new PageCommentsViewModel();
+            var model = new PageCommentsViewModel()
+            {
+                Page = pageInfo
+            };
 
             var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
             foreach (var comment in comments)
@@ -317,7 +320,8 @@ namespace TightWiki.Controllers
 
             model = new PageCommentsViewModel()
             {
-                ErrorMessage = errorMessage.DefaultWhenNull(string.Empty)
+                ErrorMessage = errorMessage.DefaultWhenNull(string.Empty),
+                Page = pageInfo
             };
 
             var comments = PageRepository.GetPageCommentsPaged(pageNavigation, GetQueryValue("page", 1));
@@ -538,7 +542,7 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-                if (SessionState.CanModerate == false && instructions.Contains(WikiInstruction.Protect))
+                if (SessionState.CanModerate(givenCanonical) == false && instructions.Contains(WikiInstruction.Protect))
                 {
                     return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
                 }
@@ -622,7 +626,7 @@ namespace TightWiki.Controllers
             {
                 var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                if (SessionState.CanModerate == false && instructions.Contains(WikiInstruction.Protect))
+                if (SessionState.CanModerate(model.Name) == false && instructions.Contains(WikiInstruction.Protect))
                 {
                     return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
                 }

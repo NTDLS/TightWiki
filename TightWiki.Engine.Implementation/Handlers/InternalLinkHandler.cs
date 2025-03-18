@@ -28,7 +28,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
             if (page == null)
             {
-                if (state.Session?.CanCreate == true)
+                if (state.Session?.CanCreate(pageNavigation.Canonical) == true)
                 {
                     if (image != null)
                     {

@@ -16,7 +16,7 @@
                 You are viewing revision @Model.Revision of "@Model.Name" modified by @Model.ModifiedByUserName on @Model.ModifiedDate.<br />
 
                 <a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation">View latest revision</a>
-                @if(sessionState.CanModerate)
+                @if(sessionState.CanModerate(Model.Name))
                 {
                     <a class="btn btn-warning btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">Revert to revision @Model.Revision</a>
                 }
@@ -82,7 +82,7 @@
                             <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
                             &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
                         </div>
-                        @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
+                        @if (sessionState.CanModerate(Model.Navigation) == true || h.UserId == sessionState.Profile?.UserId)
                         {
                             <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
                         }
