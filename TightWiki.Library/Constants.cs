@@ -60,6 +60,10 @@
             /// Moderators can add, edit and delete pages.
             /// </summary>
             public const string Moderator = "Moderator";
+            /// <summary>
+            /// Security group assigned to users that are not logged in.
+            /// </summary>
+            public const string Anonymous = "Anonymous";
         }
     }
 }

@@ -33,7 +33,7 @@ namespace TightWiki.Controllers
         [HttpGet("{userAccountName}/Avatar")]
         public ActionResult Avatar(string userAccountName)
         {
-            SessionState.RequireViewPermission();
+            SessionState.RequireAuthorizedPermission();
             SessionState.Page.Name = $"Avatar";
 
             string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");

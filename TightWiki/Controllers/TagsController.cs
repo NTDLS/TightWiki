@@ -16,7 +16,7 @@ namespace TightWiki.Controllers
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
         {
-            SessionState.RequireViewPermission();
+            SessionState.RequireAnonymousPermission();
 
             SessionState.Page.Name = "Tags";
 

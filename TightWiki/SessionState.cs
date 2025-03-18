@@ -145,18 +145,26 @@ namespace TightWiki
         public bool IsMemberOf(string role, string[] roles)
             => roles.Contains(role);
 
+        public void RequireAnonymousPermission()
+        {
+        }
+
         public void RequireAuthorizedPermission()
         {
             if (!IsAuthenticated) throw new UnauthorizedException();
         }
 
-        public void RequireEditPermission()
+        public void RequireEditPermission(string givenPageNavigation)
         {
+            var nav = new NamespaceNavigation(givenPageNavigation);
+
             if (!CanEdit) throw new UnauthorizedException();
         }
 
-        public void RequireViewPermission()
+        public void RequireViewPermission(string givenPageNavigation)
         {
+            var nav = new NamespaceNavigation(givenPageNavigation);
+
             if (!CanView) throw new UnauthorizedException();
         }
 
@@ -165,18 +173,29 @@ namespace TightWiki
             if (!CanAdmin) throw new UnauthorizedException();
         }
 
+        public void RequireModeratePermission(string givenPageNavigation)
+        {
+            var nav = new NamespaceNavigation(givenPageNavigation);
+
+            if (!CanModerate) throw new UnauthorizedException();
+        }
+
         public void RequireModeratePermission()
         {
             if (!CanModerate) throw new UnauthorizedException();
         }
 
-        public void RequireCreatePermission()
+        public void RequireCreatePermission(string givenPageNavigation)
         {
+            var nav = new NamespaceNavigation(givenPageNavigation);
+
             if (!CanCreate) throw new UnauthorizedException();
         }
 
-        public void RequireDeletePermission()
+        public void RequireDeletePermission(string givenPageNavigation)
         {
+            var nav = new NamespaceNavigation(givenPageNavigation);
+
             if (!CanDelete) throw new UnauthorizedException();
         }
 
