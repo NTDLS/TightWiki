@@ -44,6 +44,7 @@
                     <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TimeZone")">TimeZone</a></strong></td>
                     <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress")">EmailAddress</a></strong></td>
                     <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Created")">CreatedDate</a></strong></td>
+                    <td><strong>Security</strong></td>
                 </tr>
             </thead>
 
@@ -57,6 +58,7 @@
                     <td>@user.TimeZone</td>
                     <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
                     <td>@user.CreatedDate</td>
+                    <td><a href="@GlobalConfiguration.BasePath/Admin/AccountNamespaceSecurity/@user.Navigation">Edit Security</a></td>
                 </tr>
             }
         </table>

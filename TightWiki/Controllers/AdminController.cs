@@ -950,6 +950,26 @@ namespace TightWiki.Controllers
 
         #endregion
 
+        #region Account Namespace Security.
+
+        [Authorize]
+        [HttpGet("AccountNamespaceSecurity/{navigation}")]
+        public ActionResult AccountNamespaceSecurity(string navigation)
+        {
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Account Namespace Security";
+
+            navigation = Navigation.Clean(navigation);
+
+            var model = new AccountNamespaceSecurityViewModel()
+            {
+            };
+
+            return View(model);
+        }
+
+        #endregion
+
         #region Roles.
 
         [Authorize]

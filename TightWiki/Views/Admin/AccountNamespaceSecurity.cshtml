@@ -1,0 +1,17 @@
+﻿@using TightWiki.Models
+@model TightWiki.Models.ViewModels.Admin.AccountNamespaceSecurityViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+}
+
+<h3>
+    Account
+</h3>
+
+<p>
+    Account namespace security.<br /><br />
+</p>
+
+
+<br />
