@@ -1,27 +1,26 @@
 SELECT
-	P.[Namespace],
-	Count(0) as [CountOfPages],
-
+	S.Id,
+	S.[Name],
+	S.[Description],
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			Count(DISTINCT P.[Namespace]) / (@PageSize + 0.0)
+			CAST((Count(0) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
 		FROM
-			[Page] as P
+			[SecurityGroup] as P
 	) as PaginationPageCount
 FROM
-	[Page] as P
-GROUP BY
-	[Namespace]
+	[SecurityGroup] as S
 --CUSTOM_ORDER_BY>>
 --CONFIG>>
 /*
-Name=P.[Namespace]
-Pages=Count(0)
+Id=S.Id
+Name=S.Name
+Description=S.Description
 */
 --<<CONFIG
 ORDER BY
-	P.[Namespace]
+	S.Name
 --<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

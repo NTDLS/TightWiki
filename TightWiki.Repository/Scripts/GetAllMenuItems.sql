@@ -5,15 +5,15 @@ SELECT
 	[Ordinal] as [Ordinal]
 FROM
 	[MenuItem]
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Id=Id
 Name=Name
 Link=Link
 Ordinal=Ordinal
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	[Ordinal]
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY

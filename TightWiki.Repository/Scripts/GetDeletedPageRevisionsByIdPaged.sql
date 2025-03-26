@@ -24,16 +24,16 @@ LEFT OUTER JOIN users_db.Profile as DeletedUser
 	ON DeletedUser.UserId = DM.DeletedByUserID
 WHERE
 	PR.PageId = @PageId
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Revision=PR.Revision
 DeletedDate=DM.DeletedDate
 DeletedBy=DeletedUser.AccountName
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	PR.Revision
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

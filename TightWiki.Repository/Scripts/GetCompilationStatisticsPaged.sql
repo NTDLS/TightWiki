@@ -26,8 +26,8 @@ INNER JOIN pages_db.[Page] as P
 	ON P.Id = Stats.PageId
 GROUP BY
 	Stats.PageId
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Name=MAX(P.Name)
 Namespace=MAX(P.Namespace)
@@ -42,9 +42,9 @@ AvgTagCount=AVG(Stats.TagCount)
 AvgRawBodySize=AVG(Stats.BodySize)
 AvgWikifiedBodySize=AVG(Stats.ProcessedBodySize)
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	MAX(P.Name) DESC
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize;

@@ -33,17 +33,17 @@ LEFT OUTER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
 WHERE
 	P.Navigation = @Navigation
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Revision=PR.Revision
 ModifiedBy=ModifiedUser.AccountName
 ModifiedDate=PR.ModifiedDate
 Page=PR.[Name]
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	PR.Revision DESC
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

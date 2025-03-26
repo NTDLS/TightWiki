@@ -1,9 +1,0 @@
-﻿CREATE TABLE "NamespacePermission" (
-	"Id"	INTEGER NOT NULL UNIQUE,
-	"Namespace"	TEXT NOT NULL COLLATE NOCASE,
-	"UserId"	INTEGER NOT NULL,
-	"PermissionId"	INTEGER NOT NULL,
-	PRIMARY KEY("Id" AUTOINCREMENT),
-	FOREIGN KEY("PermissionId") REFERENCES "Permission"("Id"),
-	FOREIGN KEY("UserId") REFERENCES "Profile"("UserId")
-);

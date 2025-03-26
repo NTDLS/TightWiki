@@ -16,11 +16,11 @@ namespace TightWiki.Repository
                 return script;
             }
 
-            string beginParentTag = "--CUSTOM_ORDER_BEGIN::";
-            string endParentTag = "--::CUSTOM_ORDER_BEGIN";
+            string beginParentTag = "--CUSTOM_ORDER_BY>>";
+            string endParentTag = "--<<CUSTOM_ORDER_BY";
 
-            string beginConfigTag = "--CONFIG::";
-            string endConfigTag = "--::CONFIG";
+            string beginConfigTag = "--CONFIG>>";
+            string endConfigTag = "--<<CONFIG";
 
             while (true)
             {

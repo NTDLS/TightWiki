@@ -4,6 +4,7 @@
 	PRIMARY KEY("Id" AUTOINCREMENT)
 );
 
+INSERT INTO Permission(Name) SELECT 'Admin';
 INSERT INTO Permission(Name) SELECT 'View';
 INSERT INTO Permission(Name) SELECT 'Edit';
 INSERT INTO Permission(Name) SELECT 'Delete';

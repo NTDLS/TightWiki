@@ -24,17 +24,17 @@ LEFT OUTER JOIN users_db.Profile as ModifiedUser
 	ON ModifiedUser.UserId = P.ModifiedByUserId
 LEFT OUTER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Name=p.Name
 Revision=P.Revision
 ModifiedBy=ModifiedUser.AccountName
 ModifiedDate=P.ModifiedDate
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	P.[Name]
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

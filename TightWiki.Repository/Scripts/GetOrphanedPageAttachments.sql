@@ -34,17 +34,17 @@ LEFT OUTER JOIN PageRevisionAttachment as PRA
 	AND PRA.FileRevision = PFR.Revision
 WHERE
 	PRA.PageFileId IS NULL
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Page=P.Name
 File=PF.Name
 Size=PFR.Size
 Revision=PFR.Revision
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	P.Name
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

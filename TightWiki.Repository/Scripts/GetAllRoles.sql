@@ -5,13 +5,13 @@ SELECT
 FROM
 	[Role]
 	[MenuItem]
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Name=Name
 Description=Description
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	[Name]
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY

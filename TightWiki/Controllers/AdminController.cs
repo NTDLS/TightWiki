@@ -1828,5 +1828,118 @@ namespace TightWiki.Controllers
         }
 
         #endregion
+
+        #region Security Groups.
+
+        [Authorize]
+        [HttpGet("SecurityGroups")]
+        public ActionResult SecurityGroups()
+        {
+            SessionState.RequireAdminPermission();
+
+            var pageNumber = GetQueryValue("page", 1);
+            var orderBy = GetQueryValue("OrderBy");
+            var orderByDirection = GetQueryValue("OrderByDirection");
+
+            var model = new SecurityGroupsViewModel()
+            {
+                Groups = UsersRepository.GetAllSecurityGroupsPaged(pageNumber, orderBy, orderByDirection)
+            };
+
+            return View(model);
+        }
+
+        /*
+
+        [Authorize]
+        [HttpGet("MenuItem/{id:int?}")]
+        public ActionResult MenuItem(int? id)
+        {
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = $"Menu Item";
+
+            if (id != null)
+            {
+                var menuItem = ConfigurationRepository.GetMenuItemById((int)id);
+                return View(menuItem.ToViewModel());
+            }
+            else
+            {
+                var model = new MenuItemViewModel
+                {
+                    Link = "/"
+                };
+                return View(model);
+            }
+
+        }
+
+        /// <summary>
+        /// Save site menu item.
+        /// </summary>
+        [Authorize]
+        [HttpPost("MenuItem/{id:int?}")]
+        public ActionResult MenuItem(int? id, MenuItemViewModel model)
+        {
+            SessionState.RequireAdminPermission();
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (ConfigurationRepository.GetAllMenuItems().Where(o => o.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase) && o.Id != model.Id).Any())
+            {
+                ModelState.AddModelError("Name", $"The menu name '{model.Name}' is already in use.");
+                return View(model);
+            }
+
+            if (id.DefaultWhenNull(0) == 0)
+            {
+                model.Id = ConfigurationRepository.InsertMenuItem(model.ToDataModel());
+                ModelState.Clear();
+
+                return NotifyOfSuccess("The menu item has been created.", $"/Admin/MenuItem/{model.Id}");
+            }
+            else
+            {
+                ConfigurationRepository.UpdateMenuItemById(model.ToDataModel());
+            }
+
+            model.SuccessMessage = "The menu item has been saved.";
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet("DeleteMenuItem/{id}")]
+        public ActionResult DeleteMenuItem(int id)
+        {
+            SessionState.RequireAdminPermission();
+
+            var model = ConfigurationRepository.GetMenuItemById(id);
+            SessionState.Page.Name = $"{model.Name} Delete";
+
+            return View(model.ToViewModel());
+        }
+
+        [Authorize]
+        [HttpPost("DeleteMenuItem/{id}")]
+        public ActionResult DeleteMenuItem(MenuItemViewModel model)
+        {
+            SessionState.RequireAdminPermission();
+
+            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
+            if (confirmAction == true)
+            {
+                ConfigurationRepository.DeleteMenuItemById(model.Id);
+
+                return NotifyOfSuccess("The menu item has been deleted.", $"/Admin/MenuItems");
+            }
+
+            return Redirect($"{GlobalConfiguration.BasePath}/Admin/MenuItem/{model.Id}");
+        }
+        */
+
+        #endregion
     }
 }

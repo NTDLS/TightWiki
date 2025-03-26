@@ -29,14 +29,14 @@ LEFT OUTER JOIN users_db.Profile as Createduser
 	ON Createduser.UserId = P.CreatedByUserId
 LEFT OUTER JOIN users_db.Profile as DeletedUser
 	ON DeletedUser.UserId = DM.DeletedByUserID
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Page=P.[Name]
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	P.[Name]
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

@@ -8,6 +8,21 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
+        public static List<SecurityGroup> GetAllSecurityGroupsPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
+        {
+            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+
+            var param = new
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+
+            var query = RepositoryHelper.TransposeOrderby("GetAllSecurityGroupsPaged.sql", orderBy, orderByDirection);
+            return ManagedDataStorage.Users.Query<SecurityGroup>(query, param).ToList();
+        }
+
+
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");

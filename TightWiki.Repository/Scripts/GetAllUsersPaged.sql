@@ -57,8 +57,8 @@ WHERE
 	OR ANU.Email LIKE '%' || @SearchToken || '%'
 	OR UCFirstName.ClaimValue LIKE '%' || @SearchToken || '%'
 	OR UCLastName.ClaimValue LIKE '%' || @SearchToken || '%'
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 Account=U.AccountName
 FirstName=UCFirstName.ClaimValue
@@ -69,9 +69,9 @@ Language=Language
 Country=Country
 EmailAddress=ANU.Email
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	U.AccountName
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

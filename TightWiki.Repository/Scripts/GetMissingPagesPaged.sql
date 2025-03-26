@@ -21,15 +21,15 @@ INNER JOIN [Page] as P
 	ON P.Id = PR.PageId
 WHERE
 	PR.ReferencesPageId IS NULL
---CUSTOM_ORDER_BEGIN::
---CONFIG::
+--CUSTOM_ORDER_BY>>
+--CONFIG>>
 /*
 SourcePage=P.[Name]
 TargetPage=PR.ReferencesPageName
 */
---::CONFIG
+--<<CONFIG
 ORDER BY
 	P.[Name]
---::CUSTOM_ORDER_BEGIN
+--<<CUSTOM_ORDER_BY
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize
