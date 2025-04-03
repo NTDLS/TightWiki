@@ -18,7 +18,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         public HandlerResult Handle(ITightEngineState state, int depth, string link, string text)
         {
             double fontSize = 2.2 - (depth - 1) * 0.2;
-            string html = $"<div class=\"mb-0\" style=\"font-size: {fontSize}rem;\"><a name=\"{link}\">{text}</a></div>\r\n";
+            string html = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\"><a name=\"{link}\">{text}</a></span>\r\n";
             return new HandlerResult(html);
         }
     }

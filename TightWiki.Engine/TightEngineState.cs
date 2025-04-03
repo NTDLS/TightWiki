@@ -288,11 +288,8 @@ namespace TightWiki.Engine
                 if (headingMarkers >= 2 && headingMarkers <= 6)
                 {
                     string value = match.Value.Substring(headingMarkers).Trim();
-
-                    int fontSize = 1 + headingMarkers;
-                    if (fontSize < 1) fontSize = 1;
-
-                    string markup = "<font size=\"" + fontSize + "\">" + value + "</font>\r\n";
+                    double fontSize = 2.2 - (7 - headingMarkers) * 0.2;
+                    string markup = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\">{value}</span>\r\n";
                     StoreMatch(WikiMatchType.Markup, pageContent, match.Value, markup);
                 }
             }
