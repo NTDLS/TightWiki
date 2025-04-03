@@ -656,7 +656,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
         }
 
-        public static int GetCurrentPageRevision(ManagedDataStorageInstance connection, int pageId)
+        public static int GetCurrentPageRevision(SqliteManagedInstance connection, int pageId)
         {
             var param = new
             {

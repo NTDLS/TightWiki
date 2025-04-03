@@ -144,7 +144,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.Query<PageFileAttachmentInfo>("GetPageFilesInfoByPageId.sql", param).ToList();
         }
 
-        public static PageFileRevisionAttachmentInfo? GetPageFileInfoByFileNavigation(ManagedDataStorageInstance connection, int pageId, string fileNavigation)
+        public static PageFileRevisionAttachmentInfo? GetPageFileInfoByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
         {
             var param = new
             {
@@ -155,7 +155,7 @@ namespace TightWiki.Repository
             return connection.QuerySingleOrDefault<PageFileRevisionAttachmentInfo>("GetPageFileInfoByFileNavigation.sql", param);
         }
 
-        public static PageFileRevisionAttachmentInfo? GetPageCurrentRevisionAttachmentByFileNavigation(ManagedDataStorageInstance connection, int pageId, string fileNavigation)
+        public static PageFileRevisionAttachmentInfo? GetPageCurrentRevisionAttachmentByFileNavigation(SqliteManagedInstance connection, int pageId, string fileNavigation)
         {
             var param = new
             {

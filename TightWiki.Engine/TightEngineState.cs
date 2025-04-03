@@ -285,7 +285,7 @@ namespace TightWiki.Engine
                     }
                     headingMarkers++;
                 }
-                if (headingMarkers >= 2 && headingMarkers <= 6)
+                if (headingMarkers >= 2)
                 {
                     string value = match.Value.Substring(headingMarkers).Trim();
                     double fontSize = 2.2 - (7 - headingMarkers) * 0.2;

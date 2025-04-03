@@ -7,9 +7,9 @@ namespace TightWiki.Repository
     /// </summary>
     public static class ManagedDataStorage
     {
-        private static (string Name, ManagedDataStorageFactory Factory)[]? _collection = null;
+        private static (string Name, SqliteManagedFactory Factory)[]? _collection = null;
 
-        public static (string Name, ManagedDataStorageFactory Factory)[] Collection
+        public static (string Name, SqliteManagedFactory Factory)[] Collection
         {
             get
             {
@@ -28,13 +28,13 @@ namespace TightWiki.Repository
             }
         }
 
-        public static ManagedDataStorageFactory DeletedPageRevisions { get; private set; } = new();
-        public static ManagedDataStorageFactory DeletedPages { get; private set; } = new();
-        public static ManagedDataStorageFactory Pages { get; private set; } = new();
-        public static ManagedDataStorageFactory Statistics { get; private set; } = new();
-        public static ManagedDataStorageFactory Emoji { get; private set; } = new();
-        public static ManagedDataStorageFactory Exceptions { get; private set; } = new();
-        public static ManagedDataStorageFactory Users { get; private set; } = new();
-        public static ManagedDataStorageFactory Config { get; private set; } = new();
+        public static SqliteManagedFactory DeletedPageRevisions { get; private set; } = new();
+        public static SqliteManagedFactory DeletedPages { get; private set; } = new();
+        public static SqliteManagedFactory Pages { get; private set; } = new();
+        public static SqliteManagedFactory Statistics { get; private set; } = new();
+        public static SqliteManagedFactory Emoji { get; private set; } = new();
+        public static SqliteManagedFactory Exceptions { get; private set; } = new();
+        public static SqliteManagedFactory Users { get; private set; } = new();
+        public static SqliteManagedFactory Config { get; private set; } = new();
     }
 }

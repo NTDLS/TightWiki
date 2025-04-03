@@ -4,7 +4,7 @@ namespace DummyPageGenerator
 {
     public static class WordsRepository
     {
-        public static ManagedDataStorageFactory Words { get; private set; } = new();
+        public static SqliteManagedFactory Words { get; private set; } = new();
 
         public static int GetWordsCount()
             => Words.ExecuteScalar<int>("GetWordsCount.sql");

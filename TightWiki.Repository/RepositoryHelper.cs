@@ -9,7 +9,7 @@ namespace TightWiki.Repository
         /// </summary>
         public static string TransposeOrderby(string filename, string? orderBy, string? orderByDirection)
         {
-            var script = ManagedDataStorageInstance.TranslateSqlScript(filename);
+            var script = SqliteManagedInstance.TranslateSqlScript(filename);
 
             if (string.IsNullOrEmpty(orderBy))
             {

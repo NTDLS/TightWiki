@@ -3,21 +3,13 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.21.4</Version>
+    <Version>2.21.5</Version>
   </PropertyGroup>
   
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="wwwroot\css\base.css" />
-  </ItemGroup>
-
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\Avatar.png" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
@@ -30,7 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NTDLS.DelegateThreadPooling" Version="1.5.13" />
+    <PackageReference Include="NTDLS.DelegateThreadPooling" Version="1.5.14" />
   </ItemGroup>
 
   <ItemGroup>
