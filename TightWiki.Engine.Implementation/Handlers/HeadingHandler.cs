@@ -1,6 +1,5 @@
 ﻿using TightWiki.Engine.Library;
 using TightWiki.Engine.Library.Interfaces;
-using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -18,16 +17,9 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="text">The text for the self link.</param>
         public HandlerResult Handle(ITightEngineState state, int depth, string link, string text)
         {
-            if (depth >= 2 && depth <= 6)
-            {
-                int fontSize = 8 - depth;
-                if (fontSize < 5) fontSize = 5;
-
-                string html = "<font size=\"" + fontSize + "\"><a name=\"" + link + "\"><span class=\"WikiH" + (depth - 1).ToString() + "\">" + text + "</span></a></font>\r\n";
-                return new HandlerResult(html);
-            }
-
-            return new HandlerResult() { Instructions = [HandlerResultInstruction.Skip] };
+            double fontSize = 2.2 - (depth - 1) * 0.2;
+            string html = $"<div class=\"mb-0\" style=\"font-size: {fontSize}rem;\"><a name=\"{link}\">{text}</a></div>\r\n";
+            return new HandlerResult(html);
         }
     }
 }

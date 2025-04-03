@@ -438,7 +438,7 @@ namespace TightWiki.Engine
                     string link = _tocName + "_" + TableOfContents.Count.ToString();
                     string text = match.Value.Substring(headingMarkers).Trim().Trim(['=']).Trim();
 
-                    var result = Engine.HeadingHandler.Handle(this, headingMarkers, link, text);
+                    var result = Engine.HeadingHandler.Handle(this, headingMarkers - 1, link, text);
 
                     if (!result.Instructions.Contains(HandlerResultInstruction.Skip))
                     {
