@@ -48,6 +48,8 @@ namespace TightWiki.Repository
                     return; //The database version is already at the latest version.
                 }
 
+                Console.WriteLine($"Starting database upgrade.");
+
                 var updateScriptNames = Assembly.GetExecutingAssembly().GetManifestResourceNames()
                     .Where(o => o.Contains("Repository.Scripts.Initialization.Versions", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o);
 
@@ -70,6 +72,8 @@ namespace TightWiki.Repository
                             int filesFolderVersion = Utility.PadVersionString(updateScriptName.Substring(startIndex, endIndex - startIndex).Trim().Replace("_", ""));
                             if (filesFolderVersion > storedPaddedVersion)
                             {
+                                Console.WriteLine($"Executing upgrade script: \"{updateScriptName}\"");
+
                                 //Get the script text.
                                 using var stream = assembly.GetManifestResourceStream(updateScriptName);
                                 using var reader = new StreamReader(stream.EnsureNotNull());
@@ -87,8 +91,6 @@ namespace TightWiki.Repository
                             }
                         }
                     }
-
-                    Console.WriteLine(updateScriptName);
                 }
 
                 SetVersionStateVersion();
