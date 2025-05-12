@@ -71,7 +71,7 @@ namespace TightWiki
 
                 });
 
-            var persistKeysPath = cookiesConfig.Value<string>(Constants.ConfigurationGroup.Cookies, "Persist Keys Path");
+            var persistKeysPath = cookiesConfig.Value("Persist Keys Path", string.Empty);
             if (string.IsNullOrEmpty(persistKeysPath) == false && Utility.CanReadWriteFile(persistKeysPath))
             {
                 // Add persistent data protection
