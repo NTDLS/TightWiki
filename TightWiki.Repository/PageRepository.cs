@@ -70,7 +70,7 @@ namespace TightWiki.Repository
         public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(
             string navigation, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -231,7 +231,7 @@ namespace TightWiki.Repository
                 return new List<Page>();
             }
 
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
             allowFuzzyMatching ??= ConfigurationRepository.Get<bool>("Search", "Allow Fuzzy Matching");
 
             var meteredSearchTokens = GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching == true);
@@ -258,7 +258,7 @@ namespace TightWiki.Repository
 
         public static List<RelatedPage> GetSimilarPagesPaged(int pageId, int similarity, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -273,7 +273,7 @@ namespace TightWiki.Repository
 
         public static List<RelatedPage> GetRelatedPagesPaged(int pageId, int pageNumber, int? pageSize = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -336,7 +336,7 @@ namespace TightWiki.Repository
 
         public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, bool allowCache = true)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             if (allowCache)
             {
@@ -366,7 +366,7 @@ namespace TightWiki.Repository
 
         public static List<NonexistentPage> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -409,7 +409,7 @@ namespace TightWiki.Repository
 
         public static List<Page> GetAllPagesByInstructionPaged(int pageNumber, string? instruction = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -466,7 +466,7 @@ namespace TightWiki.Repository
         public static List<Page> GetAllNamespacePagesPaged(int pageNumber, string namespaceName,
             string? orderBy = null, string? orderByDirection = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -490,7 +490,7 @@ namespace TightWiki.Repository
         public static List<Page> GetAllPagesPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? searchTerms = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -530,7 +530,7 @@ namespace TightWiki.Repository
         public static List<Page> GetAllDeletedPagesPaged(int pageNumber, string? orderBy = null,
             string? orderByDirection = null, List<string>? searchTerms = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -561,7 +561,7 @@ namespace TightWiki.Repository
 
         public static List<NamespaceStat> GetAllNamespacesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -981,7 +981,7 @@ namespace TightWiki.Repository
         public static List<DeletedPageRevision> GetDeletedPageRevisionsByIdPaged(int pageId, int pageNumber,
             string? orderBy = null, string? orderByDirection = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Library.Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {

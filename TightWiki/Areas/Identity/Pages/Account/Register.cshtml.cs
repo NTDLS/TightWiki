@@ -104,7 +104,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -173,7 +173,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
-                    var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+                    var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
 
                     UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
 
@@ -200,8 +200,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
                             protocol: Request.Scheme);
 
-                        var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
-                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                        var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
+                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
                         var siteName = basicConfig.Value<string>("Name");
                         var address = basicConfig.Value<string>("Address");
                         var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));

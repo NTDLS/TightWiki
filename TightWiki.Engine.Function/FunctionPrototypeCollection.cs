@@ -48,7 +48,7 @@ namespace TightWiki.Engine.Function
 
             //$$ are scope functions and are not called by demarcation, we only have demarcations to make it easier to parse
             //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
-            return Items.Any(o => (o.Demarcation == functionDemarcation || o.Demarcation == "$$") && o.Key == functionName);
+            return Items.Any(o => (o.Demarcation == functionDemarcation || o.Demarcation == "$$") && o.Key.Equals(functionName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         public FunctionPrototype Get(string functionDemarcation, string functionName)
@@ -57,7 +57,7 @@ namespace TightWiki.Engine.Function
 
             //$$ are scope functions and are not called by demarcation, we only have demarcations to make it easier to parse
             //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
-            var functionPrototype = Items.Where(o => (o.Demarcation == functionDemarcation || o.Demarcation == "$$") && o.Key == functionName).FirstOrDefault();
+            var functionPrototype = Items.Where(o => (o.Demarcation == functionDemarcation || o.Demarcation == "$$") && o.Key.Equals(functionName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
 
             return functionPrototype
                 ?? throw new WikiFunctionPrototypeNotDefinedException($"Function ({functionName}) does not have a defined prototype.");

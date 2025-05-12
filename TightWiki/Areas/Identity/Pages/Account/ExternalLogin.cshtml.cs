@@ -11,6 +11,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
@@ -170,8 +171,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = userId, code = encodedCode },
                             protocol: Request.Scheme);
 
-                        var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>("Membership", "Template: Account Verification Email"));
-                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Basic");
+                        var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
+                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
                         var siteName = basicConfig.Value<string>("Name");
                         var address = basicConfig.Value<string>("Address");
                         var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));

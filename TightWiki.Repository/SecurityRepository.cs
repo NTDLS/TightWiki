@@ -44,7 +44,7 @@ namespace TightWiki.Repository
                     throw new Exception(string.Join("\r\n", emailUpdateResult.Errors.Select(o => o.Description)));
                 }
 
-                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
 
                 var claimsToAdd = new List<Claim>
                     {

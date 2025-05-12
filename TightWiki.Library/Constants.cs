@@ -61,5 +61,21 @@
             /// </summary>
             public const string Moderator = "Moderator";
         }
+
+        public static class ConfigurationGroup
+        {
+            public const string Basic = "Basic";
+            public const string Cookies = "Cookies";
+            public const string Search = "Search";
+            public const string Functionality = "Functionality";
+            public const string Membership = "Membership";
+            public const string Email = "Email";
+            public const string HTMLLayout = "HTML Layout";
+            public const string Performance = "Performance";
+            public const string Customization = "Customization";
+            public const string ExternalAuthentication = "External Authentication";
+            public const string FilesAndAttachments = "Files and Attachments";
+
+        }
     }
 }

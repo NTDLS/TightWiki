@@ -74,7 +74,7 @@ namespace TightWiki.Engine.Function
 
             if (param.AllowedValues != null && param.AllowedValues.Count > 0)
             {
-                if (param.AllowedValues.Contains(value.ToLower()) == false)
+                if (param.AllowedValues.Contains(value, StringComparer.InvariantCultureIgnoreCase) == false)
                 {
                     throw new Exception($"Function [{Name}], the value [{value}] passed to parameter [{param.Name}] is not allowed. Allowed values are [{string.Join(",", param.AllowedValues)}].");
                 }

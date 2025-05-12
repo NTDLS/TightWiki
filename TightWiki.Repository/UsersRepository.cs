@@ -10,7 +10,7 @@ namespace TightWiki.Repository
     {
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -59,7 +59,7 @@ namespace TightWiki.Repository
 
         public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -76,7 +76,7 @@ namespace TightWiki.Repository
 
         public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {

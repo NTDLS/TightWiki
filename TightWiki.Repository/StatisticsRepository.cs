@@ -1,4 +1,5 @@
-﻿using TightWiki.Models.DataModels;
+﻿using TightWiki.Library;
+using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
 {
@@ -30,7 +31,7 @@ namespace TightWiki.Repository
         public static List<PageCompilationStatistics> GetCompilationStatisticsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {

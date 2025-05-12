@@ -474,20 +474,20 @@ namespace TightWiki.Repository
 
             GlobalConfiguration.IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = GetConfigurationEntryValuesByGroupName("Performance", false);
+            var performanceConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Performance, false);
             GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
             GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");
 
             WikiCache.Initialize(GlobalConfiguration.CacheMemoryLimitMB, GlobalConfiguration.PageCacheSeconds);
 
-            var basicConfig = GetConfigurationEntryValuesByGroupName("Basic");
-            var customizationConfig = GetConfigurationEntryValuesByGroupName("Customization");
-            var htmlConfig = GetConfigurationEntryValuesByGroupName("HTML Layout");
-            var functionalityConfig = GetConfigurationEntryValuesByGroupName("Functionality");
-            var membershipConfig = GetConfigurationEntryValuesByGroupName("Membership");
-            var searchConfig = GetConfigurationEntryValuesByGroupName("Search");
-            var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName("Files and Attachments");
+            var basicConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+            var customizationConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Customization);
+            var htmlConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.HTMLLayout);
+            var functionalityConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Functionality);
+            var membershipConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var searchConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Search);
+            var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.FilesAndAttachments);
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
             GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;

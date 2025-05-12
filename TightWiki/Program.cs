@@ -2,8 +2,10 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NTDLS.Helpers;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
@@ -39,7 +41,7 @@ namespace TightWiki
             ConfigurationRepository.UpgradeDatabase();
             ConfigurationRepository.ReloadEverything();
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
@@ -52,14 +54,36 @@ namespace TightWiki
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var ExternalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("External Authentication");
+            var externalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+            var cookiesConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Cookies);
 
-            var authentication = builder.Services.AddAuthentication();
+            var authentication = builder.Services.AddAuthentication()
+                .AddCookie("CookieAuth", options =>
+                {
+                    options.Cookie.Name = basicConfig.Value<string>("Name").EnsureNotNull();
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.LoginPath = $"{GlobalConfiguration.BasePath}/Identity/Account/Login";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(cookiesConfig.Value<int>("Expiration Hours"));
+                    options.SlidingExpiration = true;
+                    options.Cookie.IsEssential = true;
 
-            if (ExternalAuthenticationConfig.Value<bool>("Google : Use Google Authentication"))
+                });
+
+            var persistKeysPath = cookiesConfig.Value<string>(Constants.ConfigurationGroup.Functionality, "Persist Keys Path");
+            if (string.IsNullOrEmpty(persistKeysPath) == false && Utility.CanReadWriteFile(persistKeysPath))
             {
-                var clientId = ExternalAuthenticationConfig.Value<string>("Google : ClientId");
-                var clientSecret = ExternalAuthenticationConfig.Value<string>("Google : ClientSecret");
+                // Add persistent data protection
+                builder.Services.AddDataProtection()
+                    .PersistKeysToFileSystem(new DirectoryInfo(persistKeysPath))
+                    .SetApplicationName(basicConfig.Value<string>("Name").EnsureNotNull());
+            }
+
+            if (externalAuthenticationConfig.Value<bool>("Google : Use Google Authentication"))
+            {
+                var clientId = externalAuthenticationConfig.Value<string>("Google : ClientId");
+                var clientSecret = externalAuthenticationConfig.Value<string>("Google : ClientSecret");
 
                 if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {
@@ -80,10 +104,10 @@ namespace TightWiki
                     });
                 }
             }
-            if (ExternalAuthenticationConfig.Value<bool>("Microsoft : Use Microsoft Authentication"))
+            if (externalAuthenticationConfig.Value<bool>("Microsoft : Use Microsoft Authentication"))
             {
-                var clientId = ExternalAuthenticationConfig.Value<string>("Microsoft : ClientId");
-                var clientSecret = ExternalAuthenticationConfig.Value<string>("Microsoft : ClientSecret");
+                var clientId = externalAuthenticationConfig.Value<string>("Microsoft : ClientId");
+                var clientSecret = externalAuthenticationConfig.Value<string>("Microsoft : ClientSecret");
 
                 if (clientId != null && clientSecret != null && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
                 {

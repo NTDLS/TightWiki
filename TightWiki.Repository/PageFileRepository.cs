@@ -1,5 +1,6 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
+using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -21,7 +22,7 @@ namespace TightWiki.Repository
         public static List<OrphanedPageAttachment> GetOrphanedPageAttachmentsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -48,7 +49,7 @@ namespace TightWiki.Repository
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {
@@ -113,7 +114,7 @@ namespace TightWiki.Repository
 
         public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
         {
-            int pageSize = ConfigurationRepository.Get<int>("Customization", "Pagination Size");
+            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
 
             var param = new
             {

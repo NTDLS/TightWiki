@@ -1174,9 +1174,9 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAdminPermission();
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
-            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Customization");
+            var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Customization);
 
             var model = new Models.ViewModels.Admin.AccountProfileViewModel()
             {

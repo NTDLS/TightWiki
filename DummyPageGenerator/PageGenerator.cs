@@ -84,7 +84,7 @@ namespace DummyPageGenerator
             }
 
             var userId = _userManager.GetUserIdAsync(user).Result;
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
 
             UsersRepository.CreateProfile(Guid.Parse(userId), GetRandomUnusedAccountName());
 

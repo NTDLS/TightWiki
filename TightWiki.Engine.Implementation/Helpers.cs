@@ -2,6 +2,7 @@
 using NTDLS.Helpers;
 using TightWiki.Caching;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
@@ -84,7 +85,7 @@ namespace TightWiki.Engine.Implementation
 
         internal static List<WeightedSearchToken> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
-            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Search");
+            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
                 .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();

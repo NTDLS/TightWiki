@@ -2,6 +2,7 @@
 using MailKit.Security;
 using Microsoft.Extensions.Logging;
 using MimeKit;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
 
@@ -20,7 +21,7 @@ namespace TightWiki.Email
         {
             try
             {
-                var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Email");
+                var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Email);
                 var smtpPassword = values.Value<string>("Password");
                 var smtpUsername = values.Value<string>("Username");
                 var smtpAddress = values.Value<string>("Address");

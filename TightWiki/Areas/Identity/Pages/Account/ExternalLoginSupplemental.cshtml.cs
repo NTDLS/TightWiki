@@ -77,7 +77,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             Input.Countries = CountryItem.GetAll();
             Input.Languages = LanguageItem.GetAll();
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
 
             if (string.IsNullOrEmpty(Input.TimeZone))
                 Input.TimeZone = membershipConfig.Value<string>("Default TimeZone").EnsureNotNull();
@@ -143,7 +143,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName("Membership");
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var claimsToAdd = new List<Claim>
             {
                 new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
