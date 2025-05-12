@@ -22,7 +22,7 @@
         public override bool Equals(object? obj)
         {
             return obj is PageReference other
-                && string.Equals(Navigation, other.Navigation, StringComparison.OrdinalIgnoreCase);
+                && string.Equals(Navigation, other.Navigation, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public override int GetHashCode()

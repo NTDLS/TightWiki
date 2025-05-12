@@ -69,7 +69,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="scopeBody">This is not a scope function, this should always be null</param>
         public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
-            switch (function.Name.ToLower())
+            switch (function.Name.ToLowerInvariant())
             {
                 //We check wikifierSession.Factory.CurrentNestLevel here because we don't want to include the processing instructions on any parent pages that are injecting this one.
 

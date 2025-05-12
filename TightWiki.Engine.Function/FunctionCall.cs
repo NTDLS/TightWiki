@@ -31,7 +31,7 @@ namespace TightWiki.Engine.Function
                 {
                     var parsed = arg.Substring(1); //Skip the colon.
                     int index = parsed.IndexOf('=');
-                    var name = parsed.Substring(0, index).Trim().ToLower();
+                    var name = parsed.Substring(0, index).Trim().ToLowerInvariant();
                     var value = parsed.Substring(index + 1).Trim();
 
                     Parameters.Named.Add(new NamedParameter(name, value));
@@ -111,7 +111,7 @@ namespace TightWiki.Engine.Function
                     //Good, we have a value.
                     string value = Parameters.Ordinals[index].Value;
                     Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                    EnforcePrototypeParamValue(param, value.ToLower());
+                    EnforcePrototypeParamValue(param, value.ToLowerInvariant());
 
                     namedToAddLater.Add(new NamedParameter(param.Name, value));
                 }
@@ -138,7 +138,7 @@ namespace TightWiki.Engine.Function
                             //Good, we have a value.
                             string value = Parameters.Ordinals[index].Value;
                             Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                            EnforcePrototypeParamValue(param, value.ToLower());
+                            EnforcePrototypeParamValue(param, value.ToLowerInvariant());
                         }
                         else
                         {
@@ -151,7 +151,7 @@ namespace TightWiki.Engine.Function
                     {
                         string value = Parameters.Ordinals[index].Value;
                         Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                        EnforcePrototypeParamValue(param, value.ToLower());
+                        EnforcePrototypeParamValue(param, value.ToLowerInvariant());
                         namedToAddLater.Add(new NamedParameter(param.Name, value));
                     }
 
@@ -176,7 +176,7 @@ namespace TightWiki.Engine.Function
                 {
                     string value = Parameters.Ordinals[index].Value;
                     Parameters.Ordinals[index].AssociateWithPrototypeParam(param.Name);
-                    EnforcePrototypeParamValue(param, value.ToLower());
+                    EnforcePrototypeParamValue(param, value.ToLowerInvariant());
                     namedToAddLater.Add(new NamedParameter(param.Name, value));
                 }
             }
@@ -197,8 +197,8 @@ namespace TightWiki.Engine.Function
                 throw new Exception($"Function [{Name}], unmatched parameter value [{unmatchedParams.First().Value}].");
             }
 
-            var nonInfiniteParams = Prototype.Parameters.Where(o => o.IsInfinite == false).Select(o => o.Name.ToLower());
-            var groups = Parameters.Named.Where(o => nonInfiniteParams.Contains(o.Name.ToLower())).GroupBy(o => o.Name.ToLower()).Where(o => o.Count() > 1);
+            var nonInfiniteParams = Prototype.Parameters.Where(o => o.IsInfinite == false).Select(o => o.Name.ToLowerInvariant());
+            var groups = Parameters.Named.Where(o => nonInfiniteParams.Contains(o.Name.ToLowerInvariant())).GroupBy(o => o.Name.ToLowerInvariant()).Where(o => o.Count() > 1);
 
             if (groups.Any())
             {

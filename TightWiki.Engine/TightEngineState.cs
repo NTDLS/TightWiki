@@ -466,7 +466,7 @@ namespace TightWiki.Engine
 
             foreach (var match in orderedMatches)
             {
-                string key = match.Value.Trim().ToLower().Trim('%');
+                string key = match.Value.Trim().ToLowerInvariant().Trim('%');
                 int scale = 100;
 
                 var parts = key.Split(',');
@@ -546,7 +546,7 @@ namespace TightWiki.Engine
                     string imageTag = "image:";
                     string? image = null;
 
-                    if (text.StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
+                    if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
                     {
                         image = text.Substring(imageTag.Length).Trim();
                         text = null;
@@ -579,7 +579,7 @@ namespace TightWiki.Engine
                     string imageTag = "image:";
                     string? image = null;
 
-                    if (text.StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
+                    if (text.StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
                     {
                         image = text.Substring(imageTag.Length).Trim();
                         text = null;
@@ -622,7 +622,7 @@ namespace TightWiki.Engine
                     pageName = args[0];
 
                     string imageTag = "image:";
-                    if (args[1].StartsWith(imageTag, StringComparison.CurrentCultureIgnoreCase))
+                    if (args[1].StartsWith(imageTag, StringComparison.InvariantCultureIgnoreCase))
                     {
                         image = args[1].Substring(imageTag.Length).Trim();
                         text = WikiUtility.GetPageNamePart(args[0]); //Text will be page name since we have an image.
@@ -750,7 +750,7 @@ namespace TightWiki.Engine
                 }
 
                 var firstChanceFunctions = new string[] { "include", "inject" }; //Process these the first time through.
-                if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLower()) == false)
+                if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLowerInvariant()) == false)
                 {
                     continue;
                 }

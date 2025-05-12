@@ -387,7 +387,7 @@ namespace TightWiki.Controllers
             {
                 string scale = GetQueryValue("Scale", "100");
 
-                string shortcut = $"%%{pageNavigation.ToLower()}%%";
+                string shortcut = $"%%{pageNavigation.ToLowerInvariant()}%%";
                 var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
@@ -445,7 +445,7 @@ namespace TightWiki.Controllers
                             Width += 16 - Width;
                         }
 
-                        if (emoji.MimeType?.ToLower() == "image/gif")
+                        if (emoji.MimeType?.ToLowerInvariant() == "image/gif")
                         {
                             var resized = ResizeGifImage(decompressedImageBytes, Width, Height);
                             var itemCache = new ImageCacheItem(resized, "image/gif");

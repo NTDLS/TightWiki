@@ -52,7 +52,7 @@ namespace TightWiki.Library
             result = Regex.Replace(result, @"[_]{2,}", "_");
             result = Regex.Replace(result, @"[/]{2,}", "/");
 
-            return result.ToLower();
+            return result.ToLowerInvariant();
         }
     }
 }

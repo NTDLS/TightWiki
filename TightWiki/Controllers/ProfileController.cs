@@ -283,7 +283,7 @@ namespace TightWiki.Controllers
             var user = UserManager.FindByIdAsync(userId.ToString()).Result.EnsureNotNull();
 
             var profile = UsersRepository.GetAccountProfileByUserId(userId);
-            if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.CurrentCultureIgnoreCase))
+            if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.InvariantCultureIgnoreCase))
             {
                 if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                 {
@@ -292,12 +292,12 @@ namespace TightWiki.Controllers
                 }
             }
 
-            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
 
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLower()) == false)
+                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                 {
                     model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
                 }
@@ -311,7 +311,7 @@ namespace TightWiki.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         var image = Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLower());
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLowerInvariant());
                     }
                     catch
                     {

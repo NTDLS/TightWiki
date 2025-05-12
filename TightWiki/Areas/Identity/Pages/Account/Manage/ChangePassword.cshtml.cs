@@ -123,7 +123,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 return Page();
             }
 
-            if (profile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.CurrentCultureIgnoreCase))
+            if (profile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
             {
                 UsersRepository.SetAdminPasswordIsChanged();
             }

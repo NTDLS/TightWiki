@@ -78,7 +78,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         {
             scopeBody.EnsureNotNull($"The function '{function.Name}' scope body can not be null");
 
-            switch (function.Name.ToLower())
+            switch (function.Name.ToLowerInvariant())
             {
                 //------------------------------------------------------------------------------------------------------------------------------
                 case "code":
@@ -86,7 +86,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var html = new StringBuilder();
 
                         string language = function.Parameters.Get<string>("language");
-                        if (string.IsNullOrEmpty(language) || language?.ToLower() == "auto")
+                        if (string.IsNullOrEmpty(language) || language?.ToLowerInvariant() == "auto")
                         {
                             html.Append($"<pre>");
                             html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
@@ -277,7 +277,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var html = new StringBuilder();
 
                         string titleText = function.Parameters.Get<string>("titleText");
-                        string style = function.Parameters.Get<string>("styleName").ToLower();
+                        string style = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         style = style == "default" ? "" : $"alert-{style}";
 
                         if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
@@ -355,7 +355,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var html = new StringBuilder();
 
                         string titleText = function.Parameters.Get<string>("titleText");
-                        string style = function.Parameters.Get<string>("styleName").ToLower();
+                        string style = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         style = style == "default" ? "" : style;
 
                         html.Append($"<div class=\"bd-callout bd-callout-{style}\">");

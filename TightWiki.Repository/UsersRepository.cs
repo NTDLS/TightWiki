@@ -112,7 +112,7 @@ namespace TightWiki.Repository
         {
             var param = new
             {
-                EmailAddress = emailAddress?.ToLower()
+                EmailAddress = emailAddress?.ToLowerInvariant()
             };
 
             return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesEmailAddressExist.sql", param) ?? 0) != 0;
@@ -122,7 +122,7 @@ namespace TightWiki.Repository
         {
             var param = new
             {
-                Navigation = navigation?.ToLower()
+                Navigation = navigation?.ToLowerInvariant()
             };
 
             return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist.sql", param) ?? 0) != 0;

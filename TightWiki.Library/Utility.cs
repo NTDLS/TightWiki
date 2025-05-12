@@ -75,7 +75,7 @@ namespace TightWiki.Library
 
         public static List<string> SplitToTokens(string? tokenString)
         {
-            var tokens = (tokenString ?? string.Empty).Trim().ToLower()
+            var tokens = (tokenString ?? string.Empty).Trim().ToLowerInvariant()
                 .Split([' ', ',', '\t'], StringSplitOptions.RemoveEmptyEntries).Distinct().ToList();
             return tokens;
         }

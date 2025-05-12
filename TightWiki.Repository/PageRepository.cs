@@ -592,7 +592,7 @@ namespace TightWiki.Repository
                     PageId = pageId
                 };
 
-                instructions = instructions.Select(o => o.ToLower()).Distinct().ToList();
+                instructions = instructions.Select(o => o.ToLowerInvariant()).Distinct().ToList();
 
                 using var tempTable = o.CreateTempTableFrom("TempInstructions", instructions);
                 return o.Query<Page>("UpdatePageProcessingInstructions.sql", param).ToList();
@@ -1150,7 +1150,7 @@ namespace TightWiki.Repository
         {
             ManagedDataStorage.Pages.Ephemeral(o =>
             {
-                tags = tags.Select(o => o.ToLower()).Distinct().ToList();
+                tags = tags.Select(o => o.ToLowerInvariant()).Distinct().ToList();
 
                 using var tempTable = o.CreateTempTableFrom("TempTags", tags);
 

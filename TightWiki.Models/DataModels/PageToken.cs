@@ -11,12 +11,12 @@
         {
             return obj is PageToken other
                 && PageId == other.PageId
-                && string.Equals(Token, other.Token, StringComparison.OrdinalIgnoreCase);
+                && string.Equals(Token, other.Token, StringComparison.InvariantCultureIgnoreCase);
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(PageId, Token.ToLower());
+            return HashCode.Combine(PageId, Token.ToLowerInvariant());
         }
     }
 }

@@ -270,7 +270,7 @@ namespace TightWiki.Repository
                         Value = entryValue,
                         Description = value.EntryDescription,
                         Name = value.EntryName,
-                        DataType = value.DataType.ToLower(),
+                        DataType = value.DataType.ToLowerInvariant(),
                         IsEncrypted = value.IsEncrypted,
                         ConfigurationGroupId = group.Key,
                     });

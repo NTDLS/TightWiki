@@ -22,7 +22,7 @@ namespace TightWiki.Library
         }
 
         //Borrowed from FileExtensionContentTypeProvider().TryGetContentType
-        public static Dictionary<string, string> Collection = new(StringComparer.OrdinalIgnoreCase)
+        public static Dictionary<string, string> Collection = new(StringComparer.InvariantCultureIgnoreCase)
         {
             { ".323", "text/h323" },
             { ".3g2", "video/3gpp2" },

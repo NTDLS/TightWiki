@@ -45,7 +45,7 @@ namespace TightWiki.Engine.Function
                 var match = parameterMatches[0];
                 int argumentStartIndex = match.Value.IndexOf('(');
 
-                functionName = match.Value[..argumentStartIndex].ToLower().TrimStart(['{', '#', '@']).Trim();
+                functionName = match.Value[..argumentStartIndex].ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = match.Index + match.Length;
 
                 var trimmedArguments = match.ToString().Substring(argumentStartIndex);
@@ -54,7 +54,7 @@ namespace TightWiki.Engine.Function
             else //The function call has no parameters.
             {
                 int endOfLine = functionCall.Substring(2).TakeWhile(c => char.IsLetterOrDigit(c)).Count(); //Find the first non-alphanumeric after the function demarcation (##, @@, etc).
-                functionName = functionCall.Substring(2, endOfLine).ToLower().TrimStart(['{', '#', '@']).Trim();
+                functionName = functionCall.Substring(2, endOfLine).ToLowerInvariant().TrimStart(['{', '#', '@']).Trim();
                 parseEndIndex = endOfLine + 2;
             }
 

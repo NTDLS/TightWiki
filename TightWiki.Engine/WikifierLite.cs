@@ -57,7 +57,7 @@ namespace TightWiki.Engine
             var matches = WikiUtility.OrderMatchesByLengthDescending(rgx.Matches(pageContent.ToString()));
             foreach (var match in matches)
             {
-                string key = match.Value.Trim().ToLower().Trim('%');
+                string key = match.Value.Trim().ToLowerInvariant().Trim('%');
                 int scale = 100;
 
                 var parts = key.Split(',');

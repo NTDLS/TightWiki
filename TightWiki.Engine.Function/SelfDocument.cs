@@ -51,7 +51,7 @@
                     html.AppendLine("${keywordColor = #318000}");
                     html.AppendLine("${identifierColor = #c6680e}");
                     html.AppendLine("==Overview");
-                    html.AppendLine($"The {item.ProperName} {functionType.ToLower()} is !!FILL_IN_THE_BLANK!!");
+                    html.AppendLine($"The {item.ProperName} {functionType.ToLowerInvariant()} is !!FILL_IN_THE_BLANK!!");
                     html.AppendLine("");
                     html.AppendLine("");
                     html.AppendLine("==Prototype");
@@ -159,7 +159,7 @@
                     {
                         Navigation = navigation,
                         Name = topic,
-                        Description = $"Documentation of the built-in {item.ProperName.ToLower()} {functionType.ToLower()} !!FILL_IN_THE_BLANK!!.",
+                        Description = $"Documentation of the built-in {item.ProperName.ToLowerInvariant()} {functionType.ToLowerInvariant()} !!FILL_IN_THE_BLANK!!.",
                         CreatedByUserId = 1,
                         CreatedDate = DateTime.UtcNow,
                         ModifiedByUserId = 1,

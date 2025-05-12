@@ -70,7 +70,7 @@ namespace TightWiki.Library
                 return new Dictionary<string, string>();
             }
 
-            var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var dictionary = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
             foreach (var item in queryString)
             {
@@ -87,7 +87,7 @@ namespace TightWiki.Library
 
         public static Dictionary<string, string> ToDictionary(string? queryString)
         {
-            var dictionary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var dictionary = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             if (string.IsNullOrEmpty(queryString))
             {
                 return dictionary;

@@ -32,7 +32,7 @@ namespace TightWiki.Engine.Function
             {
                 Demarcation = demarcation,
                 ProperName = prototype.ProperName,
-                FunctionName = prototype.ProperName.ToLower(),
+                FunctionName = prototype.ProperName.ToLowerInvariant(),
                 Value = prototype
             };
             */
@@ -44,7 +44,7 @@ namespace TightWiki.Engine.Function
 
         public bool Exists(string functionDemarcation, string functionName)
         {
-            functionName = functionName.ToLower();
+            functionName = functionName.ToLowerInvariant();
 
             //$$ are scope functions and are not called by demarcation, we only have demarcations to make it easier to parse
             //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.
@@ -53,7 +53,7 @@ namespace TightWiki.Engine.Function
 
         public FunctionPrototype Get(string functionDemarcation, string functionName)
         {
-            functionName = functionName.ToLower();
+            functionName = functionName.ToLowerInvariant();
 
             //$$ are scope functions and are not called by demarcation, we only have demarcations to make it easier to parse
             //  the functions in the wikiText and scope functions are easy enough since they start with curly braces.

@@ -24,15 +24,15 @@ namespace TightWiki.Repository
 
             while (true)
             {
-                int beginParentIndex = script.IndexOf(beginParentTag, StringComparison.OrdinalIgnoreCase);
-                int endParentIndex = script.IndexOf(endParentTag, StringComparison.OrdinalIgnoreCase);
+                int beginParentIndex = script.IndexOf(beginParentTag, StringComparison.InvariantCultureIgnoreCase);
+                int endParentIndex = script.IndexOf(endParentTag, StringComparison.InvariantCultureIgnoreCase);
 
                 if (beginParentIndex > 0 && endParentIndex > beginParentIndex)
                 {
                     var sectionText = script.Substring(beginParentIndex + beginParentTag.Length, (endParentIndex - beginParentIndex) - endParentTag.Length).Trim();
 
-                    int beginConfigIndex = sectionText.IndexOf(beginConfigTag, StringComparison.OrdinalIgnoreCase);
-                    int endConfigIndex = sectionText.IndexOf(endConfigTag, StringComparison.OrdinalIgnoreCase);
+                    int beginConfigIndex = sectionText.IndexOf(beginConfigTag, StringComparison.InvariantCultureIgnoreCase);
+                    int endConfigIndex = sectionText.IndexOf(endConfigTag, StringComparison.InvariantCultureIgnoreCase);
 
                     if (beginConfigIndex >= 0 && endConfigIndex > beginConfigIndex)
                     {
@@ -42,7 +42,7 @@ namespace TightWiki.Repository
                             .Where(o => o.Contains('='))
                             .Select(o => (Name: o.Split("=")[0], Field: o.Split("=")[1]));
 
-                        var selectedConfig = configs.SingleOrDefault(o => string.Equals(o.Name, orderBy, StringComparison.OrdinalIgnoreCase));
+                        var selectedConfig = configs.SingleOrDefault(o => string.Equals(o.Name, orderBy, StringComparison.InvariantCultureIgnoreCase));
 
                         if (selectedConfig == default)
                         {

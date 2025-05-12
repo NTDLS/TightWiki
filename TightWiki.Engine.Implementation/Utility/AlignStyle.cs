@@ -13,7 +13,7 @@
         {
         }
 
-        public static readonly Dictionary<string, AlignStyle> AlignStyles = new(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<string, AlignStyle> AlignStyles = new(StringComparer.InvariantCultureIgnoreCase)
         {
             { "start", new AlignStyle("text-start") },
             { "center", new AlignStyle("text-center") },

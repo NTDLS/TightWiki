@@ -45,7 +45,7 @@ namespace TightWiki.Library
 
         public static string BestEffortConvertImage(Image image, MemoryStream ms, string preferredContentType)
         {
-            switch (preferredContentType.ToLower())
+            switch (preferredContentType.ToLowerInvariant())
             {
                 case "image/png":
                     image.SaveAsPng(ms);

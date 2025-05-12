@@ -25,7 +25,7 @@ namespace TightWiki.Controllers
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
             var pages = PageRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
             var glossaryHtml = new StringBuilder();
-            var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpper()).Distinct();
+            var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
 
             if (pages.Count > 0)
             {

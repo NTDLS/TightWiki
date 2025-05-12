@@ -127,7 +127,7 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="scopeBody">This is not a scope function, this should always be null</param>
         public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
-            switch (function.Name.ToLower())
+            switch (function.Name.ToLowerInvariant())
             {
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Creates a glossary all user profiles.
@@ -147,7 +147,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
                         string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
-                        var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpper()).Distinct();
+                        var alphabet = profiles.Select(p => p.AccountName.Substring(0, 1).ToUpperInvariant()).Distinct();
 
                         if (profiles.Count > 0)
                         {
@@ -222,7 +222,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
                         var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", state.Page.Navigation));
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
                         var attachments = PageFileRepository.GetPageFilesInfoByPageNavigationAndPageRevisionPaged(navigation, pageNumber, pageSize, state.Revision);
@@ -273,7 +273,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
 
                         var navigation = NamespaceNavigation.CleanAndValidate(function.Parameters.Get("pageName", state.Page.Navigation));
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
                         var revisions = PageRepository.GetPageRevisionsInfoByNavigationPaged(navigation, pageNumber, null, null, pageSize);
@@ -546,7 +546,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Creates a list of pages that have been recently modified.
                 case "recentlymodified": //##RecentlyModified(TopCount)
                     {
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var takeCount = function.Parameters.Get<int>("top");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
@@ -591,11 +591,11 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                         var namespaces = function.Parameters.GetList<string>("namespaces");
 
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var topCount = function.Parameters.Get<int>("top");
                         var pages = PageRepository.GetPageInfoByNamespaces(namespaces).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
-                        var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
+                        var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
                         if (pages.Count > 0)
@@ -646,7 +646,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Creates a list of pages by searching the page tags.
                 case "namespacelist":
                     {
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var topCount = function.Parameters.Get<int>("top");
                         var namespaces = function.Parameters.GetList<string>("namespaces");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -693,11 +693,11 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string glossaryName = "glossary_" + new Random().Next(0, 1000000).ToString();
                         var tags = function.Parameters.GetList<string>("pageTags");
 
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var topCount = function.Parameters.Get<int>("top");
                         var pages = PageRepository.GetPageInfoByTags(tags).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
-                        var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
+                        var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
 
                         if (pages.Count > 0)
@@ -755,8 +755,8 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         var pages = PageRepository.PageSearch(searchTokens).Take(topCount).OrderBy(o => o.Name).ToList();
                         var html = new StringBuilder();
-                        var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpper()).Distinct();
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        var alphabet = pages.Select(p => p.Title.Substring(0, 1).ToUpperInvariant()).Distinct();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
 
                         if (pages.Count > 0)
                         {
@@ -806,7 +806,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Creates a list of pages by searching the page body for the specified text.
                 case "searchlist":
                     {
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         string refTag = state.GetNextQueryToken();
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
@@ -859,7 +859,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Creates a list of pages by searching the page tags.
                 case "taglist":
                     {
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var topCount = function.Parameters.Get<int>("top");
                         var tags = function.Parameters.GetList<string>("pageTags");
                         var showNamespace = function.Parameters.Get<bool>("showNamespace");
@@ -909,7 +909,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var html = new StringBuilder();
 
                         var pages = PageRepository.GetSimilarPagesPaged(state.Page.Id, similarity, pageNumber, pageSize);
@@ -958,7 +958,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         int pageNumber = int.Parse(state.QueryString[refTag].ToString().DefaultWhenNullOrEmpty("1"));
                         var pageSize = function.Parameters.Get<int>("pageSize");
                         var pageSelector = function.Parameters.Get<bool>("pageSelector");
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var html = new StringBuilder();
 
                         var pages = PageRepository.GetRelatedPagesPaged(state.Page.Id, pageNumber, pageSize);
@@ -1152,7 +1152,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                 html.Append($"<tr>");
                                 html.Append($"<td>{emoji.Name}</td>");
                                 //html.Append($"<td><img src=\"/images/emoji/{emoji.Path}\" /></td>");
-                                html.Append($"<td><img src=\"{GlobalConfiguration.BasePath}/File/Emoji/{emoji.Name.ToLower()}\" /></td>");
+                                html.Append($"<td><img src=\"{GlobalConfiguration.BasePath}/File/Emoji/{emoji.Name.ToLowerInvariant()}\" /></td>");
                                 html.Append($"<td>{emoji.Shortcut}</td>");
                                 html.Append($"</tr>");
                             }

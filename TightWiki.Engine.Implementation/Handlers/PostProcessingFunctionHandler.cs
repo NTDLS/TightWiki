@@ -64,13 +64,13 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="scopeBody">This is not a scope function, this should always be null</param>
         public HandlerResult Handle(ITightEngineState state, FunctionCall function, string? scopeBody = null)
         {
-            switch (function.Name.ToLower())
+            switch (function.Name.ToLowerInvariant())
             {
                 //------------------------------------------------------------------------------------------------------------------------------
                 //Displays a tag link list.
                 case "tags": //##tags
                     {
-                        string styleName = function.Parameters.Get<string>("styleName").ToLower();
+                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var html = new StringBuilder();
 
                         if (styleName == "list")

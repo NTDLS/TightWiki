@@ -1016,7 +1016,7 @@ namespace TightWiki.Controllers
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
             model.Roles = UsersRepository.GetAllRoles();
-            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLower());
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName.ToLowerInvariant());
 
             if (!ModelState.IsValid)
             {
@@ -1036,7 +1036,7 @@ namespace TightWiki.Controllers
                         throw new Exception(string.Join("<br />\r\n", result.Errors.Select(o => o.Description)));
                     }
 
-                    if (model.AccountProfile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.CurrentCultureIgnoreCase))
+                    if (model.AccountProfile.AccountName.Equals(Constants.DEFAULTACCOUNT, StringComparison.InvariantCultureIgnoreCase))
                     {
                         UsersRepository.SetAdminPasswordIsChanged();
                     }
@@ -1049,7 +1049,7 @@ namespace TightWiki.Controllers
             }
 
             var profile = UsersRepository.GetAccountProfileByUserId(model.AccountProfile.UserId);
-            if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.CurrentCultureIgnoreCase))
+            if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.InvariantCultureIgnoreCase))
             {
                 if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                 {
@@ -1058,7 +1058,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.CurrentCultureIgnoreCase))
+            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.InvariantCultureIgnoreCase))
             {
                 if (UsersRepository.DoesEmailAddressExist(model.AccountProfile.EmailAddress))
                 {
@@ -1070,7 +1070,7 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLower()) == false)
+                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                 {
                     model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
                 }
@@ -1084,7 +1084,7 @@ namespace TightWiki.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLower());
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLowerInvariant());
                     }
                     catch
                     {
@@ -1135,7 +1135,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.CurrentCultureIgnoreCase))
+            if (!profile.EmailAddress.Equals(model.AccountProfile.EmailAddress, StringComparison.InvariantCultureIgnoreCase))
             {
                 bool wasEmailAlreadyConfirmed = user.EmailConfirmed;
 
@@ -1213,7 +1213,7 @@ namespace TightWiki.Controllers
             model.Countries = CountryItem.GetAll();
             model.Languages = LanguageItem.GetAll();
             model.Roles = UsersRepository.GetAllRoles();
-            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLower());
+            model.AccountProfile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName?.ToLowerInvariant());
 
             if (!ModelState.IsValid)
             {
@@ -1290,7 +1290,7 @@ namespace TightWiki.Controllers
             var file = Request.Form.Files["Avatar"];
             if (file != null && file.Length > 0)
             {
-                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLower()) == false)
+                if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                 {
                     model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
                 }
@@ -1304,7 +1304,7 @@ namespace TightWiki.Controllers
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
                         var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLower());
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLowerInvariant());
                     }
                     catch
                     {
@@ -1651,7 +1651,7 @@ namespace TightWiki.Controllers
 
             if (string.IsNullOrEmpty(model.OriginalName) == true || !model.OriginalName.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase))
             {
-                var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLower());
+                var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLowerInvariant());
                 if (checkName != null)
                 {
                     ModelState.AddModelError("Name", "Emoji name is already in use.");

@@ -23,7 +23,7 @@
         {
         }
 
-        public static readonly Dictionary<string, BGFGStyle> ForegroundStyles = new(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<string, BGFGStyle> ForegroundStyles = new(StringComparer.InvariantCultureIgnoreCase)
         {
             { "primary", new BGFGStyle("text-primary", "") },
             { "secondary", new BGFGStyle("text-secondary", "") },
@@ -37,7 +37,7 @@
             { "white", new BGFGStyle("text-white", "bg-dark") }
         };
 
-        public static readonly Dictionary<string, BGFGStyle> BackgroundStyles = new(StringComparer.OrdinalIgnoreCase)
+        public static readonly Dictionary<string, BGFGStyle> BackgroundStyles = new(StringComparer.InvariantCultureIgnoreCase)
         {
             { "muted", new BGFGStyle("text-muted", "") },
             { "primary", new BGFGStyle("text-white", "bg-primary") },

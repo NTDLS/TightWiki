@@ -20,7 +20,7 @@ namespace TightWiki.Security
                 result = result.Substring(0, maxLength);
             }
 
-            return result.ToUpper();
+            return result.ToUpperInvariant();
         }
 
         public static int Crc32(string text)
