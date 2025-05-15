@@ -1,10 +1,14 @@
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using TightWiki.Email;
 using TightWiki.Engine;
@@ -47,7 +51,48 @@ namespace TightWiki
             // Add services to the container.
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddControllersWithViews(); // Adds support for controllers and views
+            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
+
+            // Adds support for controllers and views
+            builder.Services.AddControllersWithViews()
+                .AddViewLocalization(
+                  LanguageViewLocationExpanderFormat.Suffix,
+                  opts =>
+                  {
+                    opts.ResourcesPath = "Resources";
+                  })
+                .AddDataAnnotationsLocalization()
+                .AddXmlSerializerFormatters()
+                .AddXmlDataContractSerializerFormatters();
+
+            builder.Services.AddRazorPages();
+
+            var supportedCultures = new SupportedCultures();
+            builder.Services.AddSingleton(x => supportedCultures);
+
+            builder.Services.Configure<RequestLocalizationOptions>(opts =>
+            {
+                opts.DefaultRequestCulture = new RequestCulture("en");
+                // Formatting numbers, dates, etc.
+                opts.SupportedCultures = supportedCultures.UICompleteCultures;
+                // UI strings that we have localized.
+                opts.SupportedUICultures = supportedCultures.UICompleteCultures;
+
+                opts.RequestCultureProviders = new List<IRequestCultureProvider>
+                {
+                    //new Routing.LanguageRouteRequestCultureProvider(supportedCultures),
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider(),
+                    new AcceptLanguageHeaderRequestCultureProvider(),
+                };
+            });
+            builder.Services.AddSingleton<RequestLocalizationOptions>();
+
+            //builder.Services.Configure<RouteOptions>(options =>
+            //{
+            //    options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
+            //});
+
 
             builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
 
@@ -130,9 +175,6 @@ namespace TightWiki
                 }
             }
 
-            builder.Services.AddControllersWithViews();
-
-            builder.Services.AddRazorPages();
 
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -225,6 +267,13 @@ namespace TightWiki
             app.UseAuthentication(); // Ensures the authentication middleware is configured
             app.UseAuthorization();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var options = scope.ServiceProvider.GetService<IOptions<RequestLocalizationOptions>>();
+                if (options != null)
+                    app.UseRequestLocalization(options.Value);
+            }
+
             app.MapRazorPages();
 
             app.MapControllerRoute(
@@ -234,6 +283,9 @@ namespace TightWiki
             app.MapControllerRoute(
                 name: "Page_Edit",
                 pattern: "Page/{givenCanonical}/Edit");
+
+            //
+            // to do language route
 
             using (var scope = app.Services.CreateScope())
             {
@@ -251,6 +303,27 @@ namespace TightWiki
             }
 
             app.Run();
+        }
+    }
+
+
+
+    public class LanguageRouteConstraint : IRouteConstraint
+    {
+        SupportedCultures cultures;
+
+        public LanguageRouteConstraint(SupportedCultures cultures)
+        {
+            this.cultures = cultures;
+        }
+
+        public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
+        {
+            if (!values.ContainsKey("lang"))
+                return false;
+
+            var lang = values["lang"].ToString();
+            return cultures.AllCultures.Any(x => x.Name == lang);
         }
     }
 }
