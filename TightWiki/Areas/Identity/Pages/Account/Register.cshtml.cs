@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using System.Security.AccessControl;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -12,6 +13,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Resources.Areas.Identity.Pages.Account;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -55,37 +57,37 @@ namespace TightWiki.Areas.Identity.Pages.Account
             public List<LanguageItem> Languages { get; set; } = new();
 
 
-            [Display(Name = "Account Name")]
-            [Required(ErrorMessage = "Account Name is required")]
+            [Display(Name = nameof(RegisterModel_InputModel.Account_Name), ResourceType = typeof(RegisterModel_InputModel))]
+            [Required(ErrorMessageResourceName = nameof(RegisterModel_InputModel.Account_Name_is_required), ErrorMessageResourceType = typeof(RegisterModel_InputModel))]
             public string AccountName { get; set; } = string.Empty;
 
-            [Display(Name = "First Name")]
+            [Display(Name = nameof(RegisterModel_InputModel.First_Name), ResourceType = typeof(RegisterModel_InputModel))]
             public string? FirstName { get; set; }
 
-            [Display(Name = "Last Name")]
+            [Display(Name = nameof(RegisterModel_InputModel.Last_Name), ResourceType = typeof(RegisterModel_InputModel))]
             public string? LastName { get; set; } = string.Empty;
 
-            [Display(Name = "Time-Zone")]
-            [Required(ErrorMessage = "TimeZone is required")]
+            [Display(Name = nameof(RegisterModel_InputModel.Time_Zone), ResourceType = typeof(RegisterModel_InputModel))]
+            [Required(ErrorMessageResourceName = nameof(RegisterModel_InputModel.TimeZone_is_required), ErrorMessageResourceType = typeof(RegisterModel_InputModel))]
             public string TimeZone { get; set; } = string.Empty;
 
-            [Display(Name = "Country")]
-            [Required(ErrorMessage = "Country is required")]
+            [Display(Name = nameof(RegisterModel_InputModel.Country), ResourceType = typeof(RegisterModel_InputModel))]
+            [Required(ErrorMessageResourceName = nameof(RegisterModel_InputModel.Country_is_required), ErrorMessageResourceType = typeof(RegisterModel_InputModel))]
             public string Country { get; set; } = string.Empty;
 
-            [Display(Name = "Language")]
-            [Required(ErrorMessage = "Language is required")]
+            [Display(Name = nameof(RegisterModel_InputModel.Language), ResourceType = typeof(RegisterModel_InputModel))]
+            [Required(ErrorMessageResourceName = nameof(RegisterModel_InputModel.Language_is_required), ErrorMessageResourceType = typeof(RegisterModel_InputModel))]
             public string Language { get; set; } = string.Empty;
 
             [Required]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = nameof(RegisterModel_InputModel.Email), ResourceType = typeof(RegisterModel_InputModel))]
             public string Email { get; set; } = string.Empty;
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessageResourceName = nameof(RegisterModel_InputModel.The_must_be_at_least_and_at_max_characters_long_), MinimumLength = 6, ErrorMessageResourceType = typeof(RegisterModel_InputModel))]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = nameof(RegisterModel_InputModel.Password), ResourceType = typeof(RegisterModel_InputModel))]
             public string Password { get; set; } = string.Empty;
 
             /// <summary>
@@ -93,8 +95,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = nameof(RegisterModel_InputModel.Confirm_password), ResourceType = typeof(RegisterModel_InputModel))]
+            [Compare("Password", ErrorMessageResourceName = nameof(RegisterModel_InputModel.The_password_and_confirmation_password_do_not_match_), ErrorMessageResourceType = typeof(RegisterModel_InputModel))]
             public string ConfirmPassword { get; set; } = string.Empty;
         }
 
