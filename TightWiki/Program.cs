@@ -56,16 +56,22 @@ namespace TightWiki
             // Adds support for controllers and views
             builder.Services.AddControllersWithViews()
                 .AddViewLocalization(
-                  LanguageViewLocationExpanderFormat.Suffix,
-                  opts =>
-                  {
-                    opts.ResourcesPath = "Resources";
-                  })
+                    LanguageViewLocationExpanderFormat.Suffix,
+                    opts =>
+                    {
+                        opts.ResourcesPath = "Resources";
+                    })
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
                 .AddXmlDataContractSerializerFormatters();
 
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorPages()
+                .AddViewLocalization(
+                    LanguageViewLocationExpanderFormat.Suffix,
+                    opts =>
+                    {
+                        opts.ResourcesPath = "Resources";
+                    });
 
             var supportedCultures = new SupportedCultures();
             builder.Services.AddSingleton(x => supportedCultures);
