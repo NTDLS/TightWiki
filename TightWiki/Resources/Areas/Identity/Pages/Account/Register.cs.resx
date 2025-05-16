@@ -120,6 +120,12 @@
   <data name="Create a new account" xml:space="preserve">
     <value>Vytvoření nového účtu</value>
   </data>
+  <data name="not required" xml:space="preserve">
+    <value>nevyžaduje se</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>požadované</value>
+  </data>
   <data name="Select a country" xml:space="preserve">
     <value>Vyberte zemi</value>
   </data>

@@ -120,17 +120,11 @@
   <data name="Account Name" xml:space="preserve">
     <value>Název účtu</value>
   </data>
-  <data name="Account Name is required" xml:space="preserve">
-    <value>Pole Název účtu je povinné</value>
-  </data>
   <data name="Confirm password" xml:space="preserve">
     <value>Potvrzení hesla</value>
   </data>
   <data name="Country" xml:space="preserve">
     <value>Země</value>
-  </data>
-  <data name="Country is required" xml:space="preserve">
-    <value>Pole Země je povinné</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -141,16 +135,13 @@
   <data name="Language" xml:space="preserve">
     <value>Jazyk</value>
   </data>
-  <data name="Language is required" xml:space="preserve">
-    <value>Pole Jazyk je povinné pole</value>
-  </data>
   <data name="Last Name" xml:space="preserve">
     <value>Příjmení</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Heslo</value>
   </data>
-  <data name="The must be at least and at max characters long." xml:space="preserve">
+  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
     <value>Pole {0} musí mít alespoň {2} a maximálně {1} znaků.</value>
   </data>
   <data name="The password and confirmation password do not match." xml:space="preserve">
@@ -159,7 +150,7 @@
   <data name="Time-Zone" xml:space="preserve">
     <value>Časové pásmo</value>
   </data>
-  <data name="TimeZone is required" xml:space="preserve">
-    <value>Pole Časové pásmo je povinné</value>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>Vyplnění pole {0} je požadováno.</value>
   </data>
 </root>
