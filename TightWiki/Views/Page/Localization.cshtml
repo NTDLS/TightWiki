@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+@using System.Globalization
+@using TightWiki.Models
+@inject IViewLocalizer Localizer
+@model TightWiki.Models.ViewModels.Page.PageLocalizationViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+}
+
+<h3>
+  @Localizer["Languages"]
+</h3>
+
+<div class="d-flex align-content-start flex-wrap">
+    @for (int i = 0; i < Model.Languages.Count(); i++)
+    {
+        <div class="p-2">
+            <a rel="nofollow" class="btn @(CultureInfo.CurrentCulture.Name == Model.Languages[i].Name ? "btn-primary" : "btn-link")" href="@GlobalConfiguration.BasePath/Page/SetLocalization?culture=@Model.Languages[i].Name&returnUrl=@ViewBag.ReturnUrl">
+                <span>@Localizer[Model.Languages[i].EnglishName] (@Model.Languages[i].Name.ToUpper())</span>
+            </a>
+        </div>
+    }
+</div>

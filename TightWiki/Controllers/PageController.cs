@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
+using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Caching;
@@ -232,6 +235,56 @@ namespace TightWiki.Controllers
                 SearchString = searchString
             });
         }
+
+        #endregion
+
+        #region Localization
+        
+        [AllowAnonymous]
+        [HttpGet("Page/Localization")]
+        public ActionResult Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
+        {
+            var referer = Request.Headers["Referer"].ToString();
+            ViewBag.ReturnUrl = String.IsNullOrEmpty(referer) ? "" : referer;
+
+            var langs = localizationOptions.Value.SupportedUICultures
+                .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
+
+            return View(new PageLocalizationViewModel { Languages = langs });
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("Page/SetLocalization")]
+        public ActionResult SetLocalization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions, string culture, string returnUrl)
+        {
+            if (String.IsNullOrWhiteSpace(culture) || String.IsNullOrWhiteSpace(returnUrl))
+                return BadRequest();
+
+            if (SessionState.IsAuthenticated)
+            {
+                var userId = SessionState.Profile.EnsureNotNull().UserId;
+                var profile = UsersRepository.GetAccountProfileByUserId(userId);
+                profile.Language = culture;
+                UsersRepository.UpdateProfile(profile);
+            }
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(1),
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Strict,
+                    Secure = true,
+                    HttpOnly = false
+                }
+            );
+
+            return Redirect(returnUrl);
+        }
+
 
         #endregion
 

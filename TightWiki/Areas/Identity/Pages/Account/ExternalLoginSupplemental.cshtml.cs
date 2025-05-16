@@ -10,6 +10,37 @@ using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
+    public class ExternalLoginSupplementalInputModel
+    {
+        public List<TimeZoneItem> TimeZones { get; set; } = new();
+        public List<CountryItem> Countries { get; set; } = new();
+        public List<LanguageItem> Languages { get; set; } = new();
+
+
+        [Display(Name = "Account Name")]
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public string AccountName { get; set; } = string.Empty;
+
+        [Display(Name = "First Name")]
+        public string? FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string? LastName { get; set; } = string.Empty;
+
+        [Display(Name = "Time-Zone")]
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public string TimeZone { get; set; } = string.Empty;
+
+        [Display(Name = "Country")]
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public string Country { get; set; } = string.Empty;
+
+        [Display(Name = "Language")]
+        [Required(ErrorMessage = "The {0} field is required.")]
+        public string Language { get; set; } = string.Empty;
+    }
+
+
     public class ExternalLoginSupplementalModel : PageModelBase
     {
         [BindProperty]
@@ -25,37 +56,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         }
 
         [BindProperty]
-        public InputModel Input { get; set; } = new InputModel();
-
-        public class InputModel
-        {
-            public List<TimeZoneItem> TimeZones { get; set; } = new();
-            public List<CountryItem> Countries { get; set; } = new();
-            public List<LanguageItem> Languages { get; set; } = new();
-
-
-            [Display(Name = "Account Name")]
-            [Required(ErrorMessage = "Account Name is required")]
-            public string AccountName { get; set; } = string.Empty;
-
-            [Display(Name = "First Name")]
-            public string? FirstName { get; set; }
-
-            [Display(Name = "Last Name")]
-            public string? LastName { get; set; } = string.Empty;
-
-            [Display(Name = "Time-Zone")]
-            [Required(ErrorMessage = "TimeZone is required")]
-            public string TimeZone { get; set; } = string.Empty;
-
-            [Display(Name = "Country")]
-            [Required(ErrorMessage = "Country is required")]
-            public string Country { get; set; } = string.Empty;
-
-            [Display(Name = "Language")]
-            [Required(ErrorMessage = "Language is required")]
-            public string Language { get; set; } = string.Empty;
-        }
+        public ExternalLoginSupplementalInputModel Input { get; set; } = new ExternalLoginSupplementalInputModel();
 
         public IActionResult OnGet()
         {

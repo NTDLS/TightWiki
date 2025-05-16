@@ -1,21 +1,20 @@
 ﻿@page
 @using System.Text.Encodings.Web
+@inject IViewLocalizer Localizer
 @model ExternalLoginModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Register
+    @Localizer["Register"]
 </h3>
 
-<p>Associate your @Model.ProviderDisplayName account.</p>
+<p>@String.Format(Localizer["Associate your {0} account."].Value, Model.ProviderDisplayName)</p>
 <hr />
 
 <p id="external-login-description" class="text-info">
-    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
+    @String.Format(Localizer["You've successfully authenticated with <strong>{0}</strong>. Please enter an email address for this site below and click the Register button to finish logging in."].Value, Model.ProviderDisplayName)
 </p>
 
 <div class="row">
@@ -23,11 +22,11 @@
         <form asp-page-handler="Confirmation" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email."/>
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="@Localizer["Please enter your email."].Value"/>
                 <label asp-for="Input.Email" class="form-label"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Register"]</button>
         </form>
     </div>
 </div>
