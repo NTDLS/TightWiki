@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -74,13 +75,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IWikiEmailSender _emailSender;
+        private readonly IStringLocalizer<RegisterModel> _localizer;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IWikiEmailSender emailSender)
+            IWikiEmailSender emailSender,
+            IStringLocalizer<RegisterModel> localizer)
                         : base(signInManager)
         {
             _userManager = userManager;
@@ -89,6 +92,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         [BindProperty]
@@ -149,12 +153,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrWhiteSpace(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", "Account Name is required.");
+                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is required."]);
                 return Page();
             }
             else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", "Account Name is already in use.");
+                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is already in use."]);
                 return Page();
             }
 

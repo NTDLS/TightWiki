@@ -1,7 +1,8 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model ExternalLoginsModel
 @{
-    ViewData["Title"] = "Manage your external logins";
+    ViewData["Title"] = Localizer["Manage your external logins"].Value;
     ViewData["ActivePage"] = ManageNavPages.ExternalLogins;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
@@ -9,7 +10,7 @@
 <partial name="_StatusMessage" for="StatusMessage" />
 @if (Model.CurrentLogins?.Count > 0)
 {
-    <h3>Registered Logins</h3>
+    <h3>@Localizer["Registered Logins"]</h3>
     <table class="table">
         <tbody>
             @foreach (var login in Model.CurrentLogins)
@@ -23,7 +24,7 @@
                                 <div>
                                     <input asp-for="@login.LoginProvider" name="LoginProvider" type="hidden" />
                                     <input asp-for="@login.ProviderKey" name="ProviderKey" type="hidden" />
-                                    <button type="submit" class="btn btn-primary" title="Remove this @login.ProviderDisplayName login from your account">Remove</button>
+                                    <button type="submit" class="btn btn-primary" title="@String.Format(Localizer["Remove this {0} login from your account"].Value, login.ProviderDisplayName)">@Localizer["Remove"]</button>
                                 </div>
                             </form>
                         }
@@ -44,7 +45,7 @@
             <p>
                 @foreach (var provider in Model.OtherLogins)
                 {
-                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    <button id="@($"link-login-button-{provider.Name}")" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="@String.Format(Localizer["Log in using your {0} account"].Value, provider.DisplayName)">@provider.DisplayName</button>
                 }
             </p>
         </div>

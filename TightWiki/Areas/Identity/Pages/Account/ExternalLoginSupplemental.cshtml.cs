@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -47,12 +48,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string? ReturnUrl { get; set; }
 
         private UserManager<IdentityUser> _userManager;
+        private readonly IStringLocalizer<ExternalLoginSupplementalModel> _localizer;
 
-        public ExternalLoginSupplementalModel(SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore)
+        public ExternalLoginSupplementalModel(
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            IUserStore<IdentityUser> userStore,
+            IStringLocalizer<ExternalLoginSupplementalModel> localizer)
             : base(signInManager)
         {
             _userManager = userManager;
+            _localizer = localizer;
         }
 
         [BindProperty]
@@ -108,38 +114,38 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrWhiteSpace(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", "Account Name is required.");
+                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is required."]);
                 return Page();
             }
             else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", "Account Name is already in use.");
+                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is already in use."]);
                 return Page();
             }
 
             var info = await SignInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return NotifyOfError("An error occurred retrieving user information from the external provider.");
+                return NotifyOfError(_localizer["An error occurred retrieving user information from the external provider."]);
             }
 
             var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
             if (string.IsNullOrEmpty(email))
             {
-                return NotifyOfError("The email address was not supplied by the external provider.");
+                return NotifyOfError(_localizer["The email address was not supplied by the external provider."]);
             }
 
             var user = new IdentityUser { UserName = email, Email = email };
             var result = await _userManager.CreateAsync(user);
             if (!result.Succeeded)
             {
-                return NotifyOfError("An error occurred while creating the user.");
+                return NotifyOfError(_localizer["An error occurred while creating the user."]);
             }
 
             result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                return NotifyOfError("An error occurred while adding the login.");
+                return NotifyOfError(_localizer["An error occurred while adding the login."]);
             }
 
             UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);

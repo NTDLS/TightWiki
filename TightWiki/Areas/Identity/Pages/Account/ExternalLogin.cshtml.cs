@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
@@ -27,13 +28,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly IWikiEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
+        private readonly IStringLocalizer<ExternalLoginModel> _localizer;
 
         public ExternalLoginModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<ExternalLoginModel> logger,
-            IWikiEmailSender emailSender)
+            IWikiEmailSender emailSender,
+            IStringLocalizer<ExternalLoginModel> localizer)
                         : base(signInManager)
         {
             _signInManager = signInManager;
@@ -42,6 +45,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _logger = logger;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -99,13 +103,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (remoteError != null)
             {
-                ErrorMessage = $"Error from external provider: {remoteError}";
+                ErrorMessage = String.Format(_localizer["Error from external provider: {0}"], remoteError);
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
             }
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information.";
+                ErrorMessage = _localizer["Error loading external login information."];
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
             }
 
@@ -143,7 +147,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                ErrorMessage = "Error loading external login information during confirmation.";
+                ErrorMessage = _localizer["Error loading external login information during confirmation."];
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Login?ReturnUrl={WebUtility.UrlEncode(ReturnUrl)}");
             }
 

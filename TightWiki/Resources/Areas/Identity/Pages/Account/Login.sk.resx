@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Email" xml:space="preserve">
-    <value>Používateľské meno</value>
+    <value>Email</value>
   </data>
-  <data name="Forgot your password?" xml:space="preserve">
-    <value>Zabudli ste heslo?</value>
+  <data name="Password" xml:space="preserve">
+    <value>Heslo</value>
   </data>
   <data name="Log in" xml:space="preserve">
     <value>Prihlásiť sa</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Heslo</value>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>Zabudli ste heslo?</value>
   </data>
   <data name="Register as a new user" xml:space="preserve">
     <value>Zaregistrujte sa ako nový používateľ</value>
