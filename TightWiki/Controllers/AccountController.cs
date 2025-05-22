@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Net;
 using System.Security.Claims;
@@ -15,12 +16,18 @@ namespace TightWiki.Controllers
     {
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly IStringLocalizer<ProfileController> _localizer;
 
-        public AccountController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore)
+        public AccountController(
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            IUserStore<IdentityUser> userStore,
+            IStringLocalizer<ProfileController> localizer)
             : base(signInManager, userManager)
         {
             _userStore = userStore;
             _emailStore = (IUserEmailStore<IdentityUser>)_userStore;
+            _localizer = localizer;
         }
 
         [HttpGet("ExternalLogin")]
@@ -54,13 +61,13 @@ namespace TightWiki.Controllers
 
             if (remoteError != null)
             {
-                return NotifyOfError($"Error from external provider: {remoteError}");
+                return NotifyOfError(String.Format(_localizer["Error from external provider: {0}"].Value, remoteError));
             }
 
             var info = await SignInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
-                return NotifyOfError($"Failed to get information from external provider");
+                return NotifyOfError(_localizer["Failed to get information from external provider"].Value);
             }
 
             var user = await UserManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
@@ -89,7 +96,7 @@ namespace TightWiki.Controllers
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
                 if (string.IsNullOrEmpty(email))
                 {
-                    return NotifyOfError($"The email address was not supplied by the external provider.");
+                    return NotifyOfError(_localizer["The email address was not supplied by the external provider."].Value);
                 }
 
                 user = await UserManager.FindByEmailAsync(email);
