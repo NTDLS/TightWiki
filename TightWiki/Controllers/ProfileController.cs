@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
@@ -18,8 +19,13 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
-        : WikiControllerBase(signInManager, userManager)
+    public class ProfileController(
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        IWebHostEnvironment environment,
+        IStringLocalizer<ProfileController> localizer
+        )
+    : WikiControllerBase(signInManager, userManager)
     {
         private readonly IWebHostEnvironment _environment = environment;
 
@@ -34,7 +40,7 @@ namespace TightWiki.Controllers
         public ActionResult Avatar(string userAccountName)
         {
             SessionState.RequireViewPermission();
-            SessionState.Page.Name = $"Avatar";
+            SessionState.Page.Name = localizer["Avatar"];
 
             string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");
             string givenMax = Request.Query["max"].ToString().DefaultWhenNullOrEmpty("512");
@@ -183,7 +189,7 @@ namespace TightWiki.Controllers
         [HttpGet("{userAccountName}/Public")]
         public ActionResult Public(string userAccountName)
         {
-            SessionState.Page.Name = $"Public Profile";
+            SessionState.Page.Name = localizer["Public Profile"];
 
             userAccountName = NamespaceNavigation.CleanAndValidate(userAccountName);
 
@@ -191,7 +197,7 @@ namespace TightWiki.Controllers
             {
                 return View(new PublicViewModel
                 {
-                    ErrorMessage = "Public profiles are disabled."
+                    ErrorMessage = localizer["Public profiles are disabled."]
                 });
             }
 
@@ -199,7 +205,7 @@ namespace TightWiki.Controllers
             {
                 return View(new PublicViewModel
                 {
-                    ErrorMessage = "The specified user was not found."
+                    ErrorMessage = localizer["The specified user was not found."]
                 });
             }
 
@@ -237,7 +243,7 @@ namespace TightWiki.Controllers
         public ActionResult My()
         {
             SessionState.RequireAuthorizedPermission();
-            SessionState.Page.Name = $"My Profile";
+            SessionState.Page.Name = localizer["My Profile"];
 
             var model = new AccountProfileViewModel()
             {
@@ -265,7 +271,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireAuthorizedPermission();
 
-            SessionState.Page.Name = $"My Profile";
+            SessionState.Page.Name = localizer["My Profile"];
 
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
@@ -287,7 +293,7 @@ namespace TightWiki.Controllers
             {
                 if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                 {
-                    ModelState.AddModelError("Account.AccountName", "Account name is already in use.");
+                    ModelState.AddModelError("Account.AccountName", localizer["Account name is already in use."]);
                     return View(model);
                 }
             }
@@ -299,11 +305,11 @@ namespace TightWiki.Controllers
             {
                 if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                 {
-                    model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
+                    model.ErrorMessage += localizer["Could not save the attached image, type not allowed."] + "\r\n";
                 }
                 else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
-                    model.ErrorMessage += "Could not save the attached image, too large.\r\n";
+                    model.ErrorMessage += localizer["Could not save the attached image, too large."] + "\r\n";
                 }
                 else
                 {
@@ -315,7 +321,7 @@ namespace TightWiki.Controllers
                     }
                     catch
                     {
-                        ModelState.AddModelError("Account.Avatar", "Could not save the attached image.");
+                        ModelState.AddModelError("Account.Avatar", localizer["Could not save the attached image."]);
                     }
                 }
             }
@@ -341,7 +347,7 @@ namespace TightWiki.Controllers
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
             WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.UserId]));
 
-            model.SuccessMessage = "Your profile has been saved.";
+            model.SuccessMessage = localizer["Your profile has been saved."];
 
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
             SessionState.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
@@ -399,7 +405,7 @@ namespace TightWiki.Controllers
         public ActionResult Delete()
         {
             SessionState.RequireAuthorizedPermission();
-            SessionState.Page.Name = $"Delete Account";
+            SessionState.Page.Name = localizer["Delete Account"];
 
             var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
@@ -410,7 +416,7 @@ namespace TightWiki.Controllers
 
             if (profile != null)
             {
-                SessionState.Page.Name = $"Delete {profile.AccountName}";
+                SessionState.Page.Name = String.Format(localizer["Delete {0}"], profile.AccountName);
             }
 
             return View(model);
