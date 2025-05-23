@@ -19,8 +19,8 @@ namespace TightWiki.Controllers
     public class FileController(
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
-        IStringLocalizer<ProfileController> localizer)
-        : WikiControllerBase(signInManager, userManager)
+        IStringLocalizer<FileController> localizer)
+        : WikiControllerBase<FileController>(signInManager, userManager, localizer)
     {
         /// <summary>
         /// Gets an image attached to a page.
@@ -100,7 +100,7 @@ namespace TightWiki.Controllers
             }
             else
             {
-                return NotFound(String.Format(localizer["[{0}] was not found on the page [{1}]."].Value, fileNavigation, pageNavigation));
+                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
             }
         }
 
@@ -178,7 +178,7 @@ namespace TightWiki.Controllers
             }
             else
             {
-                return NotFound(String.Format(localizer["[{0}] was not found on the page [{1}]."].Value, fileNavigation, pageNavigation));
+                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
             }
         }
 
@@ -207,7 +207,7 @@ namespace TightWiki.Controllers
             else
             {
                 HttpContext.Response.StatusCode = 404;
-                return NotFound(String.Format(localizer["[{0}] was not found on the page [{1}]."].Value, fileNavigation, pageNavigation));
+                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
             }
         }
 
@@ -290,7 +290,7 @@ namespace TightWiki.Controllers
                         {
                             if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
                             {
-                                return Json(new { message = String.Format(localizer["Could not attach file: [{0}], too large."].Value, file.FileName) });
+                                return Json(new { message = Localize("Could not attach file: [{0}], too large.", file.FileName) });
                             }
 
                             var fileName = HttpUtility.UrlDecode(file.FileName);
@@ -308,12 +308,12 @@ namespace TightWiki.Controllers
                         }
                     }
                 }
-                return Json(new { success = true, message = String.Format(localizer["files: {0:n0}"].Value, postedFiles.Count) });
+                return Json(new { success = true, message = Localize("files: {0:n0}", postedFiles.Count) });
             }
             catch (Exception ex)
             {
                 ExceptionRepository.InsertException(ex, "Failed to upload file.");
-                return StatusCode(500, new { success = false, message = String.Format(localizer["An error occurred: {0}"].Value, ex.Message) });
+                return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
             }
         }
 
@@ -337,7 +337,7 @@ namespace TightWiki.Controllers
                 {
                     if (fileSize > GlobalConfiguration.MaxAttachmentFileSize)
                     {
-                        return Content(localizer["Could not save the attached file, too large"].Value);
+                        return Content(Localize("Could not save the attached file, too large"));
                     }
 
                     var fileName = HttpUtility.UrlDecode(fileData.FileName);
@@ -353,11 +353,11 @@ namespace TightWiki.Controllers
                         ContentType = Utility.GetMimeType(fileName)
                     }, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
 
-                    return Content(localizer["Success"].Value);
+                    return Content(Localize("Success"));
                 }
             }
 
-            return Content(localizer["Failure"].Value);
+            return Content(Localize("Failure"));
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace TightWiki.Controllers
                 new NamespaceNavigation(givenPageNavigation).Canonical,
                 new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
-            return Content(localizer["Success"].Value);
+            return Content(Localize("Success"));
         }
 
 
@@ -411,7 +411,7 @@ namespace TightWiki.Controllers
 
                         if (emoji.ImageData == null)
                         {
-                            return NotFound(String.Format(localizer["Emoji {0} was not found"].Value, pageNavigation));
+                            return NotFound(Localize("Emoji {0} was not found", pageNavigation));
                         }
 
                         WikiCache.Put(imageCacheKey, emoji.ImageData);
@@ -471,7 +471,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            return NotFound(String.Format(localizer["Emoji {0} was not found"].Value, pageNavigation));
+            return NotFound(Localize("Emoji {0} was not found", pageNavigation));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
@@ -24,8 +25,12 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-        : WikiControllerBase(signInManager, userManager)
+    public class AdminController(
+        ITightEngine tightEngine,
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        IStringLocalizer<AdminController> localizer)
+        : WikiControllerBase<AdminController>(signInManager, userManager, localizer)
     {
         #region Metrics.
 
@@ -81,7 +86,7 @@ namespace TightWiki.Controllers
                         case "Optimize":
                             {
                                 var resultText = SpannedRepository.OptimizeDatabase(database);
-                                return NotifyOfSuccess($"Optimization complete. {resultText}", model.YesRedirectURL);
+                                return NotifyOfSuccess(Localize("Optimization complete. {0}", resultText), model.YesRedirectURL);
                             }
                         case "Vacuum":
                             {

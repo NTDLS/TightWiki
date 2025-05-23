@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using TightWiki.Models.ViewModels.Utility;
 
@@ -8,8 +9,11 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class UtilityController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-        : WikiControllerBase(signInManager, userManager)
+    public class UtilityController(
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        IStringLocalizer<UtilityController> localizer)
+        : WikiControllerBase<UtilityController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         [HttpGet("Notify")]

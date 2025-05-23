@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
@@ -10,8 +11,11 @@ using TightWiki.Repository;
 namespace TightWiki.Controllers
 {
     [Authorize]
-    public class TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-        : WikiControllerBase(signInManager, userManager)
+    public class TagsController(
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        IStringLocalizer<TagsController> localizer)
+        : WikiControllerBase<TagsController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         public ActionResult Browse(string navigation)
