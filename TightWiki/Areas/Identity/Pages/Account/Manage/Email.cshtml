@@ -1,7 +1,8 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model EmailModel
 @{
-    ViewData["Title"] = "Manage Email";
+    ViewData["Title"] = Localizer["Manage Email"].Value;
     ViewData["ActivePage"] = ManageNavPages.Email;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
@@ -15,7 +16,7 @@
             @if (Model.IsEmailConfirmed)
             {
                 <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                    <input asp-for="Email" class="form-control" placeholder="@Localizer["Please enter your email."].Value" disabled />
                         <div class="input-group-append">
                             <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
                         </div>
@@ -25,17 +26,17 @@
             else
             {
                 <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                    <input asp-for="Email" class="form-control" placeholder="@Localizer["Please enter your email."].Value" disabled />
                     <label asp-for="Email" class="form-label"></label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">@Localizer["Send verification email"]</button>
                 </div>
             }
             <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
+                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="@Localizer["Please enter new email."].Value" />
                 <label asp-for="Input.NewEmail" class="form-label"></label>
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Change email</button>
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">@Localizer["Change email"]</button>
         </form>
     </div>
 </div>

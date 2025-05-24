@@ -10,6 +10,23 @@ using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
+    /// <summary>
+    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+    ///     directly from your code. This API may change or be removed in future releases.
+    /// </summary>
+    public class LoginWithRecoveryCodeInputModel
+    {
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        [BindProperty]
+        [Required(ErrorMessage = "The {0} field is required.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Recovery Code")]
+        public string RecoveryCode { get; set; }
+    }
+
     public class LoginWithRecoveryCodeModel : PageModelBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -32,7 +49,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public LoginWithRecoveryCodeInputModel Input { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -40,22 +57,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
         /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [BindProperty]
-            [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
-            public string RecoveryCode { get; set; }
-        }
 
         public async Task<IActionResult> OnGetAsync(string returnUrl = null)
         {

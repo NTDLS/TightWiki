@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -13,17 +14,20 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ResetAuthenticatorModel> _logger;
+        private readonly IStringLocalizer<ResetAuthenticatorModel> _localizer;
 
         public ResetAuthenticatorModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ResetAuthenticatorModel> logger)
+            ILogger<ResetAuthenticatorModel> logger,
+            IStringLocalizer<ResetAuthenticatorModel> localizer)
                         : base(signInManager)
 
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+            StatusMessage = _localizer["Your authenticator app key has been reset, you will need to configure your authenticator app using the new key."];
 
             return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/EnableAuthenticator");
         }

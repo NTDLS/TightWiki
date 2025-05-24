@@ -1,11 +1,12 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model ConfirmEmailModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Confirm your email address.
+    @Localizer["Confirm your email address."]
 </h3>
 
 <p><partial name="_StatusMessage" model="Model.StatusMessage" /></p>

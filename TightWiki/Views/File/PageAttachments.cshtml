@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.File.FileAttachmentViewModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -31,7 +32,7 @@
 
             $('a[href="#detachLink"]').click(function (e) {
                 var fileName = e.target.id;
-                if (confirm("Are you sure you want to detach '" + fileName + "'?")) {
+                if (confirm("@(Localizer["Are you sure you want to detach"]) '" + fileName + "'?")) {
                     $.ajax({
                         type: 'POST',
                         url: '@GlobalConfiguration.BasePath/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
@@ -57,7 +58,7 @@
                 var originalText = element.innerHTML;
                 var originalClass = element.className;
 
-                element.innerHTML = '<i class="bi bi-check-circle"></i> Tag Copied';
+                element.innerHTML = '<i class="bi bi-check-circle"></i> @(Localizer["Tag Copied"])';
                 element.className = 'btn btn-sm btn-success';
 
                 setTimeout(function () {
@@ -65,7 +66,7 @@
                     element.className = originalClass;
                 }, 2000);
             }).catch(function (error) {
-                console.error('Error copying text: ', error);
+                console.error('@(Localizer["Error copying text"]): ', error);
             });
         }
 
@@ -78,16 +79,16 @@
         <div class="list-group-item d-flex justify-content-between align-items-center">
             <div>
                 <a href="@GlobalConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> (@x.FriendlySize)
-                <a href="@GlobalConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision revisions</a>
+                <a href="@GlobalConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localizer["revisions"]</a>
 
             </div>
             <div class="btn-group">
                 <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard('@x.Name', this); return false;">
-                    <i class="bi bi-clipboard"></i> Copy Tag
+                    <i class="bi bi-clipboard"></i>@Localizer["Copy Tag"]
                 </button>&nbsp;
                 @if (@sessionState.CanDelete == true)
                 {
-                    <a href="#detachLink" id="@x.FileNavigation" class="btn btn-sm btn-outline-danger">Detach</a>
+                    <a href="#detachLink" id="@x.FileNavigation" class="btn btn-sm btn-outline-danger">@Localizer["Detach"]</a>
                 }
             </div>
         </div>

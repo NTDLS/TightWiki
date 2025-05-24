@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Models;
 
@@ -14,12 +15,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly IStringLocalizer<ConfirmEmailChangeModel> _localizer;
 
-        public ConfirmEmailChangeModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public ConfirmEmailChangeModel
+            (UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            IStringLocalizer<ConfirmEmailChangeModel> localizer)
             : base(signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -46,7 +52,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             var result = await _userManager.ChangeEmailAsync(user, email, code);
             if (!result.Succeeded)
             {
-                StatusMessage = "Error changing email.";
+                StatusMessage = _localizer["Error changing email."];
                 return Page();
             }
 
@@ -55,12 +61,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
             if (!setUserNameResult.Succeeded)
             {
-                StatusMessage = "Error changing user name.";
+                StatusMessage = _localizer["Error changing user name."];
                 return Page();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Thank you for confirming your email change.";
+            StatusMessage = _localizer["Thank you for confirming your email change."];
             return Page();
         }
     }

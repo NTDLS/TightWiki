@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using TightWiki.Models;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public class WikiControllerBase<T>(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
         : Controller
     {
+
         public SessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;
@@ -46,6 +48,15 @@ namespace TightWiki.Controllers
         protected int GetFormValue(string key, int defaultValue)
             => int.Parse(GetFormValue(key, defaultValue.ToString()));
 
+        [NonAction]
+        protected string Localize(string key)
+            => localizer[key].Value;
+
+        [NonAction]
+        protected string Localize(string key, params object[] objs)
+            => String.Format(localizer[key].Value, objs);
+
+
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.
         /// </summary>
@@ -70,4 +81,5 @@ namespace TightWiki.Controllers
         protected RedirectResult NotifyOfError(string message)
             => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
     }
+
 }

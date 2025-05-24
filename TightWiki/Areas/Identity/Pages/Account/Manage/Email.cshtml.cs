@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -14,21 +15,40 @@ using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
+    /// <summary>
+    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+    ///     directly from your code. This API may change or be removed in future releases.
+    /// </summary>
+    public class EmailInputModel
+    {
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        [Required]
+        [EmailAddress]
+        [Display(Name = "New email")]
+        public string NewEmail { get; set; }
+    }
+
     public class EmailModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IWikiEmailSender _emailSender;
+        private readonly IStringLocalizer<EmailModel> _localizer;
 
         public EmailModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IWikiEmailSender emailSender)
+            IWikiEmailSender emailSender,
+            IStringLocalizer<EmailModel> localizer)
                         : base(signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -55,30 +75,15 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public EmailInputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
-        {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [EmailAddress]
-            [Display(Name = "New email")]
-            public string NewEmail { get; set; }
-        }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var email = await _userManager.GetEmailAsync(user);
             Email = email;
 
-            Input = new InputModel
+            Input = new EmailInputModel
             {
                 NewEmail = email,
             };
@@ -146,12 +151,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
                 await _emailSender.SendEmailAsync(Input.NewEmail, emailSubject, emailTemplate.ToString());
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                StatusMessage = _localizer["Confirmation link to change email sent. Please check your email."];
 
                 return RedirectToPage();
             }
 
-            StatusMessage = "Your email is unchanged.";
+            StatusMessage = _localizer["Your email is unchanged."];
             return RedirectToPage();
         }
 
@@ -183,7 +188,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = "Verification email sent. Please check your email.";
+            StatusMessage = _localizer["Verification email sent. Please check your email."];
             return RedirectToPage();
         }
     }

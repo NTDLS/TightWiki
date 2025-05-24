@@ -1,7 +1,8 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model ShowRecoveryCodesModel
 @{
-    ViewData["Title"] = "Recovery codes";
+    ViewData["Title"] = Localizer["Recovery codes"].Value;
     ViewData["ActivePage"] = "TwoFactorAuthentication";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
@@ -10,10 +11,10 @@
 <h3>@ViewData["Title"]</h3>
 <div class="alert alert-warning" role="alert">
     <p>
-        <strong>Put these codes in a safe place.</strong>
+        <strong>@Localizer["Put these codes in a safe place."]</strong>
     </p>
     <p>
-        If you lose your device and don't have the recovery codes you will lose access to your account.
+        @Localizer["If you lose your device and don't have the recovery codes you will lose access to your account."]
     </p>
 </div>
 <div class="row">

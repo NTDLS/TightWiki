@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Profile.ConfirmViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -6,12 +7,12 @@
 
 <div class="card">
     <div class="card-header">
-        <h3>Account Email Verification</h3>
+        <h3>@Localizer["Account Email Verification"]</h3>
     </div>
     <div class="card-body">
         <p>
-            Already a member? <a href="@GlobalConfiguration.BasePath/Account/Login">Login</a>.<br />
-            Forgot your password? @Html.ActionLink("Reset it.", "Forgot", "Account").<br />
+            @Localizer["Already a member?"] <a href="@GlobalConfiguration.BasePath/Account/Login">@Localizer["Login"]</a>.<br />
+            @Localizer["Forgot your password?"] @Html.ActionLink(Localizer["Reset it"].Value, "Forgot", "Account").<br />
         </p>
     </div>
 </div>
