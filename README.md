@@ -88,4 +88,5 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Admin role list
 ![image](https://github.com/user-attachments/assets/2aa340d1-c1eb-4ee9-b3c7-91ff6e4f0a7b)
 
-
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
