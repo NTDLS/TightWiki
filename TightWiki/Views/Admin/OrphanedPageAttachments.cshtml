@@ -1,22 +1,23 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.OrphanedPageAttachmentsViewModel
 @using TightWiki.Library
 @using TightWiki.Models
+@inject IViewLocalizer Localizer
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Orphaned Page Attachments
+    @Localizer["Orphaned Page Attachments"]
 </h3>
 
 <p>
-    These are all of the page attachments that are no longer attached to any page revision.<br /><br />
+    @Localizer["These are all of the page attachments that are no longer attached to any page revision."]<br /><br />
 </p>
 
 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-        "This will permanently purge all orphaned page attachments. Continue?",
-        "Purge Orphaned Attachments", "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
+        Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
+        Localizer["Purge Orphaned Attachments"].Value, "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -29,11 +30,11 @@
 
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <tr>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">Page</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "File")">File</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Size")">Size</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                <td><strong>Action</strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">@Localizer["Page"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "File")">@Localizer["File"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Size")">@Localizer["Size"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
+                <td><strong>@Localizer["Action"]</strong></td>
             </tr>
 
             @foreach (var p in Model.Files)
@@ -50,8 +51,8 @@
                     <td>@p.FileRevision</td>
                     <td>
                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-                                 "This will permanently delete the specified attachment. Continue?",
-                                 "Delete", $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
+                                 Localizer["This will permanently delete the specified attachment. Continue?"].Value,
+                                 Localizer["Delete"].Value, $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
                     </td>
                 </tr>
             }

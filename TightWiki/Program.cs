@@ -1,5 +1,4 @@
 using Autofac;
-using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.OAuth;
@@ -54,7 +53,10 @@ namespace TightWiki
             builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
 
             // Adds support for controllers and views
-            builder.Services.AddControllersWithViews()
+            builder.Services.AddControllersWithViews(config =>
+                {
+                    config.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
+                })
                 .AddViewLocalization(
                     LanguageViewLocationExpanderFormat.Suffix,
                     opts =>

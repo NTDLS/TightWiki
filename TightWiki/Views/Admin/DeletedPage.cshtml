@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.DeletedPageViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -7,15 +8,15 @@
 
 <div class="card border-warning mb-3">
     <div class="card-header bg-warning">
-        <strong>Viewing a deleted page</strong>
+        <strong>@Localizer["Viewing a deleted page"]</strong>
     </div>
     <div class="card-body">
         <p class="card-text">
-            You are viewing a page which was deleted on @Model.DeletedDate by @Model.DeletedByUserName.<br />
+            @Localizer["You are viewing a page which was deleted on {0} by {1}."].Value(Model.DeletedDate, Model.DeletedByUserName)<br />
 
             @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath, 
-                "This will restore the deleted page and all of its history. Continue?",
-                "Restore This Page", "/Admin/RestoreDeletedPage/" + @Model.PageId, "/Admin/DeletedPages", Context.Request.Path.Value))
+                Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
+                Localizer["Restore This Page"].Value, "/Admin/RestoreDeletedPage/" + @Model.PageId, "/Admin/DeletedPages", Context.Request.Path.Value))
             <br />
         </p>
     </div>

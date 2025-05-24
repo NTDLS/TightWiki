@@ -1,20 +1,21 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.MenuItemsViewModel
 @using TightWiki.Library
 @using TightWiki.Models
+@inject IViewLocalizer Localizer
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Site Menu Items
+    @Localizer["Site Menu Items"]
 </h3>
 
 <p>
-    Global configuration for the site menu.<br /><br />
+    @Localizer["Global configuration for the site menu."]<br /><br />
 </p>
 
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">Add new item</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">@Localizer["Add new item"]</a>
 <br />
 <br />
 
@@ -27,9 +28,9 @@
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">Link</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">Ordinal</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">@Localizer["Link"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">@Localizer["Ordinal"]</a></strong></td>
                 </tr>
             </thead>
 
@@ -47,11 +48,11 @@
     {
         <div class="d-flex small text-muted mb-0">
             <strong>
-                Their are no menu items configured.
+                @Localizer["There are no menu items configured."]
             </strong>
         </div>
     }
 }
 
 <br />
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">Add new item</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">@Localizer["Add new item"]</a>

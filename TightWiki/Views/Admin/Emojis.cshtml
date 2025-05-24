@@ -1,20 +1,21 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.EmojisViewModel
 @using TightWiki.Library
 @using TightWiki.Models
+@inject IViewLocalizer Localizer
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Emojis
+    @Localizer["Emojis"]
 </h3>
 
 <p>
-    Global configuration for Emojis.<br /><br />
+    @Localizer["Global configuration for Emojis."]<br /><br />
 </p>
 
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">Add new emoji</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">@Localizer["Add new emoji"]</a>
 <br />
 <br />
 
@@ -25,7 +26,7 @@
             <div class="flex-grow-1 me-2">
                 @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
         </div>
     </div>
     <br />
@@ -38,9 +39,9 @@
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">Shortcut</a></strong></td>
-                    <td><strong>Image</strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">@Localizer["Shortcut"]</a></strong></td>
+                    <td><strong>@Localizer["Image"]</strong></td>
                 </tr>
             </thead>
 
@@ -60,14 +61,14 @@
     {
         <div class="d-flex small text-muted mb-0">
             <strong>
-                Either there are no emojis configured or your search criteria returned no results.
+                @Localizer["Either there are no emojis configured or your search criteria returned no results."]"
             </strong>
         </div>
     }
 }
 
 <br />
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">Add new emoji</a>
+<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">@Localizer["Add new emoji"]</a>
 
 <script>
     window.onload = function () {

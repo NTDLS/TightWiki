@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.MetricsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -6,20 +7,20 @@
 }
 
 <h3>
-    Metrics
+    @Localizer["Metrics"]
 </h3>
 
 <p>
-    <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> version @Model.ApplicationVersion<br /><br />
+    <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> @Localizer["version"] @Model.ApplicationVersion<br /><br />
 </p>
 
-<h2>General</h2>
+<h2>@Localizer["General"]</h2>
 <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td><strong>Pages</strong></td>
-        <td><strong>Page Revisions</strong></td>
-        <td><strong>Page Attachments</strong></td>
-        <td><strong>Inter-Page Links</strong></td>
+        <td><strong>@Localizer["Pages"]</strong></td>
+        <td><strong>@Localizer["Page Revisions"]</strong></td>
+        <td><strong>@Localizer["Page Attachments"]</strong></td>
+        <td><strong>@Localizer["Inter-Page Links"]</strong></td>
     </tr>
 
     <tr>
@@ -30,10 +31,10 @@
     </tr>
 
     <tr>
-        <td><strong>Page Tags</strong></td>
-        <td><strong>Page Attachment Revisions</strong></td>
-        <td><strong>Page Search Tokens</strong></td>
-        <td><strong>Namespaces</strong></td>
+        <td><strong>@Localizer["Page Tags"]</strong></td>
+        <td><strong>@Localizer["Page Attachment Revisions"]</strong></td>
+        <td><strong>@Localizer["Page Search Tokens"]</strong></td>
+        <td><strong>@Localizer["Namespaces"]</strong></td>
     </tr>
 
     <tr>
@@ -44,9 +45,9 @@
     </tr>
 
     <tr>
-        <td><strong>Users</strong></td>
-        <td><strong>Profiles</strong></td>
-        <td><strong>Exceptions</strong></td>
+        <td><strong>@Localizer["Users"]</strong></td>
+        <td><strong>@Localizer["Profiles"]</strong></td>
+        <td><strong>@Localizer["Exceptions"]</strong></td>
         <td><strong>&nbsp;</strong></td>
     </tr>
 
@@ -58,20 +59,20 @@
     </tr>
 </table>
 
-<h2>Cache</h2>
+<h2>@Localizer["Cache"]</h2>
 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-    "Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?",
-    "Purge Memory Cache", "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
+    Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
+    Localizer["Purge Memory Cache"].Value, "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
 <br />
 
 <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td><strong>Items</strong></td>
-        <td><strong>Puts</strong></td>
-        <td><strong>Gets</strong></td>
-        <td><strong>Hits</strong></td>
-        <td><strong>Misses</strong></td>
-        <td><strong>Limit(MB)</strong></td>
+        <td><strong>@Localizer["Items"]</strong></td>
+        <td><strong>@Localizer["Puts"]</strong></td>
+        <td><strong>@Localizer["Gets"]</strong></td>
+        <td><strong>@Localizer["Hits"]</strong></td>
+        <td><strong>@Localizer["Misses"]</strong></td>
+        <td><strong>@Localizer["Limit(MB)"]</strong></td>
     </tr>
     <tr>
         <td>@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>

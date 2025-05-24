@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Název účtu se již používá.</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Název účtu je povinný.</value>
+  </data>
+  <data name="All exceptions have been purged." xml:space="preserve">
+    <value>Všechny výjimky byly vymazány.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Všechny přílohy osamocených stránek byly vymazány.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Všechny revize stránky byly zkráceny.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Všechny stránky byly uloženy do mezipaměti.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Všechny stránky byly přestavěny.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Statistika kompilace byla vyčištěna.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Statistiky kompilací</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Přiložený obrázek nelze uložit, je příliš velký.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Přiložený obrázek nelze uložit, typ není povolen.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Přiložený obrázek nelze uložit.</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Databáze</value>
+  </data>
+  <data name="Delete Emoji" xml:space="preserve">
+    <value>Smazat emodži</value>
+  </data>
+  <data name="Delete Profile" xml:space="preserve">
+    <value>Smazat profil</value>
+  </data>
+  <data name="Delete {0}" xml:space="preserve">
+    <value>Smazat {0}</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-mailová adresa se již používá.</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Název emodži se již používá.</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>Emotikony</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Výjimka</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>Výjimky</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Mezipaměť byla vymazána.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Položka nabídky</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>Metriky</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>Chybějící stránky</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Jmenný prostor</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Jmenné prostory</value>
+  </data>
+  <data name="Operation failed: {0}" xml:space="preserve">
+    <value>Operace se nezdařila: {0}</value>
+  </data>
+  <data name="Optimization complete. {0}" xml:space="preserve">
+    <value>Optimalizace dokončena. {0}</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>Osiřelé přílohy stránek</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Moderování stránky</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Revize stránky byla přesunuta do fronty mazání.</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Stránky</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Účet byl vytvořen.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Účet byl smazán.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfigurace byla úspěšně uložena!</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emodži bylo vytvořeno.</value>
+  </data>
+  <data name="The emoji has been deleted." xml:space="preserve">
+    <value>Emodži bylo smazáno.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emodži bylo úspěšně uloženo!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emodži bylo uloženo.</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Položka nabídky byla vytvořena.</value>
+  </data>
+  <data name="The menu item has been deleted." xml:space="preserve">
+    <value>Položka nabídky byla smazána.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Položka nabídky byla uložena.</value>
+  </data>
+  <data name="The menu name '{0}' is already in use." xml:space="preserve">
+    <value>Název nabídky '{0}' se již používá.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Stránku se nepodařilo najít.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Fronta stránek k odstranění byla vymazána.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Stránka byla přesunuta do fronty na odstranění.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Stránka byla vyjmuta z fronty na odstranění.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Stránka byla vrácena zpět.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Stránka byla obnovena.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Revize stránky byla odstraněna z fronty na odstranění.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Revize stránky byla obnovena.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Osiřelé přílohy stránek byly vymazány.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Zadaná stránka nebyla nalezena.</value>
+  </data>
+  <data name="Unknown database action: '{0}'" xml:space="preserve">
+    <value>Neznámá akce databáze: '{0}'</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Uživatel nenalezen.</value>
+  </data>
+  <data name="Vacuum complete. {0}" xml:space="preserve">
+    <value>Úklid dokončen. {0}</value>
+  </data>
+  <data name="Verification complete. {0}" xml:space="preserve">
+    <value>Ověření dokončeno. {0}</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Nemůžete odstranit jedinou existující revizi stránky, místo toho byste museli odstranit celou stránku.</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Nelze se vrátit k aktuální revizi stránky.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Váš účet byl smazán.</value>
+  </data>
+  <data name="Your profile has been saved successfully!" xml:space="preserve">
+    <value>Váš profil byl úspěšně uložen!</value>
+  </data>
+  <data name="{0} : {1} is required." xml:space="preserve">
+    <value>{0}: {1} je povinné.</value>
+  </data>
+  <data name="{0} Delete" xml:space="preserve">
+    <value>Smazat {0}</value>
+  </data>
+</root>

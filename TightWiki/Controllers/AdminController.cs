@@ -39,7 +39,7 @@ namespace TightWiki.Controllers
         public ActionResult Database()
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Database";
+            SessionState.Page.Name = Localize("Database");
 
             var versions = SpannedRepository.GetDatabaseVersions();
             var pageCounts = SpannedRepository.GetDatabasePageCounts();
@@ -75,7 +75,7 @@ namespace TightWiki.Controllers
         public ActionResult Database(ConfirmActionViewModel model, string databaseAction, string database)
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Database";
+            SessionState.Page.Name = Localize("Database");
 
             if (model.UserSelection == true)
             {
@@ -91,21 +91,21 @@ namespace TightWiki.Controllers
                         case "Vacuum":
                             {
                                 var resultText = SpannedRepository.OptimizeDatabase(database);
-                                return NotifyOfSuccess($"Vacuum complete. {resultText}", model.YesRedirectURL);
+                                return NotifyOfSuccess(Localize("Vacuum complete. {0}",resultText), model.YesRedirectURL);
                             }
                         case "Verify":
                             {
                                 var resultText = SpannedRepository.OptimizeDatabase(database);
-                                return NotifyOfSuccess($"Verification complete. {resultText}", model.YesRedirectURL);
+                                return NotifyOfSuccess(Localize("Verification complete. {0}", resultText), model.YesRedirectURL);
                             }
                     }
                 }
                 catch (Exception ex)
                 {
-                    return NotifyOfError($"Operation failed: {ex.Message}.", model.YesRedirectURL);
+                    return NotifyOfError(Localize("Operation failed: {0}", ex.Message), model.YesRedirectURL);
                 }
 
-                return NotifyOfError($"Unknown database action: '{databaseAction}'.", model.YesRedirectURL);
+                return NotifyOfError(Localize("Unknown database action: '{0}'", databaseAction), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -120,7 +120,7 @@ namespace TightWiki.Controllers
         public ActionResult Metrics()
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Metrics";
+            SessionState.Page.Name = Localize("Metrics");
 
             var version = string.Join('.', (Assembly.GetExecutingAssembly()
                 .GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)); //Major.Minor.Patch
@@ -143,7 +143,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 StatisticsRepository.PurgeCompilationStatistics();
-                return NotifyOfSuccess("Compilation statistics purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("Compilation statistics purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -158,7 +158,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 WikiCache.Clear();
-                return NotifyOfSuccess("Memory cache purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("Memory cache purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -173,7 +173,7 @@ namespace TightWiki.Controllers
         public ActionResult CompilationStatistics()
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Compilations Statistics";
+            SessionState.Page.Name = Localize("Compilations Statistics");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -203,7 +203,7 @@ namespace TightWiki.Controllers
         public ActionResult Moderate()
         {
             SessionState.RequireModeratePermission();
-            SessionState.Page.Name = $"Page Moderation";
+            SessionState.Page.Name = Localize("Page Moderation");
 
             var instruction = GetQueryValue("Instruction");
             if (instruction != null)
@@ -246,7 +246,7 @@ namespace TightWiki.Controllers
         public ActionResult MissingPages()
         {
             SessionState.RequireModeratePermission();
-            SessionState.Page.Name = $"Missing Pages";
+            SessionState.Page.Name = Localize("Missing Pages");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -271,7 +271,7 @@ namespace TightWiki.Controllers
         public ActionResult Namespaces()
         {
             SessionState.RequireModeratePermission();
-            SessionState.Page.Name = $"Namespaces";
+            SessionState.Page.Name = Localize("Namespaces");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -292,7 +292,7 @@ namespace TightWiki.Controllers
         public ActionResult Namespace(string? namespaceName = null)
         {
             SessionState.RequireModeratePermission();
-            SessionState.Page.Name = $"Namespace";
+            SessionState.Page.Name = Localize("Namespace");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -327,7 +327,7 @@ namespace TightWiki.Controllers
         public ActionResult Pages()
         {
             SessionState.RequireModeratePermission();
-            SessionState.Page.Name = $"Pages";
+            SessionState.Page.Name = Localize("Pages");
 
             var searchString = GetQueryValue("SearchString");
             var orderBy = GetQueryValue("OrderBy");
@@ -372,12 +372,12 @@ namespace TightWiki.Controllers
                 int currentPageRevision = PageRepository.GetCurrentPageRevision(page.Id);
                 if (revision >= currentPageRevision)
                 {
-                    return NotifyOfError("You cannot revert to the current page revision.");
+                    return NotifyOfError(Localize("You cannot revert to the current page revision."));
                 }
 
                 Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
 
-                return NotifyOfSuccess("The page has been reverted.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page has been reverted."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -401,7 +401,7 @@ namespace TightWiki.Controllers
             var page = PageRepository.GetLimitedPageInfoByIdAndRevision(pageId);
             if (page == null)
             {
-                return NotifyOfError("The specified page could not be found.");
+                return NotifyOfError(Localize("The specified page could not be found."));
             }
 
             model.Name = page.Name;
@@ -494,13 +494,13 @@ namespace TightWiki.Controllers
                 var page = PageRepository.GetPageInfoByNavigation(pageNavigation);
                 if (page == null)
                 {
-                    return NotifyOfError("The page could not be found.");
+                    return NotifyOfError(Localize("The page could not be found."));
                 }
 
                 int revisionCount = PageRepository.GetPageRevisionCountByPageId(page.Id);
                 if (revisionCount <= 1)
                 {
-                    return NotifyOfError("You cannot delete the only existing revision of a page, instead you would need to delete the entire page.");
+                    return NotifyOfError(Localize("You cannot delete the only existing revision of a page, instead you would need to delete the entire page."));
                 }
 
                 //If we are deleting the latest revision, then we need to grab the previous
@@ -514,7 +514,7 @@ namespace TightWiki.Controllers
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
 
-                return NotifyOfSuccess("Page revision has been moved to the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("Page revision has been moved to the deletion queue."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -580,7 +580,7 @@ namespace TightWiki.Controllers
                 {
                     Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
-                return NotifyOfSuccess("All pages have been rebuilt.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("All pages have been rebuilt."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -626,7 +626,7 @@ namespace TightWiki.Controllers
 
                 workload.WaitForCompletion();
 
-                return NotifyOfSuccess("All pages have been cached.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("All pages have been cached."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -642,7 +642,7 @@ namespace TightWiki.Controllers
             {
                 PageRepository.TruncateAllPageRevisions("YES");
                 WikiCache.Clear();
-                return NotifyOfSuccess("All page revisions have been truncated.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("All page revisions have been truncated."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -657,7 +657,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageRevisionsByPageId(pageId);
-                return NotifyOfSuccess("The page deletion queue has been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page deletion queue has been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -672,7 +672,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageRevisionByPageIdAndRevision(pageId, revision);
-                return NotifyOfSuccess("The page revision has been purged from the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page revision has been purged from the deletion queue."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -687,7 +687,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.RestoreDeletedPageRevisionByPageIdAndRevision(pageId, revision);
-                return NotifyOfSuccess("The page revision has been restored.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page revision has been restored."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -702,7 +702,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPages();
-                return NotifyOfSuccess("The page deletion queue has been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page deletion queue has been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -717,7 +717,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.PurgeDeletedPageByPageId(pageId);
-                return NotifyOfSuccess("The page has been purged from the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page has been purged from the deletion queue."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -732,7 +732,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageRepository.MovePageToDeletedById(pageId, SessionState.Profile.EnsureNotNull().UserId);
-                return NotifyOfSuccess("The page has been moved to the deletion queue.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page has been moved to the deletion queue."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -752,7 +752,7 @@ namespace TightWiki.Controllers
                 {
                     Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
                 }
-                return NotifyOfSuccess("The page has restored.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The page has restored."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -767,7 +767,7 @@ namespace TightWiki.Controllers
         public ActionResult OrphanedPageAttachments()
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Orphaned Page Attachments";
+            SessionState.Page.Name = Localize("Orphaned Page Attachments");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -803,7 +803,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachments();
-                return NotifyOfSuccess("All orphaned page attachments have been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("All orphaned page attachments have been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -819,7 +819,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 PageFileRepository.PurgeOrphanedPageAttachment(pageFileId, revision);
-                return NotifyOfSuccess("The pages orphaned attachments have been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("The pages orphaned attachments have been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
@@ -852,7 +852,7 @@ namespace TightWiki.Controllers
         public ActionResult MenuItem(int? id)
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Menu Item";
+            SessionState.Page.Name = Localize("Menu Item");
 
             if (id != null)
             {
@@ -886,7 +886,7 @@ namespace TightWiki.Controllers
 
             if (ConfigurationRepository.GetAllMenuItems().Where(o => o.Name.Equals(model.Name, StringComparison.InvariantCultureIgnoreCase) && o.Id != model.Id).Any())
             {
-                ModelState.AddModelError("Name", $"The menu name '{model.Name}' is already in use.");
+                ModelState.AddModelError("Name", Localize("The menu name '{0}' is already in use.", model.Name));
                 return View(model);
             }
 
@@ -895,14 +895,14 @@ namespace TightWiki.Controllers
                 model.Id = ConfigurationRepository.InsertMenuItem(model.ToDataModel());
                 ModelState.Clear();
 
-                return NotifyOfSuccess("The menu item has been created.", $"/Admin/MenuItem/{model.Id}");
+                return NotifyOfSuccess(Localize("The menu item has been created."), $"/Admin/MenuItem/{model.Id}");
             }
             else
             {
                 ConfigurationRepository.UpdateMenuItemById(model.ToDataModel());
             }
 
-            model.SuccessMessage = "The menu item has been saved.";
+            model.SuccessMessage = Localize("The menu item has been saved.");
             return View(model);
         }
 
@@ -913,7 +913,7 @@ namespace TightWiki.Controllers
             SessionState.RequireAdminPermission();
 
             var model = ConfigurationRepository.GetMenuItemById(id);
-            SessionState.Page.Name = $"{model.Name} Delete";
+            SessionState.Page.Name = Localize("{0} Delete", model.Name);
 
             return View(model.ToViewModel());
         }
@@ -929,7 +929,7 @@ namespace TightWiki.Controllers
             {
                 ConfigurationRepository.DeleteMenuItemById(model.Id);
 
-                return NotifyOfSuccess("The menu item has been deleted.", $"/Admin/MenuItems");
+                return NotifyOfSuccess(Localize("The menu item has been deleted."), $"/Admin/MenuItems");
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/Admin/MenuItem/{model.Id}");
@@ -944,7 +944,7 @@ namespace TightWiki.Controllers
         public ActionResult Role(string navigation)
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Roles";
+            SessionState.Page.Name = Localize("Roles");
 
             navigation = Navigation.Clean(navigation);
 
@@ -1058,7 +1058,7 @@ namespace TightWiki.Controllers
             {
                 if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
                 {
-                    ModelState.AddModelError("AccountProfile.AccountName", "Account name is already in use.");
+                    ModelState.AddModelError("AccountProfile.AccountName", Localize("Account name is already in use."));
                     return View(model);
                 }
             }
@@ -1067,7 +1067,7 @@ namespace TightWiki.Controllers
             {
                 if (UsersRepository.DoesEmailAddressExist(model.AccountProfile.EmailAddress))
                 {
-                    ModelState.AddModelError("AccountProfile.EmailAddress", "Email address is already in use.");
+                    ModelState.AddModelError("AccountProfile.EmailAddress", Localize("Email address is already in use."));
                     return View(model);
                 }
             }
@@ -1077,11 +1077,11 @@ namespace TightWiki.Controllers
             {
                 if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                 {
-                    model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
+                    model.ErrorMessage += Localize("Could not save the attached image, type not allowed.") + "\r\n";
                 }
                 else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
-                    model.ErrorMessage += "Could not save the attached image, too large.\r\n";
+                    model.ErrorMessage += Localize("Could not save the attached image, too large.") + "\r\n";
                 }
                 else
                 {
@@ -1093,7 +1093,7 @@ namespace TightWiki.Controllers
                     }
                     catch
                     {
-                        model.ErrorMessage += "Could not save the attached image.\r\n";
+                        model.ErrorMessage += Localize("Could not save the attached image.") + "\r\n";
                     }
                 }
             }
@@ -1168,7 +1168,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            model.SuccessMessage = "Your profile has been saved successfully!";
+            model.SuccessMessage = Localize("Your profile has been saved successfully!");
 
             return View(model);
         }
@@ -1227,19 +1227,19 @@ namespace TightWiki.Controllers
 
             if (string.IsNullOrWhiteSpace(model.AccountProfile.AccountName))
             {
-                ModelState.AddModelError("AccountProfile.AccountName", "Account name is required.");
+                ModelState.AddModelError("AccountProfile.AccountName", Localize("Account name is required."));
                 return View(model);
             }
 
             if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
             {
-                ModelState.AddModelError("AccountProfile.AccountName", "Account name is already in use.");
+                ModelState.AddModelError("AccountProfile.AccountName", Localize("Account name is already in use."));
                 return View(model);
             }
 
             if (UsersRepository.DoesEmailAddressExist(model.AccountProfile.EmailAddress))
             {
-                ModelState.AddModelError("AccountProfile.EmailAddress", "Email address is already in use.");
+                ModelState.AddModelError("AccountProfile.EmailAddress", Localize("Email address is already in use."));
                 return View(model);
             }
 
@@ -1297,11 +1297,11 @@ namespace TightWiki.Controllers
             {
                 if (GlobalConfiguration.AllowableImageTypes.Contains(file.ContentType.ToLowerInvariant()) == false)
                 {
-                    model.ErrorMessage += "Could not save the attached image, type not allowed.\r\n";
+                    model.ErrorMessage += Localize("Could not save the attached image, type not allowed.") + "\r\n";
                 }
                 else if (file.Length > GlobalConfiguration.MaxAvatarFileSize)
                 {
-                    model.ErrorMessage += "Could not save the attached image, too large.\r\n";
+                    model.ErrorMessage += Localize("Could not save the attached image, too large.") + "\r\n";
                 }
                 else
                 {
@@ -1313,12 +1313,12 @@ namespace TightWiki.Controllers
                     }
                     catch
                     {
-                        model.ErrorMessage += "Could not save the attached image.";
+                        model.ErrorMessage += Localize("Could not save the attached image.");
                     }
                 }
             }
 
-            return NotifyOf("The account has been created.", model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
+            return NotifyOf(Localize("The account has been created."), model.ErrorMessage, $"/Admin/Account/{profile.Navigation}");
         }
 
         [Authorize]
@@ -1366,7 +1366,7 @@ namespace TightWiki.Controllers
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
                 if (user == null)
                 {
-                    return NotFound("User not found.");
+                    return NotFound(Localize("User not found."));
                 }
 
                 var result = UserManager.DeleteAsync(user).Result;
@@ -1383,10 +1383,10 @@ namespace TightWiki.Controllers
                     //We're deleting our own account. Oh boy...
                     SignInManager.SignOutAsync();
 
-                    return NotifyOfSuccess("Your account has been deleted.", $"/Profile/Deleted");
+                    return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");
                 }
 
-                return NotifyOfSuccess("The account has been deleted.", $"/Admin/Accounts");
+                return NotifyOfSuccess(Localize("The account has been deleted."), $"/Admin/Accounts");
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/Admin/Account/{navigation}");
@@ -1397,7 +1397,7 @@ namespace TightWiki.Controllers
         public ActionResult DeleteAccount(string navigation)
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Delete Profile";
+            SessionState.Page.Name = Localize("Delete Profile");
 
             var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
 
@@ -1408,7 +1408,7 @@ namespace TightWiki.Controllers
 
             if (profile != null)
             {
-                SessionState.Page.Name = $"Delete {profile.AccountName}";
+                SessionState.Page.Name = Localize("Delete {0}", profile.AccountName);
             }
 
             return View(model);
@@ -1473,7 +1473,7 @@ namespace TightWiki.Controllers
 
                     if (fc.IsRequired && string.IsNullOrEmpty(value))
                     {
-                        model.ErrorMessage = $"{fc.GroupName} : {fc.EntryName} is required.";
+                        model.ErrorMessage = Localize("{0} : {1} is required.", fc.GroupName, fc.EntryName);
                         return View(model);
                     }
 
@@ -1497,7 +1497,7 @@ namespace TightWiki.Controllers
 
                 WikiCache.ClearCategory(WikiCache.Category.Configuration);
 
-                model.SuccessMessage = "The configuration has been saved successfully!";
+                model.SuccessMessage = Localize("The configuration has been saved successfully!");
             }
             catch (Exception ex)
             {
@@ -1516,7 +1516,7 @@ namespace TightWiki.Controllers
         public ActionResult Emojis()
         {
             SessionState.RequireModeratePermission();
-            SessionState.Page.Name = $"Emojis";
+            SessionState.Page.Name = Localize("Emojis");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1574,7 +1574,7 @@ namespace TightWiki.Controllers
                 var checkName = EmojiRepository.GetEmojiByName(model.Emoji.Name.ToLowerInvariant());
                 if (checkName != null)
                 {
-                    ModelState.AddModelError("Emoji.Name", "Emoji name is already in use.");
+                    ModelState.AddModelError("Emoji.Name", Localize("Emoji name is already in use."));
                     return View(model);
                 }
             }
@@ -1591,7 +1591,7 @@ namespace TightWiki.Controllers
             {
                 if (file.Length > GlobalConfiguration.MaxEmojiFileSize)
                 {
-                    model.ErrorMessage += "Could not save the attached image, too large.";
+                    model.ErrorMessage += Localize("Could not save the attached image, too large.");
                 }
                 else
                 {
@@ -1603,14 +1603,14 @@ namespace TightWiki.Controllers
                     }
                     catch
                     {
-                        model.ErrorMessage += "Could not save the attached image.";
+                        model.ErrorMessage += Localize("Could not save the attached image.");
                     }
                 }
             }
 
             emoji.Id = EmojiRepository.UpsertEmoji(emoji);
             model.OriginalName = model.Emoji.Name;
-            model.SuccessMessage = "The emoji has been saved successfully!";
+            model.SuccessMessage = Localize("The emoji has been saved successfully!");
             model.Emoji.Id = (int)emoji.Id;
             ModelState.Clear();
 
@@ -1618,7 +1618,7 @@ namespace TightWiki.Controllers
 
             if (nameChanged)
             {
-                return NotifyOfSuccess("The emoji has been saved.", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+                return NotifyOfSuccess(Localize("The emoji has been saved."), $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
             }
 
             return View(model);
@@ -1659,7 +1659,7 @@ namespace TightWiki.Controllers
                 var checkName = EmojiRepository.GetEmojiByName(model.Name.ToLowerInvariant());
                 if (checkName != null)
                 {
-                    ModelState.AddModelError("Name", "Emoji name is already in use.");
+                    ModelState.AddModelError("Name", Localize("Emoji name is already in use."));
                     return View(model);
                 }
             }
@@ -1676,7 +1676,7 @@ namespace TightWiki.Controllers
             {
                 if (file.Length > GlobalConfiguration.MaxEmojiFileSize)
                 {
-                    ModelState.AddModelError("Name", "Could not save the attached image, too large.");
+                    ModelState.AddModelError("Name", Localize("Could not save the attached image, too large."));
                 }
                 else
                 {
@@ -1688,14 +1688,14 @@ namespace TightWiki.Controllers
                     }
                     catch
                     {
-                        ModelState.AddModelError("Name", "Could not save the attached image.");
+                        ModelState.AddModelError("Name", Localize("Could not save the attached image."));
                     }
                 }
             }
 
             EmojiRepository.UpsertEmoji(emoji);
 
-            return NotifyOfSuccess("The emoji has been created.", $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
+            return NotifyOfSuccess(Localize("The emoji has been created."), $"/Admin/Emoji/{Navigation.Clean(emoji.Name)}");
         }
 
         [Authorize]
@@ -1711,7 +1711,7 @@ namespace TightWiki.Controllers
             {
                 EmojiRepository.DeleteById(emoji.Id);
 
-                return NotifyOfSuccess("The emoji has been deleted.", $"/Admin/Emojis");
+                return NotifyOfSuccess(Localize("The emoji has been deleted."), $"/Admin/Emojis");
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/Admin/Emoji/{name}");
@@ -1722,7 +1722,7 @@ namespace TightWiki.Controllers
         public ActionResult DeleteEmoji(string name)
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Delete Emoji";
+            SessionState.Page.Name = Localize("Delete Emoji");
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
@@ -1733,7 +1733,7 @@ namespace TightWiki.Controllers
 
             if (emoji != null)
             {
-                SessionState.Page.Name = $"Delete {emoji.Name}";
+                SessionState.Page.Name = Localize("Delete {0}", emoji.Name);
             }
 
             return View(model);
@@ -1748,7 +1748,7 @@ namespace TightWiki.Controllers
         public ActionResult Exceptions()
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Exceptions";
+            SessionState.Page.Name = Localize("Exceptions");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -1769,7 +1769,7 @@ namespace TightWiki.Controllers
         public ActionResult Exception(int id)
         {
             SessionState.RequireAdminPermission();
-            SessionState.Page.Name = $"Exception";
+            SessionState.Page.Name = Localize("Exception");
 
             var model = new ExceptionViewModel()
             {
@@ -1788,7 +1788,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 ExceptionRepository.PurgeExceptions();
-                return NotifyOfSuccess("All exceptions have been purged.", model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("All exceptions have been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
