@@ -19,7 +19,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
 
         [Display(Name = "Account Name")]
-        [Required(ErrorMessage = "The {0} field is required.")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string AccountName { get; set; } = string.Empty;
 
         [Display(Name = "First Name")]
@@ -29,15 +29,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string? LastName { get; set; } = string.Empty;
 
         [Display(Name = "Time-Zone")]
-        [Required(ErrorMessage = "The {0} field is required.")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string TimeZone { get; set; } = string.Empty;
 
         [Display(Name = "Country")]
-        [Required(ErrorMessage = "The {0} field is required.")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string Country { get; set; } = string.Empty;
 
         [Display(Name = "Language")]
-        [Required(ErrorMessage = "The {0} field is required.")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string Language { get; set; } = string.Empty;
     }
 

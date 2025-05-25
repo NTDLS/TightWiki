@@ -6,7 +6,7 @@ namespace TightWiki.Models.ViewModels.Page
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string Name { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
