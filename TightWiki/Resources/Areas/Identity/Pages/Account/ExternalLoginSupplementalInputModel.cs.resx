@@ -132,9 +132,6 @@
   <data name="Last Name" xml:space="preserve">
     <value>Příjmení</value>
   </data>
-  <data name="The {0} field is required." xml:space="preserve">
-    <value>Vyplnění pole {0} je požadováno.</value>
-  </data>
   <data name="Time-Zone" xml:space="preserve">
     <value>Časové pásmo</value>
   </data>

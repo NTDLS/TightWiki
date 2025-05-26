@@ -120,7 +120,4 @@
   <data name="Recovery Code" xml:space="preserve">
     <value>Kód pro obnovení</value>
   </data>
-  <data name="The {0} field is required." xml:space="preserve">
-    <value>Pole {0} je povinné.</value>
-  </data>
 </root>
