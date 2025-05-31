@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Utility.ConfirmActionViewModel
+﻿@inject IViewLocalizer Localizer
+@model TightWiki.Models.ViewModels.Utility.ConfirmActionViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -20,7 +21,7 @@
 
 <div class="@cardClass">
     <div class="@cardHeaderClass">
-        <strong>Are you sure?</strong>
+        <strong>@Localizer["Are you sure?"]</strong>
     </div>
     <div class="card-body">
 
@@ -34,15 +35,15 @@
 
             @if (Model.Style == "Safe")
             {
-                <div class="form-group"><button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">@Localizer["No"]</button></div>
             }
             else if (Model.Style == "Warn")
             {
-                <div class="form-group"><button type="submit" class="btn btn-warning rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-warning rounded-0" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">@Localizer["No"]</button></div>
             }
             else
             {
-                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="UserSelection" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">No</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">@Localizer["No"]</button></div>
             }
         </form>
     </div>
