@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageSearchViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -6,11 +7,11 @@
 }
 
 <h3>
-    Page Search
+    @Localizer["Page Search"]
 </h3>
 
 <p>
-    If it's here, you should be able to find it.<br /><br />
+    @Localizer["If it's here, you should be able to find it."]<br /><br />
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -20,7 +21,7 @@
             <div class="flex-grow-1 me-2">
                 @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control", style = "width:100%" })
             </div>
-            <button type="submit" value="Find" class="btn btn-primary">Search</button>
+            <button type="submit" value="Find" class="btn btn-primary">@Localizer["Search"]</button>
         </div>
     </div>
     <br />
@@ -46,7 +47,7 @@
     {
         <div class="d-flex small text-muted mb-0">
             <strong>
-                Your search criteria resulted in no pages, simplify your search text.
+                @Localizer["Your search criteria resulted in no pages, simplify your search text."]
             </strong>
         </div>
     }

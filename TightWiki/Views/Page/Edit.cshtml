@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
   Layout = "/Views/Shared/_Layout.cshtml";
@@ -76,20 +77,20 @@
             dropSection.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropSection.classList.add('dragover');
-                dropSection.textContent = "Drop files here...";
+                dropSection.textContent = "@Localizer["Drop files here..."]";
             });
 
             // Handle dragleave event
             dropSection.addEventListener('dragleave', () => {
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
+                dropSection.textContent = "@Localizer["Attach files by dropping them here or by manually selecting them below:"]";
             });
 
             // Handle drop event
             dropSection.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = "Attach files by dropping them here or by manually selecting them below:";
+                dropSection.textContent = "@Localizer["Attach files by dropping them here or by manually selecting them below:"]";
                 const files = e.dataTransfer.files;
                 handleFileUpload(files);
             });
@@ -139,14 +140,14 @@
                 .then(response => response.json())  // Read the response as JSON
                 .then(result => {
                     if (result.success) {
-                        uploadStatus.innerHTML = `<p>Upload successful: ${result.message}</p>`;
+                        uploadStatus.innerHTML = `<p>@Localizer["Upload successful"]: ${result.message}</p>`;
                     } else {
-                        uploadStatus.innerHTML = `<p>Error: ${result.message}</p>`;
+                        uploadStatus.innerHTML = `<p>@Localizer["Error"]: ${result.message}</p>`;
                     }
                     $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 })
                 .catch(error => {
-                    uploadStatus.innerHTML = `<p>Unexpected Error: ${error.message}</p>`;
+                    uploadStatus.innerHTML = `<p>@Localizer["Unexpected Error"]: ${error.message}</p>`;
                 });
         }
 
@@ -179,27 +180,27 @@
 
 <div class="bodyDiv">
     <div class="card">
-        <div class="card-header"><h3>Content</h3></div>
+        <div class="card-header"><h3>@Localizer["Content"]</h3></div>
         <div class="card-body">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
                 @Html.HiddenFor(x => x.Id)
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded-0">Save</button>
+                    <button type="submit" class="btn btn-primary rounded-0">@Localizer["Save"]</button>
                     @if (sessionState.CanView == true)
                     {
                         if (Model?.Id > 0)
                         {
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">@Localizer["View"]</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">@Localizer["Export"]</a>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-link rounded-0" data-bs-toggle="modal" data-bs-target="#templatesModal">Choose template</button>
+                            <button type="button" class="btn btn-link rounded-0" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localizer["Choose template"]</button>
                         }
                     }
-                    <span class="badge text-bg-danger invisible">unauthorized</span>
+                    <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
                 </div>
                 <br />
                 <strong>@Html.LabelFor(x => x.Name)</strong>
@@ -240,13 +241,13 @@
                 <br />
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded-0">Save</button>
+                    <button type="submit" class="btn btn-primary rounded-0">@Localizer["Save"]</button>
                     @if (Model?.Id > 0 && sessionState.CanView == true)
                     {
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">View</a>
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">Export</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">@Localizer["View"]</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">@Localizer["Export"]</a>
                     }
-                    <span class="badge text-bg-danger invisible">unauthorized</span>
+                    <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
                 </div>
             }
         </div>
@@ -254,12 +255,12 @@
     <br />
 
     <div class="card">
-        <div class="card-header"><h3>Attachments</h3></div>
+        <div class="card-header"><h3>@Localizer["Attachments"]</h3></div>
         <div class="card-body">
             @if (Model?.Id > 0 && @sessionState.CanCreate == true)
             {
                 <div id="dropSection" class="dropSection">
-                    <span class="d-inline-block">Drop file attachments here or click to upload manually.</span>
+                    <span class="d-inline-block">@Localizer["Drop file attachments here or click to upload manually."]</span>
                 </div>
                 <input type="file" id="fileInput" style="display:none" multiple>
                 <div id="uploadStatus"></div>
@@ -267,7 +268,7 @@
             }
             else
             {
-                <div>Save the page before uploading files.</div>
+                <div>@Localizer["Save the page before uploading files."]</div>
             }
         </div>
     </div>
@@ -280,7 +281,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="templatesModalLabel">Choose template</h5>
+                <h5 class="modal-title" id="templatesModalLabel">@Localizer["Choose template"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -304,8 +305,8 @@
 
             <div class="modal-footer">
                 <div class="container-fluid">
-                    <em class="small">* - Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template.</em>
-                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Close</button>
+                    <em class="small">* - @Localizer["Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template."]</em>
+                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Page.RevisionsViewModel
+﻿@inject IViewLocalizer Localizer
+@model TightWiki.Models.ViewModels.Page.RevisionsViewModel
 @using TightWiki.Library
 @using TightWiki.Models
 @{
@@ -7,11 +8,11 @@
 }
 
 <h3>
-    Page Revisions for <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
+    @Localizer.Format("Page Revisions for <a href=\"{0}/{1}\">{2}</a>.", GlobalConfiguration.BasePath, sessionState.PageNavigation, sessionState.Page.Name)
 </h3>
 
 <p>
-    All changes that have been made to the page. <br /><br />
+    @Localizer["All changes that have been made to the page."]<br /><br />
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -24,10 +25,10 @@
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
-                    <td><strong>Summary</strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">@Localizer["Modified By"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">@Localizer["Modified Date"]</a></strong></td>
+                    <td><strong>@Localizer["Summary"]</strong></td>
                 </tr>
             </thead>
 
@@ -50,7 +51,7 @@
     {
         <div class="d-flex small text-muted mb-0">
             <strong>
-                The selected page does not have any revisions.
+                @Localizer["The selected page does not have any revisions."]
             </strong>
         </div>
     }
