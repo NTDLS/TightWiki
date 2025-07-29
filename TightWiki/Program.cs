@@ -2,9 +2,11 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
 using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
 using TightWiki.Email;
 using TightWiki.Engine;
@@ -72,7 +74,7 @@ namespace TightWiki
                 });
 
             var persistKeysPath = cookiesConfig.Value("Persist Keys Path", string.Empty);
-            if (string.IsNullOrEmpty(persistKeysPath) == false && Utility.CanReadWriteFile(persistKeysPath))
+            if (string.IsNullOrEmpty(persistKeysPath) == false && Library.Utility.CanReadWriteFile(persistKeysPath))
             {
                 // Add persistent data protection
                 builder.Services.AddDataProtection()
@@ -126,6 +128,48 @@ namespace TightWiki
                             }
                         };
 
+                    });
+                }
+            }
+
+            if (externalAuthenticationConfig.Value<bool>("OIDC : Use OIDC Authentication"))
+            {
+                var authority = externalAuthenticationConfig.Value<string>("OIDC : Authority");
+                var clientId = externalAuthenticationConfig.Value<string>("OIDC : ClientId");
+                var clientSecret = externalAuthenticationConfig.Value<string>("OIDC : ClientSecret");
+
+                if (!string.IsNullOrEmpty(authority) && !string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
+                {
+                    authentication.AddOpenIdConnect("oidc", options =>
+                    {
+                        options.Authority = authority;
+                        options.ClientId = clientId;
+                        options.ClientSecret = clientSecret;
+                        options.ResponseType = "code";
+
+                        options.SaveTokens = true;
+                        options.GetClaimsFromUserInfoEndpoint = true;
+
+                        options.Scope.Clear();
+                        options.Scope.Add("openid");
+                        options.Scope.Add("profile");
+                        options.Scope.Add("email");
+
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            NameClaimType = "name",
+                            RoleClaimType = "role"
+                        };
+
+                        options.Events = new OpenIdConnectEvents
+                        {
+                            OnRemoteFailure = context =>
+                            {
+                                context.Response.Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString("OIDC login was canceled.")}");
+                                context.HandleResponse();
+                                return Task.CompletedTask;
+                            }
+                        };
                     });
                 }
             }
