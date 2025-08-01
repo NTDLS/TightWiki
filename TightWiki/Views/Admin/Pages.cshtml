@@ -1,30 +1,31 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PagesViewModel
 @using TightWiki.Library
 @using TightWiki.Models
+@inject IViewLocalizer Localizer
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Pages
+    @Localizer["Pages"]
 </h3>
 
 <p>
-    All pages contained in the wiki.<br /><br />
+    @Localizer["All pages contained in the wiki."]<br /><br />
 </p>
 
 @Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-    "This will rebuild all pages in the wiki. This could take some time! Continue?",
-    "Rebuild All Pages", "/Admin/RebuildAllPages", Context.Request.Path.Value))
+    Localizer["This will rebuild all pages in the wiki. This could take some time! Continue?"].Value,
+    Localizer["Rebuild All Pages"].Value, "/Admin/RebuildAllPages", Context.Request.Path.Value))
 
 @Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-    "This will compile all pages in the wiki and store them in cache. This could take some time! Continue?",
-    "Pre-Cache All Pages", "/Admin/PreCacheAllPages", Context.Request.Path.Value))
+    Localizer["This will compile all pages in the wiki and store them in cache. This could take some time! Continue?"].Value,
+    Localizer["Pre-Cache All Pages"].Value, "/Admin/PreCacheAllPages", Context.Request.Path.Value))
 
 @Html.Raw(ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
-    "Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?",
-    "Truncate Page Revisions", "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
+    Localizer["Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?"].Value,
+    Localizer["Truncate Page Revisions"].Value, "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -35,7 +36,7 @@
             <div class="flex-grow-1 me-2">
                 @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
             </div>
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
         </div>
     </div>
     <br />
@@ -48,12 +49,12 @@
         <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
             <thead>
                 <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                    <td><strong>Deleted Revisions</strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
-                    <td><strong>Action</strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
+                    <td><strong>@Localizer["Deleted Revisions"]</strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">@Localizer["Modified By"]</a></strong></td>
+                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">@Localizer["Modified Date"]</a></strong></td>
+                    <td><strong>@Localizer["Action"]</strong></td>
                 </tr>
             </thead>
 
@@ -72,8 +73,8 @@
                     <td>@p.ModifiedDate</td>
                     <td>
                         @Html.Raw(ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
-                            $"Deleting \"{p.Name}\" will move the page, all {p.Revision} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?",
-                            "Delete", "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
+                            Localizer["Deleting \"{0}\" will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"].Value(p.Name, p.Revision),
+                            Localizer["Delete"].Value, "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value))
                     </td>
                 </tr>
             }
@@ -85,7 +86,7 @@
     {
         <div class="d-flex small text-muted mb-0">
             <strong>
-                Either there are no pages or your search criteria returned no results.
+                @Localizer["Either there are no pages or your search criteria returned no results."]
             </strong>
         </div>
     }

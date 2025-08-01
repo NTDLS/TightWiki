@@ -19,15 +19,15 @@ namespace TightWiki.Models.ViewModels.Profile
         [BindNever]
         public byte[]? Avatar { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         [Display(Name = "Country")]
         public string Country { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         [Display(Name = "Language")]
         public string Language { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         [Display(Name = "Time Zone")]
         public string TimeZone { get; set; } = string.Empty;
 

@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
+using System.Globalization;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Caching;
@@ -20,8 +24,12 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-        : WikiControllerBase(signInManager, userManager)
+    public class PageController(
+        ITightEngine tightEngine,
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        IStringLocalizer<PageController> localizer)
+        : WikiControllerBase<PageController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         [Route("/robots.txt")]
@@ -235,6 +243,56 @@ namespace TightWiki.Controllers
 
         #endregion
 
+        #region Localization
+        
+        [AllowAnonymous]
+        [HttpGet("Page/Localization")]
+        public ActionResult Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
+        {
+            var referer = Request.Headers["Referer"].ToString();
+            ViewBag.ReturnUrl = String.IsNullOrEmpty(referer) ? "" : referer;
+
+            var langs = localizationOptions.Value.SupportedUICultures
+                .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
+
+            return View(new PageLocalizationViewModel { Languages = langs });
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("Page/SetLocalization")]
+        public ActionResult SetLocalization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions, string culture, string returnUrl)
+        {
+            if (String.IsNullOrWhiteSpace(culture) || String.IsNullOrWhiteSpace(returnUrl))
+                return BadRequest();
+
+            if (SessionState.IsAuthenticated)
+            {
+                var userId = SessionState.Profile.EnsureNotNull().UserId;
+                var profile = UsersRepository.GetAccountProfileByUserId(userId);
+                profile.Language = culture;
+                UsersRepository.UpdateProfile(profile);
+            }
+
+            Response.Cookies.Append(
+                CookieRequestCultureProvider.DefaultCookieName,
+                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddYears(1),
+                    IsEssential = true,
+                    SameSite = SameSiteMode.Strict,
+                    Secure = true,
+                    HttpOnly = false
+                }
+            );
+
+            return Redirect(returnUrl);
+        }
+
+
+        #endregion
+
         #region Comments.
 
         [AllowAnonymous]
@@ -422,7 +480,7 @@ namespace TightWiki.Controllers
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
             if (instructions.Contains(WikiInstruction.Protect))
             {
-                return NotifyOfError("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.");
+                return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
             }
 
             bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
@@ -431,7 +489,7 @@ namespace TightWiki.Controllers
                 PageRepository.MovePageToDeletedById(page.Id, (SessionState.Profile?.UserId).EnsureNotNullOrEmpty());
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Navigation]));
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.Page, [page.Id]));
-                return NotifyOfSuccess("The page has been deleted.", $"/Home");
+                return NotifyOfSuccess(Localize("The page has been deleted."), $"/Home");
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
@@ -460,7 +518,7 @@ namespace TightWiki.Controllers
             var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
             if (instructions.Contains(WikiInstruction.Protect))
             {
-                return NotifyOfError("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion.");
+                return NotifyOfError(Localize("The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion."));
             }
 
             return View(model);
@@ -483,7 +541,7 @@ namespace TightWiki.Controllers
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
                 Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
-                return NotifyOfSuccess("The page has been reverted.", $"/{pageNavigation}");
+                return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
@@ -540,7 +598,7 @@ namespace TightWiki.Controllers
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
                 if (SessionState.CanModerate == false && instructions.Contains(WikiInstruction.Protect))
                 {
-                    return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
+                    return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                 }
 
                 SessionState.SetPageId(page.Id);
@@ -608,7 +666,7 @@ namespace TightWiki.Controllers
 
                 if (PageRepository.GetPageInfoByNavigation(page.Navigation) != null)
                 {
-                    ModelState.AddModelError("Name", "The page name you entered already exists.");
+                    ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
                     return View(model);
                 }
 
@@ -616,7 +674,7 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(page.Id);
 
-                return NotifyOfSuccess("The page has been created.", $"/{page.Navigation}/Edit");
+                return NotifyOfSuccess(Localize("The page has been created."), $"/{page.Navigation}/Edit");
             }
             else
             {
@@ -624,7 +682,7 @@ namespace TightWiki.Controllers
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
                 if (SessionState.CanModerate == false && instructions.Contains(WikiInstruction.Protect))
                 {
-                    return NotifyOfError("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed.");
+                    return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                 }
 
                 string originalNavigation = string.Empty;
@@ -635,7 +693,7 @@ namespace TightWiki.Controllers
                 {
                     if (PageRepository.GetPageInfoByNavigation(model.Navigation) != null)
                     {
-                        ModelState.AddModelError("Name", "The page name you entered already exists.");
+                        ModelState.AddModelError("Name", Localize("The page name you entered already exists."));
                         return View(model);
                     }
 
@@ -653,7 +711,7 @@ namespace TightWiki.Controllers
 
                 SessionState.SetPageId(page.Id);
 
-                model.SuccessMessage = "The page was saved.";
+                model.SuccessMessage = Localize("The page was saved.");
 
                 if (string.IsNullOrWhiteSpace(originalNavigation) == false)
                 {
@@ -758,7 +816,7 @@ namespace TightWiki.Controllers
             }
             else
             {
-                return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
+                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
             }
         }
 
@@ -823,7 +881,7 @@ namespace TightWiki.Controllers
             }
             else
             {
-                return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
+                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
             }
         }
 
@@ -851,7 +909,7 @@ namespace TightWiki.Controllers
             else
             {
                 HttpContext.Response.StatusCode = 404;
-                return NotFound($"[{fileNavigation}] was not found on the page [{pageNavigation}].");
+                return NotFound(Localize("[{0}] was not found on the page [{1}].", fileNavigation, pageNavigation));
             }
         }
 

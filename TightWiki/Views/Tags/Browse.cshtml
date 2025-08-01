@@ -1,15 +1,16 @@
-﻿@model TightWiki.Models.ViewModels.Page.BrowseViewModel
+﻿@inject IViewLocalizer Localizer
+@model TightWiki.Models.ViewModels.Page.BrowseViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card">
-    <div class="card-header"><strong>Associated Tags</strong></div>
+    <div class="card-header"><strong>@Localizer["Associated Tags"]</strong></div>
     <div class="card-body">@Html.Raw(Model.TagCloud)</div>
 </div>
 
 <div class="card">
-    <div class="card-header"><strong>Associated Pages</strong></div>
+    <div class="card-header"><strong>@Localizer["Associated Pages"]</strong></div>
     <div class="card-body">@Html.Raw(Model.AssociatedPages)</div>
 </div>

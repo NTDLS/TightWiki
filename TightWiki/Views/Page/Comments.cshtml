@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -6,11 +7,11 @@
 }
 
 <h3>
-    Comments for <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
+    @Localizer.Format("Comments for <a href=\"{0}/{1}\">{2}</a>", GlobalConfiguration.BasePath, sessionState.PageNavigation, sessionState.Page.Name)
 </h3>
 
 <p>
-    All comment made on the given page.
+    @Localizer["All comment made on the given page."]
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -20,15 +21,15 @@
         <div class="container">
             <div class="d-flex justify-content-end mb-4">
                 <div class="flex-grow-1 me-2">
-                    <input type="text" name="Comment" id="Comment" class="form-control" placeholder="Type comment..." />
+                    <input type="text" name="Comment" id="Comment" class="form-control" placeholder="@Localizer["Type comment..."]" />
                 </div>
-                <button type="submit" value="Find" class="btn btn-primary">Post</button>
+                <button type="submit" value="Find" class="btn btn-primary">@Localizer["Post"]</button>
             </div>
         </div>
     }
     else
     {
-        @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">Login to leave a comment</a>.
+        @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">@Localizer["Login to leave a comment"]</a>.
     }
 
     @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
@@ -56,7 +57,7 @@
                         </div>
                         @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
                         {
-                            <a href="?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('Are you sure you want to delete this comment?')">Delete</a>
+                            <a href="?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('@Localizer["Are you sure you want to delete this comment?"]')">@Localizer["Delete"]</a>
                         }
                     </div>
                 </div>
@@ -66,7 +67,7 @@
     else
     {
         <div class="d-flex small text-muted mb-0">
-            <strong>The page does not have any comments, why don't you add one?</strong>
+            <strong>@Localizer["The page does not have any comments, why don't you add one?"]</strong>
         </div>
     }
 

@@ -1,22 +1,23 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PageCompilationStatisticsViewModel
 @using TightWiki.Library
 @using TightWiki.Models
+@inject IViewLocalizer Localizer
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Compilations
+    @Localizer["Compilations"]
 </h3>
 
 <p>
-    The compilation statistics for all wiki page operations.<br /><br />
+    @Localizer["The compilation statistics for all wiki page operations."]<br /><br />
 </p>
 
 @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-        "Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?",
-        "Purge Compilation Statistics", "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
+        Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
+        Localizer["Purge Compilation Statistics"].Value, "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
 <br />
 <br />
 
@@ -27,16 +28,16 @@
 
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Namespace")">Name</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">Date/Time</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Compilations")">Compilations</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgBuildTimeMs")">Duration</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikiMatches")">Matches</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TotalErrorCount")">Errors</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgOutgoingLinkCount")">Links</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgTagCount")">Tags</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgRawBodySize")">Raw Size</a></strong></td>
-            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikifiedBodySize")">Wikified Size</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Namespace")">@Localizer["Name"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">@Localizer["Date/Time"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Compilations")">@Localizer["Compilations"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgBuildTimeMs")">@Localizer["Duration"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikiMatches")">@Localizer["Matches"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TotalErrorCount")">@Localizer["Errors"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgOutgoingLinkCount")">@Localizer["Links"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgTagCount")">@Localizer["Tags"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgRawBodySize")">@Localizer["Raw Size"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikifiedBodySize")">@Localizer["Wikified Size"]</a></strong></td>
         </tr>
 
         @foreach (var stat in Model.Statistics)

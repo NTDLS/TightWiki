@@ -10,11 +10,11 @@ namespace TightWiki.Models.ViewModels.Admin
         public Guid UserId { get; set; }
 
         [Display(Name = "Email Address")]
-        [Required(ErrorMessage = "Email address is required")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string EmailAddress { get; set; } = string.Empty;
 
         [Display(Name = "Account Name")]
-        [Required(ErrorMessage = "Account name is required")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string AccountName { get; set; } = string.Empty;
 
         public string? Navigation { get; set; } = string.Empty;
@@ -26,15 +26,15 @@ namespace TightWiki.Models.ViewModels.Admin
         public string? LastName { get; set; } = string.Empty;
 
         [Display(Name = "Time-Zone")]
-        [Required(ErrorMessage = "TimeZone is required")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string TimeZone { get; set; } = string.Empty;
 
         [Display(Name = "Country")]
-        [Required(ErrorMessage = "Country is required")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string Country { get; set; } = string.Empty;
 
         [Display(Name = "Language")]
-        [Required(ErrorMessage = "Language is required")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string Language { get; set; } = string.Empty;
 
         [Display(Name = "Biography")]

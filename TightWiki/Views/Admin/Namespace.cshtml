@@ -1,17 +1,18 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.NamespaceViewModel
 @using TightWiki.Library
 @using TightWiki.Models
+@inject IViewLocalizer Localizer
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Namespace
+    @Localizer["Namespace"]
 </h3>
 
 <p>
-    All pages contained in the namespace.<br /><br />
+    @Localizer["All pages contained in the namespace."]<br /><br />
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -22,10 +23,10 @@
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
         <thead>
             <tr>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">Name</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">Revision</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">Modified By</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">Modified Date</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">@Localizer["Modified By"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">@Localizer["Modified Date"]</a></strong></td>
             </tr>
         </thead>
 

@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -9,18 +10,18 @@
 {
     <div class="card card-danger border-danger">
         <div class="card-header bg-danger text-white">
-            <strong>Delete emoji "@Model?.OriginalName"?</strong>
+            <strong>@Localizer["Delete emoji \"{0}\"?"].Value(Model?.OriginalName ?? "")</strong>
         </div>
         <div class="card-body">
-            Deleting the emoji "@Model?.OriginalName" will permanently remove the image. Any references to it will be orphaned.
-            <strong>You will not be able to revert this deletion.</strong>
+            @Localizer["Deleting the emoji \"{0}\" will permanently remove the image. Any references to it will be orphaned."].Value(Model?.OriginalName ?? "")
+            <strong>@Localizer["You will not be able to revert this deletion."]</strong>
             <br /><br />
 
-            Are you sure you want to continue with this deletion?<br /><br />
+            @Localizer["Are you sure you want to continue with this deletion?"]<br /><br />
 
             @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
-                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">@Localizer["No"]</button></div>
             }
         </div>
     </div>

@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.AccountProfileViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -6,11 +7,11 @@
 }
 
 <h3>
-    Account
+    @Localizer["Account"]
 </h3>
 
 <p>
-    Configuration for user account.<br /><br />
+    @Localizer["Configuration for user account."]<br /><br />
 </p>
 
 @using (Html.BeginForm(null, null, new { navigation = Model.AccountProfile.Navigation }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
@@ -23,7 +24,7 @@
             @Html.HiddenFor(m => m.AccountProfile.Navigation)
 
             <div class="form-group row mb-1">
-                <label for="Avatar" class="col-sm-2 col-form-label"><strong>Avatar</strong></label>
+                <label for="Avatar" class="col-sm-2 col-form-label"><strong>@Localizer["Avatar"]</strong></label>
                 <div class="col-sm-10">
                     @if (@Model.AccountProfile.Navigation != "")
                     {
@@ -75,7 +76,7 @@
                 <label for="Role" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Role)</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Role" id="AccountProfile.Role" class="form-control">
-                        <option value="" style="color:#ccc !important;">Select a role</option>
+                        <option value="" style="color:#ccc !important;">@Localizer["Select a role"]</option>
                         @foreach (var item in Model.Roles)
                         {
                             <option value="@item.Name" selected=@(Model.AccountProfile.Role == item.Name ? "selected" : null)>
@@ -91,7 +92,7 @@
                 <label for="Theme" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Theme)</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Theme" id="AccountProfile.Theme" class="form-control">
-                        <option value="">System Default</option>
+                        <option value="">@Localizer["System Default"]</option>
                         @foreach (var item in Model.Themes)
                         {
                             <option value="@item.Name" selected=@(Model.AccountProfile.Theme == item.Name ? "selected" : null)>
@@ -107,7 +108,7 @@
                 <label for="Country" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Country)</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Country" id="AccountProfile.Country" class="form-control">
-                        <option value="" style="color:#ccc !important;">Select a country</option>
+                        <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
                         @foreach (var item in Model.Countries)
                         {
                             <option value="@item.Value" selected=@(Model.AccountProfile.Country == item.Value ? "selected" : null)>
@@ -123,7 +124,7 @@
                 <label for="Language" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Language)</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Language" id="AccountProfile.Language" class="form-control">
-                        <option value="" style="color:#ccc !important;">Select a language</option>
+                        <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
                         @foreach (var item in Model.Languages)
                         {
                             <option value="@item.Value" selected=@(Model.AccountProfile.Language == item.Value ? "selected" : null)>
@@ -139,7 +140,7 @@
                 <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.TimeZone)</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.TimeZone" id="AccountProfile.TimeZone" class="form-control">
-                        <option value="" style="color:#ccc !important;">Select a time-zone</option>
+                        <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
                         @foreach (var item in Model.TimeZones)
                         {
                             <option value="@item.Value" selected=@(Model.AccountProfile.TimeZone == item.Value ? "selected" : null)>
@@ -176,7 +177,7 @@
 
             <div class="form-group row mb-1">
                 <div class="col-sm-10 offset-sm-2">
-                    <button type="submit" class="btn btn btn-primary rounded-0">Save!</button>
+                    <button type="submit" class="btn btn btn-primary rounded-0">@Localizer["Save!"]</button>
                 </div>
             </div>
         </form>
@@ -185,4 +186,4 @@
 }
 <br />
 
-<form action="@GlobalConfiguration.BasePath/Admin/DeleteAccount/@Model.AccountProfile.Navigation"><button type="submit" class="btn btn-danger rounded-0">Delete Account</button></form>
+<form action="@GlobalConfiguration.BasePath/Admin/DeleteAccount/@Model.AccountProfile.Navigation"><button type="submit" class="btn btn-danger rounded-0">@Localizer["Delete Account"]</button></form>

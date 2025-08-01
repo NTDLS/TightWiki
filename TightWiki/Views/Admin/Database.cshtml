@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.DatabaseViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -6,11 +7,11 @@
 }
 
 <h3>
-    Database
+    @Localizer["Database"]
 </h3>
 
 <p>
-    Various utilities to assist in management of the SQLite database.
+    @Localizer["Various utilities to assist in management of the SQLite database."]
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -18,10 +19,10 @@
     <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
         <thead>
             <tr>
-                <td><strong>Name</strong></td>
-                <td><strong>Version</strong></td>
-                <td><strong>Size</strong></td>
-                <td><strong>Action</strong></td>
+                <td><strong>@Localizer["Name"]</strong></td>
+                <td><strong>@Localizer["Version"]</strong></td>
+                <td><strong>@Localizer["Size"]</strong></td>
+                <td><strong>@Localizer["Action"]</strong></td>
             </tr>
         </thead>
 
@@ -33,14 +34,14 @@
                 <td>@NTDLS.Helpers.Formatters.FileSize((long)info.DatabaseSize)</td>
                 <td>
                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath, 
-                        "This will optimize the database indexes and structure. Continue?",
-                        "Optimize", $"/Admin/Database/Optimize/{info.Name}", Context.Request.Path.Value))
+                        Localizer["This will optimize the database indexes and structure. Continue?"].Value,
+                        Localizer["Optimize"].Value, $"/Admin/Database/Optimize/{info.Name}", Context.Request.Path.Value))
                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
-                        "This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?",
-                        "Vacuum", $"/Admin/Database/Vacuum/{info.Name}", Context.Request.Path.Value))
+                        Localizer["This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"].Value,
+                        Localizer["Vacuum"].Value, $"/Admin/Database/Vacuum/{info.Name}", Context.Request.Path.Value))
                     @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
-                        "This will check the database integrity and validate all foreign keys. Continue?",
-                        "Verify", $"/Admin/Database/Verify/{info.Name}", Context.Request.Path.Value))
+                        Localizer["This will check the database integrity and validate all foreign keys. Continue?"].Value,
+                        Localizer["Verify"].Value, $"/Admin/Database/Verify/{info.Name}", Context.Request.Path.Value))
                 </td>
             </tr>
         }

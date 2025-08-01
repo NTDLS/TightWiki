@@ -1,16 +1,16 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model LoginWithRecoveryCodeModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Recovery code verification
+    @Localizer["Recovery code verification"]
 </h3>
 
 <p>
-    You have requested to log in with a recovery code. This login will not be remembered until you provide
-    an authenticator app code at log in or disable 2FA and log in again.
+    @Localizer["You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again."]
 </p>
 <hr />
 
@@ -19,11 +19,11 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="RecoveryCode" />
+                <input asp-for="Input.RecoveryCode" class="form-control" autocomplete="off" placeholder="@Localizer["Recovery code"].Value" />
                 <label asp-for="Input.RecoveryCode" class="form-label"></label>
                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Log in"]</button>
         </form>
     </div>
 </div>

@@ -1,4 +1,5 @@
-﻿@model TightWiki.Models.ViewModels.Utility.NotifyViewModel
+﻿@inject IViewLocalizer Localizer
+@model TightWiki.Models.ViewModels.Utility.NotifyViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 
@@ -55,7 +56,7 @@
         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
         {
             <br />
-            <a href="@Model.RedirectURL">Continue</a>
+            <a href="@Model.RedirectURL">@Localizer["Continue"]</a>
         }
     </div>
 }
@@ -86,7 +87,7 @@
         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false)
         {
             <br />
-            <a href="@Model.RedirectURL">Continue</a>
+            <a href="@Model.RedirectURL">@Localizer["Continue"]</a>
         }
     </div>
 }
@@ -118,7 +119,7 @@
         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
         {
             <p>
-                <a href="@Model.RedirectURL">Continue now</a> or you will be redirected in <span id="countdown">@Model.RedirectTimeout</span> seconds.
+                @Localizer.Format("<a href=\"{0}\">Continue now</a> or you will be redirected in <span id=\"countdown\">{1}</span> seconds.", Model.RedirectURL, Model.RedirectTimeout)
             </p>
         }
     </div>

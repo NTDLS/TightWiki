@@ -15,4 +15,12 @@
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Resources\ValTexts.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ValTexts.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

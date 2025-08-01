@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -21,12 +22,18 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
+        private readonly IStringLocalizer<ResendEmailConfirmationModel> _localizer;
 
-        public ResendEmailConfirmationModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWikiEmailSender emailSender)
+        public ResendEmailConfirmationModel(
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            IWikiEmailSender emailSender,
+            IStringLocalizer<ResendEmailConfirmationModel> localizer)
                         : base(signInManager)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -46,8 +53,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+            [EmailAddress(ErrorMessageResourceName = "EmailAddressAttribute_Invalid", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
             public string Email { get; set; }
         }
 
@@ -74,7 +81,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+                ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
                 return Page();
             }
 
@@ -109,7 +116,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+            ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
             return Page();
         }
     }

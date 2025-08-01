@@ -1,11 +1,12 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model LockoutModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Locked out
+    @Localizer["Locked out"]
 </h3>
 
-<p>This account has been locked out, please try again later.</p>
+<p>@Localizer["This account has been locked out, please try again later."]</p>

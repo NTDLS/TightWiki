@@ -1,13 +1,14 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>Emoji</h3>
+<h3>@Localizer["Emoji"]</h3>
 
-<p>Configuration for an emoji.</p>
+<p>@Localizer["Configuration for an emoji."]</p>
 
 @using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
@@ -17,7 +18,7 @@
 
     <div class="container">
         <div class="form-group row mb-1">
-            <label for="ImageData" class="col-sm-2 col-form-label"><strong>Image</strong></label>
+            <label for="ImageData" class="col-sm-2 col-form-label"><strong>@Localizer["Image"]</strong></label>
             <div class="col-sm-10">
                 @if (@Model.Emoji.Name != "")
                 {
@@ -37,7 +38,7 @@
         </div>
 
         <div class="form-group row mb-1">
-            <label for="Categories" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Categories)</strong> (comma separated)</label>
+            <label for="Categories" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Categories)</strong> @Localizer["(comma separated)"]</label>
             <div class="col-sm-10">
                 @Html.TextBoxFor(m => m.Categories, new { @class = "form-control" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div>
@@ -46,7 +47,7 @@
 
         <div class="form-group row mb-1">
             <div class="col-sm-10 offset-sm-2">
-                <button type="submit" class="btn btn-success rounded-0">Save!</button>
+                <button type="submit" class="btn btn-success rounded-0">@Localizer["Save!"]</button>
             </div>
         </div>
     </div>
@@ -55,5 +56,5 @@
 <br />
 
 <form action="@GlobalConfiguration.BasePath/Admin/DeleteEmoji/@Model.Emoji.Name">
-    <button type="submit" class="btn btn-danger rounded-0">Delete Emoji</button>
+    <button type="submit" class="btn btn-danger rounded-0">@Localizer["Delete Emoji"]</button>
 </form>

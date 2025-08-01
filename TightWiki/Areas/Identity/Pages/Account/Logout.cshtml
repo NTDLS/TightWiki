@@ -1,15 +1,16 @@
 ﻿@page
+@inject IViewLocalizer Localizer
 @model LogoutModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    Logout
+    @Localizer["Logout"]
 </h3>
 
 <p>
-    Logging out will make sure that others cant use this session to make changes to the wiki. You'll need to log back in before making changes.<br /><br />
+    @Localizer["Logging out will make sure that others cant use this session to make changes to the wiki. You'll need to log back in before making changes."]<br /><br />
 </p>
 <hr />
 
@@ -18,12 +19,12 @@
         if (User.Identity?.IsAuthenticated ?? false)
         {
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="btn btn-primary rounded-0">Logout</button>
+                <button type="submit" class="btn btn-primary rounded-0">@Localizer["Logout"]</button>
             </form>
         }
         else
         {
-            <p>You have successfully logged out of the application.</p>
+            <p>@Localizer["You have successfully logged out of the application."]</p>
         }
     }
 </header>

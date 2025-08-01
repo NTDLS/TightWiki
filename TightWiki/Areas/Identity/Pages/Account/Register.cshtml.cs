@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -15,6 +16,57 @@ using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
+    public class RegisterInputModel
+    {
+        public List<TimeZoneItem> TimeZones { get; set; } = new();
+        public List<CountryItem> Countries { get; set; } = new();
+        public List<LanguageItem> Languages { get; set; } = new();
+
+
+        [Display(Name = "Account Name")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        public string AccountName { get; set; } = string.Empty;
+
+        [Display(Name = "First Name")]
+        public string? FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string? LastName { get; set; } = string.Empty;
+
+        [Display(Name = "Time-Zone")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        public string TimeZone { get; set; } = string.Empty;
+
+        [Display(Name = "Country")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        public string Country { get; set; } = string.Empty;
+
+        [Display(Name = "Language")]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        public string Language { get; set; } = string.Empty;
+
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [EmailAddress(ErrorMessageResourceName = "EmailAddressAttribute_Invalid", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Display(Name = "Email")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [StringLength(100, MinimumLength = 6, ErrorMessageResourceName = "StringLengthAttribute_ValidationErrorIncludingMinimum", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [DataType(DataType.Password, ErrorMessageResourceName = "DataTypeAttribute_EmptyDataTypeString", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Display(Name = "Password")]
+        public string Password { get; set; } = string.Empty;
+
+        /// <summary>
+        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+        ///     directly from your code. This API may change or be removed in future releases.
+        /// </summary>
+        [DataType(DataType.Password, ErrorMessageResourceName = "DataTypeAttribute_EmptyDataTypeString", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessageResourceName = "CompareAttribute_MustMatch", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
+        public string ConfirmPassword { get; set; } = string.Empty;
+    }
+
     public class RegisterModel : PageModelBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -23,13 +75,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IWikiEmailSender _emailSender;
+        private readonly IStringLocalizer<RegisterModel> _localizer;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IWikiEmailSender emailSender)
+            IWikiEmailSender emailSender,
+            IStringLocalizer<RegisterModel> localizer)
                         : base(signInManager)
         {
             _userManager = userManager;
@@ -38,65 +92,16 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         [BindProperty]
-        public InputModel Input { get; set; } = new();
+        public RegisterInputModel Input { get; set; } = new();
 
         [BindProperty]
         public string? ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme>? ExternalLogins { get; set; }
-
-        public class InputModel
-        {
-            public List<TimeZoneItem> TimeZones { get; set; } = new();
-            public List<CountryItem> Countries { get; set; } = new();
-            public List<LanguageItem> Languages { get; set; } = new();
-
-
-            [Display(Name = "Account Name")]
-            [Required(ErrorMessage = "Account Name is required")]
-            public string AccountName { get; set; } = string.Empty;
-
-            [Display(Name = "First Name")]
-            public string? FirstName { get; set; }
-
-            [Display(Name = "Last Name")]
-            public string? LastName { get; set; } = string.Empty;
-
-            [Display(Name = "Time-Zone")]
-            [Required(ErrorMessage = "TimeZone is required")]
-            public string TimeZone { get; set; } = string.Empty;
-
-            [Display(Name = "Country")]
-            [Required(ErrorMessage = "Country is required")]
-            public string Country { get; set; } = string.Empty;
-
-            [Display(Name = "Language")]
-            [Required(ErrorMessage = "Language is required")]
-            public string Language { get; set; } = string.Empty;
-
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; } = string.Empty;
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; } = string.Empty;
-
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; } = string.Empty;
-        }
 
         private void PopulateDefaults()
         {
@@ -148,12 +153,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrWhiteSpace(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", "Account Name is required.");
+                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is required."]);
                 return Page();
             }
             else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", "Account Name is already in use.");
+                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is already in use."]);
                 return Page();
             }
 

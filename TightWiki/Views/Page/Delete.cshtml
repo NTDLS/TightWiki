@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageDeleteViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -9,18 +10,18 @@
 {
     <div class="card border-danger mb-3">
         <div class="card-header bg-danger text-white">
-            <strong>Delete page "@Model.PageName"?</strong>
+            <strong>@Localizer.Format("Delete page \"{0}\"?", Model.PageName)</strong>
         </div>
         <div class="card-body">
-            Deleting "@Model.PageName" will move the page, all @Model.PageRevision revisions and @Model.CountOfAttachments file attachments to the deletion queue.
-            This action can only be undone by an administrator or moderator.
+            @Localizer.Format("Deleting \"{0}\" will move the page, all {1} revisions and {2} file attachments to the deletion queue.", Model.PageName, Model.PageRevision, Model.CountOfAttachments)
+            @Localizer["This action can only be undone by an administrator or moderator."]
             <br /><br />
 
-            Are you sure you want to continue with this deletion?<br /><br />
+            @Localizer["Are you sure you want to continue with this deletion?"]<br /><br />
 
             @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
-                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">@Localizer["No"]</button></div>
             }
         </div>
     </div>

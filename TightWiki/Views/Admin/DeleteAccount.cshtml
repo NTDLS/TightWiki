@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Profile.DeleteAccountViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -9,18 +10,18 @@
 {
     <div class="card border-danger mb-3">
         <div class="card-header bg-danger text-white">
-            <strong>Delete account "@Model.AccountName"?</strong>
+            <strong>@Localizer["Delete account {0}?"].Value(Model.AccountName)</strong>
         </div>
         <div class="card-body">
-            Deleting "@Model.AccountName" will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account.
-            <strong>You will not be able to revert this action.</strong>
+            @Localizer["Deleting \"{0}\" will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account."].Value(Model.AccountName)
+            <strong>@Localizer["You will not be able to revert this action."]</strong>
             <br /><br />
 
-            Are you sure you want to continue with this deletion?<br /><br />
+            @Localizer["Are you sure you want to continue with this deletion?"]<br /><br />
 
             @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
             {
-                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">Yes</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">No</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="IsActionConfirmed" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="IsActionConfirmed" value="false">@Localizer["No"]</button></div>
             }
         </div>
     </div>
