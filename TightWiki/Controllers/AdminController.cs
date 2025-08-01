@@ -592,9 +592,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireModeratePermission();
 
-            int threadCount = Environment.ProcessorCount > 1 ? Environment.ProcessorCount / 2 : Environment.ProcessorCount;
-
-            var pool = new DelegateThreadPool(threadCount, 0);
+            var pool = new DelegateThreadPool();
 
             if (model.UserSelection == true)
             {

@@ -1,5 +1,7 @@
-﻿@using TightWiki.Models
+@using TightWiki.Models
 @inject IViewLocalizer Localizer
+@using System.Globalization
+@using System.Runtime.InteropServices;
 @model TightWiki.Models.ViewModels.Admin.MetricsViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -13,6 +15,38 @@
 <p>
     <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> @Localizer["version"] @Model.ApplicationVersion<br /><br />
 </p>
+
+<h2>@Localizer["Environment"]</h2>
+<table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td><strong>@Localizer["Operating System"]</strong></td>
+        <td><strong>@Localizer["OS Architecture"]</strong></td>
+        <td><strong>@Localizer["Process Architecture"]</strong></td>
+        <td><strong>@Localizer["Framework Version"]</strong></td>
+    </tr>
+
+    <tr>
+        <td>@RuntimeInformation.OSDescription</td>
+        <td>@RuntimeInformation.OSArchitecture</td>
+        <td>@RuntimeInformation.ProcessArchitecture</td>
+        <td>@RuntimeInformation.FrameworkDescription</td>
+    </tr>
+
+    <tr>
+        <td><strong>Culture</strong></td>
+        <td><strong>UI Culture</strong></td>
+        <td><strong>&nbsp;</strong></td>
+        <td><strong>&nbsp;</strong></td>
+    </tr>
+
+    <tr>
+        <td>@CultureInfo.CurrentCulture</td>
+        <td>@CultureInfo.CurrentUICulture</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+
+</table>
 
 <h2>@Localizer["General"]</h2>
 <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -57,6 +91,14 @@
         <td><a href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
         <td>&nbsp;</td>
     </tr>
+
+    <tr>
+        <td><strong>Culture</strong></td>
+        <td><strong>UI Culture</strong></td>
+        <td><strong>&nbsp;</strong></td>
+        <td><strong>&nbsp;</strong></td>
+    </tr>
+
 </table>
 
 <h2>@Localizer["Cache"]</h2>

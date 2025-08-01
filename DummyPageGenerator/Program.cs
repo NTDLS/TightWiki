@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NTDLS.DelegateThreadPooling;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Implementation.Handlers;
@@ -89,7 +90,7 @@ namespace DummyPageGenerator
 
             var pg = new PageGenerator(userManager);
 
-            var pool = new NTDLS.DelegateThreadPooling.DelegateThreadPool(4, 0);
+            var pool = new DelegateThreadPool();
 
             while (true)
             {
