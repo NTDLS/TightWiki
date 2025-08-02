@@ -11,7 +11,7 @@
         <strong>@Localizer.Format("Revert to revision {0}?", sessionState.Page.Revision)</strong>
     </div>
     <div class="card-body">
-        @Localizer.Format("Reverting \"{0}\" from revision {1} to {2} will rollback {3} changes.", Model.PageName, sessionState.Page.MostCurrentRevision, sessionState.Page.Revision, Model.HigherRevisionCount)<br /><br />
+        @Localizer.Format("Reverting \"{0}\" from revision {1} to {2} will rollback {3} changes.", (Model.PageName ?? ""), sessionState.Page.MostCurrentRevision, sessionState.Page.Revision, Model.HigherRevisionCount)<br /><br />
         @Localizer["Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes."]<br /><br />
         @Localizer["Are you sure you want to continue?"]<br /><br />
 

@@ -1,11 +1,12 @@
-﻿using System.Globalization;
+﻿using NTDLS.Helpers;
+using System.Globalization;
 
 namespace TightWiki.Library
 {
 
     public class CultureInfoSettings
     {
-        public CultureInfo Culture { get; set; }
+        public CultureInfo? Culture { get; set; }
         public bool IsUIComplete { get; set; }
     }
 
@@ -14,10 +15,10 @@ namespace TightWiki.Library
         IList<CultureInfoSettings> Cultures;
 
         public IList<CultureInfo> AllCultures
-            => Cultures.Select(x => x.Culture).ToList();
+            => Cultures.Select(x => x.Culture.EnsureNotNull()).ToList();
 
         public IList<CultureInfo> UICompleteCultures
-            => Cultures.Where(x => x.IsUIComplete).Select(x => x.Culture).ToList();
+            => Cultures.Where(x => x.IsUIComplete).Select(x => x.Culture.EnsureNotNull()).ToList();
 
         public CultureInfo DefaultCulture
             => new CultureInfo("en");

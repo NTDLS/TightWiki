@@ -252,7 +252,7 @@ namespace TightWiki.Controllers
             var referer = Request.Headers["Referer"].ToString();
             ViewBag.ReturnUrl = String.IsNullOrEmpty(referer) ? "" : referer;
 
-            var langs = localizationOptions.Value.SupportedUICultures
+            var langs = localizationOptions.Value.SupportedUICultures.EnsureNotNull()
                 .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
 
             return View(new PageLocalizationViewModel { Languages = langs });
