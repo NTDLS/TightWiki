@@ -57,13 +57,17 @@
     <!-- Theme:Begin -->
     @foreach (var file in sessionState.UserTheme.Files)
     {
-        <link rel="stylesheet" href="@Url.Content($"~{file}")" />
+        if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+        {
+            <link rel="stylesheet" href="@file" />
+        }
+        else{
+            <link rel="stylesheet" href="@Url.Content($"~{file}")" />
+        }
     }
     <!-- Theme:End-->
 
     <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
-
-    <script src="@Url.Content("~/js/site.js")" asp-append-version="true"></script>
 
     <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
