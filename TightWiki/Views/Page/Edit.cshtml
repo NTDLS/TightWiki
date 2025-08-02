@@ -59,14 +59,71 @@
 
 <script>
     const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
+    var editor;
 
-    function readyFn(jQuery) {
-        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
+    function surroundSelectionWith(open, close) {
+        const doc = editor.getDoc();
+        const selection = doc.getSelection();
+
+        doc.replaceSelection(`${open}${selection}${close}`);
+
+        if (!selection) return;
+
+        // Reselect the new text.
+        const cursor = doc.getCursor();
+        doc.setSelection(
+            { line: cursor.line, ch: cursor.ch - (selection.length + 4) },
+            { line: cursor.line, ch: cursor.ch }
+        );
     }
 
-    $(document).ready(readyFn);
+    function insertBullets() {
+        const doc = editor.getDoc();
+        const selection = doc.getSelection();
+
+        doc.replaceSelection('{{Bullets\r\nBullet1\r\nBullet2\r\n>SubBullet1\r\n}}\r\n');
+        editor.focus();
+    }
+
+    function insertCallout() {
+        const doc = editor.getDoc();
+        const selection = doc.getSelection();
+        doc.replaceSelection('{{Callout(Default, "Callout Title")\r\nNote: Callout style can be: default, primary, secondary, success, info, warning, or danger.\r\nYour callout text\r\n}}\r\n');
+        editor.focus();
+    }
+
+    function insertCard() {
+        const doc = editor.getDoc();
+        const selection = doc.getSelection();
+        doc.replaceSelection('{{Card(Default, "Card Title")\r\nNote: Card style can be: default, primary, secondary, light, dark, success, info, warning, danger.\r\nYour callout text\r\n}}\r\n');
+        editor.focus();
+    }
+
+    function insertCollapse() {
+        const doc = editor.getDoc();
+        const selection = doc.getSelection();
+        doc.replaceSelection('{{Collapse(Show text example)\r\nThis is the content that was hidden.\r\nThis is the content that was hidden.\r\nThis is the content that was hidden.\r\n}}\r\n');
+        editor.focus();
+    }
+    
 
     document.addEventListener("DOMContentLoaded", function () {
+
+        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
+
+        editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
+            theme: "@sessionState.UserTheme.EditorTheme",
+            lineNumbers: true,
+            mode: "text/x-tightwiki",
+            matchBrackets: true,
+            viewportMargin: Infinity,
+            lineWrapping: true,
+            scrollbarStyle: "simple",
+            inputStyle: "contenteditable", // Enables browser's native spellcheck
+            spellcheck: true,              // Explicitly enables spellcheck
+            autocorrect: true              // Enables autocorrect
+        });
+
         var templatesModal = new bootstrap.Modal('#templatesModal');
 
         if (editMode) {
@@ -154,8 +211,6 @@
         setInterval(ping, 60000);
     });
 
-
-
     function ping() {
         const spans = document.querySelectorAll('.badge.text-bg-danger');
         fetch('@Url.Action("Ping", "Page")?r=' + Math.random(), { method: 'GET' })
@@ -215,29 +270,23 @@
                 <br />
                 @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Description)</div>
-                <br />
-
-                <strong>@Html.LabelFor(x => x.Body)</strong>
 
                 <br />
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
+
+                <!-- Toolbar -->
+                <div class="d-flex gap-2 mb-2">
+                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('**','**')">Bold</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('//','//')">Italic</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('~~','~~')">Strike</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('!!','!!')">Highlight</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="insertBullets()">Bullets</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="insertCard()">Card</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="insertCallout()">Callout</button>
+                    <button type="button" class="btn btn-sm btn-primary" onclick="insertCollapse()">Collapse</button>
+                </div>
+
                 <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
-                <script>
-                    var editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
-                        theme: "@sessionState.UserTheme.EditorTheme",
-                        lineNumbers: true,
-                        mode: "text/x-tightwiki",
-                        matchBrackets: true,
-                        viewportMargin: Infinity,
-                        lineWrapping: true,
-                        scrollbarStyle: "simple",
-                        inputStyle: "contenteditable", // Enables browser's native spellcheck
-                        spellcheck: true,              // Explicitly enables spellcheck
-                        autocorrect: true              // Enables autocorrect
-                    });
-
-                </script>
-
                 <br />
 
                 <div class="form-group">
@@ -273,9 +322,6 @@
         </div>
     </div>
 </div>
-
-
-
 
 <div class="modal" tabindex="-1" id="templatesModal" aria-labelledby="templatesModalLabel" aria-hidden="true">
     <div class="modal-dialog">
