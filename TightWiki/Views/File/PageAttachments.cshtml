@@ -18,7 +18,14 @@
 
     @foreach (var file in sessionState.UserTheme.Files)
     {
-        <link rel="stylesheet" href="@Url.Content($"~{file}")" />
+        if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+        {
+            <link rel="stylesheet" href="@file" />
+        }
+        else
+        {
+            <link rel="stylesheet" href="@Url.Content($"~{file}")" />
+        }
     }
 
     <link id="themeStylesheet" rel="stylesheet" href="" />
