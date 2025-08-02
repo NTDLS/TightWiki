@@ -67,7 +67,11 @@
 
         doc.replaceSelection(`${open}${selection}${close}`);
 
-        if (!selection) return;
+        if (!selection)
+        {
+            editor.focus();
+            return;
+        }
 
         // Reselect the new text.
         const cursor = doc.getCursor();
@@ -75,6 +79,7 @@
             { line: cursor.line, ch: cursor.ch - (selection.length + 4) },
             { line: cursor.line, ch: cursor.ch }
         );
+        editor.focus();
     }
 
     function insertBullets() {

@@ -179,8 +179,10 @@
     <EmbeddedResource Include="Scripts\Initialization\SetVersionStateVersion.sql" />
     <EmbeddedResource Include="Scripts\Initialization\GetVersionStateVersion.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.21.7\^000^Config^CookieConfig.sql" />
-    <EmbeddedResource Include="Scripts\Initialization\Versions\2.22.0\^000^Config^AddOIDC.sql" />
-    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^000^Theme^CDNs.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.22.0\^000^Config^AddOIDC.data.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^002^Pages^FeatureTemplate.data.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^001^Pages^FeatureTemplate.schema.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^000^Config^CDNs.data.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^000^Config^UpsertConfiguration.sql" />
     <EmbeddedResource Include="Scripts\VacuumDatabase.sql" />
     <EmbeddedResource Include="Scripts\OptimizeDatabase.sql" />
