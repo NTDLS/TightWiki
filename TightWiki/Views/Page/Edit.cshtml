@@ -6,16 +6,16 @@
   var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<link rel="stylesheet" href=@Url.Content("~/codemirror/codemirror.css")>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href=@Url.Content("~/codemirror/theme/light.css")>
 <link rel="stylesheet" href=@Url.Content("~/codemirror/theme/dark.css")>
 
-<link rel="stylesheet" href=@Url.Content("~/codemirror/addon/scroll/simplescrollbars.css")>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<script src="@Url.Content("~/codemirror/codemirror.js")"></script>
-<script src="@Url.Content("~/codemirror/addon/edit/matchbrackets.js")"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="@Url.Content("~/codemirror/mode/tightwiki/tightwiki.js")"></script>
-<script src="@Url.Content("~/codemirror/addon/scroll/simplescrollbars.js")"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <style type="text/css">
     .CodeMirror {
