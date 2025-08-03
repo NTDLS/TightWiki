@@ -68,15 +68,13 @@
     <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
         $(document).ready(function () {
-        localStorage.setItem('theme', 'dark');
+        localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
         $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
         $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
         $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
         $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
         });
     </script>
-
-    @RenderSection("Scripts", required: false)
 </head>
 
 <body>

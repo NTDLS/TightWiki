@@ -280,16 +280,56 @@
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
 
                 <!-- Toolbar -->
-                <div class="d-flex gap-2 mb-2">
-                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('**','**')">Bold</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('//','//')">Italic</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('~~','~~')">Strike</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="surroundSelectionWith('!!','!!')">Highlight</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="insertBullets()">Bullets</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="insertCard()">Card</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="insertCallout()">Callout</button>
-                    <button type="button" class="btn btn-sm btn-primary" onclick="insertCollapse()">Collapse</button>
-                </div>
+                @if (@sessionState.UserTheme.EditorTheme == "dark")
+                {
+                    <div class="d-flex gap-2 mb-2">
+                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('**','**')">
+                            <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="Bold">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('//','//')">
+                            <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="Italic">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('__','__')">
+                            <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="Underline">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('~~','~~')">
+                            <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="Strike">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('!!','!!')">
+                            <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="Highlight">
+                        </button>
+
+                        <div style="width:1px; height:24px; background-color:#ccc;"></div>
+                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" onclick="insertList()">
+                            Insert <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="Insert...">
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex gap-2 mb-2">
+                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('**','**')">
+                            <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="Bold">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('//','//')">
+                            <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="Italic">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('__','__')">
+                            <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="Underline">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('~~','~~')">
+                            <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="Strike">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('!!','!!')">
+                            <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="Highlight">
+                        </button>
+
+                        <div style="width:1px; height:24px; background-color:#222;"></div>
+                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" onclick="insertList()">
+                            Insert <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="Insert...">
+                        </button>
+                    </div>
+                }
 
                 <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
                 <br />
