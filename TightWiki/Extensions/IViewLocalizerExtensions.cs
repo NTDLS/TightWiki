@@ -9,7 +9,7 @@ namespace TightWiki.Extensions
         {
             return new HtmlContentBuilder().AppendHtml(String.Format(viewLocalizer[key].Value, objs));
         }
-        
+
 
         public static string Value(this LocalizedHtmlString localizedHtmlString, params object[] objs)
         {

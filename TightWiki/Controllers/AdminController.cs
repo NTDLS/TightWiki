@@ -91,7 +91,7 @@ namespace TightWiki.Controllers
                         case "Vacuum":
                             {
                                 var resultText = SpannedRepository.OptimizeDatabase(database);
-                                return NotifyOfSuccess(Localize("Vacuum complete. {0}",resultText), model.YesRedirectURL);
+                                return NotifyOfSuccess(Localize("Vacuum complete. {0}", resultText), model.YesRedirectURL);
                             }
                         case "Verify":
                             {

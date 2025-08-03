@@ -244,18 +244,18 @@ namespace TightWiki.Controllers
         #endregion
 
         #region Localization
-        
+
         [AllowAnonymous]
         [HttpGet("Page/Localization")]
         public ActionResult Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
         {
-            var referer = Request.Headers["Referer"].ToString();
-            ViewBag.ReturnUrl = String.IsNullOrEmpty(referer) ? "" : referer;
+            var referrer = Request.Headers.Referer.ToString();
+            ViewBag.ReturnUrl = String.IsNullOrEmpty(referrer) ? "" : referrer;
 
-            var langs = localizationOptions.Value.SupportedUICultures.EnsureNotNull()
+            var languages = localizationOptions.Value.SupportedUICultures.EnsureNotNull()
                 .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
 
-            return View(new PageLocalizationViewModel { Languages = langs });
+            return View(new PageLocalizationViewModel { Languages = languages });
         }
 
 
@@ -923,7 +923,6 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireViewPermission();
 
-            var model = new PageDisplayViewModel();
             var navigation = new NamespaceNavigation(givenCanonical);
 
             var page = PageRepository.GetPageRevisionByNavigation(navigation.Canonical);

@@ -22,7 +22,7 @@ namespace TightWiki.Controllers
         {
             SessionState.RequireViewPermission();
 
-            SessionState.Page.Name = localizer["Tags"].Value;
+            SessionState.Page.Name = Localize("Tags");
 
             navigation = NamespaceNavigation.CleanAndValidate(navigation);
 

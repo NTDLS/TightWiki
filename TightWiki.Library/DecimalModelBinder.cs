@@ -10,8 +10,7 @@ namespace TightWiki.Library
     {
         public IModelBinder? GetBinder(ModelBinderProviderContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            ArgumentNullException.ThrowIfNull(context);
 
             if (!context.Metadata.IsComplexType && (context.Metadata.ModelType == typeof(decimal) || context.Metadata.ModelType == typeof(decimal?)))
             {
@@ -23,23 +22,17 @@ namespace TightWiki.Library
         }
     }
 
-    public class InvariantDecimalModelBinder : IModelBinder
+    public class InvariantDecimalModelBinder(Type modelType, ILoggerFactory loggerFactory) : IModelBinder
     {
-        readonly SimpleTypeModelBinder _baseBinder;
-
-        public InvariantDecimalModelBinder(Type modelType, ILoggerFactory loggerFactory)
-        {
-            _baseBinder = new SimpleTypeModelBinder(modelType, loggerFactory);
-        }
+        readonly SimpleTypeModelBinder _baseBinder = new SimpleTypeModelBinder(modelType, loggerFactory);
 
         public Task BindModelAsync(ModelBindingContext context)
         {
-            if (context == null)
-                throw new ArgumentNullException(nameof(context));
+            ArgumentNullException.ThrowIfNull(context);
 
             var valueProviderResult = context.ValueProvider.GetValue(context.ModelName);
 
-            if ( valueProviderResult != ValueProviderResult.None)
+            if (valueProviderResult != ValueProviderResult.None)
             {
                 context.ModelState.SetModelValue(context.ModelName, valueProviderResult);
 
