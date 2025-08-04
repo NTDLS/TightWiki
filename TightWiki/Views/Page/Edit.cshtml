@@ -128,9 +128,43 @@
                 data: featureInsertModalTableData,
                 layout: "fitDataStretch",
                 columns: [
-                    { title: "Name", field: "name" },
-                    { title: "Type", field: "type" },
-                    { title: "Description", field: "description" },
+                        {
+                            title: "Insert",
+                            headerSort: false,
+                            hozAlign: "center",
+                            formatter: () => '<a class="btn btn-success btn-thin">@Localizer["Insert"]</a>',
+                            cellClick: (e, cell) => {
+                                const row = cell.getRow().getData();
+                                const modalElement = document.getElementById('featureInsertModal');
+                                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                                const value = cell.getRow().getData().templateText;
+
+                                const doc = editor.getDoc();
+                                const selection = doc.getSelection();
+
+                                doc.replaceSelection(value);
+                                editor.focus();
+
+
+                                modal.hide();
+                            }
+                        },
+                        {
+                            title: "Name",
+                            field: "name",
+                            formatter: function (cell) {
+                              const data = cell.getRow().getData();
+                              const label = cell.getValue() ?? "";
+                              const url = data.helpPageNavigation;
+                              if (!url) return label;
+                              return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+                            }
+                        },
+                        { title: "Type", field: "type" },
+                        { title: "Description", field: "description" },
+                        { title: "TemplateText", field: "templateText", visible: false },
+                        { title: "HelpPageNavigation", field: "helpPageNavigation", visible: false },
+
                     ],
                 });
 
@@ -372,7 +406,7 @@
 
                         <div style="width:1px; height:24px; background-color:#222;"></div>
 
-                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
+                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
                             @Localizer["Insert"] <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
                         </button>
                     </div>
