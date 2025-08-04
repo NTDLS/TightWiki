@@ -12,8 +12,8 @@ md Publish\TightWiki.Linux.x64\data
 dotnet publish .\TightWiki -c Release -o publish\TightWiki.Windows.x64\Site --runtime win-x64 --self-contained false
 dotnet publish .\TightWiki -c Release -o publish\TightWiki.Linux.x64\Site --runtime linux-x64 --self-contained false
 
-Copy .\Data\*.* Publish\TightWiki.Windows.x64\data
-Copy .\Data\*.* Publish\TightWiki.Linux.x64\data
+copy .\Data\*.* Publish\TightWiki.Windows.x64\data
+copy .\Data\*.* Publish\TightWiki.Linux.x64\data
 
 7z.exe a -tzip -r -mx9 ".\Publish\TightWiki.Windows.x64.zip" ".\Publish\TightWiki.Windows.x64\*.*"
 7z.exe a -tzip -r -mx9 ".\Publish\TightWiki.Linux.x64.zip" ".\Publish\TightWiki.Linux.x64\*.*"

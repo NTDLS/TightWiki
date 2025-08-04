@@ -1,33 +1,3 @@
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 1, 'Basic', 'Basic wiki settings such as formatting.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'Basic wiki settings such as formatting.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 2, 'Search', 'Configuration related to searching and indexing.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'Configuration related to searching and indexing.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 3, 'Functionality', 'General wiki functionality.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'General wiki functionality.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 4, 'Membership', 'Membership settings such as defaults for new members and permissions.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'Membership settings such as defaults for new members and permissions.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 5, 'Email', 'EMail and SMTP setting.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'EMail and SMTP setting.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 6, 'HTML Layout', 'HTML layout.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'HTML layout.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 7, 'Performance', 'Performance related settings.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'Performance related settings.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 8, 'Customization', 'Look & Feel customizations.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'Look & Feel customizations.';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 9, 'External Authentication', 'External Authentication Providers'
-ON CONFLICT(Name) DO UPDATE SET Description = 'External Authentication Providers';
-INSERT INTO ConfigurationGroup(Id, Name, Description)
-SELECT 10, 'Files and Attachments', 'File and Attachment settings.'
-ON CONFLICT(Name) DO UPDATE SET Description = 'File and Attachment settings.';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 1, 1, 'Name', 'TightWiki', 2, 'The name of the wiki, this is displayed everywhere.', 0, 1
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Name', DataTypeId = 2, Description = 'The name of the wiki, this is displayed everywhere.', IsEncrypted = '0', IsRequired = '1';
@@ -35,7 +5,7 @@ INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId
 SELECT 3, 8, 'FooterBlurb', 'TightWiki is an aspnet core MVC Wiki built on top of SQLite.', 5, 'The footer of the wiki, this is shown at the bottom of all pages.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'FooterBlurb', DataTypeId = 5, Description = 'The footer of the wiki, this is shown at the bottom of all pages.', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
-SELECT 4, 1, 'Copyright', 'Copyright &copy; NetworkDLS 2025', 2, 'The copyright of the wiki, this is shown at the bottom of all pages.', 0, 0
+SELECT 4, 1, 'Copyright', 'Copyright &copy; NetworkDLS 2024', 2, 'The copyright of the wiki, this is shown at the bottom of all pages.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Copyright', DataTypeId = 2, Description = 'The copyright of the wiki, this is shown at the bottom of all pages.', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 5, 8, 'New Page Template', 'Builtin :: Wiki Default Page', 2, 'the name of the wiki page to use as the default content when new wiki pages are created.', 0, 1
@@ -44,7 +14,7 @@ INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId
 SELECT 7, 2, 'Word Exclusions', 'do,of,it,i,is,or,and,but,of,the,a,for,also,be,it,as,that,this,it,to,on,are,if,in', 2, 'When building a search index, these words will be excluded from indexing. (Comma separated)', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Word Exclusions', DataTypeId = 2, Description = 'When building a search index, these words will be excluded from indexing. (Comma separated)', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
-SELECT 8, 8, 'Brand Image (Small)', '/images/TightWiki Icon 32.png', 2, 'The brand image of the wiki, this is displayed on the top of all wiki pages.', 0, 1
+SELECT 8, 8, 'Brand Image (Small)', '~/images/TightWiki Icon 32.png', 2, 'The brand image of the wiki, this is displayed on the top of all wiki pages.', 0, 1
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Brand Image (Small)', DataTypeId = 2, Description = 'The brand image of the wiki, this is displayed on the top of all wiki pages.', IsEncrypted = '0', IsRequired = '1';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 9, 4, 'Allow Signup', '1', 3, 'If set, users will be allowed to sing up and create their own account. Default: Enabled.', 0, 1
@@ -95,13 +65,7 @@ INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId
 SELECT 30, 8, 'Pagination Size', '20', 1, 'The number of items to return when pagination is used. Default: 20.', 0, 1
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Pagination Size', DataTypeId = 1, Description = 'The number of items to return when pagination is used. Default: 20.', IsEncrypted = '0', IsRequired = '1';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
-SELECT 33, 6, 'Header', '<script async src="https://www.googletagmanager.com/gtag/js?id=G-NQDCWX9F8R"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag(''js'', new Date());
-  gtag(''config'', ''G-NQDCWX9F8R'');
-</script>', 5, 'HTML placed into the header section of the HTML. A useful place to put scripts and CSS.', 0, 0
+SELECT 33, 6, 'Header', '', 5, 'HTML placed into the header section of the HTML. A useful place to put scripts and CSS.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Header', DataTypeId = 5, Description = 'HTML placed into the header section of the HTML. A useful place to put scripts and CSS.', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 34, 6, 'Footer', '', 5, 'HTML placed into the footer section of the page.', 0, 0
@@ -113,7 +77,7 @@ INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId
 SELECT 36, 6, 'Post-Body', '', 5, 'HTML placed inside the body tag but directly after the other body content.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Post-Body', DataTypeId = 5, Description = 'HTML placed inside the body tag but directly after the other body content.', IsEncrypted = '0', IsRequired = '0';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
-SELECT 38, 1, 'Address', 'https://localhost:44349', 2, 'the address of your wiki.', 0, 1
+SELECT 38, 1, 'Address', 'https://localhost:7053', 2, 'the address of your wiki.', 0, 1
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Address', DataTypeId = 2, Description = 'the address of your wiki.', IsEncrypted = '0', IsRequired = '1';
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 39, 5, 'Use SSL', '1', 3, 'Whether SMTP should connect using SSL or not.', 0, 1
@@ -211,7 +175,7 @@ SELECT 67, 4, 'Template: Account Verification Email', '<!DOCTYPE html PUBLIC "-/
         <tbody>
             <tr>
                 <td style="padding: 9px; color: #000000; background: #fbfaf8;">
-                    <img src="##SITEADDRESS##/File/Image/TightWiki_Media/TightWiki_Icon_128_png" alt="##SITENAME##" />
+                    <img src="##SITEADDRESS##/File/Image/builtin::media/TightWiki_Icon_128_png" alt="##SITENAME##" />
                 </td>
             </tr>
             <tr style="padding: 18px;">
@@ -262,7 +226,7 @@ SELECT 68, 4, 'Template: Reset Password Email', '<!DOCTYPE html PUBLIC "-//W3C//
         <tbody>
             <tr>
                 <td style="padding: 9px; color: #000000; background: #fbfaf8;">
-                    <img src="##SITEADDRESS##/File/Image/TightWiki_Media/TightWiki_Icon_128_png" alt="##SITENAME##" />
+                    <img src="##SITEADDRESS##/File/Image/builtin::media/TightWiki_Icon_128_png" alt="##SITENAME##" />
                 </td>
             </tr>
             <tr style="padding: 18px;">
@@ -303,3 +267,21 @@ ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Pre-Load Animated 
 INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT 75, 3, 'Enable Public Profiles', '1', 3, 'Whether visitors can view members and their public profiles.', 0, 1
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Enable Public Profiles', DataTypeId = 3, Description = 'Whether visitors can view members and their public profiles.', IsEncrypted = '0', IsRequired = '1';
+INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT 78, 12, 'Persist Keys Path', '', 2, 'Filesystem location where persistent cookies are stored for saved session logins.', 0, 0
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Persist Keys Path', DataTypeId = 2, Description = 'Filesystem location where persistent cookies are stored for saved session logins.', IsEncrypted = '0', IsRequired = '0';
+INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT 79, 12, 'Expiraion Hours', '360', 1, 'Number of hours before cookies expire.', 0, 1
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Expiraion Hours', DataTypeId = 1, Description = 'Number of hours before cookies expire.', IsEncrypted = '0', IsRequired = '1';
+INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT 80, 9, 'OIDC : Use OIDC Authentication', '0', 3, 'Whether or not OpenID Connect is enabled.', 0, 0
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'OIDC : Use OIDC Authentication', DataTypeId = 3, Description = 'Whether or not OpenID Connect is enabled.', IsEncrypted = '0', IsRequired = '0';
+INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT 81, 9, 'OIDC : Authority', '', 2, '', 0, 0
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'OIDC : Authority', DataTypeId = 2, Description = '', IsEncrypted = '0', IsRequired = '0';
+INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT 82, 9, 'OIDC : ClientId', '', 2, '', 0, 0
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'OIDC : ClientId', DataTypeId = 2, Description = '', IsEncrypted = '0', IsRequired = '0';
+INSERT INTO ConfigurationEntry(Id, ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT 83, 9, 'OIDC : ClientSecret', '', 2, '', 0, 0
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'OIDC : ClientSecret', DataTypeId = 2, Description = '', IsEncrypted = '0', IsRequired = '0';
