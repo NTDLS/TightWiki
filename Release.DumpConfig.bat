@@ -9,6 +9,6 @@ dotnet publish .\DumpConfiguration -c Release -o publish\DumpConfiguration --run
 
 del .\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999\*.* /q
 
-publish\DumpConfiguration\DumpConfiguration.exe ".\Data\config.db" ".\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999"
+publish\DumpConfiguration\DumpConfiguration.exe ".\Data" ".\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999"
 
 pause

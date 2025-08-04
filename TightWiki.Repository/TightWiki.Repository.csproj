@@ -121,6 +121,8 @@
     <None Remove="Scripts\Initialization\Versions\999.999.999\^000^Config^UpsertConfigurationGroup.sql" />
     <None Remove="Scripts\Initialization\Versions\999.999.999\^001^Config^UpsertConfigurationEntry.sql" />
     <None Remove="Scripts\Initialization\Versions\999.999.999\^002^Config^UpsertTheme.sql" />
+    <None Remove="Scripts\Initialization\Versions\999.999.999\^003^Pages^FeatureTemplate.sql" />
+    <None Remove="Scripts\Initialization\Versions\999.999.999\^003^Pages^UpsertTheme.sql" />
     <None Remove="Scripts\InsertCompilationStatistics.sql" />
     <None Remove="Scripts\InsertEmoji.sql" />
     <None Remove="Scripts\InsertException.sql" />
@@ -184,12 +186,11 @@
     <EmbeddedResource Include="Scripts\Initialization\GetVersionStateVersion.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.21.7\^000^Config^CookieConfig.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.22.0\^000^Config^AddOIDC.data.sql" />
-    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^002^Pages^FeatureTemplate.data.sql" />
-    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^001^Pages^FeatureTemplate.schema.sql" />
-    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^000^Config^CDNs.data.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.0\^001^Pages^FeatureTemplate.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^000^Config^UpsertConfigurationGroup.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^001^Config^UpsertConfigurationEntry.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^002^Config^UpsertTheme.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^003^Pages^FeatureTemplate.sql" />
     <EmbeddedResource Include="Scripts\VacuumDatabase.sql" />
     <EmbeddedResource Include="Scripts\OptimizeDatabase.sql" />
     <EmbeddedResource Include="Scripts\IntegrityCheckDatabase.sql" />
