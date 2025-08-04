@@ -165,6 +165,9 @@
   <data name="View" xml:space="preserve">
     <value>Zobrazit</value>
   </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
   <data name="Highlight" xml:space="preserve">
     <value>Zvýraznění</value>
   </data>

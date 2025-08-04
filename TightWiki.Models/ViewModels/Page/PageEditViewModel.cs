@@ -12,5 +12,6 @@ namespace TightWiki.Models.ViewModels.Page
         public string? Description { get; set; } = string.Empty;
         public string? Body { get; set; } = string.Empty;
         public List<DataModels.Page> Templates { get; set; } = new();
+        public List<DataModels.FeatureTemplate> FeatureTemplates { get; set; } = new();
     }
 }

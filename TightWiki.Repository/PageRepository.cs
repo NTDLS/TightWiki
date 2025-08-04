@@ -583,6 +583,17 @@ namespace TightWiki.Repository
         public static List<Page> GetAllTemplatePages()
             => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql").ToList();
 
+        public static List<FeatureTemplate> GetAllFeatureTemplates()
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page);
+            if (!WikiCache.TryGet<List<FeatureTemplate>>(cacheKey, out var result))
+            {
+                result = ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList();
+                WikiCache.Put(cacheKey, result);
+            }
+            return result;
+        }
+
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
             ManagedDataStorage.Pages.Ephemeral(o =>

@@ -2,8 +2,8 @@
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
-  Layout = "/Views/Shared/_Layout.cshtml";
-  var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -11,11 +11,14 @@
 <link rel="stylesheet" href=@Url.Content("~/codemirror/theme/dark.css")>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="@Url.Content("~/codemirror/mode/tightwiki/tightwiki.js")"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/js/tabulator.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <style type="text/css">
     .CodeMirror {
@@ -112,6 +115,37 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+
+         document.getElementById('featureInsertModal')
+            .addEventListener('shown.bs.modal', function () {
+
+                const featureInsertModalTableElement = document.getElementById('featureInsertModalTable');
+                const featureInsertModalTableData = @Json.Serialize(Model?.FeatureTemplates);
+
+                featureInsertModalTable = new Tabulator(featureInsertModalTableElement, {
+                theme: '@(sessionState.UserTheme.EditorTheme == "dark" ? "midnight" : "default")',
+                  height: "311px",
+                data: featureInsertModalTableData,
+                layout: "fitDataStretch",
+                columns: [
+                    { title: "Name", field: "name" },
+                    { title: "Type", field: "type" },
+                    { title: "Description", field: "description" },
+                    ],
+                });
+
+            document.getElementById("featureInsertModalSearch").addEventListener("keyup", function () {
+                const searchTerm = this.value;
+                featureInsertModalTable.setFilter([
+                    [
+                        {field: "name", type: "like", value: searchTerm},
+                        {field: "type", type: "like", value: searchTerm},
+                        {field: "description", type: "like", value: searchTerm},
+                    ]
+                ]);
+            });
+        });
+
         $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
 
         editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
@@ -392,18 +426,16 @@
             @if (Model?.Templates.Any() ?? false)
             {
                 <div class="list-group list-group-flush">
-
-                @foreach (var template in Model.Templates)
-                {
-                    <a href="#" data-tmpurl="@GlobalConfiguration.BasePath/Page/Template/@template.Id" class="list-group-item list-group-item-action js_use-template" aria-current="true">
-                      <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">@template.Title</h5>
-                        <small>@template.CreatedByUserName</small>
-                      </div>
-                      <p class="mb-1">@template.Description</p>
-                    </a>
-                }
-
+                    @foreach (var template in Model.Templates)
+                    {
+                        <a href="#" data-tmpurl="@GlobalConfiguration.BasePath/Page/Template/@template.Id" class="list-group-item list-group-item-action js_use-template" aria-current="true">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">@template.Title</h5>
+                                <small>@template.CreatedByUserName</small>
+                            </div>
+                            <p class="mb-1">@template.Description</p>
+                        </a>
+                    }
                 </div>
             }
 
@@ -417,32 +449,27 @@
     </div>
 </div>
 
-
 <div class="modal" tabindex="-1" id="featureInsertModal" aria-labelledby="featureInsertModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="featureInsertModalLabel">@Localizer["Insert"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
             </div>
 
-            @if (Model?.Templates.Any() ?? false)
-            {
-                <div class="list-group list-group-flush">
-
-                    @foreach (var template in Model.Templates)
-                    {
-                        <a href="#" data-tmpurl="@GlobalConfiguration.BasePath/Page/Template/@template.Id" class="list-group-item list-group-item-action js_use-featureInsert" aria-current="true">
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">@template.Title</h5>
-                                <small>@template.CreatedByUserName</small>
-                            </div>
-                            <p class="mb-1">@template.Description</p>
-                        </a>
-                    }
-
+            <div class="modal-body p-0">
+                @* Search *@
+                <div class="p-3 border-bottom position-sticky top-0" style="z-index:1">
+                    <div class="input-group input-group-sm">
+                        <span class="input-group-text" id="featureInsertSearchLabel">🔎</span>
+                        <input id="featureInsertModalSearch" type="text" class="form-control" placeholder="@Localizer["Search"]..." aria-labelledby="featureInsertSearchLabel">
+                    </div>
                 </div>
-            }
+                @* Table *@
+                <div class="p-3">
+                    <div id="featureInsertModalTable"></div>
+                </div>
+            </div>
 
             <div class="modal-footer">
                 <div class="container-fluid">

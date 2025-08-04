@@ -592,6 +592,8 @@ namespace TightWiki.Controllers
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
+            var featureTemplates = PageRepository.GetAllFeatureTemplates();
+
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
             if (page != null)
             {
@@ -609,7 +611,8 @@ namespace TightWiki.Controllers
                     Body = page.Body,
                     Name = page.Name,
                     Navigation = NamespaceNavigation.CleanAndValidate(page.Navigation),
-                    Description = page.Description
+                    Description = page.Description,
+                    FeatureTemplates = featureTemplates
                 });
             }
             else
@@ -632,7 +635,8 @@ namespace TightWiki.Controllers
                     Body = templatePage.Body,
                     Name = pageName?.Replace('_', ' ') ?? string.Empty,
                     Navigation = NamespaceNavigation.CleanAndValidate(pageNavigation),
-                    Templates = templates
+                    Templates = templates,
+                    FeatureTemplates = featureTemplates
                 });
             }
         }
@@ -649,6 +653,8 @@ namespace TightWiki.Controllers
             {
                 return View(model);
             }
+
+            model.FeatureTemplates = PageRepository.GetAllFeatureTemplates();
 
             if (model.Id == 0) //Saving a new page.
             {
