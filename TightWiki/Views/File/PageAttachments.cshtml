@@ -10,12 +10,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <style>
-        .list-group-item:nth-child(odd) {
-            background-color: #f8f9fa;
-        }
-    </style>
-
+    <!-- Theme:Begin -->
     @foreach (var file in sessionState.UserTheme.Files)
     {
         if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
@@ -27,8 +22,10 @@
             <link rel="stylesheet" href="@Url.Content($"~{file}")" />
         }
     }
+    <!-- Theme:End-->
 
-    <link id="themeStylesheet" rel="stylesheet" href="" />
+    <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
+
     <script>
         $(document).ready(function () {
             localStorage.setItem('theme', 'dark');
@@ -66,7 +63,7 @@
                 var originalClass = element.className;
 
                 element.innerHTML = '<i class="bi bi-check-circle"></i> @(Localizer["Tag Copied"])';
-                element.className = 'btn btn-sm btn-success';
+                element.className = 'btn btn-thin btn-success';
 
                 setTimeout(function () {
                     element.innerHTML = originalText;
@@ -84,18 +81,17 @@
     @foreach (var x in Model.Files)
     {
         <div class="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-                <a href="@GlobalConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> (@x.FriendlySize)
+            <div class="ms-1 mb-1">
+                <a href="@GlobalConfiguration.BasePath/File/Binary/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.Name</a> <span class="file-meta">(@x.FriendlySize)</span>
                 <a href="@GlobalConfiguration.BasePath/File/Revisions/@x.PageNavigation/@x.FileNavigation" target="_blank">@x.FileRevision @Localizer["revisions"]</a>
-
             </div>
-            <div class="btn-group">
-                <button class="btn btn-sm btn-outline-primary" onclick="copyToClipboard('@x.Name', this); return false;">
+            <div class="d-inline-flex gap-1">
+                <button class="btn btn-thin btn-primary me-0" onclick="copyToClipboard('@x.Name', this); return false;">
                     <i class="bi bi-clipboard"></i>@Localizer["Copy Tag"]
-                </button>&nbsp;
+                </button>
                 @if (@sessionState.CanDelete == true)
                 {
-                    <a href="#detachLink" id="@x.FileNavigation" class="btn btn-sm btn-outline-danger">@Localizer["Detach"]</a>
+                    <button type="button"class="btn btn-thin btn-danger ms-0" data-file="@x.FileNavigation" onclick="detachFile(this.dataset.file)"> @Localizer["Detach"]</button>
                 }
             </div>
         </div>
