@@ -110,10 +110,8 @@
         doc.replaceSelection('{{Collapse(Show text example)\r\nThis is the content that was hidden.\r\nThis is the content that was hidden.\r\nThis is the content that was hidden.\r\n}}\r\n');
         editor.focus();
     }
-    
 
     document.addEventListener("DOMContentLoaded", function () {
-
         $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
 
         editor = CodeMirror.fromTextArea(document.getElementById("Body"), {
@@ -129,7 +127,20 @@
             autocorrect: true              // Enables autocorrect
         });
 
+        var featureInsertModal = new bootstrap.Modal('#featureInsertModal');
         var templatesModal = new bootstrap.Modal('#templatesModal');
+
+        $('#featureInsertModal .js_use-featureInsert').on('click', function(e) {
+            e.preventDefault();
+            $.ajax($(this).attr('data-tmpurl'), {
+                success: function(data) {
+                    editor.getDoc().setValue(data.body);
+                },
+                complete: function() {
+                    featureInsertModal.hide();
+                }
+            });
+        });
 
         if (editMode) {
             const dropSection = document.getElementById('dropSection');
@@ -284,24 +295,25 @@
                 {
                     <div class="d-flex gap-2 mb-2">
                         <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('**','**')">
-                            <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="Bold">
+                            <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('//','//')">
-                            <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="Italic">
+                            <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('__','__')">
-                            <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="Underline">
+                            <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('~~','~~')">
-                            <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="Strike">
+                            <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('!!','!!')">
-                            <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="Highlight">
+                            <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
                         </button>
 
                         <div style="width:1px; height:24px; background-color:#ccc;"></div>
-                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" onclick="insertList()">
-                            Insert <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="Insert...">
+
+                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
+                            @Localizer["Insert"] <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
                         </button>
                     </div>
                 }
@@ -309,24 +321,25 @@
                 {
                     <div class="d-flex gap-2 mb-2">
                         <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('**','**')">
-                            <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="Bold">
+                            <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('//','//')">
-                            <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="Italic">
+                            <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('__','__')">
-                            <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="Underline">
+                            <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('~~','~~')">
-                            <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="Strike">
+                            <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
                         </button>
                         <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('!!','!!')">
-                            <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="Highlight">
+                            <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
                         </button>
 
                         <div style="width:1px; height:24px; background-color:#222;"></div>
-                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" onclick="insertList()">
-                            Insert <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="Insert...">
+
+                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
+                            @Localizer["Insert"] <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
                         </button>
                     </div>
                 }
@@ -397,6 +410,43 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small">* - @Localizer["Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template."]</em>
+                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" id="featureInsertModal" aria-labelledby="featureInsertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="featureInsertModalLabel">@Localizer["Insert"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            @if (Model?.Templates.Any() ?? false)
+            {
+                <div class="list-group list-group-flush">
+
+                    @foreach (var template in Model.Templates)
+                    {
+                        <a href="#" data-tmpurl="@GlobalConfiguration.BasePath/Page/Template/@template.Id" class="list-group-item list-group-item-action js_use-featureInsert" aria-current="true">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">@template.Title</h5>
+                                <small>@template.CreatedByUserName</small>
+                            </div>
+                            <p class="mb-1">@template.Description</p>
+                        </a>
+                    }
+
+                </div>
+            }
+
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <em class="small"></em>
                     <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
                 </div>
             </div>

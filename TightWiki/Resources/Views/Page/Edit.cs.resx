@@ -165,4 +165,22 @@
   <data name="View" xml:space="preserve">
     <value>Zobrazit</value>
   </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>Zvýraznění</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Přeškrtnuté</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Podtržení</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Kurzíva</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Tučné</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Vložit</value>
+  </data>
 </root>
