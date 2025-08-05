@@ -185,7 +185,9 @@
     <EmbeddedResource Include="Scripts\GetPageNavigationByPageId.sql" />
     <EmbeddedResource Include="Scripts\Initialization\SetVersionStateVersion.sql" />
     <EmbeddedResource Include="Scripts\Initialization\GetVersionStateVersion.sql" />
-    <EmbeddedResource Include="Scripts\Initialization\Versions\2.23.1\^001^Pages^FeatureTemplate.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.21.7\^000^Config^CookieConfig.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.22.0\^000^Config^AddOIDC.data.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.24.0\^001^Pages^FeatureTemplate.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^000^Config^UpsertConfigurationGroup.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^001^Config^UpsertConfigurationEntry.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\999.999.999\^002^Config^UpsertTheme.sql" />
