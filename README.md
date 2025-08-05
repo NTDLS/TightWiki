@@ -53,7 +53,7 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 ![image](https://github.com/user-attachments/assets/3dba0f07-5758-4039-9b2c-0b7a354e76f3)
 
 # Example edit page
-![image](https://github.com/user-attachments/assets/10eb3281-dad9-41fe-ba11-55019515e343)
+![image](https://github.com/user-attachments/assets/2e1205d2-fcd5-42aa-aa1a-ef35c5e9ac0a)
 
 # Emojis Configuration 
 ![image](https://github.com/user-attachments/assets/3e78b853-d151-4ef4-ad7a-d4e68393643f)
