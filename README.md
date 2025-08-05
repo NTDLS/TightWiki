@@ -19,11 +19,14 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * MIT license, you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
 * Completely customizable and rebrandable including name, title, footer, copyright and all images.
+* Editor toolbar with markup, link insertion, feature search.
 * User signup can be disabled, enabled and can require users to verify email before logging in.
 * Multiple user roles are supported for admin, moderators, contributors and basic members.
 * Easy page linking. Can even link to pages that do not exist and the link will subtly prompt you to create the page when logged in with a role that has page creation support.
 * Admin shows missing pages, namespace metrics, users, roles, etc.
+* Multi-language, with more to come.
 * Manual account creation, editing and deletion.
+* Page creation templates - to assit in uniformity and rapid page creation.
 * All dates/times are stored in UTC and localized for logged in users.
 * Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
 * Page versioning. Revisions can be viewed by the original page URL with a /r/number route or by logging in a viewing the full page history.
