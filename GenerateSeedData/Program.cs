@@ -67,7 +67,7 @@ namespace GenerateSeedData
 
             #region FeatureTemplate.
             sb.Clear();
-            var featureTemplates = pagesDb.Query<FeatureTemplate>("SELECT FT.Name, FT.Type, P.Id as PageName, FT.Description, FT.TemplateText FROM FeatureTemplate as FT INNER JOIN Page as P ON P.Id = FT.PageId");
+            var featureTemplates = pagesDb.Query<FeatureTemplate>("SELECT FT.Name, FT.Type, P.Name as PageName, FT.Description, FT.TemplateText FROM FeatureTemplate as FT INNER JOIN Page as P ON P.Id = FT.PageId");
             Console.WriteLine("Generating: FeatureTemplate.");
             foreach (var t in featureTemplates)
             {
