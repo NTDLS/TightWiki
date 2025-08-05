@@ -1,4 +1,4 @@
-﻿namespace DumpConfiguration
+﻿namespace GenerateSeedData
 {
     public class Theme
     {

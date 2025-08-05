@@ -12,7 +12,11 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@if(sessionState.UserTheme.EditorTheme == "dark")
+{
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator_midnight.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/edit/matchbrackets.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -63,10 +67,18 @@
 <script>
     const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
     var editor;
+    var featureInsertModalTable;
+    var featureInsertModal;
+    var templatesModal;
 
     function surroundSelectionWith(open, close) {
         const doc = editor.getDoc();
-        const selection = doc.getSelection();
+        var selection = doc.getSelection();
+
+        if(selection == '')
+        {
+            selection = 'TEXT';
+        }
 
         doc.replaceSelection(`${open}${selection}${close}`);
 
@@ -76,7 +88,7 @@
             return;
         }
 
-        // Reselect the new text.
+        // Select the new text.
         const cursor = doc.getCursor();
         doc.setSelection(
             { line: cursor.line, ch: cursor.ch - (selection.length + 4) },
@@ -85,36 +97,10 @@
         editor.focus();
     }
 
-    function insertBullets() {
-        const doc = editor.getDoc();
-        const selection = doc.getSelection();
-
-        doc.replaceSelection('{{Bullets\r\nBullet1\r\nBullet2\r\n>SubBullet1\r\n}}\r\n');
-        editor.focus();
-    }
-
-    function insertCallout() {
-        const doc = editor.getDoc();
-        const selection = doc.getSelection();
-        doc.replaceSelection('{{Callout(Default, "Callout Title")\r\nNote: Callout style can be: default, primary, secondary, success, info, warning, or danger.\r\nYour callout text\r\n}}\r\n');
-        editor.focus();
-    }
-
-    function insertCard() {
-        const doc = editor.getDoc();
-        const selection = doc.getSelection();
-        doc.replaceSelection('{{Card(Default, "Card Title")\r\nNote: Card style can be: default, primary, secondary, light, dark, success, info, warning, danger.\r\nYour callout text\r\n}}\r\n');
-        editor.focus();
-    }
-
-    function insertCollapse() {
-        const doc = editor.getDoc();
-        const selection = doc.getSelection();
-        doc.replaceSelection('{{Collapse(Show text example)\r\nThis is the content that was hidden.\r\nThis is the content that was hidden.\r\nThis is the content that was hidden.\r\n}}\r\n');
-        editor.focus();
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
+
+        featureInsertModal = new bootstrap.Modal('#featureInsertModal');
+        templatesModal = new bootstrap.Modal('#templatesModal');
 
          document.getElementById('featureInsertModal')
             .addEventListener('shown.bs.modal', function () {
@@ -122,62 +108,78 @@
                 const featureInsertModalTableElement = document.getElementById('featureInsertModalTable');
                 const featureInsertModalTableData = @Json.Serialize(Model?.FeatureTemplates);
 
-                featureInsertModalTable = new Tabulator(featureInsertModalTableElement, {
-                theme: '@(sessionState.UserTheme.EditorTheme == "dark" ? "midnight" : "default")',
-                  height: "311px",
-                data: featureInsertModalTableData,
-                layout: "fitDataStretch",
-                columns: [
-                        {
-                            title: "Insert",
-                            headerSort: false,
-                            hozAlign: "center",
-                            formatter: () => '<a class="btn btn-success btn-thin">@Localizer["Insert"]</a>',
-                            cellClick: (e, cell) => {
-                                const row = cell.getRow().getData();
-                                const modalElement = document.getElementById('featureInsertModal');
-                                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
-                                const value = cell.getRow().getData().templateText;
+                if(!featureInsertModalTable)
+                {
+                    featureInsertModalTable = new Tabulator(featureInsertModalTableElement, {
+                    height: "300px",
+                    data: featureInsertModalTableData,
+                    layout: "fitDataStretch",
+                    columns: [
+                            {
+                                title: "Insert",
+                                headerSort: false,
+                                hozAlign: "center",
+                                formatter: () => '<a class="btn btn-success btn-thin">@Localizer["Insert"]</a>',
+                                cellClick: (e, cell) => {
+                                    const row = cell.getRow().getData();
+                                    const value = row.templateText.replace(/\r\n/g, "\n");
 
-                                const doc = editor.getDoc();
-                                const selection = doc.getSelection();
+                                    const doc = editor.getDoc();
 
-                                doc.replaceSelection(value);
-                                editor.focus();
+                                    // current selection (single range assumed)
+                                    const sel = doc.listSelections()[0];
+                                    const from = sel.from();
+                                    const to   = sel.to();
 
+                                    // replace and then select the inserted text
+                                    doc.replaceRange(value, from, to);
 
-                                modal.hide();
-                            }
-                        },
-                        {
-                            title: "Name",
-                            field: "name",
-                            formatter: function (cell) {
-                              const data = cell.getRow().getData();
-                              const label = cell.getValue() ?? "";
-                              const url = data.helpPageNavigation;
-                              if (!url) return label;
-                              return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
-                            }
-                        },
-                        { title: "Type", field: "type" },
-                        { title: "Description", field: "description" },
-                        { title: "TemplateText", field: "templateText", visible: false },
-                        { title: "HelpPageNavigation", field: "helpPageNavigation", visible: false },
+                                    const start = from;
+                                    const end = doc.posFromIndex(doc.indexFromPos(start) + value.length);
+                                    doc.setSelection(start, end);
 
-                    ],
+                                    featureInsertModal.hide();
+
+                                    editor.focus();
+                                }
+                            },
+                            {
+                                title: "Name",
+                                field: "name",
+                                formatter: function (cell) {
+                                  const data = cell.getRow().getData();
+                                  const label = cell.getValue() ?? "";
+                                  const url = data.helpPageNavigation;
+                                  if (!url) return label;
+                                  return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+                                }
+                            },
+                            { title: "Type", field: "type" },
+                            { title: "TemplateText", field: "templateText", visible: false },
+                            { title: "HelpPageNavigation", field: "helpPageNavigation", visible: false },
+                            { title: "Description", field: "description" }
+                        ],
+                    });
+
+                    //Auto size the last column to fit the content.
+                    featureInsertModalTable.on('renderComplete', () => featureInsertModalTable.getColumn("description")?.setWidth(true));
+                }
+                else
+                {
+                    //Redraw the table so the columns re-size correctly.
+                    requestAnimationFrame(() => featureInsertModalTable.redraw(true));
+                }
+
+                document.getElementById("featureInsertModalSearch").addEventListener("keyup", function () {
+                    const searchTerm = this.value;
+                    featureInsertModalTable.setFilter([
+                        [
+                            {field: "name", type: "like", value: searchTerm},
+                            {field: "type", type: "like", value: searchTerm},
+                            {field: "description", type: "like", value: searchTerm},
+                        ]
+                    ]);
                 });
-
-            document.getElementById("featureInsertModalSearch").addEventListener("keyup", function () {
-                const searchTerm = this.value;
-                featureInsertModalTable.setFilter([
-                    [
-                        {field: "name", type: "like", value: searchTerm},
-                        {field: "type", type: "like", value: searchTerm},
-                        {field: "description", type: "like", value: searchTerm},
-                    ]
-                ]);
-            });
         });
 
         $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
@@ -194,9 +196,6 @@
             spellcheck: true,              // Explicitly enables spellcheck
             autocorrect: true              // Enables autocorrect
         });
-
-        var featureInsertModal = new bootstrap.Modal('#featureInsertModal');
-        var templatesModal = new bootstrap.Modal('#templatesModal');
 
         $('#featureInsertModal .js_use-featureInsert').on('click', function(e) {
             e.preventDefault();

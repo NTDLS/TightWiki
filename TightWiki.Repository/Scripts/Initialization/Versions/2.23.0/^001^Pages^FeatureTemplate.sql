@@ -1,9 +1,9 @@
 ﻿CREATE TABLE "FeatureTemplate" (
-	"Name"	TEXT NOT NULL UNIQUE COLLATE NOCASE,
-	"Type"	TEXT NOT NULL COLLATE NOCASE,
+	"Name"	TEXT NOT NULL COLLATE NOCASE,
+	"Type"	TEXT COLLATE NOCASE,
 	"PageId"	INTEGER,
 	"Description"	TEXT,
 	"TemplateText"	TEXT,
-	PRIMARY KEY("Name"),
+	PRIMARY KEY("Name","Type"),
 	FOREIGN KEY("PageId") REFERENCES "Page"("Id")
 );

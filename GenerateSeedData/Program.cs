@@ -2,7 +2,7 @@
 using Microsoft.Data.Sqlite;
 using System.Text;
 
-namespace DumpConfiguration
+namespace GenerateSeedData
 {
     internal class Program
     {
@@ -10,7 +10,7 @@ namespace DumpConfiguration
         {
             if (args.Length != 2)
             {
-                Console.WriteLine("DumpConfiguration.exe <sqliteFilesPath> <outputPath>");
+                Console.WriteLine("GenerateSeedData.exe <sqliteFilesPath> <outputPath>");
                 return;
             }
 
@@ -73,7 +73,7 @@ namespace DumpConfiguration
             {
                 sb.AppendLine("INSERT INTO FeatureTemplate(Name, Type, PageId, Description, TemplateText)");
                 sb.AppendLine($"SELECT '{ESQ(t.Name)}', '{ESQ(t.Type)}', (SELECT Id FROM Page WHERE Name = '{ESQ(t.PageName)}' LIMIT 1), '{ESQ(t.Description)}', '{ESQ(t.TemplateText)}'");
-                sb.AppendLine($"ON CONFLICT(Name) DO UPDATE SET Type = '{ESQ(t.Type)}', Description = '{ESQ(t.Description)}', TemplateText = '{ESQ(t.TemplateText)}', PageId = (SELECT Id FROM Page WHERE Name = '{ESQ(t.PageName)}' LIMIT 1);");
+                sb.AppendLine($"ON CONFLICT(Name, Type) DO UPDATE SET Type = '{ESQ(t.Type)}', Description = '{ESQ(t.Description)}', TemplateText = '{ESQ(t.TemplateText)}', PageId = (SELECT Id FROM Page WHERE Name = '{ESQ(t.PageName)}' LIMIT 1);");
             }
             File.WriteAllText(@$"{outputPath}\^{index++:D3}^Pages^FeatureTemplate.sql", sb.ToString());
             #endregion

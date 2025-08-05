@@ -100,3 +100,7 @@ DumpConfiguration/bin/
 DumpConfiguration/obj/
 
 Publish/
+
+GenerateSeedData/bin/
+
+GenerateSeedData/obj/
