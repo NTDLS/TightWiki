@@ -8,7 +8,7 @@ md Publish
 
 dotnet publish .\GenerateSeedData -c Release -o publish\GenerateSeedData --runtime win-x64 --self-contained false
 
-del .\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999\*.* /q
+del .\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999\*.sql /q
 
 publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999"
 
