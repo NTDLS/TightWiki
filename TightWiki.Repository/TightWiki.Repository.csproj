@@ -177,6 +177,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\GetAllFeatureTemplates.sql" />
     <EmbeddedResource Include="Scripts\GetAllTemplatePages.sql" />
+    <EmbeddedResource Include="Scripts\PageAutoComplete.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.18.0\^000^Config^ConfigurationConstraints.sql" />
   </ItemGroup>
 

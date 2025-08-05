@@ -9,6 +9,9 @@ namespace TightWiki.Repository
 {
     public static class PageRepository
     {
+        public static IEnumerable<Page> AutoComplete(string? searchText)
+            => ManagedDataStorage.Pages.Query<Page>("PageAutoComplete.sql", new { SearchText = searchText ?? string.Empty });
+
         public static Page? GetPageRevisionInfoById(int pageId, int? revision = null)
         {
             var param = new

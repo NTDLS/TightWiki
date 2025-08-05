@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 @if(sessionState.UserTheme.EditorTheme == "dark")
 {
@@ -23,6 +24,7 @@
 <script src="@Url.Content("~/codemirror/mode/tightwiki/tightwiki.js")"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/js/tabulator.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <style type="text/css">
     .CodeMirror {
@@ -61,125 +63,244 @@
             border-color: #007bff;
             color: #007bff;
         }
-
 </style>
 
 <script>
     const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
     var editor;
     var featureInsertModalTable;
+    var insertLinkModal;
     var featureInsertModal;
     var templatesModal;
+    var select2Initialized = false;
 
     function surroundSelectionWith(open, close) {
         const doc = editor.getDoc();
         var selection = doc.getSelection();
 
-        if(selection == '')
-        {
+        if (selection == '') {
             selection = 'TEXT';
         }
 
         doc.replaceSelection(`${open}${selection}${close}`);
 
-        if (!selection)
-        {
+        if (!selection) {
             editor.focus();
             return;
         }
 
         // Select the new text.
         const cursor = doc.getCursor();
-        doc.setSelection(
-            { line: cursor.line, ch: cursor.ch - (selection.length + 4) },
-            { line: cursor.line, ch: cursor.ch }
-        );
+        doc.setSelection({
+            line: cursor.line,
+            ch: cursor.ch - (selection.length + 4)
+        }, {
+            line: cursor.line,
+            ch: cursor.ch
+        });
         editor.focus();
     }
 
     document.addEventListener("DOMContentLoaded", function () {
 
-        featureInsertModal = new bootstrap.Modal('#featureInsertModal');
-        templatesModal = new bootstrap.Modal('#templatesModal');
+    insertLinkModal = new bootstrap.Modal('#insertLinkModal');
+    featureInsertModal = new bootstrap.Modal('#featureInsertModal');
+    templatesModal = new bootstrap.Modal('#templatesModal');
 
-         document.getElementById('featureInsertModal')
-            .addEventListener('shown.bs.modal', function () {
-
-                const featureInsertModalTableElement = document.getElementById('featureInsertModalTable');
-                const featureInsertModalTableData = @Json.Serialize(Model?.FeatureTemplates);
-
-                if(!featureInsertModalTable)
-                {
-                    featureInsertModalTable = new Tabulator(featureInsertModalTableElement, {
-                    height: "300px",
-                    data: featureInsertModalTableData,
-                    layout: "fitDataStretch",
-                    columns: [
-                            {
-                                title: "Insert",
-                                headerSort: false,
-                                hozAlign: "center",
-                                formatter: () => '<a class="btn btn-success btn-thin">@Localizer["Insert"]</a>',
-                                cellClick: (e, cell) => {
-                                    const row = cell.getRow().getData();
-                                    const value = row.templateText.replace(/\r\n/g, "\n");
-
-                                    const doc = editor.getDoc();
-
-                                    // current selection (single range assumed)
-                                    const sel = doc.listSelections()[0];
-                                    const from = sel.from();
-                                    const to   = sel.to();
-
-                                    // replace and then select the inserted text
-                                    doc.replaceRange(value, from, to);
-
-                                    const start = from;
-                                    const end = doc.posFromIndex(doc.indexFromPos(start) + value.length);
-                                    doc.setSelection(start, end);
-
-                                    featureInsertModal.hide();
-
-                                    editor.focus();
-                                }
-                            },
-                            {
-                                title: "Name",
-                                field: "name",
-                                formatter: function (cell) {
-                                  const data = cell.getRow().getData();
-                                  const label = cell.getValue() ?? "";
-                                  const url = data.helpPageNavigation;
-                                  if (!url) return label;
-                                  return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
-                                }
-                            },
-                            { title: "Type", field: "type" },
-                            { title: "TemplateText", field: "templateText", visible: false },
-                            { title: "HelpPageNavigation", field: "helpPageNavigation", visible: false },
-                            { title: "Description", field: "description" }
-                        ],
-                    });
-
-                    //Auto size the last column to fit the content.
-                    featureInsertModalTable.on('renderComplete', () => featureInsertModalTable.getColumn("description")?.setWidth(true));
+    document.getElementById('insertLinkModal').addEventListener('shown.bs.modal', function() {
+        if (select2Initialized)
+        {
+            // Reset the defaults on the modal:
+            document.getElementById('insertLinkModalLinkTitle').value = '';
+            document.getElementById('linkModePage').checked = true;
+            document.getElementById('linkInternalDiv').style.display = 'block';
+            document.getElementById('linkExternalDiv').style.display = 'none';
+            document.getElementById('insertLinkModalLinkURL').value = '';
+            const $select = $('#insertLinkModalLinkPage');
+            $select.val(null).trigger('change');
+            return;
+        }
+        $('#insertLinkModalLinkPage').select2({
+            dropdownParent: $('#insertLinkModal'),
+            placeholder: 'Search...',
+            minimumInputLength: 0,
+            ajax: {
+                url: '/Page/Autocomplete',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.text
+                        }))
+                    };
+                },
+                cache: true
+            }
+        });
+        document.querySelectorAll('input[name="linkMode"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                const mode = document.querySelector('input[name="linkMode"]:checked').value;
+                if (mode === 'page') {
+                    document.getElementById('linkInternalDiv').style.display = 'block';
+                    document.getElementById('linkExternalDiv').style.display = 'none';
+                } else {
+                    document.getElementById('linkInternalDiv').style.display = 'none';
+                    document.getElementById('linkExternalDiv').style.display = 'block';
                 }
-                else
-                {
-                    //Redraw the table so the columns re-size correctly.
-                    requestAnimationFrame(() => featureInsertModalTable.redraw(true));
-                }
+            });
+        });
+        select2Initialized = true;
+    });
 
-                document.getElementById("featureInsertModalSearch").addEventListener("keyup", function () {
-                    const searchTerm = this.value;
-                    featureInsertModalTable.setFilter([
-                        [
-                            {field: "name", type: "like", value: searchTerm},
-                            {field: "type", type: "like", value: searchTerm},
-                            {field: "description", type: "like", value: searchTerm},
-                        ]
-                    ]);
+    document.getElementById('insertLinkModalInsertButton').addEventListener('click', function () {
+        const linkText = document.getElementById('insertLinkModalLinkTitle').value.trim();
+        const linkMode = document.querySelector('input[name="linkMode"]:checked')?.value;
+
+        let markdown = '';
+        let isValid = true;
+
+        if (linkMode === 'page') {
+            const selected = $('#insertLinkModalLinkPage').select2('data')[0];
+            if (!selected) {
+                alert('Please select a wiki page.');
+                isValid = false;
+            } else {
+
+                if(!linkText)
+                {
+                    markdown = `[[${selected.text}]]`
+                }
+                else{
+                    markdown = `[[${selected.text}, \"${linkText}\"]]`
+                }
+            }
+        } else if (linkMode === 'url') {
+            const url = document.getElementById('insertLinkModalLinkURL').value.trim();
+            if (!url) {
+                alert('Please enter a URL.');
+                isValid = false;
+            } else if (!/^https?:\/\//i.test(url)) {
+                alert('URL must start with http:// or https://');
+                isValid = false;
+            } else {
+
+                if(!linkText)
+                {
+                    markdown = `[[${url}]]`
+                }
+                else{
+                    markdown = `[[${url}, \"${linkText}\"]]`
+                }
+            }
+        } else {
+            isValid = false;
+            alert('Unknown link mode.');
+        }
+
+        if (!isValid) return;
+
+        const doc = editor.getDoc();
+        var selection = doc.getSelection();
+
+        doc.replaceSelection(markdown);
+
+        // Select the new text.
+        const cursor = doc.getCursor();
+        doc.setSelection({
+            line: cursor.line,
+            ch: cursor.ch - (markdown.length + 4)
+        }, {
+            line: cursor.line,
+            ch: cursor.ch
+        });
+
+        insertLinkModal.hide();
+        editor.focus();
+    });
+
+        document.getElementById('featureInsertModal').addEventListener('shown.bs.modal', function () {
+            const featureInsertModalTableElement = document.getElementById('featureInsertModalTable');
+            const featureInsertModalTableData = @Json.Serialize(Model?.FeatureTemplates);
+
+            if(!featureInsertModalTable)
+            {
+                featureInsertModalTable = new Tabulator(featureInsertModalTableElement, {
+                height: "300px",
+                data: featureInsertModalTableData,
+                layout: "fitDataStretch",
+                columns: [
+                        {
+                            title: "Insert",
+                            headerSort: false,
+                            hozAlign: "center",
+                            formatter: () => '<a class="btn btn-success btn-thin">@Localizer["Insert"]</a>',
+                            cellClick: (e, cell) => {
+                                const row = cell.getRow().getData();
+                                const value = row.templateText.replace(/\r\n/g, "\n");
+
+                                const doc = editor.getDoc();
+
+                                // current selection (single range assumed)
+                                const sel = doc.listSelections()[0];
+                                const from = sel.from();
+                                const to   = sel.to();
+
+                                // replace and then select the inserted text
+                                doc.replaceRange(value, from, to);
+
+                                const start = from;
+                                const end = doc.posFromIndex(doc.indexFromPos(start) + value.length);
+                                doc.setSelection(start, end);
+
+                                featureInsertModal.hide();
+
+                                editor.focus();
+                            }
+                        },
+                        {
+                            title: "Name",
+                            field: "name",
+                            formatter: function (cell) {
+                                const data = cell.getRow().getData();
+                                const label = cell.getValue() ?? "";
+                                const url = data.helpPageNavigation;
+                                if (!url) return label;
+                                return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+                            }
+                        },
+                        { title: "Type", field: "type" },
+                        { title: "TemplateText", field: "templateText", visible: false },
+                        { title: "HelpPageNavigation", field: "helpPageNavigation", visible: false },
+                        { title: "Description", field: "description" }
+                    ],
                 });
+
+                //Auto size the last column to fit the content.
+                featureInsertModalTable.on('renderComplete', () => featureInsertModalTable.getColumn("description")?.setWidth(true));
+            }
+            else
+            {
+                //Redraw the table so the columns re-size correctly.
+                requestAnimationFrame(() => featureInsertModalTable.redraw(true));
+            }
+
+            document.getElementById("featureInsertModalSearch").addEventListener("keyup", function () {
+                const searchTerm = this.value;
+                featureInsertModalTable.setFilter([
+                    [
+                        {field: "name", type: "like", value: searchTerm},
+                        {field: "type", type: "like", value: searchTerm},
+                        {field: "description", type: "like", value: searchTerm},
+                    ]
+                ]);
+            });
         });
 
         $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
@@ -195,18 +316,6 @@
             inputStyle: "contenteditable", // Enables browser's native spellcheck
             spellcheck: true,              // Explicitly enables spellcheck
             autocorrect: true              // Enables autocorrect
-        });
-
-        $('#featureInsertModal .js_use-featureInsert').on('click', function(e) {
-            e.preventDefault();
-            $.ajax($(this).attr('data-tmpurl'), {
-                success: function(data) {
-                    editor.getDoc().setValue(data.body);
-                },
-                complete: function() {
-                    featureInsertModal.hide();
-                }
-            });
         });
 
         if (editMode) {
@@ -376,6 +485,9 @@
                         <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('!!','!!')">
                             <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
                         </button>
+                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
+                            <img src="/images/toolbar/toolbar_Dark_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
+                        </button>
 
                         <div style="width:1px; height:24px; background-color:#ccc;"></div>
 
@@ -401,6 +513,9 @@
                         </button>
                         <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('!!','!!')">
                             <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
+                            <img src="/images/toolbar/toolbar_Light_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
                         </button>
 
                         <div style="width:1px; height:24px; background-color:#222;"></div>
@@ -508,6 +623,53 @@
                 <div class="container-fluid">
                     <em class="small"></em>
                     <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="insertLinkModal" aria-labelledby="insertLinkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="insertLinkModalLabel">@Localizer["Hyperlink"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+            </div>
+
+            <div class="modal-body p-3">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
+                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
+                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="insertLinkModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
+                    <input id="insertLinkModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
+                </div>
+
+                <div id="linkInternalDiv">
+                    <label for="insertLinkModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
+                    <select id="insertLinkModalLinkPage" style="width: 100%"></select>
+                </div>
+
+                <div id="linkExternalDiv" style="display: none;">
+                    <label for="insertLinkModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
+                    <input id="insertLinkModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <em class="small"></em>
+                    <button type="button" class="btn btn-success float-end" id="insertLinkModalInsertButton">@Localizer["Insert"]</button>
                 </div>
             </div>
         </div>

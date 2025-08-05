@@ -192,6 +192,19 @@ namespace TightWiki.Controllers
         #region Search.
 
         [AllowAnonymous]
+        [HttpGet("Page/AutoComplete")]
+        public ActionResult AutoComplete([FromQuery] string? q = null)
+        {
+            var pages = PageRepository.AutoComplete(q);
+
+            return Json(pages.Select(o => new
+            {
+                text = o.Name,
+                id = o.Navigation
+            }));
+        }
+
+        [AllowAnonymous]
         [HttpGet("Page/Search")]
         public ActionResult Search()
         {
