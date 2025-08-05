@@ -18,7 +18,6 @@ mark {
     line-height: 60px; /* Vertically center the text there */
 }
 
-
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -174,4 +173,26 @@ html {
 
     .bd-callout-default h4 {
         color: #6c757d;
+    }
+
+.list-group-item:nth-child(odd) {
+    background-color: #ffffff;
+    color: #212529;
+}
+
+.list-group-item:nth-child(even) {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.list-group-item {
+    border-color: #e9ecef;
+}
+
+    .list-group-item .file-meta {
+        color: #6c757d;
+    }
+
+    .list-group-item a {
+        color: #0d6efd;
     }

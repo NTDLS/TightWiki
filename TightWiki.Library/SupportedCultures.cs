@@ -3,16 +3,9 @@ using System.Globalization;
 
 namespace TightWiki.Library
 {
-
-    public class CultureInfoSettings
-    {
-        public CultureInfo? Culture { get; set; }
-        public bool IsUIComplete { get; set; }
-    }
-
     public class SupportedCultures
     {
-        IList<CultureInfoSettings> Cultures;
+        private readonly IList<CultureInfoSettings> Cultures;
 
         public IList<CultureInfo> AllCultures
             => Cultures.Select(x => x.Culture.EnsureNotNull()).ToList();
@@ -20,7 +13,7 @@ namespace TightWiki.Library
         public IList<CultureInfo> UICompleteCultures
             => Cultures.Where(x => x.IsUIComplete).Select(x => x.Culture.EnsureNotNull()).ToList();
 
-        public CultureInfo DefaultCulture
+        public static CultureInfo DefaultCulture
             => new CultureInfo("en");
 
         public SupportedCultures()

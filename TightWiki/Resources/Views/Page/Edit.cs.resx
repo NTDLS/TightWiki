@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value>Text odkazu (volitelné)</value>
+  </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
     <value>Přiložte soubory přetažením sem nebo ručním výběrem níže:</value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>Externí adresa URL</value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value>Vyberte stránku	</value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value>Typ odkazu</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Wiki stránka</value>
   </data>
   <data name="Attachments" xml:space="preserve">
     <value>Přílohy</value>
@@ -164,5 +179,29 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Zobrazit</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>Zvýraznění</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Hypertextový odkaz</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Přeškrtnuté</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Podtržení</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Kurzíva</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Tučné</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Vložit</value>
   </data>
 </root>

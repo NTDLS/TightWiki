@@ -178,3 +178,23 @@ html {
     .bd-callout-default h4 {
         color: #6c757d;
     }
+
+.list-group-item:nth-child(odd) {
+    background-color: #5b5b5b;
+    color: #ddd;
+}
+
+.list-group-item:nth-child(even) {
+    background: #2b2b2b;
+}
+.list-group-item {
+    border-color: #d1d5d8;
+}
+
+    .list-group-item .file-meta {
+        color: #a3a1a1;
+    }
+
+    .list-group-item a {
+        color: #dddddd;
+    }

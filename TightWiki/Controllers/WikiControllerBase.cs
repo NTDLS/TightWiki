@@ -56,7 +56,6 @@ namespace TightWiki.Controllers
         protected string Localize(string key, params object[] objs)
             => String.Format(localizer[key].Value, objs);
 
-
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.
         /// </summary>
@@ -81,5 +80,4 @@ namespace TightWiki.Controllers
         protected RedirectResult NotifyOfError(string message)
             => Redirect($"{GlobalConfiguration.BasePath}/Utility/Notify?NotifyErrorMessage={Uri.EscapeDataString(message)}");
     }
-
 }

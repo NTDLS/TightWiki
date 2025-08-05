@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value>Text odkazu (voliteľné)</value>
+  </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
     <value>Pripojte súbory ich presunutím sem alebo ich ručným výberom nižšie:</value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>Externá adresa URL</value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value>Vyberte stránku</value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value>Typ odkazu</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Wiki stránka</value>
   </data>
   <data name="Attachments" xml:space="preserve">
     <value>Prílohy</value>
@@ -164,5 +179,29 @@
   </data>
   <data name="View" xml:space="preserve">
     <value>Zobraziť</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Hľadať</value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>Zvýraznenie</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Hypertextový odkaz</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Prečiarknuté</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Podčiarknutie</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Kurzíva</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Tučné</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Vložiť</value>
   </data>
 </root>

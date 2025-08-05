@@ -1,4 +1,4 @@
-﻿namespace DumpConfiguration
+﻿namespace GenerateSeedData
 {
     public partial class ConfigurationEntry
     {
@@ -10,5 +10,7 @@
         public string Description { get; set; } = string.Empty;
         public bool IsEncrypted { get; set; }
         public bool IsRequired { get; set; }
+
+        public string ConfigurationGroupName { get; set; } = string.Empty;
     }
 }

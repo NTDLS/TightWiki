@@ -98,6 +98,8 @@ namespace TightWiki.Repository
             catch (Exception ex)
             {
                 ExceptionRepository.InsertException(ex, "Database upgrade failed.");
+                //Yea, we want to write this to the console so that it can be seen when running manually.
+                Console.WriteLine($"Database upgrade failed: {ex.Message}");
             }
         }
 

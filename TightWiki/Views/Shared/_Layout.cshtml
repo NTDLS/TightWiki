@@ -17,10 +17,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@(sessionState.PageTitle ?? sessionState.Page.Name)</title>
 
-    <!-- Syntax Highlighter:Begin -->
-    <script src="@Url.Content("~/syntax/highlight.min.js")"></script>
-    <script>hljs.highlightAll();</script>
-    <!-- Syntax Highlighter:End -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+
     @if (string.IsNullOrWhiteSpace(TightWiki.Models.GlobalConfiguration.HTMLHeader) == false)
     {
         <!-- HTMLHeader:Begin -->
@@ -69,10 +69,9 @@
 
     <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
 
-    <link id="themeStylesheet" rel="stylesheet" href="" />
     <script>
         $(document).ready(function () {
-        localStorage.setItem('theme', 'dark');
+        localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
         $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
         $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
         $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');

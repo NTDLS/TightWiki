@@ -9,6 +9,9 @@ namespace TightWiki.Repository
 {
     public static class PageRepository
     {
+        public static IEnumerable<Page> AutoComplete(string? searchText)
+            => ManagedDataStorage.Pages.Query<Page>("PageAutoComplete.sql", new { SearchText = searchText ?? string.Empty });
+
         public static Page? GetPageRevisionInfoById(int pageId, int? revision = null)
         {
             var param = new
@@ -582,6 +585,17 @@ namespace TightWiki.Repository
 
         public static List<Page> GetAllTemplatePages()
             => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql").ToList();
+
+        public static List<FeatureTemplate> GetAllFeatureTemplates()
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page);
+            if (!WikiCache.TryGet<List<FeatureTemplate>>(cacheKey, out var result))
+            {
+                result = ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList();
+                WikiCache.Put(cacheKey, result);
+            }
+            return result;
+        }
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {

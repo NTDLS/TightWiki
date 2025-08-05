@@ -6,6 +6,15 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
+<!-- Syntax Highlighter:Begin -->
+<script src="@Url.Content("~/syntax/highlight.min.js")"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    hljs.highlightAll();
+});
+</script>
+<!-- Syntax Highlighter:End -->
+
 @if (Model.Revision < Model.MostCurrentRevision)
 {
     <div class="card border-info mb-3">
