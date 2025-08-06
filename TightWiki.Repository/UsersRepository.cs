@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using static TightWiki.Library.Constants;
 
@@ -10,12 +11,12 @@ namespace TightWiki.Repository
     {
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = pageSize,
+                PageSize = pageSize ?? GlobalConfiguration.PaginationSize,
                 SearchToken = searchToken
             };
 
@@ -57,9 +58,9 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.Query<Role>(query).ToList();
         }
 
-        public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber)
+        public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber, int? pageSize = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
@@ -74,9 +75,9 @@ namespace TightWiki.Repository
         public static List<AccountProfile> GetAllUsers()
             => ManagedDataStorage.Users.Query<AccountProfile>("GetAllUsers.sql").ToList();
 
-        public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
+        public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null, int? pageSize = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {

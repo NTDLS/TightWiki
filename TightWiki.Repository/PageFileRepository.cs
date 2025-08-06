@@ -1,6 +1,6 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
-using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -20,9 +20,9 @@ namespace TightWiki.Repository
         }
 
         public static List<OrphanedPageAttachment> GetOrphanedPageAttachmentsPaged(
-            int pageNumber, string? orderBy = null, string? orderByDirection = null)
+            int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
@@ -49,7 +49,7 @@ namespace TightWiki.Repository
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
@@ -112,9 +112,10 @@ namespace TightWiki.Repository
                 "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
         }
 
-        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
+        public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(
+            string pageNavigation, string fileNavigation, int pageNumber, int? pageSize = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {

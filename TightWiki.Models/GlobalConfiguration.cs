@@ -36,6 +36,7 @@ namespace TightWiki.Models
         public static string DefaultTimeZone { get; set; } = string.Empty;
         public static string Address { get; set; } = string.Empty;
         public static int DefaultEmojiHeight { get; set; }
+        public static int PaginationSize { get; set; }
         public static bool AllowGoogleAuthentication { get; set; }
         public static int MaxAvatarFileSize { get; set; } = 1048576;
         public static int MaxAttachmentFileSize { get; set; } = 5242880;

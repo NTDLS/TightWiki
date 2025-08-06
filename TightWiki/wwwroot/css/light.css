@@ -196,3 +196,9 @@ html {
     .list-group-item a {
         color: #0d6efd;
     }
+
+.tabulator {
+    background-color: white;
+    max-height: 500px;
+    overflow-y: auto;
+}

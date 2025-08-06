@@ -1,4 +1,4 @@
-﻿using TightWiki.Library;
+﻿using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -55,9 +55,9 @@ namespace TightWiki.Repository
         }
 
         public static List<WikiException> GetAllExceptionsPaged(int pageNumber,
-            string? orderBy = null, string? orderByDirection = null)
+            string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
