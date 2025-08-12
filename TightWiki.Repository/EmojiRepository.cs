@@ -1,4 +1,5 @@
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -117,14 +118,12 @@ namespace TightWiki.Repository
         public static List<Emoji> GetAllEmojisPaged(int pageNumber,
             string? orderBy = null, string? orderByDirection = null, List<string>? categories = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
-
             if (categories == null || categories.Count == 0)
             {
                 var param = new
                 {
                     PageNumber = pageNumber,
-                    PageSize = pageSize
+                    PageSize = GlobalConfiguration.PaginationSize
                 };
 
                 var query = RepositoryHelper.TransposeOrderby("GetAllEmojisPaged.sql", orderBy, orderByDirection);
@@ -137,7 +136,7 @@ namespace TightWiki.Repository
                 var param = new
                 {
                     PageNumber = pageNumber,
-                    PageSize = pageSize
+                    PageSize = GlobalConfiguration.PaginationSize
                 };
 
                 return ManagedDataStorage.Emoji.Ephemeral(o =>
@@ -146,7 +145,7 @@ namespace TightWiki.Repository
                     {
                         SearchTokenCount = emojiCategoryIds.Count(),
                         PageNumber = pageNumber,
-                        PageSize = pageSize
+                        PageSize = GlobalConfiguration.PaginationSize
                     };
 
                     using var tempTable = o.CreateTempTableFrom("TempEmojiCategoryIds", emojiCategoryIds);

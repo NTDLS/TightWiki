@@ -28,6 +28,7 @@ namespace TightWiki.Models
         public static bool ShowCommentsOnPageFooter { get; set; }
         public static bool IncludeSearchOnNavbar { get; set; }
         public static int PageCacheSeconds { get; set; }
+        public static int PaginationSize { get; set; }
         public static int CacheMemoryLimitMB { get; set; }
         public static int DefaultProfileRecentlyModifiedCount { get; set; }
         public static bool PreLoadAnimatedEmojis { get; set; } = true;

@@ -46,7 +46,7 @@ namespace GenerateSeedData
             foreach (var ce in configurationEntries)
             {
                 sb.AppendLine("INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)");
-                sb.AppendLine($"SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = '{ce.ConfigurationGroupName}' LIMIT 1), '{ESQ(ce.Name)}', '{ESQ(ce.Value)}', {ce.DataTypeId}, '{ESQ(ce.Description)}', { (ce.IsEncrypted ? 1 : 0)}, {(ce.IsRequired ? 1 : 0)}");
+                sb.AppendLine($"SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = '{ce.ConfigurationGroupName}' LIMIT 1), '{ESQ(ce.Name)}', '{ESQ(ce.Value)}', {ce.DataTypeId}, '{ESQ(ce.Description)}', {(ce.IsEncrypted ? 1 : 0)}, {(ce.IsRequired ? 1 : 0)}");
                 sb.AppendLine($"ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = '{ESQ(ce.Name)}', DataTypeId = {ce.DataTypeId}, Description = '{ESQ(ce.Description)}', IsEncrypted = '{(ce.IsEncrypted ? 1 : 0)}', IsRequired = '{(ce.IsRequired ? 1 : 0)}';");
             }
             File.WriteAllText(@$"{outputPath}\^{index++:D3}^Config^UpsertConfigurationEntry.sql", sb.ToString());

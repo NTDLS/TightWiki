@@ -503,6 +503,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.PreLoadAnimatedEmojis = performanceConfig.Value<bool>("Pre-Load Animated Emojis");
             GlobalConfiguration.SystemTheme = GetAllThemes().Single(o => o.Name == themeName);
             GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
+            GlobalConfiguration.PaginationSize = customizationConfig.Value<int>("Pagination Size");
             GlobalConfiguration.AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
             GlobalConfiguration.DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;
             GlobalConfiguration.IncludeWikiDescriptionInMeta = functionalityConfig.Value<bool>("Include wiki Description in Meta");

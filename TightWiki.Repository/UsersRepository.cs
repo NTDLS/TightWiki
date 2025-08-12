@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using static TightWiki.Library.Constants;
 
@@ -10,7 +11,7 @@ namespace TightWiki.Repository
     {
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
@@ -59,13 +60,11 @@ namespace TightWiki.Repository
 
         public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
-
             var param = new
             {
                 RoleId = roleId,
                 PageNumber = pageNumber,
-                PageSize = pageSize
+                PageSize = GlobalConfiguration.PaginationSize
             };
 
             return ManagedDataStorage.Users.Query<AccountProfile>("GetProfilesByRoleIdPaged.sql", param).ToList();
@@ -76,12 +75,10 @@ namespace TightWiki.Repository
 
         public static List<AccountProfile> GetAllUsersPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null, string? searchToken = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
-
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = pageSize,
+                PageSize = GlobalConfiguration.PaginationSize,
                 SearchToken = searchToken
             };
 

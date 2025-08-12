@@ -1,6 +1,6 @@
 ﻿using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
-using TightWiki.Library;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -22,12 +22,10 @@ namespace TightWiki.Repository
         public static List<OrphanedPageAttachment> GetOrphanedPageAttachmentsPaged(
             int pageNumber, string? orderBy = null, string? orderByDirection = null)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
-
             var param = new
             {
                 PageNumber = pageNumber,
-                PageSize = pageSize
+                PageSize = GlobalConfiguration.PaginationSize
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetOrphanedPageAttachments.sql", orderBy, orderByDirection);
@@ -49,7 +47,7 @@ namespace TightWiki.Repository
 
         public static List<PageFileAttachmentInfo> GetPageFilesInfoByPageNavigationAndPageRevisionPaged(string pageNavigation, int pageNumber, int? pageSize = null, int? pageRevision = null)
         {
-            pageSize ??= ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
+            pageSize ??= GlobalConfiguration.PaginationSize;
 
             var param = new
             {
@@ -114,14 +112,12 @@ namespace TightWiki.Repository
 
         public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)
         {
-            int pageSize = ConfigurationRepository.Get<int>(Constants.ConfigurationGroup.Customization, "Pagination Size");
-
             var param = new
             {
                 PageNavigation = pageNavigation,
                 FileNavigation = fileNavigation,
                 PageNumber = pageNumber,
-                PageSize = pageSize
+                PageSize = GlobalConfiguration.PaginationSize
             };
 
             return ManagedDataStorage.Pages.Ephemeral(o =>
