@@ -187,6 +187,11 @@ namespace TranslationAI
                             data.AddFirst(valueElem);
                         }
 
+                        if (translation?.Contains("<Phrase") == true || translation?.Contains("</Phrase") == true)
+                        {
+                            throw new Exception($"The translation for key '{key}' contains unprocessed tags. This should not happen. Please check the translation logic.");
+                        }
+
                         valueElem.Value = translation ?? valueElem.Value;
                     }
                 }
