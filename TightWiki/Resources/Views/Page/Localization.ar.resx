@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Czech" xml:space="preserve">
-    <value>Czech</value>
+    <value>التشيكية</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>English</value>
+    <value>الإنجليزية</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value>Languages</value>
+    <value>اللغات</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value>Slovak</value>
+    <value>السلوفاكية</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value>Arabic</value>
+    <value>العربية</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value>Bengali</value>
+    <value>البنغالية</value>
   </data>
   <data name="German" xml:space="preserve">
-    <value>German</value>
+    <value>الألمانية</value>
   </data>
   <data name="Spanish" xml:space="preserve">
-    <value>Spanish</value>
+    <value>الإسبانية</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value>Hindi</value>
+    <value>الهندية</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value>French</value>
+    <value>الفرنسية</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value>Italian</value>
+    <value>الإيطالية</value>
   </data>
   <data name="Japanese" xml:space="preserve">
-    <value>Japanese</value>
+    <value>اليابانية</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value>Korean</value>
+    <value>الكورية</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value>Portuguese</value>
+    <value>البرتغالية</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
-    <value>Ukrainian</value>
+    <value>الأوكرانية</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value>Turkish</value>
+    <value>التركية</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>Chinese traditional</value>
+    <value>الصينية التقليدية</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>Chinese simplified</value>
+    <value>الصينية المبسطة</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value>Russian</value>
+    <value>الروسية</value>
   </data>
 </root>
