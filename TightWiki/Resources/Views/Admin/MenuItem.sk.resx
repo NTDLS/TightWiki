@@ -126,8 +126,8 @@
   <data name="required" xml:space="preserve">
     <value>požadované</value>
   </data>
-  <data name="Save!" xml:space="preserve">
-    <value>Uložiť!</value>
+  <data name="Save" xml:space="preserve">
+    <value>Uložiť</value>
   </data>
   <data name="Site Menu Item" xml:space="preserve">
     <value>Položka ponuky stránok</value>

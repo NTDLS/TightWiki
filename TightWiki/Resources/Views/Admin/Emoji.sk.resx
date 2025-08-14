@@ -132,7 +132,7 @@
   <data name="Image" xml:space="preserve">
     <value>Obrázok</value>
   </data>
-  <data name="Save!" xml:space="preserve">
-    <value>Uložiť!</value>
+  <data name="Save" xml:space="preserve">
+    <value>Uložiť</value>
   </data>
 </root>

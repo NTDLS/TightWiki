@@ -138,7 +138,7 @@
   <data name="Select a time-zone" xml:space="preserve">
     <value>Vyberte časovú zónu</value>
   </data>
-  <data name="Complete Signup!" xml:space="preserve">
-    <value>Dokončiť registráciu!</value>
+  <data name="Complete Signup" xml:space="preserve">
+    <value>Dokončiť registráciu</value>
   </data>
 </root>

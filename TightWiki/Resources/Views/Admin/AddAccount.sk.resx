@@ -126,8 +126,8 @@
   <data name="Create new user account." xml:space="preserve">
     <value>Vytvorte nový používateľský účet.</value>
   </data>
-  <data name="Save!" xml:space="preserve">
-    <value>Uložiť!</value>
+  <data name="Save" xml:space="preserve">
+    <value>Uložiť</value>
   </data>
   <data name="Select a country" xml:space="preserve">
     <value>Vyberte krajinu</value>

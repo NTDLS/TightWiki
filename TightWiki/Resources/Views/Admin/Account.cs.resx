@@ -129,8 +129,8 @@
   <data name="Delete Account" xml:space="preserve">
     <value>Smazat účet</value>
   </data>
-  <data name="Save!" xml:space="preserve">
-    <value>Uložit!</value>
+  <data name="Save" xml:space="preserve">
+    <value>Uložit</value>
   </data>
   <data name="Select a country" xml:space="preserve">
     <value>Vyberte zemi</value>

@@ -126,8 +126,8 @@
   <data name="Profile" xml:space="preserve">
     <value>Profil</value>
   </data>
-  <data name="Save!" xml:space="preserve">
-    <value>Uložit!</value>
+  <data name="Save" xml:space="preserve">
+    <value>Uložit</value>
   </data>
   <data name="Select a country" xml:space="preserve">
     <value>Vyberte zemi</value>
