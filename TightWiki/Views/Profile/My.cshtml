@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group row mb-3">
-                <label for="EmailAddress" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.EmailAddress)</strong></label>
+                <label for="EmailAddress" class="col-sm-2 col-form-label"><strong>@Localizer["Email Address"]</strong></label>
                 <div class="col-sm-10">
                     @Html.DisplayFor(m => m.AccountProfile.EmailAddress, new { @class = "form-control-plaintext" })
                 </div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
             <div class="form-group row mb-3">
-                <label for="AccountName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.AccountName)</strong></label>
+                <label for="AccountName" class="col-sm-2 col-form-label"><strong>@Localizer["Account Name"]</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.AccountName, new { @class = "form-control" })
                 </div>
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="form-group row mb-1">
-                <label for="FirstName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.FirstName)</strong></label>
+                <label for="FirstName" class="col-sm-2 col-form-label"><strong>@Localizer["First Name"]</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.FirstName, new { @class = "form-control" })
                 </div>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div class="form-group row mb-3">
-                <label for="LastName" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.LastName)</strong></label>
+                <label for="LastName" class="col-sm-2 col-form-label"><strong>@Localizer["Last Name"]</strong></label>
                 <div class="col-sm-10">
                     @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "form-control" })
                 </div>
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <div class="form-group row mb-1">
-                <label for="Role" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Role)</strong></label>
+                <label for="Role" class="col-sm-2 col-form-label"><strong>@Localizer["Role"]</strong></label>
                 <div class="col-sm-10">
                     @Html.DisplayFor(m => m.AccountProfile.Role, new { @class = "form-control-plaintext" })
                 </div>
@@ -99,7 +99,7 @@
                 </div>
             </div>
             <div class="form-group row mb-3">
-                <label for="Theme" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Theme)</strong></label>
+                <label for="Theme" class="col-sm-2 col-form-label"><strong>@Localizer["Theme"]</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Theme" id="AccountProfile.Theme" class="form-control">
                         <option value="">@Localizer["System Default"]</option>
@@ -119,7 +119,7 @@
                 </div>
             </div>
             <div class="form-group row mb-1">
-                <label for="Country" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Country)</strong></label>
+                <label for="Country" class="col-sm-2 col-form-label"><strong>@Localizer["Country"]</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Country" id="AccountProfile.Country" class="form-control">
                         <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="form-group row mb-1">
-                <label for="Language" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Language)</strong></label>
+                <label for="Language" class="col-sm-2 col-form-label"><strong>@Localizer["Language"]</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.Language" id="AccountProfile.Language" class="form-control">
                         <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
@@ -159,7 +159,7 @@
                 </div>
             </div>
             <div class="form-group row mb-1">
-                <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.TimeZone)</strong></label>
+                <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Localizer["Time Zone"]</strong></label>
                 <div class="col-sm-10">
                     <select name="AccountProfile.TimeZone" id="AccountProfile.TimeZone" class="form-control">
                         <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
@@ -179,7 +179,7 @@
                 </div>
             </div>
             <div class="form-group row mb-1">
-                <label for="Biography" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.AccountProfile.Biography)</strong></label>
+                <label for="Biography" class="col-sm-2 col-form-label"><strong>@Localizer["Biography"]</strong></label>
                 <div class="col-sm-10">
                     @Html.TextAreaFor(m => m.AccountProfile.Biography, new { @class = "form-control", style = "height:200px", Name = "Biography" })
                 </div>

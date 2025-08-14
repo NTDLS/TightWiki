@@ -129,4 +129,130 @@
   <data name="Slovak" xml:space="preserve">
     <value>Slovenština</value>
   </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arabština</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>Bahtí</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Nemčina</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Španělština</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>Hindština</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Francouzština</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>Italština</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>Japonština</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>Korejština</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Portugalština</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>Ukrajinština</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Perština</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamština</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polština</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Nizozemština</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indonéština</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Jedná se o turečtinu</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>Čínština tradiční</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>Čínština zjednodušená</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Ruština</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>řecký</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Ázerbájdžánský</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>běloruský</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>bulharský</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>dánský</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>estonský</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>finský</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>hebrejský</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>chorvatský</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>maďarský</value>
+  </data>
+  <data name="Icelnadic" xml:space="preserve">
+    <value>islandský</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>gruzínský</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>kazašský</value>
+  </data>
+  <data name="Lithuianian" xml:space="preserve">
+    <value>litevský</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>lotyšský</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>malajský</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>norský</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>rumunský</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>slovinský</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>srbský</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>švédský</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>thajský</value>
+  </data>
 </root>

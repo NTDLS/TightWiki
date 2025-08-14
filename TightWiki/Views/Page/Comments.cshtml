@@ -7,7 +7,7 @@
 }
 
 <h3>
-    @Localizer.Format("Comments for <a href=\"{0}/{1}\">{2}</a>", GlobalConfiguration.BasePath, sessionState.PageNavigation, sessionState.Page.Name)
+    @Localizer["Comments for"] <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
 </h3>
 
 <p>

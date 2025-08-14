@@ -8,7 +8,7 @@
 }
 
 <h3>
-    @Localizer.Format("Page Revisions for <a href=\"{0}/{1}\">{2}</a>.", GlobalConfiguration.BasePath, sessionState.PageNavigation, sessionState.Page.Name)
+    @Localizer["Page revisions for"] <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@sessionState.Page.Name</a>.
 </h3>
 
 <p>

@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Dokončit registraci</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Název účtu</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Příjmení</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Časové pásmo</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Země</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Jméno</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
 </root>

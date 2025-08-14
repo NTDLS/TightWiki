@@ -113,7 +113,7 @@
         }
         $('#insertLinkModalLinkPage').select2({
             dropdownParent: $('#insertLinkModal'),
-            placeholder: '@Localizer["Search"]...',
+            placeholder: "@Localizer["Search"]...",
             minimumInputLength: 0,
             ajax: {
                 url: '/Page/Autocomplete',
@@ -160,7 +160,7 @@
         if (linkMode === 'page') {
             const selected = $('#insertLinkModalLinkPage').select2('data')[0];
             if (!selected) {
-                alert('@Localizer["Select a wiki page."]');
+                alert("@Localizer["Select a wiki page."]");
                 isValid = false;
             } else {
 
@@ -175,10 +175,10 @@
         } else if (linkMode === 'url') {
             const url = document.getElementById('insertLinkModalLinkURL').value.trim();
             if (!url) {
-                alert('@Localizer["Enter a URL."]');
+                alert("@Localizer["Enter a URL."]");
                 isValid = false;
             } else if (!/^https?:\/\//i.test(url)) {
-                alert('@Localizer["URL must start with"] http:// or https://');
+                alert("@Localizer["URL must start with"] http:// or https://");
                 isValid = false;
             } else {
 
@@ -230,7 +230,7 @@
                             title: "@Localizer["Insert"]",
                             headerSort: false,
                             hozAlign: "center",
-                            formatter: () => '<a class="btn btn-success btn-thin rounded-0">@Localizer["Insert"]</a>',
+                            formatter: () => "<a class=\"btn btn-success btn-thin rounded-0\">@Localizer["Insert"]</a>",
                             cellClick: (e, cell) => {
                                 const row = cell.getRow().getData();
                                 const value = row.templateText.replace(/\r\n/g, "\n");
@@ -379,9 +379,9 @@
                 .then(response => response.json())  // Read the response as JSON
                 .then(result => {
                     if (result.success) {
-                        uploadStatus.innerHTML = `<p>@Localizer["Upload successful"]: ${result.message}</p>`;
+                        uploadStatus.innerHTML = "<p>@Localizer["Upload successful"]: ${result.message}</p>";
                     } else {
-                        uploadStatus.innerHTML = `<p>@Localizer["Error"]: ${result.message}</p>`;
+                        uploadStatus.innerHTML = "<p>@Localizer["Error"]: ${result.message}</p>";
                     }
                     $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 })
@@ -440,14 +440,14 @@
                     <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
                 </div>
                 <br />
-                <strong>@Html.LabelFor(x => x.Name)</strong>
+                <strong>@Localizer["Name"]</strong>
 
                 <br />
                 @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
                 <br />
 
-                <strong>@Html.LabelFor(x => x.Description)</strong>
+                <strong>@Localizer["Description"]</strong>
 
                 <br />
                 @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })

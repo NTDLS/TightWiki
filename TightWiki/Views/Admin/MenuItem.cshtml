@@ -16,21 +16,21 @@
     @Html.HiddenFor(m => m.Id)
 
     <div class="form-group row mb-1">
-        <label for="Name" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Name)</strong></label>
+        <label for="Name" class="col-sm-2 col-form-label"><strong>@Localizer["Name"]</strong></label>
         <div class="col-sm-10">
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Localizer["required"].Value })
             <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
         </div>
     </div>
     <div class="form-group row mb-1">
-        <label for="Link" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Link)</strong></label>
+        <label for="Link" class="col-sm-2 col-form-label"><strong>@Localizer["Hyperlink"]</strong></label>
         <div class="col-sm-10">
             @Html.TextBoxFor(m => m.Link, new { @class = "form-control", placeholder = Localizer["required"].Value })
             <div class="text-danger">@Html.ValidationMessageFor(m => m.Link)</div>
         </div>
     </div>
     <div class="form-group row mb-1">
-        <label for="Ordinal" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Ordinal)</strong></label>
+        <label for="Ordinal" class="col-sm-2 col-form-label"><strong>@Localizer["Ordinal"]</strong></label>
         <div class="col-sm-10">
             @Html.TextBoxFor(m => m.Ordinal, new { @class = "form-control", placeholder = Localizer["required"].Value })
             <div class="text-danger">@Html.ValidationMessageFor(m => m.Ordinal)</div>

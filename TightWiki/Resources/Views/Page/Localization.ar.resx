@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Czech" xml:space="preserve">
+    <value>التشيكية</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>الإنجليزية</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>اللغات</value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value>السلوفاكية</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>العربية</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>البنغالية</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>الألمانية</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>الإسبانية</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>الهندية</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>الفرنسية</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>الإيطالية</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>اليابانية</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>الكورية</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>البرتغالية</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>الأوكرانية</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>الفارسية</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>الفيتنامية</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>البولندية</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>الهولندية</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>الإندونيسية</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>التركية</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>الصينية التقليدية</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>الصينية المبسطة</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>الروسية</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>يوناني</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>الأذربيجانية</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>البيلاروسية</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>البلغارية</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>الدنماركية</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>الإستونية</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>الفلندية</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>العبرية</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>الكرواتية</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>الهنغارية</value>
+  </data>
+  <data name="Icelnadic" xml:space="preserve">
+    <value>الأيسلندية</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>الجورجية</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>الكازاخستانية</value>
+  </data>
+  <data name="Lithuianian" xml:space="preserve">
+    <value>الليتوانية</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>اللاتفية</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>المالاوية</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>النرويجية</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>الرومانية</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>السلوفينية</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>الصربية</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>السويدية</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>التايلندية</value>
+  </data>
+</root>

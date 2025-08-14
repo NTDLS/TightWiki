@@ -1,10 +1,29 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Localization;
 using System.Text;
 
 namespace TightWiki.Library
 {
     public static class PageSelectorGenerator
     {
+        public static IStringLocalizer Localizer
+        {
+            get
+            {
+                if (_localizer == null)
+                {
+                    throw new InvalidOperationException("StaticHelper has not been initialized. Call StaticHelper.Initializer() with a valid IStringLocalizer instance.");
+                }
+                return _localizer;
+            }
+        }
+        private static IStringLocalizer? _localizer;
+
+        public static void Initialize(IStringLocalizer localizer)
+        {
+            _localizer = localizer;
+        }
+
         public static string Generate(QueryString? queryString, int? totalPageCount)
             => Generate(string.Empty, "page", QueryStringConverter.ToDictionary(queryString), totalPageCount);
 
@@ -42,25 +61,25 @@ namespace TightWiki.Library
                 sb.Append($"<center>");
                 if (currentPage > 1)
                 {
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(firstPage)}\">&lt;&lt; First</a>");
+                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(firstPage)}\">&lt;&lt; {Localizer["First"]}</a>");
                     sb.Append("&nbsp; | &nbsp;");
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(prevPage)}\">&lt; Previous</a>");
+                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(prevPage)}\">&lt; {Localizer["Previous"]}</a>");
                 }
                 else
                 {
-                    sb.Append($"&lt;&lt; First &nbsp; | &nbsp; &lt; Previous");
+                    sb.Append($"&lt;&lt; {Localizer["First"]} &nbsp; | &nbsp; &lt; {Localizer["Previous"]}");
                 }
                 sb.Append("&nbsp; | &nbsp;");
 
                 if (currentPage < totalPageCount)
                 {
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(nextPage)}\">Next &gt;</a>");
+                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(nextPage)}\">{Localizer["Next"]} &gt;</a>");
                     sb.Append("&nbsp; | &nbsp;");
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(lastPage)}\">Last &gt;&gt;</a>");
+                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(lastPage)}\">{Localizer["Last"]} &gt;&gt;</a>");
                 }
                 else
                 {
-                    sb.Append("Next &gt; &nbsp; | &nbsp; Last &gt;&gt;");
+                    sb.Append($"{Localizer["Next"]} &gt; &nbsp; | &nbsp; {Localizer["Last"]} &gt;&gt;");
                 }
                 sb.Append($"</center>");
             }

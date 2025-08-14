@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Profile.PublicViewModel
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
@@ -17,27 +18,27 @@
                         </tr>
                         <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.AccountName)</div></td></tr>
                         <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.AccountName)</strong></td>
+                            <td><strong>@Localizer["Name"]</strong></td>
                             <td>@Html.DisplayFor(m => m.AccountName)</td>
                         </tr>
                         <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Country)</div></td></tr>
                         <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.Country)</strong></td>
+                            <td><strong>@Localizer["Country"]</strong></td>
                             <td>@Html.DisplayFor(m => m.Country)</td>
                         </tr>
                         <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Language)</div></td></tr>
                         <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.Language)</strong></td>
+                            <td><strong>@Localizer["Language"]</strong></td>
                             <td>@Html.DisplayFor(m => m.Language)</td>
                         </tr>
                         <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.TimeZone)</div></td></tr>
                         <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.TimeZone)</strong></td>
+                            <td><strong>@Localizer["Time Zone"]</strong></td>
                             <td>@Html.DisplayFor(m => m.TimeZone)</td>
                         </tr>
                         <tr><td colspan="2"><div class="text-danger">@Html.ValidationMessageFor(m => m.Biography)</div></td></tr>
                         <tr class="padded">
-                            <td><strong>@Html.LabelFor(m => m.Biography)</strong></td>
+                            <td><strong>@Localizer["Biography"]</strong></td>
                             <td><div style="word-wrap: break-word;">@Html.Raw(Model.Biography)</div></td>
                         </tr>
                     </table>
