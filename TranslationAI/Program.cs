@@ -64,10 +64,10 @@ namespace TranslationAI
             var openAi = new OpenAIClient(apiKey);
             var chat = openAi.GetChatClient("gpt-4o-mini");
 
-            PerformTranslations(chat, "English", languages);
+            FillInMissingTranslations(chat, "English", languages);
         }
 
-        private static void PerformTranslations(ChatClient chat, string sourceLanguage, Dictionary<string, string> languages)
+        private static void FillInMissingTranslations(ChatClient chat, string sourceLanguage, Dictionary<string, string> languages)
         {
             var sourceFileNames = Directory.GetFiles(@"C:\NTDLS\TightWiki\TightWiki\Resources", $"*.*.resx", SearchOption.AllDirectories).ToList();
 
