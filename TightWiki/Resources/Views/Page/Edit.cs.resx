@@ -135,6 +135,24 @@
   <data name="Wiki Page" xml:space="preserve">
     <value>Wiki stránka</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>Popis</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="Enter a URL" xml:space="preserve">
+    <value>Zadejte adresu URL</value>
+  </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value>Adresa URL musí začínat</value>
+  </data>
+  <data name="Select a wiki page" xml:space="preserve">
+    <value>Vyberte stránku wiki</value>
+  </data>
   <data name="Attachments" xml:space="preserve">
     <value>Přílohy</value>
   </data>

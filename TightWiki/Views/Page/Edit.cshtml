@@ -113,7 +113,7 @@
         }
         $('#insertLinkModalLinkPage').select2({
             dropdownParent: $('#insertLinkModal'),
-            placeholder: 'Search...',
+            placeholder: '@Localizer["Search"]...',
             minimumInputLength: 0,
             ajax: {
                 url: '/Page/Autocomplete',
@@ -160,7 +160,7 @@
         if (linkMode === 'page') {
             const selected = $('#insertLinkModalLinkPage').select2('data')[0];
             if (!selected) {
-                alert('Please select a wiki page.');
+                alert('@Localizer["Select a wiki page."]');
                 isValid = false;
             } else {
 
@@ -175,10 +175,10 @@
         } else if (linkMode === 'url') {
             const url = document.getElementById('insertLinkModalLinkURL').value.trim();
             if (!url) {
-                alert('Please enter a URL.');
+                alert('@Localizer["Enter a URL."]');
                 isValid = false;
             } else if (!/^https?:\/\//i.test(url)) {
-                alert('URL must start with http:// or https://');
+                alert('@Localizer["URL must start with"] http:// or https://');
                 isValid = false;
             } else {
 
@@ -192,7 +192,6 @@
             }
         } else {
             isValid = false;
-            alert('Unknown link mode.');
         }
 
         if (!isValid) return;
@@ -228,10 +227,10 @@
                 layout: "fitDataStretch",
                 columns: [
                         {
-                            title: "Insert",
+                            title: "@Localizer["Insert"]",
                             headerSort: false,
                             hozAlign: "center",
-                            formatter: () => '<a class="btn btn-success btn-thin">@Localizer["Insert"]</a>',
+                            formatter: () => '<a class="btn btn-success btn-thin rounded-0">@Localizer["Insert"]</a>',
                             cellClick: (e, cell) => {
                                 const row = cell.getRow().getData();
                                 const value = row.templateText.replace(/\r\n/g, "\n");
@@ -256,7 +255,7 @@
                             }
                         },
                         {
-                            title: "Name",
+                            title: "@Localizer["Name"]",
                             field: "name",
                             formatter: function (cell) {
                                 const data = cell.getRow().getData();
@@ -266,10 +265,10 @@
                                 return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
                             }
                         },
-                        { title: "Type", field: "type" },
-                        { title: "TemplateText", field: "templateText", visible: false },
-                        { title: "HelpPageNavigation", field: "helpPageNavigation", visible: false },
-                        { title: "Description", field: "description" }
+                        { title: "@Localizer["Type"]", field: "type" },
+                        { field: "templateText", visible: false },
+                        { field: "helpPageNavigation", visible: false },
+                        { title: "@Localizer["Description"]", field: "description" }
                     ],
                 });
 
@@ -286,9 +285,9 @@
                 const searchTerm = this.value;
                 featureInsertModalTable.setFilter([
                     [
-                        {field: "name", type: "like", value: searchTerm},
-                        {field: "type", type: "like", value: searchTerm},
-                        {field: "description", type: "like", value: searchTerm},
+                        { field: "name", type: "like", value: searchTerm},
+                        { field: "type", type: "like", value: searchTerm},
+                        { field: "description", type: "like", value: searchTerm},
                     ]
                 ]);
             });
