@@ -9,6 +9,8 @@ namespace TranslationAI
     {
         static void Main()
         {
+            //If you process some new languages, update them in TightWiki.Library.SupportedCultures.
+
             var languages = new Dictionary<string, string?>
             {
                 { "zh-Hant","Simplified Chinese (Mandarin)"},
@@ -26,17 +28,16 @@ namespace TranslationAI
                 { "ur","Urdu"}
             };
 
+            var apiKey = File.ReadAllText("C:\\OpenAPIKey.txt").Trim();
+            var openAi = new OpenAIClient(apiKey);
+            var chat = openAi.GetChatClient("gpt-4o-mini");
+
             foreach (var language in languages)
             {
                 var sourceExt = "cs.resx";
                 var sourceLanguage = "English";
                 var targetExt = $"{language.Key}.resx";
                 var targetLanguage = language.Value;
-
-                var apiKey = File.ReadAllText("C:\\OpenAPIKey.txt").Trim();
-
-                var openAi = new OpenAIClient(apiKey);
-                var chat = openAi.GetChatClient("gpt-4o-mini");
 
                 string prompt = $"You are a translator that translates {sourceLanguage} to {targetLanguage}.\r\nThe text to translate is inside <Phrase_X> tags.\r\nKeep the tags exactly as they are in the output.\r\nIf the text contains placeholders such as {0}, {1}, {2}, etc., retain them exactly in the translation and place them in a position that is natural for {targetLanguage} grammar.\r\nDo not alter, remove, or renumber placeholders.\r\nDo not add any commentary — only return the translated text with the original tags and placeholders intact.";
 
@@ -51,7 +52,7 @@ namespace TranslationAI
                     if (File.Exists(targetFileName))
                     {
                         Console.WriteLine($"Skipping {targetFileName} because it already exists.");
-                        //continue;
+                        continue;
                     }
 
                     var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
@@ -70,12 +71,12 @@ namespace TranslationAI
 
                     var phrases = new Dictionary<string, string?>();
 
-                    //Build a dictionary containing all of the keys, which are he English phrases.
+                    //Build a dictionary containing all of the keys, which are the English phrases.
                     foreach (var data in dataElements)
                     {
                         string key = data.Attribute("name")?.Value ?? "";
                         var valueElem = data.Element("value");
-                        if (valueElem == null) // create <value> if missing
+                        if (valueElem == null) //Create the <value> if its missing.
                         {
                             valueElem = new XElement("value");
                             data.AddFirst(valueElem);
@@ -95,7 +96,7 @@ namespace TranslationAI
 
                     ChatCompletion response = chat.CompleteChat([
                         new SystemChatMessage(prompt),
-                    new UserChatMessage(inputPhrases.ToString())
+                        new UserChatMessage(inputPhrases.ToString())
                     ]);
 
                     var translatedBlock = response.Content[0].Text;
@@ -122,7 +123,7 @@ namespace TranslationAI
                     {
                         string key = data.Attribute("name")?.Value ?? "";
                         var valueElem = data.Element("value");
-                        if (valueElem == null) // create <value> if missing
+                        if (valueElem == null) //Create the <value> if its missing.
                         {
                             valueElem = new XElement("value");
                             data.AddFirst(valueElem);
@@ -134,15 +135,6 @@ namespace TranslationAI
                     doc.Save(targetFileName);
                 }
             }
-            /*
-
-            ChatCompletion response = chat.CompleteChat([
-                new SystemChatMessage("You are a translator that translates English to Spanish."),
-                new UserChatMessage("Where is the train station?")
-            ]);
-
-            Console.WriteLine(response.Content[0].Text);
-            */
         }
     }
 }
@@ -161,6 +153,13 @@ ChatCompletion response = chat.CompleteChat([
     new SystemChatMessage("You are a translator that translates English to Spanish."),
     new UserChatMessage("Where is the train station?")
 ]);
+Console.WriteLine(response.Content[0].Text);
+
+ChatCompletion response = chat.CompleteChat([
+    new SystemChatMessage("You are a translator that translates English to Spanish."),
+    new UserChatMessage("Where is the train station?")
+]);
+
 Console.WriteLine(response.Content[0].Text);
 */
 
