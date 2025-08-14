@@ -102,9 +102,9 @@
                         {
                             if (item.Link.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || item.Link.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
                             {
-                                <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@item.Name</a></li>
+                                <li class="nav-item"><a class="nav-link text-dark" href="@item.Link">@Localizer[item.Name]</a></li>
                             }
-                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath@item.Link">@item.Name</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath@item.Link">@Localizer[item.Name]</a></li>
                         }
 
                         @if (sessionState.CanCreate == true

@@ -117,127 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>O</value>
+  <data name="First" xml:space="preserve">
+    <value>Pierwszy</value>
   </data>
-  <data name="Account" xml:space="preserve">
-    <value>Účet</value>
+  <data name="Last" xml:space="preserve">
+    <value>Ostatni</value>
   </data>
-  <data name="Accounts" xml:space="preserve">
-    <value>Účty</value>
+  <data name="Next" xml:space="preserve">
+    <value>Następny</value>
   </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Správce</value>
-  </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Komentáře</value>
-  </data>
-  <data name="Compilations" xml:space="preserve">
-    <value>Sestavy</value>
-  </data>
-  <data name="Configuration" xml:space="preserve">
-    <value>Nastavení</value>
-  </data>
-  <data name="Create new page" xml:space="preserve">
-    <value>Založit novou stránku</value>
-  </data>
-  <data name="Current admin login" xml:space="preserve">
-    <value>Aktuální přihlášení správce</value>
-  </data>
-  <data name="Database" xml:space="preserve">
-    <value>Databáze</value>
-  </data>
-  <data name="Default password has not been changed" xml:space="preserve">
-    <value>Výchozí heslo nebylo změněno</value>
-  </data>
-  <data name="Delete this page" xml:space="preserve">
-    <value>Smazat tuto stránku</value>
-  </data>
-  <data name="Deleted Pages" xml:space="preserve">
-    <value>Smazané stránky</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Upravit stránku</value>
-  </data>
-  <data name="Emojis" xml:space="preserve">
-    <value>Emotikony</value>
-  </data>
-  <data name="Exceptions" xml:space="preserve">
-    <value>Výjimky</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>Exportovat</value>
-  </data>
-  <data name="Help" xml:space="preserve">
-    <value>Pomoc</value>
-  </data>
-  <data name="Info1" xml:space="preserve">
-    <value>Heslo správce je nastaveno na výchozí hodnotu, &lt;i&gt;doporučujeme&lt;/i&gt; jej okamžitě změnit!</value>
-  </data>
-  <data name="Info2" xml:space="preserve">
-    <value>Toto heslo můžete změnit přihlášením a přechodem na Moje -&amp;gt; Účet -&amp;gt; Heslo.</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Přihlášení</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Odhlášení</value>
-  </data>
-  <data name="Metrics" xml:space="preserve">
-    <value>Metriky</value>
-  </data>
-  <data name="Missing Pages" xml:space="preserve">
-    <value>Chybějící stránky</value>
-  </data>
-  <data name="Moderate" xml:space="preserve">
-    <value>Moderovat</value>
-  </data>
-  <data name="My" xml:space="preserve">
-    <value>Moje</value>
-  </data>
-  <data name="Namespaces" xml:space="preserve">
-    <value>Jmenné prostory</value>
-  </data>
-  <data name="Orphaned Attachments" xml:space="preserve">
-    <value>Osiřelé přílohy</value>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>Stránka</value>
-  </data>
-  <data name="Pages" xml:space="preserve">
-    <value>Stránky</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Heslo</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profil</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Obnovit</value>
-  </data>
-  <data name="Revert to revision" xml:space="preserve">
-    <value>Vrátit se k revizi</value>
-  </data>
-  <data name="Revisions" xml:space="preserve">
-    <value>Revize</value>
-  </data>
-  <data name="Roles" xml:space="preserve">
-    <value>Role</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Hledat</value>
-  </data>
-  <data name="Search text" xml:space="preserve">
-    <value>Hledaný text</value>
-  </data>
-  <data name="Site Menu" xml:space="preserve">
-    <value>Hlavní nabídka</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Uživatelské jméno</value>
-  </data>
-  <data name="View" xml:space="preserve">
-    <value>Zobrazit</value>
+  <data name="Previous" xml:space="preserve">
+    <value>Poprzedni</value>
   </data>
 </root>

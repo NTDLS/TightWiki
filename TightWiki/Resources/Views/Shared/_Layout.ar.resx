@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>حول</value>
+  </data>
   <data name="Account" xml:space="preserve">
     <value>حساب</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="Export" xml:space="preserve">
     <value>تصدير</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>مساعدة</value>
   </data>
   <data name="Info1" xml:space="preserve">
     <value>معلومات1</value>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
@@ -20,6 +21,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Static;
 
 namespace TightWiki
 {
@@ -314,6 +316,11 @@ namespace TightWiki
                     }
                 });
             }
+
+            //Global localization providers.
+            var localizer = app.Services.GetRequiredService<IStringLocalizer<StaticHelper>>();
+            StaticHelper.Initialize(localizer);
+            PageSelectorGenerator.Initialize(localizer);
 
             app.UseRouting();
 
