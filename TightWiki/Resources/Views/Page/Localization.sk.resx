@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Czech" xml:space="preserve">
-    <value>Čeština</value>
+    <value>Český</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>Angličtina</value>
+    <value>Anglický</value>
   </data>
   <data name="Languages" xml:space="preserve">
     <value>Jazyky</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value>Slovenčina</value>
+    <value>Slovenský</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value />
+    <value>Arabský</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value />
+    <value>Bengálsky</value>
   </data>
   <data name="German" xml:space="preserve">
-    <value />
+    <value>Nemecký</value>
   </data>
   <data name="Spanish" xml:space="preserve">
-    <value />
+    <value>Španielsky</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value />
+    <value>Hindský</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value />
+    <value>Francúzsky</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value />
+    <value>Taliansky</value>
   </data>
   <data name="Japanese" xml:space="preserve">
-    <value />
+    <value>Japonský</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value />
+    <value>Kórejský</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value />
+    <value>Portugalčina</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
-    <value />
+    <value>Ukrajinčiny</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value />
+    <value>Turčínsky</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value />
+    <value>Tradičná čínština</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value />
+    <value>Zjednodušená čínština</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value />
+    <value>Ruský</value>
   </data>
 </root>

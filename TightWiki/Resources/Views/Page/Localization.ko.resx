@@ -166,10 +166,10 @@
     <value>터키어</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>중국어 전통</value>
+    <value>번체 중국어</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>중국어 간체</value>
+    <value>간체 중국어</value>
   </data>
   <data name="Russian" xml:space="preserve">
     <value>러시아어</value>

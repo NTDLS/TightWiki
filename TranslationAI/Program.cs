@@ -1,5 +1,6 @@
 ﻿using OpenAI;
 using OpenAI.Chat;
+using System;
 using System.Text;
 using System.Xml.Linq;
 
@@ -10,11 +11,14 @@ namespace TranslationAI
         static void Main()
         {
             //If you process some new languages, update "IsUIComplete" in TightWiki.Library.SupportedCultures.
-            var languages = new Dictionary<string, string?>
+            //Also be sure to add the new keys contining the new language names to the Localization.cs.resx,
+            //  this is because "*.cs.resx" is where we source translations from and we need the language names
+            //  translated into other languages
+            var languages = new Dictionary<string, string>
             {
                 //{ "cs", "Czech" }, //Never needs to be done, this was done manually.
-                //{ "en", "English" }, //Never needs to be done, this is the source.
                 //{ "sk", "Slovak" }, //Never needs to be done, this was done manually.
+                //{ "en", "English" }, //Never needs to be done, this is the source.
 
                 { "ar", "Arabic" }, //Done.
                 { "bn", "Bengali" }, //Done.
@@ -69,6 +73,17 @@ namespace TranslationAI
             var openAi = new OpenAIClient(apiKey);
             var chat = openAi.GetChatClient("gpt-4o-mini");
 
+            PerformTranslations(chat, languages, false);
+
+            languages.Add("cs", "Czech");
+            languages.Add("sk", "Slovak");
+
+            //If we added any new languages, we need to overwrite the existing files.
+            PerformTranslations(chat, languages, true, ["Localization."]);
+        }
+
+        private static void PerformTranslations(ChatClient chat, Dictionary<string, string> languages, bool overwriteExisting, List<string>? fileNameFilter = null)
+        {
             foreach (var language in languages)
             {
                 var sourceExt = "cs.resx";
@@ -84,8 +99,18 @@ namespace TranslationAI
                 foreach (var sourceFileName in sourceFileNames)
                 {
                     var fileName = Path.GetFileName(sourceFileName);
+
+                    if (fileNameFilter != null)
+                    {
+                        if (!fileNameFilter.Any(filter => fileName.Contains(filter, StringComparison.OrdinalIgnoreCase)))
+                        {
+                            Console.WriteLine($"Skipping {fileName} because it does not match the filter.");
+                            continue;
+                        }
+                    }
+
                     var targetFileName = sourceFileName.Replace(sourceExt, targetExt);
-                    if (File.Exists(targetFileName) && !fileName.StartsWith("Localization.", StringComparison.InvariantCultureIgnoreCase))
+                    if (!overwriteExisting && File.Exists(targetFileName))
                     {
                         Console.WriteLine($"Skipping {targetFileName} because it already exists.");
                         continue;
@@ -143,7 +168,7 @@ namespace TranslationAI
 
                     if (splitPhrases.Length != phrases.Count)
                     {
-                        throw new Exception("The count of translation responces do not match the number of inputs.");
+                        throw new Exception("The count of translation responses do not match the number of inputs.");
                     }
 
                     //Parse the translated block and update the dictionary with the translated phrases.

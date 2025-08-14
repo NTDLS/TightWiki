@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Czech" xml:space="preserve">
-    <value>Çekçe</value>
+    <value>Çek</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>İngilizce</value>
@@ -133,7 +133,7 @@
     <value>Arapça</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value>Bangladeşçe</value>
+    <value>Bengalce</value>
   </data>
   <data name="German" xml:space="preserve">
     <value>Almanca</value>
@@ -166,10 +166,10 @@
     <value>Türkçe</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>Geleneksel Çince</value>
+    <value>Çince (geleneksel)</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>Basitleştirilmiş Çince</value>
+    <value>Çince (basit)</value>
   </data>
   <data name="Russian" xml:space="preserve">
     <value>Rusça</value>

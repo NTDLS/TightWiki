@@ -118,60 +118,60 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Czech" xml:space="preserve">
-    <value>Čeština</value>
+    <value>čeština</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>Angličtina</value>
+    <value>angličtina</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value>Jazyky</value>
+    <value>jazyky</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value>Slovenština</value>
+    <value>slovenština</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value />
+    <value>arabština</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value />
+    <value>běhálština</value>
   </data>
   <data name="German" xml:space="preserve">
-    <value />
+    <value>němčina</value>
   </data>
   <data name="Spanish" xml:space="preserve">
-    <value />
+    <value>španělština</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value />
+    <value>hindština</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value />
+    <value>francouzština</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value />
+    <value>italština</value>
   </data>
   <data name="Japanese" xml:space="preserve">
-    <value />
+    <value>japonština</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value />
+    <value>korejština</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value />
+    <value>portugalština</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
-    <value />
+    <value>ukrajinština</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value />
+    <value>turečtina</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value />
+    <value>tradiční čínština</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value />
+    <value>zjednodušená čínština</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value />
+    <value>ruština</value>
   </data>
 </root>
