@@ -9,31 +9,62 @@ namespace TranslationAI
     {
         static void Main()
         {
-            //If you process some new languages, update them in TightWiki.Library.SupportedCultures.
-
+            //If you process some new languages, update "IsUIComplete" in TightWiki.Library.SupportedCultures.
             var languages = new Dictionary<string, string?>
             {
-                { "zh-Hant","Simplified Chinese (Mandarin)"},
-                { "ar","Arabic"},
-                { "hi","Hindi"},
-                { "fr","French"},
-                { "pt","Portuguese"}, //Brazilian?
-                { "ru","Russian"},
-                { "bn","Bengali"},
-                { "de","German"},
-                { "ja","Japanese"},
-                { "ko","Korean"},
-                { "tr","Turkish"},
-                { "it","Italian"},
-                { "ur","Urdu"}
+                { "ar", "Arabic" }, //Done.
+                { "bn", "Bengali" }, //Done.
+                { "cs", "Czech" }, //Done.
+                { "de", "German" }, //Done.
+                //{ "en", "English" }, //Done.
+                { "es", "Spanish" }, //Done.
+                { "fr", "French" }, //Done.
+                { "hi", "Hindi" }, //Done.
+                { "it", "Italian" }, //Done.
+                { "ja", "Japanese" }, //Done.
+                { "ko", "Korean" }, //Done.
+                { "pt", "Portuguese" }, //Done.
+                { "ru", "Russian" }, //Done.
+                { "sk", "Slovak" }, //Done.
+                { "tr", "Turkish" }, //Done.
+                { "uk", "Ukrainian" },
+                { "ur", "Urdu" }, //Done.
+                { "zh-Hans", "Chinese simplified" }, //Done.
+                { "zh-Hant", "Chinese traditional" }, //Done.
+                
+                //{ "fa", "Persian" },
+                //{ "id", "Indonesian" },
+                //{ "nl", "Dutch" },
+                //{ "pl", "Polish" },
+                //{ "vi", "Vietnamese" },
+
+                //{ "az", "Azerbaijani" },
+                //{ "be", "Belarusian" },
+                //{ "bg", "Bulgarian" },
+                //{ "da", "Danish" },
+                //{ "el", "Greek" },
+                //{ "et", "Estonian" },
+                //{ "fi", "Finnish" },
+                //{ "he", "Hebrew" },
+                //{ "hr", "Croatian" },
+                //{ "hu", "Hungarian" },
+                //{ "is", "Icelnadic" },
+                //{ "ka", "Georgian" },
+                //{ "kk", "Kazakh" },
+                //{ "lt", "Lithuianian" },
+                //{ "lv", "Latvian" },
+                //{ "ms", "Malay" },
+                //{ "nn", "Norwegian" },
+                //{ "ro", "Romanian" },
+                //{ "sl", "Slovenian" },
+                //{ "sr", "Serbian" },
+                //{ "sv", "Swedish" },
+                //{ "th", "Thai" },
             };
 
             var apiKey = File.ReadAllText("C:\\OpenAPIKey.txt").Trim();
             var openAi = new OpenAIClient(apiKey);
             var chat = openAi.GetChatClient("gpt-4o-mini");
-
-            var sourceFileNames = Directory.GetFiles(@"C:\NTDLS\TightWiki\TightWiki\Resources", $"*.{sourceExt}", SearchOption.AllDirectories)
-                .OrderBy(o => o).ToList();
 
             foreach (var language in languages)
             {
@@ -41,6 +72,9 @@ namespace TranslationAI
                 var sourceLanguage = "English";
                 var targetExt = $"{language.Key}.resx";
                 var targetLanguage = language.Value;
+
+                var sourceFileNames = Directory.GetFiles(@"C:\NTDLS\TightWiki\TightWiki\Resources", $"*.{sourceExt}", SearchOption.AllDirectories)
+                    .OrderBy(o => o).ToList();
 
                 string prompt = $"You are a translator that translates {sourceLanguage} to {targetLanguage}.\r\nThe text to translate is inside <Phrase_X> tags.\r\nKeep the tags exactly as they are in the output.\r\nIf the text contains placeholders such as {0}, {1}, {2}, etc., retain them exactly in the translation and place them in a position that is natural for {targetLanguage} grammar.\r\nDo not alter, remove, or renumber placeholders.\r\nDo not add any commentary — only return the translated text with the original tags and placeholders intact.";
 
