@@ -124,13 +124,13 @@
     <value>ইংরেজি</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value>ভাষা</value>
+    <value>ভাষাসমূহ</value>
   </data>
   <data name="Slovak" xml:space="preserve">
     <value>স্লোভাক</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value>আরবী</value>
+    <value>আরবি</value>
   </data>
   <data name="Bengali" xml:space="preserve">
     <value>বাংলা</value>
@@ -145,7 +145,7 @@
     <value>হিন্দি</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value>ফরাসী</value>
+    <value>ফরাসি</value>
   </data>
   <data name="Italian" xml:space="preserve">
     <value>ইতালীয়</value>
@@ -157,19 +157,34 @@
     <value>কোরিয়ান</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value>পোর্তুগীজ</value>
+    <value>পর্তুগিজ</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
     <value>ইউক্রেনীয়</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>ফারসি</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>ভিয়েতনামিজ</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>পোলিশ</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>ডাচ</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>ইন্দোনেশীয়</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
-    <value>টার্কিশ</value>
+    <value>তুর্কি</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>চীনা ঐতিহ্যবাহী</value>
+    <value>চীনা প্রথাগত</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>চীনা সহজীকৃত</value>
+    <value>চীনা সরলায়িত</value>
   </data>
   <data name="Russian" xml:space="preserve">
     <value>রুশ</value>

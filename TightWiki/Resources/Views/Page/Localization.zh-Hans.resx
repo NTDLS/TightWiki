@@ -162,6 +162,21 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>乌克兰语</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>波斯语</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>越南语</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>波兰语</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>荷兰语</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>印尼语</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
     <value>土耳其语</value>
   </data>

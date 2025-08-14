@@ -142,7 +142,7 @@
     <value>İspanyolca</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value>Hintçe</value>
+    <value>Hindice</value>
   </data>
   <data name="French" xml:space="preserve">
     <value>Fransızca</value>
@@ -162,14 +162,29 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>Ukraynaca</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Farsça</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamca</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Lehçe</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Endonezyaca</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
     <value>Türkçe</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>Çince (geleneksel)</value>
+    <value>Çince klasik</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>Çince (basit)</value>
+    <value>Çince basitleştirilmiş</value>
   </data>
   <data name="Russian" xml:space="preserve">
     <value>Rusça</value>

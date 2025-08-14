@@ -162,6 +162,21 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>الأوكرانية</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>الفارسية</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>الفيتنامية</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>البولندية</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>الهولندية</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>الإندونيسية</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
     <value>التركية</value>
   </data>

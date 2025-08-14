@@ -127,7 +127,7 @@
     <value>Мови</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value>Словакська</value>
+    <value>Словацька</value>
   </data>
   <data name="Arabic" xml:space="preserve">
     <value>Арабська</value>
@@ -142,7 +142,7 @@
     <value>Іспанська</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value>Хінді</value>
+    <value>Гінді</value>
   </data>
   <data name="French" xml:space="preserve">
     <value>Французька</value>
@@ -162,6 +162,21 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>Українська</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Перська</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>В'єтнамська</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Польська</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Голландська</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Індонезійська</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
     <value>Турецька</value>
   </data>
@@ -169,9 +184,9 @@
     <value>Китайська традиційна</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>Китайська спростлена</value>
+    <value>Китайська спрощена</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value>Русська</value>
+    <value>Російська</value>
   </data>
 </root>

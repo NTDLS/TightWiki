@@ -162,11 +162,26 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>우크라이나어</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>페르시아어</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>베트남어</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>폴란드어</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>네덜란드어</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>인도네시아어</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
     <value>터키어</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>번체 중국어</value>
+    <value>전통 중국어</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
     <value>간체 중국어</value>

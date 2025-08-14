@@ -133,7 +133,7 @@
     <value>Árabe</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value>Bangla</value>
+    <value>Bengalí</value>
   </data>
   <data name="German" xml:space="preserve">
     <value>Alemán</value>
@@ -161,6 +161,21 @@
   </data>
   <data name="Ukrainian" xml:space="preserve">
     <value>Ucraniano</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Persa</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamita</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polaco</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Holandés</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indonesio</value>
   </data>
   <data name="Turkish" xml:space="preserve">
     <value>Turco</value>

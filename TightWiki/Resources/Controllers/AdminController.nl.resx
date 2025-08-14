@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Accountnaam is al in gebruik.</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Accountnaam is vereist.</value>
+  </data>
+  <data name="All exceptions have been purged." xml:space="preserve">
+    <value>Alle uitzonderingen zijn gewist.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Alle weeskind pagina bijlagen zijn gewist.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Alle pagina herzieningen zijn ingekort.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Alle pagina's zijn gecached.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Alle pagina's zijn opnieuw opgebouwd.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Compilatiestatistieken gewist.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Compilatiestatistieken</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Kon de bijgevoegde afbeelding niet opslaan, te groot.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Kon de bijgevoegde afbeelding niet opslaan, type niet toegestaan.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Kon de bijgevoegde afbeelding niet opslaan.</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Database</value>
+  </data>
+  <data name="Delete Emoji" xml:space="preserve">
+    <value>Emoji verwijderen</value>
+  </data>
+  <data name="Delete Profile" xml:space="preserve">
+    <value>Profiel verwijderen</value>
+  </data>
+  <data name="Delete {0}" xml:space="preserve">
+    <value>Verwijder {0}</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-mailadres is al in gebruik.</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emoji naam is al in gebruik.</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>Emoji's</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Uitzondering</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>Uitzonderingen</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Geheugen cache gewist.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menu-item</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>Metrieken</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>Ontbrekende pagina's</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Namespaces</value>
+  </data>
+  <data name="Operation failed: {0}" xml:space="preserve">
+    <value>Operatie mislukt: {0}</value>
+  </data>
+  <data name="Optimization complete. {0}" xml:space="preserve">
+    <value>Optimalisatie voltooid. {0}</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>Weeskind pagina bijlagen</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Pagina moderatie</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Pagina herziening is verplaatst naar de verwijderingswachtrij.</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Pagina's</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Rollen</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Het account is aangemaakt.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Het account is verwijderd.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>De configuratie is succesvol opgeslagen!</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>De emoji is aangemaakt.</value>
+  </data>
+  <data name="The emoji has been deleted." xml:space="preserve">
+    <value>De emoji is verwijderd.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>De emoji is succesvol opgeslagen!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>De emoji is opgeslagen.</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Het menu-item is aangemaakt.</value>
+  </data>
+  <data name="The menu item has been deleted." xml:space="preserve">
+    <value>Het menu-item is verwijderd.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Het menu-item is opgeslagen.</value>
+  </data>
+  <data name="The menu name '{0}' is already in use." xml:space="preserve">
+    <value>De menu naam '{0}' is al in gebruik.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>De pagina kon niet worden gevonden.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>De verwijderingswachtrij van de pagina is gewist.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>De pagina is verplaatst naar de verwijderingswachtrij.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>De pagina is gewist uit de verwijderingswachtrij.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>De pagina is hersteld.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>De pagina is hersteld.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>De pagina herziening is gewist uit de verwijderingswachtrij.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>De pagina herziening is hersteld.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>De bijlagen van de weeskind pagina's zijn gewist.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>De opgegeven pagina kon niet worden gevonden.</value>
+  </data>
+  <data name="Unknown database action: '{0}'" xml:space="preserve">
+    <value>Onbekende database actie: '{0}'</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Gebruiker niet gevonden.</value>
+  </data>
+  <data name="Vacuum complete. {0}" xml:space="preserve">
+    <value>Vacuüm voltooid. {0}</value>
+  </data>
+  <data name="Verification complete. {0}" xml:space="preserve">
+    <value>Verificatie voltooid. {0}</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Je kunt de enige bestaande revisie van een pagina niet verwijderen; in plaats daarvan moet je de hele pagina verwijderen.</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Je kunt niet terugkeren naar de huidige pagina herziening.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Je account is verwijderd.</value>
+  </data>
+  <data name="Your profile has been saved successfully!" xml:space="preserve">
+    <value>Je profiel is succesvol opgeslagen!</value>
+  </data>
+  <data name="{0} : {1} is required." xml:space="preserve">
+    <value>{0} : {1} is vereist.</value>
+  </data>
+  <data name="{0} Delete" xml:space="preserve">
+    <value>{0} Verwijderen</value>
+  </data>
+</root>

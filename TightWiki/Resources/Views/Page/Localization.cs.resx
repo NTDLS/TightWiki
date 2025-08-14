@@ -118,60 +118,75 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Czech" xml:space="preserve">
-    <value>čeština</value>
+    <value>Čeština</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>angličtina</value>
+    <value>Angličtina</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value>jazyky</value>
+    <value>Jazyky</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value>slovenština</value>
+    <value>Slovenština</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value>arabština</value>
+    <value>Arabština</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value>běhálština</value>
+    <value>Bahtí</value>
   </data>
   <data name="German" xml:space="preserve">
-    <value>němčina</value>
+    <value>Nemčina</value>
   </data>
   <data name="Spanish" xml:space="preserve">
-    <value>španělština</value>
+    <value>Španělština</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value>hindština</value>
+    <value>Hindština</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value>francouzština</value>
+    <value>Francouzština</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value>italština</value>
+    <value>Italština</value>
   </data>
   <data name="Japanese" xml:space="preserve">
-    <value>japonština</value>
+    <value>Japonština</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value>korejština</value>
+    <value>Korejština</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value>portugalština</value>
+    <value>Portugalština</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
-    <value>ukrajinština</value>
+    <value>Ukrajinština</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Perština</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamština</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polština</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Nizozemština</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indonéština</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value>turečtina</value>
+    <value>Jedná se o turečtinu</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>tradiční čínština</value>
+    <value>Čínština tradiční</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>zjednodušená čínština</value>
+    <value>Čínština zjednodušená</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value>ruština</value>
+    <value>Ruština</value>
   </data>
 </root>

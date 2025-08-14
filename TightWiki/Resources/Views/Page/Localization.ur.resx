@@ -121,13 +121,13 @@
     <value>چیک</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value>انگلش</value>
+    <value>انگلیسی</value>
   </data>
   <data name="Languages" xml:space="preserve">
     <value>زبانیں</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value>سلوواکی</value>
+    <value>سلوواک</value>
   </data>
   <data name="Arabic" xml:space="preserve">
     <value>عربی</value>
@@ -162,14 +162,29 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>یوکرینی</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>فارسی</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>ویتنامی</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>پولش</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>ڈچ</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>انڈونیشیائی</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
     <value>ترکی</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>روایتی چینی</value>
+    <value>چینی روایتی</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>سادہ چینی</value>
+    <value>چینی سادہ</value>
   </data>
   <data name="Russian" xml:space="preserve">
     <value>روسی</value>

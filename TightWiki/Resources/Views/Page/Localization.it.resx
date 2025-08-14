@@ -154,13 +154,28 @@
     <value>Giapponese</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value>Koreano</value>
+    <value>Coreano</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
     <value>Portoghese</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
     <value>Ucraino</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Persiano</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamita</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polacco</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Olandese</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indonesiano</value>
   </data>
   <data name="Turkish" xml:space="preserve">
     <value>Turco</value>

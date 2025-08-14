@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Czech" xml:space="preserve">
-    <value>Tcheco</value>
+    <value>Checo</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>Inglês</value>
@@ -133,7 +133,7 @@
     <value>Árabe</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value>Bangla</value>
+    <value>Bengali</value>
   </data>
   <data name="German" xml:space="preserve">
     <value>Alemão</value>
@@ -161,6 +161,21 @@
   </data>
   <data name="Ukrainian" xml:space="preserve">
     <value>Ucraniano</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Persa</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamita</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Polonês</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Holandês</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indonésio</value>
   </data>
   <data name="Turkish" xml:space="preserve">
     <value>Turco</value>

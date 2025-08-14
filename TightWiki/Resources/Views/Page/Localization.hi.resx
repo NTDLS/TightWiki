@@ -130,7 +130,7 @@
     <value>स्लोवाक</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value>अरबी</value>
+    <value>अरबिक</value>
   </data>
   <data name="Bengali" xml:space="preserve">
     <value>बंगाली</value>
@@ -148,7 +148,7 @@
     <value>फ्रेंच</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value>इतालवी</value>
+    <value>इटालियन</value>
   </data>
   <data name="Japanese" xml:space="preserve">
     <value>जापानी</value>
@@ -162,14 +162,29 @@
   <data name="Ukrainian" xml:space="preserve">
     <value>यूक्रेनी</value>
   </data>
+  <data name="Persian" xml:space="preserve">
+    <value>फारसी</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>वियतनामी</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>पोलिश</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>डच</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>इंडोनेशियाई</value>
+  </data>
   <data name="Turkish" xml:space="preserve">
-    <value>तुर्किश</value>
+    <value>तुर्की</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value>चीनी पारंपरिक</value>
+    <value>परंपरागत चीनी</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value>चीनी सरल</value>
+    <value>सरलीकृत चीनी</value>
   </data>
   <data name="Russian" xml:space="preserve">
     <value>रूसी</value>
