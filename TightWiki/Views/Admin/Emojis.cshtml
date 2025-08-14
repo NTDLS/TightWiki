@@ -15,60 +15,61 @@
     @Localizer["Global configuration for Emojis."]<br /><br />
 </p>
 
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">@Localizer["Add new emoji"]</a>
-<br />
-<br />
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        <a class="btn btn-success" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">@Localizer["Add new emoji"]</a>
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
-    <div class="container">
-        <div class="d-flex justify-content-end mb-4">
-            <div class="flex-grow-1 me-2">
-                @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
-            </div>
-            <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
+    <div class="d-flex justify-content-end mb-4">
+        <div class="flex-grow-1 me-2">
+            @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
         </div>
+        <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
     </div>
-    <br />
-
-    @if (Model.Emojis.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
-
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">@Localizer["Shortcut"]</a></strong></td>
-                    <td><strong>@Localizer["Image"]</strong></td>
-                </tr>
-            </thead>
-
-            @foreach (var emoji in Model.Emojis)
-            {
-                <tr>
-                    <td><a href="@GlobalConfiguration.BasePath/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
-                    <td>@emoji.Shortcut</td>
-                    <td><img src="@GlobalConfiguration.BasePath/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
-                </tr>
-            }
-        </table>
-
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["Either there are no emojis configured or your search criteria returned no results."]"
-            </strong>
-        </div>
-    }
 }
 
-<br />
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddEmoji">@Localizer["Add new emoji"]</a>
+@if (Model.Emojis.Count > 0)
+{
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    <br />
+
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">@Localizer["Shortcut"]</a></strong></td>
+                <td><strong>@Localizer["Image"]</strong></td>
+            </tr>
+        </thead>
+
+        @foreach (var emoji in Model.Emojis)
+        {
+            <tr>
+                <td><a href="@GlobalConfiguration.BasePath/Admin/Emoji/@emoji.Name">@emoji.Name</a></td>
+                <td>@emoji.Shortcut</td>
+                <td><img src="@GlobalConfiguration.BasePath/File/Emoji/@emoji.Name" alt="@emoji.Name" /></td>
+            </tr>
+        }
+    </table>
+
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+}
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["Either there are no emojis configured or your search criteria returned no results."]"
+        </strong>
+    </div>
+}
 
 <script>
     window.onload = function () {

@@ -15,44 +15,43 @@
     @Localizer["Global configuration for the site menu."]<br /><br />
 </p>
 
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">@Localizer["Add new item"]</a>
-<br />
-<br />
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        <a class="btn btn-success" href="@GlobalConfiguration.BasePath/Admin/MenuItem">@Localizer["Add new item"]</a>
+    </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
+
+@if (Model.Items.Count > 0)
 {
-    @Html.AntiForgeryToken()
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">@Localizer["Link"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">@Localizer["Ordinal"]</a></strong></td>
+            </tr>
+        </thead>
 
-    @if (Model.Items.Count > 0)
-    {
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">@Localizer["Name"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">@Localizer["Link"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">@Localizer["Ordinal"]</a></strong></td>
-                </tr>
-            </thead>
-
-            @foreach (var item in Model.Items)
-            {
-                <tr>
-                    <td><a href="@GlobalConfiguration.BasePath/Admin/MenuItem/@item.Id">@item.Name</a></td>
-                    <td>@item.Link</td>
-                    <td>@item.Ordinal</td>
-                </tr>
-            }
-        </table>
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["There are no menu items configured."]
-            </strong>
-        </div>
-    }
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td><a href="@GlobalConfiguration.BasePath/Admin/MenuItem/@item.Id">@item.Name</a></td>
+                <td>@item.Link</td>
+                <td>@item.Ordinal</td>
+            </tr>
+        }
+    </table>
 }
-
-<br />
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/MenuItem">@Localizer["Add new item"]</a>
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["There are no menu items configured."]
+        </strong>
+    </div>
+}

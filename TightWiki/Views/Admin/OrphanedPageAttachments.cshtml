@@ -15,49 +15,53 @@
     @Localizer["These are all of the page attachments that are no longer attached to any page revision."]<br /><br />
 </p>
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-        Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
-        Localizer["Purge Orphaned Attachments"].Value, "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
-<br />
-<br />
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+            Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
+            Localizer["Purge Orphaned Attachments"].Value, "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value))
+    </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
+
+@if (Model.Files.Count > 0)
 {
-    @if (Model.Files.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    <br />
 
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">@Localizer["Page"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "File")">@Localizer["File"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Size")">@Localizer["Size"]</a></strong></td>
+            <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
+            <td><strong>@Localizer["Action"]</strong></td>
+        </tr>
+
+        @foreach (var p in Model.Files)
+        {
             <tr>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">@Localizer["Page"]</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "File")">@Localizer["File"]</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Size")">@Localizer["Size"]</a></strong></td>
-                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
-                <td><strong>@Localizer["Action"]</strong></td>
+                <td>
+                    @if (string.IsNullOrEmpty(@p.Namespace) == false)
+                    {
+                        <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                    } <a href="@GlobalConfiguration.BasePath/@p.PageNavigation">@p.PageTitle</a>
+                </td>
+                <td><a href="@GlobalConfiguration.BasePath/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
+                <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
+                <td>@p.FileRevision</td>
+                <td>
+                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                        Localizer["This will permanently delete the specified attachment. Continue?"].Value,
+                        Localizer["Delete"].Value, $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                </td>
             </tr>
+        }
+    </table>
 
-            @foreach (var p in Model.Files)
-            {
-                <tr>
-                    <td>
-                        @if (string.IsNullOrEmpty(@p.Namespace) == false)
-                        {
-                            <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                        } <a href="@GlobalConfiguration.BasePath/@p.PageNavigation">@p.PageTitle</a>
-                    </td>
-                    <td><a href="@GlobalConfiguration.BasePath/File/Binary/@p.PageNavigation/@p.FileNavigation/@p.FileRevision">@p.FileName</a></td>
-                    <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
-                    <td>@p.FileRevision</td>
-                    <td>
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-                                 Localizer["This will permanently delete the specified attachment. Continue?"].Value,
-                                 Localizer["Delete"].Value, $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value))
-                    </td>
-                </tr>
-            }
-        </table>
-
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
 }

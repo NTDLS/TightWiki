@@ -15,11 +15,18 @@
     @Localizer["The compilation statistics for all wiki page operations."]<br /><br />
 </p>
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-        Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
-        Localizer["Purge Compilation Statistics"].Value, "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
-<br />
-<br />
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+            Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
+            Localizer["Purge Compilation Statistics"].Value, "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value))
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
 
 @if (Model.Statistics.Count > 0)
 {
@@ -42,7 +49,6 @@
 
         @foreach (var stat in Model.Statistics)
         {
-
             <tr>
                 <td>
                     @if (string.IsNullOrEmpty(@stat.Namespace) == false)

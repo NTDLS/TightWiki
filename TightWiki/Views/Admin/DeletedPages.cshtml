@@ -15,68 +15,73 @@
     @Localizer["Pages that have been deleted. Can be purged or restored."]<br /><br />
 </p>
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-        Localizer["This will permanently purge all deleted pages. Continue?"].Value,
-        Localizer["Purge Deleted Pages"].Value, "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
-<br />
-<br />
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+            Localizer["This will permanently purge all deleted pages. Continue?"].Value,
+            Localizer["Purge Deleted Pages"].Value, "/Admin/PurgeDeletedPages", Context.Request.Path.Value))
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
-    <div class="container">
-        <div class="d-flex justify-content-end mb-4">
-            <div class="flex-grow-1 me-2">
-                @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
-            </div>
-            <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
+    <div class="d-flex justify-content-end mb-4">
+        <div class="flex-grow-1 me-2">
+            @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
         </div>
+        <button type="submit" class="btn btn-primary">@Localizer["Search"]</button>
     </div>
+}
+
+@if (Model.Pages.Count > 0)
+{
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     <br />
 
-    @if (Model.Pages.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">@Localizer["Page"]</a></strong></td>
+                <td><strong>@Localizer["Action"]</strong></td>
+            </tr>
+        </thead>
+        @foreach (var p in Model.Pages)
+        {
+            <tr>
+                <td>
+                    @if (string.IsNullOrEmpty(@p.Namespace) == false)
+                    {
+                        <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
+                    } <a href="@GlobalConfiguration.BasePath/Admin/DeletedPage/@p.Id">@p.Title</a>
+                </td>
+                <td>
+                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
+                        Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
+                        Localizer["Restore"].Value, "/Admin/RestoreDeletedPage/" + @p.Id, Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                        Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
+                        Localizer["Purge"].Value, "/Admin/PurgeDeletedPage/" + @p.Id, Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                </td>
+            </tr>
+        }
+    </table>
 
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">@Localizer["Page"]</a></strong></td>
-                    <td><strong>@Localizer["Action"]</strong></td>
-                </tr>
-            </thead>
-            @foreach (var p in Model.Pages)
-            {
-                <tr>
-                    <td>
-                        @if (string.IsNullOrEmpty(@p.Namespace) == false)
-                        {
-                            <text><a href="@GlobalConfiguration.BasePath/Admin/Namespace/@p.Namespace">@p.Namespace</a> :: </text>
-                        } <a href="@GlobalConfiguration.BasePath/Admin/DeletedPage/@p.Id">@p.Title</a>
-                    </td>
-                    <td>
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
-                                 Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
-                                 Localizer["Restore"].Value, "/Admin/RestoreDeletedPage/" + @p.Id, Context.Request.Path.Value))
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-                                 Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
-                                 Localizer["Purge"].Value, "/Admin/PurgeDeletedPage/" + @p.Id, Context.Request.Path.Value))
-                    </td>
-                </tr>
-            }
-        </table>
-
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["Either the deleted pages queue is empty or your search criteria returned no results."]
-            </strong>
-        </div>
-    }
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
 }
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["Either the deleted pages queue is empty or your search criteria returned no results."]
+        </strong>
+    </div>
+}
+
 
 <script>
     window.onload = function () {

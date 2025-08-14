@@ -15,67 +15,66 @@
     @Localizer["Global configuration for user accounts."]<br /><br />
 </p>
 
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddAccount">@Localizer["Add new account"]</a>
-<br />
-<br />
-
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
-{
-    <div class="container">
-        <div class="d-flex justify-content-end mb-4">
-            <div class="flex-grow-1 me-2">
-                @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
-            </div>
-            <button type="submit" value="Search" class="btn btn-primary">@Localizer["Search"]</button>
-        </div>
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        <a class="btn btn-success" href="@GlobalConfiguration.BasePath/Admin/AddAccount">@Localizer["Add new account"]</a>
     </div>
 
-    @if (Model.Users.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
 
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Account")">@Localizer["Account"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName")">@Localizer["First Name"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "LastName")">@Localizer["Last Name"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Country")">@Localizer["Country"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TimeZone")">@Localizer["TimeZone"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress")">@Localizer["EmailAddress"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Created")">@Localizer["CreatedDate"]</a></strong></td>
-                </tr>
-            </thead>
+<div class="d-flex justify-content-end mb-4">
+    <div class="flex-grow-1 me-2">
+        @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
+    </div>
+    <button type="submit" value="Search" class="btn btn-primary">@Localizer["Search"]</button>
+</div>
 
-            @foreach (var user in Model.Users)
-            {
-                <tr>
-                    <td><a href="@GlobalConfiguration.BasePath/Admin/Account/@user.Navigation">@user.AccountName</a></td>
-                    <td>@user.FirstName</td>
-                    <td>@user.LastName</td>
-                    <td>@user.Country</td>
-                    <td>@user.TimeZone</td>
-                    <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
-                    <td>@user.CreatedDate</td>
-                </tr>
-            }
-        </table>
+@if (Model.Users.Count > 0)
+{
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    <br />
 
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["Either there are no accounts configured or your search criteria returned no results."]
-            </strong>
-        </div>
-    }
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Account")">@Localizer["Account"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName")">@Localizer["First Name"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "LastName")">@Localizer["Last Name"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Country")">@Localizer["Country"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TimeZone")">@Localizer["TimeZone"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress")">@Localizer["EmailAddress"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Created")">@Localizer["CreatedDate"]</a></strong></td>
+            </tr>
+        </thead>
+
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td><a href="@GlobalConfiguration.BasePath/Admin/Account/@user.Navigation">@user.AccountName</a></td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.Country</td>
+                <td>@user.TimeZone</td>
+                <td>@user.EmailAddress  @Html.Raw(((user.EmailConfirmed == true) ? "&check;" : ""))   </td>
+                <td>@user.CreatedDate</td>
+            </tr>
+        }
+    </table>
+
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
 }
-
-<br />
-<a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/Admin/AddAccount">@Localizer["Add new account"]</a>
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["Either there are no accounts configured or your search criteria returned no results."]
+        </strong>
+    </div>
+}
 
 <script>
     window.onload = function () {

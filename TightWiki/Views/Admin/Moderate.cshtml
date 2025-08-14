@@ -16,57 +16,52 @@
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
-    <div class="container">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                @Html.DropDownListFor(m => m.Instruction,
-                         new SelectList(Model.Instructions),
-                         Localizer["Select an instruction"].Value,
-                         new { @class = "form-control", id = "instructionDropdown" })
-            </div>
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-primary">@Localizer["Refresh"]</button>
-            </div>
+    <div class="d-flex justify-content-end mb-4">
+        <div class="flex-grow-1 me-2">
+            @Html.DropDownListFor(m => m.Instruction,
+            new SelectList(Model.Instructions),
+                Localizer["Select an instruction"].Value,
+                new { @class = "form-control", id = "instructionDropdown" })
         </div>
+        <button type="submit" class="btn btn-primary">@Localizer["Refresh"]</button>
     </div>
+}
+
+@if (Model.Pages.Count > 0)
+{
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     <br />
 
-    @if (Model.Pages.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
+    <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong>@Localizer["Name"]</strong></td>
+                <td><strong>@Localizer["Revision"]</strong></td>
+                <td><strong>@Localizer["Modified By"]</strong></td>
+                <td><strong>@Localizer["Modified Date"]</strong></td>
+            </tr>
+        </thead>
 
-        <table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong>@Localizer["Name"]</strong></td>
-                    <td><strong>@Localizer["Revision"]</strong></td>
-                    <td><strong>@Localizer["Modified By"]</strong></td>
-                    <td><strong>@Localizer["Modified Date"]</strong></td>
-                </tr>
-            </thead>
+        @foreach (var p in Model.Pages)
+        {
+            <tr>
+                <td><a href="@GlobalConfiguration.BasePath/@p.Navigation">@p.Name</a></td>
+                <td><a href="@GlobalConfiguration.BasePath/@p.Navigation/Revisions">@p.Revision</a></td>
+                <td>@p.ModifiedByUserName</td>
+                <td>@p.ModifiedDate</td>
+            </tr>
+        }
+    </table>
 
-            @foreach (var p in Model.Pages)
-            {
-                <tr>
-                    <td><a href="@GlobalConfiguration.BasePath/@p.Navigation">@p.Name</a></td>
-                    <td><a href="@GlobalConfiguration.BasePath/@p.Navigation/Revisions">@p.Revision</a></td>
-                    <td>@p.ModifiedByUserName</td>
-                    <td>@p.ModifiedDate</td>
-                </tr>
-            }
-        </table>
-
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["There are no pages which contain the selected processing instruction."]
-            </strong>
-        </div>
-    }
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+}
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["There are no pages which contain the selected processing instruction."]
+        </strong>
+    </div>
 }
 
 <script>

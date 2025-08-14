@@ -15,38 +15,35 @@
     @Localizer["Pages that have been linked to, but do not exist."]<br /><br />
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+@if (Model.Pages.Count > 0)
 {
-    @if (Model.Pages.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    <br />
 
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "SourcePage")">@Localizer["Source Page"]</a></strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TargetPage")">@Localizer["Target Page"]</a></strong></td>
-                </tr>
-            </thead>
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "SourcePage")">@Localizer["Source Page"]</a></strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "TargetPage")">@Localizer["Target Page"]</a></strong></td>
+            </tr>
+        </thead>
 
-            @foreach (var p in Model.Pages)
-            {
-                <tr>
-                    <td><a href="@GlobalConfiguration.BasePath/@p.SourcePageNavigation">@p.SourcePageName</a></td>
-                    <td><a href="@GlobalConfiguration.BasePath/@p.TargetPageNavigation/Edit?Name=@p.TargetPageName">@p.TargetPageName</a></td>
-                </tr>
-            }
-        </table>
+        @foreach (var p in Model.Pages)
+        {
+            <tr>
+                <td><a href="@GlobalConfiguration.BasePath/@p.SourcePageNavigation">@p.SourcePageName</a></td>
+                <td><a href="@GlobalConfiguration.BasePath/@p.TargetPageNavigation/Edit?Name=@p.TargetPageName">@p.TargetPageName</a></td>
+            </tr>
+        }
+    </table>
 
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["There are currently no missing pages being referenced by other wiki pages."]
-            </strong>
-        </div>
-    }
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+}
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["There are currently no missing pages being referenced by other wiki pages."]
+        </strong>
+    </div>
 }

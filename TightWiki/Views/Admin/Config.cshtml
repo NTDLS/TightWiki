@@ -18,119 +18,114 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">@Localizer["Save!"]</button></div>
-    <br />
-    <br />
+    <div class="form-group"><button type="submit" class="btn btn-primary mb-4">@Localizer["Save"]</button></div>
 
-    <div class="container">
-        @foreach (var group in Model.Nest)
-        {
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>@group.Name</h4>
-                            <p>@group.Description</p>
-                        </div>
-                        <div class="card-body">
-                            @foreach (var entry in group.Entries)
-                            {
-                                <div class="form-group row mb-3">
-                                    <label for="@entry.ConfigurationGroupId:@entry.Id" class="col-sm-2 col-form-label">
-                                        <strong>@entry.Name</strong><br />
-                                        <small class="text-muted">@entry.Description</small>
-                                    </label>
-                                    <div class="col-sm-10">
-                                        @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
-                                        {
-                                            <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                                <option value="" style="color:#ccc !important;">@Localizer["Select a Theme"]</option>
-                                                @foreach (var item in Model.Themes)
-                                                {
-                                                    <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
-                                                }
-                                            </select>
-                                        }
-                                        else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
-                                        {
-                                            <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                                <option value="" style="color:#ccc !important;">@Localizer["Select a role"]</option>
-                                                @foreach (var item in Model.Roles)
-                                                {
-                                                    <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
-                                                }
-                                            </select>
-                                        }
-                                        else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone" || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
-                                        {
-                                            <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                                <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
-                                                @foreach (var item in Model.TimeZones)
-                                                {
-                                                    <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
-                                                }
-                                            </select>
-                                        }
-                                        else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language" || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
-                                        {
-                                            <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                                <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
-                                                @foreach (var item in Model.Languages)
-                                                {
-                                                    <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
-                                                }
-                                            </select>
-                                        }
-                                        else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country" || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
-                                        {
-                                            <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                                <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
-                                                @foreach (var item in Model.Countries)
-                                                {
-                                                    <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
-                                                }
-                                            </select>
-                                        }
-                                        else if (@entry.DataType == "string")
-                                        {
-                                            if (@entry.IsEncrypted == true)
+    @foreach (var group in Model.Nest)
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>@group.Name</h4>
+                        <p>@group.Description</p>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var entry in group.Entries)
+                        {
+                            <div class="form-group row mb-3">
+                                <label for="@entry.ConfigurationGroupId:@entry.Id" class="col-sm-2 col-form-label">
+                                    <strong>@entry.Name</strong><br />
+                                    <small class="text-muted">@entry.Description</small>
+                                </label>
+                                <div class="col-sm-10">
+                                    @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
+                                    {
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
+                                            <option value="" style="color:#ccc !important;">@Localizer["Select a Theme"]</option>
+                                            @foreach (var item in Model.Themes)
                                             {
-                                                <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
+                                                <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
                                             }
-                                            else
+                                        </select>
+                                    }
+                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
+                                    {
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
+                                            <option value="" style="color:#ccc !important;">@Localizer["Select a role"]</option>
+                                            @foreach (var item in Model.Roles)
                                             {
-                                                <input type="text" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" class="form-control">
+                                                <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
                                             }
-                                        }
-                                        else if (@entry.DataType == "text")
+                                        </select>
+                                    }
+                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone" || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
+                                    {
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
+                                            <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
+                                            @foreach (var item in Model.TimeZones)
+                                            {
+                                                <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
+                                            }
+                                        </select>
+                                    }
+                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language" || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
+                                    {
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
+                                            <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
+                                            @foreach (var item in Model.Languages)
+                                            {
+                                                <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
+                                            }
+                                        </select>
+                                    }
+                                    else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country" || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
+                                    {
+                                        <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
+                                            <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
+                                            @foreach (var item in Model.Countries)
+                                            {
+                                                <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
+                                            }
+                                        </select>
+                                    }
+                                    else if (@entry.DataType == "string")
+                                    {
+                                        if (@entry.IsEncrypted == true)
                                         {
-                                            <textarea name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" rows="4" class="form-control">@entry.Value</textarea>
+                                            <input type="password" value="@entry.Value" id="@entry.ConfigurationGroupId:@entry.Id" name="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
                                         }
-                                        else if (@entry.DataType == "integer" || @entry.DataType == "decimal")
+                                        else
                                         {
-                                            <input type="number" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" class="form-control">
+                                            <input type="text" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" class="form-control">
                                         }
-                                        else if (@entry.DataType == "boolean")
-                                        {
-                                            <div class="form-check form-check-inline">
-                                                <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:1" name="@entry.ConfigurationGroupId:@entry.Id" value="1" class="form-check-input" @(entry.Value == "1" ? "checked" : "")>
-                                                <label for="@entry.ConfigurationGroupId:@entry.Id:1" class="form-check-label">Yes</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:0" name="@entry.ConfigurationGroupId:@entry.Id" value="0" class="form-check-input" @(entry.Value == "0" ? "checked" : "")>
-                                                <label for="@entry.ConfigurationGroupId:@entry.Id:0" class="form-check-label">No</label>
-                                            </div>
-                                        }
-                                    </div>
+                                    }
+                                    else if (@entry.DataType == "text")
+                                    {
+                                        <textarea name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" rows="4" class="form-control">@entry.Value</textarea>
+                                    }
+                                    else if (@entry.DataType == "integer" || @entry.DataType == "decimal")
+                                    {
+                                        <input type="number" name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" value="@entry.Value" class="form-control">
+                                    }
+                                    else if (@entry.DataType == "boolean")
+                                    {
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:1" name="@entry.ConfigurationGroupId:@entry.Id" value="1" class="form-check-input" @(entry.Value == "1" ? "checked" : "")>
+                                            <label for="@entry.ConfigurationGroupId:@entry.Id:1" class="form-check-label">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input type="radio" id="@entry.ConfigurationGroupId:@entry.Id:0" name="@entry.ConfigurationGroupId:@entry.Id" value="0" class="form-check-input" @(entry.Value == "0" ? "checked" : "")>
+                                            <label for="@entry.ConfigurationGroupId:@entry.Id:0" class="form-check-label">No</label>
+                                        </div>
+                                    }
                                 </div>
-                            }
-                        </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
 
-    <br />
-    <div class="form-group"><button type="submit" class="btn btn-primary rounded-0">@Localizer["Save!"]</button></div>
+    <div class="form-group"><button type="submit" class="btn btn-primary mt-2">@Localizer["Save"]</button></div>
 }

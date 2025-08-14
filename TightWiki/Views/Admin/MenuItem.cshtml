@@ -15,38 +15,34 @@
     @Html.AntiForgeryToken()
     @Html.HiddenFor(m => m.Id)
 
-    <div class="container">
-        <div class="form-group row mb-1">
-            <label for="Name" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Name)</strong></label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Localizer["required"].Value })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
-            </div>
+    <div class="form-group row mb-1">
+        <label for="Name" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Name)</strong></label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = Localizer["required"].Value })
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
         </div>
-        <div class="form-group row mb-1">
-            <label for="Link" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Link)</strong></label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Link, new { @class = "form-control", placeholder = Localizer["required"].Value })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Link)</div>
-            </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="Link" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Link)</strong></label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Link, new { @class = "form-control", placeholder = Localizer["required"].Value })
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.Link)</div>
         </div>
-        <div class="form-group row mb-1">
-            <label for="Ordinal" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Ordinal)</strong></label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Ordinal, new { @class = "form-control", placeholder = Localizer["required"].Value })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Ordinal)</div>
-            </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="Ordinal" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Ordinal)</strong></label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Ordinal, new { @class = "form-control", placeholder = Localizer["required"].Value })
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.Ordinal)</div>
         </div>
-        <div class="form-group row mb-1">
-            <div class="col-sm-10 offset-sm-2">
-                <button type="submit" class="btn btn-primary rounded-0">@Localizer["Save!"]</button>
-            </div>
+    </div>
+    <div class="form-group row mb-1">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
         </div>
     </div>
 }
 
-<br />
-
 <form action="@GlobalConfiguration.BasePath/Admin/DeleteMenuItem/@Model.Id">
-    <button type="submit" class="btn btn-danger rounded-0">@Localizer["Delete Menu Item"]</button>
+    <button type="submit" class="btn btn-danger mt-2">@Localizer["Delete Menu Item"]</button>
 </form>

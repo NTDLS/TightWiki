@@ -35,15 +35,15 @@
 
             @if (Model.Style == "Safe")
             {
-                <div class="form-group"><button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">@Localizer["No"]</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-success" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="UserSelection" value="false">@Localizer["No"]</button></div>
             }
             else if (Model.Style == "Warn")
             {
-                <div class="form-group"><button type="submit" class="btn btn-warning rounded-0" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">@Localizer["No"]</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-warning" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="UserSelection" value="false">@Localizer["No"]</button></div>
             }
             else
             {
-                <div class="form-group"><button type="submit" class="btn btn-danger rounded-0" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success rounded-0" name="UserSelection" value="false">@Localizer["No"]</button></div>
+                <div class="form-group"><button type="submit" class="btn btn-danger" name="UserSelection" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="UserSelection" value="false">@Localizer["No"]</button></div>
             }
         </form>
     </div>

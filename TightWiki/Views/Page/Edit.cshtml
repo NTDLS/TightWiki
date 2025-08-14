@@ -425,17 +425,17 @@
                 @Html.HiddenFor(x => x.Id)
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded-0">@Localizer["Save"]</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
                     @if (sessionState.CanView == true)
                     {
                         if (Model?.Id > 0)
                         {
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">@Localizer["View"]</a>
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">@Localizer["Export"]</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-link rounded-0" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localizer["Choose template"]</button>
+                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localizer["Choose template"]</button>
                         }
                     }
                     <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
@@ -521,11 +521,11 @@
                 <br />
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary rounded-0">@Localizer["Save"]</button>
+                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
                     @if (Model?.Id > 0 && sessionState.CanView == true)
                     {
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success rounded-0" role="button">@Localizer["View"]</a>
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary rounded-0" role="button">@Localizer["Export"]</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
                     }
                     <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
                 </div>

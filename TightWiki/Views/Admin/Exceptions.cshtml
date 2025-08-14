@@ -15,48 +15,52 @@
     @Localizer["Server and page exceptions."]<br /><br />
 </p>
 
-@Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
-        @Localizer["This will permanently purge all exceptions. Continue?"].Value,
-        @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value))
-<br />
-<br />
+<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+            @Localizer["This will permanently purge all exceptions. Continue?"].Value,
+            @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value))
+    </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
+
+@if (Model.Exceptions.Count > 0)
 {
-    @if (Model.Exceptions.Count > 0)
-    {
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-        <br />
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    <br />
 
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <thead>
-                <tr>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Id")">@Localizer["Id"]</a></strong></td>
-                    <td><strong>@Localizer["Text"]</strong></td>
-                    <td><strong>@Localizer["Exception"]</strong></td>
-                    <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">@Localizer["Date/Time"]</a></strong></td>
-                </tr>
-            </thead>
+    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+            <tr>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Id")">@Localizer["Id"]</a></strong></td>
+                <td><strong>@Localizer["Text"]</strong></td>
+                <td><strong>@Localizer["Exception"]</strong></td>
+                <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">@Localizer["Date/Time"]</a></strong></td>
+            </tr>
+        </thead>
 
-            @foreach (var ex in Model.Exceptions)
-            {
-                <tr>
-                    <td><a href="@GlobalConfiguration.BasePath/Admin/Exception/@ex.Id">@ex.Id</a></td>
-                    <td>@ex.Text</td>
-                    <td>@ex.ExceptionText</td>
-                    <td>@ex.CreatedDate</td>
-                </tr>
-            }
-        </table>
+        @foreach (var ex in Model.Exceptions)
+        {
+            <tr>
+                <td><a href="@GlobalConfiguration.BasePath/Admin/Exception/@ex.Id">@ex.Id</a></td>
+                <td>@ex.Text</td>
+                <td>@ex.ExceptionText</td>
+                <td>@ex.CreatedDate</td>
+            </tr>
+        }
+    </table>
 
-        @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
-    }
-    else
-    {
-        <div class="d-flex small text-muted mb-0">
-            <strong>
-                @Localizer["The exception log is currently empty."]
-            </strong>
-        </div>
-    }
+    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+}
+else
+{
+    <div class="d-flex small text-muted mb-0">
+        <strong>
+            @Localizer["The exception log is currently empty."]
+        </strong>
+    </div>
 }
