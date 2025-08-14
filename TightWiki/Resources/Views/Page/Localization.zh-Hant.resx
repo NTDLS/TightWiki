@@ -189,4 +189,70 @@
   <data name="Russian" xml:space="preserve">
     <value>俄語</value>
   </data>
+  <data name="Greek" xml:space="preserve">
+    <value>希臘文</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>阿塞拜疆語</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>白俄羅斯語</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>保加利亞語</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>丹麥語</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>愛沙尼亞語</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>芬蘭語</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>希伯來語</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>克羅地亞語</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>匈牙利語</value>
+  </data>
+  <data name="Icelnadic" xml:space="preserve">
+    <value>冰島語</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>喬治亞語</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>哈薩克語</value>
+  </data>
+  <data name="Lithuianian" xml:space="preserve">
+    <value>立陶宛語</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>拉脫維亞語</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>馬來語</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>挪威語</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>羅馬尼亞語</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>斯洛文尼亞語</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>塞爾維亞語</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>瑞典語</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>泰語</value>
+  </data>
 </root>

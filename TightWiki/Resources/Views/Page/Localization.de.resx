@@ -189,4 +189,70 @@
   <data name="Russian" xml:space="preserve">
     <value>Russisch</value>
   </data>
+  <data name="Greek" xml:space="preserve">
+    <value>Griechisch</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Aserbaidschanisch</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>Weißrussisch</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>Bulgarisch</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>Dänisch</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>Estnisch</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>Finnisch</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>Hebräisch</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>Kroatisch</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>Ungarisch</value>
+  </data>
+  <data name="Icelnadic" xml:space="preserve">
+    <value>Isländisch</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>Georgisch</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kasachisch</value>
+  </data>
+  <data name="Lithuianian" xml:space="preserve">
+    <value>Litauisch</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>Letonisch</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>Malaiisch</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>Norwegisch</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>Rumänisch</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>Slowenisch</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>Serbisch</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>Schwedisch</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>Thailändisch</value>
+  </data>
 </root>

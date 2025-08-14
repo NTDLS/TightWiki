@@ -189,4 +189,70 @@
   <data name="Russian" xml:space="preserve">
     <value>रूसी</value>
   </data>
+  <data name="Greek" xml:space="preserve">
+    <value>ग्रीक</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>अज़रबैजानी</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>बेलारूसी</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>बल्गेरियाई</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>डैनिश</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>एस्टोनियाई</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>फिनिश</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>हिब्रू</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>क्रोएशियाई</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>हंगेरियन</value>
+  </data>
+  <data name="Icelnadic" xml:space="preserve">
+    <value>आइसलैंडिक</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>जॉर्जियन</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>कजाख</value>
+  </data>
+  <data name="Lithuianian" xml:space="preserve">
+    <value>लिथुआनियाई</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>लात्वियाई</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>मलय</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>नॉर्वेजियन</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>रोमानियाई</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>स्लोवेनियन</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>सर्बियाई</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>स्वीडिश</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>थाई</value>
+  </data>
 </root>

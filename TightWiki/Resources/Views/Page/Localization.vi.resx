@@ -189,4 +189,70 @@
   <data name="Russian" xml:space="preserve">
     <value>Tiếng Nga</value>
   </data>
+  <data name="Greek" xml:space="preserve">
+    <value>Hy Lạp</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Azerbaijan</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>Belarus</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>Bulgaria</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>Đan Mạch</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>Estonia</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>Phần Lan</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>Hebrew</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>Croatia</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>Hungary</value>
+  </data>
+  <data name="Icelnadic" xml:space="preserve">
+    <value>Islândia</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>Georgia</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kazakhstan</value>
+  </data>
+  <data name="Lithuianian" xml:space="preserve">
+    <value>Litva</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>Latvia</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>Malaysia</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>Norway</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>Romania</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>Slovenia</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>Serbia</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>Thụy Điển</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>Thái Lan</value>
+  </data>
 </root>
