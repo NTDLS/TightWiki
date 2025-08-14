@@ -123,8 +123,8 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>사이트 메뉴에 대한 전역 구성.</value>
   </data>
-  <data name="Link" xml:space="preserve">
-    <value>링크</value>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>하이퍼링크</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>이름</value>

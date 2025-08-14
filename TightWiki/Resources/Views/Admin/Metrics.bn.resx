@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>ক্যাশ</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>সংস্কৃতি</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>পরিবেশ</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>ব্যতিক্রম</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>মেমরি ক্যাশ ফ্লাশ করা হলে যেকোনো ক্যাশ করা আইটেম মুছে যাবে এবং পৃষ্ঠা চাওয়া হলে ডাটাবেসে পৌঁছাতে হবে। অবিরত রাখতে চান?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>ফ্রেমওয়ার্ক ভার্সন</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>সাধারণ</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>নেইমস্পেস</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>অপারেটিং সিস্টেম</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>OS আর্কিটেকচার</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>পৃষ্ঠার সংযুক্তির পুনরাবৃত্তি</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>পৃষ্ঠা</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>প্রক্রিয়া আর্কিটেকচার</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>প্রোফাইল</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>প্রতিষ্ঠা</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI সংস্কৃতি</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>ব্যবহারকারীগণ</value>

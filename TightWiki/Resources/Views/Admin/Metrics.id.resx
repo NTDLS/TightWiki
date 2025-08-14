@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Budaya</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Lingkungan</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Pengecualian</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Membersihkan cache memori akan mengakibatkan item yang di-cache dihapus dan memerlukan akses ke database saat halaman diminta. Lanjutkan?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Versi Kerangka</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Umum</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Ruang Nama</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Sistem Operasi</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Arsitektur OS</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Revisi Lampiran Halaman</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Halaman</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Arsitektur Proses</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Profil</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Menempatkan</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>Budaya UI</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Pengguna</value>

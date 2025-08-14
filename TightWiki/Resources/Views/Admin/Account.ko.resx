@@ -120,14 +120,47 @@
   <data name="Account" xml:space="preserve">
     <value>계정</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>계정 이름</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>아바타</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>약력</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>사용자 계정 설정.</value>
   </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>비밀번호 확인</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>국가</value>
+  </data>
   <data name="Delete Account" xml:space="preserve">
     <value>계정 삭제</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>이메일 주소</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>이메일 확인됨?</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>언어</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>성</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>역할</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>저장</value>
@@ -146,5 +179,11 @@
   </data>
   <data name="System Default" xml:space="preserve">
     <value>시스템 기본값</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>테마</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>시간대</value>
   </data>
 </root>

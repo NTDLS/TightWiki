@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>网站菜单项的全局配置。</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>超链接</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>序数</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>必填</value>
   </data>

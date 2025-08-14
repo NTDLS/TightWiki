@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>完成注册</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>帳戶名稱</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>姓氏</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>時區</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>國家</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>名字</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
 </root>

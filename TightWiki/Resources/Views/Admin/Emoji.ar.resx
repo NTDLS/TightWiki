@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(تفصلها فاصلة)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>فئات</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>تكوين رمز تعبيري.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>صورة</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>اسم</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>

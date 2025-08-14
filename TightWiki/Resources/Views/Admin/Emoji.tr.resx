@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(virgülle ayrılmış)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategoriler</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>Bir emoji için yapılandırma.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Görüntü</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>İsim</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kayıt Et</value>

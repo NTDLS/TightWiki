@@ -123,7 +123,7 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>Site menüsü için küresel yapılandırma.</value>
   </data>
-  <data name="Link" xml:space="preserve">
+  <data name="Hyperlink" xml:space="preserve">
     <value>Bağlantı</value>
   </data>
   <data name="Name" xml:space="preserve">

@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Önbellek</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Kültür</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Çevre</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>İstisnalar</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Hafıza önbelleğini temizlemek, önbellekteki herhangi bir öğenin silinmesine ve sayfalar talep edildikçe veritabanına erişim gerektirmesine neden olacaktır. Devam edilsin mi?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Çerçeve Versiyonu</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Genel</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Ad Alanları</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>İşletim Sistemi</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>İşletim Sistemi Mimarisi</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Sayfa Ekleri Revizyonları</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Sayfalar</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>İşlem Mimarisi</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Profiller</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Koymalar</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI Kültürü</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Kullanıcılar</value>

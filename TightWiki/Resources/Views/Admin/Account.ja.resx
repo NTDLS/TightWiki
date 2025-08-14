@@ -120,14 +120,47 @@
   <data name="Account" xml:space="preserve">
     <value>アカウント</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>アカウント名</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>アバター</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>経歴</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>ユーザーアカウントの設定。</value>
   </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>パスワードの確認</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>国</value>
+  </data>
   <data name="Delete Account" xml:space="preserve">
     <value>アカウントを削除</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>メールアドレス</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>メールは確認済みですか？</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>名</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>姓</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>役割</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
@@ -146,5 +179,11 @@
   </data>
   <data name="System Default" xml:space="preserve">
     <value>システムデフォルト</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>タイムゾーン</value>
   </data>
 </root>

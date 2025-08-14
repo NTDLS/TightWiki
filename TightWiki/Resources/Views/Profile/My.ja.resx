@@ -117,14 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>アカウント名</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>アバター</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>経歴</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>国</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
     <value>アカウントを削除</value>
   </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>メールアドレス</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>名</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>姓</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>プロフィール</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>役割</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
@@ -141,7 +165,13 @@
   <data name="System Default" xml:space="preserve">
     <value>システムデフォルト</value>
   </data>
+  <data name="Theme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
     <value>これはあなたのプロフィールです。自由にお使いください。</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>タイムゾーン</value>
   </data>
 </root>

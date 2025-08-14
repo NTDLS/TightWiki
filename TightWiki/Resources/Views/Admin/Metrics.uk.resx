@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Кеш</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Культура</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Середовище</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Виключення</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Очистка кешу пам’яті призведе до скидання всіх кешованих елементів, і це вимагатиме доступу до бази даних при запитах до сторінок. Продовжити?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Версія фреймворку</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Загальні</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Простори імен</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Операційна система</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Архітектура ОС</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Ревізії вкладок сторінок</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Сторінки</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Архітектура процесу</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Профілі</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Записи</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>Культура UI</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Користувачі</value>

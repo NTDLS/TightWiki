@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Kayıt işlemini tamamla</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Hesap Adı</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Soyad</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Zaman Dilimi</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Ülke</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Dil</value>
+  </data>
 </root>

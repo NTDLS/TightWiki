@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(dipisahkan dengan koma)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>Konfigurasi untuk emoji.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Gambar</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nama</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Simpan</value>

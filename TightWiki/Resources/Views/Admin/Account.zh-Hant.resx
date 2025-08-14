@@ -120,14 +120,47 @@
   <data name="Account" xml:space="preserve">
     <value>账户</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>帳戶名稱</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>头像</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>個人簡介</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>用户账户的配置。</value>
   </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>確認密碼</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>國家</value>
+  </data>
   <data name="Delete Account" xml:space="preserve">
     <value>删除账户</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>電子郵件地址</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>電子郵件已確認？</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>名字</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>姓氏</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密碼</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>角色</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
@@ -146,5 +179,11 @@
   </data>
   <data name="System Default" xml:space="preserve">
     <value>系统默认</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>主題</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>時區</value>
   </data>
 </root>

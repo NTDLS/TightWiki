@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>সাইটের মেনু আইটেমের জন্য গ্লোবাল কনফিগারেশন।</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>হাইপারলিঙ্ক</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>নাম</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>ক্রমিক</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>আবশ্যক</value>
   </data>

@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>サインアップを完了</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>アカウント名</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>姓</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>タイムゾーン</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>国</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>名</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
 </root>

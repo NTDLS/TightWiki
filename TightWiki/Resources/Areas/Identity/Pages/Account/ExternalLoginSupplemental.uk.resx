@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Завершити реєстрацію</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Назва облікового запису</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Прізвище</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Часовий пояс</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Країна</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Мова</value>
+  </data>
 </root>

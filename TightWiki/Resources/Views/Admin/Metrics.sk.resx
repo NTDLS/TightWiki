@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Vyrovnávacia pamäť</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Kultúra</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Prostredie</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Výnimky</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Vyprázdnenie vyrovnávacej pamäte spôsobí, že všetky položky uložené vo vyrovnávacej pamäti budú zrušené a budú vyžadovať prístupy do databázy, keď sa stránky vyžadujú. Pokračovať?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Verzia rámca</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Všeobecné</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Menné priestory</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Operačný systém</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Architektúra OS</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Revízie príloh stránky</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Stránky</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Architektúra procesu</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Profily</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Puts</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>Kultúra UI</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Používatelia</value>

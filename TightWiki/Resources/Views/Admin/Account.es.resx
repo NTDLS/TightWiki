@@ -120,14 +120,47 @@
   <data name="Account" xml:space="preserve">
     <value>Cuenta</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Nombre de la cuenta</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Biografía</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>Configuración para la cuenta de usuario.</value>
   </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Confirmar contraseña</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>País</value>
+  </data>
   <data name="Delete Account" xml:space="preserve">
     <value>Eliminar Cuenta</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Dirección de correo electrónico</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>¿Correo electrónico confirmado?</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rol</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
@@ -146,5 +179,11 @@
   </data>
   <data name="System Default" xml:space="preserve">
     <value>Predeterminado del sistema</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Zona horaria</value>
   </data>
 </root>

@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>নিবন্ধন সম্পন্ন করুন</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>অ্যাকাউন্টের নাম</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>শেষ নাম</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>সময় অঞ্চল</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>দেশ</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>প্রথম নাম</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>ভাষা</value>
+  </data>
 </root>

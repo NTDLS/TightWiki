@@ -440,14 +440,14 @@
                     <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
                 </div>
                 <br />
-                <strong>@Html.LabelFor(x => x.Name)</strong>
+                <strong>@Localizer["Name"]</strong>
 
                 <br />
                 @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
                 <br />
 
-                <strong>@Html.LabelFor(x => x.Description)</strong>
+                <strong>@Localizer["Description"]</strong>
 
                 <br />
                 @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })

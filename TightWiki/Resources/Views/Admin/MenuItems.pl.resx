@@ -123,8 +123,8 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>Globalna konfiguracja menu witryny.</value>
   </data>
-  <data name="Link" xml:space="preserve">
-    <value>Link</value>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Hiperlącze</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>

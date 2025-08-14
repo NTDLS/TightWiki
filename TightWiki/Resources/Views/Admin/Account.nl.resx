@@ -120,14 +120,47 @@
   <data name="Account" xml:space="preserve">
     <value>Account</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Accountnaam</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Biografie</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>Configuratie voor gebruikersaccount.</value>
   </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Bevestig Wachtwoord</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
   <data name="Delete Account" xml:space="preserve">
     <value>Account verwijderen</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>E-mailadres</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>E-mail Bevestigd?</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Voornaam</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Taal</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Achternaam</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Wachtwoord</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rol</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Opslaan</value>
@@ -146,5 +179,11 @@
   </data>
   <data name="System Default" xml:space="preserve">
     <value>Systeemstandaard</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thema</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Tijdzone</value>
   </data>
 </root>

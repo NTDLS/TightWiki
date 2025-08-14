@@ -123,8 +123,8 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>Konfigurasi global untuk menu situs.</value>
   </data>
-  <data name="Link" xml:space="preserve">
-    <value>Tautan</value>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Superlink</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nama</value>

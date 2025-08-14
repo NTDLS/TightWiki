@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>کش</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>فرهنگ</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>محیط</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>استثنائات</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>خالی کردن کش حافظه باعث می‌شود که هر آیتم کش شده از بین برود و نیاز به دسترسی به پایگاه داده به عنوان صفحات درخواست می‌شود. ادامه دهیم؟</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>نسخه چارچوب</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>عمومی</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>فضاهای نام</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>سیستم عامل</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>معماری سیستم عامل</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>نسخه‌های الحاقی صفحه</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>صفحات</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>معماری پردازش</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>پروفایل‌ها</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>قرار دادن‌ها</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>فرهنگ رابط کاربری</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>کاربران</value>

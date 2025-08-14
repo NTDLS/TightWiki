@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Bộ nhớ đệm</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Văn hóa</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Môi trường</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Ngoại lệ</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Xóa bộ nhớ cache sẽ khiến bất kỳ mục nào trong bộ nhớ đệm bị xóa và yêu cầu truy cập vào cơ sở dữ liệu khi các trang được yêu cầu. Tiếp tục?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Phiên bản Khung</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Chung</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Không gian tên</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Hệ điều hành</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Kiến trúc Hệ điều hành</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Sửa đổi đính kèm trang</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Các trang</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Kiến trúc Quy trình</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Hồ sơ</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Đưa vào</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>Văn hóa Giao diện người dùng</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Người dùng</value>

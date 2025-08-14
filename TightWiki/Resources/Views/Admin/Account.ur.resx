@@ -120,14 +120,47 @@
   <data name="Account" xml:space="preserve">
     <value>اکاؤنٹ</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>اکاؤنٹ کا نام</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>ایووٹر</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>جیوگرافی</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>صارف کے اکاؤنٹ کے لئے کنفیگریشن.</value>
   </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>پاس ورڈ کی تصدیق کریں</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>ملک</value>
+  </data>
   <data name="Delete Account" xml:space="preserve">
     <value>اکاؤنٹ حذف کریں</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>ای میل ایڈریس</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>ای میل کی تصدیق ہوئی؟</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>پہلا نام</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>زبان</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>آخری نام</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>پاسورڈ</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>کردار</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>محفوظ کریں</value>
@@ -146,5 +179,11 @@
   </data>
   <data name="System Default" xml:space="preserve">
     <value>سسٹم کی ڈیفالٹ</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>تھیم</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>زمانی زون</value>
   </data>
 </root>

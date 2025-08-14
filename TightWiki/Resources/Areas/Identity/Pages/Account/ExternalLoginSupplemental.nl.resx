@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Aanmelding Voltooien</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Accountnaam</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Achternaam</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Tijdzone</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Voornaam</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Taal</value>
+  </data>
 </root>

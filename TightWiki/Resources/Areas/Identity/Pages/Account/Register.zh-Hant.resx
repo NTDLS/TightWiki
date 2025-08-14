@@ -117,11 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>帳戶名稱</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>確認密碼</value>
+  </data>
   <data name="Create a new account" xml:space="preserve">
     <value>创建一个新账户</value>
   </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>電子郵件地址</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>名字</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>語言</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>姓氏</value>
+  </data>
   <data name="not required" xml:space="preserve">
     <value>不需要</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密碼</value>
   </data>
   <data name="required" xml:space="preserve">
     <value>需要</value>
@@ -140,6 +161,9 @@
   </data>
   <data name="This account name will be visible publicly." xml:space="preserve">
     <value>该账户名称将公开可见。</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>時區</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
     <value>使用其他服务注册</value>

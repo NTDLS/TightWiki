@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Кэш</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Культура</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Среда</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Исключения</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Сброс кэша памяти приведет к удалению всех кэшированных элементов, и при запросе страниц потребуется обращение к базе данных. Продолжить?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Версия структуры</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Общее</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Пространства имен</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Операционная система</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Архитектура ОС</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Исправления вложений страниц</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Страницы</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Архитектура процесса</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Профили</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Записи</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>Культура пользовательского интерфейса</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Пользователи</value>

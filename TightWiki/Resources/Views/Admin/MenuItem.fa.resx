@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>پیکربندی جهانی برای مورد منوی سایت.</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>لینک</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>ترتیبی</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>ضروری</value>
   </data>

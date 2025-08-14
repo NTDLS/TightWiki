@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>Globální nastavení pro položku nabídky webu.</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Hyperlink</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Číslovka</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>požadované</value>
   </data>

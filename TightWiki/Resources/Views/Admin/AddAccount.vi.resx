@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>Tên Tài Khoản</value>
+  </data>
   <data name="Add Account" xml:space="preserve">
     <value>Thêm tài khoản</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Ảnh đại diện</value>
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Tiểu sử</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Xác nhận Mật khẩu</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Quốc gia</value>
+  </data>
   <data name="Create new user account." xml:space="preserve">
     <value>Tạo tài khoản người dùng mới.</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Địa chỉ Email</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Ngôn ngữ</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Họ</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Vai trò</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Lưu</value>
@@ -140,5 +170,8 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>Chọn một múi giờ</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Múi giờ</value>
   </data>
 </root>

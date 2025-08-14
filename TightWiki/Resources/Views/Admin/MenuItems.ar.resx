@@ -123,8 +123,8 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>الإعدادات العالمية لقائمة الموقع.</value>
   </data>
-  <data name="Link" xml:space="preserve">
-    <value>رابط</value>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>رابط تشعبي</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>اسم</value>

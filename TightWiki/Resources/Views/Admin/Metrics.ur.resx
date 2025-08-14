@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>کیچ</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>ثقافت</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>ماحول</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>استثنات</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>میموری کیچ کو صاف کرنے سے کسی بھی کیچ کیے گئے آئٹمز کو ختم کر دیا جائے گا اور جیسے ہی صفحات کی درخواست کی جائے گی، ڈیٹا بیس کے ہٹ کی ضرورت ہوگی۔ جاری رکھیں؟</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>فریم ورک کا ورژن</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>عام</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>نام کی جگہیں</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>آپریٹنگ سسٹم</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>آپریٹنگ سسٹم کی تعمیر</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>صفحہ منسلکات میں تبدیلیاں</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>صفحات</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>پروسس کی تعمیر</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>پروفائلز</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>پٹس</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>یو آئی ثقافت</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>صارفین</value>

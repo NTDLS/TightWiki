@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(쉼표로 구분됨)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>카테고리</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>이모지에 대한 설정.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>이미지</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>이름</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>저장</value>

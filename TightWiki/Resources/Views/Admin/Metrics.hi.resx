@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>कैश</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>संस्कृति</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>पर्यावरण</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>अपवाद</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>मेमोरी कैश को फ्लश करने से किसी भी कैश की गई वस्तुओं को मिटा दिया जाएगा और जब पृष्ठों को अनुरोध किया जाएगा, तो डेटाबेस हिट्स की आवश्यकता होगी। क्या आप जारी रखना चाहते हैं?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>फ्रेमवर्क संस्करण</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>सामान्य</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>नेमस्पेस</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>ऑपरेटिंग सिस्टम</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>OS आर्किटेक्चर</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>पृष्ठ अटैचमेंट संशोधन</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>पृष्ठ</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>प्रक्रिया आर्किटेक्चर</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>प्रोफाइल</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>डाले गए</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI संस्कृति</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>उपयोगकर्ता</value>

@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>साइन अप पूरा करें</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>खाता नाम</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>आखिरी नाम</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>समय क्षेत्र</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>देश</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>पहला नाम</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>भाषा</value>
+  </data>
 </root>

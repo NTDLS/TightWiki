@@ -30,7 +30,7 @@
     </div>
 
     <div class="form-group row mb-1">
-        <label for="Name" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Emoji.Name)</strong></label>
+        <label for="Name" class="col-sm-2 col-form-label"><strong>@Localizer["Name"]</strong></label>
         <div class="col-sm-10">
             @Html.TextBoxFor(m => m.Emoji.Name, new { @class = "form-control" })
             <div class="text-danger">@Html.ValidationMessageFor(m => m.Emoji.Name)</div>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="form-group row mb-1">
-        <label for="Categories" class="col-sm-2 col-form-label"><strong>@Html.LabelFor(m => m.Categories)</strong> @Localizer["(comma separated)"]</label>
+        <label for="Categories" class="col-sm-2 col-form-label"><strong>@Localizer["Categories"]</strong></label>
         <div class="col-sm-10">
             @Html.TextBoxFor(m => m.Categories, new { @class = "form-control" })
             <div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div>

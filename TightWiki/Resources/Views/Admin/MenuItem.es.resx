@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>Configuración global para el elemento del menú del sitio.</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Hipervínculo</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Ordinal</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>requerido</value>
   </data>

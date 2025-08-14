@@ -123,8 +123,8 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>Глобальна конфігурація для меню сайту.</value>
   </data>
-  <data name="Link" xml:space="preserve">
-    <value>Посилання</value>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Гіперпосилання</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Назва</value>

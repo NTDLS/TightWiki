@@ -117,14 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>اسم الحساب</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>أفاتار</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>السيرة الذاتية</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>البلد</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
     <value>حذف الحساب</value>
   </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>اسم العائلة</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>الملف الشخصي</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الدور</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>
@@ -141,7 +165,13 @@
   <data name="System Default" xml:space="preserve">
     <value>الإعدادات الافتراضية للنظام</value>
   </data>
+  <data name="Theme" xml:space="preserve">
+    <value>الثيم</value>
+  </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
     <value>هذا هو ملفك الشخصي، افعل به ما تشاء.</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>المنطقة الزمنية</value>
   </data>
 </root>

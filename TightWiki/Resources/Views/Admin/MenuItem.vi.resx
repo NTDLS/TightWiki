@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>Cấu hình toàn cầu cho mục menu của trang.</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Siêu liên kết</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Thứ tự</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>cần thiết</value>
   </data>

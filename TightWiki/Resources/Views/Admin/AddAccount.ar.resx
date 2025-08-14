@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>اسم الحساب</value>
+  </data>
   <data name="Add Account" xml:space="preserve">
     <value>إضافة حساب</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>الصورة الرمزية</value>
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value>السيرة الذاتية</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>الدولة</value>
+  </data>
   <data name="Create new user account." xml:space="preserve">
     <value>إنشاء حساب مستخدم جديد.</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>اسم العائلة</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الدور</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>حفظ</value>
@@ -140,5 +170,8 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>اختر المنطقة الزمنية</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>المنطقة الزمنية</value>
   </data>
 </root>

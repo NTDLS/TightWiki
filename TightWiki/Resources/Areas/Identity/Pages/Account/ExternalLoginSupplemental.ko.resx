@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>가입 완료</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>계정 이름</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>성</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>시간대</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>국가</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>언어</value>
+  </data>
 </root>

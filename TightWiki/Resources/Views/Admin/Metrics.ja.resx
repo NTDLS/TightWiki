@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>キャッシュ</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>文化</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>環境</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>例外</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>メモリキャッシュをフラッシュすると、キャッシュされたアイテムが削除され、ページリクエスト時にデータベースへのアクセスが必要になります。続けますか？</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>フレームワークバージョン</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>一般</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>ネームスペース</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>オペレーティングシステム</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>OSアーキテクチャ</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>ページ添付の改訂</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>ページ</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>プロセスアーキテクチャ</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>プロファイル</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>格納</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI文化</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>ユーザー</value>

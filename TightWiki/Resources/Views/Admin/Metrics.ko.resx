@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>캐시</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>문화</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>환경</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>예외</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>메모리 캐시를 플러시하면 모든 캐시 항목이 삭제되어 페이지 요청 시 데이터베이스 조회가 필요합니다. 계속하시겠습니까?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>프레임워크 버전</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>일반</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>네임스페이스</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>운영 체제</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>운영 체제 아키텍처</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>페이지 첨부 파일 수정</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>페이지</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>프로세스 아키텍처</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>프로필</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>배치</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI 문화</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>사용자</value>

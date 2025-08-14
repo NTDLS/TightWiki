@@ -117,14 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>Nome da Conta</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Biografia</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>País</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
     <value>Deletar Conta</value>
   </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Endereço de E-mail</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Primeiro Nome</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Sobrenome</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>Perfil</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Papel</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salvar</value>
@@ -141,7 +165,13 @@
   <data name="System Default" xml:space="preserve">
     <value>Padrão do Sistema</value>
   </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
+  </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
     <value>Este é o seu perfil, faça com ele o que desejar.</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Fuso Horário</value>
   </data>
 </root>

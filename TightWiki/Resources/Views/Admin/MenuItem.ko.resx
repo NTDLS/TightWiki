@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>사이트 메뉴 항목에 대한 글로벌 구성.</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>하이퍼링크</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>서수</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>필수</value>
   </data>

@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>Názov účtu</value>
+  </data>
   <data name="Add Account" xml:space="preserve">
     <value>Pridať účet</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Životopis</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Potvrďte heslo</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Krajina</value>
+  </data>
   <data name="Create new user account." xml:space="preserve">
     <value>Vytvorte nový používateľský účet.</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Emailová adresa</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Krstné meno</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Jazyk</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Priezvisko</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Úloha</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Uložiť</value>
@@ -140,5 +170,8 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>Vyberte časovú zónu</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Časové pásmo</value>
   </data>
 </root>

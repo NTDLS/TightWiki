@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Kultur</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Umgebung</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Ausnahmen</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Das Leeren des Speichercaches wird dazu führen, dass alle zwischengespeicherten Elemente gelöscht werden und Datenbankzugriffe erforderlich sind, wenn Seiten angefordert werden. Fortfahren?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Rahmenversion</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Allgemein</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Namensräume</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Betriebssystem</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>OS-Architektur</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Seitenanhang-Versionen</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Seiten</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Prozessorarchitektur</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Profile</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Setzt</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI-Kultur</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Benutzer</value>

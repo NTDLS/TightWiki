@@ -117,11 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>Nome dell'account</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Conferma password</value>
+  </data>
   <data name="Create a new account" xml:space="preserve">
     <value>Crea un nuovo account</value>
   </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Indirizzo email</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Cognome</value>
+  </data>
   <data name="not required" xml:space="preserve">
     <value>non richiesto</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Pwd</value>
   </data>
   <data name="required" xml:space="preserve">
     <value>richiesto</value>
@@ -140,6 +161,9 @@
   </data>
   <data name="This account name will be visible publicly." xml:space="preserve">
     <value>Questo nome account sarà visibile pubblicamente.</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Fuso orario</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
     <value>Utilizza un altro servizio per registrarti</value>

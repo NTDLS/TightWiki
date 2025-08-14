@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>Hesap Adı</value>
+  </data>
   <data name="Add Account" xml:space="preserve">
     <value>Hesap Ekle</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Biyografi</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Şifreyi Onayla</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Ülke</value>
+  </data>
   <data name="Create new user account." xml:space="preserve">
     <value>Yeni kullanıcı hesabı oluştur.</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Email Adresi</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Ad</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Dil</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Soyad</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Şifre</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Rol</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Kaydet</value>
@@ -140,5 +170,8 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>Bir zaman dilimi seçin</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Saat Dilimi</value>
   </data>
 </root>

@@ -123,6 +123,15 @@
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>Konfigurasi global untuk item menu situs.</value>
   </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Superlink</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Ordinal</value>
+  </data>
   <data name="required" xml:space="preserve">
     <value>diperlukan</value>
   </data>

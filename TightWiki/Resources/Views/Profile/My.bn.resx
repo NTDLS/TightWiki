@@ -117,14 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>অ্যাকাউন্টের নাম</value>
+  </data>
   <data name="Avatar" xml:space="preserve">
     <value>অ্যাভাটার</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>জীবনবৃত্তান্ত</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>দেশ</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
     <value>অ্যাকাউন্ট মুছুন</value>
   </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>ইমেইল ঠিকানা</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>প্রথম নাম</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>ভাষা</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>শেষ নাম</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>প্রোফাইল</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>ভূমিকা</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>সংরক্ষণ करें</value>
@@ -141,7 +165,13 @@
   <data name="System Default" xml:space="preserve">
     <value>সিস্টেম ডিফল্ট</value>
   </data>
+  <data name="Theme" xml:space="preserve">
+    <value>থিম</value>
+  </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
     <value>এটি আপনার প্রোফাইল, এর সাথে আপনি যা ইচ্ছা করতে পারেন।</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>সময় অঞ্চল</value>
   </data>
 </root>

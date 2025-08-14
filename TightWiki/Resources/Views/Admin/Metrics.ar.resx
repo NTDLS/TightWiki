@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>ذاكرة التخزين المؤقت</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>ثقافة</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>بيئة</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>استثناءات</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>سيمسح تفريغ ذاكرة التخزين المؤقت أي عناصر مخزنة مسبقًا وسيتطلب الوصول إلى قاعدة البيانات عند طلب الصفحات. هل تتابع؟</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>إصدار الإطار</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>عام</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>مساحات الأسماء</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>نظام التشغيل</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>معمارية النظام</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>مراجعات إرفاقات الصفحات</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>الصفحات</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>معمارية العملية</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>الملفات الشخصية</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>الإضافات</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>ثقافة الواجهة</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>المستخدمون</value>

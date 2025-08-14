@@ -117,14 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Name" xml:space="preserve">
+    <value>Nome Account</value>
+  </data>
   <data name="Add Account" xml:space="preserve">
     <value>Aggiungi Account</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
   </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Biografia</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Conferma la Password</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Paese</value>
+  </data>
   <data name="Create new user account." xml:space="preserve">
     <value>Crea un nuovo account utente.</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Indirizzo Email</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Lingua</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Cognome</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Ruolo</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salva</value>
@@ -140,5 +170,8 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>Seleziona un fuso orario</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Fuso Orario</value>
   </data>
 </root>

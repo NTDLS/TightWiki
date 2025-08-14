@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(カンマ区切り)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>絵文字の設定。</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>画像</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名前</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>

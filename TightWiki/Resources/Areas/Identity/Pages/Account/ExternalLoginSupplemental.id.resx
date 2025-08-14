@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Selesaikan Pendaftaran</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Nama Akun</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Nama Belakang</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Zona Waktu</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Negara</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Nama Pertama</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Bahasa</value>
+  </data>
 </root>

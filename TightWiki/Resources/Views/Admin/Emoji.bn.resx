@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(কমা দ্বারা পৃথককৃত)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>শ্রেণীসমূহ</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>একটি ইমোজির কনফিগারেশন।</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>ছবি</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>নাম</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>সংরক্ষণ করুন</value>

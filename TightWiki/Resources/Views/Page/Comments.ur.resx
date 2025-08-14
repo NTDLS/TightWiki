@@ -123,8 +123,8 @@
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
     <value>کیا آپ واقعی یہ تبصرہ حذف کرنا چاہتے ہیں؟</value>
   </data>
-  <data name="Comments for &lt;a href=\&quot;{0}/{1}\&quot;&gt;{2}&lt;/a&gt;" xml:space="preserve">
-    <value>تبصرے &lt;a href=\"{0}/{1}\"&gt;{2}&lt;/a&gt; کے لیے</value>
+  <data name="Comments for" xml:space="preserve">
+    <value>تبصرے برائے</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>حذف کریں</value>

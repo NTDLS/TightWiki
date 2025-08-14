@@ -141,4 +141,22 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Zakończ rejestrację</value>
   </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Nazwa konta</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Nazwisko</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Strefa czasowa</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Kraj</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Imię</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Język</value>
+  </data>
 </root>

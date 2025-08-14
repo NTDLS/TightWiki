@@ -117,14 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="(comma separated)" xml:space="preserve">
+    <value>(komma gescheiden)</value>
+  </data>
   <data name="Add Emoji" xml:space="preserve">
     <value>Emoji toevoegen</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categorieën</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
     <value>Configuratie om een emoji toe te voegen.</value>
   </data>
   <data name="Image" xml:space="preserve">
     <value>Afbeelding</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Naam</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Opslaan</value>

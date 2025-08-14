@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(separati da virgola)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categorie</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>Configurazione per un'emoji.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Immagine</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nome</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Salva</value>

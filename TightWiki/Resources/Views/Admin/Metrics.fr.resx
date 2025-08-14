@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Culture</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Environnement</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Exceptions</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Le vidage de la mémoire cache entraînera la suppression de tous les éléments mis en cache et nécessitera des accès à la base de données lorsque les pages seront demandées. Continuer ?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Version du cadre</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Général</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Espaces de noms</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Système d'exploitation</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Architecture du système d'exploitation</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Révisions des pièces jointes de page</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Pages</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Architecture des processus</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Profils</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Met</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>Culture de l'interface utilisateur</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Utilisateurs</value>

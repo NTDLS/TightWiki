@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>缓存</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>文化</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>环境</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>异常</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>刷新内存缓存将导致任何缓存项被丢弃，并在请求页面时需要数据库访问。继续吗？</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>框架版本</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>一般</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>命名空间</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>操作系统</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>操作系统架构</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>页面附件修订</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>页面</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>进程架构</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>配置文件</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>放置</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>用户界面文化</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>用户</value>

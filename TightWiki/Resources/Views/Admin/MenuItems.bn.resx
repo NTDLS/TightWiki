@@ -123,8 +123,8 @@
   <data name="Global configuration for the site menu." xml:space="preserve">
     <value>সাইট মেনুর জন্য গ্লোবাল কনফিগারেশন।</value>
   </data>
-  <data name="Link" xml:space="preserve">
-    <value>লিঙ্ক</value>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>হাইপারলিঙ্ক</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>নাম</value>

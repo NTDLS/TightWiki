@@ -120,11 +120,20 @@
   <data name="Cache" xml:space="preserve">
     <value>Cache</value>
   </data>
+  <data name="Culture" xml:space="preserve">
+    <value>Cultuur</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Omgeving</value>
+  </data>
   <data name="Exceptions" xml:space="preserve">
     <value>Uitzonderingen</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
     <value>Het flushen van de geheugen-cache zal ervoor zorgen dat alle gecachte items worden verwijderd en dat database-aanroepen nodig zijn wanneer pagina's worden opgevraagd. Doorgaan?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Kader Versie</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Algemeen</value>
@@ -153,6 +162,12 @@
   <data name="Namespaces" xml:space="preserve">
     <value>Namespaces</value>
   </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Besturingssysteem</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Architectuur van het Operating System</value>
+  </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
     <value>Paginabevestigingen</value>
   </data>
@@ -171,6 +186,9 @@
   <data name="Pages" xml:space="preserve">
     <value>Pagina's</value>
   </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Architectuur van het Proces</value>
+  </data>
   <data name="Profiles" xml:space="preserve">
     <value>Profielen</value>
   </data>
@@ -179,6 +197,9 @@
   </data>
   <data name="Puts" xml:space="preserve">
     <value>Plaats</value>
+  </data>
+  <data name="UI Culture" xml:space="preserve">
+    <value>UI Cultuur</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value>Gebruikers</value>

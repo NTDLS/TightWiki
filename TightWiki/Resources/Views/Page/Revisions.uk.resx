@@ -126,8 +126,8 @@
   <data name="Modified Date" xml:space="preserve">
     <value>Дата зміни</value>
   </data>
-  <data name="Page Revisions for &lt;a href=\&quot;{0}/{1}\&quot;&gt;{2}&lt;/a&gt;." xml:space="preserve">
-    <value>Версії сторінки для &lt;a href=\"{0}/{1}\"&gt;{2}&lt;/a&gt;.</value>
+  <data name="Page revisions for" xml:space="preserve">
+    <value>Сторінкові revisions для</value>
   </data>
   <data name="Revision" xml:space="preserve">
     <value>Версія</value>

@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(cách nhau bằng dấu phẩy)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Danh mục</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>Cấu hình cho một emoji.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>Hình ảnh</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Tên</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Lưu</value>

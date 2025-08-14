@@ -120,6 +120,9 @@
   <data name="(comma separated)" xml:space="preserve">
     <value>(用逗号分隔)</value>
   </data>
+  <data name="Categories" xml:space="preserve">
+    <value>类别</value>
+  </data>
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>表情符号的配置。</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="Image" xml:space="preserve">
     <value>图片</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
