@@ -9,10 +9,7 @@ namespace TranslationAI
     {
         static void Main()
         {
-            //If you process some new languages, update "IsUIComplete" in TightWiki.Library.SupportedCultures.
-            //Also be sure to add the new keys containing the new language names to the Views.Page.Localization.cs.resx,
-            //  this is because "*.cs.resx" is where we source translations from and we need the language names
-            //  translated into other languages
+            //If you add new languages, update "IsUIComplete" in TightWiki.Library.SupportedCultures.
             var languages = new Dictionary<string, string>
             {
                 { "cs", "Czech" },
