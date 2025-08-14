@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Hesap adı zaten kullanılıyor.</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Hesap adı gereklidir.</value>
+  </data>
+  <data name="All exceptions have been purged." xml:space="preserve">
+    <value>Tüm istisnalar temizlendi.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Tüm yetim sayfa ekleri temizlendi.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Tüm sayfa revizyonları kısaltıldı.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Tüm sayfalar önbelleğe alındı.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Tüm sayfalar yeniden oluşturuldu.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Derleme istatistikleri temizlendi.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Derleme İstatistikleri</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Ekli görüntü kaydedilemedi, çok büyük.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Ekli görüntü kaydedilemedi, türü yasak.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Ekli görüntü kaydedilemedi.</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>Veritabanı</value>
+  </data>
+  <data name="Delete Emoji" xml:space="preserve">
+    <value>Emojiyi Sil</value>
+  </data>
+  <data name="Delete Profile" xml:space="preserve">
+    <value>Profili Sil</value>
+  </data>
+  <data name="Delete {0}" xml:space="preserve">
+    <value>{0} Sil</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-posta adresi zaten kullanılıyor.</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emoji adı zaten kullanılıyor.</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>Emojiler</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>İstisna</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>İstisnalar</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Hafıza önbelleği temizlendi.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menü Öğesi</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>Metrekler</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>Eksik Sayfalar</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Ad Alanı</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Ad Alanları</value>
+  </data>
+  <data name="Operation failed: {0}" xml:space="preserve">
+    <value>İşlem başarısız: {0}</value>
+  </data>
+  <data name="Optimization complete. {0}" xml:space="preserve">
+    <value>Optimizasyon tamamlandı. {0}</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>Yetim Sayfa Ekleri</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Sayfa Moderasyonu</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Sayfa revizyonu silme kuyruğuna taşındı.</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Sayfalar</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Roller</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Hesap oluşturuldu.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Hesap silindi.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Yapılandırma başarıyla kaydedildi!</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji oluşturuldu.</value>
+  </data>
+  <data name="The emoji has been deleted." xml:space="preserve">
+    <value>Emoji silindi.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji başarıyla kaydedildi!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji kaydedildi.</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Menü öğesi oluşturuldu.</value>
+  </data>
+  <data name="The menu item has been deleted." xml:space="preserve">
+    <value>Menü öğesi silindi.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Menü öğesi kaydedildi.</value>
+  </data>
+  <data name="The menu name '{0}' is already in use." xml:space="preserve">
+    <value>Menü adı '{0}' zaten kullanılıyor.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Sayfa bulunamadı.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Sayfa silme kuyruğu temizlendi.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Sayfa silme kuyruğuna taşındı.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Sayfa silme kuyruğundan temizlendi.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Sayfa geri alındı.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Sayfa geri yüklendi.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Sayfa revizyonu silme kuyruğundan temizlendi.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Sayfa revizyonu geri yüklendi.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Sayfaların yetim ekleri temizlendi.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Belirtilen sayfa bulunamadı.</value>
+  </data>
+  <data name="Unknown database action: '{0}'" xml:space="preserve">
+    <value>Bilinmeyen veritabanı eylemi: '{0}'</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="Vacuum complete. {0}" xml:space="preserve">
+    <value>Boşaltma tamamlandı. {0}</value>
+  </data>
+  <data name="Verification complete. {0}" xml:space="preserve">
+    <value>Doğrulama tamamlandı. {0}</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Bir sayfanın tek bir mevcut revizyonunu silemezsiniz, bunun yerine sayfanın tamamını silmeniz gerekir.</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Mevcut sayfa revizyonuna geri dönemezsiniz.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Hesabınız silindi.</value>
+  </data>
+  <data name="Your profile has been saved successfully!" xml:space="preserve">
+    <value>Profiliniz başarıyla kaydedildi!</value>
+  </data>
+  <data name="{0} : {1} is required." xml:space="preserve">
+    <value>{0} : {1} gereklidir.</value>
+  </data>
+  <data name="{0} Delete" xml:space="preserve">
+    <value>{0} Sil</value>
+  </data>
+</root>

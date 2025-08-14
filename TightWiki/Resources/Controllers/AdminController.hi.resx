@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>खाता नाम पहले से उपयोग में है।</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>खाता नाम आवश्यक है।</value>
+  </data>
+  <data name="All exceptions have been purged." xml:space="preserve">
+    <value>सभी अपवाद हटा दिए गए हैं।</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>सभी अनाथ पन्नों के अटैचमेंट हटा दिए गए हैं।</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>सभी पन्नों के संशोधन संक्षिप्त किए गए हैं।</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>सभी पन्नों को कैश कर दिया गया है।</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>सभी पन्नों का पुनर्निर्माण किया गया है।</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>संकलन आँकड़े हटा दिए गए।</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>संकलन आँकड़े</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>अटैच की गई छवि को सुरक्षित नहीं किया जा सका, बहुत बड़ी।</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>अटैच की गई छवि को सुरक्षित नहीं किया जा सका, प्रकार की अनुमति नहीं है।</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>अटैच की गई छवि को सुरक्षित नहीं किया जा सका।</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>डेटाबेस</value>
+  </data>
+  <data name="Delete Emoji" xml:space="preserve">
+    <value>इमोजी हटाएं</value>
+  </data>
+  <data name="Delete Profile" xml:space="preserve">
+    <value>प्रोफ़ाइल हटाएँ</value>
+  </data>
+  <data name="Delete {0}" xml:space="preserve">
+    <value>हटाएँ {0}</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>ईमेल पता पहले से उपयोग में है।</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>इमोजी नाम पहले से उपयोग में है।</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>इमोजी</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>अपवाद</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>अपवादों</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>मेमोरी कैश हटा दिए गए।</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>मेनू आइटम</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>मेट्रिक्स</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>गायब पन्ने</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>नेमस्पेस</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>नेमस्पेस</value>
+  </data>
+  <data name="Operation failed: {0}" xml:space="preserve">
+    <value>क्रिया विफल रही: {0}</value>
+  </data>
+  <data name="Optimization complete. {0}" xml:space="preserve">
+    <value>अनुकूलन पूरा। {0}</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>अनाथ पृष्ठ संलग्नक</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>पृष्ठModeration</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>पृष्ठ संशोधन हटाने की कतार में डाल दिया गया है।</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>पृष्ठ</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>भूमिकाएँ</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>खाता बना दिया गया है।</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>खाता हटा दिया गया है।</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>कॉन्फ़िगरेशन सफलतापूर्वक सहेजा गया है!</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>इमोजी बना दिया गया है।</value>
+  </data>
+  <data name="The emoji has been deleted." xml:space="preserve">
+    <value>इमोजी हटा दिया गया है।</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>इमोजी सफलतापूर्वक सहेजा गया है!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>इमोजी सहेजा गया है।</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>मेनू आइटम बना दिया गया है।</value>
+  </data>
+  <data name="The menu item has been deleted." xml:space="preserve">
+    <value>मेनू आइटम हटा दिया गया है।</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>मेनू आइटम सहेजा गया है।</value>
+  </data>
+  <data name="The menu name '{0}' is already in use." xml:space="preserve">
+    <value>मेनू नाम '{0}' पहले से उपयोग में है।</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>पृष्ठ नहीं मिला।</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>पृष्ठ हटाने की कतार हटा दी गई है।</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>पृष्ठ को हटाने की कतार में डाल दिया गया है।</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>पृष्ठ हटाने की कतार से हटा दिया गया है।</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>पृष्ठ को पूर्ववत कर दिया गया है।</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>पृष्ठ को पुनर्स्थापित कर दिया गया है।</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>पृष्ठ संशोधन को हटाने की कतार से हटा दिया गया है।</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>पृष्ठ संशोधन को पुनर्स्थापित कर दिया गया है।</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>पृष्ठों के अनाथ अटैचमेंट हटा दिए गए हैं।</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>निर्दिष्ट पृष्ठ नहीं मिला।</value>
+  </data>
+  <data name="Unknown database action: '{0}'" xml:space="preserve">
+    <value>अज्ञात डेटाबेस क्रिया: '{0}'</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>उपयोगकर्ता नहीं मिला।</value>
+  </data>
+  <data name="Vacuum complete. {0}" xml:space="preserve">
+    <value>वैक्यूम पूरा। {0}</value>
+  </data>
+  <data name="Verification complete. {0}" xml:space="preserve">
+    <value>सत्यापन पूरा। {0}</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>आप किसी पृष्ठ के केवल एकमात्र मौजूदा संशोधन को हटा नहीं सकते, इसके बजाय आपको पूरे पृष्ठ को हटाना होगा।</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>आप वर्तमान पृष्ठ संशोधन पर पूर्ववत नहीं कर सकते।</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>आपका खाता हटा दिया गया है।</value>
+  </data>
+  <data name="Your profile has been saved successfully!" xml:space="preserve">
+    <value>आपकी प्रोफ़ाइल सफलतापूर्वक सहेजी गई है!</value>
+  </data>
+  <data name="{0} : {1} is required." xml:space="preserve">
+    <value>{0} : {1} आवश्यक है।</value>
+  </data>
+  <data name="{0} Delete" xml:space="preserve">
+    <value>{0} हटाएँ</value>
+  </data>
+</root>

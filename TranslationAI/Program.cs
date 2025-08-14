@@ -12,11 +12,13 @@ namespace TranslationAI
             //If you process some new languages, update "IsUIComplete" in TightWiki.Library.SupportedCultures.
             var languages = new Dictionary<string, string?>
             {
+                //{ "cs", "Czech" }, //Never needs to be done, this was done manually.
+                //{ "en", "English" }, //Never needs to be done, this is the source.
+                //{ "sk", "Slovak" }, //Never needs to be done, this was done manually.
+
                 { "ar", "Arabic" }, //Done.
                 { "bn", "Bengali" }, //Done.
-                { "cs", "Czech" }, //Done.
                 { "de", "German" }, //Done.
-                //{ "en", "English" }, //Done.
                 { "es", "Spanish" }, //Done.
                 { "fr", "French" }, //Done.
                 { "hi", "Hindi" }, //Done.
@@ -25,19 +27,20 @@ namespace TranslationAI
                 { "ko", "Korean" }, //Done.
                 { "pt", "Portuguese" }, //Done.
                 { "ru", "Russian" }, //Done.
-                { "sk", "Slovak" }, //Done.
                 { "tr", "Turkish" }, //Done.
                 { "uk", "Ukrainian" },
                 { "ur", "Urdu" }, //Done.
                 { "zh-Hans", "Chinese simplified" }, //Done.
                 { "zh-Hant", "Chinese traditional" }, //Done.
                 
+                //Up next:
                 //{ "fa", "Persian" },
                 //{ "id", "Indonesian" },
                 //{ "nl", "Dutch" },
                 //{ "pl", "Polish" },
                 //{ "vi", "Vietnamese" },
 
+                //Future if requested:
                 //{ "az", "Azerbaijani" },
                 //{ "be", "Belarusian" },
                 //{ "bg", "Bulgarian" },
@@ -80,15 +83,15 @@ namespace TranslationAI
 
                 foreach (var sourceFileName in sourceFileNames)
                 {
-                    Console.WriteLine($"{language.Value}: {Path.GetFileName(sourceFileName)}");
-
+                    var fileName = Path.GetFileName(sourceFileName);
                     var targetFileName = sourceFileName.Replace(sourceExt, targetExt);
-
-                    if (File.Exists(targetFileName))
+                    if (File.Exists(targetFileName) && !fileName.StartsWith("Localization.", StringComparison.InvariantCultureIgnoreCase))
                     {
                         Console.WriteLine($"Skipping {targetFileName} because it already exists.");
                         continue;
                     }
+
+                    Console.WriteLine($"{language.Value}: {fileName}");
 
                     var doc = XDocument.Load(sourceFileName, LoadOptions.PreserveWhitespace);
 
@@ -136,7 +139,12 @@ namespace TranslationAI
 
                     var translatedBlock = response.Content[0].Text;
 
-                    var splitPhrases = translatedBlock.Split('\n');
+                    var splitPhrases = translatedBlock.Split('\n', StringSplitOptions.TrimEntries);
+
+                    if (splitPhrases.Length != phrases.Count)
+                    {
+                        throw new Exception("The count of translation responces do not match the number of inputs.");
+                    }
 
                     //Parse the translated block and update the dictionary with the translated phrases.
                     index = 0;
