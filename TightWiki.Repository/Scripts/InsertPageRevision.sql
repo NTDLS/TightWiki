@@ -7,6 +7,7 @@
 	Body,
 	DataHash,
 	Revision,
+	ChangeSummary,
 	ModifiedByUserId,
 	ModifiedDate
 )
@@ -18,6 +19,7 @@ SELECT
 	@Body,
 	@DataHash,
 	@PageRevision,
+	@ChangeSummary,
 	@ModifiedByUserId,
 	@ModifiedDate
 FROM

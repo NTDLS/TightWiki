@@ -720,7 +720,7 @@ namespace TightWiki.Controllers
                     ModifiedByUserId = SessionState.Profile.UserId,
                     Body = model.Body ?? "",
                     Name = model.Name,
-                    ChangeSummary = model.ChangeSummary ?? "",
+                    ChangeSummary = model.ChangeSummary ?? string.Empty,
                     Navigation = NamespaceNavigation.CleanAndValidate(model.Name),
                     Description = model.Description ?? ""
                 };
@@ -765,6 +765,7 @@ namespace TightWiki.Controllers
                 page.ModifiedByUserId = SessionState.Profile.EnsureNotNull().UserId;
                 page.Body = model.Body ?? "";
                 page.Name = model.Name;
+                page.ChangeSummary = model.ChangeSummary ?? string.Empty;
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 

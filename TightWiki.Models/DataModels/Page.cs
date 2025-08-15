@@ -28,9 +28,9 @@ namespace TightWiki.Models.DataModels
         public int HigherRevisionCount { get; set; }
         public int DeletedRevisionCount { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string ChangeSummary { get; set; } = string.Empty;
         public string Navigation { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public string ChangeSummary { get; set; } = string.Empty;
         public int DataHash { get; set; }
 
         public string EllipseDescription

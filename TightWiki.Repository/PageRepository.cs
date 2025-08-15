@@ -754,7 +754,7 @@ namespace TightWiki.Repository
                         //The page content has actually changed (according to the checksum), so we will bump the page revision.
                         o.Execute("UpdatePageRevisionNumber.sql", updatePageRevisionNumberParam);
 
-                        var InsertPageRevisionParam = new
+                        var insertPageRevisionParam = new
                         {
                             PageId = page.Id,
                             Name = page.Name,
@@ -763,11 +763,12 @@ namespace TightWiki.Repository
                             Body = page.Body,
                             DataHash = newDataHash,
                             PageRevision = currentPageRevision,
+                            ChangeSummary = page.ChangeSummary ?? string.Empty,
                             ModifiedByUserId = page.ModifiedByUserId,
                             ModifiedDate = DateTime.UtcNow,
                         };
                         //Insert the new actual page revision entry (this is the data).
-                        o.Execute("InsertPageRevision.sql", InsertPageRevisionParam);
+                        o.Execute("InsertPageRevision.sql", insertPageRevisionParam);
 
                         var reassociateAllPageAttachmentsParam = new
                         {

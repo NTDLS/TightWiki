@@ -15,8 +15,8 @@ database name is the key from ManagedDataStorage.Collection, and script name is 
 # Database Upgrade Script Macros
 Supported upgrade scripts macros, these must exist on the first line of the script file:
 
-* --##IF EXISTS(SELECT * FROM...)
-* --##IF NOT EXISTS(SELECT * FROM...)
+* --##IF EXISTS(SELECT n FROM...)
+* --##IF NOT EXISTS(SELECT n FROM...)
 * --##IF TABLE EXISTS(TABLE_NAME)
 * --##IF TABLE NOT EXISTS(TABLE_NAME)
 * --##IF COLUMN EXISTS(TABLE_NAME, COLUMN_NAME)
