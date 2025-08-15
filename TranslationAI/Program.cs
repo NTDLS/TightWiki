@@ -143,7 +143,7 @@ namespace TranslationAI
                     index++;
                 }
 
-                var prompt = $"You are a translator that translates {sourceLanguage} to {targetLanguage}.\r\nThe text to translate is inside <Phrase_X> tags.\r\nKeep the tags exactly as they are in the output.\r\nIf the text contains placeholders such as {0}, {1}, {2}, etc., retain them exactly in the translation and place them in a position that is natural for {targetLanguage} grammar.\r\nDo not alter, remove, or renumber placeholders.\r\nDo not add any commentary — only return the translated text with the original tags and placeholders intact.";
+                var prompt = $"You are a translator that translates {sourceLanguage} to {targetLanguage}.\r\nThe text to translate is inside <Phrase_X> tags.\r\nKeep the tags exactly as they are in the output.\r\nIf the text contains placeholders such as {{0}}, {{1}}, {{2}}, etc., retain them exactly in the translation and place them in a position that is natural for {targetLanguage} grammar.\r\nDo not alter, remove, or renumber placeholders.\r\nDo not add any commentary — only return the translated text with the original tags and placeholders intact.";
                 ChatCompletion response = chat.CompleteChat([
                     new SystemChatMessage(prompt),
                     new UserChatMessage(inputPhrases.ToString())
