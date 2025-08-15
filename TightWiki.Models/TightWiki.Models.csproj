@@ -12,6 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DiffPlex" Version="1.8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
   </ItemGroup>
 

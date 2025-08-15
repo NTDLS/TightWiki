@@ -1,0 +1,119 @@
+﻿:root {
+    --ins-bg: #e9f7ef;
+    --ins-ch: #27ae60; /* soft green */
+    --del-bg: #fdecea;
+    --del-ch: #e74c3c; /* soft red   */
+    --mod-bg: #fff7e6;
+    --mod-ch: #f39c12; /* soft amber */
+    --dim-bg: #f8f9fa;
+    --border: #e5e7eb;
+}
+
+.diff-wrap {
+    border: 1px solid var(--border);
+    border-radius: .75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04)
+}
+
+.diff-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff;
+    border-bottom: 1px solid var(--border)
+}
+
+.diff-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0
+}
+
+    .diff-table th, .diff-table td {
+        padding: .5rem .75rem;
+        vertical-align: top;
+        font-family: ui-monospace,SFMono-Regular,Consolas,monospace;
+        white-space: pre-wrap;
+        word-break: break-word
+    }
+
+.ln {
+    width: 4.25rem;
+    text-align: right;
+    color: #6b7280;
+    background: var(--dim-bg)
+}
+
+.code {
+    width: 45%
+}
+
+.gutter {
+    width: .4rem;
+    padding: 0
+}
+
+.bar {
+    width: .4rem;
+    height: 100%
+}
+
+/* rows */
+.unchanged {
+    background: #fff
+}
+
+.inserted {
+    background: var(--ins-bg)
+}
+
+.deleted {
+    background: var(--del-bg)
+}
+
+.modified {
+    background: var(--mod-bg)
+}
+
+.imaginary {
+    background: var(--dim-bg);
+    color: #9ca3af
+}
+
+/* change bars */
+.inserted .bar {
+    background: var(--ins-ch)
+}
+
+.deleted .bar {
+    background: var(--del-ch)
+}
+
+.modified .bar {
+    background: var(--mod-ch)
+}
+
+/* word-level */
+.w-ins {
+    background: rgba(39,174,96,.22);
+    border-radius: .25rem;
+    padding: 0 .15rem
+}
+
+.w-del {
+    background: rgba(231,76,60,.22);
+    border-radius: .25rem;
+    padding: 0 .15rem;
+    text-decoration: line-through
+}
+
+.dim {
+    opacity: .65
+}
+
+/* subtle zebra for big diffs */
+.diff-table tbody tr:nth-child(even):not(.inserted):not(.deleted):not(.modified) {
+    background: #fafafa
+}
