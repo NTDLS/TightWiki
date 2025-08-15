@@ -8,7 +8,7 @@ namespace TranslationAI
 {
     internal class Program
     {
-        static void _Main()
+        static void Main()
         {
             //If you add new languages, update "IsUIComplete" in TightWiki.Library.SupportedCultures.
             var languages = new Dictionary<string, string>
@@ -69,43 +69,6 @@ namespace TranslationAI
 
             //CreateMissingTranslationResources(chat, "Czech", "English", languages);
         }
-
-
-        static readonly Regex HeaderComment =
-       new Regex(@"<!--\s*Microsoft ResX Schema.*?-->", RegexOptions.Singleline);
-
-        static void Main()
-        {
-            var root = @"C:\NTDLS\TightWiki\TightWiki\Resources";
-            var files = Directory.EnumerateFiles(root, "*.resx", SearchOption.AllDirectories);
-
-            int changed = 0, total = 0;
-            foreach (var path in files)
-            {
-                total++;
-
-                string text;
-                Encoding? originalEncoding;
-                using (var sr = new StreamReader(path, detectEncodingFromByteOrderMarks: true))
-                {
-                    text = sr.ReadToEnd();
-                    originalEncoding = sr.CurrentEncoding;
-                }
-
-                var newText = HeaderComment.Replace(text, string.Empty);
-
-                if (!ReferenceEquals(text, newText) && text != newText)
-                {
-                    using var sw = new StreamWriter(path, false, originalEncoding!);
-                    sw.Write(newText);
-                    changed++;
-                    Console.WriteLine($"Cleaned: {path}");
-                }
-            }
-
-            Console.WriteLine($"Done. Scanned {total}, modified {changed}.");
-        }
-
 
         private static void FillInMissingTranslations(ChatClient chat, string sourceLanguage, Dictionary<string, string> languages)
         {
@@ -383,6 +346,39 @@ namespace TranslationAI
                     doc.Save(targetFileName);
                 }
             }
+        }
+
+        static readonly Regex HeaderComment = new Regex(@"<!--\s*Microsoft ResX Schema.*?-->", RegexOptions.Singleline);
+        static void RemoveAllResComments()
+        {
+            var root = @"C:\NTDLS\TightWiki\TightWiki\Resources";
+            var files = Directory.EnumerateFiles(root, "*.resx", SearchOption.AllDirectories);
+
+            int changed = 0, total = 0;
+            foreach (var path in files)
+            {
+                total++;
+
+                string text;
+                Encoding? originalEncoding;
+                using (var sr = new StreamReader(path, detectEncodingFromByteOrderMarks: true))
+                {
+                    text = sr.ReadToEnd();
+                    originalEncoding = sr.CurrentEncoding;
+                }
+
+                var newText = HeaderComment.Replace(text, string.Empty);
+
+                if (!ReferenceEquals(text, newText) && text != newText)
+                {
+                    using var sw = new StreamWriter(path, false, originalEncoding!);
+                    sw.Write(newText);
+                    changed++;
+                    Console.WriteLine($"Cleaned: {path}");
+                }
+            }
+
+            Console.WriteLine($"Done. Scanned {total}, modified {changed}.");
         }
     }
 }
