@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="About" xml:space="preserve">
-    <value />
+    <value>About</value>
   </data>
   <data name="Account" xml:space="preserve">
     <value>Account</value>
@@ -111,7 +111,7 @@
     <value>Export</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value />
+    <value>Help</value>
   </data>
   <data name="Info1" xml:space="preserve">
     <value>The admin password is set to its default value, it is &lt;i&gt;recommended&lt;/i&gt; that you change it immediately!</value>
