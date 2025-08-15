@@ -85,10 +85,10 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Attachment Revisions
 ![image](https://github.com/user-attachments/assets/a49540cb-24b7-42a7-b955-3c6fa17a5180)
 
-# Build in documentation list
+# Built-in documentation list
 ![image](https://github.com/user-attachments/assets/00b23663-972d-4791-8698-99e54bbc601c)
 
-# Build in documentation example
+# Built-in documentation example
 ![image](https://github.com/user-attachments/assets/ab6a1893-d0b5-4ba5-8262-d71423d8d49d)
 
 # Configuration
