@@ -449,6 +449,11 @@ namespace TightWiki.Controllers
             var thisRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
             var prevRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision - 1);
 
+            if (thisRev != null)
+            {
+                SessionState.SetPageId(thisRev.Id, pageRevision);
+            }
+
             var model = new PageCompareViewModel()
             {
                 MostCurrentRevision = thisRev?.MostCurrentRevision,
