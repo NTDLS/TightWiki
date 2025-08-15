@@ -1,6 +1,8 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Dapper;
+using DiffPlex;
+using DiffPlex.DiffBuilder;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
@@ -47,6 +49,11 @@ namespace TightWiki
 
             ConfigurationRepository.UpgradeDatabase();
             ConfigurationRepository.ReloadEverything();
+
+            // Add DiffPlex services.
+            builder.Services.AddScoped<IDiffer, Differ>();
+            builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
+                new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");

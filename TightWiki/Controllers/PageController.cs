@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DiffPlex.DiffBuilder;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,8 @@ namespace TightWiki.Controllers
         ITightEngine tightEngine,
         SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager,
-        IStringLocalizer<PageController> localizer)
+        IStringLocalizer<PageController> localizer,
+        ISideBySideDiffBuilder diffBuilder)
         : WikiControllerBase<PageController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]
@@ -49,7 +51,6 @@ namespace TightWiki.Controllers
         {
             return Json(new { now = DateTime.UtcNow });
         }
-
 
         #region Display.
 
@@ -431,6 +432,40 @@ namespace TightWiki.Controllers
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
+        }
+
+        #endregion
+
+        #region Compare.
+
+        [Authorize]
+        [HttpGet("{givenCanonical}/Compare/{pageRevision:int}")]
+        public ActionResult Compare(string givenCanonical, int pageRevision)
+        {
+            SessionState.RequireViewPermission();
+
+            var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
+
+            var thisRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision);
+            var prevRev = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision - 1);
+
+            if (thisRev != null)
+            {
+                SessionState.SetPageId(thisRev.Id, pageRevision);
+            }
+
+            var model = new PageCompareViewModel()
+            {
+                MostCurrentRevision = thisRev?.MostCurrentRevision,
+                ModifiedByUserName = thisRev?.ModifiedByUserName ?? string.Empty,
+                ThisRevision = thisRev?.Revision,
+                PreviousRevision = prevRev?.Revision,
+                DiffModel = diffBuilder.BuildDiffModel(prevRev?.Body ?? string.Empty, thisRev?.Body ?? string.Empty),
+                ModifiedDate = SessionState.LocalizeDateTime(thisRev?.ModifiedDate ?? DateTime.MinValue),
+                ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
+            };
+
+            return View(model);
         }
 
         #endregion

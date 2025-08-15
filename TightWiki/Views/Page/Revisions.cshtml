@@ -39,7 +39,7 @@
                         <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                         <td><a href="@GlobalConfiguration.BasePath/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                         <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
-                        <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
+                        <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">@Html.DisplayTextFor(x => h.ChangeSummary)</a></td>
                     </tr>
                 }
             </tbody>

@@ -1,0 +1,140 @@
+﻿@using Microsoft.AspNetCore.Html
+@using DiffPlex.DiffBuilder.Model
+@using TightWiki.Models
+@inject IViewLocalizer Localizer
+@model TightWiki.Models.ViewModels.Page.PageCompareViewModel
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+}
+
+@if (@sessionState.UserTheme.EditorTheme == "dark")
+{
+    <link rel="stylesheet" href="@GlobalConfiguration.BasePath/css/diffPlexDark.css" />
+}
+else
+{
+    <link rel="stylesheet" href="@GlobalConfiguration.BasePath/css/diffPlexLight.css" />
+}
+
+@functions {
+    string RowClass(DiffPlex.DiffBuilder.Model.ChangeType t) => t switch
+    {
+        ChangeType.Inserted => "inserted",
+        ChangeType.Deleted => "deleted",
+        ChangeType.Modified => "modified",
+        ChangeType.Imaginary => "imaginary",
+        _ => "unchanged"
+    };
+
+    IHtmlContent RenderPieces(IReadOnlyList<DiffPiece> pieces)
+    {
+        if (pieces is null || pieces.Count == 0) return Html.Raw("");
+        var sb = new System.Text.StringBuilder();
+        foreach (var p in pieces)
+        {
+            var txt = (p.Text ?? "").Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+            var cls = p.Type switch { ChangeType.Inserted => "w-ins", ChangeType.Deleted => "w-del", _ => null };
+            if (cls is null) sb.Append(txt); else sb.Append($"<span class=\"{cls}\">{txt}</span>");
+        }
+        return Html.Raw(sb.ToString());
+    }
+
+    IHtmlContent RenderLine(DiffPiece? line)
+    {
+        if (line is null) return Html.Raw("");
+        if (line.SubPieces?.Count > 0) return RenderPieces(line.SubPieces);
+        var txt = (line.Text ?? "").Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
+        return Html.Raw(txt);
+    }
+}
+
+<h3>
+    @Localizer.Format("Page revisions for {0}.", $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}\">{@sessionState.Page.Name}</a>")
+</h3>
+
+@if (Model.ThisRevision == null || Model.DiffModel == null)
+{
+    <div class="card border-warning mt-3">
+        <div class="card-header bg-warning text-dark">
+            <strong>@Localizer["Revision not found"]</strong>
+        </div>
+        <div class="card-body">
+            <strong>
+                @Localizer["The requested page or revision does not exist."]
+            </strong>
+        </div>
+    </div>
+}
+else
+{
+    <p>
+        <h6>
+            @Localizer.Format("Changes made to this page for revision {0} by {1} on {2}.",
+            $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
+                $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
+                Model.ModifiedDate)
+    </h6>
+
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-3" id="toolbar">
+        <div>
+                @{
+                    string disablePrev = (Model.PreviousRevision ?? 0) == 0 ? "disabled" : "";
+                    string disableNext = Model.MostCurrentRevision == Model.ThisRevision ? "disabled" : "";
+                }
+                @*Left-aligned "toolbar" controls*@
+                <a class="btn btn-success me-2" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">@Localizer["View all revisions"]</a>
+                <a class="btn btn-success @disablePrev" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@(Model.PreviousRevision ?? 0)">
+                    <i class="bi bi-arrow-left"></i>
+                    @Localizer["Previous"]
+                </a>
+                <a class="btn btn-success @disableNext" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@((Model.ThisRevision ?? 0) + 1)">
+                    @Localizer["Next"]
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+
+            <div>
+                @*Right-aligned "toolbar" controls*@
+            </div>
+        </div>
+    </p>
+
+    <div class="diff-wrap">
+        <table class="diff-table">
+            <thead class="diff-head">
+                <tr>
+                    <th class="ln">Old</th>
+                    <th class="gutter"></th>
+                    <th class="code">Text</th>
+                    <th class="ln">New</th>
+                    <th class="gutter"></th>
+                    <th class="code">Text</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var oldLines = Model.DiffModel.OldText.Lines;
+                    var newLines = Model.DiffModel.NewText.Lines;
+
+                    var count = Math.Max(oldLines.Count, newLines.Count);
+                    for (int i = 0; i < count; i++)
+                    {
+                        var o = i < oldLines.Count ? oldLines[i] : null;
+                        var n = i < newLines.Count ? newLines[i] : null;
+                        var lcO = RowClass(o?.Type ?? ChangeType.Imaginary);
+                        var lcN = RowClass(n?.Type ?? ChangeType.Imaginary);
+                        <tr class="@lcO">
+                            <td class="ln">@o?.Position</td>
+                            <td class="gutter"><div class="bar"></div></td>
+                            <td>@RenderLine(o)</td>
+                            <td class="ln">@n?.Position</td>
+                            <td class="gutter"><div class="bar"></div></td>
+                            <td>@RenderLine(n)</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}

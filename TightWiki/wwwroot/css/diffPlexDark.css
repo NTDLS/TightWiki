@@ -1,0 +1,119 @@
+﻿:root {
+    --ins-bg: #1e3a2f; /* dark greenish background */
+    --ins-ch: #2ecc71; /* bright green bar/text */
+    --del-bg: #3a1e1e; /* dark red background */
+    --del-ch: #e74c3c; /* bright red bar/text */
+    --mod-bg: #3a2f1e; /* dark amber background */
+    --mod-ch: #f39c12; /* bright amber bar/text */
+    --dim-bg: #2d2d2d; /* slightly lighter than main bg for gutter/imaginary */
+    --border: #444; /* darker border for dark theme */
+}
+
+.diff-wrap {
+    border: 1px solid var(--border);
+    border-radius: .75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.6);
+    background: #1a1a1a; /* main dark background */
+}
+
+.diff-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #1f1f1f;
+    border-bottom: 1px solid var(--border);
+    color: #ddd;
+}
+
+.diff-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .diff-table th, .diff-table td {
+        padding: .5rem .75rem;
+        vertical-align: top;
+        font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+        white-space: pre-wrap;
+        word-break: break-word;
+        color: #e5e5e5;
+    }
+
+.ln {
+    width: 4.25rem;
+    text-align: right;
+    color: #9ca3af;
+    background: var(--dim-bg);
+}
+
+.code {
+    width: 45%;
+}
+
+.gutter {
+    width: .4rem;
+    padding: 0;
+}
+
+.bar {
+    width: .4rem;
+    height: 100%;
+}
+
+.unchanged {
+    background: #1a1a1a;
+}
+
+.inserted {
+    background: var(--ins-bg);
+}
+
+.deleted {
+    background: var(--del-bg);
+}
+
+.modified {
+    background: var(--mod-bg);
+}
+
+.imaginary {
+    background: var(--dim-bg);
+    color: #888;
+}
+
+.inserted .bar {
+    background: var(--ins-ch);
+}
+
+.deleted .bar {
+    background: var(--del-ch);
+}
+
+.modified .bar {
+    background: var(--mod-ch);
+}
+
+.w-ins {
+    background: rgba(46, 204, 113, .25);
+    border-radius: .25rem;
+    padding: 0 .15rem;
+}
+
+.w-del {
+    background: rgba(231, 76, 60, .25);
+    border-radius: .25rem;
+    padding: 0 .15rem;
+    text-decoration: line-through;
+}
+
+.dim {
+    opacity: .65;
+}
+
+/* subtle zebra for big diffs */
+.diff-table tbody tr:nth-child(even):not(.inserted):not(.deleted):not(.modified) {
+    background: #1f1f1f;
+}
