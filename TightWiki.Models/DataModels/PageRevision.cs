@@ -18,5 +18,6 @@
         public string CreatedByUserName { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         public string ChangeSummary { get; set; } = string.Empty;
+        public string ChangeAnalysis { get; set; } = string.Empty;
     }
 }

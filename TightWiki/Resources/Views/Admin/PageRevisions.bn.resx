@@ -65,6 +65,9 @@
   <data name="All changes that have been made to the page." xml:space="preserve">
     <value>পৃষ্ঠায় যে সমস্ত পরিবর্তন করা হয়েছে।</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>বিশ্লেষণ</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>মুছুন</value>
   </data>

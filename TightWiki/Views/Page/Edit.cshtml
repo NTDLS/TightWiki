@@ -440,21 +440,26 @@
                     <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
                 </div>
                 <br />
-                <strong>@Localizer["Name"]</strong>
 
+                <strong>@Localizer["Name"]</strong>
                 <br />
                 @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
                 <br />
 
                 <strong>@Localizer["Description"]</strong>
-
                 <br />
                 @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Description)</div>
-
                 <br />
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
+
+                @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                {
+                    <strong>@Localizer["Change Summary"]</strong>
+                    <br />
+                    @Html.TextAreaFor(x => x.ChangeSummary, new { style = "width:90%", placeholder = @Localizer["What did you change and why?"].Value })
+                    <div class="text-danger">@Html.ValidationMessageFor(m => m.ChangeSummary)</div>
+                }
 
                 <!-- Toolbar -->
                 @if (@sessionState.UserTheme.EditorTheme == "dark")
@@ -516,6 +521,7 @@
                     </div>
                 }
 
+                <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
                 <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
                 <br />
 

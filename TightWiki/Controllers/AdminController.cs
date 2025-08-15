@@ -470,7 +470,7 @@ namespace TightWiki.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                p.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                p.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             if (model.Revisions != null && model.Revisions.Count > 0)

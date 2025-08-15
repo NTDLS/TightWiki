@@ -14,6 +14,7 @@ namespace TightWiki.Models.ViewModels.Page
         public int? PreviousRevision { get; set; }
         public int? MostCurrentRevision { get; set; }
 
+        public string ChangeAnalysis { get; set; } = string.Empty;
         public string ChangeSummary { get; set; } = string.Empty;
 
         public SideBySideDiffModel? DiffModel { get; set; }

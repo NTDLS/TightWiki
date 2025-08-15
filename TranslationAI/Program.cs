@@ -68,6 +68,8 @@ namespace TranslationAI
             FillInMissingTranslations(chat, "English", languages);
 
             //CreateMissingTranslationResources(chat, "Czech", "English", languages);
+
+            RemoveAllResComments();
         }
 
         private static void FillInMissingTranslations(ChatClient chat, string sourceLanguage, Dictionary<string, string> languages)

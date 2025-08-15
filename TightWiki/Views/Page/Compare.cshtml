@@ -69,15 +69,8 @@ else
 else
 {
     <p>
-        <h6>
-            @Localizer.Format("Changes made to this page for revision {0} by {1} on {2}.",
-            $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
-                $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
-                Model.ModifiedDate)
-    </h6>
-
-    <div class="d-flex justify-content-between align-items-center mt-3 mb-3" id="toolbar">
-        <div>
+        <div class="d-flex justify-content-between align-items-center mt-3 mb-3" id="toolbar">
+            <div>
                 @{
                     string disablePrev = (Model.PreviousRevision ?? 0) == 0 ? "disabled" : "";
                     string disableNext = Model.MostCurrentRevision == Model.ThisRevision ? "disabled" : "";
@@ -99,6 +92,20 @@ else
             </div>
         </div>
     </p>
+
+    <h6>
+        @Localizer.Format("Changes made to this page for revision {0} by {1} on {2}.",
+        $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
+        $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
+        Model.ModifiedDate)
+    </h6>
+
+    @if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))
+    {
+        <div class="alert alert-secondary py-2 mb-3">
+            <strong>@Localizer["Summary"]:</strong> "@Model.ChangeSummary"
+        </div>
+    }
 
     <div class="diff-wrap">
         <table class="diff-table">

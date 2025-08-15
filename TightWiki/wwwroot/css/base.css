@@ -1,4 +1,11 @@
-﻿.btn-thin {
+﻿.ellipsis200 {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-thin {
     padding: 1px 6px;
     font-size: 14px;
 }

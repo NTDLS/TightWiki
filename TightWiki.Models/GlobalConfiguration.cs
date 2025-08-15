@@ -34,6 +34,8 @@ namespace TightWiki.Models
         public static bool PreLoadAnimatedEmojis { get; set; } = true;
         public static bool RecordCompilationMetrics { get; set; }
         public static bool ShowLastModifiedOnPageFooter { get; set; }
+        public static bool ShowChangeSummaryWhenEditing { get; set; }
+        public static bool RequireChangeSummaryWhenEditing { get; set; }
         public static string DefaultTimeZone { get; set; } = string.Empty;
         public static string Address { get; set; } = string.Empty;
         public static int DefaultEmojiHeight { get; set; }

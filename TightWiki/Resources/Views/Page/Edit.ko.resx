@@ -164,4 +164,13 @@
   <data name="Insert" xml:space="preserve">
     <value>삽입</value>
   </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>페이지 편집에 대한 변경 요약이 필요합니다.</value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value>무엇을 변경했으며 그 이유는 무엇인가요?</value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value>변경 요약</value>
+  </data>
 </root>

@@ -164,4 +164,13 @@
   <data name="Insert" xml:space="preserve">
     <value>شامل کریں</value>
   </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>صفحات کی ترمیم کے لیے ایک تبدیلی کا خلاصہ ضروری ہے۔</value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value>آپ نے کیا تبدیل کیا اور کیوں؟</value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value>تبدیلی کا خلاصہ</value>
+  </data>
 </root>
