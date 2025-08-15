@@ -285,3 +285,9 @@ ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'OIDC : ClientId', 
 INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'External Authentication' LIMIT 1), 'OIDC : ClientSecret', '', 2, '', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'OIDC : ClientSecret', DataTypeId = 2, Description = '', IsEncrypted = '0', IsRequired = '0';
+INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'Functionality' LIMIT 1), 'Show Change Summary when Editing', '1', 3, 'Whether to show the textbox to allow the user to enter a change summary when editing pages.', 0, 1
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Show Change Summary when Editing', DataTypeId = 3, Description = 'Whether to show the textbox to allow the user to enter a change summary when editing pages.', IsEncrypted = '0', IsRequired = '1';
+INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'Functionality' LIMIT 1), 'Require Change Summary when Editing', '1', 3, 'Whether users are required to enter a change summary when editing pages. Note that "Show Change Summary when Editing" must also be enabled.', 0, 1
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Require Change Summary when Editing', DataTypeId = 3, Description = 'Whether users are required to enter a change summary when editing pages. Note that "Show Change Summary when Editing" must also be enabled.', IsEncrypted = '0', IsRequired = '1';

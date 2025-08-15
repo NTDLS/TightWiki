@@ -8,9 +8,9 @@ md Publish
 
 dotnet publish .\GenerateSeedData -c Release -o publish\GenerateSeedData --runtime win-x64 --self-contained false
 
-del .\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999\*.sql /q
+del .\TightWiki.Repository\Scripts\Initialization\PostInitialization\000-Seed\*.sql /q
 
-publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki.Repository\Scripts\Initialization\Versions\999.999.999"
+publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki.Repository\Scripts\Initialization\PostInitialization\000-Seed"
 
 chcp 65001 >nul
 set ESC=
