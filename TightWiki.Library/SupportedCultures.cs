@@ -62,7 +62,7 @@ namespace TightWiki.Library
                 new CultureInfoSettings { Culture = new CultureInfo("uk"), IsUIComplete = true }, // Ukrainian 
                 new CultureInfoSettings { Culture = new CultureInfo("vi"), IsUIComplete = true }, // Vietnamese 
                 new CultureInfoSettings { Culture = new CultureInfo("zh-Hans"), IsUIComplete = true }, // Chinese simplified 
-                new CultureInfoSettings { Culture = new CultureInfo("zh-Hant"), IsUIComplete = false }, // Chinese traditional 
+                new CultureInfoSettings { Culture = new CultureInfo("zh-Hant"), IsUIComplete = true }, // Chinese traditional 
                 new CultureInfoSettings { Culture = new CultureInfo("bn"), IsUIComplete = true }, // Bengali
                 new CultureInfoSettings { Culture = new CultureInfo("hi"), IsUIComplete = true }, // Hindi
                 new CultureInfoSettings { Culture = new CultureInfo("ur"), IsUIComplete = true }, // Urdu
