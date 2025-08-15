@@ -704,6 +704,12 @@ namespace TightWiki.Controllers
 
             model.FeatureTemplates = PageRepository.GetAllFeatureTemplates();
 
+            if (GlobalConfiguration.ShowChangeSummaryWhenEditing && GlobalConfiguration.RequireChangeSummaryWhenEditing)
+            {
+                ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
+                return View(model);
+            }
+
             if (model.Id == 0) //Saving a new page.
             {
                 var page = new Page()
@@ -714,6 +720,7 @@ namespace TightWiki.Controllers
                     ModifiedByUserId = SessionState.Profile.UserId,
                     Body = model.Body ?? "",
                     Name = model.Name,
+                    ChangeSummary = model.ChangeSummary ?? "",
                     Navigation = NamespaceNavigation.CleanAndValidate(model.Name),
                     Description = model.Description ?? ""
                 };

@@ -48,13 +48,26 @@ namespace TightWiki.Repository
                     return; //The database version is already at the latest version.
                 }
 
-                Console.WriteLine($"Starting database upgrade.");
+                Console.WriteLine($"Starting database initialization.");
 
-                var updateScriptNames = Assembly.GetExecutingAssembly().GetManifestResourceNames()
-                    .Where(o => o.Contains("Repository.Scripts.Initialization.Versions", StringComparison.InvariantCultureIgnoreCase)).OrderBy(o => o);
+                var manifestResources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+
+                var preInitScriptNames = manifestResources
+                    .Where(o => o.Contains("Repository.Scripts.Initialization.PreInitialization", StringComparison.InvariantCultureIgnoreCase));
+
+                var versionScriptNames = manifestResources
+                    .Where(o => o.Contains("Repository.Scripts.Initialization.Versions", StringComparison.InvariantCultureIgnoreCase));
+
+                var postInitScriptNames = manifestResources
+                    .Where(o => o.Contains("Repository.Scripts.Initialization.PostInitialization", StringComparison.InvariantCultureIgnoreCase));
 
                 string startVersionTag = ".Initialization.Versions.";
                 string endVersionTag = ".^";
+
+                var updateScriptNames = new List<string>();
+                updateScriptNames.AddRange(preInitScriptNames.OrderBy(o => o));
+                updateScriptNames.AddRange(versionScriptNames.OrderBy(o => o));
+                updateScriptNames.AddRange(postInitScriptNames.OrderBy(o => o));
 
                 foreach (var updateScriptName in updateScriptNames)
                 {
@@ -72,7 +85,7 @@ namespace TightWiki.Repository
                             int filesFolderVersion = Utility.PadVersionString(updateScriptName.Substring(startIndex, endIndex - startIndex).Trim().Replace("_", ""));
                             if (filesFolderVersion > storedPaddedVersion)
                             {
-                                Console.WriteLine($"Executing upgrade script: \"{updateScriptName}\"");
+                                Console.WriteLine($"Executing initialization script: \"{updateScriptName}\"");
 
                                 //Get the script text.
                                 using var stream = assembly.GetManifestResourceStream(updateScriptName);
@@ -87,7 +100,90 @@ namespace TightWiki.Repository
 
                                 var databaseFactory = ManagedDataStorage.Collection.Single(o => o.Name == databaseName).Factory;
 
-                                databaseFactory.Execute(scriptText);
+                                bool shouldExecute = true;
+
+                                if (scriptText.StartsWith("--##IF", StringComparison.InvariantCultureIgnoreCase))
+                                {
+                                    int endOfConditional = scriptText.IndexOf('(');
+                                    int endOfFirstLine = scriptText.IndexOf('\n');
+                                    var conditionalTag = scriptText.Substring(4, endOfConditional - 4).Trim();
+                                    var conditionalParam = scriptText.Substring(endOfConditional + 1, endOfFirstLine - endOfConditional).Trim().Trim(['(', ')']).Trim();
+
+                                    #region Conditional processing.
+
+                                    switch (conditionalTag)
+                                    {
+                                        case "IF EXISTS":
+                                            var ifExists = databaseFactory.ExecuteScalar<string?>(conditionalParam);
+                                            shouldExecute = (ifExists == null);
+                                            break;
+                                        case "IF NOT EXISTS":
+                                            var ifNotExists = databaseFactory.ExecuteScalar<string?>(conditionalParam);
+                                            shouldExecute = (ifNotExists != null);
+                                            break;
+                                        case "IF TABLE EXISTS":
+                                            shouldExecute = databaseFactory.DoesTableExist(conditionalParam);
+                                            break;
+                                        case "IF TABLE NOT EXISTS":
+                                            shouldExecute = !databaseFactory.DoesTableExist(conditionalParam);
+                                            break;
+                                        case "IF COLUMN EXISTS":
+                                            {
+                                                var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
+                                                if (param.Length != 2)
+                                                {
+                                                    throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, COLUMN_NAME");
+                                                }
+
+                                                shouldExecute = databaseFactory.DoesColumnExist(param[0], param[1]);
+                                                break;
+                                            }
+                                        case "IF COLUMN NOT EXISTS":
+                                            {
+                                                var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
+                                                if (param.Length != 2)
+                                                {
+                                                    throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, COLUMN_NAME");
+                                                }
+
+                                                shouldExecute = !databaseFactory.DoesColumnExist(param[0], param[1]);
+                                                break;
+                                            }
+                                        case "IF INDEX EXISTS":
+                                            {
+                                                var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
+                                                if (param.Length != 2)
+                                                {
+                                                    throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, INDEX_NAME");
+                                                }
+
+                                                var tableSchema = databaseFactory.DoesIndexExist(param[0], param[1]);
+                                                break;
+                                            }
+                                        case "IF INDEX NOT EXISTS":
+                                            {
+                                                var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
+                                                if (param.Length != 2)
+                                                {
+                                                    throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, INDEX_NAME");
+                                                }
+
+                                                var tableSchema = !databaseFactory.DoesIndexExist(param[0], param[1]);
+                                                break;
+                                            }
+                                        default:
+                                            throw new Exception(scriptText + " contains an unknown conditional: " + conditionalTag);
+                                    }
+
+                                    #endregion
+
+                                    scriptText = scriptText.Substring(endOfFirstLine + 1).Trim();
+                                }
+
+                                if (shouldExecute)
+                                {
+                                    databaseFactory.Execute(scriptText);
+                                }
                             }
                         }
                     }
@@ -511,6 +607,8 @@ namespace TightWiki.Repository
             GlobalConfiguration.EnablePageComments = functionalityConfig.Value<bool>("Enable Page Comments");
             GlobalConfiguration.EnablePublicProfiles = functionalityConfig.Value<bool>("Enable Public Profiles");
             GlobalConfiguration.ShowCommentsOnPageFooter = functionalityConfig.Value<bool>("Show Comments on Page Footer");
+            GlobalConfiguration.ShowChangeSummaryWhenEditing = functionalityConfig.Value<bool>("Show Change Summary when Editing");
+            GlobalConfiguration.RequireChangeSummaryWhenEditing = functionalityConfig.Value<bool>("Require Change Summary when Editing");
             GlobalConfiguration.ShowLastModifiedOnPageFooter = functionalityConfig.Value<bool>("Show Last Modified on Page Footer");
             GlobalConfiguration.IncludeSearchOnNavbar = searchConfig.Value<bool>("Include Search on Navbar");
             GlobalConfiguration.HTMLHeader = htmlConfig?.Value<string>("Header") ?? string.Empty;
