@@ -4,6 +4,7 @@ SELECT
 	PR.[Description],
 	PR.Revision,
 	P.Revision as HighestRevision,
+	PR.ChangeSummary,
 	P.Navigation,
 	P.CreatedByUserId,
 	Createduser.AccountName as CreatedByUserName,

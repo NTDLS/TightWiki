@@ -462,7 +462,8 @@ namespace TightWiki.Controllers
                 PreviousRevision = prevRev?.Revision,
                 DiffModel = diffBuilder.BuildDiffModel(prevRev?.Body ?? string.Empty, thisRev?.Body ?? string.Empty),
                 ModifiedDate = SessionState.LocalizeDateTime(thisRev?.ModifiedDate ?? DateTime.MinValue),
-                ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
+                ChangeSummary = thisRev?.ChangeSummary ?? string.Empty,
+                ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "")
             };
 
             return View(model);
@@ -501,7 +502,7 @@ namespace TightWiki.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(p.Navigation, p.Revision - 1);
-                p.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                p.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             if (model.Revisions != null && model.Revisions.Count > 0)
@@ -704,7 +705,9 @@ namespace TightWiki.Controllers
 
             model.FeatureTemplates = PageRepository.GetAllFeatureTemplates();
 
-            if (GlobalConfiguration.ShowChangeSummaryWhenEditing && GlobalConfiguration.RequireChangeSummaryWhenEditing)
+            if (GlobalConfiguration.ShowChangeSummaryWhenEditing
+                && GlobalConfiguration.RequireChangeSummaryWhenEditing
+                && string.IsNullOrEmpty(model.ChangeSummary))
             {
                 ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
                 return View(model);

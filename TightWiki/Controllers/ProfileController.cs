@@ -228,7 +228,7 @@ namespace TightWiki.Controllers
             {
                 var thisRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision);
                 var prevRev = PageRepository.GetPageRevisionByNavigation(item.Navigation, item.Revision - 1);
-                item.ChangeSummary = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
+                item.ChangeAnalysis = Differentiator.GetComparisonSummary(thisRev?.Body ?? "", prevRev?.Body ?? "");
             }
 
             return View(model);

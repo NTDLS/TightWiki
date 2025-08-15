@@ -62,6 +62,9 @@
   <data name="All changes that have been made to the page." xml:space="preserve">
     <value>对页面所做的所有更改。</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>分析</value>
+  </data>
   <data name="Modified By" xml:space="preserve">
     <value>修改者</value>
   </data>

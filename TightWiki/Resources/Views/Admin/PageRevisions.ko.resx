@@ -65,6 +65,9 @@
   <data name="All changes that have been made to the page." xml:space="preserve">
     <value>페이지에 대해 수행된 모든 변화.</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>분석</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>삭제</value>
   </data>

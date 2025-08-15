@@ -451,12 +451,13 @@
                 <br />
                 @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Description)</div>
+                <br />
 
                 @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
                 {
                     <strong>@Localizer["Change Summary"]</strong>
                     <br />
-                    @Html.TextAreaFor(x => x.ChangeSummary, new { style = "width:90%", placeholder = @Localizer["What did you change and why?"] })
+                    @Html.TextAreaFor(x => x.ChangeSummary, new { style = "width:90%", placeholder = @Localizer["What did you change and why?"].Value })
                     <div class="text-danger">@Html.ValidationMessageFor(m => m.ChangeSummary)</div>
                 }
 
@@ -519,7 +520,6 @@
                         </button>
                     </div>
                 }
-                <br />
 
                 <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
                 <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>

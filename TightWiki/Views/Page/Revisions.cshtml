@@ -12,7 +12,7 @@
 </h3>
 
 <p>
-    @Localizer["All changes that have been made to the page."]<br /><br />
+    @Localizer["All changes that have been made to the page."]
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -28,7 +28,12 @@
                     <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
                     <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">@Localizer["Modified By"]</a></strong></td>
                     <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">@Localizer["Modified Date"]</a></strong></td>
-                    <td><strong>@Localizer["Summary"]</strong></td>
+
+                    @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                    {
+                        <td><strong>@Localizer["Summary"]</strong></td>
+                    }
+                    <td><strong>@Localizer["Analysis"]</strong></td>
                 </tr>
             </thead>
 
@@ -39,7 +44,11 @@
                         <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                         <td><a href="@GlobalConfiguration.BasePath/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                         <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
-                        <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">@Html.DisplayTextFor(x => h.ChangeSummary)</a></td>
+                        @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                        {
+                            <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision"><div class="ellipsis200">@Html.DisplayTextFor(x => h.ChangeSummary)</div></a></td>
+                        }
+                        <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">@Html.DisplayTextFor(x => h.ChangeAnalysis)</a></td>
                     </tr>
                 }
             </tbody>

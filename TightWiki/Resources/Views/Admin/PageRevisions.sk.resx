@@ -65,6 +65,9 @@
   <data name="All changes that have been made to the page." xml:space="preserve">
     <value>Všetky zmeny, ktoré boli na stránke vykonané.</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Analýza</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Odstrániť</value>
   </data>

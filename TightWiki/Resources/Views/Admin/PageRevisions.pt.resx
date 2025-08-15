@@ -65,6 +65,9 @@
   <data name="All changes that have been made to the page." xml:space="preserve">
     <value>Todas as alterações que foram feitas na página.</value>
   </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Análise</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Excluir</value>
   </data>

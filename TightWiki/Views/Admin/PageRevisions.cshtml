@@ -26,7 +26,11 @@
                 <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">@Localizer["Revision"]</a></strong></td>
                 <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">@Localizer["Modified By"]</a></strong></td>
                 <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">@Localizer["Modified Date"]</a></strong></td>
-                <td><strong>@Localizer["Summary"]</strong></td>
+                @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                {
+                    <td><strong>@Localizer["Summary"]</strong></td>
+                }
+                <td><strong>@Localizer["Analysis"]</strong></td>
                 <td><strong>@Localizer["Action"]</strong></td>
             </tr>
         </thead>
@@ -38,13 +42,17 @@
                     <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@h.Revision" target="_blank" rel="noopener">@Html.DisplayTextFor(x => h.Revision)</a></td>
                     <td><a href="@GlobalConfiguration.BasePath/Profile/@h.ModifiedByUserName/Public">@Html.DisplayTextFor(x => h.ModifiedByUserName)</a></td>
                     <td>@Html.DisplayTextFor(x => h.ModifiedDate)</td>
-                    <td>@Html.DisplayTextFor(x => h.ChangeSummary)</td>
+                    @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
+                    {
+                        <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">@Html.DisplayTextFor(x => h.ChangeSummary)</a></td>
+                    }
+                    <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">@Html.DisplayTextFor(x => h.ChangeAnalysis)</a></td>
+                    <td>@Html.DisplayTextFor(x => h.ChangeAnalysis)</td>
                     <td>
                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
                             Localizer["Reverting {0} from revision {1} to {2} will rollback {3} changes.<br />Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />Are you sure you want to continue?<br /><br />"]
                                 .Value(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
                             Localizer["Revert"].Value, $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0"))
-
                         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
                             Localizer["Deleting revision {0} of \"{1}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"]
                                 .Value(h.Revision, h.Name),

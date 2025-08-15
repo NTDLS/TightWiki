@@ -11,20 +11,17 @@
 </h3>
 
 <p>
-    @Localizer["If it's here, you should be able to find it."]<br /><br />
+    @Localizer["If it's here, you should be able to find it."]
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
 {
-    <div class="container">
-        <div class="d-flex justify-content-end mb-4">
-            <div class="flex-grow-1 me-2">
-                @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control", style = "width:100%" })
-            </div>
-            <button type="submit" value="Find" class="btn btn-primary">@Localizer["Search"]</button>
+    <div class="d-flex justify-content-end mb-4">
+        <div class="flex-grow-1 me-2">
+            @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control", style = "width:100%" })
         </div>
+        <button type="submit" value="Find" class="btn btn-primary">@Localizer["Search"]</button>
     </div>
-    <br />
 
     @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
     <br />
