@@ -40,7 +40,7 @@ else
         return Html.Raw(sb.ToString());
     }
 
-    IHtmlContent RenderLine(DiffPiece line)
+    IHtmlContent RenderLine(DiffPiece? line)
     {
         if (line is null) return Html.Raw("");
         if (line.SubPieces?.Count > 0) return RenderPieces(line.SubPieces);
@@ -78,7 +78,7 @@ else
 
     <div class="d-flex justify-content-between align-items-center mt-3 mb-3" id="toolbar">
         <div>
-            @{
+                @{
                     string disablePrev = (Model.PreviousRevision ?? 0) == 0 ? "disabled" : "";
                     string disableNext = Model.MostCurrentRevision == Model.ThisRevision ? "disabled" : "";
                 }
