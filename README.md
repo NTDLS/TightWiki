@@ -49,6 +49,9 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 
 ![image](https://github.com/user-attachments/assets/02d9da1f-e164-44ce-aee9-0c42eedc4180)
 
+# Multiple languages.
+<img width="938" height="470" alt="image" src="https://github.com/user-attachments/assets/c6725bde-11ee-450f-a025-2fbd79dbc08b" />
+
 # Page search (inexact fuzzy matching with weighted tokens)
 ![image](https://github.com/user-attachments/assets/b3caf0eb-32cf-43ad-885d-b2c8d10ae1ef)
 
@@ -57,6 +60,9 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 
 # Example edit page
 ![image](https://github.com/user-attachments/assets/2e1205d2-fcd5-42aa-aa1a-ef35c5e9ac0a)
+
+# Multiple Themes
+<img width="1022" height="702" alt="image" src="https://github.com/user-attachments/assets/af96a6b8-244c-4b9f-9e28-9aea9e35db7a" />
 
 # Emojis Configuration 
 ![image](https://github.com/user-attachments/assets/3e78b853-d151-4ef4-ad7a-d4e68393643f)
@@ -70,16 +76,19 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # History and Revert
 ![image](https://github.com/user-attachments/assets/92f74860-afab-421e-9db9-99040e1d4431)
 
+# Side-by-side Differences
+<img width="920" height="627" alt="image" src="https://github.com/user-attachments/assets/6b03cbc2-ba85-4aaa-bd72-6facf00ff542" />
+
 # Page Attachments
 ![image](https://github.com/user-attachments/assets/751640d8-bd3f-4b63-ae69-916f624f09bc)
 
 # Attachment Revisions
 ![image](https://github.com/user-attachments/assets/a49540cb-24b7-42a7-b955-3c6fa17a5180)
 
-# Build in documentation list
+# Built-in documentation list
 ![image](https://github.com/user-attachments/assets/00b23663-972d-4791-8698-99e54bbc601c)
 
-# Build in documentation example
+# Built-in documentation example
 ![image](https://github.com/user-attachments/assets/ab6a1893-d0b5-4ba5-8262-d71423d8d49d)
 
 # Configuration
