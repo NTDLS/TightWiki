@@ -2,7 +2,7 @@
 {
     public interface IAccountProfile
     {
-        public string Role { get; set; }
+        //public string Role { get; set; }
         public Guid UserId { get; set; }
         public string EmailAddress { get; set; }
         public string AccountName { get; set; }

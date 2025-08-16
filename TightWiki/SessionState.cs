@@ -10,7 +10,6 @@ using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
@@ -22,7 +21,7 @@ namespace TightWiki
 
         public bool IsAuthenticated { get; set; }
         public IAccountProfile? Profile { get; set; }
-        public string Role { get; set; } = string.Empty;
+        public bool IsAdministrator { get; set; }
         public Theme UserTheme { get; set; } = new();
 
         #endregion
@@ -93,7 +92,7 @@ namespace TightWiki
                         if (UsersRepository.TryGetBasicProfileByUserId(userId, out var profile))
                         {
                             Profile = profile;
-                            Role = Profile.Role;
+                            IsAdministrator = UsersRepository.IsUserMemberOfAdministrators(userId);
                             UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
                             IsAuthenticated = true;
                         }
@@ -188,7 +187,8 @@ namespace TightWiki
         /// <summary>
         /// Is the current user allowed to edit?
         /// </summary>
-        public bool CanEdit
+        public bool CanEdit => true; // TODO: Implement this properly, currently always true.
+        /*
         {
             get
             {
@@ -204,29 +204,32 @@ namespace TightWiki
                 return false;
             }
         }
+        */
 
         /// <summary>
         /// Is the current user allowed to perform administrative functions?
         /// </summary>
         public bool CanAdmin =>
-            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator]);
+            IsAuthenticated && IsAdministrator;
 
         /// <summary>
         /// Is the current user allowed to moderate content (such as delete comments, and view moderation tools)?
         /// </summary>
-        public bool CanModerate =>
-            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
+        public bool CanModerate => true; // TODO: Implement this properly, currently always true.
+                                         //IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Moderator]);
 
         /// <summary>
         /// Is the current user allowed to create pages?
         /// </summary>
-        public bool CanCreate =>
-            IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
+        public bool CanCreate => true; // TODO: Implement this properly, currently always true.
+                                       //IsAuthenticated && IsMemberOf(Role, [Roles.Administrator, Roles.Contributor, Roles.Moderator]);
 
         /// <summary>
         /// Is the current user allowed to delete unprotected pages?
         /// </summary>
         public bool CanDelete
+            => true; // TODO: Implement this properly, currently always true.
+        /*
         {
             get
             {
@@ -243,6 +246,7 @@ namespace TightWiki
                 return false;
             }
         }
+        */
 
         #endregion
 

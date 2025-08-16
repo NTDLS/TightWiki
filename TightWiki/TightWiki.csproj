@@ -10,6 +10,13 @@
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="keys\**" />
+    <Content Remove="keys\**" />
+    <EmbeddedResource Remove="keys\**" />
+    <None Remove="keys\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />

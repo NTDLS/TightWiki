@@ -7,6 +7,17 @@ namespace TightWiki.Repository
 {
     public static class SecurityRepository
     {
+        public static void GetAccountPermissions(Guid userId)
+        {
+            ManagedDataStorage.Users.Query<string>(@"Scripts\Security\GetAccountPermissions.sql",
+                new
+                {
+                    UserId = userId
+                }
+            );
+
+        }
+
         /// <summary>
         /// Detect whether this is the first time the WIKI has ever been run and do some initialization.
         /// Adds the first user with the email and password contained in Constants.DEFAULTUSERNAME and Constants.DEFAULTPASSWORD

@@ -169,12 +169,12 @@
                             </li>
                         }
 
-                        @if (sessionState.IsAuthenticated == true && (sessionState.CanModerate == true || sessionState.Role == TightWiki.Library.Constants.Roles.Administrator))
+                        @if (sessionState.IsAuthenticated && (sessionState.CanModerate || sessionState.CanAdmin))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Admin"]</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @if (sessionState.Role == TightWiki.Library.Constants.Roles.Administrator)
+                                    @if (sessionState.CanAdmin)
                                     {
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Localizer["Accounts"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Roles">@Localizer["Roles"]</a>

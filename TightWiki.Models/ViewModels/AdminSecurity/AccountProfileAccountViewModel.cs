@@ -51,7 +51,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         public int PaginationPageSize { get; set; }
         public int PaginationPageCount { get; set; }
 
-        public string Role { get; set; } = string.Empty;
+        //public string Role { get; set; } = string.Empty;
 
         public static AccountProfileAccountViewModel FromDataModel(AccountProfile model)
         {
@@ -72,7 +72,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
                 ModifiedDate = model.ModifiedDate,
                 Navigation = model.Navigation,
                 PaginationPageCount = model.PaginationPageCount,
-                Role = model.Role,
+                //Role = model.Role,
                 PaginationPageSize = model.PaginationPageSize,
                 TimeZone = model.TimeZone
             };

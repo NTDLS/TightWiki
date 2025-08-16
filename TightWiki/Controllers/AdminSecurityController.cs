@@ -192,7 +192,6 @@ namespace TightWiki.Controllers
 
             var claims = new List<Claim>
                     {
-                        new (ClaimTypes.Role, model.AccountProfile.Role),
                         new ("timezone", model.AccountProfile.TimeZone),
                         new (ClaimTypes.Country, model.AccountProfile.Country),
                         new ("language", model.AccountProfile.Language),
@@ -276,8 +275,8 @@ namespace TightWiki.Controllers
                     AccountName = string.Empty,
                     Country = customizationConfig.Value<string>("Default Country", string.Empty),
                     TimeZone = customizationConfig.Value<string>("Default TimeZone", string.Empty),
-                    Language = customizationConfig.Value<string>("Default Language", string.Empty),
-                    Role = defaultSignupRole
+                    Language = customizationConfig.Value<string>("Default Language", string.Empty)
+                    //Role = defaultSignupRole
                 },
                 Themes = ConfigurationRepository.GetAllThemes(),
                 Credential = new CredentialViewModel(),
@@ -354,7 +353,6 @@ namespace TightWiki.Controllers
                 //Insert the claims.
                 var claims = new List<Claim>
                     {
-                        new (ClaimTypes.Role, model.AccountProfile.Role),
                         new ("timezone", model.AccountProfile.TimeZone),
                         new (ClaimTypes.Country, model.AccountProfile.Country),
                         new ("language", model.AccountProfile.Language),

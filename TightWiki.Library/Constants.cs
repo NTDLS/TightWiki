@@ -42,26 +42,6 @@
             public static string HideFooterLastModified { get; } = "HideFooterLastModified";
         }
 
-        public static class Roles
-        {
-            /// <summary>
-            /// Administrators can do anything. Add, edit, delete, pages, users, etc.
-            /// </summary>
-            public const string Administrator = "Administrator";
-            /// <summary>
-            /// Read-only user with a profile.
-            /// </summary>
-            public const string Member = "Member";
-            /// <summary>
-            /// Contributor can add and edit pages.
-            /// </summary>
-            public const string Contributor = "Contributor";
-            /// <summary>
-            /// Moderators can add, edit and delete pages.
-            /// </summary>
-            public const string Moderator = "Moderator";
-        }
-
         public static class ConfigurationGroup
         {
             public const string Basic = "Basic";

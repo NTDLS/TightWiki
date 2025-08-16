@@ -42,6 +42,17 @@ namespace TightWiki.Repository
             ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);
         }
 
+        public static bool IsUserMemberOfAdministrators(Guid userId)
+        {
+            var result = ManagedDataStorage.Users.ExecuteScalar<int?>("IsUserMemberOfAdministrators.sql",
+                new
+                {
+                    UserId = userId
+                });
+
+            return result == 1;
+        }
+
         public static Role GetRoleByName(string name)
         {
             var param = new

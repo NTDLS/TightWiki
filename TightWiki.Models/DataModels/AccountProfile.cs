@@ -24,6 +24,6 @@ namespace TightWiki.Models.DataModels
         public DateTime ModifiedDate { get; set; }
         public int PaginationPageSize { get; set; }
         public int PaginationPageCount { get; set; }
-        public string Role { get; set; } = string.Empty;
+        //public string Role { get; set; } = string.Empty;
     }
 }
