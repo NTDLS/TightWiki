@@ -180,7 +180,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\IsUserMemberOfAdministrators.sql" />
-    <EmbeddedResource Include="Scripts\GetAccountPermissions.sql" />
+    <EmbeddedResource Include="Scripts\GetApparentAccountPermissions.sql" />
     <EmbeddedResource Include="Scripts\GetAllFeatureTemplates.sql" />
     <EmbeddedResource Include="Scripts\GetAllTemplatePages.sql" />
     <EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^000^Config^UpsertConfigurationGroup.sql" />

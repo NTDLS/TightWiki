@@ -12,9 +12,11 @@ INNER JOIN Permission as P
 	ON P.Id = RP.PermissionId
 INNER JOIN PermissionDisposition as PD
 	ON PD.Id = RP.PermissionDispositionId
+INNER JOIN AccountRole as AR
+	ON AR.RoleId =  RP.RoleId
 WHERE
-	R.Name IN ('Moderator', 'Contributor')
-	
+	AR.UserId = @UserId
+
 UNION
 
 SELECT
@@ -32,4 +34,4 @@ INNER JOIN Permission as P
 INNER JOIN PermissionDisposition as PD
 	ON PD.Id = AP.PermissionDispositionId
 WHERE
-	AP.UserId = '0000-0000-000'
+	AP.UserId = @UserId

@@ -23,6 +23,7 @@ namespace TightWiki
         public IAccountProfile? Profile { get; set; }
         public bool IsAdministrator { get; set; }
         public Theme UserTheme { get; set; } = new();
+        public List<ApparentAccountPermission> Permissions { get; set; } = new();
 
         #endregion
 
@@ -95,6 +96,7 @@ namespace TightWiki
                             IsAdministrator = UsersRepository.IsUserMemberOfAdministrators(userId);
                             UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
                             IsAuthenticated = true;
+                            Permissions = SecurityRepository.GetApparentAccountPermissions(userId).ToList();
                         }
                         else
                         {

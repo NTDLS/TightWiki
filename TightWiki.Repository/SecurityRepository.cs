@@ -2,20 +2,15 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
 {
     public static class SecurityRepository
     {
-        public static void GetAccountPermissions(Guid userId)
+        public static IEnumerable<ApparentAccountPermission> GetApparentAccountPermissions(Guid userId)
         {
-            ManagedDataStorage.Users.Query<string>(@"Scripts\Security\GetAccountPermissions.sql",
-                new
-                {
-                    UserId = userId
-                }
-            );
-
+            return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentAccountPermissions.sql", new { UserId = userId });
         }
 
         /// <summary>
