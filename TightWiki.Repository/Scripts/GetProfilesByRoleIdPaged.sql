@@ -20,7 +20,7 @@ SELECT
 			Profile as P
 		INNER JOIN AspNetUserClaims as UCR
 			ON UCR.UserId = U.UserId
-			AND UCR.ClaimType LIKE '%/role'
+			AND UCR.ClaimType LIKE '%/role' -- TODO: This is no longer supported by TightWiki.
 		INNER JOIN Role as R
 			ON R.Name = UCR.ClaimValue
 		WHERE
@@ -32,7 +32,7 @@ INNER JOIN AspNetUsers as ANU
 	ON ANU.Id = U.UserId
 INNER JOIN AspNetUserClaims as UCR
 	ON UCR.UserId = U.UserId
-	AND UCR.ClaimType LIKE '%/role'
+	AND UCR.ClaimType LIKE '%/role' -- TODO: This is no longer supported by TightWiki.
 INNER JOIN Role as R
 	ON R.Name = UCR.ClaimValue
 WHERE
