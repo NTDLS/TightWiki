@@ -266,16 +266,31 @@ namespace TightWiki.Repository
             return new ConfigurationEntries(entries);
         }
 
-        public static List<Theme> GetAllThemes()
+        public static List<Theme> GetAllThemes(bool allowCache = true)
         {
-            var collection = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql").ToList();
+            List<Theme>? themes = null;
 
-            foreach (var theme in collection)
+            if (allowCache)
             {
-                theme.Files = theme.DelimitedFiles.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
+                if (!WikiCache.TryGet(cacheKey, out themes))
+                {
+                    themes = GetAllThemes(false);
+                    WikiCache.Put(cacheKey, themes);
+                }
             }
 
-            return collection;
+            if (themes == null)
+            {
+                themes = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql").ToList();
+
+                foreach (var theme in themes)
+                {
+                    theme.Files = theme.DelimitedFiles.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+                }
+            }
+
+            return themes;
         }
 
         public static WikiDatabaseStatistics GetWikiDatabaseMetrics()

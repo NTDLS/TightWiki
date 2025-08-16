@@ -94,9 +94,9 @@ namespace TightWiki
                         {
                             Profile = profile;
                             IsAdministrator = UsersRepository.IsUserMemberOfAdministrators(userId);
+                            Permissions = UsersRepository.GetApparentAccountPermissions(userId).ToList();
                             UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
                             IsAuthenticated = true;
-                            Permissions = SecurityRepository.GetApparentAccountPermissions(userId).ToList();
                         }
                         else
                         {

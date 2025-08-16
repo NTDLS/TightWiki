@@ -9,6 +9,29 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
+        public static List<ApparentAccountPermission> GetApparentAccountPermissions(Guid userId, bool allowCache = true)
+        {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+                if (!WikiCache.TryGet(cacheKey, out List<ApparentAccountPermission> permissions))
+                {
+                    permissions = GetApparentAccountPermissions(userId, false);
+                    WikiCache.Put(cacheKey, permissions);
+                }
+                if (permissions != null)
+                {
+                    return permissions;
+                }
+            }
+
+            return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentAccountPermissions.sql",
+                new
+                {
+                    UserId = userId
+                }).ToList();
+        }
+
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= GlobalConfiguration.PaginationSize;
@@ -42,8 +65,22 @@ namespace TightWiki.Repository
             ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);
         }
 
-        public static bool IsUserMemberOfAdministrators(Guid userId)
+        public static bool IsUserMemberOfAdministrators(Guid userId, bool allowCache = true)
         {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+                if (!WikiCache.TryGet(cacheKey, out bool? IsAdmin))
+                {
+                    IsAdmin = IsUserMemberOfAdministrators(userId, false);
+                    WikiCache.Put(cacheKey, IsAdmin);
+                }
+                if (IsAdmin != null)
+                {
+                    return IsAdmin.Value;
+                }
+            }
+
             var result = ManagedDataStorage.Users.ExecuteScalar<int?>("IsUserMemberOfAdministrators.sql",
                 new
                 {

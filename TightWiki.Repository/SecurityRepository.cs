@@ -2,17 +2,11 @@
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Library;
-using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
 {
     public static class SecurityRepository
     {
-        public static IEnumerable<ApparentAccountPermission> GetApparentAccountPermissions(Guid userId)
-        {
-            return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentAccountPermissions.sql", new { UserId = userId });
-        }
-
         /// <summary>
         /// Detect whether this is the first time the WIKI has ever been run and do some initialization.
         /// Adds the first user with the email and password contained in Constants.DEFAULTUSERNAME and Constants.DEFAULTPASSWORD
