@@ -4,7 +4,7 @@
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageCompareViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 

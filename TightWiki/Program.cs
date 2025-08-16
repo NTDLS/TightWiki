@@ -136,12 +136,19 @@ namespace TightWiki
                 });
 
             var persistKeysPath = cookiesConfig.Value("Persist Keys Path", string.Empty);
-            if (string.IsNullOrEmpty(persistKeysPath) == false && Library.Utility.CanReadWriteFile(persistKeysPath))
+            if (string.IsNullOrEmpty(persistKeysPath) == false)
             {
-                // Add persistent data protection
-                builder.Services.AddDataProtection()
-                    .PersistKeysToFileSystem(new DirectoryInfo(persistKeysPath))
-                    .SetApplicationName(basicConfig.Value<string>("Name").EnsureNotNull());
+                if (CanReadWrite(persistKeysPath))
+                {
+                    // Add persistent data protection
+                    builder.Services.AddDataProtection()
+                        .PersistKeysToFileSystem(new DirectoryInfo(persistKeysPath))
+                        .SetApplicationName(basicConfig.Value<string>("Name").EnsureNotNull());
+                }
+                else
+                {
+                    ExceptionRepository.InsertException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                }
             }
 
             if (externalAuthenticationConfig.Value<bool>("Google : Use Google Authentication"))
@@ -370,6 +377,22 @@ namespace TightWiki
             }
 
             app.Run();
+        }
+        private static bool CanReadWrite(string path)
+        {
+            try
+            {
+                Directory.CreateDirectory(path);
+                string tempFilePath = Path.Combine(path, Path.GetRandomFileName());
+                File.WriteAllText(tempFilePath, "test");
+                File.Delete(tempFilePath);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

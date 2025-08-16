@@ -2,7 +2,7 @@
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Shared;
 
-namespace TightWiki.Models.ViewModels.Admin
+namespace TightWiki.Models.ViewModels.AdminSecurity
 {
     public class AccountProfileViewModel : ViewModelBase
     {

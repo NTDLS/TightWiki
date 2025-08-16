@@ -5,27 +5,6 @@ namespace TightWiki.Library
 {
     public static class Utility
     {
-        public static bool CanReadWriteFile(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                return false;
-            }
-
-            try
-            {
-                string tempFilePath = Path.Combine(path, Path.GetRandomFileName());
-                File.WriteAllText(tempFilePath, "test");
-                File.Delete(tempFilePath);
-            }
-            catch
-            {
-                return false;
-            }
-
-            return true;
-        }
-
         public static int PadVersionString(string versionString, int padLength = 3)
             => int.Parse(string.Join("", versionString.Split('.').Select(x => x.Trim().PadLeft(padLength, '0'))));
 

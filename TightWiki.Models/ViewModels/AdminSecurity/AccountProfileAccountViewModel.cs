@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TightWiki.Models.DataModels;
 
-namespace TightWiki.Models.ViewModels.Admin
+namespace TightWiki.Models.ViewModels.AdminSecurity
 {
     public partial class AccountProfileAccountViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using TightWiki.Models.DataModels;
 
-namespace TightWiki.Models.ViewModels.Admin
+namespace TightWiki.Models.ViewModels.AdminSecurity
 {
     public class RolesViewModel : ViewModelBase
     {
