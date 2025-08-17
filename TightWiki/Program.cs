@@ -47,7 +47,7 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
-            ConfigurationRepository.UpgradeDatabase();
+            DatabaseUpgrade.UpgradeDatabase();
             ConfigurationRepository.ReloadEverything();
 
             // Add DiffPlex services.

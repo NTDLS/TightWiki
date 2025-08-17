@@ -424,7 +424,7 @@ namespace TightWiki.Controllers
         {
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
-            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, false);
+            var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, null, true);
 
             if (page != null)
             {

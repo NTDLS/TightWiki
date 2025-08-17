@@ -9,27 +9,18 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
-        public static List<ApparentAccountPermission> GetApparentAccountPermissions(Guid userId, bool allowCache = true)
+        public static List<ApparentAccountPermission> GetApparentAccountPermissions(Guid userId)
         {
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet(cacheKey, out List<ApparentAccountPermission> permissions))
-                {
-                    permissions = GetApparentAccountPermissions(userId, false);
-                    WikiCache.Put(cacheKey, permissions);
-                }
-                if (permissions != null)
-                {
-                    return permissions;
-                }
-            }
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
 
-            return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentAccountPermissions.sql",
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentAccountPermissions.sql",
                 new
                 {
                     UserId = userId
                 }).ToList();
+            });
         }
 
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
@@ -65,29 +56,19 @@ namespace TightWiki.Repository
             ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);
         }
 
-        public static bool IsUserMemberOfAdministrators(Guid userId, bool allowCache = true)
+        public static bool IsUserMemberOfAdministrators(Guid userId)
         {
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet(cacheKey, out bool? IsAdmin))
-                {
-                    IsAdmin = IsUserMemberOfAdministrators(userId, false);
-                    WikiCache.Put(cacheKey, IsAdmin);
-                }
-                if (IsAdmin != null)
-                {
-                    return IsAdmin.Value;
-                }
-            }
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
 
-            var result = ManagedDataStorage.Users.ExecuteScalar<int?>("IsUserMemberOfAdministrators.sql",
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                var result = ManagedDataStorage.Users.ExecuteScalar<int?>("IsUserMemberOfAdministrators.sql",
                 new
                 {
                     UserId = userId
                 });
-
-            return result == 1;
+                return result == 1;
+            });
         }
 
         public static Role GetRoleByName(string name)
@@ -173,78 +154,40 @@ namespace TightWiki.Repository
             return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist.sql", param) ?? 0) != 0;
         }
 
-        public static bool TryGetBasicProfileByUserId(Guid userId,
-            [NotNullWhen(true)] out AccountProfile? accountProfile, bool allowCache = true)
+        public static bool TryGetBasicProfileByUserId(Guid userId, [NotNullWhen(true)] out AccountProfile? accountProfile)
         {
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out accountProfile))
-                {
-                    if (TryGetBasicProfileByUserId(userId, out accountProfile, false))
-                    {
-                        WikiCache.Put(cacheKey, accountProfile);
-                        return true;
-                    }
-                }
-
-                if (accountProfile != null)
-                {
-                    return true;
-                }
-            }
-
-            var param = new
-            {
-                UserId = userId
-            };
-
-            accountProfile = ManagedDataStorage.Users.QuerySingleOrDefault<AccountProfile>("GetBasicProfileByUserId.sql", param);
+            accountProfile = GetBasicProfileByUserId(userId);
             return accountProfile != null;
         }
 
-        public static AccountProfile GetBasicProfileByUserId(Guid userId, bool allowCache = true)
+        public static AccountProfile GetBasicProfileByUserId(Guid userId)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetBasicProfileByUserId(userId, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    UserId = userId
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                UserId = userId
-            };
-
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
+                return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
+            });
         }
 
-        public static AccountProfile GetAccountProfileByUserId(Guid userId, bool allowCache = true)
+        public static AccountProfile GetAccountProfileByUserId(Guid userId)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetAccountProfileByUserId(userId, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    UserId = userId
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                UserId = userId
-            };
-
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId.sql", param);
+                return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId.sql", param);
+            });
         }
 
         public static void SetProfileUserId(string navigation, Guid userId)

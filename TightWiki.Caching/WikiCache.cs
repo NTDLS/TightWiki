@@ -6,6 +6,8 @@ namespace TightWiki.Caching
 {
     public class WikiCache
     {
+        public delegate T GetValueDelegate<T>();
+
         public enum Category
         {
             User,
@@ -17,6 +19,7 @@ namespace TightWiki.Caching
 
         public static int DefaultCacheSeconds { get; set; }
         private static MemoryCache? _memCache;
+
         public static ulong CachePuts { get; set; }
         public static ulong CacheGets { get; set; }
         public static ulong CacheHits { get; set; }
@@ -89,6 +92,27 @@ namespace TightWiki.Caching
         }
 
         /// <summary>
+        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
+        /// </summary>
+        public static T AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T> getValueDelegate, int? seconds = null)
+        {
+            if (TryGet<T>(cacheKey, out var result))
+            {
+                return result;
+            }
+
+            result = getValueDelegate();
+
+            var policy = new CacheItemPolicy()
+            {
+                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+            };
+            MemCache.Add(cacheKey.Key, result, policy);
+
+            return result;
+        }
+
+        /// <summary>
         /// Adds an item to the cache. If the item is already in the cache, this will reset its expiration.
         /// </summary>
         /// <param name="cacheKey"></param>
@@ -116,6 +140,9 @@ namespace TightWiki.Caching
             CachePuts++;
             MemCache.Add(cacheKey.Key, value, policy);
         }
+
+        public static void Remove(IWikiCacheKey cacheKey)
+            => MemCache.Remove(cacheKey.Key);
 
         /// <summary>
         /// Removes all entries from the cache.
