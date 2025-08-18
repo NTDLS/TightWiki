@@ -19,54 +19,67 @@
 {
     @Html.AntiForgeryToken()
 
-    <h5>@Localizer["Permissions"]</h5>
-    <table class="table fixedTable100 table-striped mb-3" border="0" cellspacing="0" cellpadding="0">
-        <thead>
-            <tr>
-                <td><strong>@Localizer["Disposition"]</strong></td>
-                <td><strong>@Localizer["Permission"]</strong></td>
-                <td><strong>@Localizer["Resource"]</strong></td>
-            </tr>
-        </thead>
+    <div class="card shadow-lg">
+        <div class="card-header">
+            <h4>@Localizer["Permissions"]</h4>
+        </div>
+        <div class="card-body">
+            <table class="table fixedTable100 table-striped mb-3" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <td><strong>@Localizer["Disposition"]</strong></td>
+                        <td><strong>@Localizer["Permission"]</strong></td>
+                        <td><strong>@Localizer["Resource"]</strong></td>
+                    </tr>
+                </thead>
 
-        @foreach (var user in Model.Permissions)
-        {
-            <tr>
-                <td>@user.PermissionDisposition</td>
-                <td>@user.Permission</td>
-                <td>
-                    @if (user.Namespace != null)
-                    {
-                        <span><span class="text-muted">@Localizer["Namespace"]:</span> @(user.ResourceName == "*" ? Localizer["ALL"] : user.ResourceName)</span>
-                    }
-                    else if (user.PageId != null)
-                    {
-                        <span><span class="text-muted">@Localizer["Page"]:</span> @(user.ResourceName == "*" ? Localizer["ALL"] : user.ResourceName)</span>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+                @foreach (var user in Model.Permissions)
+                {
+                    <tr>
+                        <td>@user.PermissionDisposition</td>
+                        <td>@user.Permission</td>
+                        <td>
+                            @if (user.Namespace != null)
+                            {
+                                <span><span class="text-muted">@Localizer["Namespace"]:</span> @(user.ResourceName == "*" ? Localizer["ALL"] : user.ResourceName)</span>
+                            }
+                            else if (user.PageId != null)
+                            {
+                                <span><span class="text-muted">@Localizer["Page"]:</span> @(user.ResourceName == "*" ? Localizer["ALL"] : user.ResourceName)</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
 
-    <h5>@Localizer["Members"]</h5>
-    <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-        <thead>
-            <tr>
-                <td><strong>@Localizer["Name"]</strong></td>
-                <td><strong>@Localizer["Email Address"]</strong></td>
-                <td><strong>@Localizer["First Name"]</strong></td>
-                <td><strong>@Localizer["Last Name"]</strong></td>
-            </tr>
-        </thead>
+    <div class="card shadow-lg mt-3">
+        <div class="card-header">
+            <h4>@Localizer["Members"]</h4>
+        </div>
+        <div class="card-body">
+            <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <td><strong>@Localizer["Name"]</strong></td>
+                        <td><strong>@Localizer["Email Address"]</strong></td>
+                        <td><strong>@Localizer["First Name"]</strong></td>
+                        <td><strong>@Localizer["Last Name"]</strong></td>
+                    </tr>
+                </thead>
 
-        @foreach (var user in Model.Users)
-        {
-            <tr>
-                <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@user.Navigation">@user.AccountName</a></td>
-                <td>@user.EmailAddress</td>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-            </tr>
-        }
-    </table>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@user.Navigation">@user.AccountName</a></td>
+                        <td>@user.EmailAddress</td>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
 }

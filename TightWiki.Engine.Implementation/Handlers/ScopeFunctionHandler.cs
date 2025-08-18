@@ -281,7 +281,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         style = style == "default" ? "" : $"alert-{style}";
 
                         if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
-                        html.Append($"<div class=\"alert {style}\">{scopeBody}</div>");
+                        html.Append($"<div class=\"alert {style} shadow-lg\">{scopeBody}</div>");
                         return new HandlerResult(html.ToString());
                     }
 
@@ -358,7 +358,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string style = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         style = style == "default" ? "" : style;
 
-                        html.Append($"<div class=\"bd-callout bd-callout-{style}\">");
+                        html.Append($"<div class=\"bd-callout bd-callout-{style} shadow-lg\">");
                         if (string.IsNullOrWhiteSpace(titleText) == false) html.Append($"<h4>{titleText}</h4>");
                         html.Append($"{scopeBody}");
                         html.Append($"</div>");
@@ -373,7 +373,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string titleText = function.Parameters.Get<string>("titleText");
                         var style = BGFGStyle.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
 
-                        html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} mb-3\">");
+                        html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} shadow-lg mb-3\">");
                         if (string.IsNullOrEmpty(titleText) == false)
                         {
                             html.Append($"<div class=\"card-header\">{titleText}</div>");

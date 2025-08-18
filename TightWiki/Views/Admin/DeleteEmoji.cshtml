@@ -8,7 +8,7 @@
 
 @if (string.IsNullOrEmpty(Model.ErrorMessage))
 {
-    <div class="card card-danger border-danger">
+    <div class="card shadow-lg card-danger border-danger">
         <div class="card-header bg-danger text-white">
             <strong>@Localizer["Delete emoji \"{0}\"?"].Value(Model?.OriginalName ?? "")</strong>
         </div>

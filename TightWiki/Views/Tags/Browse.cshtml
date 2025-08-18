@@ -5,12 +5,12 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card">
+<div class="card shadow-lg">
     <div class="card-header"><strong>@Localizer["Associated Tags"]</strong></div>
     <div class="card-body">@Html.Raw(Model.TagCloud)</div>
 </div>
 
-<div class="card">
+<div class="card shadow-lg">
     <div class="card-header"><strong>@Localizer["Associated Pages"]</strong></div>
     <div class="card-body">@Html.Raw(Model.AssociatedPages)</div>
 </div>

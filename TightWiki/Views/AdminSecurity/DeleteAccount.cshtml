@@ -8,7 +8,7 @@
 
 @if (string.IsNullOrEmpty(Model.ErrorMessage))
 {
-    <div class="card border-danger mb-3">
+    <div class="card shadow-lg border-danger mb-3">
         <div class="card-header bg-danger text-white">
             <strong>@Localizer["Delete account {0}?"].Value(Model.AccountName ?? "")</strong>
         </div>
