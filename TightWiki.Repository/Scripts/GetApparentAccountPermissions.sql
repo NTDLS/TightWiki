@@ -1,5 +1,4 @@
 SELECT
-	--'Role:' || R.Name as PermissionSource,
 	P.Name as Permission,
 	PD.Name as PermissionDisposition,
 	RP.Namespace,
@@ -20,7 +19,6 @@ WHERE
 UNION
 
 SELECT
-	--'Account Permission' as PermissionSource,
 	P.Name as Permission,
 	PD.Name as PermissionDisposition,
 	AP.Namespace,

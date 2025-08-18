@@ -102,7 +102,6 @@
     <None Remove="Scripts\GetPageTagsById.sql" />
     <None Remove="Scripts\GetProfileAvatarByNavigation.sql" />
     <None Remove="Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
-    <None Remove="Scripts\GetProfilesByRoleIdPaged.sql" />
     <None Remove="Scripts\GetRelatedPagesPaged.sql" />
     <None Remove="Scripts\GetRoleByName.sql" />
     <None Remove="Scripts\GetSimilarPagesPaged.sql" />
@@ -179,6 +178,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\AutoCompleteNamespace.sql" />
+    <EmbeddedResource Include="Scripts\GetAccountPermissionsForDisplay.sql" />
+    <EmbeddedResource Include="Scripts\GetRolePermissionsForDisplay.sql" />
     <EmbeddedResource Include="Scripts\GetApparentRolePermissions.sql" />
     <EmbeddedResource Include="Scripts\IsUserMemberOfAdministrators.sql" />
     <EmbeddedResource Include="Scripts\GetApparentAccountPermissions.sql" />
@@ -189,7 +191,7 @@
     <EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^002^Config^UpsertTheme.sql" />
     <EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^003^Pages^FeatureTemplate.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.25.1\^001^Pages^ChangeSummary.sql" />
-    <EmbeddedResource Include="Scripts\PageAutoComplete.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompletePage.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.18.0\^000^Config^ConfigurationConstraints.sql" />
   </ItemGroup>
 
@@ -289,7 +291,7 @@
     <EmbeddedResource Include="Scripts\GetPageTagsById.sql" />
     <EmbeddedResource Include="Scripts\GetProfileAvatarByNavigation.sql" />
     <EmbeddedResource Include="Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
-    <EmbeddedResource Include="Scripts\GetProfilesByRoleIdPaged.sql" />
+    <EmbeddedResource Include="Scripts\GetRoleMembersPaged.sql" />
     <EmbeddedResource Include="Scripts\GetRelatedPagesPaged.sql" />
     <EmbeddedResource Include="Scripts\GetRoleByName.sql" />
     <EmbeddedResource Include="Scripts\GetSimilarPagesPaged.sql" />

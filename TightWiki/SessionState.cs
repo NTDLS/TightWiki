@@ -25,7 +25,7 @@ namespace TightWiki
         public IAccountProfile? Profile { get; set; }
         public bool IsAdministrator { get; set; }
         public Theme UserTheme { get; set; } = new();
-        public List<ApparentAccountPermission> Permissions { get; set; } = new();
+        public List<ApparentPermission> Permissions { get; set; } = new();
 
         #endregion
 

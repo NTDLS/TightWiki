@@ -1,5 +1,4 @@
-SELECT
-	--'Role:' || R.Name as PermissionSource,
+SELECT DISTINCT
 	P.Name as Permission,
 	PD.Name as PermissionDisposition,
 	RP.Namespace,

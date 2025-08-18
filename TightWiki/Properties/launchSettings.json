@@ -12,6 +12,7 @@
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "AdminSecurity/Role/Anonymous",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

@@ -40,7 +40,10 @@ namespace TightWiki.Controllers
             {
                 Id = role.Id,
                 Name = role.Name,
-                Users = UsersRepository.GetProfilesByRoleIdPaged(role.Id, GetQueryValue("page", 1))
+                Users = UsersRepository.GetRoleMembersPaged(role.Id,
+                    GetQueryValue("usersPage", 1), GetQueryValue("usersOrderBy"), GetQueryValue("usersOrderByDirection")),
+                Permissions = UsersRepository.GetRolePermissionsForDisplay(role.Id,
+                    GetQueryValue("rolesPage", 1), GetQueryValue("rolesOrderBy"), GetQueryValue("rolesOrderByDirection"))
             };
 
             model.PaginationPageCount = (model.Users.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -499,5 +502,36 @@ namespace TightWiki.Controllers
         }
 
         #endregion
+
+        #region AutoComplete.
+
+        [Authorize]
+        [HttpGet("Page/AutoCompletePage")]
+        public ActionResult AutoCompletePage([FromQuery] string? q = null)
+        {
+            var pages = PageRepository.AutoCompletePage(q);
+
+            return Json(pages.Select(o => new
+            {
+                text = o.Name,
+                id = o.Navigation
+            }));
+        }
+
+        [Authorize]
+        [HttpGet("Page/AutoCompleteNamespace")]
+        public ActionResult AutoCompleteNamespace([FromQuery] string? q = null)
+        {
+            var pages = PageRepository.AutoCompleteNamespace(q);
+
+            return Json(pages.Select(o => new
+            {
+                text = o.Name,
+                id = o.Navigation
+            }));
+        }
+
+        #endregion
+
     }
 }

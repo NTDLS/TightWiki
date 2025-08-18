@@ -1,13 +1,14 @@
 namespace TightWiki.Models.DataModels
 {
-    /// <summary>
-    /// Model used to obtain the permissions for a user account which will be used to determine what the user can do.
-    /// </summary>
-    public partial class ApparentAccountPermission
+    public partial class RolePermission
     {
-        public string? PermissionSource { get; set; }
+        /// <summary>
+        /// Id of the RolePermission table.
+        /// </summary>
+        public int Id { get; set; }
         public string Permission { get; set; } = string.Empty;
         public string PermissionDisposition { get; set; } = string.Empty;
+        public string? ResourceName { get; set; }
         public string? Namespace { get; set; }
         public string? PageId { get; set; }
     }

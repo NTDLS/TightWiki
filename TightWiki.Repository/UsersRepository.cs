@@ -10,13 +10,16 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
-        public static List<ApparentAccountPermission> GetApparentAccountPermissions(Guid userId)
+        /// <summary>
+        /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.
+        /// </summary>
+        public static List<ApparentPermission> GetApparentAccountPermissions(Guid userId)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId]);
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
-                return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentAccountPermissions.sql",
+                return ManagedDataStorage.Users.Query<ApparentPermission>(@"Scripts\GetApparentAccountPermissions.sql",
                 new
                 {
                     UserId = userId
@@ -24,21 +27,61 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static List<ApparentAccountPermission> GetApparentRolePermissions(BuiltInRoles role)
-            => GetApparentRolePermissions(role.ToString()); 
+        public static List<ApparentPermission> GetApparentRolePermissions(BuiltInRoles role)
+            => GetApparentRolePermissions(role.ToString());
 
-        public static List<ApparentAccountPermission> GetApparentRolePermissions(string roleName)
+        public static List<ApparentPermission> GetApparentRolePermissions(string roleName)
         {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [roleName]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleName]);
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
-                return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentRolePermissions.sql",
+                return ManagedDataStorage.Users.Query<ApparentPermission>(@"Scripts\GetApparentRolePermissions.sql",
                 new
                 {
                     RoleName = roleName
                 }).ToList();
             }).EnsureNotNull();
+        }
+
+        public static List<RolePermission> GetRolePermissionsForDisplay(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+
+                pageSize ??= GlobalConfiguration.PaginationSize;
+
+                var param = new
+                {
+                    PageSize = pageSize,
+                    PageNumber = pageNumber,
+                    RoleId = roleId
+                };
+
+                var query = RepositoryHelper.TransposeOrderby("GetRolePermissionsForDisplay.sql", orderBy, orderByDirection);
+                return o.Query<RolePermission>(query, param).ToList();
+            });
+        }
+
+        public static List<AccountPermission> GetAccountPermissionsForDisplay(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+
+                pageSize ??= GlobalConfiguration.PaginationSize;
+
+                var param = new
+                {
+                    PageSize = pageSize,
+                    PageNumber = pageNumber,
+                    UserId = userId
+                };
+
+                var query = RepositoryHelper.TransposeOrderby("GetAccountPermissionsForDisplay.sql", orderBy, orderByDirection);
+                return o.Query<AccountPermission>(query, param).ToList();
+            });
         }
 
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
@@ -105,7 +148,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.Query<Role>(query).ToList();
         }
 
-        public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber)
+        public static List<AccountProfile> GetRoleMembersPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             var param = new
             {
@@ -114,7 +157,9 @@ namespace TightWiki.Repository
                 PageSize = GlobalConfiguration.PaginationSize
             };
 
-            return ManagedDataStorage.Users.Query<AccountProfile>("GetProfilesByRoleIdPaged.sql", param).ToList();
+            var query = RepositoryHelper.TransposeOrderby("GetRoleMembersPaged.sql", orderBy, orderByDirection);
+
+            return ManagedDataStorage.Users.Query<AccountProfile>(query, param).ToList();
         }
 
         public static List<AccountProfile> GetAllUsers()

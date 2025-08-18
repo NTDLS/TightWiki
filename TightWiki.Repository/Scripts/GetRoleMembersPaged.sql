@@ -37,8 +37,17 @@ INNER JOIN Role as R
 	ON R.Name = UCR.ClaimValue
 WHERE
 	R.Id = @RoleId
+--CUSTOM_ORDER_BEGIN::
+--CONFIG::
+/*
+EmailAddress=ANU.Email
+AccountName=U.AccountName
+CreatedDate=U.CreatedDate
+*/
+--::CONFIG
 ORDER BY
 	U.AccountName,
 	U.UserId
+--::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize
