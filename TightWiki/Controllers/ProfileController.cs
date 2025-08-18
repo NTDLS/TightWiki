@@ -39,7 +39,8 @@ namespace TightWiki.Controllers
         [HttpGet("{userAccountName}/Avatar")]
         public ActionResult Avatar(string userAccountName)
         {
-            SessionState.RequireViewPermission();
+            //TODO: Do we need to check permissions here?
+            //SessionState.RequireViewPermission();
             SessionState.Page.Name = Localize("Avatar");
 
             string givenScale = Request.Query["Scale"].ToString().ToString().DefaultWhenNullOrEmpty("100");

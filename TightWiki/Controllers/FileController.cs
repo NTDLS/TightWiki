@@ -11,6 +11,7 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
@@ -114,7 +115,7 @@ namespace TightWiki.Controllers
         [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            SessionState.RequireViewPermission();
+            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -193,7 +194,7 @@ namespace TightWiki.Controllers
         [HttpGet("Binary/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            SessionState.RequireViewPermission();
+            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -218,7 +219,7 @@ namespace TightWiki.Controllers
         [HttpGet("Revisions/{givenPageNavigation}/{givenFileNavigation}")]
         public ActionResult Revisions(string givenPageNavigation, string givenFileNavigation)
         {
-            SessionState.RequireViewPermission();
+            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -243,7 +244,7 @@ namespace TightWiki.Controllers
         [HttpGet("PageAttachments/{givenPageNavigation}")]
         public ActionResult PageAttachments(string givenPageNavigation)
         {
-            SessionState.RequireCreatePermission();
+            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
@@ -273,7 +274,7 @@ namespace TightWiki.Controllers
         [HttpPost("UploadDragDrop/{givenPageNavigation}")]
         public IActionResult UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
         {
-            SessionState.RequireCreatePermission();
+            SessionState.RequirePermission(givenPageNavigation, [Permission.Create, Permission.Edit]);
 
             try
             {
@@ -324,7 +325,7 @@ namespace TightWiki.Controllers
         [HttpPost("ManualUpload/{givenPageNavigation}")]
         public IActionResult ManualUpload(string givenPageNavigation, IFormFile fileData)
         {
-            SessionState.RequireCreatePermission();
+            SessionState.RequirePermission(givenPageNavigation, [Permission.Create, Permission.Edit]);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
@@ -366,7 +367,7 @@ namespace TightWiki.Controllers
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
         public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
-            SessionState.RequireDeletePermission();
+            SessionState.RequirePermission(givenPageNavigation, Permission.Delete);
 
             PageFileRepository.DetachPageRevisionAttachment(
                 new NamespaceNavigation(givenPageNavigation).Canonical,
@@ -383,7 +384,7 @@ namespace TightWiki.Controllers
         [HttpGet("Emoji/{givenPageNavigation}")]
         public ActionResult Emoji(string givenPageNavigation)
         {
-            SessionState.RequireViewPermission();
+            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
 
             var pageNavigation = Navigation.Clean(givenPageNavigation);
 

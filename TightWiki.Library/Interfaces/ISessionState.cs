@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Library.Interfaces
 {
@@ -9,34 +10,40 @@ namespace TightWiki.Library.Interfaces
         IQueryCollection? QueryString { get; set; }
 
         /// <summary>
-        /// Is the current user (or anonymous) allowed to view?
+        /// Returns true if the user holds any of the the given permissions for the current page.
+        /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
-        public bool CanView => true;
+        public bool HoldsPermission(Permission[] permissions);
 
         /// <summary>
-        /// Is the current user allowed to edit?
+        /// Returns true if the user holds the given permission for the current page.
+        /// This is only applicable after SetPageId() has been called, to this is intended to be used in views NOT controllers.
         /// </summary>
-        public bool CanEdit { get; }
+        public bool HoldsPermission(Permission permission);
 
         /// <summary>
-        /// Is the current user allowed to perform administrative functions?
+        /// Returns true if the user holds the given permission for given page.
         /// </summary>
-        public bool CanAdmin { get; }
+        public bool HoldsPermission(string? givenCanonical, Permission permission);
 
         /// <summary>
-        /// Is the current user allowed to moderate content (such as delete comments, and view moderation tools)?
+        /// Returns true if the user holds any of the given permission for given page.
         /// </summary>
-        public bool CanModerate { get; }
+        public bool HoldsPermission(string? givenCanonical, Permission[] permissions);
 
         /// <summary>
-        /// Is the current user allowed to create pages?
+        /// Throws an exception if the user does not hold the given permission for given page.
         /// </summary>
-        public bool CanCreate { get; }
+        public void RequirePermission(string? givenCanonical, Permission permission);
+
+        /// Throws an exception if the user does not hold any of the given permission for given page.
+        /// </summary>
+        public void RequirePermission(string? givenCanonical, Permission[] permissions);
 
         /// <summary>
-        /// Is the current user allowed to delete unprotected pages?
+        /// Throws an exception if the user is not an administrator.
         /// </summary>
-        public bool CanDelete { get; }
+        public void RequireAdminPermission();
 
         public DateTime LocalizeDateTime(DateTime datetime);
         public TimeZoneInfo GetPreferredTimeZone();

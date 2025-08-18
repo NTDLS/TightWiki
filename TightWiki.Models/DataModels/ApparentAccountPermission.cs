@@ -9,6 +9,6 @@ namespace TightWiki.Models.DataModels
         public string Permission { get; set; } = string.Empty;
         public string PermissionDisposition { get; set; } = string.Empty;
         public string? Namespace { get; set; }
-
+        public string? PageId { get; set; }
     }
 }

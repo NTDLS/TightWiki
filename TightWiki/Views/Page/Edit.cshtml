@@ -1,4 +1,5 @@
 ﻿@using TightWiki.Models
+@using static TightWiki.Library.Constants
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
@@ -57,7 +58,7 @@
 </style>
 
 <script>
-    const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
+    const editMode = @(Model?.Id > 0 && @sessionState.HoldsPermission(Permission.Create) ? "true" : "false");
     var editor;
     var featureInsertModalTable;
     var insertLinkModal;
@@ -425,7 +426,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-                    @if (sessionState.CanView == true)
+                    @if (sessionState.HoldsPermission(Permission.Read))
                     {
                         if (Model?.Id > 0)
                         {
@@ -527,7 +528,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-                    @if (Model?.Id > 0 && sessionState.CanView == true)
+                    @if (Model?.Id > 0 && sessionState.HoldsPermission(Permission.Read))
                     {
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
@@ -542,7 +543,7 @@
     <div class="card">
         <div class="card-header"><h3>@Localizer["Attachments"]</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @sessionState.CanCreate == true)
+            @if (Model?.Id > 0 && sessionState.HoldsPermission(Permission.Create))
             {
                 <div id="dropSection" class="dropSection">
                     <span class="d-inline-block">@Localizer["Drop file attachments here or click to upload manually."]</span>

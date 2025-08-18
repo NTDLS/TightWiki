@@ -7,11 +7,13 @@ namespace TightWiki.Caching
     public class WikiCache
     {
         public delegate T GetValueDelegate<T>();
+        public delegate T? GetValueDelegateNullable<T>();
 
         public enum Category
         {
             User,
             Page,
+            Security,
             Search,
             Emoji,
             Configuration
@@ -89,6 +91,31 @@ namespace TightWiki.Caching
 
             CacheHits++;
             return true;
+        }
+
+        /// <summary>
+        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
+        /// This will ignore null values, meaning if the delegate returns null, it will not cache that value.
+        /// </summary>
+        public static T? AddOrGetIgnoreNulls<T>(IWikiCacheKey cacheKey, GetValueDelegateNullable<T?> getValueDelegate, int? seconds = null)
+        {
+            if (TryGet<T>(cacheKey, out var result))
+            {
+                return result;
+            }
+
+            result = getValueDelegate();
+
+            if(result != null)
+            {
+                var policy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+                };
+                MemCache.Add(cacheKey.Key, result, policy);
+            }
+
+            return result;
         }
 
         /// <summary>

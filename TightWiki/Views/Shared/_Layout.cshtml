@@ -2,6 +2,7 @@
 @using TightWiki;
 @using System.Text.Encodings.Web
 @using TightWiki.Models
+@using static TightWiki.Library.Constants
 @inject IViewLocalizer Localizer
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -107,16 +108,16 @@
                             <li class="nav-item"><a class="nav-link text-dark" href="@GlobalConfiguration.BasePath@item.Link">@Localizer[item.Name]</a></li>
                         }
 
-                        @if (sessionState.CanCreate == true
-                        || (sessionState.ShouldCreatePage == true && sessionState.CanCreate == true)
-                        || (sessionState.Page.Exists == true && (sessionState.CanEdit == true || sessionState.CanModerate == true || sessionState.CanDelete == true))
+                        @if (sessionState.HoldsPermission(Permission.Create)
+                        || (sessionState.ShouldCreatePage == true && sessionState.HoldsPermission(Permission.Create))
+                        || (sessionState.Page.Exists == true && (sessionState.HoldsPermission([Permission.Edit, Permission.Moderate, Permission.Delete])))
                         )
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Page"]</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                                    @if (sessionState.CanCreate == true)
+                                    @if (sessionState.HoldsPermission(Permission.Create))
                                     {
                                         if (sessionState.ShouldCreatePage == true)
                                         {
@@ -128,39 +129,39 @@
 
                                     @if (sessionState.Page.Exists == true)
                                     {
-                                        @if (sessionState.CanCreate == true)
+                                        @if (sessionState.HoldsPermission(Permission.Create))
                                         {
                                             <div class="dropdown-divider"></div>
                                         }
-                                        if (sessionState.CanView == true && TightWiki.Models.GlobalConfiguration.EnablePageComments)
+                                        if (sessionState.HoldsPermission(Permission.Read) && TightWiki.Models.GlobalConfiguration.EnablePageComments)
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">@Localizer["Comments"]</a>
                                         }
-                                        if (sessionState.CanDelete == true)
+                                        if (sessionState.HoldsPermission(Permission.Delete))
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">@Localizer["Delete this page"]</a>
                                         }
-                                        if (sessionState.CanEdit == true && sessionState.Page.IsHistoricalVersion == false)
+                                        if (sessionState.HoldsPermission(Permission.Edit) && sessionState.Page.IsHistoricalVersion == false)
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">@Localizer["Edit"]</a>
                                         }
-                                        if (sessionState.CanView == true)
+                                        if (sessionState.HoldsPermission(Permission.Read))
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">@Localizer["Revisions"]</a>
                                         }
-                                        if (sessionState.CanCreate == true)
+                                        if (sessionState.HoldsPermission(Permission.Create))
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Refresh">@Localizer["Refresh"]</a>
                                         }
-                                        if (sessionState.CanModerate == true && sessionState.Page.IsHistoricalVersion == true)
+                                        if (sessionState.HoldsPermission(Permission.Moderate) && sessionState.Page.IsHistoricalVersion == true)
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">@Localizer["Revert to revision"] @sessionState.Page.Revision</a>
                                         }
-                                        if (sessionState.CanView == true && TightWiki.Models.GlobalConfiguration.EnablePageComments)
+                                        if (sessionState.HoldsPermission(Permission.Read) && TightWiki.Models.GlobalConfiguration.EnablePageComments)
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@Localizer["View"]</a>
                                         }
-                                        if (sessionState.CanView == true)
+                                        if (sessionState.HoldsPermission(Permission.Read))
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export">@Localizer["Export"]</a>
                                         }
@@ -169,12 +170,12 @@
                             </li>
                         }
 
-                        @if (sessionState.IsAuthenticated && (sessionState.CanModerate || sessionState.CanAdmin))
+                        @if (sessionState.IsAuthenticated && (sessionState.HoldsPermission(Permission.Moderate)))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Admin"]</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    @if (sessionState.CanAdmin)
+                                    @if (sessionState.IsAdministrator)
                                     {
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Localizer["Accounts"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/AdminSecurity/Roles">@Localizer["Roles"]</a>
@@ -195,7 +196,7 @@
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/OrphanedPageAttachments">@Localizer["Orphaned Attachments"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Pages">@Localizer["Pages"]</a>
                                     }
-                                    else if (sessionState.CanModerate == true)
+                                    else if (sessionState.HoldsPermission(Permission.Moderate))
                                     {
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/DeletedPages">@Localizer["Deleted Pages"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MissingPages">@Localizer["Missing Pages"]</a>

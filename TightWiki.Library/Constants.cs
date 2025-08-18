@@ -7,6 +7,21 @@
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
+        public enum PermissionDisposition
+        {
+            Allow,
+            Deny
+        }
+
+        public enum Permission
+        {
+            Read,
+            Edit,
+            Delete,
+            Moderate,
+            Create
+        }
+
         public enum WikiTheme
         {
             Light,

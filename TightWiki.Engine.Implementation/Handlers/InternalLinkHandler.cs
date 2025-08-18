@@ -4,6 +4,7 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Engine.Implementation.Handlers
 {
@@ -28,7 +29,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
             if (page == null)
             {
-                if (state.Session?.CanCreate == true)
+                if (state.Session?.HoldsPermission(pageNavigation.Canonical, Permission.Create) == true)
                 {
                     if (image != null)
                     {

@@ -1,10 +1,13 @@
 ﻿using DuoVia.FuzzyStrings;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
 using TightWiki.Engine.Library;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TightWiki.Repository
 {
@@ -545,15 +548,8 @@ namespace TightWiki.Repository
             => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql").ToList();
 
         public static List<FeatureTemplate> GetAllFeatureTemplates()
-        {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page);
-            if (!WikiCache.TryGet<List<FeatureTemplate>>(cacheKey, out var result))
-            {
-                result = ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList();
-                WikiCache.Put(cacheKey, result);
-            }
-            return result;
-        }
+            => WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Configuration), () =>
+                ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList());
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
@@ -575,13 +571,16 @@ namespace TightWiki.Repository
 
         public static Page? GetPageRevisionById(int pageId, int? revision = null)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId, revision]), () =>
             {
-                PageId = pageId,
-                Revision = revision
-            };
+                var param = new
+                {
+                    PageId = pageId,
+                    Revision = revision
+                };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById.sql", param);
+                return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById.sql", param);
+            });
         }
 
         public static void SavePageSearchTokens(List<PageToken> items)
@@ -620,22 +619,28 @@ namespace TightWiki.Repository
 
         public static int GetCurrentPageRevision(int pageId)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]), () =>
             {
-                PageId = pageId,
-            };
+                var param = new
+                {
+                    PageId = pageId,
+                };
 
-            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+                return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+            });
         }
 
         public static int GetCurrentPageRevision(SqliteManagedInstance connection, int pageId)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]), () =>
             {
-                PageId = pageId,
-            };
+                var param = new
+                {
+                    PageId = pageId,
+                };
 
-            return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+                return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+            });
         }
 
         public static Page? GetLimitedPageInfoByIdAndRevision(int pageId, int? revision = null)
@@ -759,22 +764,28 @@ namespace TightWiki.Repository
         /// </summary>
         public static Page? GetPageInfoByNavigation(string navigation)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation]), () =>
             {
-                Navigation = navigation
-            };
+                var param = new
+                {
+                    Navigation = navigation
+                };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
+                return ManagedDataStorage.Pages.QuerySingleOrDefault<Page?>("GetPageInfoByNavigation.sql", param);
+            });
         }
 
         public static int GetPageRevisionCountByPageId(int pageId)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]), () =>
             {
-                PageId = pageId
-            };
+                var param = new
+                {
+                    PageId = pageId
+                };
 
-            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageRevisionCountByNavigation.sql", param);
+                return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageRevisionCountByNavigation.sql", param);
+            });
         }
 
         public static void RestoreDeletedPageByPageId(int pageId)
