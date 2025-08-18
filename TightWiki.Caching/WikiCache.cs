@@ -6,8 +6,7 @@ namespace TightWiki.Caching
 {
     public class WikiCache
     {
-        public delegate T GetValueDelegate<T>();
-        public delegate T? GetValueDelegateNullable<T>();
+        public delegate T? GetValueDelegate<T>();
 
         public enum Category
         {
@@ -80,25 +79,35 @@ namespace TightWiki.Caching
         /// <summary>
         /// Gets an item from the cache.
         /// </summary>
-        public static bool TryGet<T>(IWikiCacheKey cacheKey, [NotNullWhen(true)] out T result)
+        public static bool TryGet<T>(IWikiCacheKey cacheKey, [NotNullWhen(true)] out T? result)
         {
+            var cached = MemCache.Get(cacheKey.Key);
+
             CacheGets++;
-            if ((result = (T)MemCache.Get(cacheKey.Key)) == null)
+            if (cached == null)
             {
+                result = default;
                 CacheMisses++;
                 return false;
             }
 
+            result = (T)cached;
+
             CacheHits++;
+
             return true;
         }
 
         /// <summary>
         /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
-        /// This will ignore null values, meaning if the delegate returns null, it will not cache that value.
         /// </summary>
-        public static T? AddOrGetIgnoreNulls<T>(IWikiCacheKey cacheKey, GetValueDelegateNullable<T?> getValueDelegate, int? seconds = null)
+        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, int? seconds = null)
         {
+            if (_memCache == null)
+            {
+                return getValueDelegate();
+            }
+
             if (TryGet<T>(cacheKey, out var result))
             {
                 return result;
@@ -106,7 +115,7 @@ namespace TightWiki.Caching
 
             result = getValueDelegate();
 
-            if(result != null)
+            if (result != null)
             {
                 var policy = new CacheItemPolicy()
                 {
@@ -114,27 +123,6 @@ namespace TightWiki.Caching
                 };
                 MemCache.Add(cacheKey.Key, result, policy);
             }
-
-            return result;
-        }
-
-        /// <summary>
-        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
-        /// </summary>
-        public static T AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T> getValueDelegate, int? seconds = null)
-        {
-            if (TryGet<T>(cacheKey, out var result))
-            {
-                return result;
-            }
-
-            result = getValueDelegate();
-
-            var policy = new CacheItemPolicy()
-            {
-                AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
-            };
-            MemCache.Add(cacheKey.Key, result, policy);
 
             return result;
         }

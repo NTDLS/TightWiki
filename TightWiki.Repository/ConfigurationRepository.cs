@@ -37,7 +37,7 @@ namespace TightWiki.Repository
                 }
 
                 return new ConfigurationEntries(entries);
-            });
+            }).EnsureNotNull();
         }
 
         public static List<Theme> GetAllThemes()
@@ -54,7 +54,7 @@ namespace TightWiki.Repository
                 }
 
                 return themes;
-            });
+            }).EnsureNotNull();
         }
 
         public static WikiDatabaseStatistics GetWikiDatabaseMetrics()

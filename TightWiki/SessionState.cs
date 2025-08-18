@@ -99,6 +99,7 @@ namespace TightWiki
                             Permissions = UsersRepository.GetApparentAccountPermissions(userId).ToList();
                             UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == Profile.Theme) ?? GlobalConfiguration.SystemTheme;
                             IsAuthenticated = true;
+                            return;
                         }
                         else
                         {
@@ -118,6 +119,8 @@ namespace TightWiki
                     ExceptionRepository.InsertException(ex);
                 }
             }
+
+            Permissions = UsersRepository.GetApparentRolePermissions(BuiltInRoles.Anonymous).ToList();
         }
 
         /// <summary>
@@ -278,10 +281,6 @@ namespace TightWiki
             }, WikiCache.DefaultCacheSeconds);
         }
 
-        //public bool IsMemberOf(string role, string[] roles)
-        //    => roles.Contains(role);
-
-        //TODO: do we need this?
         public void RequireAuthorizedPermission()
         {
             if (!IsAuthenticated) throw new UnauthorizedException();

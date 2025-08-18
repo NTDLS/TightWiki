@@ -13,6 +13,15 @@
             Deny
         }
 
+        public enum BuiltInRoles
+        {
+            Administrator,
+            Member,
+            Contributor,
+            Moderator,
+            Anonymous
+        }
+
         public enum Permission
         {
             Read,

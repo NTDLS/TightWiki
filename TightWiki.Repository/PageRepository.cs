@@ -1,6 +1,7 @@
 ﻿using DuoVia.FuzzyStrings;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
 using TightWiki.Engine.Library;
@@ -42,7 +43,7 @@ namespace TightWiki.Repository
                 {
                     Collection = ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList()
                 };
-            });
+            }).EnsureNotNull();
         }
 
         public static List<PageTag> GetPageTagsById(int pageId)
@@ -57,7 +58,7 @@ namespace TightWiki.Repository
                 };
 
                 return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param).ToList();
-            });
+            }).EnsureNotNull();
         }
 
         public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(
@@ -179,7 +180,7 @@ namespace TightWiki.Repository
                 {
                     return GetExactPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
                 }
-            });
+            }).EnsureNotNull();
         }
 
         public static List<Page> PageSearch(List<string> searchTerms)
@@ -337,7 +338,7 @@ namespace TightWiki.Repository
                     using var users_db = o.Attach("users.db", "users_db");
                     return o.Query<PageComment>("GetPageCommentsPaged.sql", param).ToList();
                 });
-            });
+            }).EnsureNotNull();
         }
 
         public static List<NonexistentPage> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
@@ -549,7 +550,7 @@ namespace TightWiki.Repository
 
         public static List<FeatureTemplate> GetAllFeatureTemplates()
             => WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Configuration), () =>
-                ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList());
+                ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList()).EnsureNotNull();
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {

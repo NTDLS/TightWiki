@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using NTDLS.Helpers;
+using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -20,7 +21,24 @@ namespace TightWiki.Repository
                 {
                     UserId = userId
                 }).ToList();
-            });
+            }).EnsureNotNull();
+        }
+
+        public static List<ApparentAccountPermission> GetApparentRolePermissions(BuiltInRoles role)
+            => GetApparentRolePermissions(role.ToString()); 
+
+        public static List<ApparentAccountPermission> GetApparentRolePermissions(string roleName)
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [roleName]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<ApparentAccountPermission>(@"Scripts\GetApparentRolePermissions.sql",
+                new
+                {
+                    RoleName = roleName
+                }).ToList();
+            }).EnsureNotNull();
         }
 
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
@@ -172,7 +190,7 @@ namespace TightWiki.Repository
                 };
 
                 return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
-            });
+            }).EnsureNotNull();
         }
 
         public static AccountProfile GetAccountProfileByUserId(Guid userId)
@@ -187,7 +205,7 @@ namespace TightWiki.Repository
                 };
 
                 return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId.sql", param);
-            });
+            }).EnsureNotNull();
         }
 
         public static void SetProfileUserId(string navigation, Guid userId)
