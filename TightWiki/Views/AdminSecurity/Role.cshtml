@@ -53,6 +53,9 @@
         <thead>
             <tr>
                 <td><strong>@Localizer["Name"]</strong></td>
+                <td><strong>@Localizer["Email Address"]</strong></td>
+                <td><strong>@Localizer["First Name"]</strong></td>
+                <td><strong>@Localizer["Last Name"]</strong></td>
             </tr>
         </thead>
 
@@ -60,6 +63,9 @@
         {
             <tr>
                 <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@user.Navigation">@user.AccountName</a></td>
+                <td>@user.EmailAddress</td>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
             </tr>
         }
     </table>
