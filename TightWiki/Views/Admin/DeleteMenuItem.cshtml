@@ -10,10 +10,10 @@
 {
     <div class="card shadow-lg border-danger mb-3">
         <div class="card-header bg-danger text-white">
-            <strong>@Localizer["Delete menu item \"{0}\"?"].Value(Model.Name)</strong>
+            <strong>@Localizer.Format("Delete menu item \"{0}\"?", Model.Name)</strong>
         </div>
         <div class="card-body">
-            @Localizer["Deleting \"{0}\" will permanently remove the menu item."].Value(Model.Name)
+            @Localizer.Format("Deleting \"{0}\" will permanently remove the menu item.", Model.Name)
             <strong>@Localizer["You will not be able to revert this action."]</strong>
             <br /><br />
 

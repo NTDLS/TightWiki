@@ -118,7 +118,8 @@
         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
         {
             <p>
-                @Localizer.Format("<a href=\"{0}\">Continue now</a> or you will be redirected in <span id=\"countdown\">{1}</span> seconds.", Model.RedirectURL, Model.RedirectTimeout)
+                @Localizer.Format("{0}Continue now{1} or you will be redirected in {2} seconds.",
+                    $"<a href=\"{Model.RedirectURL}\">", "</a>", $"<span id=\"countdown\">{Model.RedirectTimeout}</span>")
             </p>
         }
     </div>

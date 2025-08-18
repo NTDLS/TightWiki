@@ -10,10 +10,10 @@
 {
     <div class="card shadow-lg border-danger mb-3">
         <div class="card-header bg-danger text-white">
-            <strong>@Localizer["Delete account {0}?"].Value(Model.AccountName ?? "")</strong>
+            <strong>@Localizer.Format("Delete account {0}?", Model.AccountName)</strong>
         </div>
         <div class="card-body">
-            @Localizer["Deleting \"{0}\" will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account."].Value(Model.AccountName ?? "")
+            @Localizer.Format("Deleting \"{0}\" will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account.", Model.AccountName)
             <strong>@Localizer["You will not be able to revert this action."]</strong>
             <br /><br />
 

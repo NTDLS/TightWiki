@@ -10,10 +10,10 @@
 {
     <div class="card shadow-lg card-danger border-danger">
         <div class="card-header bg-danger text-white">
-            <strong>@Localizer["Delete emoji \"{0}\"?"].Value(Model?.OriginalName ?? "")</strong>
+            <strong>@Localizer.Format("Delete emoji \"{0}\"?", Model?.OriginalName)</strong>
         </div>
         <div class="card-body">
-            @Localizer["Deleting the emoji \"{0}\" will permanently remove the image. Any references to it will be orphaned."].Value(Model?.OriginalName ?? "")
+            @Localizer.Format("Deleting the emoji \"{0}\" will permanently remove the image. Any references to it will be orphaned.", Model?.OriginalName)
             <strong>@Localizer["You will not be able to revert this deletion."]</strong>
             <br /><br />
 

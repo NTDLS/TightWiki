@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using System.Text;
 
@@ -24,13 +25,13 @@ namespace TightWiki.Library
             _localizer = localizer;
         }
 
-        public static string Generate(QueryString? queryString, int? totalPageCount)
+        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount)
             => Generate(string.Empty, "page", QueryStringConverter.ToDictionary(queryString), totalPageCount);
 
-        public static string Generate(string queryToken, IQueryCollection? queryString, int? totalPageCount)
+        public static IHtmlContent Generate(string queryToken, IQueryCollection? queryString, int? totalPageCount)
             => Generate(string.Empty, queryToken, QueryStringConverter.ToDictionary(queryString), totalPageCount);
 
-        public static string Generate(string url, string queryToken, Dictionary<string, string>? queryString, int? totalPageCount)
+        public static IHtmlContent Generate(string url, string queryToken, Dictionary<string, string>? queryString, int? totalPageCount)
         {
             var sb = new StringBuilder();
             int currentPage = 1;
@@ -84,7 +85,7 @@ namespace TightWiki.Library
                 sb.Append($"</center>");
             }
 
-            return sb.ToString();
+            return new HtmlString(sb.ToString());
         }
     }
 }

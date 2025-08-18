@@ -1,6 +1,5 @@
 ﻿using DuoVia.FuzzyStrings;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
@@ -8,7 +7,6 @@ using TightWiki.Engine.Library;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TightWiki.Repository
 {

@@ -10,17 +10,16 @@
 <!-- Syntax Highlighter:Begin -->
 <script src="@Url.Content("~/syntax/highlight.min.js")"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    hljs.highlightAll();
-});
+    document.addEventListener("DOMContentLoaded", function () {
+        hljs.highlightAll();
+    });
 </script>
 <!-- Syntax Highlighter:End -->
-
 @if (Model.Revision < Model.MostCurrentRevision)
 {
     <div class="card shadow-lg border-info mb-3">
         <div class="card-header bg-info">
-        <strong>@Localizer["Viewing a historical version"]</strong>
+            <strong>@Localizer["Viewing a historical version"]</strong>
         </div>
         <div class="card-body">
             <p class="card-text">

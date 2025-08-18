@@ -17,7 +17,7 @@
 
 @if (Model.Revisions.Count > 0)
 {
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
 
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -49,21 +49,21 @@
                     <td><a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@h.Revision">@Html.DisplayTextFor(x => h.ChangeAnalysis)</a></td>
                     <td>@Html.DisplayTextFor(x => h.ChangeAnalysis)</td>
                     <td>
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
                             Localizer["Reverting {0} from revision {1} to {2} will rollback {3} changes.<br />Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.<br /><br />Are you sure you want to continue?<br /><br />"]
-                                .Value(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
-                            Localizer["Revert"].Value, $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0"))
-                        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                                .Format(h.Name, h.HighestRevision, h.Revision, h.HigherRevisionCount),
+                            Localizer["Revert"].Value, $"/Admin/RevertPageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
+                        @TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
                             Localizer["Deleting revision {0} of \"{1}\" will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"]
-                                .Value(h.Revision, h.Name),
-                            Localizer["Delete"].Value, $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                                .Format(h.Revision, h.Name),
+                            Localizer["Delete"].Value, $"/Admin/DeletePageRevision/{h.Navigation}/{h.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
 }
 else
 {

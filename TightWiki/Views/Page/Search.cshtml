@@ -23,7 +23,7 @@
         <button type="submit" value="Find" class="btn btn-primary">@Localizer["Search"]</button>
     </div>
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
 
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -49,7 +49,7 @@
         </div>
     }
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
 }
 
 <script>

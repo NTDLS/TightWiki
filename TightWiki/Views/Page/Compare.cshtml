@@ -50,7 +50,8 @@ else
 }
 
 <h3>
-    @Localizer.Format("Page revisions for {0}.", $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}\">{@sessionState.Page.Name}</a>")
+    @Localizer.Format("Page revisions for {0}.",
+    $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}\">{@sessionState.Page.Name}</a>")
 </h3>
 
 @if (Model.ThisRevision == null || Model.DiffModel == null)
@@ -95,9 +96,9 @@ else
 
     <h6>
         @Localizer.Format("Changes made to this page for revision {0} by {1} on {2}.",
-        $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
-        $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
-        Model.ModifiedDate)
+            $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
+            $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
+            Model.ModifiedDate)
     </h6>
 
     @if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))

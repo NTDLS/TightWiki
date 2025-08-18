@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
 using System.Text;
 using System.Web;
 using TightWiki.Library.Interfaces;
@@ -11,7 +12,7 @@ namespace TightWiki.Library
         /// Takes the current page query string and "upserts" the given order-by field,
         /// if the string already sorts on the given field then the order is inverted (asc/desc).
         /// </summary>
-        public static string OrderHelper(ISessionState context, string value)
+        public static IHtmlContent OrderHelper(ISessionState context, string value)
         {
             string orderByKey = "OrderBy";
             string orderByDirectionKey = "OrderByDirection";
@@ -49,7 +50,7 @@ namespace TightWiki.Library
             collection.Remove(orderByDirectionKey);
             collection.Add(orderByDirectionKey, currentDirection ?? "asc");
 
-            return FromCollection(collection);
+            return new HtmlString(FromCollection(collection));
         }
 
         /// <summary>

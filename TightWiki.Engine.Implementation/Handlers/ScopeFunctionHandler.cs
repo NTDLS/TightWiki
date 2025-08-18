@@ -426,8 +426,6 @@ namespace TightWiki.Engine.Implementation.Handlers
                         html.Append("</figure>");
                         return new HandlerResult(html.ToString());
                     }
-
-
             }
 
             return new HandlerResult() { Instructions = [HandlerResultInstruction.Skip] };

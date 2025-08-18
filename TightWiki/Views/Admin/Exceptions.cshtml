@@ -18,9 +18,9 @@
 <div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+        @TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
             @Localizer["This will permanently purge all exceptions. Continue?"].Value,
-            @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value))
+            @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value)
     </div>
 
     <div>
@@ -30,7 +30,7 @@
 
 @if (Model.Exceptions.Count > 0)
 {
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
 
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -54,7 +54,7 @@
         }
     </table>
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
 }
 else
 {
