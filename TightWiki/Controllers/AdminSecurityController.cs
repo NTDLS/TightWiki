@@ -12,6 +12,7 @@ using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
+using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using Constants = TightWiki.Library.Constants;
 
@@ -49,6 +50,37 @@ namespace TightWiki.Controllers
             {
                 return BadRequest(new { success = false, message = ex.Message });
             }
+        }
+
+        [Authorize]
+        [HttpPost("RemoveRoleMember/{roleId:int}/{userId:int}")]
+        public IActionResult RemoveRoleMember(int roleId, int userId)
+        {
+            try
+            {
+                SessionState.RequireAdminPermission();
+
+                return Ok(new { success = true, message = (string?)null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPost("DeleteRoleMember/{membershipId:int}")]
+        public ActionResult DeletePage(ConfirmActionViewModel model, int pageId)
+        {
+            SessionState.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                //PageRepository.MovePageToDeletedById(pageId, SessionState.Profile.EnsureNotNull().UserId);
+                //return NotifyOfSuccess(Localize("The page has been moved to the deletion queue."), model.YesRedirectURL);
+            }
+
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -92,7 +124,7 @@ namespace TightWiki.Controllers
             {
                 Id = role.Id,
                 Name = role.Name,
-                Users = UsersRepository.GetRoleMembersPaged(role.Id,
+                Members = UsersRepository.GetRoleMembersPaged(role.Id,
                     GetQueryValue("usersPage", 1), GetQueryValue("usersOrderBy"), GetQueryValue("usersOrderByDirection")),
                 AssignedPermissions = UsersRepository.GetRolePermissionsForDisplay(role.Id,
                     GetQueryValue("rolesPage", 1), GetQueryValue("rolesOrderBy"), GetQueryValue("rolesOrderByDirection")),
@@ -101,7 +133,7 @@ namespace TightWiki.Controllers
                 Permissions = UsersRepository.GetAllPermissions()
             };
 
-            model.PaginationPageCount = (model.Users.FirstOrDefault()?.PaginationPageCount ?? 0);
+            model.PaginationPageCount = (model.Members.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }

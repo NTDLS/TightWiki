@@ -1,4 +1,5 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject IViewLocalizer Localizer
 @model RoleViewModel
@@ -24,7 +25,7 @@
 }
 
 <h3>
-    @Localizer.Format("Role {0}", Model.Name)
+    @Localizer.Format("Role: {0}", Model.Name)
 </h3>
 
 <p>
@@ -50,26 +51,28 @@
                         <td><strong>@Localizer["Disposition"]</strong></td>
                         <td><strong>@Localizer["Permission"]</strong></td>
                         <td><strong>@Localizer["Resource"]</strong></td>
+                        <td><strong>@Localizer["Action"]</strong></td>
                     </tr>
                 </thead>
 
                 <tbody>
 
-                    @foreach (var user in Model.AssignedPermissions)
+                    @foreach (var permission in Model.AssignedPermissions)
                     {
                         <tr>
-                            <td>@user.PermissionDisposition</td>
-                            <td>@user.Permission</td>
+                            <td>@permission.PermissionDisposition</td>
+                            <td>@permission.Permission</td>
                             <td>
-                                @if (user.Namespace != null)
+                                @if (permission.Namespace != null)
                                 {
-                                    <span><span class="text-muted">@Localizer["Namespace"]:</span> @(user.ResourceName == "*" ? Localizer["ALL"] : user.ResourceName)</span>
+                                    <span><span class="text-muted">@Localizer["Namespace"]:</span> @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)</span>
                                 }
-                                else if (user.PageId != null)
+                                else if (permission.PageId != null)
                                 {
-                                    <span><span class="text-muted">@Localizer["Page"]:</span> @(user.ResourceName == "*" ? Localizer["ALL"] : user.ResourceName)</span>
+                                    <span><span class="text-muted">@Localizer["Page"]:</span> @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)</span>
                                 }
                             </td>
+                            <td><a class="btn btn-warning btn-thin" onclick="removePermission('@permission.Id')">@Localizer["Remove"]</a></td>
                         </tr>
                     }
                 </tbody>
@@ -94,16 +97,18 @@
                         <td><strong>@Localizer["Email Address"]</strong></td>
                         <td><strong>@Localizer["First Name"]</strong></td>
                         <td><strong>@Localizer["Last Name"]</strong></td>
+                        <td><strong>@Localizer["Action"]</strong></td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var user in Model.Users)
+                    @foreach (var member in Model.Members)
                     {
                         <tr>
-                            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@user.Navigation">@user.AccountName</a></td>
-                            <td>@user.EmailAddress</td>
-                            <td>@user.FirstName</td>
-                            <td>@user.LastName</td>
+                            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@member.Navigation">@member.AccountName</a></td>
+                            <td>@member.EmailAddress</td>
+                            <td>@member.FirstName</td>
+                            <td>@member.LastName</td>
+                            <td><a class="btn btn-warning btn-thin" onclick="removeMember('@member.UserId')">@Localizer["Remove"]</a></td>
                         </tr>
                     }
                 </tbody>
@@ -111,6 +116,33 @@
         </div>
     </div>
 }
+
+<script>
+    function removePermission(permissionId) {
+        console.log("Removing permission:", permissionId);
+    }
+
+    function removeMember(userId) {
+        console.log("Removing account:", userId);
+
+        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRoleMember/@Model.Id/${userId}`, {
+            method: 'POST',
+        });
+
+        if (!response.ok) {
+            const txt = await response.text().catch(() => '');
+            alert('Save failed: ' + (txt || `${response.status} ${response.statusText}`));
+            return;
+        }
+
+        const result = await response.json();
+            if (!result.success) {
+            alert(result.message || 'Save failed.');
+            return;
+        }
+
+    }
+</script>
 
 <div class="modal" tabindex="-1" id="addPermissionToRoleModal" aria-labelledby="addPermissionToRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -486,6 +518,7 @@
             <td>${result.membership.emailAddress}</td>
             <td>${result.membership.firstName}</td>
             <td>${result.membership.lastName}</td>
+            <td><a class="btn btn-warning btn-thin" onclick="removeMember('${result.membership.userId}')">@Localizer["Remove"]</a></td>
         `;
 
         tableBody.appendChild(newRow);

@@ -16,7 +16,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         /// <summary>
         /// Members of this role.
         /// </summary>
-        public List<AccountProfile> Users { get; set; } = new();
+        public List<AccountProfile> Members { get; set; } = new();
 
         /// <summary>
         /// All available permissions.
