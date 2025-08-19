@@ -3,7 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.25.1</Version>
+    <Version>2.26.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -179,6 +179,13 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\DeleteRole.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^007^Users^CreatePermissionDefaults.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^006^Users^RolePermission.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^005^Users^AccountPermission.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^004^Users^AccountRole.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^003^Users^Permission.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^002^Users^Role.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^001^Users^PermissionDisposition.sql" />
     <EmbeddedResource Include="Scripts\InsertRole.sql" />
     <EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
     <EmbeddedResource Include="Scripts\RemoveRoleMember.sql" />
