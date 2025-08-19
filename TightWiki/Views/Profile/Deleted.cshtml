@@ -3,7 +3,6 @@
 @model TightWiki.Models.ViewModels.Profile.DeletedAccountViewModel
 @{
     Layout = "_Layout";
-    var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <div class="card shadow-lg border-danger mb-3">
@@ -11,9 +10,9 @@
         <strong>@Localizer["Account Deleted!"]</strong>
     </div>
     <div class="card-body">
-        @Localizer["The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile."]<br /><br />
-
+        @Localizer["The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile."]
         <br /><br />
+
         @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
         {
             @:@Localizer["Not a member?"] <a href="@GlobalConfiguration.BasePath/Identity/Account/Register">@Localizer["Register as a new user"]</a>.<br />

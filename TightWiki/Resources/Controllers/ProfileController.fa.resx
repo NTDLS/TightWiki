@@ -92,6 +92,12 @@
   <data name="The specified user was not found." xml:space="preserve">
     <value>کاربر مشخص شده پیدا نشد.</value>
   </data>
+  <data name="User not found." xml:space="preserve">
+    <value>کاربر پیدا نشد.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>حساب شما حذف شده است.</value>
+  </data>
   <data name="Your profile has been saved." xml:space="preserve">
     <value>پروفایل شما ذخیره شده است.</value>
   </data>

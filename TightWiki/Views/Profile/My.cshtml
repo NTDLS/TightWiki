@@ -200,7 +200,7 @@
         @*Left-aligned "toolbar" controls*@
         @ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
             Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?"].Format(Model.AccountProfile.AccountName),
-            Localizer["Delete Account"].Value, $"/Profile/Delete", $"{GlobalConfiguration.BasePath}/Deleted/Accounts", Context.Request.Path.Value)
+            Localizer["Delete Account"].Value, $"/Profile/Delete", $"{GlobalConfiguration.BasePath}/Profile/Deleted", Context.Request.Path.Value)
     </div>
 
     <div>

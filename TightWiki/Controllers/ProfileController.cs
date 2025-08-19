@@ -392,7 +392,7 @@ namespace TightWiki.Controllers
                 WikiCache.ClearCategory(WikiCacheKey.Build(WikiCache.Category.User, [profile.Navigation]));
 
                 HttpContext.SignOutAsync(); //Do we still need this??
-                return Redirect($"{GlobalConfiguration.BasePath}/Profile/Deleted");
+                return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");

@@ -92,6 +92,12 @@
   <data name="The specified user was not found." xml:space="preserve">
     <value>Вказаного користувача не знайдено.</value>
   </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Користувача не знайдено.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Ваш обліковий запис було видалено.</value>
+  </data>
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Ваш профіль було збережено.</value>
   </data>

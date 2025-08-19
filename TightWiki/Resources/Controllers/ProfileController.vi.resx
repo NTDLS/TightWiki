@@ -92,6 +92,12 @@
   <data name="The specified user was not found." xml:space="preserve">
     <value>Người dùng được chỉ định không được tìm thấy.</value>
   </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Không tìm thấy người dùng.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Tài khoản của bạn đã bị xóa.</value>
+  </data>
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Hồ sơ của bạn đã được lưu.</value>
   </data>

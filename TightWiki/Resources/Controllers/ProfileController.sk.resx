@@ -92,6 +92,12 @@
   <data name="The specified user was not found." xml:space="preserve">
     <value>Zadaný používateľ sa nenašiel.</value>
   </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Užívateľ nebol nájdený.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Váš účet bol odstránený.</value>
+  </data>
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Váš profil bol uložený.</value>
   </data>

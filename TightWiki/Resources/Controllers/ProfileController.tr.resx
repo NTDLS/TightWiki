@@ -92,6 +92,12 @@
   <data name="The specified user was not found." xml:space="preserve">
     <value>Belirtilen kullanıcı bulunamadı.</value>
   </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Kullanıcı bulunamadı.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Hesabınız silindi.</value>
+  </data>
   <data name="Your profile has been saved." xml:space="preserve">
     <value>Profiliniz kaydedildi.</value>
   </data>
