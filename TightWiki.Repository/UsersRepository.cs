@@ -1,5 +1,6 @@
 ﻿using NTDLS.Helpers;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -27,7 +28,7 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static List<ApparentPermission> GetApparentRolePermissions(BuiltInRoles role)
+        public static List<ApparentPermission> GetApparentRolePermissions(WikiRoles role)
             => GetApparentRolePermissions(role.ToString());
 
         public static List<ApparentPermission> GetApparentRolePermissions(string roleName)
@@ -54,13 +55,13 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static List<WikiPermission> GetAllPermissions()
+        public static List<Permission> GetAllPermissions()
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
-                return ManagedDataStorage.Users.Query<WikiPermission>(@"Scripts\GetAllPermissions.sql").ToList<WikiPermission>();
+                return ManagedDataStorage.Users.Query<Permission>(@"Scripts\GetAllPermissions.sql").ToList();
             }).EnsureNotNull();
         }
 

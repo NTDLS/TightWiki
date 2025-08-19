@@ -21,7 +21,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         /// <summary>
         /// All available permissions.
         /// </summary>
-        public List<WikiPermission> Permissions { get; set; } = new();
+        public List<Permission> Permissions { get; set; } = new();
 
         /// <summary>
         /// All available permission dispositions.

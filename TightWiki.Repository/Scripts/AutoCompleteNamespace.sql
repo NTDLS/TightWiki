@@ -1,4 +1,4 @@
-SELECT
+SELECT DISTINCT
 	[Namespace]
 FROM
 	[Page]

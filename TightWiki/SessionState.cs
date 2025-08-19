@@ -120,7 +120,7 @@ namespace TightWiki
                 }
             }
 
-            Permissions = UsersRepository.GetApparentRolePermissions(BuiltInRoles.Anonymous).ToList();
+            Permissions = UsersRepository.GetApparentRolePermissions(WikiRoles.Anonymous).ToList();
         }
 
         /// <summary>
@@ -190,8 +190,8 @@ namespace TightWiki
                     page = PageRepository.GetPageInfoByNavigation(navigation.Canonical);
                 }
 
-                string denyString = PermissionDisposition.Deny.ToString();
-                string allowString = PermissionDisposition.Allow.ToString();
+                string denyString = WikiPermissionDisposition.Deny.ToString();
+                string allowString = WikiPermissionDisposition.Allow.ToString();
 
                 bool holdsPermission = false;
 

@@ -7,13 +7,13 @@
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
-        public enum PermissionDisposition
+        public enum WikiPermissionDisposition
         {
             Allow,
             Deny
         }
 
-        public enum BuiltInRoles
+        public enum WikiRoles
         {
             Administrator,
             Member,

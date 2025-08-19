@@ -100,40 +100,40 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addPermissionToRoleModalLabel">@Localizer["Hyperlink"]</h5>
+                <h5 class="modal-title" id="addPermissionToRoleModalLabel">@Localizer["Add Permission to Role"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@Localizer["Resource"]</label><br />
+                    <label class="form-label fw-bold mt-2">@Localizer["Resource type"]</label><br />
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalPage" value="page" checked>
+                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModePage" value="page" checked>
                         <label class="form-check-label" for="addPermissionToRoleModalPage">@Localizer["Wiki Page"]</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalNamespace" value="namespace">
+                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModeNamespace" value="namespace">
                         <label class="form-check-label" for="addPermissionToRoleModalNamespace">@Localizer["Namespace"]</label>
                     </div>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalPageDisposition" class="form-label fw-bold">@Localizer["Choose a disposition"]</label>
+                    <label for="addPermissionToRoleModalPageDisposition" class="form-label fw-bold mt-2">@Localizer["Disposition"]</label>
                     <select id="addPermissionToRoleModalPageDisposition" style="width: 100%"></select>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalPermission" class="form-label fw-bold">@Localizer["Choose a permission"]</label>
+                    <label for="addPermissionToRoleModalPermission" class="form-label fw-bold mt-2">@Localizer["Permission"]</label>
                     <select id="addPermissionToRoleModalPermission" style="width: 100%"></select>
                 </div>
 
                 <div id="addPermissionToRoleModalPageDiv">
-                    <label for="addPermissionToRoleModalPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
+                    <label for="addPermissionToRoleModalPage" class="form-label fw-bold mt-2">@Localizer["Page"]</label>
                     <select id="addPermissionToRoleModalPage" style="width: 100%"></select>
                 </div>
 
                 <div id="addPermissionToRoleModalNamespaceDiv" style="display: none;">
-                    <label for="addPermissionToRoleModalNamespace" class="form-label fw-bold">@Localizer["Choose a namespace"]</label>
+                    <label for="addPermissionToRoleModalNamespace" class="form-label fw-bold mt-2">@Localizer["Namespace"]</label>
                     <select id="addPermissionToRoleModalNamespace" style="width: 100%"></select>
                 </div>
             </div>
@@ -160,7 +160,7 @@
         if (addPermissionToRoleModalInitialized)
         {
             // Reset the defaults on the modal:
-            document.getElementById('addPermissionToRoleModalPage').checked = true;
+            document.getElementById('addPermissionToRoleModalModePage').checked = true;
 
             document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'block';
             document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'none';
@@ -176,22 +176,20 @@
         $('#addPermissionToRoleModalPageDisposition').select2({
             placeholder: "@Localizer["Select a disposition"]",
             width: '100%',
-            data: @Json.Serialize(Model.PermissionDispositions),
+            data: @Json.Serialize(Model.PermissionDispositions.Select(d => new { id = d.Id, text = d.Name })),
             allowClear: true,
             dropdownParent: $('#addPermissionToRoleModal'),
         }).on('change', function () {
-            // Trigger unobtrusive validation re-check if you use it
             $(this).valid && $(this).valid();
         });
 
         $('#addPermissionToRoleModalPermission').select2({
             placeholder: "@Localizer["Select a permission"]",
             width: '100%',
-            data: @Json.Serialize(Model.Permissions),
+            data: @Json.Serialize(Model.Permissions.Select(d => new { id = d.Id, text = d.Name })),
             allowClear: true,
             dropdownParent: $('#addPermissionToRoleModal'),
         }).on('change', function () {
-            // Trigger unobtrusive validation re-check if you use it
             $(this).valid && $(this).valid();
         });
 
@@ -200,7 +198,7 @@
             placeholder: "@Localizer["Search"]...",
             minimumInputLength: 0,
             ajax: {
-                url: '/Page/Autocomplete',
+                url: '/AdminSecurity/AutocompletePage',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -225,7 +223,7 @@
             placeholder: "@Localizer["Search"]...",
             minimumInputLength: 0,
             ajax: {
-                url: '/Page/Autocomplete',
+                url: '/AdminSecurity/AutocompleteNamespace',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -249,11 +247,11 @@
             radio.addEventListener('change', () => {
                 const mode = document.querySelector('input[name="addPermissionToRoleModalMode"]:checked').value;
                 if (mode === 'page') {
-                    document.getElementById('addPermissionToRoleModalPage').style.display = 'block';
-                    document.getElementById('addPermissionToRoleModalNamespace').style.display = 'none';
+                    document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'block';
+                    document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'none';
                 } else {
-                    document.getElementById('addPermissionToRoleModalPage').style.display = 'none';
-                    document.getElementById('addPermissionToRoleModalNamespace').style.display = 'block';
+                    document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'none';
+                    document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'block';
                 }
             });
         });

@@ -509,7 +509,7 @@ namespace TightWiki.Controllers
         #region AutoComplete.
 
         [Authorize]
-        [HttpGet("Page/AutoCompletePage")]
+        [HttpGet("AutoCompletePage")]
         public ActionResult AutoCompletePage([FromQuery] string? q = null)
         {
             var pages = PageRepository.AutoCompletePage(q);
@@ -522,15 +522,15 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpGet("Page/AutoCompleteNamespace")]
+        [HttpGet("AutoCompleteNamespace")]
         public ActionResult AutoCompleteNamespace([FromQuery] string? q = null)
         {
-            var pages = PageRepository.AutoCompleteNamespace(q);
+            var namespaces = PageRepository.AutoCompleteNamespace(q);
 
-            return Json(pages.Select(o => new
+            return Json(namespaces.Select(o => new
             {
-                text = o.Name,
-                id = o.Navigation
+                text = o,
+                id = o
             }));
         }
 

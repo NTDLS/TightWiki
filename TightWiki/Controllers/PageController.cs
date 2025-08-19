@@ -192,8 +192,8 @@ namespace TightWiki.Controllers
         #region Search.
 
         [Authorize]
-        [HttpGet("Page/AutoComplete")]
-        public ActionResult AutoComplete([FromQuery] string? q = null)
+        [HttpGet("Page/AutoCompletePage")]
+        public ActionResult AutoCompletePage([FromQuery] string? q = null)
         {
             var pages = PageRepository.AutoCompletePage(q);
 

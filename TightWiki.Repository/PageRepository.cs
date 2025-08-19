@@ -13,10 +13,10 @@ namespace TightWiki.Repository
     public static class PageRepository
     {
         public static IEnumerable<Page> AutoCompletePage(string? searchText)
-            => ManagedDataStorage.Pages.Query<Page>("PageAutoComplete.sql", new { SearchText = searchText ?? string.Empty });
+            => ManagedDataStorage.Pages.Query<Page>("AutoCompletePage.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static IEnumerable<Page> AutoCompleteNamespace(string? searchText)
-            => ManagedDataStorage.Pages.Query<Page>("AutoCompleteNamespace.sql", new { SearchText = searchText ?? string.Empty });
+        public static IEnumerable<string> AutoCompleteNamespace(string? searchText)
+            => ManagedDataStorage.Pages.Query<string>("AutoCompleteNamespace.sql", new { SearchText = searchText ?? string.Empty });
 
         public static Page? GetPageRevisionInfoById(int pageId, int? revision = null)
         {
