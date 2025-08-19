@@ -58,6 +58,12 @@ namespace TightWiki.Repository
         public static InsertAccountRoleResult? InsertAccountRole(Guid userId, int roleId)
             => ManagedDataStorage.Users.QueryFirstOrDefault<InsertAccountRoleResult>("InsertAccountRole.sql", new { UserId = userId, RoleId = roleId });
 
+        public static void RemoveRoleMember(int roleId, Guid userId)
+            => ManagedDataStorage.Users.Execute("RemoveRoleMember.sql", new { RoleId = roleId, UserId = userId });
+
+        public static void RemoveRolePermission(int id)
+            => ManagedDataStorage.Users.Execute("RemoveRolePermission.sql", new { Id = id });
+
         public static InsertRolePermissionResult? InsertRolePermission(
             int roleId, int permissionId, string permissionDisposition, string? ns, string? pageId)
         {

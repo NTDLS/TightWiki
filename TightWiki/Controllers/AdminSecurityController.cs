@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Library;
@@ -53,13 +54,13 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpPost("RemoveRoleMember/{roleId:int}/{userId:int}")]
-        public IActionResult RemoveRoleMember(int roleId, int userId)
+        [HttpPost("RemoveRoleMember/{roleId:int}/{userId:Guid}")]
+        public IActionResult RemoveRoleMember(int roleId, Guid userId)
         {
             try
             {
                 SessionState.RequireAdminPermission();
-
+                UsersRepository.RemoveRoleMember(roleId, userId);
                 return Ok(new { success = true, message = (string?)null });
             }
             catch (Exception ex)
@@ -69,18 +70,19 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpPost("DeleteRoleMember/{membershipId:int}")]
-        public ActionResult DeletePage(ConfirmActionViewModel model, int pageId)
+        [HttpPost("RemoveRolePermission/{id:int}")]
+        public IActionResult RemoveRolePermission(int id)
         {
-            SessionState.RequireAdminPermission();
-
-            if (model.UserSelection == true)
+            try
             {
-                //PageRepository.MovePageToDeletedById(pageId, SessionState.Profile.EnsureNotNull().UserId);
-                //return NotifyOfSuccess(Localize("The page has been moved to the deletion queue."), model.YesRedirectURL);
+                SessionState.RequireAdminPermission();
+                UsersRepository.RemoveRolePermission(id);
+                return Ok(new { success = true, message = (string?)null });
             }
-
-            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
         }
 
         [Authorize]

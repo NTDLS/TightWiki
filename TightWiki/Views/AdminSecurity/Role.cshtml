@@ -6,22 +6,6 @@
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
-
-    void BuildAssignedPermissionsRow(string PermissionDisposition, string permission, string namespaceName, string pageId, string resourceName)
-    {
-        <td>permissionDisposition</td>
-        <td>permission</td>
-        <td>
-            @if (namespaceName != null)
-            {
-                <span><span class="text-muted">@Localizer["Namespace"]:</span> @(resourceName == "*" ? Localizer["ALL"] : resourceName)</span>
-            }
-            else if (pageId != null)
-            {
-                <span><span class="text-muted">@Localizer["Page"]:</span> @(resourceName == "*" ? Localizer["ALL"] : resourceName)</span>
-            }
-        </td>
-    }
 }
 
 <h3>
@@ -119,11 +103,31 @@
 
 <script>
     function removePermission(permissionId) {
-        console.log("Removing permission:", permissionId);
+        if (!confirm(@Localizer["Are you sure you want to remove the permission from this role?"])) {
+            return;
+        }
+
+        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRolePermission/${permissionId}`, {
+            method: 'POST',
+        });
+
+        if (!response.ok) {
+            const txt = await response.text().catch(() => '');
+            alert('Save failed: ' + (txt || `${response.status} ${response.statusText}`));
+            return;
+        }
+
+        const result = await response.json();
+            if (!result.success) {
+            alert(result.message || '@Localizer["Removal failed"]');
+            return;
+        }
     }
 
-    function removeMember(userId) {
-        console.log("Removing account:", userId);
+    async function removeMember(userId) {
+        if (!confirm(@Localizer["Are you sure you want to remove the member from this role?"])) {
+            return;
+        }
 
         const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRoleMember/@Model.Id/${userId}`, {
             method: 'POST',
@@ -137,10 +141,9 @@
 
         const result = await response.json();
             if (!result.success) {
-            alert(result.message || 'Save failed.');
+            alert(result.message || '@Localizer["Removal failed"]');
             return;
         }
-
     }
 </script>
 
