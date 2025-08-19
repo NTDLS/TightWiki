@@ -1,4 +1,5 @@
-﻿using NTDLS.Helpers;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using NTDLS.Helpers;
 using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
@@ -12,22 +13,69 @@ namespace TightWiki.Repository
     {
         public static bool IsAccountAMemberOfRole(Guid userId, int roleId, bool allowCache = true)
         {
+            var param = new
+            {
+                UserId = userId,
+                RoleId = roleId
+            };
+
             if (allowCache)
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId]);
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, roleId]);
 
                 return WikiCache.AddOrGet(cacheKey, () =>
-                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", new { UserId = userId, RoleId = roleId }) ?? false
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false
                 );
             }
-            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", new { UserId = userId, RoleId = roleId }) ?? false;
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false;
+        }
+
+        public static bool IsRolePermissionDefined(int roleId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
+        {
+            var param = new
+            {
+                RoleId = roleId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDispositionId,
+                Namespace = ns,
+                PageId = pageId
+            };
+
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
+
+                return WikiCache.AddOrGet(cacheKey, () =>
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false
+                );
+            }
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false;
         }
 
         public static IEnumerable<AccountProfile> AutoCompleteAccount(string? searchText)
             => ManagedDataStorage.Users.Query<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static InsertAccountRoleResult? InsertAccountRoleIfNotExist(Guid userId, int roleId)
-            => ManagedDataStorage.Users.QueryFirstOrDefault<InsertAccountRoleResult>("InsertAccountRoleIfNotExist.sql", new { UserId = userId, RoleId = roleId });
+        public static InsertAccountRoleResult? InsertAccountRole(Guid userId, int roleId)
+            => ManagedDataStorage.Users.QueryFirstOrDefault<InsertAccountRoleResult>("InsertAccountRole.sql", new { UserId = userId, RoleId = roleId });
+
+        public static InsertRolePermissionResult? InsertRolePermission(
+            int roleId, int permissionId, string permissionDisposition, string? ns, string? pageId)
+        {
+            var param = new
+            {
+                RoleId = roleId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDisposition,
+                @Namespace = ns,
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+                return o.QueryFirstOrDefault<InsertRolePermissionResult>("InsertRolePermission.sql", param);
+            });
+        }
 
         /// <summary>
         /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.

@@ -5,6 +5,22 @@
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
+
+    void BuildAssignedPermissionsRow(string PermissionDisposition, string permission, string namespaceName, string pageId, string resourceName)
+    {
+        <td>permissionDisposition</td>
+        <td>permission</td>
+        <td>
+            @if (namespaceName != null)
+            {
+                <span><span class="text-muted">@Localizer["Namespace"]:</span> @(resourceName == "*" ? Localizer["ALL"] : resourceName)</span>
+            }
+            else if (pageId != null)
+            {
+                <span><span class="text-muted">@Localizer["Page"]:</span> @(resourceName == "*" ? Localizer["ALL"] : resourceName)</span>
+            }
+        </td>
+    }
 }
 
 <h3>
@@ -266,85 +282,89 @@
     });
 
     //User clicked the add button on the addPermissionToRoleModal
-    document.getElementById('addPermissionToRoleModalInsertButton').addEventListener('click', function () {
-        /*
-        const linkText = document.getElementById('addPermissionToRoleModalLinkTitle').value.trim();
-        const linkMode = document.querySelector('input[name="linkMode"]:checked')?.value;
+    document.getElementById('addPermissionToRoleModalInsertButton').addEventListener('click', async function () {
 
-        let markdown = '';
-        let isValid = true;
+        let disposition = $('#addPermissionToRoleModalPageDisposition').select2('data');
+        let permission = $('#addPermissionToRoleModalPermission').select2('data');
+        let page = $('#addPermissionToRoleModalPage').select2('data');
+        let namespace = $('#addPermissionToRoleModalNamespace').select2('data');
 
-        if (linkMode === 'page') {
-            const selected = $('#addPermissionToRoleModalLinkPage').select2('data')[0];
-            if (!selected) {
-                alert("@Localizer["Select a wiki page."]");
-                isValid = false;
-            } else {
-
-                if(!linkText)
-                {
-                    markdown = `[[${selected.text}]]`
-                }
-                else{
-                    markdown = `[[${selected.text}, \"${linkText}\"]]`
-                }
-            }
-        } else if (linkMode === 'url') {
-            const url = document.getElementById('addPermissionToRoleModalLinkURL').value.trim();
-            if (!url) {
-                alert("@Localizer["Enter a URL."]");
-                isValid = false;
-            } else if (!/^https?:\/\//i.test(url)) {
-                alert("@Localizer["URL must start with"] http:// or https://");
-                isValid = false;
-            } else {
-
-                if(!linkText)
-                {
-                    markdown = `[[${url}]]`
-                }
-                else{
-                    markdown = `[[${url}, \"${linkText}\"]]`
-                }
-            }
-        } else {
-            isValid = false;
+        if (!disposition) {
+            alert("@Localizer["You must select a permission disposition."]");
+            return;
+        }
+        if (!permission) {
+            alert("@Localizer["You must select a permission."]");
+            return;
         }
 
-        if (!isValid) return;
+        if(document.getElementById('addPermissionToRoleModalPage').checked == true)
+        {
+            if (!page) {
+                alert("@Localizer["You must select a page."]");
+                return;
+            }
+        }
+        else if(document.getElementById('addPermissionToRoleModalNamespace').checked == true)
+        {
+            if (!namespace) {
+                alert("@Localizer["You must select a namespace."]");
+                return;
+            }
+        }
 
-        const doc = editor.getDoc();
-        var selection = doc.getSelection();
+        const payload = {
+            roleId: @Model.Id,
+            permissionId: permission[0].id,
+            permissionDispositionId: disposition[0].id,
+            namespace: namespace.text,
+            pageId: page[0].id
+        };
 
-        doc.replaceSelection(markdown);
-
-        // Select the new text.
-        const cursor = doc.getCursor();
-        doc.setSelection({
-            line: cursor.line,
-            ch: cursor.ch - (markdown.length + 4)
-        }, {
-            line: cursor.line,
-            ch: cursor.ch
+        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRolePermission', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         });
-        */
 
-        //e.preventDefault();
+        if (!response.ok) {
+            const txt = await response.text().catch(() => '');
+            alert('Save failed: ' + (txt || `${response.status} ${response.statusText}`));
+            return;
+        }
 
+        const result = await response.json();
+            if (!result.success) {
+            alert(result.message || 'Save failed.');
+            return;
+        }
+
+        if(result.alreadyExists)
+        {
+            alert('@Localizer["The role already has the specified permission."]')
+            return;
+        }
         const tableBody = document.querySelector("#permissionsTable tbody");
 
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td>newuser@example.com</td>
-            <td>First</td>
-            <td>Last</td>
+            <td>${result.permission.permissionDisposition}</td>
+            <td>${result.permission.permission}</td>
+            <td>
+                ${result.permission.namespace
+                    ? `<span><span class="text-muted">Namespace:</span> ${result.permission.resourceName === "*" ? "ALL" : result.permission.resourceName}</span>`
+                    : result.permission.pageId
+                        ? `<span><span class="text-muted">Page:</span> ${result.permission.resourceName === "*" ? "ALL" : result.permission.resourceName}</span>`
+                        : ""
+                }
+            </td>
         `;
 
         tableBody.appendChild(newRow);
-
         addPermissionToRoleModal.hide();
-        editor.focus();
     });
 </script>
 
@@ -452,20 +472,23 @@
             return;
         }
 
-        if(result.alreadyExists == false)
+        if(result.alreadyExists)
         {
-            const tableBody = document.querySelector("#membersTable tbody");
-            const newRow = document.createElement("tr");
-
-            newRow.innerHTML = `
-                <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
-                <td>${result.membership.emailAddress}</td>
-                <td>${result.membership.firstName}</td>
-                <td>${result.membership.lastName}</td>
-            `;
-
-            tableBody.appendChild(newRow);
+            alert('@Localizer["The account is already a member of the specified role."]')
+            return;
         }
+
+        const tableBody = document.querySelector("#membersTable tbody");
+        const newRow = document.createElement("tr");
+
+        newRow.innerHTML = `
+            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
+            <td>${result.membership.emailAddress}</td>
+            <td>${result.membership.firstName}</td>
+            <td>${result.membership.lastName}</td>
+        `;
+
+        tableBody.appendChild(newRow);
 
         addMemberToRoleModal.hide();
     });

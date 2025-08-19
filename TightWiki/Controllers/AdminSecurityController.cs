@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Security.Claims;
@@ -14,7 +13,6 @@ using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -39,13 +37,39 @@ namespace TightWiki.Controllers
 
                 InsertAccountRoleResult? result = null;
 
-                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId);
+                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, false);
                 if (!alreadyExists)
                 {
-                    result = UsersRepository.InsertAccountRoleIfNotExist(request.UserId, request.RoleId);
+                    result = UsersRepository.InsertAccountRole(request.UserId, request.RoleId);
                 }
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPost("AddRolePermission")]
+        public IActionResult AddRolePermission([FromBody] AddRolePermissionRequest request)
+        {
+            try
+            {
+                SessionState.RequireAdminPermission();
+
+                InsertRolePermissionResult? result = null;
+
+                bool alreadyExists = UsersRepository.IsRolePermissionDefined(
+                    request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, false);
+                if (!alreadyExists)
+                {
+                    result = UsersRepository.InsertRolePermission(
+                        request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId);
+                }
+
+                return Ok(new { success = true, alreadyExists = alreadyExists, permission = result, message = (string?)null });
             }
             catch (Exception ex)
             {
@@ -559,7 +583,7 @@ namespace TightWiki.Controllers
             {
                 pages.Insert(0, new Models.DataModels.Page
                 {
-                    Name = Localize("*"),
+                    Name = "*",
                     Navigation = "*"
                 });
             }
@@ -567,7 +591,7 @@ namespace TightWiki.Controllers
             return Json(pages.Select(o => new
             {
                 text = o.Name,
-                id = o.Navigation
+                id = o.Id
             }));
         }
 

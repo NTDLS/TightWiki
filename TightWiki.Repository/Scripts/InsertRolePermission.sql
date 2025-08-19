@@ -1,0 +1,27 @@
+INSERT INTO RolePermission(RoleId, PermissionId, [Namespace], PageId, PermissionDispositionId)
+SELECT @RoleId, @PermissionId, @Namespace, @PageId, @PermissionDispositionId;
+
+SELECT
+	RP.Id,
+	P.Name as Permission,
+	PD.Name as PermissionDisposition,
+	RP.Namespace,
+	RP.PageId,
+	CASE
+		WHEN RP.Namespace IS NOT NULL THEN
+			 RP.Namespace 
+		WHEN RP.PageId IS NOT NULL THEN
+			CASE WHEN RP.PageId = '*' THEN '*' ELSE PG.Name END
+	END as ResourceName
+FROM
+	RolePermission as RP
+INNER JOIN Role as R
+	ON R.Id = RP.RoleId
+INNER JOIN Permission as P
+	ON P.Id = RP.PermissionId
+INNER JOIN PermissionDisposition as PD
+	ON PD.Id = RP.PermissionDispositionId
+LEFT OUTER JOIN pages_db.[Page] as PG
+	ON Pg.Id = RP.PageId
+WHERE
+	RP.Id = last_insert_rowid()
