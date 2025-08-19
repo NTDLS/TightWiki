@@ -178,6 +178,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\InsertAccountRole.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompleteAccount.sql" />
     <EmbeddedResource Include="Scripts\AutoCompleteNamespace.sql" />
     <EmbeddedResource Include="Scripts\GetAllPermissions.sql" />
     <EmbeddedResource Include="Scripts\GetAllPermissionDispositions.sql" />

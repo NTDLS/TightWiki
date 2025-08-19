@@ -10,33 +10,15 @@ SELECT
 	(select UC.ClaimValue from AspNetUserClaims as UC WHERE UC.UserId = U.UserId AND UC.ClaimType LIKE '%/country') as Country,
 	U.CreatedDate,
 	U.ModifiedDate,
-	UCR.ClaimValue as Role,
-	ANU.EmailConfirmed,
-	@PageSize as PaginationPageSize,
-	(
-		SELECT
-			CAST((Count(0) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
-		FROM
-			Profile as P
-		INNER JOIN AspNetUserClaims as UCR
-			ON UCR.UserId = U.UserId
-			AND UCR.ClaimType LIKE '%/role' -- TODO: This is no longer supported by TightWiki.
-		INNER JOIN Role as R
-			ON R.Name = UCR.ClaimValue
-		WHERE
-			R.Id = @RoleId
-	) as PaginationPageCount
+	ANU.EmailConfirmed
 FROM
 	Profile as U
 INNER JOIN AspNetUsers as ANU
 	ON ANU.Id = U.UserId
-INNER JOIN AspNetUserClaims as UCR
-	ON UCR.UserId = U.UserId
-	AND UCR.ClaimType LIKE '%/role' -- TODO: This is no longer supported by TightWiki.
-INNER JOIN Role as R
-	ON R.Name = UCR.ClaimValue
+INNER JOIN AccountRole as R
+	ON R.UserId = U.UserId
 WHERE
-	R.Id = @RoleId
+	R.RoleId = @RoleId
 --CUSTOM_ORDER_BEGIN::
 --CONFIG::
 /*

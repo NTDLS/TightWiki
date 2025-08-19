@@ -117,7 +117,7 @@
             placeholder: "@Localizer["Search"]...",
             minimumInputLength: 0,
             ajax: {
-                url: '/Page/AutoCompletePage',
+                url: '@GlobalConfiguration.BasePath/Page/AutoCompletePage',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {

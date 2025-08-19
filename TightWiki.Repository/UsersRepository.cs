@@ -1,6 +1,5 @@
 ﻿using NTDLS.Helpers;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -11,6 +10,12 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
+        public static IEnumerable<AccountProfile> AutoCompleteAccount(string? searchText)
+            => ManagedDataStorage.Users.Query<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
+
+        public static InsertAccountRoleResult InsertAccountRole(Guid userId, int roleId)
+            => ManagedDataStorage.Users.QueryFirst<InsertAccountRoleResult>("InsertAccountRole.sql", new { UserId = userId, RoleId = roleId });
+
         /// <summary>
         /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.
         /// </summary>

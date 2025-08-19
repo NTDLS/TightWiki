@@ -1,16 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
+using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -24,6 +27,17 @@ namespace TightWiki.Controllers
         : WikiControllerBase<AdminSecurityController>(signInManager, userManager, localizer)
     {
         #region Roles.
+
+        [Authorize]
+        [HttpPost("AddRoleMember")]
+        public IActionResult AddRoleMember([FromBody] AddRoleMemberRequest request)
+        {
+            SessionState.RequireAdminPermission();
+
+            var result = UsersRepository.InsertAccountRole(request.UserId, request.RoleId);
+
+            return Ok(new { success = true, membership = result, message = (string?)null });
+        }
 
         [Authorize]
         [HttpGet("Role/{navigation}")]
@@ -509,10 +523,32 @@ namespace TightWiki.Controllers
         #region AutoComplete.
 
         [Authorize]
-        [HttpGet("AutoCompletePage")]
-        public ActionResult AutoCompletePage([FromQuery] string? q = null)
+        [HttpGet("AutoCompleteAccount")]
+        public ActionResult AutoCompleteAccount([FromQuery] string? q = null)
         {
-            var pages = PageRepository.AutoCompletePage(q);
+            var accounts = UsersRepository.AutoCompleteAccount(q).ToList();
+
+            return Json(accounts.Select(o => new
+            {
+                text = string.IsNullOrWhiteSpace(o.EmailAddress) ? o.AccountName : $"{o.AccountName} ({o.EmailAddress})",
+                id = o.UserId.ToString()
+            }));
+        }
+
+        [Authorize]
+        [HttpGet("AutoCompletePage")]
+        public ActionResult AutoCompletePage([FromQuery] string? q = null, [FromQuery] bool? showCatchAll = false)
+        {
+            var pages = PageRepository.AutoCompletePage(q).ToList();
+
+            if (showCatchAll == true)
+            {
+                pages.Insert(0, new Models.DataModels.Page
+                {
+                    Name = Localize("*"),
+                    Navigation = "*"
+                });
+            }
 
             return Json(pages.Select(o => new
             {
@@ -523,9 +559,14 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpGet("AutoCompleteNamespace")]
-        public ActionResult AutoCompleteNamespace([FromQuery] string? q = null)
+        public ActionResult AutoCompleteNamespace([FromQuery] string? q = null, [FromQuery] bool? showCatchAll = false)
         {
-            var namespaces = PageRepository.AutoCompleteNamespace(q);
+            var namespaces = PageRepository.AutoCompleteNamespace(q).ToList();
+
+            if (showCatchAll == true)
+            {
+                namespaces.Insert(0, "*");
+            }
 
             return Json(namespaces.Select(o => new
             {
@@ -535,6 +576,5 @@ namespace TightWiki.Controllers
         }
 
         #endregion
-
     }
 }

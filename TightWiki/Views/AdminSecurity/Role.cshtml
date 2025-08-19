@@ -148,7 +148,6 @@
     </div>
 </div>
 
-
 <script>
     //addPermissionToRoleModal Modal
 
@@ -195,15 +194,16 @@
 
         $('#addPermissionToRoleModalPage').select2({
             dropdownParent: $('#addPermissionToRoleModal'),
-            placeholder: "@Localizer["Search"]...",
+            placeholder: "@Localizer["Select a page"]",
             minimumInputLength: 0,
             ajax: {
-                url: '/AdminSecurity/AutocompletePage',
+                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutocompletePage',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
                     return {
-                        q: params.term
+                        q: params.term,
+                        showCatchAll: true
                     };
                 },
                 processResults: function(data) {
@@ -220,15 +220,16 @@
 
         $('#addPermissionToRoleModalNamespace').select2({
             dropdownParent: $('#addPermissionToRoleModal'),
-            placeholder: "@Localizer["Search"]...",
+            placeholder: "@Localizer["Select a namespace"]",
             minimumInputLength: 0,
             ajax: {
-                url: '/AdminSecurity/AutocompleteNamespace',
+                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutocompleteNamespace',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
                     return {
-                        q: params.term
+                        q: params.term,
+                        showCatchAll: true
                     };
                 },
                 processResults: function(data) {
@@ -255,6 +256,12 @@
                 }
             });
         });
+
+        $('#addPermissionToRoleModalPageDisposition').val(null).trigger('change');
+        $('#addPermissionToRoleModalPermission').val(null).trigger('change');
+        $('#addPermissionToRoleModalPage').val(null).trigger('change');
+        $('#addPermissionToRoleModalNamespace').val(null).trigger('change');
+
         addPermissionToRoleModalInitialized = true;
     });
 
@@ -341,48 +348,25 @@
     });
 </script>
 
-
 <div class="modal" tabindex="-1" id="addMemberToRoleModal" aria-labelledby="addMemberToRoleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localizer["Hyperlink"]</h5>
+                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localizer["Add Member to Role"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
             </div>
 
             <div class="modal-body p-3">
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
-                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
-                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
-                    </div>
-                </div>
-
                 <div>
-                    <label for="addMemberToRoleModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
-                    <input id="addMemberToRoleModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
-                </div>
-
-                <div id="linkInternalDiv">
-                    <label for="addMemberToRoleModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
-                    <select id="addMemberToRoleModalLinkPage" style="width: 100%"></select>
-                </div>
-
-                <div id="linkExternalDiv" style="display: none;">
-                    <label for="addMemberToRoleModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
-                    <input id="addMemberToRoleModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
+                    <label for="addMemberToRoleModalAccount" class="form-label fw-bold">@Localizer["Account"]</label>
+                    <select id="addMemberToRoleModalAccount" style="width: 100%"></select>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addMemberToRoleModalInsertButton">@Localizer["Insert"]</button>
+                    <button type="button" class="btn btn-success float-end" id="addMemberToRoleModalInsertButton">@Localizer["Add"]</button>
                 </div>
             </div>
         </div>
@@ -393,27 +377,22 @@
     //addMemberToRoleModal Modal
 
     const addMemberToRoleModal = new bootstrap.Modal('#addMemberToRoleModal');
+    var addMemberToRoleModalInitialized;
 
     //addMemberToRoleModal modal is about to be shown.
     document.getElementById('addMemberToRoleModal').addEventListener('shown.bs.modal', function() {
-        if (select2Initialized)
+        if (addMemberToRoleModalInitialized)
         {
             // Reset the defaults on the modal:
-            document.getElementById('addMemberToRoleModalLinkTitle').value = '';
-            document.getElementById('linkModePage').checked = true;
-            document.getElementById('linkInternalDiv').style.display = 'block';
-            document.getElementById('linkExternalDiv').style.display = 'none';
-            document.getElementById('addMemberToRoleModalLinkURL').value = '';
-            const $select = $('#addMemberToRoleModalLinkPage');
-            $select.val(null).trigger('change');
+            $('#addMemberToRoleModalAccount').val(null).trigger('change');
             return;
         }
-        $('#addMemberToRoleModalLinkPage').select2({
+        $('#addMemberToRoleModalAccount').select2({
             dropdownParent: $('#addMemberToRoleModal'),
-            placeholder: "@Localizer["Search"]...",
+            placeholder: "@Localizer["Select an account"]",
             minimumInputLength: 0,
             ajax: {
-                url: '/Page/Autocomplete',
+                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutoCompleteAccount',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -432,102 +411,60 @@
                 cache: true
             }
         });
-        document.querySelectorAll('input[name="linkMode"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                const mode = document.querySelector('input[name="linkMode"]:checked').value;
-                if (mode === 'page') {
-                    document.getElementById('linkInternalDiv').style.display = 'block';
-                    document.getElementById('linkExternalDiv').style.display = 'none';
-                } else {
-                    document.getElementById('linkInternalDiv').style.display = 'none';
-                    document.getElementById('linkExternalDiv').style.display = 'block';
-                }
-            });
-        });
-        select2Initialized = true;
+
+        $('#addMemberToRoleModalAccount').val(null).trigger('change');
+
+        addMemberToRoleModalInitialized = true;
     });
 
     //User clicked the add button on the addMemberToRoleModal
-    document.getElementById('addMemberToRoleModalInsertButton').addEventListener('click', function () {
-        /*
-        const linkText = document.getElementById('addMemberToRoleModalLinkTitle').value.trim();
-        const linkMode = document.querySelector('input[name="linkMode"]:checked')?.value;
+    document.getElementById('addMemberToRoleModalInsertButton').addEventListener('click', async function () {
 
-        let markdown = '';
-        let isValid = true;
+        let account = $('#addMemberToRoleModalAccount').select2('data');
 
-        if (linkMode === 'page') {
-            const selected = $('#addMemberToRoleModalLinkPage').select2('data')[0];
-            if (!selected) {
-                alert("@Localizer["Select a wiki page."]");
-                isValid = false;
-            } else {
-
-                if(!linkText)
-                {
-                    markdown = `[[${selected.text}]]`
-                }
-                else{
-                    markdown = `[[${selected.text}, \"${linkText}\"]]`
-                }
-            }
-        } else if (linkMode === 'url') {
-            const url = document.getElementById('addMemberToRoleModalLinkURL').value.trim();
-            if (!url) {
-                alert("@Localizer["Enter a URL."]");
-                isValid = false;
-            } else if (!/^https?:\/\//i.test(url)) {
-                alert("@Localizer["URL must start with"] http:// or https://");
-                isValid = false;
-            } else {
-
-                if(!linkText)
-                {
-                    markdown = `[[${url}]]`
-                }
-                else{
-                    markdown = `[[${url}, \"${linkText}\"]]`
-                }
-            }
-        } else {
-            isValid = false;
+        if (account.length <= 0) {
+            alert("@Localizer["You must select an account."]");
+            return;
         }
 
-        if (!isValid) return;
+        const payload = {
+            roleId: @Model.Id,
+            userId: account[0].id,
+        };
 
-        const doc = editor.getDoc();
-        var selection = doc.getSelection();
-
-        doc.replaceSelection(markdown);
-
-        // Select the new text.
-        const cursor = doc.getCursor();
-        doc.setSelection({
-            line: cursor.line,
-            ch: cursor.ch - (markdown.length + 4)
-        }, {
-            line: cursor.line,
-            ch: cursor.ch
+        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRoleMember', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         });
-        */
 
-        //e.preventDefault();
+        if (!response.ok) {
+            const txt = await response.text().catch(() => '');
+            alert('Save failed: ' + (txt || `${response.status} ${response.statusText}`));
+            return;
+        }
+
+        const result = await response.json();
+            if (!result.success) {
+            alert(result.message || 'Save failed.');
+            return;
+        }
 
         const tableBody = document.querySelector("#membersTable tbody");
-
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td><a href="/AdminSecurity/Account/12345">NewUser</a></td>
-            <td>newuser@example.com</td>
-            <td>First</td>
-            <td>Last</td>
+            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
+            <td>${result.membership.emailAddress}</td>
+            <td>${result.membership.firstName}</td>
+            <td>${result.membership.lastName}</td>
         `;
 
         tableBody.appendChild(newRow);
 
         addMemberToRoleModal.hide();
-        editor.focus();
     });
 </script>
 
