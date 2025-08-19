@@ -198,7 +198,7 @@ namespace TightWiki.Controllers
         [HttpGet("Moderate")]
         public ActionResult Moderate()
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
             SessionState.Page.Name = Localize("Page Moderation");
 
             var instruction = GetQueryValue("Instruction");
@@ -241,7 +241,7 @@ namespace TightWiki.Controllers
         [HttpGet("MissingPages")]
         public ActionResult MissingPages()
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
             SessionState.Page.Name = Localize("Missing Pages");
 
             var pageNumber = GetQueryValue("page", 1);
@@ -266,7 +266,7 @@ namespace TightWiki.Controllers
         [HttpGet("Namespaces")]
         public ActionResult Namespaces()
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
             SessionState.Page.Name = Localize("Namespaces");
 
             var pageNumber = GetQueryValue("page", 1);
@@ -287,7 +287,7 @@ namespace TightWiki.Controllers
         [HttpGet("Namespace/{namespaceName?}")]
         public ActionResult Namespace(string? namespaceName = null)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
             SessionState.Page.Name = Localize("Namespace");
 
             var pageNumber = GetQueryValue("page", 1);
@@ -322,7 +322,7 @@ namespace TightWiki.Controllers
         [HttpGet("Pages")]
         public ActionResult Pages()
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
             SessionState.Page.Name = Localize("Pages");
 
             var searchString = GetQueryValue("SearchString");
@@ -357,7 +357,7 @@ namespace TightWiki.Controllers
         [HttpPost("RevertPageRevision/{givenCanonical}/{revision:int}")]
         public ActionResult Revert(string givenCanonical, int revision, ConfirmActionViewModel model)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -383,7 +383,7 @@ namespace TightWiki.Controllers
         [HttpGet("DeletedPageRevisions/{pageId:int}")]
         public ActionResult DeletedPageRevisions(int pageId)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
@@ -418,7 +418,7 @@ namespace TightWiki.Controllers
         [HttpGet("DeletedPageRevision/{pageId:int}/{revision:int}")]
         public ActionResult DeletedPageRevision(int pageId, int revision)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var model = new DeletedPageRevisionViewModel();
 
@@ -441,7 +441,7 @@ namespace TightWiki.Controllers
         [HttpGet("PageRevisions/{givenCanonical}")]
         public ActionResult PageRevisions(string givenCanonical)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -481,7 +481,7 @@ namespace TightWiki.Controllers
         [HttpPost("DeletePageRevision/{givenCanonical}/{revision:int}")]
         public ActionResult DeletePageRevision(ConfirmActionViewModel model, string givenCanonical, int revision)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -524,7 +524,7 @@ namespace TightWiki.Controllers
         [HttpGet("DeletedPage/{pageId}")]
         public ActionResult DeletedPage(int pageId)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var model = new DeletedPageViewModel();
 
@@ -546,7 +546,7 @@ namespace TightWiki.Controllers
         [HttpGet("DeletedPages")]
         public ActionResult DeletedPages()
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var searchString = GetQueryValue("SearchString", string.Empty);
             var pageNumber = GetQueryValue("page", 1);
@@ -568,7 +568,7 @@ namespace TightWiki.Controllers
         [HttpPost("RebuildAllPages")]
         public ActionResult RebuildAllPages(ConfirmActionViewModel model)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -586,7 +586,7 @@ namespace TightWiki.Controllers
         [HttpPost("PreCacheAllPages")]
         public ActionResult PreCacheAllPages(ConfirmActionViewModel model)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var pool = new DelegateThreadPool();
 
@@ -630,7 +630,7 @@ namespace TightWiki.Controllers
         [HttpPost("TruncatePageRevisions")]
         public ActionResult TruncatePageRevisions(ConfirmActionViewModel model)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -646,7 +646,7 @@ namespace TightWiki.Controllers
         [HttpPost("PurgeDeletedPageRevisions/{pageId:int}")]
         public ActionResult PurgeDeletedPageRevisions(ConfirmActionViewModel model, int pageId)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -661,7 +661,7 @@ namespace TightWiki.Controllers
         [HttpPost("PurgeDeletedPageRevision/{pageId:int}/{revision:int}")]
         public ActionResult PurgeDeletedPageRevision(ConfirmActionViewModel model, int pageId, int revision)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -676,7 +676,7 @@ namespace TightWiki.Controllers
         [HttpPost("RestoreDeletedPageRevision/{pageId:int}/{revision:int}")]
         public ActionResult RestoreDeletedPageRevision(ConfirmActionViewModel model, int pageId, int revision)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -691,7 +691,7 @@ namespace TightWiki.Controllers
         [HttpPost("PurgeDeletedPages")]
         public ActionResult PurgeDeletedPages(ConfirmActionViewModel model)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -706,7 +706,7 @@ namespace TightWiki.Controllers
         [HttpPost("PurgeDeletedPage/{pageId:int}")]
         public ActionResult PurgeDeletedPage(ConfirmActionViewModel model, int pageId)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -736,7 +736,7 @@ namespace TightWiki.Controllers
         [HttpPost("RestoreDeletedPage/{pageId:int}")]
         public ActionResult RestoreDeletedPage(ConfirmActionViewModel model, int pageId)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             if (model.UserSelection == true)
             {
@@ -1030,7 +1030,7 @@ namespace TightWiki.Controllers
         [HttpGet("Emojis")]
         public ActionResult Emojis()
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
             SessionState.Page.Name = Localize("Emojis");
 
             var pageNumber = GetQueryValue("page", 1);
@@ -1053,7 +1053,7 @@ namespace TightWiki.Controllers
         [HttpGet("Emoji/{name}")]
         public ActionResult Emoji(string name)
         {
-            SessionState.RequirePermission(null, Permission.Moderate);
+            SessionState.RequirePermission(null, WikiPermission.Moderate);
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 

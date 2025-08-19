@@ -90,7 +90,7 @@
                 <button class="btn btn-thin btn-primary me-0" onclick="copyToClipboard('@x.Name', this); return false;">
                     <i class="bi bi-clipboard"></i>@Localizer["Copy Tag"]
                 </button>
-                @if (sessionState.HoldsPermission(Permission.Delete))
+                @if (sessionState.HoldsPermission(WikiPermission.Delete))
                 {
                     <button type="button"class="btn btn-thin btn-danger ms-0" data-file="@x.FileNavigation" onclick="detachFile(this.dataset.file)"> @Localizer["Detach"]</button>
                 }

@@ -39,7 +39,7 @@
 
                 <tbody>
 
-                    @foreach (var user in Model.Permissions)
+                    @foreach (var user in Model.AssignedPermissions)
                     {
                         <tr>
                             <td>@user.PermissionDisposition</td>
@@ -106,110 +106,96 @@
 
             <div class="modal-body p-3">
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
+                    <label class="form-label fw-bold">@Localizer["Resource"]</label><br />
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
-                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
+                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalPage" value="page" checked>
+                        <label class="form-check-label" for="addPermissionToRoleModalPage">@Localizer["Wiki Page"]</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
-                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
+                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalNamespace" value="namespace">
+                        <label class="form-check-label" for="addPermissionToRoleModalNamespace">@Localizer["Namespace"]</label>
                     </div>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
-                    <input id="addPermissionToRoleModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
+                    <label for="addPermissionToRoleModalPageDisposition" class="form-label fw-bold">@Localizer["Choose a disposition"]</label>
+                    <select id="addPermissionToRoleModalPageDisposition" style="width: 100%"></select>
                 </div>
 
-                <div id="linkInternalDiv">
-                    <label for="addPermissionToRoleModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
-                    <select id="addPermissionToRoleModalLinkPage" style="width: 100%"></select>
+                <div>
+                    <label for="addPermissionToRoleModalPermission" class="form-label fw-bold">@Localizer["Choose a permission"]</label>
+                    <select id="addPermissionToRoleModalPermission" style="width: 100%"></select>
                 </div>
 
-                <div id="linkExternalDiv" style="display: none;">
-                    <label for="addPermissionToRoleModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
-                    <input id="addPermissionToRoleModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
+                <div id="addPermissionToRoleModalPageDiv">
+                    <label for="addPermissionToRoleModalPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
+                    <select id="addPermissionToRoleModalPage" style="width: 100%"></select>
+                </div>
+
+                <div id="addPermissionToRoleModalNamespaceDiv" style="display: none;">
+                    <label for="addPermissionToRoleModalNamespace" class="form-label fw-bold">@Localizer["Choose a namespace"]</label>
+                    <select id="addPermissionToRoleModalNamespace" style="width: 100%"></select>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addPermissionToRoleModalInsertButton">@Localizer["Insert"]</button>
+                    <button type="button" class="btn btn-success float-end" id="addPermissionToRoleModalInsertButton">@Localizer["Add"]</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="modal" tabindex="-1" id="addMemberToRoleModal" aria-labelledby="addMemberToRoleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localizer["Hyperlink"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
-            </div>
-
-            <div class="modal-body p-3">
-                <div class="mb-3">
-                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
-                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
-                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="addMemberToRoleModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
-                    <input id="addMemberToRoleModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
-                </div>
-
-                <div id="linkInternalDiv">
-                    <label for="addMemberToRoleModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
-                    <select id="addMemberToRoleModalLinkPage" style="width: 100%"></select>
-                </div>
-
-                <div id="linkExternalDiv" style="display: none;">
-                    <label for="addMemberToRoleModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
-                    <input id="addMemberToRoleModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <div class="container-fluid">
-                    <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addMemberToRoleModalInsertButton">@Localizer["Insert"]</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
     //addPermissionToRoleModal Modal
 
     const addPermissionToRoleModal = new bootstrap.Modal('#addPermissionToRoleModal');
+    var addPermissionToRoleModalInitialized;
 
     //addPermissionToRoleModal modal is about to be shown.
     document.getElementById('addPermissionToRoleModal').addEventListener('shown.bs.modal', function() {
-        if (select2Initialized)
+        if (addPermissionToRoleModalInitialized)
         {
             // Reset the defaults on the modal:
-            document.getElementById('addPermissionToRoleModalLinkTitle').value = '';
-            document.getElementById('linkModePage').checked = true;
-            document.getElementById('linkInternalDiv').style.display = 'block';
-            document.getElementById('linkExternalDiv').style.display = 'none';
-            document.getElementById('addPermissionToRoleModalLinkURL').value = '';
-            const $select = $('#addPermissionToRoleModalLinkPage');
-            $select.val(null).trigger('change');
+            document.getElementById('addPermissionToRoleModalPage').checked = true;
+
+            document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'block';
+            document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'none';
+
+            $('#addPermissionToRoleModalPageDisposition').val(null).trigger('change');
+            $('#addPermissionToRoleModalPermission').val(null).trigger('change');
+            $('#addPermissionToRoleModalPage').val(null).trigger('change');
+            $('#addPermissionToRoleModalNamespace').val(null).trigger('change');
+
             return;
         }
-        $('#addPermissionToRoleModalLinkPage').select2({
+
+        $('#addPermissionToRoleModalPageDisposition').select2({
+            placeholder: "@Localizer["Select a disposition"]",
+            width: '100%',
+            data: @Json.Serialize(Model.PermissionDispositions),
+            allowClear: true,
+            dropdownParent: $('#addPermissionToRoleModal'),
+        }).on('change', function () {
+            // Trigger unobtrusive validation re-check if you use it
+            $(this).valid && $(this).valid();
+        });
+
+        $('#addPermissionToRoleModalPermission').select2({
+            placeholder: "@Localizer["Select a permission"]",
+            width: '100%',
+            data: @Json.Serialize(Model.Permissions),
+            allowClear: true,
+            dropdownParent: $('#addPermissionToRoleModal'),
+        }).on('change', function () {
+            // Trigger unobtrusive validation re-check if you use it
+            $(this).valid && $(this).valid();
+        });
+
+        $('#addPermissionToRoleModalPage').select2({
             dropdownParent: $('#addPermissionToRoleModal'),
             placeholder: "@Localizer["Search"]...",
             minimumInputLength: 0,
@@ -233,19 +219,45 @@
                 cache: true
             }
         });
-        document.querySelectorAll('input[name="linkMode"]').forEach(radio => {
+
+        $('#addPermissionToRoleModalNamespace').select2({
+            dropdownParent: $('#addPermissionToRoleModal'),
+            placeholder: "@Localizer["Search"]...",
+            minimumInputLength: 0,
+            ajax: {
+                url: '/Page/Autocomplete',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term
+                    };
+                },
+                processResults: function(data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.text
+                        }))
+                    };
+                },
+                cache: true
+            }
+        });
+
+        document.querySelectorAll('input[name="addPermissionToRoleModalMode"]').forEach(radio => {
             radio.addEventListener('change', () => {
-                const mode = document.querySelector('input[name="linkMode"]:checked').value;
+                const mode = document.querySelector('input[name="addPermissionToRoleModalMode"]:checked').value;
                 if (mode === 'page') {
-                    document.getElementById('linkInternalDiv').style.display = 'block';
-                    document.getElementById('linkExternalDiv').style.display = 'none';
+                    document.getElementById('addPermissionToRoleModalPage').style.display = 'block';
+                    document.getElementById('addPermissionToRoleModalNamespace').style.display = 'none';
                 } else {
-                    document.getElementById('linkInternalDiv').style.display = 'none';
-                    document.getElementById('linkExternalDiv').style.display = 'block';
+                    document.getElementById('addPermissionToRoleModalPage').style.display = 'none';
+                    document.getElementById('addPermissionToRoleModalNamespace').style.display = 'block';
                 }
             });
         });
-        select2Initialized = true;
+        addPermissionToRoleModalInitialized = true;
     });
 
     //User clicked the add button on the addPermissionToRoleModal
@@ -256,7 +268,7 @@
 
         let markdown = '';
         let isValid = true;
-        
+
         if (linkMode === 'page') {
             const selected = $('#addPermissionToRoleModalLinkPage').select2('data')[0];
             if (!selected) {
@@ -330,6 +342,54 @@
         editor.focus();
     });
 </script>
+
+
+<div class="modal" tabindex="-1" id="addMemberToRoleModal" aria-labelledby="addMemberToRoleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localizer["Hyperlink"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+            </div>
+
+            <div class="modal-body p-3">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
+                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
+                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="addMemberToRoleModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
+                    <input id="addMemberToRoleModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
+                </div>
+
+                <div id="linkInternalDiv">
+                    <label for="addMemberToRoleModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
+                    <select id="addMemberToRoleModalLinkPage" style="width: 100%"></select>
+                </div>
+
+                <div id="linkExternalDiv" style="display: none;">
+                    <label for="addMemberToRoleModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
+                    <input id="addMemberToRoleModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <em class="small"></em>
+                    <button type="button" class="btn btn-success float-end" id="addMemberToRoleModalInsertButton">@Localizer["Insert"]</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     //addMemberToRoleModal Modal

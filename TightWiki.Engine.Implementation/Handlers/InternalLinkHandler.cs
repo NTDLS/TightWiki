@@ -29,7 +29,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
             if (page == null)
             {
-                if (state.Session?.HoldsPermission(pageNavigation.Canonical, Permission.Create) == true)
+                if (state.Session?.HoldsPermission(pageNavigation.Canonical, WikiPermission.Create) == true)
                 {
                     if (image != null)
                     {

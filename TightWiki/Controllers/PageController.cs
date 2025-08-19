@@ -64,7 +64,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/{pageRevision:int?}")]
         public IActionResult Display(string givenCanonical, int? pageRevision)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Read);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
 
             var model = new PageDisplayViewModel();
             var navigation = new NamespaceNavigation(givenCanonical);
@@ -158,7 +158,7 @@ namespace TightWiki.Controllers
 
                 model.HideFooterComments = true;
 
-                if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, Permission.Create))
+                if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, WikiPermission.Create))
                 {
                     SessionState.ShouldCreatePage = false;
                 }
@@ -178,7 +178,7 @@ namespace TightWiki.Controllers
 
                 model.HideFooterComments = true;
 
-                if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, Permission.Create))
+                if (SessionState.IsAuthenticated && SessionState.HoldsPermission(givenCanonical, WikiPermission.Create))
                 {
                     SessionState.ShouldCreatePage = true;
                 }
@@ -312,7 +312,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Comments")]
         public ActionResult Comments(string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Read);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -325,7 +325,7 @@ namespace TightWiki.Controllers
             var deleteAction = GetQueryValue("Delete");
             if (string.IsNullOrEmpty(deleteAction) == false && SessionState.IsAuthenticated)
             {
-                if (SessionState.HoldsPermission(givenCanonical, Permission.Moderate))
+                if (SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
                 {
                     //Moderators and administrators can delete comments that they do not own.
                     PageRepository.DeletePageCommentById(pageInfo.Id, int.Parse(deleteAction));
@@ -367,7 +367,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Comments")]
         public ActionResult Comments(PageCommentsViewModel model, string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Edit);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Edit);
 
             if (!ModelState.IsValid)
             {
@@ -441,7 +441,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Compare/{pageRevision:int}")]
         public ActionResult Compare(string givenCanonical, int pageRevision)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Read);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -476,7 +476,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Revisions")]
         public ActionResult Revisions(string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Read);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -520,7 +520,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Delete")]
         public ActionResult Delete(string givenCanonical, PageDeleteViewModel model)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Delete);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Delete);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -547,7 +547,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Delete")]
         public ActionResult Delete(string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Delete);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Delete);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -580,7 +580,7 @@ namespace TightWiki.Controllers
         [HttpPost("{givenCanonical}/Revert/{pageRevision:int}")]
         public ActionResult Revert(string givenCanonical, int pageRevision, PageRevertViewModel model)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Moderate);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Moderate);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -599,7 +599,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Revert/{pageRevision:int}")]
         public ActionResult Revert(string givenCanonical, int pageRevision)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Moderate);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Moderate);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -636,7 +636,7 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Create")]
         public ActionResult Edit(string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Edit);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Edit);
 
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
@@ -646,7 +646,7 @@ namespace TightWiki.Controllers
             if (page != null)
             {
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.EnsureNotNull().Id);
-                if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(givenCanonical, Permission.Moderate))
+                if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
                 {
                     return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                 }
@@ -713,7 +713,7 @@ namespace TightWiki.Controllers
             if (model.Id == 0) //Saving a new page.
             {
                 var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
-                SessionState.RequirePermission(navigation, Permission.Create);
+                SessionState.RequirePermission(navigation, WikiPermission.Create);
 
                 var page = new Page()
                 {
@@ -744,11 +744,11 @@ namespace TightWiki.Controllers
             {
                 var navigation = NamespaceNavigation.CleanAndValidate(model.Name);
 
-                SessionState.RequirePermission(navigation, Permission.Edit);
+                SessionState.RequirePermission(navigation, WikiPermission.Edit);
 
                 var page = PageRepository.GetPageRevisionById(model.Id).EnsureNotNull();
                 var instructions = PageRepository.GetPageProcessingInstructionsByPageId(page.Id);
-                if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(navigation, Permission.Moderate))
+                if (instructions.Contains(WikiInstruction.Protect) && !SessionState.HoldsPermission(navigation, WikiPermission.Moderate))
                 {
                     return NotifyOfError(Localize("The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed."));
                 }
@@ -899,7 +899,7 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Png/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
         public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
-            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
+            SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -964,7 +964,7 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Binary/{givenPageNavigation}/{givenFileNavigation}/{pageRevision:int?}")]
         public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? pageRevision = null)
         {
-            SessionState.RequirePermission(givenPageNavigation, Permission.Read);
+            SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
 
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
@@ -990,7 +990,7 @@ namespace TightWiki.Controllers
         [HttpGet("{givenCanonical}/Export")]
         public IActionResult Export(string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, Permission.Read);
+            SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
 
             var navigation = new NamespaceNavigation(givenCanonical);
 

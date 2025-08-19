@@ -22,7 +22,7 @@
             Anonymous
         }
 
-        public enum Permission
+        public enum WikiPermission
         {
             Read,
             Edit,

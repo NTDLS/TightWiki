@@ -44,6 +44,26 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
+        public static List<PermissionDisposition> GetAllPermissionDispositions()
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<PermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql").ToList();
+            }).EnsureNotNull();
+        }
+
+        public static List<WikiPermission> GetAllPermissions()
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<WikiPermission>(@"Scripts\GetAllPermissions.sql").ToList<WikiPermission>();
+            }).EnsureNotNull();
+        }
+
         public static List<RolePermission> GetRolePermissionsForDisplay(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             return ManagedDataStorage.Users.Ephemeral(o =>

@@ -42,8 +42,11 @@ namespace TightWiki.Controllers
                 Name = role.Name,
                 Users = UsersRepository.GetRoleMembersPaged(role.Id,
                     GetQueryValue("usersPage", 1), GetQueryValue("usersOrderBy"), GetQueryValue("usersOrderByDirection")),
-                Permissions = UsersRepository.GetRolePermissionsForDisplay(role.Id,
-                    GetQueryValue("rolesPage", 1), GetQueryValue("rolesOrderBy"), GetQueryValue("rolesOrderByDirection"))
+                AssignedPermissions = UsersRepository.GetRolePermissionsForDisplay(role.Id,
+                    GetQueryValue("rolesPage", 1), GetQueryValue("rolesOrderBy"), GetQueryValue("rolesOrderByDirection")),
+
+                PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
+                Permissions = UsersRepository.GetAllPermissions()
             };
 
             model.PaginationPageCount = (model.Users.FirstOrDefault()?.PaginationPageCount ?? 0);

@@ -179,6 +179,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\AutoCompleteNamespace.sql" />
+    <EmbeddedResource Include="Scripts\GetAllPermissions.sql" />
+    <EmbeddedResource Include="Scripts\GetAllPermissionDispositions.sql" />
     <EmbeddedResource Include="Scripts\GetAccountPermissionsForDisplay.sql" />
     <EmbeddedResource Include="Scripts\GetRolePermissionsForDisplay.sql" />
     <EmbeddedResource Include="Scripts\GetApparentRolePermissions.sql" />
