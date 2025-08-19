@@ -1,64 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
+  
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -121,9 +63,117 @@
     <value>الاسم</value>
   </data>
   <data name="Role {0}" xml:space="preserve">
-    <value />
+    <value>الدور {0}</value>
   </data>
   <data name="Role membership." xml:space="preserve">
     <value>عضوية الدور.</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>عضوية الدور والأذونات.</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>أذونات</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>إضافة إذن إلى الدور</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>التصرف</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>إذن</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>المورد</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>الإجراء</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>اسم المساحة</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>الصفحة</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>الأعضاء</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>إضافة عضو إلى الدور</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>الاسم الأخير</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>هل أنت متأكد أنك ترغب في إزالة الإذن من هذا الدور؟</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>فشلت عملية الإزالة</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>هل أنت متأكد أنك ترغب في إزالة العضو من هذا الدور؟</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>نوع المورد</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>صفحة ويكي</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>اختر تصرفًا</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>اختر إذنًا</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>اختر صفحة</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>اختر اسم مساحة</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>يجب عليك اختيار تصرف الإذن.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>يجب عليك اختيار إذن.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>يجب عليك اختيار صفحة.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>يجب عليك اختيار اسم مساحة.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>يجب عليك اختيار إما صفحة أو اسم مساحة.</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>الدور يحتوي بالفعل على الإذن المحدد.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>اختر حسابًا</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>يجب عليك اختيار حساب.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>الحساب هو بالفعل عضو في الدور المحدد.</value>
   </data>
 </root>

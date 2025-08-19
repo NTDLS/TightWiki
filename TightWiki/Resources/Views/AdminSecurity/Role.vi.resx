@@ -1,64 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
+  
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -121,9 +63,117 @@
     <value>Tên</value>
   </data>
   <data name="Role {0}" xml:space="preserve">
-    <value />
+    <value>Vai trò {0}</value>
   </data>
   <data name="Role membership." xml:space="preserve">
     <value>Thành viên vai trò.</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>Thành viên vai trò và quyền hạn.</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Quyền hạn</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>Thêm quyền hạn vào vai trò</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Hành động</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Quyền</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Tài nguyên</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Hành động</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Không gian tên</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>TẤT CẢ</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Trang</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>Thành viên</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>Thêm thành viên vào vai trò</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Địa chỉ Email</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Họ</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa quyền này khỏi vai trò này không?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Xóa không thành công</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Bạn có chắc chắn muốn xóa thành viên này khỏi vai trò này không?</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Loại tài nguyên</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Trang Wiki</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Thêm</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Chọn một cách xử lý</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>Chọn một quyền hạn</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Chọn một trang</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Chọn một không gian tên</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Bạn phải chọn một cách xử lý quyền hạn.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Bạn phải chọn một quyền hạn.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Bạn phải chọn một trang.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Bạn phải chọn một không gian tên.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Bạn phải chọn hoặc trang hoặc không gian tên.</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Vai trò đã có quyền hạn được chỉ định.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Chọn một tài khoản</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Bạn phải chọn một tài khoản.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Tài khoản này đã là thành viên của vai trò được chỉ định.</value>
   </data>
 </root>

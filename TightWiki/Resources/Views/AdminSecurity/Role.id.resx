@@ -1,64 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
+  
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -121,9 +63,117 @@
     <value>Nama</value>
   </data>
   <data name="Role {0}" xml:space="preserve">
-    <value />
+    <value>Peran {0}</value>
   </data>
   <data name="Role membership." xml:space="preserve">
     <value>Keanggotaan peran.</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>Keanggotaan dan izin peran.</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Izin</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>Tambahkan Izin ke Peran</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Izin</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Sumber daya</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Aksi</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Ruang nama</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>SEMUA</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Halaman</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>Anggota</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>Tambahkan Anggota ke Peran</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Alamat Email</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Nama Depan</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Nama Belakang</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus izin dari peran ini?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Penghapusan gagal</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus anggota dari peran ini?</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Jenis sumber daya</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Halaman Wiki</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Tambah</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Pilih suatu disposition</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>Pilih suatu izin</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Pilih suatu halaman</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Pilih suatu ruang nama</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Anda harus memilih suatu disposition izin.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Anda harus memilih suatu izin.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Anda harus memilih suatu halaman.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Anda harus memilih suatu ruang nama.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Anda harus memilih baik halaman atau ruang nama.</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Peran ini sudah memiliki izin yang ditentukan.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Akun</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Pilih suatu akun</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Anda harus memilih suatu akun.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Akun ini sudah menjadi anggota dari peran yang ditentukan.</value>
   </data>
 </root>
