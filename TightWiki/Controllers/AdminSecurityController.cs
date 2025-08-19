@@ -8,6 +8,7 @@ using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
+using TightWiki.Models.DataModels;
 using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.AdminSecurity;
 using TightWiki.Models.ViewModels.Profile;
@@ -32,11 +33,24 @@ namespace TightWiki.Controllers
         [HttpPost("AddRoleMember")]
         public IActionResult AddRoleMember([FromBody] AddRoleMemberRequest request)
         {
-            SessionState.RequireAdminPermission();
+            try
+            {
+                SessionState.RequireAdminPermission();
 
-            var result = UsersRepository.InsertAccountRole(request.UserId, request.RoleId);
+                InsertAccountRoleResult? result = null;
 
-            return Ok(new { success = true, membership = result, message = (string?)null });
+                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId);
+                if (!alreadyExists)
+                {
+                    result = UsersRepository.InsertAccountRoleIfNotExist(request.UserId, request.RoleId);
+                }
+
+                return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
         }
 
         [Authorize]

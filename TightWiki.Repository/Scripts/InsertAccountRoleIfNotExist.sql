@@ -1,5 +1,8 @@
 INSERT INTO AccountRole(UserId, RoleId)
-SELECT @UserId, @RoleId;
+SELECT @UserId, @RoleId
+WHERE NOT EXISTS (
+	SELECT 1 FROM AccountRole WHERE UserId = @UserId AND RoleId = @RoleId
+);
 
 SELECT
 	AR.Id,

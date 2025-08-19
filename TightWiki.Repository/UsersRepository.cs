@@ -10,11 +10,24 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
+        public static bool IsAccountAMemberOfRole(Guid userId, int roleId, bool allowCache = true)
+        {
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId]);
+
+                return WikiCache.AddOrGet(cacheKey, () =>
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", new { UserId = userId, RoleId = roleId }) ?? false
+                );
+            }
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", new { UserId = userId, RoleId = roleId }) ?? false;
+        }
+
         public static IEnumerable<AccountProfile> AutoCompleteAccount(string? searchText)
             => ManagedDataStorage.Users.Query<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static InsertAccountRoleResult InsertAccountRole(Guid userId, int roleId)
-            => ManagedDataStorage.Users.QueryFirst<InsertAccountRoleResult>("InsertAccountRole.sql", new { UserId = userId, RoleId = roleId });
+        public static InsertAccountRoleResult? InsertAccountRoleIfNotExist(Guid userId, int roleId)
+            => ManagedDataStorage.Users.QueryFirstOrDefault<InsertAccountRoleResult>("InsertAccountRoleIfNotExist.sql", new { UserId = userId, RoleId = roleId });
 
         /// <summary>
         /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.

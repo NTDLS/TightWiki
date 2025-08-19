@@ -452,17 +452,20 @@
             return;
         }
 
-        const tableBody = document.querySelector("#membersTable tbody");
-        const newRow = document.createElement("tr");
+        if(result.alreadyExists == false)
+        {
+            const tableBody = document.querySelector("#membersTable tbody");
+            const newRow = document.createElement("tr");
 
-        newRow.innerHTML = `
-            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
-            <td>${result.membership.emailAddress}</td>
-            <td>${result.membership.firstName}</td>
-            <td>${result.membership.lastName}</td>
-        `;
+            newRow.innerHTML = `
+                <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
+                <td>${result.membership.emailAddress}</td>
+                <td>${result.membership.firstName}</td>
+                <td>${result.membership.lastName}</td>
+            `;
 
-        tableBody.appendChild(newRow);
+            tableBody.appendChild(newRow);
+        }
 
         addMemberToRoleModal.hide();
     });
