@@ -55,8 +55,8 @@ namespace TightWiki.Repository
         public static IEnumerable<AccountProfile> AutoCompleteAccount(string? searchText)
             => ManagedDataStorage.Users.Query<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
 
-        public static InsertAccountRoleResult? InsertAccountRole(Guid userId, int roleId)
-            => ManagedDataStorage.Users.QueryFirstOrDefault<InsertAccountRoleResult>("InsertAccountRole.sql", new { UserId = userId, RoleId = roleId });
+        public static AddRoleMemberResult? AddRoleMember(Guid userId, int roleId)
+            => ManagedDataStorage.Users.QueryFirstOrDefault<AddRoleMemberResult>("AddRoleMember.sql", new { UserId = userId, RoleId = roleId });
 
         public static void RemoveRoleMember(int roleId, Guid userId)
             => ManagedDataStorage.Users.Execute("RemoveRoleMember.sql", new { RoleId = roleId, UserId = userId });

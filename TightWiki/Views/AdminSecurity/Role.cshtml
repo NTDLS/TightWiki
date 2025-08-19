@@ -56,7 +56,7 @@
                                     <span><span class="text-muted">@Localizer["Page"]:</span> @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)</span>
                                 }
                             </td>
-                            <td><a class="btn btn-warning btn-thin" onclick="removePermission('@permission.Id')">@Localizer["Remove"]</a></td>
+                            <td><a class="btn btn-warning btn-thin" onclick="removePermission(this, '@permission.Id')">@Localizer["Remove"]</a></td>
                         </tr>
                     }
                 </tbody>
@@ -92,7 +92,7 @@
                             <td>@member.EmailAddress</td>
                             <td>@member.FirstName</td>
                             <td>@member.LastName</td>
-                            <td><a class="btn btn-warning btn-thin" onclick="removeMember('@member.UserId')">@Localizer["Remove"]</a></td>
+                            <td><a class="btn btn-warning btn-thin" onclick="removeMember(this, '@member.UserId')">@Localizer["Remove"]</a></td>
                         </tr>
                     }
                 </tbody>
@@ -102,8 +102,8 @@
 }
 
 <script>
-    function removePermission(permissionId) {
-        if (!confirm(@Localizer["Are you sure you want to remove the permission from this role?"])) {
+    async function removePermission(button, permissionId) {
+        if (!confirm('@Localizer["Are you sure you want to remove the permission from this role?"]')) {
             return;
         }
 
@@ -122,10 +122,12 @@
             alert(result.message || '@Localizer["Removal failed"]');
             return;
         }
+
+        button.closest("tr").remove();
     }
 
-    async function removeMember(userId) {
-        if (!confirm(@Localizer["Are you sure you want to remove the member from this role?"])) {
+    async function removeMember(button, userId) {
+        if (!confirm('@Localizer["Are you sure you want to remove the member from this role?"]')) {
             return;
         }
 
@@ -144,6 +146,8 @@
             alert(result.message || '@Localizer["Removal failed"]');
             return;
         }
+
+        button.closest("tr").remove();
     }
 </script>
 
@@ -160,11 +164,11 @@
                     <label class="form-label fw-bold mt-2">@Localizer["Resource type"]</label><br />
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModePage" value="page" checked>
-                        <label class="form-check-label" for="addPermissionToRoleModalPage">@Localizer["Wiki Page"]</label>
+                        <label class="form-check-label" for="addPermissionToRoleModalModePage">@Localizer["Wiki Page"]</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModeNamespace" value="namespace">
-                        <label class="form-check-label" for="addPermissionToRoleModalNamespace">@Localizer["Namespace"]</label>
+                        <label class="form-check-label" for="addPermissionToRoleModalModeNamespace">@Localizer["Namespace"]</label>
                     </div>
                 </div>
 
@@ -324,6 +328,9 @@
         let page = $('#addPermissionToRoleModalPage').select2('data');
         let namespace = $('#addPermissionToRoleModalNamespace').select2('data');
 
+        let pageId;
+        let namespaceId;
+
         if (!disposition) {
             alert("@Localizer["You must select a permission disposition."]");
             return;
@@ -333,28 +340,35 @@
             return;
         }
 
-        if(document.getElementById('addPermissionToRoleModalPage').checked == true)
+        if(document.getElementById('addPermissionToRoleModalModePage').checked == true)
         {
             if (!page) {
                 alert("@Localizer["You must select a page."]");
                 return;
             }
+            pageId = page[0].id;
         }
-        else if(document.getElementById('addPermissionToRoleModalNamespace').checked == true)
+        else if(document.getElementById('addPermissionToRoleModalModeNamespace').checked == true)
         {
             if (!namespace) {
                 alert("@Localizer["You must select a namespace."]");
                 return;
             }
+            namespaceId = namespace[0].id;
+        }
+        else{
+            alert("@Localizer["You must select either page or namespace."]");
         }
 
         const payload = {
             roleId: @Model.Id,
             permissionId: permission[0].id,
             permissionDispositionId: disposition[0].id,
-            namespace: namespace.text,
-            pageId: page[0].id
+            namespace: namespaceId,
+            pageId: pageId
         };
+
+        console.log(payload);
 
         const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRolePermission', {
             method: 'POST',
@@ -396,6 +410,7 @@
                         : ""
                 }
             </td>
+            <td><a class="btn btn-warning btn-thin" onclick="removePermission(this, '${result.permission.id}')">@Localizer["Remove"]</a></td>
         `;
 
         tableBody.appendChild(newRow);
@@ -521,7 +536,7 @@
             <td>${result.membership.emailAddress}</td>
             <td>${result.membership.firstName}</td>
             <td>${result.membership.lastName}</td>
-            <td><a class="btn btn-warning btn-thin" onclick="removeMember('${result.membership.userId}')">@Localizer["Remove"]</a></td>
+            <td><a class="btn btn-warning btn-thin" onclick="removeMember(this, '${result.membership.userId}')">@Localizer["Remove"]</a></td>
         `;
 
         tableBody.appendChild(newRow);
@@ -529,4 +544,3 @@
         addMemberToRoleModal.hide();
     });
 </script>
-

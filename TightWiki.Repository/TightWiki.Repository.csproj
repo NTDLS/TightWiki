@@ -183,7 +183,7 @@
     <EmbeddedResource Include="Scripts\InsertRolePermission.sql" />
     <EmbeddedResource Include="Scripts\IsRolePermissionDefined.sql" />
     <EmbeddedResource Include="Scripts\IsAccountAMemberOfRole.sql" />
-    <EmbeddedResource Include="Scripts\InsertAccountRole.sql" />
+    <EmbeddedResource Include="Scripts\AddRoleMember.sql" />
     <EmbeddedResource Include="Scripts\AutoCompleteAccount.sql" />
     <EmbeddedResource Include="Scripts\AutoCompleteNamespace.sql" />
     <EmbeddedResource Include="Scripts\GetAllPermissions.sql" />

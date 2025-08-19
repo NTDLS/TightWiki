@@ -1,5 +1,5 @@
 INSERT INTO AccountRole(UserId, RoleId)
-SELECT @UserId, @RoleId
+SELECT @UserId, @RoleId;
 
 SELECT
 	AR.Id,

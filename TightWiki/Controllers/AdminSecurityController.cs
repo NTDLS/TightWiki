@@ -15,6 +15,7 @@ using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
+using static System.Net.Mime.MediaTypeNames;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -37,12 +38,12 @@ namespace TightWiki.Controllers
             {
                 SessionState.RequireAdminPermission();
 
-                InsertAccountRoleResult? result = null;
+                AddRoleMemberResult? result = null;
 
                 bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, false);
                 if (!alreadyExists)
                 {
-                    result = UsersRepository.InsertAccountRole(request.UserId, request.RoleId);
+                    result = UsersRepository.AddRoleMember(request.UserId, request.RoleId);
                 }
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
@@ -613,20 +614,22 @@ namespace TightWiki.Controllers
         {
             var pages = PageRepository.AutoCompletePage(q).ToList();
 
+            var results = pages.Select(o => new
+            {
+                text = o.Name,
+                id = o.Id.ToString()
+            }).ToList();
+
             if (showCatchAll == true)
             {
-                pages.Insert(0, new Models.DataModels.Page
-                {
-                    Name = "*",
-                    Navigation = "*"
+                results.Insert(0, 
+                new {
+                    text = "*",
+                    id = "*"
                 });
             }
 
-            return Json(pages.Select(o => new
-            {
-                text = o.Name,
-                id = o.Id
-            }));
+            return Json(results);
         }
 
         [Authorize]
