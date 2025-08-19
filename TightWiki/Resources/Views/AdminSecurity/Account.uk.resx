@@ -80,8 +80,8 @@
   <data name="Country" xml:space="preserve">
     <value>Країна</value>
   </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>Видалити обліковий запис</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>Адреса електронної пошти</value>

@@ -14,7 +14,7 @@
         <p class="card-text">
             @Localizer.Format("You are viewing a page revision which was deleted on {0} by {1}.", Model.DeletedDate, Model.DeletedByUserName)<br />
 
-            @TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+            @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
                 Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
                 Localizer["Restore This Revision"].Value, $"/Admin/RestoreDeletedPageRevision/{Model.PageId}/{Model.Revision}", "/Admin/DeletedPageRevisions", Context.Request.Path.Value)
             <br />

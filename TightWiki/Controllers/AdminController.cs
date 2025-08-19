@@ -901,32 +901,18 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpGet("DeleteMenuItem/{id}")]
-        public ActionResult DeleteMenuItem(int id)
+        [HttpPost("DeleteMenuItem/{id:int}")]
+        public ActionResult DeleteRole(ConfirmActionViewModel model, int id)
         {
             SessionState.RequireAdminPermission();
 
-            var model = ConfigurationRepository.GetMenuItemById(id);
-            SessionState.Page.Name = Localize("{0} Delete", model.Name);
-
-            return View(model.ToViewModel());
-        }
-
-        [Authorize]
-        [HttpPost("DeleteMenuItem/{id}")]
-        public ActionResult DeleteMenuItem(MenuItemViewModel model)
-        {
-            SessionState.RequireAdminPermission();
-
-            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
-            if (confirmAction == true)
+            if (model.UserSelection == true)
             {
-                ConfigurationRepository.DeleteMenuItemById(model.Id);
-
-                return NotifyOfSuccess(Localize("The menu item has been deleted."), $"/Admin/MenuItems");
+                ConfigurationRepository.DeleteMenuItemById(id);
+                return NotifyOfSuccess(Localize("The specified menu item has been deleted."), model.YesRedirectURL);
             }
 
-            return Redirect($"{GlobalConfiguration.BasePath}/Admin/MenuItem/{model.Id}");
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion
@@ -1215,43 +1201,19 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("DeleteEmoji/{name}")]
-        public ActionResult DeleteEmoji(string name, EmojiViewModel model)
+        public ActionResult DeleteRole(ConfirmActionViewModel model, string name)
         {
             SessionState.RequireAdminPermission();
 
             var emoji = EmojiRepository.GetEmojiByName(name);
 
-            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
-            if (confirmAction == true && emoji != null)
+            if (model.UserSelection == true && emoji != null)
             {
                 EmojiRepository.DeleteById(emoji.Id);
-
-                return NotifyOfSuccess(Localize("The emoji has been deleted."), $"/Admin/Emojis");
+                return NotifyOfSuccess(Localize("The specified emoji has been deleted."), model.YesRedirectURL);
             }
 
-            return Redirect($"{GlobalConfiguration.BasePath}/Admin/Emoji/{name}");
-        }
-
-        [Authorize]
-        [HttpGet("DeleteEmoji/{name}")]
-        public ActionResult DeleteEmoji(string name)
-        {
-            SessionState.RequireAdminPermission();
-            SessionState.Page.Name = Localize("Delete Emoji");
-
-            var emoji = EmojiRepository.GetEmojiByName(name);
-
-            var model = new EmojiViewModel()
-            {
-                OriginalName = emoji?.Name ?? string.Empty
-            };
-
-            if (emoji != null)
-            {
-                SessionState.Page.Name = Localize("Delete {0}", emoji.Name);
-            }
-
-            return View(model);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion

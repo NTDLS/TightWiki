@@ -10,11 +10,9 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.AdminSecurity;
-using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -653,8 +651,9 @@ namespace TightWiki.Controllers
 
             if (showCatchAll == true)
             {
-                results.Insert(0, 
-                new {
+                results.Insert(0,
+                new
+                {
                     text = "*",
                     id = "*"
                 });

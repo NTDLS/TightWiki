@@ -80,8 +80,8 @@
   <data name="Country" xml:space="preserve">
     <value>Stát</value>
   </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>Smazat účet</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Odstranit</value>
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>Emailová adresa</value>

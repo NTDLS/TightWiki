@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>Bạn có chắc chắn muốn tiếp tục với việc xóa này không?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>Xóa trang \"{0}\"?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Xóa trang '{0}'?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Việc xóa \"{0}\" sẽ di chuyển trang, tất cả {1} phiên bản và {2} tệp đính kèm vào hàng chờ xóa.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Xóa '{0}' sẽ di chuyển trang cùng với tất cả {1} phiên bản sửa đổi và {2} tệp đính kèm vào hàng chờ xóa.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Không</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>Hành động này chỉ có thể được hoàn tác bởi một quản trị viên hoặc điều phối viên.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Hành động này chỉ có thể được hoàn tác bởi một người điều hành hoặc quản trị viên</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Có</value>

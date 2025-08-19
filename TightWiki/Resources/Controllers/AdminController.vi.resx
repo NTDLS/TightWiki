@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>Các tệp đính kèm trang mồ côi đã được xóa.</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Biểu tượng cảm xúc đã chỉ định đã bị xoá.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Mục menu đã chỉ định đã bị xoá.</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>Không tìm thấy trang chỉ định.</value>
   </data>

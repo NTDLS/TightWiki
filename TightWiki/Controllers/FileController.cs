@@ -376,7 +376,6 @@ namespace TightWiki.Controllers
             return Content(Localize("Success"));
         }
 
-
         /// <summary>
         /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>

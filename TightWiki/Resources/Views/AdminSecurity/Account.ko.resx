@@ -80,8 +80,8 @@
   <data name="Country" xml:space="preserve">
     <value>국가</value>
   </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>계정 삭제</value>
+  <data name="Delete" xml:space="preserve">
+    <value>삭제</value>
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>이메일 주소</value>

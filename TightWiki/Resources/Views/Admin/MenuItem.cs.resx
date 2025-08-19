@@ -59,9 +59,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Delete Menu Item" xml:space="preserve">
-    <value>Smazat položku nabídky</value>
-  </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>Globální nastavení pro položku nabídky webu.</value>
   </data>
@@ -82,5 +79,11 @@
   </data>
   <data name="Site Menu Item" xml:space="preserve">
     <value>Položka nabídky webu</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Odstranění '{0}' trvale odstraní položku menu a nebudete moci tuto akci vrátit zpět. Pokračovat?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Odstranit</value>
   </data>
 </root>

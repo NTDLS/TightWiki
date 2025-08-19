@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>sind Sie sicher, dass Sie mit dieser Löschung fortfahren möchten?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>Seite „{0}“ löschen?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Seite '{0}' löschen?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Das Löschen von „{0}“ wird die Seite, alle {1} Revisionen und {2} Dateianhänge in die Löschwarteschlange verschieben.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Das Löschen von '{0}' wird die Seite, zusammen mit allen {1} Revisionen und {2} Dateianhängen, in die Löschwarteschlange verschieben.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Nein</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>Diese Aktion kann nur von einem Administrator oder Moderator rückgängig gemacht werden.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Diese Aktion kann nur von einem Moderator oder Administrator rückgängig gemacht werden.</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ja</value>

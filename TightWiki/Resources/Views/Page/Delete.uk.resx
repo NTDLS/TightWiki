@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>Ви впевнені, що хочете продовжити з цим видаленням?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>Видалити сторінку \"{0}\"?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Видалити сторінку '{0}'?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Видалення \"{0}\" перемістить сторінку, всі {1} зміни та {2} вкладення файлів до черги на видалення.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Видалення '{0}' перемістить сторінку, разом із всіма {1} версіями та {2} вкладеннями файлів до черги на видалення.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Ні</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>Цю дію може скасувати лише адміністратор або модератор.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Цю дію може скасувати лише модератор або адміністратор.</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Так</value>

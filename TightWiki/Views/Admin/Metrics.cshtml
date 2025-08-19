@@ -110,7 +110,7 @@
         <h4>@Localizer["Cache"]</h4>
     </div>
     <div class="card-body">
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
         Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
                 Localizer["Purge Memory Cache"].Value, "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
         <br />

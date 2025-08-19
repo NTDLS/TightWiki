@@ -80,8 +80,8 @@
   <data name="Country" xml:space="preserve">
     <value>Quốc Gia</value>
   </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>Xóa tài khoản</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>Địa Chỉ Email</value>

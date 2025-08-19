@@ -190,9 +190,9 @@
 <div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
             Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?"].Format(Model.AccountProfile.AccountName),
-            Localizer["Delete Account"].Value, $"/AdminSecurity/DeleteAccount/{Model.AccountProfile.Navigation}", $"{GlobalConfiguration.BasePath}/AdminSecurity/Accounts", Context.Request.Path.Value)
+            Localizer["Delete"].Value, $"/AdminSecurity/DeleteAccount/{Model.AccountProfile.Navigation}", $"{GlobalConfiguration.BasePath}/AdminSecurity/Accounts", Context.Request.Path.Value)
     </div>
 
     <div>

@@ -18,7 +18,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
             Localizer["This will permanently purge all orphaned page attachments. Continue?"].Value,
             Localizer["Purge Orphaned Attachments"].Value, "/Admin/PurgeOrphanedAttachments", Context.Request.Path.Value)
     </div>
@@ -55,7 +55,7 @@
                 <td>@NTDLS.Helpers.Formatters.FileSize((long)@p.Size)</td>
                 <td>@p.FileRevision</td>
                 <td>
-                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
                         Localizer["This will permanently delete the specified attachment. Continue?"].Value,
                         Localizer["Delete"].Value, $"/Admin/PurgeOrphanedAttachment/{@p.PageFileId}/{@p.FileRevision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
                 </td>

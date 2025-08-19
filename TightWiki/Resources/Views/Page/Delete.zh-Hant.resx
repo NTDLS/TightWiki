@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>您确定要继续删除吗？</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>删除页面“{0}”吗？</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>要刪除頁面 '{0}' 嗎？</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>删除“{0}”将把页面、所有 {1} 个修订和 {2} 个文件附件移至删除队列。</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>刪除 '{0}' 將會將頁面連同所有 {1} 次修訂和 {2} 個檔案附件移至刪除隊列。</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>不</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>此操作只能由管理员或版主撤销。</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>此操作只能由版主或管理員撤銷</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>是</value>

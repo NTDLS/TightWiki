@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>আপনি কি নিশ্চিত যে আপনি এই মুছে ফেলার সাথে চালিয়ে যেতে চান?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>পানেল \"{0}\" মুছে ফেলতে চান?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>'{0}' পৃষ্ঠা মুছে ফেলতে চান?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>\"{0}\" মুছে ফেললে পৃষ্ঠাটি, সমস্ত {1} সংস্করণ এবং {2} ফাইল সংযুক্তি মুছে ফেলার কিউতে যাবে।</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>'{0}' মুছে ফেললে পৃষ্ঠাটি, সকল {1} সংস্করণ এবং {2} ফাইল সংযুক্তি সহ, মুছতে হবে এর সারিতে চলে যাবে।</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>না</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>এই পদক্ষেপটি শুধুমাত্র একজন প্রশাসক বা প্রশাসক দ্বারা পূর্বাবস্থায় ফেরানো যেতে পারে।</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>এই কার্যকলাপ শুধুমাত্র একজন অভিজ্ঞানকারী বা প্রশাসক দ্বারা বিপরীত করা যেতে পারে</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>হ্যাঁ</value>

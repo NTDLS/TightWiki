@@ -121,7 +121,7 @@
         @*Left-aligned "toolbar" controls*@
         @if(Model.IsBuiltIn != true)
         {
-            @ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
                 Localizer["Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?"].Format(Model.Name),
                 Localizer["Delete Role"].Value, $"/AdminSecurity/DeleteRole/{Model.Id}", $"{GlobalConfiguration.BasePath}/AdminSecurity/Roles", Context.Request.Path.Value)
         }

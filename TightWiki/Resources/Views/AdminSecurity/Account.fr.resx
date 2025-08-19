@@ -80,8 +80,8 @@
   <data name="Country" xml:space="preserve">
     <value>Pays</value>
   </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>Supprimer le compte</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Supprimer</value>
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>Adresse e-mail</value>

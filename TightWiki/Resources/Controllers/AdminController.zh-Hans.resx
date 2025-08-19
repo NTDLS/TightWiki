@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>页面孤立的附件已经被清除。</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>指定的表情符号已被删除。</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>指定的菜单项已被删除。</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>指定的页面未找到。</value>
   </data>

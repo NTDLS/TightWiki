@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>Sei sicuro di voler continuare con questa eliminazione?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>Eliminare la pagina \"{0}\"?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Eliminare la pagina '{0}'?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Eliminando \"{0}\" verranno spostati nella coda di eliminazione la pagina, tutte le {1} revisioni e {2} allegati file.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Eliminando '{0}' verrà spostata la pagina, con tutte le {1} revisioni e {2} allegati, nella coda di eliminazione.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>Questa azione può essere annullata solo da un amministratore o moderatore.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Questa azione può essere annullata solo da un moderatore o amministratore</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sì</value>

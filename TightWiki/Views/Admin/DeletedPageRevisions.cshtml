@@ -18,7 +18,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
             Localizer["This will permanently purge all deleted pages revisions for \"{0}\". Continue?"].Format(Model.Name),
             Localizer["Purge Deleted Revisions"].Value, $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value)
     </div>
@@ -52,11 +52,11 @@
                 <td>@p.DeletedDate</td>
                 <td>@p.DeletedByUserName</td>
                 <td>
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
+                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
                         Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
                         Localizer["Restore"].Value, $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
 
-                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
                         Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
                         Localizer["Purge"].Value, $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
                 </td>

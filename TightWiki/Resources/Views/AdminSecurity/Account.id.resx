@@ -80,8 +80,8 @@
   <data name="Country" xml:space="preserve">
     <value>Negara</value>
   </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>Hapus Akun</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Hapus</value>
   </data>
   <data name="Email Address" xml:space="preserve">
     <value>Alamat Email</value>

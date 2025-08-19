@@ -59,9 +59,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Delete Menu Item" xml:space="preserve">
-    <value>میونیو آئٹم حذف کریں</value>
-  </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>سائٹ مینیو آئٹم کے لیے عالمی ترتیب۔</value>
   </data>
@@ -82,5 +79,11 @@
   </data>
   <data name="Site Menu Item" xml:space="preserve">
     <value>سائٹ مینیو آئٹم</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' کو حذف کرنے سے مینو آئٹم مستقل طور پر ہٹا دیا جائے گا اور آپ اس عمل کو واپس نہیں لے سکیں گے۔ کیا آپ جاری رکھنا چاہتے ہیں؟</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف کریں</value>
   </data>
 </root>

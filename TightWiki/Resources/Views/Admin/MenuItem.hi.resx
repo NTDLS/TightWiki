@@ -59,9 +59,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Delete Menu Item" xml:space="preserve">
-    <value>मेनू आइटम हटाएँ</value>
-  </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>साइट मेनू आइटम के लिए वैश्विक कॉन्फ़िगरेशन।</value>
   </data>
@@ -82,5 +79,11 @@
   </data>
   <data name="Site Menu Item" xml:space="preserve">
     <value>साइट मेनू आइटम</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' को हटाने से मेनू आइटम स्थायी रूप से हटा दिया जाएगा और आप इस क्रिया को पूर्ववत नहीं कर पाएंगे। क्या जारी रखें?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>हटाएं</value>
   </data>
 </root>

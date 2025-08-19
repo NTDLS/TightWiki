@@ -31,13 +31,13 @@
             <td>@info.Version</td>
             <td>@NTDLS.Helpers.Formatters.FileSize((long)info.DatabaseSize)</td>
             <td>
-                @TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath, 
+                @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath, 
                     Localizer["This will optimize the database indexes and structure. Continue?"].Value,
                     Localizer["Optimize"].Value, $"/Admin/Database/Optimize/{info.Name}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
-                @TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
+                @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
                     Localizer["This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"].Value,
                     Localizer["Vacuum"].Value, $"/Admin/Database/Vacuum/{info.Name}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
-                @TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
+                @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
                     Localizer["This will check the database integrity and validate all foreign keys. Continue?"].Value,
                     Localizer["Verify"].Value, $"/Admin/Database/Verify/{info.Name}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
             </td>

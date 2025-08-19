@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>Apakah Anda yakin ingin melanjutkan dengan penghapusan ini?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>Hapus halaman \"{0}\"?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Hapus halaman '{0}'?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Menghapus \"{0}\" akan memindahkan halaman, semua {1} revisi dan {2} lampiran berkas ke antrean penghapusan.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Menghapus '{0}' akan memindahkan halaman tersebut, bersama dengan semua {1} revisi dan {2} lampiran file ke antrian penghapusan.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Tidak</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>tindakan ini hanya dapat dibatalkan oleh administrator atau moderator.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Per tindakan ini hanya dapat dibatalkan oleh moderator atau administrator</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ya</value>
