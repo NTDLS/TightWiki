@@ -13,6 +13,7 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.Profile;
+using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using static TightWiki.Library.Images;
 
@@ -365,14 +366,13 @@ namespace TightWiki.Controllers
         /// </summary>
         [Authorize]
         [HttpPost("Delete")]
-        public ActionResult Delete(DeleteAccountViewModel model)
+        public ActionResult DeleteAccount(ConfirmActionViewModel model)
         {
             SessionState.RequireAuthorizedPermission();
 
             var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
-            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
-            if (confirmAction == true && profile != null)
+            if (model.UserSelection == true && profile != null)
             {
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
                 if (user == null)
@@ -395,32 +395,7 @@ namespace TightWiki.Controllers
                 return Redirect($"{GlobalConfiguration.BasePath}/Profile/Deleted");
             }
 
-            return Redirect($"{GlobalConfiguration.BasePath}/Profile/My");
-        }
-
-        /// <summary>
-        /// User is deleting their own profile.
-        /// </summary>
-        [Authorize]
-        [HttpGet("Delete")]
-        public ActionResult Delete()
-        {
-            SessionState.RequireAuthorizedPermission();
-            SessionState.Page.Name = Localize("Delete Account");
-
-            var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
-
-            var model = new DeleteAccountViewModel()
-            {
-                AccountName = profile.AccountName
-            };
-
-            if (profile != null)
-            {
-                SessionState.Page.Name = Localize("Delete {0}", profile.AccountName);
-            }
-
-            return View(model);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         /// <summary>

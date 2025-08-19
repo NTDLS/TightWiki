@@ -1,9 +1,7 @@
 SELECT
-	Id,
-	[Name],
-	[Description],
-	IsBuiltIn
+	1
 FROM
 	[Role]
 WHERE
 	[Name] = @Name
+LIMIT 1;

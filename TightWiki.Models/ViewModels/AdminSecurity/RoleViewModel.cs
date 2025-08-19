@@ -6,6 +6,9 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
     public class RoleViewModel : ViewModelBase
     {
         public int Id { get; set; }
+
+        public bool IsBuiltIn { get; set; }
+
         public string Name { get; set; } = string.Empty;
 
         /// <summary>

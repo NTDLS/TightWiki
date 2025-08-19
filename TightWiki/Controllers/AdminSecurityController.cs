@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Library;
@@ -15,7 +14,7 @@ using TightWiki.Models.ViewModels.Profile;
 using TightWiki.Models.ViewModels.Shared;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
-using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using Constants = TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -29,6 +28,21 @@ namespace TightWiki.Controllers
         : WikiControllerBase<AdminSecurityController>(signInManager, userManager, localizer)
     {
         #region Roles.
+
+        [Authorize]
+        [HttpPost("DeleteRole/{roleId:int}")]
+        public ActionResult DeleteRole(ConfirmActionViewModel model, int roleId)
+        {
+            SessionState.RequireAdminPermission();
+
+            if (model.UserSelection == true)
+            {
+                UsersRepository.DeleteRole(roleId);
+                return NotifyOfSuccess(Localize("The specified role has been deleted."), model.YesRedirectURL);
+            }
+
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+        }
 
         [Authorize]
         [HttpPost("AddRoleMember")]
@@ -113,6 +127,45 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
+        [HttpGet("AddRole")]
+        public ActionResult AddRole()
+        {
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = Localize("Add Role");
+
+            return View(new AddRoleViewModel());
+        }
+
+        [Authorize]
+        [HttpPost("AddRole")]
+        public ActionResult AddRole(AddRoleViewModel model)
+        {
+            SessionState.RequireAdminPermission();
+            SessionState.Page.Name = Localize("Add Role");
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (string.IsNullOrWhiteSpace(model.Name))
+            {
+                ModelState.AddModelError("Name", Localize("Role name is required."));
+                return View(model);
+            }
+
+            if (UsersRepository.DoesRoleExist(model.Name))
+            {
+                ModelState.AddModelError("Name", Localize("Role name is already in use."));
+                return View(model);
+            }
+
+            UsersRepository.InsertRole(model.Name, model.Description);
+
+            return Redirect($"{GlobalConfiguration.BasePath}/AdminSecurity/Roles");
+        }
+
+        [Authorize]
         [HttpGet("Role/{navigation}")]
         public ActionResult Role(string navigation)
         {
@@ -125,6 +178,7 @@ namespace TightWiki.Controllers
 
             var model = new RoleViewModel()
             {
+                IsBuiltIn = role.IsBuiltIn,
                 Id = role.Id,
                 Name = role.Name,
                 Members = UsersRepository.GetRoleMembersPaged(role.Id,
@@ -531,15 +585,14 @@ namespace TightWiki.Controllers
 
         [Authorize]
         [HttpPost("DeleteAccount/{navigation}")]
-        public ActionResult DeleteAccount(string navigation, DeleteAccountViewModel model)
+        public ActionResult DeleteAccount(ConfirmActionViewModel model, string navigation)
         {
             SessionState.RequireAdminPermission();
 
-            var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
-
-            bool confirmAction = bool.Parse(GetFormValue("IsActionConfirmed").EnsureNotNull());
-            if (confirmAction == true && profile != null)
+            if (model.UserSelection == true)
             {
+                var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
+
                 var user = UserManager.FindByIdAsync(profile.UserId.ToString()).Result;
                 if (user == null)
                 {
@@ -566,29 +619,7 @@ namespace TightWiki.Controllers
                 return NotifyOfSuccess(Localize("The account has been deleted."), $"/AdminSecurity/Accounts");
             }
 
-            return Redirect($"{GlobalConfiguration.BasePath}/AdminSecurity/Account/{navigation}");
-        }
-
-        [Authorize]
-        [HttpGet("DeleteAccount/{navigation}")]
-        public ActionResult DeleteAccount(string navigation)
-        {
-            SessionState.RequireAdminPermission();
-            SessionState.Page.Name = Localize("Delete Profile");
-
-            var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
-
-            var model = new DeleteAccountViewModel()
-            {
-                AccountName = profile.AccountName
-            };
-
-            if (profile != null)
-            {
-                SessionState.Page.Name = Localize("Delete {0}", profile.AccountName);
-            }
-
-            return View(model);
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         #endregion

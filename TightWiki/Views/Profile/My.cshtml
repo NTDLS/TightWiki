@@ -1,4 +1,5 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Profile.AccountProfileViewModel
 @{
@@ -194,5 +195,18 @@
     </div>
 }
 
-<br />
-<form action="@GlobalConfiguration.BasePath/Profile/Delete"><button type="submit" class="btn btn-danger">@Localizer["Delete Account"]</button></form>
+<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+            Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?"].Format(Model.AccountProfile.AccountName),
+            Localizer["Delete Account"].Value, $"/Profile/Delete", $"{GlobalConfiguration.BasePath}/Deleted/Accounts", Context.Request.Path.Value)
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
+
+
+

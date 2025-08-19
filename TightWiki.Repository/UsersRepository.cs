@@ -30,6 +30,15 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false;
         }
 
+        public static void DeleteRole(int roleId)
+            => ManagedDataStorage.Users.Execute("DeleteRole.sql", new { Id = roleId });
+
+        public static bool InsertRole(string name, string? description)
+            => ManagedDataStorage.Users.ExecuteScalar<bool?>("InsertRole.sql", new { Name = name, Description = description }) ?? false;
+
+        public static bool DoesRoleExist(string name)
+            => ManagedDataStorage.Users.ExecuteScalar<bool?>("DoesRoleExist.sql", new { Name = name }) ?? false;
+
         public static bool IsRolePermissionDefined(int roleId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
         {
             var param = new

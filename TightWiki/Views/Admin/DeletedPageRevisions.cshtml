@@ -18,9 +18,9 @@
 <div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+        @TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
             Localizer["This will permanently purge all deleted pages revisions for \"{0}\". Continue?"].Format(Model.Name),
-            Localizer["Purge Deleted Revisions"].Value, $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value))
+            Localizer["Purge Deleted Revisions"].Value, $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value)
     </div>
 
     <div>

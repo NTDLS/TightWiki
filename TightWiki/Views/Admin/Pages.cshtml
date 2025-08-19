@@ -18,17 +18,17 @@
 <div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+        @ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
             Localizer["This will rebuild all pages in the wiki. This could take some time! Continue?"].Value,
-            Localizer["Rebuild All Pages"].Value, "/Admin/RebuildAllPages", Context.Request.Path.Value))
+            Localizer["Rebuild All Pages"].Value, "/Admin/RebuildAllPages", Context.Request.Path.Value)
 
-        @Html.Raw(ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
+        @ConfirmActionHelper.GenerateWarnLink(GlobalConfiguration.BasePath,
             Localizer["This will compile all pages in the wiki and store them in cache. This could take some time! Continue?"].Value,
-            Localizer["Pre-Cache All Pages"].Value, "/Admin/PreCacheAllPages", Context.Request.Path.Value))
+            Localizer["Pre-Cache All Pages"].Value, "/Admin/PreCacheAllPages", Context.Request.Path.Value)
 
-        @Html.Raw(ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+        @ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
             Localizer["Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?"].Value,
-            Localizer["Truncate Page Revisions"].Value, "/Admin/TruncatePageRevisions", Context.Request.Path.Value))
+            Localizer["Truncate Page Revisions"].Value, "/Admin/TruncatePageRevisions", Context.Request.Path.Value)
     </div>
 
     <div>
@@ -76,9 +76,9 @@
                 <td>@p.ModifiedByUserName</td>
                 <td>@p.ModifiedDate</td>
                 <td>
-                    @Html.Raw(ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
+                    @ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath, 
                         Localizer["Deleting \"{0}\" will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"].Format(p.Name, p.Revision),
-                        Localizer["Delete"].Value, "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                        Localizer["Delete"].Value, "/Admin/DeletePage/" + @p.Id, Context.Request.Path.Value, @class: "btn-thin rounded-0")
                 </td>
             </tr>
         }

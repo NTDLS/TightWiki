@@ -178,6 +178,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\DeleteRole.sql" />
+    <EmbeddedResource Include="Scripts\InsertRole.sql" />
+    <EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
     <EmbeddedResource Include="Scripts\RemoveRoleMember.sql" />
     <EmbeddedResource Include="Scripts\RemoveRolePermission.sql" />
     <EmbeddedResource Include="Scripts\InsertRolePermission.sql" />
