@@ -15,7 +15,7 @@
         @Localizer["Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes."]<br /><br />
         @Localizer["Are you sure you want to continue?"]<br /><br />
 
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+        @using (Html.BeginForm(FormMethod.Post))
         {
             <div class="form-group"><button type="submit" class="btn btn-warning" name="IsActionConfirmed" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="IsActionConfirmed" value="false">@Localizer["No"]</button></div>
         }

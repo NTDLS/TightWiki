@@ -15,7 +15,7 @@
     @Localizer["All changes that have been made to the page."]
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+@using (Html.BeginForm(FormMethod.Get))
 {
     @if (Model.Revisions.Count > 0)
     {

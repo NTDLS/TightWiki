@@ -14,7 +14,7 @@
     @Localizer["All changes that have been made to the attached file."] <br /><br />
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+@using (Html.BeginForm(FormMethod.Get))
 {
     @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />

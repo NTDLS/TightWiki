@@ -16,7 +16,7 @@
     @Localizer["Role membership and permissions."]
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+@using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 

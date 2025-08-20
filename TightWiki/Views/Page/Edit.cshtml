@@ -420,7 +420,7 @@
     <div class="card shadow-lg">
         <div class="card-header"><h3>@Localizer["Content"]</h3></div>
         <div class="card-body">
-            @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+            @using (Html.BeginForm(FormMethod.Post))
             {
                 @Html.HiddenFor(x => x.Id)
 

@@ -14,7 +14,7 @@
     @Localizer["Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc."]<br /><br />
 </p>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+@using (Html.BeginForm(FormMethod.Get))
 {
     <div class="d-flex justify-content-end mb-4">
         <div class="flex-grow-1 me-2">
