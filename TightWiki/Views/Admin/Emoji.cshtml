@@ -1,8 +1,9 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
@@ -52,6 +53,15 @@
     </div>
 }
 
-<form action="@GlobalConfiguration.BasePath/Admin/DeleteEmoji/@Model.Emoji.Name">
-    <button type="submit" class="btn btn-danger mt-2">@Localizer["Delete Emoji"]</button>
-</form>
+<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
+            Localizer["Delete"].Value, $"/Admin/DeleteEmoji/{Model.Emoji.Name}", $"{GlobalConfiguration.BasePath}/Admin/Emojis", Context.Request.Path.Value)
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>

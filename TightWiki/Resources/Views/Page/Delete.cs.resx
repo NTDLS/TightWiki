@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>Opravdu chcete v tomto mazání pokračovat?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>Smazat stránku \"{0}\"?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Opravdu chcete smazat stránku '{0}'?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Smazáním \"{0}\" se stránka, všech {1} revizí a {2} souborových příloh přesune do fronty na odstranění.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Smazání '{0}' přesune stránku se všemi {1} revizemi a {2} přílohami do fronty na smazání.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Ne</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>Tuto akci může vrátit zpět pouze administrátor nebo moderátor.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Tuto akci může vrátit zpět pouze moderátor nebo administrátor.</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ano</value>

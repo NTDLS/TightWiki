@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Nama akun sudah digunakan.</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Nama akun diperlukan.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Tidak dapat menyimpan gambar yang dilampirkan, terlalu besar.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Tidak dapat menyimpan gambar yang dilampirkan, jenis tidak diperbolehkan.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Tidak dapat menyimpan gambar yang dilampirkan.</value>
+  </data>
+  <data name="Delete Profile" xml:space="preserve">
+    <value>Hapus Profil</value>
+  </data>
+  <data name="Delete {0}" xml:space="preserve">
+    <value>Hapus {0}</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Alamat email sudah digunakan.</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Nama emoji sudah digunakan.</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Ruang Nama</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Ruang Nama</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Halaman</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Nama peran sudah digunakan.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Nama peran diperlukan.</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Peran</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Akun telah dibuat.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Akun telah dihapus.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Peran yang ditentukan telah dihapus.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Pengguna tidak ditemukan.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Akun Anda telah dihapus.</value>
+  </data>
+  <data name="Your profile has been saved successfully!" xml:space="preserve">
+    <value>Profil Anda telah disimpan dengan sukses!</value>
+  </data>
+  <data name="{0} : {1} is required." xml:space="preserve">
+    <value>{0} : {1} diperlukan.</value>
+  </data>
+  <data name="{0} Delete" xml:space="preserve">
+    <value>{0} Hapus</value>
+  </data>
+</root>

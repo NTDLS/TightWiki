@@ -208,7 +208,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         if (profiles.Count > 0 && profiles.First().PaginationPageCount > 1)
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, profiles.First().PaginationPageCount));
+                            html.Append(PageSelectorGenerator.Generate(state.QueryString, profiles.First().PaginationPageCount, refTag));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -253,7 +253,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                             if (pageSelector && attachments.Count > 0 && attachments.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, attachments.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate(state.QueryString, attachments.First().PaginationPageCount, refTag));
                             }
                         }
 
@@ -304,7 +304,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                             if (pageSelector && revisions.Count > 0 && revisions.First().PaginationPageCount > 1)
                             {
-                                html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, revisions.First().PaginationPageCount));
+                                html.Append(PageSelectorGenerator.Generate(state.QueryString, revisions.First().PaginationPageCount, refTag));
                             }
                         }
 
@@ -849,7 +849,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         if (pageSelector && (pageNumber > 1 || pages.Count > 0 && pages.First().PaginationPageCount > 1))
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1));
+                            html.Append(PageSelectorGenerator.Generate(state.QueryString, pages.FirstOrDefault()?.PaginationPageCount ?? 1, refTag));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -943,7 +943,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, pages.First().PaginationPageCount));
+                            html.Append(PageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
                         }
 
                         return new HandlerResult(html.ToString());
@@ -992,7 +992,7 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
                         {
-                            html.Append(PageSelectorGenerator.Generate(refTag, state.QueryString, pages.First().PaginationPageCount));
+                            html.Append(PageSelectorGenerator.Generate(state.QueryString, pages.First().PaginationPageCount, refTag));
                         }
 
                         return new HandlerResult(html.ToString());

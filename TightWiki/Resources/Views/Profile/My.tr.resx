@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>Hesabı Sil</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' silindiğinde hesap kalıcı olarak kaldırılacak. Bu kullanıcı tarafından oluşturulan veya değiştirilen tüm sayfalar bir yedek hesaba atfedilecek ve bu işlemi geri alamayacaksınız. Devam edilsin mi?</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>Email Adresi</value>
   </data>

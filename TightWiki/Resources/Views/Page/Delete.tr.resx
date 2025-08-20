@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>Bu silme işlemini devam ettirmek istediğinize emin misiniz?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>\"{0}\" sayfasını silmek istiyor musunuz?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>'{0}' sayfasını silmek istiyor musunuz?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>\"{0}\" silindiğinde, sayfa, tüm {1} revizyonlar ve {2} dosya ekleri silme kuyruğuna taşınacaktır.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>'{0}' silindiğinde, tüm {1} revizyonlar ve {2} dosya ekleri silme kuyruğuna taşınacaktır.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Hayır</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>Bu işlem yalnızca bir yönetici veya moderatör tarafından geri alınabilir.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>Bu eylem yalnızca bir moderatör veya yönetici tarafından geri alınabilir</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Evet</value>

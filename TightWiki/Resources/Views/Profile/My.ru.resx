@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>Удалить аккаунт</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Удаление '{0}' приведет к постоянному удалению учетной записи. Все страницы, созданные или измененные этим пользователем, будут отнесены к учетной записи-заменителю, и вы не сможете отменить это действие. Продолжить?</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>Адрес электронной почты</value>
   </data>

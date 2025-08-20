@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>پیوست‌های صفحات یتیم پاک شده‌اند.</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>ایموجی مشخص شده حذف شده است.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>آیتم منوی مشخص شده حذف شده است.</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>صفحه مشخص شده پیدا نشد.</value>
   </data>

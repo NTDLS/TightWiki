@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>اکاؤنٹ حذف کریں</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' کو حذف کرنے سے یہ اکاؤنٹ مستقل طور پر ختم ہو جائے گا۔ اس صارف کے ذریعہ بنائی گئی یا ترمیم کی گئی تمام صفحات ایک متبادل اکاؤنٹ کے نام سے منسوب کی جائیں گی اور آپ اس عمل کو واپس نہیں لے سکیں گے۔ کیا آپ جاری رکھنا چاہتے ہیں؟</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>ای میل کا پتہ</value>
   </data>

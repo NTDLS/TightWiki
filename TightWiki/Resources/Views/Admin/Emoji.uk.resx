@@ -68,8 +68,14 @@
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>Налаштування для емодзі.</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
   <data name="Delete Emoji" xml:space="preserve">
     <value>Видалити емодзі</value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value>Видалення емодзі '{0}' назавжди видалить зображення, і будь-які посилання на нього стануть сиротами. Ви не зможете скасувати це видалення. Продовжити?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
     <value>Емодзі</value>

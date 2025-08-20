@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>Smazat účet</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Odstraněním '{0}' dojde k trvalému odstranění účtu. Všechny stránky vytvořené nebo upravené tímto uživatelem budou připsány na náhradní účet a nebudete moci tuto akci vrátit zpět. Pokračovat?</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>Emailová adresa</value>
   </data>

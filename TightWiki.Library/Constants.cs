@@ -7,6 +7,30 @@
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
+        public enum WikiPermissionDisposition
+        {
+            Allow,
+            Deny
+        }
+
+        public enum WikiRoles
+        {
+            Administrator,
+            Member,
+            Contributor,
+            Moderator,
+            Anonymous
+        }
+
+        public enum WikiPermission
+        {
+            Read,
+            Edit,
+            Delete,
+            Moderate,
+            Create
+        }
+
         public enum WikiTheme
         {
             Light,
@@ -40,26 +64,6 @@
             public static string NoCache { get; } = "NoCache";
             public static string HideFooterComments { get; } = "HideFooterComments";
             public static string HideFooterLastModified { get; } = "HideFooterLastModified";
-        }
-
-        public static class Roles
-        {
-            /// <summary>
-            /// Administrators can do anything. Add, edit, delete, pages, users, etc.
-            /// </summary>
-            public const string Administrator = "Administrator";
-            /// <summary>
-            /// Read-only user with a profile.
-            /// </summary>
-            public const string Member = "Member";
-            /// <summary>
-            /// Contributor can add and edit pages.
-            /// </summary>
-            public const string Contributor = "Contributor";
-            /// <summary>
-            /// Moderators can add, edit and delete pages.
-            /// </summary>
-            public const string Moderator = "Moderator";
         }
 
         public static class ConfigurationGroup

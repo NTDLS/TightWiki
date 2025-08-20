@@ -148,12 +148,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 return NotifyOfError(_localizer["An error occurred while adding the login."]);
             }
 
-            UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
-
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
+            UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+
             var claimsToAdd = new List<Claim>
             {
-                new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
                 new ("timezone", Input.TimeZone),
                 new (ClaimTypes.Country, Input.Country),
                 new ("language", Input.Language),

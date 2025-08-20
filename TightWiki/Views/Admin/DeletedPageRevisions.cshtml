@@ -3,7 +3,7 @@
 @using TightWiki.Models
 @inject IViewLocalizer Localizer
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
@@ -18,9 +18,9 @@
 <div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
     <div>
         @*Left-aligned "toolbar" controls*@
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
-            Localizer["This will permanently purge all deleted pages revisions for \"{0}\". Continue?"].Value(Model.Name),
-            Localizer["Purge Deleted Revisions"].Value, $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value))
+        @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            Localizer["This will permanently purge all deleted pages revisions for \"{0}\". Continue?"].Format(Model.Name),
+            Localizer["Purge Deleted Revisions"].Value, $"/Admin/PurgeDeletedPageRevisions/{Model.PageId}", Context.Request.Path.Value)
     </div>
 
     <div>
@@ -30,7 +30,7 @@
 
 @if (Model.Revisions.Count > 0)
 {
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
 
     <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
@@ -52,17 +52,17 @@
                 <td>@p.DeletedDate</td>
                 <td>@p.DeletedByUserName</td>
                 <td>
-                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateSafeLink(GlobalConfiguration.BasePath,
+                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
                         Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
-                        Localizer["Restore"].Value, $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                        Localizer["Restore"].Value, $"/Admin/RestoreDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
 
-                    @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateDangerLink(GlobalConfiguration.BasePath,
+                    @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
                         Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
-                        Localizer["Purge"].Value, $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0"))
+                        Localizer["Purge"].Value, $"/Admin/PurgeDeletedPageRevision/{p.Id}/{p.Revision}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
                 </td>
             </tr>
         }
     </table>
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
 }

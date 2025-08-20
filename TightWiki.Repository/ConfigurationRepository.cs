@@ -2,7 +2,6 @@
 using SixLabors.ImageSharp;
 using System.Data;
 using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.Caching;
 using TightWiki.Caching;
 using TightWiki.Library;
@@ -13,269 +12,49 @@ namespace TightWiki.Repository
 {
     public static class ConfigurationRepository
     {
-        #region Upgrade Database.
-
-        public static string GetVersionStateVersion()
+        public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName)
         {
-            var entries = ManagedDataStorage.Config.ExecuteScalar<string>(@"Scripts\Initialization\GetVersionStateVersion.sql");
-            return entries ?? "0.0.0";
-        }
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName]);
 
-        public static void SetVersionStateVersion()
-        {
-            var version = string.Join('.',
-                (Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3));
-            ManagedDataStorage.Config.Execute(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
-        }
-
-        /// <summary>
-        /// See @Initialization.Versions.md
-        /// </summary>
-        public static void UpgradeDatabase()
-        {
-            try
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                string startPreTag = ".Initialization.PreInitialization.";
-                string startPostTag = ".Initialization.PostInitialization.";
-                string startVersionTag = ".Initialization.Versions.";
-                string endVersionTag = ".^";
+                var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>("GetConfigurationEntryValuesByGroupName.sql",
+                    new { GroupName = groupName }).ToList();
 
-                var versionString = GetVersionStateVersion();
-                int storedPaddedVersion = Utility.PadVersionString(versionString);
-
-                var assembly = Assembly.GetExecutingAssembly();
-
-                int currentPaddedVersion = Utility.PadVersionString(
-                    string.Join('.', (assembly.GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)));
-
-                if (currentPaddedVersion == storedPaddedVersion)
+                foreach (var entry in entries)
                 {
-                    return; //The database version is already at the latest version.
-                }
-
-                Console.WriteLine($"Starting database initialization.");
-
-                var manifestResources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-
-                var fullPreInitScriptPaths = manifestResources
-                    .Where(o => o.Contains("Repository.Scripts.Initialization.PreInitialization", StringComparison.InvariantCultureIgnoreCase))
-                    .OrderBy(o => o);
-
-                foreach (var fullPreInitScriptPath in fullPreInitScriptPaths)
-                {
-                    //Execute pre-initialization scripts.
-                    int startPreTagIndex = fullPreInitScriptPath.IndexOf(startPreTag, StringComparison.InvariantCultureIgnoreCase);
-                    if (startPreTagIndex >= 0)
+                    if (entry.IsEncrypted)
                     {
-                        int endIndex = fullPreInitScriptPath.IndexOf(endVersionTag, startPreTagIndex, StringComparison.InvariantCultureIgnoreCase);
-                        var scriptName = fullPreInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(assembly, fullPreInitScriptPath, scriptName);
-                    }
-                }
-
-                var fullVersionedInitScriptPaths = manifestResources
-                    .Where(o => o.Contains("Repository.Scripts.Initialization.Versions", StringComparison.InvariantCultureIgnoreCase))
-                    .OrderBy(o => o);
-
-                foreach (var fullVersionedInitScriptPath in fullVersionedInitScriptPaths)
-                {
-                    //Execute version based initialization scripts.
-                    int startVersionTagIndex = fullVersionedInitScriptPath.IndexOf(startVersionTag, StringComparison.InvariantCultureIgnoreCase);
-                    if (startVersionTagIndex >= 0)
-                    {
-                        startVersionTagIndex += startVersionTag.Length;
-
-                        int endIndex = fullVersionedInitScriptPath.IndexOf(endVersionTag, startVersionTagIndex, StringComparison.InvariantCultureIgnoreCase);
-                        if (endIndex > startVersionTagIndex)
+                        try
                         {
-                            //The name of the script file without the namespaces, version numbers etc.
-                            var scriptName = fullVersionedInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-
-                            int filesFolderVersion = Utility.PadVersionString(fullVersionedInitScriptPath.Substring(startVersionTagIndex, endIndex - startVersionTagIndex).Trim().Replace("_", ""));
-                            if (filesFolderVersion > storedPaddedVersion)
-                            {
-                                ProcessInitializationScript(assembly, fullVersionedInitScriptPath, scriptName);
-                            }
+                            entry.Value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, entry.Value);
+                        }
+                        catch
+                        {
+                            entry.Value = "";
                         }
                     }
                 }
 
-                var fullPostInitScriptPaths = manifestResources
-                    .Where(o => o.Contains("Repository.Scripts.Initialization.PostInitialization", StringComparison.InvariantCultureIgnoreCase))
-                    .OrderBy(o => o);
-
-                foreach (var fullPostInitScriptPath in fullPostInitScriptPaths)
-                {
-                    //Execute post-initialization scripts.
-                    int startPostTagIndex = fullPostInitScriptPath.IndexOf(startPostTag, StringComparison.InvariantCultureIgnoreCase);
-                    if (startPostTagIndex >= 0)
-                    {
-                        int endIndex = fullPostInitScriptPath.IndexOf(endVersionTag, startPostTagIndex, StringComparison.InvariantCultureIgnoreCase);
-                        var scriptName = fullPostInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(assembly, fullPostInitScriptPath, scriptName);
-                    }
-                }
-
-                SetVersionStateVersion();
-            }
-            catch (Exception ex)
-            {
-                ExceptionRepository.InsertException(ex, "Database upgrade failed.");
-                //Yea, we want to write this to the console so that it can be seen when running manually.
-                Console.WriteLine($"Database upgrade failed: {ex.Message}");
-            }
-        }
-
-        private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)
-        {
-            Console.WriteLine($"Executing initialization script: \"{fullUpdateScriptPath}\"");
-
-            //Get the script text.
-            using var stream = assembly.GetManifestResourceStream(fullUpdateScriptPath);
-            using var reader = new StreamReader(stream.EnsureNotNull());
-            var scriptText = reader.ReadToEnd();
-
-            //Get the script "metadata" from the file name.
-            var scriptNameParts = scriptName.Split('^');
-            //string executionOrder = scriptNameParts[0];
-            string databaseName = scriptNameParts[1];
-            //string scriptName = scriptNameParts[2];
-
-            var databaseFactory = ManagedDataStorage.Collection.Single(o => o.Name == databaseName).Factory;
-
-            bool shouldExecute = true;
-
-            if (scriptText.StartsWith("--##IF", StringComparison.InvariantCultureIgnoreCase))
-            {
-                int endOfConditional = scriptText.IndexOf('(');
-                int endOfFirstLine = scriptText.IndexOf('\n');
-                var conditionalTag = scriptText.Substring(4, endOfConditional - 4).Trim();
-                var conditionalParam = scriptText.Substring(endOfConditional + 1, endOfFirstLine - endOfConditional).Trim().Trim(['(', ')']).Trim();
-
-                #region Conditional processing.
-
-                switch (conditionalTag)
-                {
-                    case "IF EXISTS":
-                        var ifExists = databaseFactory.ExecuteScalar<string?>(conditionalParam);
-                        shouldExecute = (ifExists == null);
-                        break;
-                    case "IF NOT EXISTS":
-                        var ifNotExists = databaseFactory.ExecuteScalar<string?>(conditionalParam);
-                        shouldExecute = (ifNotExists != null);
-                        break;
-                    case "IF TABLE EXISTS":
-                        shouldExecute = databaseFactory.DoesTableExist(conditionalParam);
-                        break;
-                    case "IF TABLE NOT EXISTS":
-                        shouldExecute = !databaseFactory.DoesTableExist(conditionalParam);
-                        break;
-                    case "IF COLUMN EXISTS":
-                        {
-                            var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
-                            if (param.Length != 2)
-                            {
-                                throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, COLUMN_NAME");
-                            }
-
-                            shouldExecute = databaseFactory.DoesColumnExist(param[0], param[1]);
-                            break;
-                        }
-                    case "IF COLUMN NOT EXISTS":
-                        {
-                            var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
-                            if (param.Length != 2)
-                            {
-                                throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, COLUMN_NAME");
-                            }
-
-                            shouldExecute = !databaseFactory.DoesColumnExist(param[0], param[1]);
-                            break;
-                        }
-                    case "IF INDEX EXISTS":
-                        {
-                            var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
-                            if (param.Length != 2)
-                            {
-                                throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, INDEX_NAME");
-                            }
-
-                            var tableSchema = databaseFactory.DoesIndexExist(param[0], param[1]);
-                            break;
-                        }
-                    case "IF INDEX NOT EXISTS":
-                        {
-                            var param = conditionalParam.Split(',').Select(o => o.Trim()).ToArray();
-                            if (param.Length != 2)
-                            {
-                                throw new Exception("IF COLUMN EXISTS requires two parameters: TABLE_NAME, INDEX_NAME");
-                            }
-
-                            var tableSchema = !databaseFactory.DoesIndexExist(param[0], param[1]);
-                            break;
-                        }
-                    default:
-                        throw new Exception(scriptText + " contains an unknown conditional: " + conditionalTag);
-                }
-
-                #endregion
-
-                scriptText = scriptText.Substring(endOfFirstLine + 1).Trim();
-            }
-
-            if (shouldExecute)
-            {
-                databaseFactory.Execute(scriptText);
-            }
-        }
-
-        #endregion
-
-        public static ConfigurationEntries GetConfigurationEntryValuesByGroupName(string groupName, bool allowCache = true)
-        {
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName]);
-                if (!WikiCache.TryGet<ConfigurationEntries>(cacheKey, out var result))
-                {
-                    result = GetConfigurationEntryValuesByGroupName(groupName, false);
-                    WikiCache.Put(cacheKey, result);
-                }
-
-                return result;
-            }
-
-            var entries = ManagedDataStorage.Config.Query<ConfigurationEntry>
-                ("GetConfigurationEntryValuesByGroupName.sql", new { GroupName = groupName }).ToList();
-
-            foreach (var entry in entries)
-            {
-                if (entry.IsEncrypted)
-                {
-                    try
-                    {
-                        entry.Value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, entry.Value);
-                    }
-                    catch
-                    {
-                        entry.Value = "";
-                    }
-                }
-            }
-
-            return new ConfigurationEntries(entries);
+                return new ConfigurationEntries(entries);
+            }).EnsureNotNull();
         }
 
         public static List<Theme> GetAllThemes()
         {
-            var collection = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql").ToList();
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration);
 
-            foreach (var theme in collection)
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                theme.Files = theme.DelimitedFiles.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
-            }
+                var themes = ManagedDataStorage.Config.Query<Theme>("GetAllThemes.sql").ToList();
 
-            return collection;
+                foreach (var theme in themes)
+                {
+                    theme.Files = theme.DelimitedFiles.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList();
+                }
+
+                return themes;
+            }).EnsureNotNull();
         }
 
         public static WikiDatabaseStatistics GetWikiDatabaseMetrics()
@@ -412,42 +191,33 @@ namespace TightWiki.Repository
         public static List<ConfigurationFlat> GetFlatConfiguration()
             => ManagedDataStorage.Config.Query<ConfigurationFlat>("GetFlatConfiguration.sql").ToList();
 
-        public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName, bool allowCache = true)
+        public static string? GetConfigurationEntryValuesByGroupNameAndEntryName(string groupName, string entryName)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName, entryName]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Configuration, [groupName, entryName]);
-                if (!WikiCache.TryGet<string>(cacheKey, out var result))
-                {
-                    if ((result = GetConfigurationEntryValuesByGroupNameAndEntryName(groupName, entryName, false)) != null)
+                var configEntry = ManagedDataStorage.Config.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql",
+                    new
                     {
-                        WikiCache.Put(cacheKey, result);
+                        GroupName = groupName,
+                        EntryName = entryName
+                    });
+
+                if (configEntry?.IsEncrypted == true)
+                {
+                    try
+                    {
+                        configEntry.Value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, configEntry.Value);
+                    }
+                    catch
+                    {
+                        configEntry.Value = "";
                     }
                 }
 
-                return result;
-            }
-
-            var param = new
-            {
-                GroupName = groupName,
-                EntryName = entryName
-            };
-
-            var configEntry = ManagedDataStorage.Config.QuerySingle<ConfigurationEntry>("GetConfigurationEntryValuesByGroupNameAndEntryName.sql", param);
-            if (configEntry?.IsEncrypted == true)
-            {
-                try
-                {
-                    configEntry.Value = Security.Helpers.DecryptString(Security.Helpers.MachineKey, configEntry.Value);
-                }
-                catch
-                {
-                    configEntry.Value = "";
-                }
-            }
-
-            return configEntry?.Value?.ToString();
+                return configEntry?.Value?.ToString();
+            });
         }
 
         public static T? Get<T>(string groupName, string entryName)
@@ -602,7 +372,7 @@ namespace TightWiki.Repository
 
             GlobalConfiguration.IsDebug = Debugger.IsAttached;
 
-            var performanceConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Performance, false);
+            var performanceConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Performance);
             GlobalConfiguration.PageCacheSeconds = performanceConfig.Value<int>("Page Cache Time (Seconds)");
             GlobalConfiguration.RecordCompilationMetrics = performanceConfig.Value<bool>("Record Compilation Metrics");
             GlobalConfiguration.CacheMemoryLimitMB = performanceConfig.Value<int>("Cache Memory Limit MB");

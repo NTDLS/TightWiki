@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Name" xml:space="preserve">
+    <value>নাম</value>
+  </data>
+  <data name="Role {0}" xml:space="preserve">
+    <value>ভূমিকা {0}</value>
+  </data>
+  <data name="Role membership." xml:space="preserve">
+    <value>ভূমিকা সদস্যতা।</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>ভূমিকা সদস্যপদ এবং অনুমতিসমূহ।</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>অনুমতি</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>ভূমিকায় অনুমতি যোগ করুন</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>বিলম্বন</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>অনুমতি</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>সম্পদ</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>ক্রিয়া</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>নেমস্পেস</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>সকল</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>পৃষ্ঠা</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>আসর করুন</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>সদস্যগণ</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>ভূমিকায় সদস্য যোগ করুন</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>ইমেইল ঠিকানা</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>প্রথম নাম</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>শেষ নাম</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>আপনি কি নিশ্চিত যে আপনি এই ভূমিকা থেকে অনুমতি সরাতে চান?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>অসর সফল হয়নি</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>আপনি কি নিশ্চিত যে আপনি এই ভূমিকা থেকে সদস্য সরাতে চান?</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>সম্পদের প্রকার</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>উইকি পৃষ্ঠা</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>যোগ করুন</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>একটি বিলম্বন নির্বাচন করুন</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>একটি অনুমতি নির্বাচন করুন</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>একটি পৃষ্ঠা নির্বাচন করুন</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>একটি নেমস্পেস নির্বাচন করুন</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>আপনাকে একটি অনুমতি বিলম্বন নির্বাচন করতে হবে।</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>আপনাকে একটি অনুমতি নির্বাচন করতে হবে।</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>আপনাকে একটি পৃষ্ঠা নির্বাচন করতে হবে।</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>আপনাকে একটি নেমস্পেস নির্বাচন করতে হবে।</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>আপনাকে পৃষ্ঠা বা নেমস্পেস এর মধ্যে একটি বাছাই করতে হবে।</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>ভূমিকায় ইতিমধ্যে নির্দিষ্ট অনুমতি রয়েছে।</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>অ্যাকাউন্ট</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>একটি অ্যাকাউন্ট নির্বাচন করুন</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>আপনাকে একটি অ্যাকাউন্ট নির্বাচন করতে হবে।</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>অ্যাকাউন্টটি ইতিমধ্যে নির্দিষ্ট ভূমিকার সদস্য।</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>রোল '{0}' মুছে ফেলা হলে ওই রোল দ্বারা প্রদত্ত বা অগ্রাহ্য করা কোনও অনুমতি বাতিল হবে। কি আপনি চালিয়ে যেতে চান?</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>ভূমিকা সদস্যরা</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>ভূমিকা অনুমতিসমূহ</value>
+  </data>
+</root>

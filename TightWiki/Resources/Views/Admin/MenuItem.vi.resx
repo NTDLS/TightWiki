@@ -59,9 +59,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Delete Menu Item" xml:space="preserve">
-    <value>Xóa Mục Menu</value>
-  </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
     <value>Cấu hình toàn cầu cho mục menu của trang.</value>
   </data>
@@ -82,5 +79,11 @@
   </data>
   <data name="Site Menu Item" xml:space="preserve">
     <value>Mục Menu Trang</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Xóa '{0}' sẽ xóa vĩnh viễn mục menu và bạn sẽ không thể hoàn tác hành động này. Tiếp tục không?</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
   </data>
 </root>

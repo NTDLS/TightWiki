@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>계정 삭제</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}'을(를) 삭제하면 계정이 영구적으로 제거됩니다. 이 사용자가 생성하거나 수정한 모든 페이지는 대체 계정에 귀속되며 이 작업을 되돌릴 수 없습니다. 계속하시겠습니까?</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>이메일 주소</value>
   </data>

@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>페이지의 고아 첨부파일이 삭제되었습니다.</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>지정된 이모지가 삭제되었습니다.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>지정된 메뉴 항목이 삭제되었습니다.</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>지정된 페이지를 찾을 수 없습니다.</value>
   </data>

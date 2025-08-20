@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>アカウントを削除</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}'を削除すると、アカウントが完全に削除されます。このユーザーによって作成または変更されたすべてのページは代替アカウントに帰属し、このアクションを元に戻すことはできません。続行しますか？</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>メールアドレス</value>
   </data>

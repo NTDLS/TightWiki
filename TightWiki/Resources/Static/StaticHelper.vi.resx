@@ -59,16 +59,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Administration" xml:space="preserve">
+    <value>Quản trị</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Cho phép</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Tạo</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>Từ chối</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Chỉnh sửa</value>
+  </data>
   <data name="First" xml:space="preserve">
     <value>Đầu tiên</value>
   </data>
   <data name="Last" xml:space="preserve">
     <value>Cuối cùng</value>
   </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Điều phối</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Kế tiếp</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Trước đó</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Đọc</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>Bạn không được phép</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>Bạn không có quyền thực hiện hành động: {0}</value>
   </data>
 </root>

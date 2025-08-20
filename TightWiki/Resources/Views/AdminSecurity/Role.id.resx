@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Name" xml:space="preserve">
+    <value>Nama</value>
+  </data>
+  <data name="Role {0}" xml:space="preserve">
+    <value>Peran {0}</value>
+  </data>
+  <data name="Role membership." xml:space="preserve">
+    <value>Keanggotaan peran.</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>Keanggotaan dan izin peran.</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>Izin</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>Tambahkan Izin ke Peran</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Izin</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Sumber daya</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Aksi</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Ruang nama</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>SEMUA</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Halaman</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Hapus</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>Anggota</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>Tambahkan Anggota ke Peran</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Alamat Email</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Nama Depan</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Nama Belakang</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus izin dari peran ini?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Penghapusan gagal</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Apakah Anda yakin ingin menghapus anggota dari peran ini?</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Jenis sumber daya</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Halaman Wiki</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Tambah</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Pilih suatu disposition</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>Pilih suatu izin</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Pilih suatu halaman</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Pilih suatu ruang nama</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Anda harus memilih suatu disposition izin.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Anda harus memilih suatu izin.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Anda harus memilih suatu halaman.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Anda harus memilih suatu ruang nama.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Anda harus memilih baik halaman atau ruang nama.</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Peran ini sudah memiliki izin yang ditentukan.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Akun</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Pilih suatu akun</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Anda harus memilih suatu akun.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Akun ini sudah menjadi anggota dari peran yang ditentukan.</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>Menghapus peran '{0}' akan mencabut izin yang diberikan atau ditolak oleh peran tersebut. Melanjutkan?</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Anggota Peran</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Iz izin Peran</value>
+  </data>
+</root>

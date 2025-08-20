@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Hesap İzinleri</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Hesap Rolü Üyeliği</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Tek bir hesap için hesap rolleri ve izinleri.</value>
+  </data>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value>Hesap Rolleri ve İzinleri için: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>İşlem</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Hesaba İzin Ekle</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Hesaba Rol Ekle</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>TÜM</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Bu hesaptan izin kaldırmak istediğinize emin misiniz?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Bu hesaptan rol kaldırmak istediğinize emin misiniz?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Varlık</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>İsim</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>İsim alanı</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Sayfa</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>İzin</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Kaldırma başarısız oldu</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Kaynak türü</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Bir varlık seçin</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Bir isim alanı seçin</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Bir sayfa seçin</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Bir izin seçin</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Bir rol seçin</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Hesap zaten belirtilen izne sahip.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Hesap zaten belirtilen rolün bir üyesidir.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Wiki Sayfası</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Bir isim alanı seçmelisiniz.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Bir sayfa seçmelisiniz.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Bir izin varlığı seçmelisiniz.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Bir izin seçmelisiniz.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Bir rol seçmelisiniz.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Ya sayfa ya da isim alanını seçmelisiniz.</value>
+  </data>
+</root>

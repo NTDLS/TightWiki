@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Account Name" xml:space="preserve">
+    <value>Tên Tài Khoản</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>Ảnh đại diện</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Tiểu Sử</value>
+  </data>
+  <data name="Configuration for user account." xml:space="preserve">
+    <value>cấu hình cho tài khoản người dùng.</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Xác Nhận Mật Khẩu</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Quốc Gia</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Địa Chỉ Email</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>Email đã được xác nhận?</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Tên</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Ngôn Ngữ</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Họ</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Mật khẩu</value>
+  </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>Quyền truy cập và Vai trò</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Vai Trò</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Lưu</value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value>Chọn một quốc gia</value>
+  </data>
+  <data name="Select a language" xml:space="preserve">
+    <value>Chọn một ngôn ngữ</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Chọn một vai trò</value>
+  </data>
+  <data name="Select a time-zone" xml:space="preserve">
+    <value>Chọn một múi giờ</value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value>Mặc định của hệ thống</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Chủ Đề</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Múi Giờ</value>
+  </data>
+</root>

@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&lt;a href=\&quot;{0}\&quot;&gt;Continue now&lt;/a&gt; or you will be redirected in &lt;span id=\&quot;countdown\&quot;&gt;{1}&lt;/span&gt; seconds." xml:space="preserve">
-    <value>&lt;a href=\"{0}\"&gt;Pokračujte teraz&lt;/a&gt;, inak budete presmerovaní o &lt;span id=\"countdown\"&gt;{1}&lt;/span&gt; sekúnd.</value>
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+    <value>{0}Pokračujte teraz{1}, alebo budete presmerovaní za {2} sekúnd.</value>
   </data>
   <data name="Continue" xml:space="preserve">
     <value>Pokračovať</value>

@@ -1,8 +1,9 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Profile.AccountProfileViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
 }
 
 <h3>
@@ -80,7 +81,7 @@
                     @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "form-control" })
                 </div>
             </div>
-
+            @*
             <div class="form-group row">
                 <div class="col-sm-12">
                     <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Role)</div>
@@ -92,7 +93,7 @@
                     @Html.DisplayFor(m => m.AccountProfile.Role, new { @class = "form-control-plaintext" })
                 </div>
             </div>
-
+            *@
             <div class="form-group row">
                 <div class="col-sm-12">
                     <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Theme)</div>
@@ -187,12 +188,25 @@
 
             <div class="form-group row mb-1">
                 <div class="col-sm-10 offset-sm-2">
-                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
                 </div>
             </div>
         </form>
     </div>
 }
 
-<br />
-<form action="@GlobalConfiguration.BasePath/Profile/Delete"><button type="submit" class="btn btn-danger">@Localizer["Delete Account"]</button></form>
+<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?"].Format(Model.AccountProfile.AccountName),
+            Localizer["Delete Account"].Value, $"/Profile/Delete", $"{GlobalConfiguration.BasePath}/Profile/Deleted", Context.Request.Path.Value)
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
+
+
+

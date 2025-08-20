@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using NTDLS.Helpers;
+using System.Diagnostics.CodeAnalysis;
 using TightWiki.Caching;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -9,6 +10,214 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
+        public static bool IsAccountAMemberOfRole(Guid userId, int roleId, bool allowCache = true)
+        {
+            var param = new
+            {
+                UserId = userId,
+                RoleId = roleId
+            };
+
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, roleId]);
+
+                return WikiCache.AddOrGet(cacheKey, () =>
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false
+                );
+            }
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false;
+        }
+
+        public static void DeleteRole(int roleId)
+            => ManagedDataStorage.Users.Execute("DeleteRole.sql", new { Id = roleId });
+
+        public static bool InsertRole(string name, string? description)
+            => ManagedDataStorage.Users.ExecuteScalar<bool?>("InsertRole.sql", new { Name = name, Description = description }) ?? false;
+
+        public static bool DoesRoleExist(string name)
+            => ManagedDataStorage.Users.ExecuteScalar<bool?>("DoesRoleExist.sql", new { Name = name }) ?? false;
+
+        public static bool IsAccountPermissionDefined(Guid userId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
+        {
+            var param = new
+            {
+                UserId = userId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDispositionId,
+                Namespace = ns,
+                PageId = pageId
+            };
+
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
+
+                return WikiCache.AddOrGet(cacheKey, () =>
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false
+                );
+            }
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false;
+        }
+
+        public static InsertAccountPermissionResult? InsertAccountPermission(
+            Guid userId, int permissionId, string permissionDisposition, string? ns, string? pageId)
+        {
+            var param = new
+            {
+                UserId = userId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDisposition,
+                @Namespace = ns,
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+                return o.QueryFirstOrDefault<InsertAccountPermissionResult>("InsertAccountPermission.sql", param);
+            });
+        }
+
+        public static bool IsRolePermissionDefined(int roleId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
+        {
+            var param = new
+            {
+                RoleId = roleId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDispositionId,
+                Namespace = ns,
+                PageId = pageId
+            };
+
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
+
+                return WikiCache.AddOrGet(cacheKey, () =>
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false
+                );
+            }
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false;
+        }
+
+        public static IEnumerable<Role> AutoCompleteRole(string? searchText)
+            => ManagedDataStorage.Users.Query<Role>("AutoCompleteRole.sql", new { SearchText = searchText ?? string.Empty });
+
+        public static IEnumerable<AccountProfile> AutoCompleteAccount(string? searchText)
+            => ManagedDataStorage.Users.Query<AccountProfile>("AutoCompleteAccount.sql", new { SearchText = searchText ?? string.Empty });
+
+        public static AddRoleMemberResult? AddRoleMemberByname(Guid userId, string roleName)
+            => ManagedDataStorage.Users.QueryFirstOrDefault<AddRoleMemberResult>("AddRoleMemberByname.sql", new { UserId = userId, RoleName = roleName });
+
+        public static AddRoleMemberResult? AddRoleMember(Guid userId, int roleId)
+            => ManagedDataStorage.Users.QueryFirstOrDefault<AddRoleMemberResult>("AddRoleMember.sql", new { UserId = userId, RoleId = roleId });
+
+        public static AddAccountMembershipResult? AddAccountMembership(Guid userId, int roleId)
+            => ManagedDataStorage.Users.QueryFirstOrDefault<AddAccountMembershipResult>("AddAccountMembership.sql", new { UserId = userId, RoleId = roleId });
+
+        public static void RemoveRoleMember(int roleId, Guid userId)
+            => ManagedDataStorage.Users.Execute("RemoveRoleMember.sql", new { RoleId = roleId, UserId = userId });
+
+        public static void RemoveRolePermission(int id)
+            => ManagedDataStorage.Users.Execute("RemoveRolePermission.sql", new { Id = id });
+
+        public static void RemoveAccountPermission(int id)
+            => ManagedDataStorage.Users.Execute("RemoveAccountPermission.sql", new { Id = id });
+
+        public static InsertRolePermissionResult? InsertRolePermission(
+            int roleId, int permissionId, string permissionDisposition, string? ns, string? pageId)
+        {
+            var param = new
+            {
+                RoleId = roleId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDisposition,
+                @Namespace = ns,
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+                return o.QueryFirstOrDefault<InsertRolePermissionResult>("InsertRolePermission.sql", param);
+            });
+        }
+
+        /// <summary>
+        /// Gets the apparent account permissions for a user combined with the permissions of all roles that user is a member of.
+        /// </summary>
+        public static List<ApparentPermission> GetApparentAccountPermissions(Guid userId)
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<ApparentPermission>(@"Scripts\GetApparentAccountPermissions.sql",
+                new
+                {
+                    UserId = userId
+                }).ToList();
+            }).EnsureNotNull();
+        }
+
+        public static List<ApparentPermission> GetApparentRolePermissions(WikiRoles role)
+            => GetApparentRolePermissions(role.ToString());
+
+        public static List<ApparentPermission> GetApparentRolePermissions(string roleName)
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleName]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<ApparentPermission>(@"Scripts\GetApparentRolePermissions.sql",
+                new
+                {
+                    RoleName = roleName
+                }).ToList();
+            }).EnsureNotNull();
+        }
+
+        public static List<PermissionDisposition> GetAllPermissionDispositions()
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<PermissionDisposition>(@"Scripts\GetAllPermissionDispositions.sql").ToList();
+            }).EnsureNotNull();
+        }
+
+        public static List<Permission> GetAllPermissions()
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                return ManagedDataStorage.Users.Query<Permission>(@"Scripts\GetAllPermissions.sql").ToList();
+            }).EnsureNotNull();
+        }
+
+        public static List<RolePermission> GetRolePermissionsPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+
+                pageSize ??= GlobalConfiguration.PaginationSize;
+
+                var param = new
+                {
+                    PageSize = pageSize,
+                    PageNumber = pageNumber,
+                    RoleId = roleId
+                };
+
+                var query = RepositoryHelper.TransposeOrderby("GetRolePermissionsPaged.sql", orderBy, orderByDirection);
+                return o.Query<RolePermission>(query, param).ToList();
+            });
+        }
+
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= GlobalConfiguration.PaginationSize;
@@ -42,6 +251,21 @@ namespace TightWiki.Repository
             ManagedDataStorage.Users.Execute("AnonymizeProfile.sql", param);
         }
 
+        public static bool IsUserMemberOfAdministrators(Guid userId)
+        {
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+            {
+                var result = ManagedDataStorage.Users.ExecuteScalar<int?>("IsUserMemberOfAdministrators.sql",
+                new
+                {
+                    UserId = userId
+                });
+                return result == 1;
+            });
+        }
+
         public static Role GetRoleByName(string name)
         {
             var param = new
@@ -58,7 +282,7 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.Query<Role>(query).ToList();
         }
 
-        public static List<AccountProfile> GetProfilesByRoleIdPaged(int roleId, int pageNumber)
+        public static List<AccountProfile> GetRoleMembersPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             var param = new
             {
@@ -67,7 +291,43 @@ namespace TightWiki.Repository
                 PageSize = GlobalConfiguration.PaginationSize
             };
 
-            return ManagedDataStorage.Users.Query<AccountProfile>("GetProfilesByRoleIdPaged.sql", param).ToList();
+            var query = RepositoryHelper.TransposeOrderby("GetRoleMembersPaged.sql", orderBy, orderByDirection);
+
+            return ManagedDataStorage.Users.Query<AccountProfile>(query, param).ToList();
+        }
+
+        public static List<AccountPermission> GetAccountPermissionsPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+
+                pageSize ??= GlobalConfiguration.PaginationSize;
+
+                var param = new
+                {
+                    PageSize = pageSize,
+                    PageNumber = pageNumber,
+                    UserId = userId
+                };
+
+                var query = RepositoryHelper.TransposeOrderby("GetAccountPermissionsPaged.sql", orderBy, orderByDirection);
+                return o.Query<AccountPermission>(query, param).ToList();
+            });
+        }
+
+        public static List<AccountRoleMembership> GetAccountRoleMembershipPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            var param = new
+            {
+                UserId = userId,
+                PageNumber = pageNumber,
+                PageSize = GlobalConfiguration.PaginationSize
+            };
+
+            var query = RepositoryHelper.TransposeOrderby("GetAccountRoleMembershipPaged.sql", orderBy, orderByDirection);
+
+            return ManagedDataStorage.Users.Query<AccountRoleMembership>(query, param).ToList();
         }
 
         public static List<AccountProfile> GetAllUsers()
@@ -125,78 +385,40 @@ namespace TightWiki.Repository
             return (ManagedDataStorage.Users.ExecuteScalar<int?>("DoesProfileAccountExist.sql", param) ?? 0) != 0;
         }
 
-        public static bool TryGetBasicProfileByUserId(Guid userId,
-            [NotNullWhen(true)] out AccountProfile? accountProfile, bool allowCache = true)
+        public static bool TryGetBasicProfileByUserId(Guid userId, [NotNullWhen(true)] out AccountProfile? accountProfile)
         {
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out accountProfile))
-                {
-                    if (TryGetBasicProfileByUserId(userId, out accountProfile, false))
-                    {
-                        WikiCache.Put(cacheKey, accountProfile);
-                        return true;
-                    }
-                }
-
-                if (accountProfile != null)
-                {
-                    return true;
-                }
-            }
-
-            var param = new
-            {
-                UserId = userId
-            };
-
-            accountProfile = ManagedDataStorage.Users.QuerySingleOrDefault<AccountProfile>("GetBasicProfileByUserId.sql", param);
+            accountProfile = GetBasicProfileByUserId(userId);
             return accountProfile != null;
         }
 
-        public static AccountProfile GetBasicProfileByUserId(Guid userId, bool allowCache = true)
+        public static AccountProfile GetBasicProfileByUserId(Guid userId)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetBasicProfileByUserId(userId, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    UserId = userId
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                UserId = userId
-            };
-
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
+                return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
+            }).EnsureNotNull();
         }
 
-        public static AccountProfile GetAccountProfileByUserId(Guid userId, bool allowCache = true)
+        public static AccountProfile GetAccountProfileByUserId(Guid userId)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
-                if (!WikiCache.TryGet<AccountProfile>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetAccountProfileByUserId(userId, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    UserId = userId
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                UserId = userId
-            };
-
-            return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId.sql", param);
+                return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetAccountProfileByUserId.sql", param);
+            }).EnsureNotNull();
         }
 
         public static void SetProfileUserId(string navigation, Guid userId)

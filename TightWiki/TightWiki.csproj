@@ -3,13 +3,20 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.25.1</Version>
+    <Version>2.26.0</Version>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <DebugSymbols>False</DebugSymbols>
     <DebugType>None</DebugType>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="keys\**" />
+    <Content Remove="keys\**" />
+    <EmbeddedResource Remove="keys\**" />
+    <None Remove="keys\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />

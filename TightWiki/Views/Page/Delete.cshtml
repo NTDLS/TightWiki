@@ -2,19 +2,19 @@
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageDeleteViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 @if (string.IsNullOrEmpty(Model.ErrorMessage))
 {
-    <div class="card border-danger mb-3">
+    <div class="card shadow-lg border-danger mb-3">
         <div class="card-header bg-danger text-white">
-            <strong>@Localizer.Format("Delete page \"{0}\"?", Model.PageName ?? "")</strong>
+            <strong>@Localizer.Format("Delete page '{0}'?", Model.PageName)</strong>
         </div>
         <div class="card-body">
-            @Localizer.Format("Deleting \"{0}\" will move the page, all {1} revisions and {2} file attachments to the deletion queue.", (Model.PageName ?? ""), Model.PageRevision, Model.CountOfAttachments)
-            @Localizer["This action can only be undone by an administrator or moderator."]
+            @Localizer.Format("Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue.", Model.PageName, Model.PageRevision, Model.CountOfAttachments)
+            @Localizer["This action can only be undone by a moderator or administrator."]
             <br /><br />
 
             @Localizer["Are you sure you want to continue with this deletion?"]<br /><br />

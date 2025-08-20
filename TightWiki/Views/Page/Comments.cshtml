@@ -1,8 +1,9 @@
 ﻿@using TightWiki.Models
+@using static TightWiki.Library.Constants
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
@@ -32,7 +33,7 @@
         @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">@Localizer["Login to leave a comment"]</a>.
     }
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
 
     if (Model.Comments.Count > 0)
@@ -55,7 +56,7 @@
                             }
                             &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
                         </div>
-                        @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
+                        @if (sessionState.HoldsPermission(WikiPermission.Moderate) || h.UserId == sessionState.Profile?.UserId)
                         {
                             <a href="?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('@Localizer["Are you sure you want to delete this comment?"]')">@Localizer["Delete"]</a>
                         }
@@ -71,5 +72,5 @@
         </div>
     }
 
-    @Html.Raw(TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount))
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
 }

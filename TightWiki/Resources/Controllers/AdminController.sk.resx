@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>Osirotené prílohy stránok boli vymazané.</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Uvedený emoji bol odstránený.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Uvedená položka v menu bola odstránená.</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>Zadaná stránka sa nenašla.</value>
   </data>

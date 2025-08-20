@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>Gli allegati orfani delle pagine sono stati eliminati.</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>L'emoji specificato è stato eliminato.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Il menu specificato è stato eliminato.</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>La pagina specificata non è stata trovata.</value>
   </data>

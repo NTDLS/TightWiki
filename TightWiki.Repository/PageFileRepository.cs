@@ -83,31 +83,22 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>("GetPageFileAttachmentByPageNavigationFileRevisionAndFileNavigation.sql", param);
         }
 
-        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null, bool allowCache = true)
+        public static PageFileAttachment? GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(string pageNavigation, string fileNavigation, int? pageRevision = null)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageNavigation, fileNavigation, pageRevision]);
-                if (!WikiCache.TryGet<PageFileAttachment>(cacheKey, out var result))
+                var param = new
                 {
-                    if ((result = GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation(pageNavigation, fileNavigation, pageRevision, false)) != null)
-                    {
-                        WikiCache.Put(cacheKey, result);
-                    }
-                }
+                    PageNavigation = pageNavigation,
+                    FileNavigation = fileNavigation,
+                    PageRevision = pageRevision
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                PageNavigation = pageNavigation,
-                FileNavigation = fileNavigation,
-                PageRevision = pageRevision
-            };
-
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>(
-                "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
+                return ManagedDataStorage.Pages.QuerySingleOrDefault<PageFileAttachment>(
+                    "GetPageFileAttachmentByPageNavigationPageRevisionAndFileNavigation.sql", param);
+            });
         }
 
         public static List<PageFileAttachmentInfo> GetPageFileAttachmentRevisionsByPageAndFileNavigationPaged(string pageNavigation, string fileNavigation, int pageNumber)

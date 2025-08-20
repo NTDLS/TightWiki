@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>खाता हटाएँ</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>'{0}' को हटाने से खाते को स्थायी रूप से हटा दिया जाएगा। इस उपयोगकर्ता द्वारा बनाई गई या संशोधित सभी पृष्ठों को एक स्थानापन्न खाते के साथ संलग्न किया जाएगा और आप इस क्रिया को पूर्ववत नहीं कर पाएंगे। जारी रखना है?</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>ईमेल पता</value>
   </data>

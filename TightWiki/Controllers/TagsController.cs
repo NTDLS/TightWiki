@@ -7,6 +7,7 @@ using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
 {
@@ -18,16 +19,22 @@ namespace TightWiki.Controllers
         : WikiControllerBase<TagsController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]
-        public ActionResult Browse(string navigation)
+        public ActionResult Browse(string givenCanonical)
         {
-            SessionState.RequireViewPermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             SessionState.Page.Name = Localize("Tags");
 
-            navigation = NamespaceNavigation.CleanAndValidate(navigation);
+            givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
             string glossaryName = "glossary_" + (new Random()).Next(0, 1000000).ToString();
-            var pages = PageRepository.GetPageInfoByTag(navigation).OrderBy(o => o.Name).ToList();
+            var pages = PageRepository.GetPageInfoByTag(givenCanonical).OrderBy(o => o.Name).ToList();
             var glossaryHtml = new StringBuilder();
             var alphabet = pages.Select(p => p.Name.Substring(0, 1).ToUpperInvariant()).Distinct();
 
@@ -65,7 +72,7 @@ namespace TightWiki.Controllers
             var model = new BrowseViewModel
             {
                 AssociatedPages = glossaryHtml.ToString(),
-                TagCloud = TagCloud.Build(navigation, 100)
+                TagCloud = TagCloud.Build(givenCanonical, 100)
             };
 
             return View(model);

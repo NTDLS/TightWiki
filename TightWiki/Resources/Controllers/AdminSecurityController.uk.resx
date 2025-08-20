@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Ім'я облікового запису вже використовується.</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Ім'я облікового запису є обов'язковим.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Не вдалося зберегти прикріплене зображення, занадто велике.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Не вдалося зберегти прикріплене зображення, тип не дозволений.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Не вдалося зберегти прикріплене зображення.</value>
+  </data>
+  <data name="Delete Profile" xml:space="preserve">
+    <value>Видалити профіль</value>
+  </data>
+  <data name="Delete {0}" xml:space="preserve">
+    <value>Видалити {0}</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Адреса електронної пошти вже використовується.</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Назва емодзі вже використовується.</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Простір імен</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Простори імен</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Сторінки</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Ім’я ролі вже використовується.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Ім’я ролі є обов’язковим.</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Ролі</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Обліковий запис було створено.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Обліковий запис було видалено.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Вказану роль було видалено.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Користувача не знайдено.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Ваш обліковий запис було видалено.</value>
+  </data>
+  <data name="Your profile has been saved successfully!" xml:space="preserve">
+    <value>Ваш профіль успішно збережено!</value>
+  </data>
+  <data name="{0} : {1} is required." xml:space="preserve">
+    <value>{0} : {1} є обов'язковим.</value>
+  </data>
+  <data name="{0} Delete" xml:space="preserve">
+    <value>{0} Видалити</value>
+  </data>
+</root>

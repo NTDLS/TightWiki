@@ -59,16 +59,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Administration" xml:space="preserve">
+    <value>Verwaltung</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Erlauben</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>Verweigern</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Bearbeiten</value>
+  </data>
   <data name="First" xml:space="preserve">
     <value>Erste</value>
   </data>
   <data name="Last" xml:space="preserve">
     <value>Letzte</value>
   </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Moderieren</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Nächste</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Vorherige</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Lesen</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>Sie sind nicht autorisiert</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>Sie haben keine Berechtigung, die Aktion auszuführen: {0}</value>
   </data>
 </root>

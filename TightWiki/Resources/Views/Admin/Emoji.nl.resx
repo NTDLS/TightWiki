@@ -68,8 +68,14 @@
   <data name="Configuration for an emoji." xml:space="preserve">
     <value>Configuratie voor een emoji.</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
   <data name="Delete Emoji" xml:space="preserve">
     <value>Verwijder Emoji</value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value>Het verwijderen van de emoji '{0}' zal de afbeelding permanent verwijderen en alle verwijzingen daarnaar zullen wees zijn. U kunt deze verwijdering niet ongedaan maken. Doorgaan?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
     <value>Emoji</value>

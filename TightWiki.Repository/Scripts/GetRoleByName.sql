@@ -1,7 +1,8 @@
 SELECT
 	Id,
 	[Name],
-	[Description]
+	[Description],
+	IsBuiltIn
 FROM
 	[Role]
 WHERE

@@ -1,32 +1,32 @@
 ﻿@using TightWiki.Models
+@using static TightWiki.Library.Constants
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageDisplayViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <!-- Syntax Highlighter:Begin -->
 <script src="@Url.Content("~/syntax/highlight.min.js")"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    hljs.highlightAll();
-});
+    document.addEventListener("DOMContentLoaded", function () {
+        hljs.highlightAll();
+    });
 </script>
 <!-- Syntax Highlighter:End -->
-
 @if (Model.Revision < Model.MostCurrentRevision)
 {
-    <div class="card border-info mb-3">
+    <div class="card shadow-lg border-info mb-3">
         <div class="card-header bg-info">
-        <strong>@Localizer["Viewing a historical version"]</strong>
+            <strong>@Localizer["Viewing a historical version"]</strong>
         </div>
         <div class="card-body">
             <p class="card-text">
                 @Localizer.Format("You are viewing revision {0} of \"{1}\" modified by {2} on {3}.", Model.Revision, Model.Name, Model.ModifiedByUserName, Model.ModifiedDate)<br />
 
                 <a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation">@Localizer["View latest revision"]</a>
-                @if(sessionState.CanModerate)
+                @if (sessionState.HoldsPermission(WikiPermission.Moderate))
                 {
                     <a class="btn btn-warning btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">@Localizer["Revert to revision"] @Model.Revision</a>
                 }
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
                             &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
                         </div>
-                        @if (sessionState.CanModerate == true || h.UserId == sessionState.Profile?.UserId)
+                        @if (sessionState.HoldsPermission(WikiPermission.Moderate) == true || h.UserId == sessionState.Profile?.UserId)
                         {
                             <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('@Localizer["Are you sure you want to delete this comment?"]')">@Localizer["Delete"]</a>
                         }

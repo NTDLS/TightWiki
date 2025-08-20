@@ -59,16 +59,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Administration" xml:space="preserve">
+    <value>管理</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>許可する</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>作成する</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>削除する</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>拒否する</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編集する</value>
+  </data>
   <data name="First" xml:space="preserve">
     <value>最初</value>
   </data>
   <data name="Last" xml:space="preserve">
     <value>最後</value>
   </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>モデレートする</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>次</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>前</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>読む</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>あなたは権限がありません</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>アクションを実行する権限がありません: {0}</value>
   </data>
 </root>

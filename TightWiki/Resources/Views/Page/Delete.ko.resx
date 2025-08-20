@@ -62,17 +62,17 @@
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
     <value>이 삭제를 계속 진행하시겠습니까?</value>
   </data>
-  <data name="Delete page \&quot;{0}\&quot;?" xml:space="preserve">
-    <value>페이지 \"{0}\"를 삭제하시겠습니까?</value>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>'{0}' 페이지를 삭제하시겠습니까?</value>
   </data>
-  <data name="Deleting \&quot;{0}\&quot; will move the page, all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>\"{0}\"를 삭제하면 페이지와 모든 {1} 개 개정판 및 {2} 개 파일 첨부가 삭제 대기열로 이동됩니다.</value>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>'{0}'을(를) 삭제하면 모든 {1} 수정 사항과 {2} 파일 첨부가 삭제 대기열로 이동합니다.</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>아니요</value>
   </data>
-  <data name="This action can only be undone by an administrator or moderator." xml:space="preserve">
-    <value>이 작업은 관리자나 중재자만 되돌릴 수 있습니다.</value>
+  <data name="This action can only be undone by a moderator or administrator" xml:space="preserve">
+    <value>이 작업은 중재자 또는 관리자만 되돌릴 수 있습니다.</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>네</value>

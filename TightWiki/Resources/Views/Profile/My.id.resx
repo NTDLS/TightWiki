@@ -74,6 +74,9 @@
   <data name="Delete Account" xml:space="preserve">
     <value>Hapus Akun</value>
   </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Menghapus '{0}' akan menghapus akun secara permanen. Semua halaman yang dibuat atau dimodifikasi oleh pengguna ini akan dialihkan ke akun sementara dan Anda tidak akan bisa membatalkan tindakan ini. Lanjutkan?</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>Alamat Email</value>
   </data>

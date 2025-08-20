@@ -6,10 +6,13 @@ namespace TightWiki.Caching
 {
     public class WikiCache
     {
+        public delegate T? GetValueDelegate<T>();
+
         public enum Category
         {
             User,
             Page,
+            Security,
             Search,
             Emoji,
             Configuration
@@ -17,6 +20,7 @@ namespace TightWiki.Caching
 
         public static int DefaultCacheSeconds { get; set; }
         private static MemoryCache? _memCache;
+
         public static ulong CachePuts { get; set; }
         public static ulong CacheGets { get; set; }
         public static ulong CacheHits { get; set; }
@@ -75,17 +79,52 @@ namespace TightWiki.Caching
         /// <summary>
         /// Gets an item from the cache.
         /// </summary>
-        public static bool TryGet<T>(IWikiCacheKey cacheKey, [NotNullWhen(true)] out T result)
+        public static bool TryGet<T>(IWikiCacheKey cacheKey, [NotNullWhen(true)] out T? result)
         {
+            var cached = MemCache.Get(cacheKey.Key);
+
             CacheGets++;
-            if ((result = (T)MemCache.Get(cacheKey.Key)) == null)
+            if (cached == null)
             {
+                result = default;
                 CacheMisses++;
                 return false;
             }
 
+            result = (T)cached;
+
             CacheHits++;
+
             return true;
+        }
+
+        /// <summary>
+        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
+        /// </summary>
+        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, int? seconds = null)
+        {
+            if (_memCache == null)
+            {
+                return getValueDelegate();
+            }
+
+            if (TryGet<T>(cacheKey, out var result))
+            {
+                return result;
+            }
+
+            result = getValueDelegate();
+
+            if (result != null)
+            {
+                var policy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+                };
+                MemCache.Add(cacheKey.Key, result, policy);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -116,6 +155,9 @@ namespace TightWiki.Caching
             CachePuts++;
             MemCache.Add(cacheKey.Key, value, policy);
         }
+
+        public static void Remove(IWikiCacheKey cacheKey)
+            => MemCache.Remove(cacheKey.Key);
 
         /// <summary>
         /// Removes all entries from the cache.

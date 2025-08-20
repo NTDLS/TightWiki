@@ -3,7 +3,7 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.25.1</Version>
+    <Version>2.26.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -102,7 +102,6 @@
     <None Remove="Scripts\GetPageTagsById.sql" />
     <None Remove="Scripts\GetProfileAvatarByNavigation.sql" />
     <None Remove="Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
-    <None Remove="Scripts\GetProfilesByRoleIdPaged.sql" />
     <None Remove="Scripts\GetRelatedPagesPaged.sql" />
     <None Remove="Scripts\GetRoleByName.sql" />
     <None Remove="Scripts\GetSimilarPagesPaged.sql" />
@@ -179,6 +178,38 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\AddAccountMembership.sql" />
+    <EmbeddedResource Include="Scripts\AddRoleMemberByName.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompleteRole.sql" />
+    <EmbeddedResource Include="Scripts\DeleteRole.sql" />
+    <EmbeddedResource Include="Scripts\GetAccountRoleMembershipPaged.sql" />
+    <EmbeddedResource Include="Scripts\GetAccountPermissionsPaged.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^007^Users^CreatePermissionDefaults.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^006^Users^RolePermission.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^005^Users^AccountPermission.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^004^Users^AccountRole.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^003^Users^Permission.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^002^Users^Role.sql" />
+    <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^001^Users^PermissionDisposition.sql" />
+    <EmbeddedResource Include="Scripts\InsertRole.sql" />
+    <EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
+    <EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
+    <EmbeddedResource Include="Scripts\IsAccountPermissionDefined.sql" />
+    <EmbeddedResource Include="Scripts\RemoveRoleMember.sql" />
+    <EmbeddedResource Include="Scripts\RemoveAccountPermission.sql" />
+    <EmbeddedResource Include="Scripts\RemoveRolePermission.sql" />
+    <EmbeddedResource Include="Scripts\InsertRolePermission.sql" />
+    <EmbeddedResource Include="Scripts\IsRolePermissionDefined.sql" />
+    <EmbeddedResource Include="Scripts\IsAccountAMemberOfRole.sql" />
+    <EmbeddedResource Include="Scripts\AddRoleMember.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompleteAccount.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompleteNamespace.sql" />
+    <EmbeddedResource Include="Scripts\GetAllPermissions.sql" />
+    <EmbeddedResource Include="Scripts\GetAllPermissionDispositions.sql" />
+    <EmbeddedResource Include="Scripts\GetRolePermissionsPaged.sql" />
+    <EmbeddedResource Include="Scripts\GetApparentRolePermissions.sql" />
+    <EmbeddedResource Include="Scripts\IsUserMemberOfAdministrators.sql" />
+    <EmbeddedResource Include="Scripts\GetApparentAccountPermissions.sql" />
     <EmbeddedResource Include="Scripts\GetAllFeatureTemplates.sql" />
     <EmbeddedResource Include="Scripts\GetAllTemplatePages.sql" />
     <EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^000^Config^UpsertConfigurationGroup.sql" />
@@ -186,7 +217,7 @@
     <EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^002^Config^UpsertTheme.sql" />
     <EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^003^Pages^FeatureTemplate.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.25.1\^001^Pages^ChangeSummary.sql" />
-    <EmbeddedResource Include="Scripts\PageAutoComplete.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompletePage.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.18.0\^000^Config^ConfigurationConstraints.sql" />
   </ItemGroup>
 
@@ -286,7 +317,7 @@
     <EmbeddedResource Include="Scripts\GetPageTagsById.sql" />
     <EmbeddedResource Include="Scripts\GetProfileAvatarByNavigation.sql" />
     <EmbeddedResource Include="Scripts\GetProfileByAccountNameOrEmailAndPasswordHash.sql" />
-    <EmbeddedResource Include="Scripts\GetProfilesByRoleIdPaged.sql" />
+    <EmbeddedResource Include="Scripts\GetRoleMembersPaged.sql" />
     <EmbeddedResource Include="Scripts\GetRelatedPagesPaged.sql" />
     <EmbeddedResource Include="Scripts\GetRoleByName.sql" />
     <EmbeddedResource Include="Scripts\GetSimilarPagesPaged.sql" />

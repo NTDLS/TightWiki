@@ -1,8 +1,9 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
@@ -43,6 +44,15 @@
     </div>
 }
 
-<form action="@GlobalConfiguration.BasePath/Admin/DeleteMenuItem/@Model.Id">
-    <button type="submit" class="btn btn-danger mt-2">@Localizer["Delete Menu Item"]</button>
-</form>
+<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
+            Localizer["Delete"].Value, $"/Admin/DeleteMenuItem/{@Model.Id}", $"{GlobalConfiguration.BasePath}/Admin/MenuItems", Context.Request.Path.Value)
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>

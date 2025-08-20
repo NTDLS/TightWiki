@@ -11,6 +11,7 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
+using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers
@@ -114,8 +115,14 @@ namespace TightWiki.Controllers
         [HttpGet("Png/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Png(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            SessionState.RequireViewPermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
@@ -193,8 +200,14 @@ namespace TightWiki.Controllers
         [HttpGet("Binary/{givenPageNavigation}/{givenFileNavigation}/{fileRevision:int?}")]
         public ActionResult Binary(string givenPageNavigation, string givenFileNavigation, int? fileRevision = null)
         {
-            SessionState.RequireViewPermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
@@ -218,8 +231,14 @@ namespace TightWiki.Controllers
         [HttpGet("Revisions/{givenPageNavigation}/{givenFileNavigation}")]
         public ActionResult Revisions(string givenPageNavigation, string givenFileNavigation)
         {
-            SessionState.RequireViewPermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
@@ -243,8 +262,14 @@ namespace TightWiki.Controllers
         [HttpGet("PageAttachments/{givenPageNavigation}")]
         public ActionResult PageAttachments(string givenPageNavigation)
         {
-            SessionState.RequireCreatePermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
             var page = PageRepository.GetPageRevisionByNavigation(pageNavigation);
@@ -273,8 +298,14 @@ namespace TightWiki.Controllers
         [HttpPost("UploadDragDrop/{givenPageNavigation}")]
         public IActionResult UploadDragDrop(string givenPageNavigation, List<IFormFile> postedFiles)
         {
-            SessionState.RequireCreatePermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             try
             {
                 var pageNavigation = new NamespaceNavigation(givenPageNavigation);
@@ -324,8 +355,14 @@ namespace TightWiki.Controllers
         [HttpPost("ManualUpload/{givenPageNavigation}")]
         public IActionResult ManualUpload(string givenPageNavigation, IFormFile fileData)
         {
-            SessionState.RequireCreatePermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, [WikiPermission.Create, WikiPermission.Edit]);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
 
             var page = PageRepository.GetPageInfoByNavigation(pageNavigation.Canonical).EnsureNotNull();
@@ -366,15 +403,20 @@ namespace TightWiki.Controllers
         [HttpPost("Detach/{givenPageNavigation}/{givenFileNavigation}/{pageRevision}")]
         public ActionResult Detach(string givenPageNavigation, string givenFileNavigation, int pageRevision)
         {
-            SessionState.RequireDeletePermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Delete);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             PageFileRepository.DetachPageRevisionAttachment(
                 new NamespaceNavigation(givenPageNavigation).Canonical,
                 new NamespaceNavigation(givenFileNavigation).Canonical, pageRevision);
 
             return Content(Localize("Success"));
         }
-
 
         /// <summary>
         /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
@@ -383,8 +425,14 @@ namespace TightWiki.Controllers
         [HttpGet("Emoji/{givenPageNavigation}")]
         public ActionResult Emoji(string givenPageNavigation)
         {
-            SessionState.RequireViewPermission();
-
+            try
+            {
+                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNavigation = Navigation.Clean(givenPageNavigation);
 
             if (string.IsNullOrEmpty(pageNavigation) == false)

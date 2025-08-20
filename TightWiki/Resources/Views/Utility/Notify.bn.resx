@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&lt;a href=\&quot;{0}\&quot;&gt;Continue now&lt;/a&gt; or you will be redirected in &lt;span id=\&quot;countdown\&quot;&gt;{1}&lt;/span&gt; seconds." xml:space="preserve">
-    <value>&lt;a href=\"{0}\"&gt;এখন এগিয়ে যান&lt;/a&gt; অথবা আপনি &lt;span id=\"countdown\"&gt;{1}&lt;/span&gt; সেকেন্ডের মধ্যে পুনর্নির্দেশিত হবেন।</value>
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+    <value>{0}এখনই চালিয়ে যান{1} নচেৎ আপনাকে {2} সেকেন্ডের মধ্যে পুনর্নির্দেশিত করা হবে।</value>
   </data>
   <data name="Continue" xml:space="preserve">
     <value>এগিয়ে যান</value>

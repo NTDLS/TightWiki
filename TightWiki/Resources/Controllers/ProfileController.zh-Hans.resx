@@ -92,6 +92,12 @@
   <data name="The specified user was not found." xml:space="preserve">
     <value>未找到指定用户。</value>
   </data>
+  <data name="User not found." xml:space="preserve">
+    <value>用户未找到。</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>您的账户已被删除。</value>
+  </data>
   <data name="Your profile has been saved." xml:space="preserve">
     <value>您的资料已保存。</value>
   </data>

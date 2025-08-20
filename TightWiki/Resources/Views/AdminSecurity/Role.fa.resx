@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Name" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="Role {0}" xml:space="preserve">
+    <value>نقش {0}</value>
+  </data>
+  <data name="Role membership." xml:space="preserve">
+    <value>عضویت در نقش.</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>عضویت در نقش و مجوزها.</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>مجوزها</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>افزودن مجوز به نقش</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>وضعیت</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>مجوز</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>منبع</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>عملکرد</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>فضای نام</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>همه</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>صفحه</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>اعضا</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>افزودن عضو به نقش</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>آدرس ایمیل</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>نام کوچک</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>نام خانوادگی</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>آیا مطمئن هستید که می‌خواهید مجوز را از این نقش حذف کنید؟</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>حذف ناموفق بود</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>آیا مطمئن هستید که می‌خواهید عضو را از این نقش حذف کنید؟</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>نوع منبع</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>صفحه ویکی</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>افزودن</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>یک وضعیت را انتخاب کنید</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>یک مجوز را انتخاب کنید</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>یک صفحه را انتخاب کنید</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>یک فضای نام را انتخاب کنید</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>شما باید یک وضعیت مجوز انتخاب کنید.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>شما باید یک مجوز انتخاب کنید.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>شما باید یک صفحه انتخاب کنید.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>شما باید یک فضای نام انتخاب کنید.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>شما باید یا صفحه یا فضای نام را انتخاب کنید.</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>نقش قبلاً مجوز مشخص شده را دارد.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>حساب</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>یک حساب را انتخاب کنید</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>شما باید یک حساب انتخاب کنید.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>حساب قبلاً عضو نقش مشخص شده است.</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>حذف نقش '{0}' هرگونه دسترسی‌های اعطا شده یا رد شده توسط آن نقش را باطل خواهد کرد. آیا ادامه می‌دهید؟</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>اعضای نقش</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>مجوزهای نقش</value>
+  </data>
+</root>

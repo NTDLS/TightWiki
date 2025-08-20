@@ -1,4 +1,6 @@
 ﻿using DuoVia.FuzzyStrings;
+using Microsoft.EntityFrameworkCore.Metadata;
+using NTDLS.Helpers;
 using NTDLS.SqliteDapperWrapper;
 using TightWiki.Caching;
 using TightWiki.Engine.Library;
@@ -10,8 +12,11 @@ namespace TightWiki.Repository
 {
     public static class PageRepository
     {
-        public static IEnumerable<Page> AutoComplete(string? searchText)
-            => ManagedDataStorage.Pages.Query<Page>("PageAutoComplete.sql", new { SearchText = searchText ?? string.Empty });
+        public static IEnumerable<Page> AutoCompletePage(string? searchText)
+            => ManagedDataStorage.Pages.Query<Page>("AutoCompletePage.sql", new { SearchText = searchText ?? string.Empty });
+
+        public static IEnumerable<string> AutoCompleteNamespace(string? searchText)
+            => ManagedDataStorage.Pages.Query<string>("AutoCompleteNamespace.sql", new { SearchText = searchText ?? string.Empty });
 
         public static Page? GetPageRevisionInfoById(int pageId, int? revision = null)
         {
@@ -24,51 +29,37 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionInfoById.sql", param);
         }
 
-        public static ProcessingInstructionCollection GetPageProcessingInstructionsByPageId(int pageId, bool allowCache = true)
+        public static ProcessingInstructionCollection GetPageProcessingInstructionsByPageId(int pageId)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
-                if (!WikiCache.TryGet<ProcessingInstructionCollection>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetPageProcessingInstructionsByPageId(pageId, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    PageId = pageId
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                PageId = pageId
-            };
-
-            return new ProcessingInstructionCollection()
-            {
-                Collection = ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList()
-            };
+                return new ProcessingInstructionCollection()
+                {
+                    Collection = ManagedDataStorage.Pages.Query<ProcessingInstruction>("GetPageProcessingInstructionsByPageId.sql", param).ToList()
+                };
+            }).EnsureNotNull();
         }
 
-        public static List<PageTag> GetPageTagsById(int pageId, bool allowCache = true)
+        public static List<PageTag> GetPageTagsById(int pageId)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]);
-                if (!WikiCache.TryGet<List<PageTag>>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetPageTagsById(pageId, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    PageId = pageId
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                PageId = pageId
-            };
-
-            return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param).ToList();
+                return ManagedDataStorage.Pages.Query<PageTag>("GetPageTagsById.sql", param).ToList();
+            }).EnsureNotNull();
         }
 
         public static List<PageRevision> GetPageRevisionsInfoByNavigationPaged(
@@ -153,52 +144,44 @@ namespace TightWiki.Repository
             });
         }
 
-        private static List<PageSearchToken> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching, bool allowCache = true)
+        private static List<PageSearchToken> GetMeteredPageSearchTokens(List<string> searchTerms, bool allowFuzzyMatching)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                //This caching is really just used for paging - so we don't have to do a token search for every click of next/previous.
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Search, [string.Join(',', searchTerms), allowFuzzyMatching]);
-                if (!WikiCache.TryGet<List<PageSearchToken>>(cacheKey, out var result))
+                var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score");
+
+                var searchTokens = (from o in searchTerms
+                                    select new PageToken
+                                    {
+                                        Token = o,
+                                        DoubleMetaphone = o.ToDoubleMetaphone()
+                                    }).ToList();
+
+                if (allowFuzzyMatching == true)
                 {
-                    result = GetMeteredPageSearchTokens(searchTerms, allowFuzzyMatching, false);
-                    WikiCache.Put(cacheKey, result);
+                    var allTokens = GetExactPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
+                    var fuzzyTokens = GetFuzzyPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
+
+                    allTokens.AddRange(fuzzyTokens);
+
+                    return allTokens
+                            .GroupBy(token => token.PageId)
+                            .Where(group => group.Sum(g => g.Score) >= minimumMatchScore) // Filtering groups
+                            .Select(group => new PageSearchToken
+                            {
+                                PageId = group.Key,
+                                Match = group.Max(g => g.Match),
+                                Weight = group.Max(g => g.Weight),
+                                Score = group.Max(g => g.Score)
+                            }).ToList();
                 }
-
-                return result;
-            }
-
-            var minimumMatchScore = ConfigurationRepository.Get<float>("Search", "Minimum Match Score");
-
-            var searchTokens = (from o in searchTerms
-                                select new PageToken
-                                {
-                                    Token = o,
-                                    DoubleMetaphone = o.ToDoubleMetaphone()
-                                }).ToList();
-
-            if (allowFuzzyMatching == true)
-            {
-                var allTokens = GetExactPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
-                var fuzzyTokens = GetFuzzyPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
-
-                allTokens.AddRange(fuzzyTokens);
-
-                return allTokens
-                        .GroupBy(token => token.PageId)
-                        .Where(group => group.Sum(g => g.Score) >= minimumMatchScore) // Filtering groups
-                        .Select(group => new PageSearchToken
-                        {
-                            PageId = group.Key,
-                            Match = group.Max(g => g.Match),
-                            Weight = group.Max(g => g.Weight),
-                            Score = group.Max(g => g.Score)
-                        }).ToList();
-            }
-            else
-            {
-                return GetExactPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
-            }
+                else
+                {
+                    return GetExactPageSearchTokens(searchTokens, minimumMatchScore / 2.0);
+                }
+            }).EnsureNotNull();
         }
 
         public static List<Page> PageSearch(List<string> searchTerms)
@@ -338,32 +321,25 @@ namespace TightWiki.Repository
             FlushPageCache(pageId);
         }
 
-        public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber, bool allowCache = true)
+        public static List<PageComment> GetPageCommentsPaged(string navigation, int pageNumber)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, GlobalConfiguration.PaginationSize]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation, pageNumber, GlobalConfiguration.PaginationSize]);
-                if (!WikiCache.TryGet<List<PageComment>>(cacheKey, out var result))
+                var param = new
                 {
-                    result = GetPageCommentsPaged(navigation, pageNumber, false);
-                    WikiCache.Put(cacheKey, result);
-                }
+                    Navigation = navigation,
+                    PageNumber = pageNumber,
+                    PageSize = GlobalConfiguration.PaginationSize
+                };
 
-                return result;
-            }
-
-            var param = new
-            {
-                Navigation = navigation,
-                PageNumber = pageNumber,
-                PageSize = GlobalConfiguration.PaginationSize
-            };
-
-            return ManagedDataStorage.Pages.Ephemeral(o =>
-            {
-                using var users_db = o.Attach("users.db", "users_db");
-                return o.Query<PageComment>("GetPageCommentsPaged.sql", param).ToList();
-            });
+                return ManagedDataStorage.Pages.Ephemeral(o =>
+                {
+                    using var users_db = o.Attach("users.db", "users_db");
+                    return o.Query<PageComment>("GetPageCommentsPaged.sql", param).ToList();
+                });
+            }).EnsureNotNull();
         }
 
         public static List<NonexistentPage> GetMissingPagesPaged(int pageNumber, string? orderBy = null, string? orderByDirection = null)
@@ -574,15 +550,8 @@ namespace TightWiki.Repository
             => ManagedDataStorage.Pages.Query<Page>("GetAllTemplatePages.sql").ToList();
 
         public static List<FeatureTemplate> GetAllFeatureTemplates()
-        {
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page);
-            if (!WikiCache.TryGet<List<FeatureTemplate>>(cacheKey, out var result))
-            {
-                result = ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList();
-                WikiCache.Put(cacheKey, result);
-            }
-            return result;
-        }
+            => WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Configuration), () =>
+                ManagedDataStorage.Pages.Query<FeatureTemplate>("GetAllFeatureTemplates.sql").ToList()).EnsureNotNull();
 
         public static void UpdatePageProcessingInstructions(int pageId, List<string> instructions)
         {
@@ -604,13 +573,16 @@ namespace TightWiki.Repository
 
         public static Page? GetPageRevisionById(int pageId, int? revision = null)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId, revision]), () =>
             {
-                PageId = pageId,
-                Revision = revision
-            };
+                var param = new
+                {
+                    PageId = pageId,
+                    Revision = revision
+                };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById.sql", param);
+                return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageRevisionById.sql", param);
+            });
         }
 
         public static void SavePageSearchTokens(List<PageToken> items)
@@ -649,46 +621,44 @@ namespace TightWiki.Repository
 
         public static int GetCurrentPageRevision(int pageId)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]), () =>
             {
-                PageId = pageId,
-            };
+                var param = new
+                {
+                    PageId = pageId,
+                };
 
-            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+                return ManagedDataStorage.Pages.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+            });
         }
 
         public static int GetCurrentPageRevision(SqliteManagedInstance connection, int pageId)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]), () =>
             {
-                PageId = pageId,
-            };
+                var param = new
+                {
+                    PageId = pageId,
+                };
 
-            return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+                return connection.ExecuteScalar<int>("GetCurrentPageRevision.sql", param);
+            });
         }
 
-        public static Page? GetLimitedPageInfoByIdAndRevision(int pageId, int? revision = null, bool allowCache = true)
+        public static Page? GetLimitedPageInfoByIdAndRevision(int pageId, int? revision = null)
         {
-            if (allowCache)
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId, revision]);
+
+            return WikiCache.AddOrGet(cacheKey, () =>
             {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId, revision]);
-                if (!WikiCache.TryGet<Page>(cacheKey, out var result))
+                var param = new
                 {
-                    if ((result = GetLimitedPageInfoByIdAndRevision(pageId, revision, false)) != null)
-                    {
-                        WikiCache.Put(cacheKey, result);
-                    }
-                }
-                return result;
-            }
+                    PageId = pageId,
+                    Revision = revision
+                };
 
-            var param = new
-            {
-                PageId = pageId,
-                Revision = revision
-            };
-
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetLimitedPageInfoByIdAndRevision.sql", param);
+                return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetLimitedPageInfoByIdAndRevision.sql", param);
+            });
         }
 
         public static int SavePage(Page page)
@@ -796,22 +766,28 @@ namespace TightWiki.Repository
         /// </summary>
         public static Page? GetPageInfoByNavigation(string navigation)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation]), () =>
             {
-                Navigation = navigation
-            };
+                var param = new
+                {
+                    Navigation = navigation
+                };
 
-            return ManagedDataStorage.Pages.QuerySingleOrDefault<Page>("GetPageInfoByNavigation.sql", param);
+                return ManagedDataStorage.Pages.QuerySingleOrDefault<Page?>("GetPageInfoByNavigation.sql", param);
+            });
         }
 
         public static int GetPageRevisionCountByPageId(int pageId)
         {
-            var param = new
+            return WikiCache.AddOrGet(WikiCacheKeyFunction.Build(WikiCache.Category.Page, [pageId]), () =>
             {
-                PageId = pageId
-            };
+                var param = new
+                {
+                    PageId = pageId
+                };
 
-            return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageRevisionCountByNavigation.sql", param);
+                return ManagedDataStorage.Pages.ExecuteScalar<int>("GetPageRevisionCountByNavigation.sql", param);
+            });
         }
 
         public static void RestoreDeletedPageByPageId(int pageId)
@@ -1076,23 +1052,9 @@ namespace TightWiki.Repository
             });
         }
 
-        public static Page? GetPageRevisionByNavigation(string givenNavigation, int? revision = null, bool allowCache = true)
+        public static Page? GetPageRevisionByNavigation(string givenNavigation, int? revision = null, bool refreshCache = false)
         {
             var navigation = new NamespaceNavigation(givenNavigation);
-
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation.Canonical, revision]);
-                if (!WikiCache.TryGet<Page>(cacheKey, out var result))
-                {
-                    if ((result = GetPageRevisionByNavigation(navigation.Canonical, revision, false)) != null)
-                    {
-                        WikiCache.Put(cacheKey, result);
-                    }
-                }
-
-                return result;
-            }
 
             var param = new
             {
@@ -1100,11 +1062,22 @@ namespace TightWiki.Repository
                 Revision = revision
             };
 
-            return ManagedDataStorage.Pages.Ephemeral(o =>
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [navigation.Canonical, revision]);
+
+            if (refreshCache)
             {
-                using var users_db = o.Attach("users.db", "users_db");
-                return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation.sql", param);
-            });
+                WikiCache.Remove(cacheKey);
+            }
+
+            return WikiCache.AddOrGet(cacheKey, () =>
+                {
+                    return ManagedDataStorage.Pages.Ephemeral(o =>
+                    {
+                        using var users_db = o.Attach("users.db", "users_db");
+                        return o.QuerySingleOrDefault<Page>("GetPageRevisionByNavigation.sql", param);
+                    });
+                });
+
         }
 
         #region Tags.

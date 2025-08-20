@@ -1,8 +1,9 @@
 ﻿@using TightWiki.Models
+@using static TightWiki.Library.Constants
 @inject IViewLocalizer Localizer
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
-    Layout = "/Views/Shared/_Layout.cshtml";
+    Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
@@ -57,7 +58,7 @@
 </style>
 
 <script>
-    const editMode = @(Model?.Id > 0 && @sessionState.CanCreate == true ? "true" : "false");
+    const editMode = @(Model?.Id > 0 && @sessionState.HoldsPermission(WikiPermission.Create) ? "true" : "false");
     var editor;
     var featureInsertModalTable;
     var insertLinkModal;
@@ -116,7 +117,7 @@
             placeholder: "@Localizer["Search"]...",
             minimumInputLength: 0,
             ajax: {
-                url: '/Page/Autocomplete',
+                url: '@GlobalConfiguration.BasePath/Page/AutoCompletePage',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -416,7 +417,7 @@
 </script>
 
 <div class="bodyDiv">
-    <div class="card">
+    <div class="card shadow-lg">
         <div class="card-header"><h3>@Localizer["Content"]</h3></div>
         <div class="card-body">
             @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -425,7 +426,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-                    @if (sessionState.CanView == true)
+                    @if (sessionState.HoldsPermission(WikiPermission.Read))
                     {
                         if (Model?.Id > 0)
                         {
@@ -527,7 +528,7 @@
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-                    @if (Model?.Id > 0 && sessionState.CanView == true)
+                    @if (Model?.Id > 0 && sessionState.HoldsPermission(WikiPermission.Read))
                     {
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
@@ -539,10 +540,10 @@
     </div>
     <br />
 
-    <div class="card">
+    <div class="card shadow-lg">
         <div class="card-header"><h3>@Localizer["Attachments"]</h3></div>
         <div class="card-body">
-            @if (Model?.Id > 0 && @sessionState.CanCreate == true)
+            @if (Model?.Id > 0 && sessionState.HoldsPermission(WikiPermission.Create))
             {
                 <div id="dropSection" class="dropSection">
                     <span class="d-inline-block">@Localizer["Drop file attachments here or click to upload manually."]</span>

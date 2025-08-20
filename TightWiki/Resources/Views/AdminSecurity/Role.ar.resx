@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Role {0}" xml:space="preserve">
+    <value>الدور {0}</value>
+  </data>
+  <data name="Role membership." xml:space="preserve">
+    <value>عضوية الدور.</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>عضوية الدور والأذونات.</value>
+  </data>
+  <data name="Permissions" xml:space="preserve">
+    <value>أذونات</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>إضافة إذن إلى الدور</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>التصرف</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>إذن</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>المورد</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>الإجراء</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>اسم المساحة</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>الصفحة</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Members" xml:space="preserve">
+    <value>الأعضاء</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>إضافة عضو إلى الدور</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>الاسم الأخير</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>هل أنت متأكد أنك ترغب في إزالة الإذن من هذا الدور؟</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>فشلت عملية الإزالة</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>هل أنت متأكد أنك ترغب في إزالة العضو من هذا الدور؟</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>نوع المورد</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>صفحة ويكي</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>اختر تصرفًا</value>
+  </data>
+  <data name="Select a permissio" xml:space="preserve">
+    <value>اختر إذنًا</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>اختر صفحة</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>اختر اسم مساحة</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>يجب عليك اختيار تصرف الإذن.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>يجب عليك اختيار إذن.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>يجب عليك اختيار صفحة.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>يجب عليك اختيار اسم مساحة.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>يجب عليك اختيار إما صفحة أو اسم مساحة.</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>الدور يحتوي بالفعل على الإذن المحدد.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>اختر حسابًا</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>يجب عليك اختيار حساب.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>الحساب هو بالفعل عضو في الدور المحدد.</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>حذف الدور '{0}' سيؤدي إلى سحب أي أذونات تم منحها أو رفضها بواسطة ذلك الدور. هل تريد المتابعة؟</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>أعضاء الدور</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>أذونات الدور</value>
+  </data>
+</root>

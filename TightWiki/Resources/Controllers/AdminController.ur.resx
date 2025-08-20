@@ -221,6 +221,12 @@
   <data name="The pages orphaned attachments have been purged." xml:space="preserve">
     <value>صفحات کی یتیم منسلکات کو صاف کر دیا گیا ہے۔</value>
   </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>متعلقہ ایموجی کو حذف کر دیا گیا ہے۔</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>متعلقہ مینو آئٹم کو حذف کر دیا گیا ہے۔</value>
+  </data>
   <data name="The specified page could not be found." xml:space="preserve">
     <value>طے شدہ صفحہ نہیں مل سکا۔</value>
   </data>
