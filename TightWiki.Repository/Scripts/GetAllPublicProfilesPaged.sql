@@ -9,7 +9,6 @@ SELECT
 	(select UC.ClaimValue from AspNetUserClaims as UC WHERE UC.UserId = U.UserId AND UC.ClaimType LIKE '%/country') as Country,
 	U.CreatedDate,
 	U.ModifiedDate,
-	UCR.ClaimValue as Role,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
