@@ -26,7 +26,7 @@
     </div>
 </div>
 
-@using (Html.BeginForm(null, null, FormMethod.Get, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
+@using (Html.BeginForm(FormMethod.Get))
 {
     <div class="d-flex justify-content-end mb-4">
         <div class="flex-grow-1 me-2">

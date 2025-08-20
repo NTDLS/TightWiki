@@ -27,12 +27,15 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-end mb-4">
-    <div class="flex-grow-1 me-2">
-        @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <div class="d-flex justify-content-end mb-4">
+        <div class="flex-grow-1 me-2">
+            @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })
+        </div>
+        <button type="submit" value="Search" class="btn btn-primary">@Localizer["Search"]</button>
     </div>
-    <button type="submit" value="Search" class="btn btn-primary">@Localizer["Search"]</button>
-</div>
+}
 
 @if (Model.Users.Count > 0)
 {
