@@ -10,7 +10,7 @@ namespace TightWiki.Repository
 {
     public static class UsersRepository
     {
-        public static bool IsAccountAMemberOfRole(Guid userId, int roleId, bool allowCache = true)
+        public static bool IsAccountAMemberOfRole(Guid userId, int roleId, bool forceReCache = false)
         {
             var param = new
             {
@@ -18,15 +18,11 @@ namespace TightWiki.Repository
                 RoleId = roleId
             };
 
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, roleId]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, roleId]);
 
-                return WikiCache.AddOrGet(cacheKey, () =>
-                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false
-                );
-            }
-            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false;
+            return WikiCache.AddOrGet(cacheKey, forceReCache, () =>
+                ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountAMemberOfRole.sql", param) ?? false
+            );
         }
 
         public static void DeleteRole(int roleId)
@@ -38,7 +34,7 @@ namespace TightWiki.Repository
         public static bool DoesRoleExist(string name)
             => ManagedDataStorage.Users.ExecuteScalar<bool?>("DoesRoleExist.sql", new { Name = name }) ?? false;
 
-        public static bool IsAccountPermissionDefined(Guid userId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
+        public static bool IsAccountPermissionDefined(Guid userId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool forceReCache = true)
         {
             var param = new
             {
@@ -49,15 +45,11 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
 
-                return WikiCache.AddOrGet(cacheKey, () =>
-                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false
-                );
-            }
-            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false;
+            return WikiCache.AddOrGet(cacheKey, forceReCache, () =>
+                ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false
+            );
         }
 
         public static InsertAccountPermissionResult? InsertAccountPermission(
@@ -79,7 +71,7 @@ namespace TightWiki.Repository
             });
         }
 
-        public static bool IsRolePermissionDefined(int roleId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
+        public static bool IsRolePermissionDefined(int roleId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool forceReCache = false)
         {
             var param = new
             {
@@ -90,15 +82,11 @@ namespace TightWiki.Repository
                 PageId = pageId
             };
 
-            if (allowCache)
-            {
-                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [roleId, permissionId, permissionDispositionId, ns, pageId]);
 
-                return WikiCache.AddOrGet(cacheKey, () =>
-                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false
-                );
-            }
-            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false;
+            return WikiCache.AddOrGet(cacheKey, forceReCache, () =>
+                ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsRolePermissionDefined.sql", param) ?? false
+            );
         }
 
         public static IEnumerable<Role> AutoCompleteRole(string? searchText)
@@ -406,11 +394,11 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static AccountProfile GetAccountProfileByUserId(Guid userId)
+        public static AccountProfile GetAccountProfileByUserId(Guid userId, bool forceReCache = false)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
 
-            return WikiCache.AddOrGet(cacheKey, () =>
+            return WikiCache.AddOrGet(cacheKey, forceReCache, () =>
             {
                 var param = new
                 {
@@ -506,6 +494,8 @@ namespace TightWiki.Repository
                 Biography = item.Biography,
                 ModifiedDate = item.ModifiedDate
             };
+
+
 
             ManagedDataStorage.Users.Execute("UpdateProfile.sql", param);
         }

@@ -61,7 +61,7 @@ namespace TightWiki.Controllers
 
                 AddAccountMembershipResult? result = null;
 
-                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, false);
+                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, true);
                 if (!alreadyExists)
                 {
                     result = UsersRepository.AddAccountMembership(request.UserId, request.RoleId);
@@ -88,7 +88,7 @@ namespace TightWiki.Controllers
 
                 AddRoleMemberResult? result = null;
 
-                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, false);
+                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, true);
                 if (!alreadyExists)
                 {
                     result = UsersRepository.AddRoleMember(request.UserId, request.RoleId);
@@ -154,7 +154,7 @@ namespace TightWiki.Controllers
                 InsertRolePermissionResult? result = null;
 
                 bool alreadyExists = UsersRepository.IsRolePermissionDefined(
-                    request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, false);
+                    request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, true);
                 if (!alreadyExists)
                 {
                     result = UsersRepository.InsertRolePermission(
@@ -296,7 +296,7 @@ namespace TightWiki.Controllers
                 InsertAccountPermissionResult? result = null;
 
                 bool alreadyExists = UsersRepository.IsAccountPermissionDefined(
-                    request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, false);
+                    request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, true);
                 if (!alreadyExists)
                 {
                     result = UsersRepository.InsertAccountPermission(
@@ -455,7 +455,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            var profile = UsersRepository.GetAccountProfileByUserId(model.AccountProfile.UserId);
+            var profile = UsersRepository.GetAccountProfileByUserId(model.AccountProfile.UserId, true);
             if (!profile.Navigation.Equals(model.AccountProfile.Navigation, StringComparison.InvariantCultureIgnoreCase))
             {
                 if (UsersRepository.DoesProfileAccountExist(model.AccountProfile.AccountName))
@@ -490,8 +490,8 @@ namespace TightWiki.Controllers
                     try
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLowerInvariant());
+                        var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                     }
                     catch
                     {
@@ -722,8 +722,8 @@ namespace TightWiki.Controllers
                     try
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        var image = SixLabors.ImageSharp.Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLowerInvariant());
+                        var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                     }
                     catch
                     {

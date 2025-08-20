@@ -101,6 +101,40 @@ namespace TightWiki.Caching
         /// <summary>
         /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
         /// </summary>
+        public static T? AddOrGet<T>(IWikiCacheKey cacheKey, bool forceReCache, GetValueDelegate<T?> getValueDelegate, int? seconds = null)
+        {
+            if (_memCache == null)
+            {
+                return getValueDelegate();
+            }
+
+            T? result;
+
+            if (!forceReCache)
+            {
+                if (TryGet<T>(cacheKey, out result))
+                {
+                    return result;
+                }
+            }
+
+            result = getValueDelegate();
+
+            if (result != null)
+            {
+                var policy = new CacheItemPolicy()
+                {
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(seconds ?? DefaultCacheSeconds)
+                };
+                MemCache.Add(cacheKey.Key, result, policy);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Tries to get a value from cache, if it does not exist then a delegate is called to get the value and it is then cached.
+        /// </summary>
         public static T? AddOrGet<T>(IWikiCacheKey cacheKey, GetValueDelegate<T?> getValueDelegate, int? seconds = null)
         {
             if (_memCache == null)

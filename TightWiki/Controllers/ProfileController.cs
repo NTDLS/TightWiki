@@ -331,8 +331,8 @@ namespace TightWiki.Controllers
                     try
                     {
                         var imageBytes = Utility.ConvertHttpFileToBytes(file);
-                        var image = Image.Load(new MemoryStream(imageBytes));
-                        UsersRepository.UpdateProfileAvatar(profile.UserId, imageBytes, file.ContentType.ToLowerInvariant());
+                        var image = Utility.CropImageToCenteredSquare(new MemoryStream(imageBytes));
+                        UsersRepository.UpdateProfileAvatar(profile.UserId, image, "image/webp");
                     }
                     catch
                     {
