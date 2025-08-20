@@ -12,10 +12,10 @@ namespace TightWiki.Library
         /// Takes the current page query string and "upserts" the given order-by field,
         /// if the string already sorts on the given field then the order is inverted (asc/desc).
         /// </summary>
-        public static IHtmlContent OrderHelper(ISessionState context, string value)
+        public static IHtmlContent OrderHelper(ISessionState context, string value, string keySuffix = "")
         {
-            string orderByKey = "OrderBy";
-            string orderByDirectionKey = "OrderByDirection";
+            string orderByKey = (string.IsNullOrEmpty(keySuffix) ? "OrderBy" : $"OrderBy_{keySuffix}");
+            string orderByDirectionKey = (string.IsNullOrEmpty(keySuffix) ? "OrderByDirection" : $"OrderByDirection_{keySuffix}");
             string? currentDirection = "asc";
             var collection = ToDictionary(context.QueryString);
 

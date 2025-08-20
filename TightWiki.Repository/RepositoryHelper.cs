@@ -38,19 +38,38 @@ namespace TightWiki.Repository
                     {
                         var configText = sectionText.Substring(beginConfigIndex + beginConfigTag.Length, (endConfigIndex - beginConfigIndex) - endConfigTag.Length).Trim();
 
-                        var configs = configText.Split("\n").Select(o => o.Trim())
-                            .Where(o => o.Contains('='))
-                            .Select(o => (Name: o.Split("=")[0], Field: o.Split("=")[1]));
+                        var configs = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
-                        var selectedConfig = configs.SingleOrDefault(o => string.Equals(o.Name, orderBy, StringComparison.InvariantCultureIgnoreCase));
+                        configs.Remove("/^");
+                        configs.Remove("*/");
 
-                        if (selectedConfig == default)
+                        foreach (var line in configText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries))
+                        {
+                            if (line == "/*" || line == "*/" || line.StartsWith("--"))
+                            {
+                                continue;
+                            }
+
+                            int idx = line.IndexOf('=');
+                            if (idx > -1)
+                            {
+                                var key = line.Substring(0, idx).Trim();
+                                var value = line.Substring(idx + 1).Trim();
+                                configs[key] = value;
+                            }
+                            else
+                            {
+                                throw new Exception($"Invalid configuration line in '{filename}': {line}");
+                            }
+                        }
+
+                        if(!configs.TryGetValue(orderBy, out string? field))
                         {
                             throw new Exception($"No order by mapping was found in '{filename}' for the field '{orderBy}'.");
                         }
 
                         script = script.Substring(0, beginParentIndex)
-                            + $"ORDER BY\r\n\t{selectedConfig.Field} "
+                            + $"ORDER BY\r\n\t{field} "
                             + (string.Equals(orderByDirection, "asc", StringComparison.InvariantCultureIgnoreCase) ? "asc" : "desc")
                             + script.Substring(endParentIndex + endParentTag.Length);
                     }

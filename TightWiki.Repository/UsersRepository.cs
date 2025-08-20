@@ -149,7 +149,7 @@ namespace TightWiki.Repository
             }).EnsureNotNull();
         }
 
-        public static List<RolePermission> GetRolePermissionsForDisplay(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        public static List<RolePermission> GetRolePermissionsPaged(int roleId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
         {
             return ManagedDataStorage.Users.Ephemeral(o =>
             {
@@ -164,7 +164,7 @@ namespace TightWiki.Repository
                     RoleId = roleId
                 };
 
-                var query = RepositoryHelper.TransposeOrderby("GetRolePermissionsForDisplay.sql", orderBy, orderByDirection);
+                var query = RepositoryHelper.TransposeOrderby("GetRolePermissionsPaged.sql", orderBy, orderByDirection);
                 return o.Query<RolePermission>(query, param).ToList();
             });
         }

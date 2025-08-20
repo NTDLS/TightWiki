@@ -212,9 +212,10 @@ namespace TightWiki.Controllers
                 Id = role.Id,
                 Name = role.Name,
                 Members = UsersRepository.GetRoleMembersPaged(role.Id,
-                    GetQueryValue("usersPage", 1), GetQueryValue("usersOrderBy"), GetQueryValue("usersOrderByDirection")),
-                AssignedPermissions = UsersRepository.GetRolePermissionsForDisplay(role.Id,
-                    GetQueryValue("rolesPage", 1), GetQueryValue("rolesOrderBy"), GetQueryValue("rolesOrderByDirection")),
+                    GetQueryValue("usersPage", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Members")),
+
+                AssignedPermissions = UsersRepository.GetRolePermissionsPaged(role.Id,
+                    GetQueryValue("rolesPage", 1), GetQueryValue("OrderBy_Permission"), GetQueryValue("OrderByDirection_Permission")),
 
                 PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
                 Permissions = UsersRepository.GetAllPermissions()

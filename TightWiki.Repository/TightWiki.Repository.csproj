@@ -200,7 +200,7 @@
     <EmbeddedResource Include="Scripts\GetAllPermissions.sql" />
     <EmbeddedResource Include="Scripts\GetAllPermissionDispositions.sql" />
     <EmbeddedResource Include="Scripts\GetAccountPermissionsForDisplay.sql" />
-    <EmbeddedResource Include="Scripts\GetRolePermissionsForDisplay.sql" />
+    <EmbeddedResource Include="Scripts\GetRolePermissionsPaged.sql" />
     <EmbeddedResource Include="Scripts\GetApparentRolePermissions.sql" />
     <EmbeddedResource Include="Scripts\IsUserMemberOfAdministrators.sql" />
     <EmbeddedResource Include="Scripts\GetApparentAccountPermissions.sql" />

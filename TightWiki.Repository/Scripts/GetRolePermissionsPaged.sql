@@ -26,8 +26,8 @@ WHERE
 --CONFIG::
 /*
 Permission=P.Name
-PermissionDisposition=PD.Name
-ResourceName=CASE WHEN RP.Namespace IS NOT NULL THEN RP.Namespace WHEN RP.PageId IS NOT NULL THEN CASE WHEN RP.PageId = '*' THEN '*' ELSE PG.Name END END
+Disposition=PD.Name
+Resource=(CASE WHEN RP.Namespace IS NOT NULL THEN 'N-' || RP.Namespace WHEN RP.PageId IS NOT NULL THEN CASE  WHEN RP.PageId = '*' THEN 'P-' || '*' ELSE 'P-' || PG.Name END END)
 */
 --::CONFIG
 ORDER BY

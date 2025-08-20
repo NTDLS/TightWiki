@@ -40,15 +40,14 @@
             <table id="permissionsTable" class="table fixedTable100 table-striped mb-3" border="0" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
-                        <td><strong>@Localizer["Disposition"]</strong></td>
-                        <td><strong>@Localizer["Permission"]</strong></td>
-                        <td><strong>@Localizer["Resource"]</strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Disposition", "Permission")">@Localizer["Disposition"]</a></strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Permission", "Permission")">@Localizer["Permission"]</a></strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Resource", "Permission")">@Localizer["Resource"]</a></strong></td>
                         <td><strong>@Localizer["Action"]</strong></td>
                     </tr>
                 </thead>
 
                 <tbody>
-
                     @foreach (var permission in Model.AssignedPermissions)
                     {
                         <tr>
