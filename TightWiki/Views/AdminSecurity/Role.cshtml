@@ -52,7 +52,10 @@
                     @foreach (var permission in Model.AssignedPermissions)
                     {
                         <tr>
-                            <td>@permission.PermissionDisposition</td>
+                            <td>
+                                @(Html.Raw(string.Equals(permission.PermissionDisposition, "Allow", StringComparison.OrdinalIgnoreCase) ? "<i class=\"bi bi-check2 text-success\"></i>" : "<i class=\"bi bi-ban text-danger\"></i>"))
+                                @permission.PermissionDisposition
+                            </td>
                             <td>@permission.Permission</td>
                             <td>
                                 @if (permission.Namespace != null)
@@ -431,17 +434,29 @@
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td>${result.permission.permissionDisposition}</td>
+            <td>
+                ${
+                    result.permission.permissionDisposition.toLowerCase() === "allow"
+                        ? '<i class="bi bi-check2 text-success"></i>'
+                        : '<i class="bi bi-ban text-danger"></i>'
+                }
+                ${result.permission.permissionDisposition}
+            </td>
             <td>${result.permission.permission}</td>
             <td>
-                ${result.permission.namespace
-                    ? `<span><span class="text-muted">Namespace:</span> ${result.permission.resourceName === "*" ? "ALL" : result.permission.resourceName}</span>`
-                    : result.permission.pageId
-                        ? `<span><span class="text-muted">Page:</span> ${result.permission.resourceName === "*" ? "ALL" : result.permission.resourceName}</span>`
-                        : ""
+                ${
+                    result.permission.namespace
+                        ? `<span><span class="text-muted">Namespace:</span> ${result.permission.resourceName === "*" ? "ALL" : result.permission.resourceName}</span>`
+                        : result.permission.pageId
+                            ? `<span><span class="text-muted">Page:</span> ${result.permission.resourceName === "*" ? "ALL" : result.permission.resourceName}</span>`
+                            : ""
                 }
             </td>
-            <td><a class="btn btn-warning btn-thin" onclick="removePermission(this, '${result.permission.id}')">@Localizer["Remove"]</a></td>
+            <td>
+                <a class="btn btn-warning btn-thin" onclick="removePermission(this, '${result.permission.id}')">
+                    @Localizer["Remove"]
+                </a>
+            </td>
         `;
 
         tableBody.appendChild(newRow);
