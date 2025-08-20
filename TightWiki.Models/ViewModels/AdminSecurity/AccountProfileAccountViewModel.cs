@@ -42,16 +42,12 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
 
         [Display(Name = "Email Confirmed?")]
         public bool EmailConfirmed { get; set; }
-
         public byte[]? Avatar { get; set; }
-
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
 
         public int PaginationPageSize { get; set; }
         public int PaginationPageCount { get; set; }
-
-        //public string Role { get; set; } = string.Empty;
 
         public static AccountProfileAccountViewModel FromDataModel(AccountProfile model)
         {
@@ -72,7 +68,6 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
                 ModifiedDate = model.ModifiedDate,
                 Navigation = model.Navigation,
                 PaginationPageCount = model.PaginationPageCount,
-                //Role = model.Role,
                 PaginationPageSize = model.PaginationPageSize,
                 TimeZone = model.TimeZone
             };

@@ -13,5 +13,6 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         public List<Role> Roles { get; set; } = new();
         public AccountProfileAccountViewModel AccountProfile { get; set; } = new();
         public CredentialViewModel Credential { get; set; } = new();
+        public string DefaultRole { get; set; } = string.Empty;
     }
 }

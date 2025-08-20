@@ -413,16 +413,16 @@ namespace TightWiki.Controllers
             var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Customization);
 
-            var model = new Models.ViewModels.AdminSecurity.AccountProfileViewModel()
+            var model = new AccountProfileViewModel()
             {
-                AccountProfile = new Models.ViewModels.AdminSecurity.AccountProfileAccountViewModel
+                AccountProfile = new AccountProfileAccountViewModel
                 {
                     AccountName = string.Empty,
                     Country = customizationConfig.Value<string>("Default Country", string.Empty),
                     TimeZone = customizationConfig.Value<string>("Default TimeZone", string.Empty),
                     Language = customizationConfig.Value<string>("Default Language", string.Empty)
-                    //Role = defaultSignupRole
                 },
+                DefaultRole = defaultSignupRole,
                 Themes = ConfigurationRepository.GetAllThemes(),
                 Credential = new CredentialViewModel(),
                 TimeZones = TimeZoneItem.GetAll(),
@@ -512,8 +512,10 @@ namespace TightWiki.Controllers
                 return NotifyOfError(ex.Message);
             }
 
-            UsersRepository.CreateProfile((Guid)userId, model.AccountProfile.AccountName);
-            var profile = UsersRepository.GetAccountProfileByUserId((Guid)userId);
+            UsersRepository.CreateProfile(userId.Value, model.AccountProfile.AccountName);
+            UsersRepository.AddRoleMemberByname(userId.Value, model.DefaultRole);
+
+            var profile = UsersRepository.GetAccountProfileByUserId(userId.Value);
 
             profile.AccountName = model.AccountProfile.AccountName;
             profile.Navigation = NamespaceNavigation.CleanAndValidate(model.AccountProfile.AccountName);

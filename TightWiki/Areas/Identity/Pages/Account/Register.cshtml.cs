@@ -179,12 +179,11 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
 
                     var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
-
                     UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
+                    UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
                     var claimsToAdd = new List<Claim>
                     {
-                        new (ClaimTypes.Role, membershipConfig.Value<string>("Default Signup Role").EnsureNotNull()),
                         new ("timezone", Input.TimeZone),
                         new (ClaimTypes.Country, Input.Country),
                         new ("language", Input.Language),
