@@ -255,6 +255,54 @@ namespace TightWiki.Controllers
 
         #region Account Roles.
 
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
+        [Authorize]
+        [HttpPost("AddAccountPermission")]
+        public IActionResult AddAccountPermission([FromBody] AddAccountPermissionRequest request)
+        {
+            try
+            {
+                SessionState.RequireAdminPermission();
+
+                InsertAccountPermissionResult? result = null;
+
+                bool alreadyExists = UsersRepository.IsAccountPermissionDefined(
+                    request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId, false);
+                if (!alreadyExists)
+                {
+                    result = UsersRepository.InsertAccountPermission(
+                        request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId);
+                }
+
+                return Ok(new { success = true, alreadyExists = alreadyExists, permission = result, message = (string?)null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
+        [Authorize]
+        [HttpPost("RemoveAccountPermission/{id:int}")]
+        public IActionResult RemoveAccountPermission(int id)
+        {
+            try
+            {
+                SessionState.RequireAdminPermission();
+                UsersRepository.RemoveAccountPermission(id);
+                return Ok(new { success = true, message = (string?)null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
         [Authorize]
         [HttpGet("AccountRoles/{navigation}")]
         public ActionResult AccountRoles(string navigation)

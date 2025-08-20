@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>'{0}' rolünü silmek, bu rol tarafından verilen veya reddedilen tüm izinleri iptal edecek. Devam edilsin mi?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Rol Üyeleri</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Rol İzinleri</value>
+  </data>
 </root>

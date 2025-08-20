@@ -1,9 +1,9 @@
 SELECT
 	1
 FROM
-	RolePermission
+	AccountPermission
 WHERE
-	RoleId = @RoleId
+	UserId = @UserId
 	AND PermissionId = @PermissionId
 	AND PermissionDispositionId = @PermissionDispositionId
 	AND ([Namespace] = @Namespace OR [Namespace] IS NULL)

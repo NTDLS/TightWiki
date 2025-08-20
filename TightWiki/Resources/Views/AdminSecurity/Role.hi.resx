@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>भूमिका '{0}' को हटाने से उस भूमिका द्वारा दी गई या अस्वीकृत किसी भी अनुमति को रद्द कर दिया जाएगा। जारी रखें?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>भूमिका सदस्य</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>भूमिका अनुमतियाँ</value>
+  </data>
 </root>

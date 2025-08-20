@@ -38,6 +38,47 @@ namespace TightWiki.Repository
         public static bool DoesRoleExist(string name)
             => ManagedDataStorage.Users.ExecuteScalar<bool?>("DoesRoleExist.sql", new { Name = name }) ?? false;
 
+        public static bool IsAccountPermissionDefined(Guid userId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
+        {
+            var param = new
+            {
+                UserId = userId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDispositionId,
+                Namespace = ns,
+                PageId = pageId
+            };
+
+            if (allowCache)
+            {
+                var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [userId, permissionId, permissionDispositionId, ns, pageId]);
+
+                return WikiCache.AddOrGet(cacheKey, () =>
+                    ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false
+                );
+            }
+            return ManagedDataStorage.Users.QueryFirstOrDefault<bool?>("IsAccountPermissionDefined.sql", param) ?? false;
+        }
+
+        public static InsertAccountPermissionResult? InsertAccountPermission(
+            Guid userId, int permissionId, string permissionDisposition, string? ns, string? pageId)
+        {
+            var param = new
+            {
+                UserId = userId,
+                PermissionId = permissionId,
+                PermissionDispositionId = permissionDisposition,
+                @Namespace = ns,
+                PageId = pageId
+            };
+
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+                return o.QueryFirstOrDefault<InsertAccountPermissionResult>("InsertAccountPermission.sql", param);
+            });
+        }
+
         public static bool IsRolePermissionDefined(int roleId, int permissionId, string permissionDispositionId, string? ns, string? pageId, bool allowCache = true)
         {
             var param = new
@@ -75,6 +116,9 @@ namespace TightWiki.Repository
 
         public static void RemoveRolePermission(int id)
             => ManagedDataStorage.Users.Execute("RemoveRolePermission.sql", new { Id = id });
+
+        public static void RemoveAccountPermission(int id)
+            => ManagedDataStorage.Users.Execute("RemoveAccountPermission.sql", new { Id = id });
 
         public static InsertRolePermissionResult? InsertRolePermission(
             int roleId, int permissionId, string permissionDisposition, string? ns, string? pageId)

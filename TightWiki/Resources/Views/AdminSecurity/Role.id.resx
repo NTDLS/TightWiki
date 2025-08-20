@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>Menghapus peran '{0}' akan mencabut izin yang diberikan atau ditolak oleh peran tersebut. Melanjutkan?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Anggota Peran</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Iz izin Peran</value>
+  </data>
 </root>

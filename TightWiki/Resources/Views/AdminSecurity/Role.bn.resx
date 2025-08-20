@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>রোল '{0}' মুছে ফেলা হলে ওই রোল দ্বারা প্রদত্ত বা অগ্রাহ্য করা কোনও অনুমতি বাতিল হবে। কি আপনি চালিয়ে যেতে চান?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>ভূমিকা সদস্যরা</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>ভূমিকা অনুমতিসমূহ</value>
+  </data>
 </root>

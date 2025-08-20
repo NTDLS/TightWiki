@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>'{0}' 역할을 삭제하면 해당 역할에 의해 부여되거나 거부된 모든 권한이 취소됩니다. 계속하시겠습니까?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>역할 구성원</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>역할 권한</value>
+  </data>
 </root>

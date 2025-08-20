@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>Видалення ролі '{0}' скасує всі дозволи, надані або відмовлені цією роллю. Продовжити?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Члени ролі</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Дозволи ролі</value>
+  </data>
 </root>

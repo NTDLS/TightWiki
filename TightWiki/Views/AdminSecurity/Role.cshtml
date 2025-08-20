@@ -25,7 +25,7 @@
             <div class="d-flex justify-content-between align-items-center" id="toolbar">
                 <div>
                     @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Permissions"]</h4>
+                    <h4>@Localizer["Role Permissions"]</h4>
                 </div>
 
                 <div>
@@ -81,7 +81,7 @@
             <div class="d-flex justify-content-between align-items-center" id="toolbar">
                 <div>
                     @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Members"]</h4>
+                    <h4>@Localizer["Role Members"]</h4>
                 </div>
 
                 <div>
@@ -404,8 +404,6 @@
             namespace: namespaceId,
             pageId: pageId
         };
-
-        console.log(payload);
 
         const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRolePermission', {
             method: 'POST',

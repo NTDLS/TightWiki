@@ -191,7 +191,10 @@
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^001^Users^PermissionDisposition.sql" />
     <EmbeddedResource Include="Scripts\InsertRole.sql" />
     <EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
+    <EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
+    <EmbeddedResource Include="Scripts\IsAccountPermissionDefined.sql" />
     <EmbeddedResource Include="Scripts\RemoveRoleMember.sql" />
+    <EmbeddedResource Include="Scripts\RemoveAccountPermission.sql" />
     <EmbeddedResource Include="Scripts\RemoveRolePermission.sql" />
     <EmbeddedResource Include="Scripts\InsertRolePermission.sql" />
     <EmbeddedResource Include="Scripts\IsRolePermissionDefined.sql" />

@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>حذف الدور '{0}' سيؤدي إلى سحب أي أذونات تم منحها أو رفضها بواسطة ذلك الدور. هل تريد المتابعة؟</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>أعضاء الدور</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>أذونات الدور</value>
+  </data>
 </root>

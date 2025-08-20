@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>Odstránením úlohy '{0}' sa odňajú všetky oprávnenia, ktoré táto úloha poskytla alebo zamietla. Pokračovať?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Členovia úlohy</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Oprávnenia úlohy</value>
+  </data>
 </root>

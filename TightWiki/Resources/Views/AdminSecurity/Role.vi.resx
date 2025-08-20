@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>Xóa vai trò '{0}' sẽ hủy bỏ bất kỳ quyền hạn nào đã được cấp hoặc từ chối bởi vai trò đó. Bạn có muốn tiếp tục không?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Thành viên vai trò</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Quyền hạn vai trò</value>
+  </data>
 </root>

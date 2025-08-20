@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>رویہ '{0}' کو حذف کرنے سے اس رویہ کے تحت دی گئی یا مسترد کی گئی کسی بھی اجازت کو ختم کر دیا جائے گا۔ کیا آپ جاری رکھنا چاہتے ہیں؟</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>کردار کے اراکین</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>کردار کے اختیارات</value>
+  </data>
 </root>

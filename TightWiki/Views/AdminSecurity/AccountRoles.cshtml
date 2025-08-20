@@ -25,12 +25,12 @@
             <div class="d-flex justify-content-between align-items-center" id="toolbar">
                 <div>
                     @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Permissions"]</h4>
+                    <h4>@Localizer["Account Permissions"]</h4>
                 </div>
 
                 <div>
                     @*Right-aligned "toolbar" controls*@
-                    <button type="button" id="addPermissionToRoleButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissionToRoleModal">
+                    <button type="button" id="addPermissionToAccountButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissionToAccountModal">
                         @Localizer["Add Permission to Account"]
                     </button>
                 </div>
@@ -81,12 +81,12 @@
             <div class="d-flex justify-content-between align-items-center" id="toolbar">
                 <div>
                     @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Membership"]</h4>
+                    <h4>@Localizer["Account Role Membership"]</h4>
                 </div>
 
                 <div>
                     @*Right-aligned "toolbar" controls*@
-                    <button type="button" id="addMemberToRoleButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberToRoleModal">
+                    <button type="button" id="addAccountMembershipButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccountMembershipModal">
                         @Localizer["Add Role to Account"]
                     </button>
                 </div>
@@ -118,11 +118,11 @@
 
 <script>
     async function removePermission(button, permissionId) {
-        if (!confirm('@Localizer["Are you sure you want to remove the permission from this role?"]')) {
+        if (!confirm('@Localizer["Are you sure you want to remove the permission from this account?"]')) {
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRolePermission/${permissionId}`, {
+        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveAccountPermission/${permissionId}`, {
             method: 'POST',
         });
 
@@ -142,11 +142,11 @@
     }
 
     async function removeMembership(button, userId) {
-        if (!confirm('@Localizer["Are you sure you want to remove the member from this role?"]')) {
+        if (!confirm('@Localizer["Are you sure you want to remove the role from this account?"]')) {
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRoleMember/@Model.Id/${userId}`, {
+        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveAccountMembership/@Model.Id/${userId}`, {
             method: 'POST',
         });
 
@@ -166,11 +166,11 @@
     }
 </script>
 
-<div class="modal" tabindex="-1" id="addPermissionToRoleModal" aria-labelledby="addPermissionToRoleModalLabel" aria-hidden="true">
+<div class="modal" tabindex="-1" id="addPermissionToAccountModal" aria-labelledby="addPermissionToAccountModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addPermissionToRoleModalLabel">@Localizer["Add Permission to Role"]</h5>
+                <h5 class="modal-title" id="addPermissionToAccountModalLabel">@Localizer["Add Permission to Account"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
             </div>
 
@@ -178,40 +178,40 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold mt-2">@Localizer["Resource type"]</label><br />
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModePage" value="page" checked>
-                        <label class="form-check-label" for="addPermissionToRoleModalModePage">@Localizer["Wiki Page"]</label>
+                        <input class="form-check-input" type="radio" name="addPermissionToAccountModalMode" id="addPermissionToAccountModalModePage" value="page" checked>
+                        <label class="form-check-label" for="addPermissionToAccountModalModePage">@Localizer["Wiki Page"]</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="addPermissionToRoleModalMode" id="addPermissionToRoleModalModeNamespace" value="namespace">
-                        <label class="form-check-label" for="addPermissionToRoleModalModeNamespace">@Localizer["Namespace"]</label>
+                        <input class="form-check-input" type="radio" name="addPermissionToAccountModalMode" id="addPermissionToAccountModalModeNamespace" value="namespace">
+                        <label class="form-check-label" for="addPermissionToAccountModalModeNamespace">@Localizer["Namespace"]</label>
                     </div>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalPageDisposition" class="form-label fw-bold mt-2">@Localizer["Disposition"]</label>
-                    <select id="addPermissionToRoleModalPageDisposition" style="width: 100%"></select>
+                    <label for="addPermissionToAccountModalPageDisposition" class="form-label fw-bold mt-2">@Localizer["Disposition"]</label>
+                    <select id="addPermissionToAccountModalPageDisposition" style="width: 100%"></select>
                 </div>
 
                 <div>
-                    <label for="addPermissionToRoleModalPermission" class="form-label fw-bold mt-2">@Localizer["Permission"]</label>
-                    <select id="addPermissionToRoleModalPermission" style="width: 100%"></select>
+                    <label for="addPermissionToAccountModalPermission" class="form-label fw-bold mt-2">@Localizer["Permission"]</label>
+                    <select id="addPermissionToAccountModalPermission" style="width: 100%"></select>
                 </div>
 
-                <div id="addPermissionToRoleModalPageDiv">
-                    <label for="addPermissionToRoleModalPage" class="form-label fw-bold mt-2">@Localizer["Page"]</label>
-                    <select id="addPermissionToRoleModalPage" style="width: 100%"></select>
+                <div id="addPermissionToAccountModalPageDiv">
+                    <label for="addPermissionToAccountModalPage" class="form-label fw-bold mt-2">@Localizer["Page"]</label>
+                    <select id="addPermissionToAccountModalPage" style="width: 100%"></select>
                 </div>
 
-                <div id="addPermissionToRoleModalNamespaceDiv" style="display: none;">
-                    <label for="addPermissionToRoleModalNamespace" class="form-label fw-bold mt-2">@Localizer["Namespace"]</label>
-                    <select id="addPermissionToRoleModalNamespace" style="width: 100%"></select>
+                <div id="addPermissionToAccountModalNamespaceDiv" style="display: none;">
+                    <label for="addPermissionToAccountModalNamespace" class="form-label fw-bold mt-2">@Localizer["Namespace"]</label>
+                    <select id="addPermissionToAccountModalNamespace" style="width: 100%"></select>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addPermissionToRoleModalInsertButton">@Localizer["Add"]</button>
+                    <button type="button" class="btn btn-success float-end" id="addPermissionToAccountModalInsertButton">@Localizer["Add"]</button>
                 </div>
             </div>
         </div>
@@ -219,51 +219,51 @@
 </div>
 
 <script>
-    //addPermissionToRoleModal Modal
+    //addPermissionToAccountModal Modal
 
-    const addPermissionToRoleModal = new bootstrap.Modal('#addPermissionToRoleModal');
-    var addPermissionToRoleModalInitialized;
+    const addPermissionToAccountModal = new bootstrap.Modal('#addPermissionToAccountModal');
+    var addPermissionToAccountModalInitialized;
 
-    //addPermissionToRoleModal modal is about to be shown.
-    document.getElementById('addPermissionToRoleModal').addEventListener('shown.bs.modal', function() {
-        if (addPermissionToRoleModalInitialized)
+    //addPermissionToAccountModal modal is about to be shown.
+    document.getElementById('addPermissionToAccountModal').addEventListener('shown.bs.modal', function() {
+        if (addPermissionToAccountModalInitialized)
         {
             // Reset the defaults on the modal:
-            document.getElementById('addPermissionToRoleModalModePage').checked = true;
+            document.getElementById('addPermissionToAccountModalModePage').checked = true;
 
-            document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'block';
-            document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'none';
+            document.getElementById('addPermissionToAccountModalPageDiv').style.display = 'block';
+            document.getElementById('addPermissionToAccountModalNamespaceDiv').style.display = 'none';
 
-            $('#addPermissionToRoleModalPageDisposition').val(null).trigger('change');
-            $('#addPermissionToRoleModalPermission').val(null).trigger('change');
-            $('#addPermissionToRoleModalPage').val(null).trigger('change');
-            $('#addPermissionToRoleModalNamespace').val(null).trigger('change');
+            $('#addPermissionToAccountModalPageDisposition').val(null).trigger('change');
+            $('#addPermissionToAccountModalPermission').val(null).trigger('change');
+            $('#addPermissionToAccountModalPage').val(null).trigger('change');
+            $('#addPermissionToAccountModalNamespace').val(null).trigger('change');
 
             return;
         }
 
-        $('#addPermissionToRoleModalPageDisposition').select2({
+        $('#addPermissionToAccountModalPageDisposition').select2({
             placeholder: "@Localizer["Select a disposition"]",
             width: '100%',
             data: @Json.Serialize(Model.PermissionDispositions.Select(d => new { id = d.Id, text = d.Name })),
             allowClear: true,
-            dropdownParent: $('#addPermissionToRoleModal'),
+            dropdownParent: $('#addPermissionToAccountModal'),
         }).on('change', function () {
             $(this).valid && $(this).valid();
         });
 
-        $('#addPermissionToRoleModalPermission').select2({
+        $('#addPermissionToAccountModalPermission').select2({
             placeholder: "@Localizer["Select a permission"]",
             width: '100%',
             data: @Json.Serialize(Model.Permissions.Select(d => new { id = d.Id, text = d.Name })),
             allowClear: true,
-            dropdownParent: $('#addPermissionToRoleModal'),
+            dropdownParent: $('#addPermissionToAccountModal'),
         }).on('change', function () {
             $(this).valid && $(this).valid();
         });
 
-        $('#addPermissionToRoleModalPage').select2({
-            dropdownParent: $('#addPermissionToRoleModal'),
+        $('#addPermissionToAccountModalPage').select2({
+            dropdownParent: $('#addPermissionToAccountModal'),
             placeholder: "@Localizer["Select a page"]",
             minimumInputLength: 0,
             ajax: {
@@ -288,8 +288,8 @@
             }
         });
 
-        $('#addPermissionToRoleModalNamespace').select2({
-            dropdownParent: $('#addPermissionToRoleModal'),
+        $('#addPermissionToAccountModalNamespace').select2({
+            dropdownParent: $('#addPermissionToAccountModal'),
             placeholder: "@Localizer["Select a namespace"]",
             minimumInputLength: 0,
             ajax: {
@@ -314,34 +314,34 @@
             }
         });
 
-        document.querySelectorAll('input[name="addPermissionToRoleModalMode"]').forEach(radio => {
+        document.querySelectorAll('input[name="addPermissionToAccountModalMode"]').forEach(radio => {
             radio.addEventListener('change', () => {
-                const mode = document.querySelector('input[name="addPermissionToRoleModalMode"]:checked').value;
+                const mode = document.querySelector('input[name="addPermissionToAccountModalMode"]:checked').value;
                 if (mode === 'page') {
-                    document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'block';
-                    document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'none';
+                    document.getElementById('addPermissionToAccountModalPageDiv').style.display = 'block';
+                    document.getElementById('addPermissionToAccountModalNamespaceDiv').style.display = 'none';
                 } else {
-                    document.getElementById('addPermissionToRoleModalPageDiv').style.display = 'none';
-                    document.getElementById('addPermissionToRoleModalNamespaceDiv').style.display = 'block';
+                    document.getElementById('addPermissionToAccountModalPageDiv').style.display = 'none';
+                    document.getElementById('addPermissionToAccountModalNamespaceDiv').style.display = 'block';
                 }
             });
         });
 
-        $('#addPermissionToRoleModalPageDisposition').val(null).trigger('change');
-        $('#addPermissionToRoleModalPermission').val(null).trigger('change');
-        $('#addPermissionToRoleModalPage').val(null).trigger('change');
-        $('#addPermissionToRoleModalNamespace').val(null).trigger('change');
+        $('#addPermissionToAccountModalPageDisposition').val(null).trigger('change');
+        $('#addPermissionToAccountModalPermission').val(null).trigger('change');
+        $('#addPermissionToAccountModalPage').val(null).trigger('change');
+        $('#addPermissionToAccountModalNamespace').val(null).trigger('change');
 
-        addPermissionToRoleModalInitialized = true;
+        addPermissionToAccountModalInitialized = true;
     });
 
-    //User clicked the add button on the addPermissionToRoleModal
-    document.getElementById('addPermissionToRoleModalInsertButton').addEventListener('click', async function () {
+    //User clicked the add button on the addPermissionToAccountModal
+    document.getElementById('addPermissionToAccountModalInsertButton').addEventListener('click', async function () {
 
-        let disposition = $('#addPermissionToRoleModalPageDisposition').select2('data');
-        let permission = $('#addPermissionToRoleModalPermission').select2('data');
-        let page = $('#addPermissionToRoleModalPage').select2('data');
-        let namespace = $('#addPermissionToRoleModalNamespace').select2('data');
+        let disposition = $('#addPermissionToAccountModalPageDisposition').select2('data');
+        let permission = $('#addPermissionToAccountModalPermission').select2('data');
+        let page = $('#addPermissionToAccountModalPage').select2('data');
+        let namespace = $('#addPermissionToAccountModalNamespace').select2('data');
 
         let pageId;
         let namespaceId;
@@ -355,7 +355,7 @@
             return;
         }
 
-        if(document.getElementById('addPermissionToRoleModalModePage').checked == true)
+        if(document.getElementById('addPermissionToAccountModalModePage').checked == true)
         {
             if (!page) {
                 alert("@Localizer["You must select a page."]");
@@ -363,7 +363,7 @@
             }
             pageId = page[0].id;
         }
-        else if(document.getElementById('addPermissionToRoleModalModeNamespace').checked == true)
+        else if(document.getElementById('addPermissionToAccountModalModeNamespace').checked == true)
         {
             if (!namespace) {
                 alert("@Localizer["You must select a namespace."]");
@@ -376,7 +376,7 @@
         }
 
         const payload = {
-            roleId: @Model.Id,
+            userId: '@Model.Id',
             permissionId: permission[0].id,
             permissionDispositionId: disposition[0].id,
             namespace: namespaceId,
@@ -385,7 +385,7 @@
 
         console.log(payload);
 
-        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRolePermission', {
+        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddAccountPermission', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -441,29 +441,29 @@
         `;
 
         tableBody.appendChild(newRow);
-        addPermissionToRoleModal.hide();
+        addPermissionToAccountModal.hide();
     });
 </script>
 
-<div class="modal" tabindex="-1" id="addMemberToRoleModal" aria-labelledby="addMemberToRoleModalLabel" aria-hidden="true">
+<div class="modal" tabindex="-1" id="addAccountMembershipModal" aria-labelledby="addAccountMembershipModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addMemberToRoleModalLabel">@Localizer["Add Member to Role"]</h5>
+                <h5 class="modal-title" id="addAccountMembershipModalLabel">@Localizer["Add Member to Role"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div>
-                    <label for="addMemberToRoleModalAccount" class="form-label fw-bold">@Localizer["Account"]</label>
-                    <select id="addMemberToRoleModalAccount" style="width: 100%"></select>
+                    <label for="addAccountMembershipModalAccount" class="form-label fw-bold">@Localizer["Account"]</label>
+                    <select id="addAccountMembershipModalAccount" style="width: 100%"></select>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="addMemberToRoleModalInsertButton">@Localizer["Add"]</button>
+                    <button type="button" class="btn btn-success float-end" id="addAccountMembershipModalInsertButton">@Localizer["Add"]</button>
                 </div>
             </div>
         </div>
@@ -471,21 +471,21 @@
 </div>
 
 <script>
-    //addMemberToRoleModal Modal
+    //addAccountMembershipModal Modal
 
-    const addMemberToRoleModal = new bootstrap.Modal('#addMemberToRoleModal');
-    var addMemberToRoleModalInitialized;
+    const addAccountMembershipModal = new bootstrap.Modal('#addAccountMembershipModal');
+    var addAccountMembershipModalInitialized;
 
-    //addMemberToRoleModal modal is about to be shown.
-    document.getElementById('addMemberToRoleModal').addEventListener('shown.bs.modal', function() {
-        if (addMemberToRoleModalInitialized)
+    //addAccountMembershipModal modal is about to be shown.
+    document.getElementById('addAccountMembershipModal').addEventListener('shown.bs.modal', function() {
+        if (addAccountMembershipModalInitialized)
         {
             // Reset the defaults on the modal:
-            $('#addMemberToRoleModalAccount').val(null).trigger('change');
+            $('#addAccountMembershipModalAccount').val(null).trigger('change');
             return;
         }
-        $('#addMemberToRoleModalAccount').select2({
-            dropdownParent: $('#addMemberToRoleModal'),
+        $('#addAccountMembershipModalAccount').select2({
+            dropdownParent: $('#addAccountMembershipModal'),
             placeholder: "@Localizer["Select an account"]",
             minimumInputLength: 0,
             ajax: {
@@ -509,15 +509,15 @@
             }
         });
 
-        $('#addMemberToRoleModalAccount').val(null).trigger('change');
+        $('#addAccountMembershipModalAccount').val(null).trigger('change');
 
-        addMemberToRoleModalInitialized = true;
+        addAccountMembershipModalInitialized = true;
     });
 
-    //User clicked the add button on the addMemberToRoleModal
-    document.getElementById('addMemberToRoleModalInsertButton').addEventListener('click', async function () {
+    //User clicked the add button on the addAccountMembershipModal
+    document.getElementById('addAccountMembershipModalInsertButton').addEventListener('click', async function () {
 
-        let account = $('#addMemberToRoleModalAccount').select2('data');
+        let account = $('#addAccountMembershipModalAccount').select2('data');
 
         if (account.length <= 0) {
             alert("@Localizer["You must select an account."]");
@@ -525,8 +525,8 @@
         }
 
         const payload = {
-            roleId: @Model.Id,
-            userId: account[0].id,
+            roleId: '@Model.Id', //These are backwards, right?
+            userId: account[0].id, //These are backwards, right?
         };
 
         const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRoleMember', {
@@ -568,6 +568,6 @@
 
         tableBody.appendChild(newRow);
 
-        addMemberToRoleModal.hide();
+        addAccountMembershipModal.hide();
     });
 </script>

@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>Eliminare il ruolo '{0}' revocerà eventuali permessi concessi o negati da quel ruolo. Continuare?</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Membri del Ruolo</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Permessi del Ruolo</value>
+  </data>
 </root>

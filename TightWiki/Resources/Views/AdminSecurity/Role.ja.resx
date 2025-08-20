@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>ロール '{0}' を削除すると、そのロールによって付与または拒否された権限がすべて取り消されます。続行しますか？</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>ロールメンバー</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>ロール権限</value>
+  </data>
 </root>

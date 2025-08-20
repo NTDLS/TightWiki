@@ -179,4 +179,10 @@
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
     <value>حذف نقش '{0}' هرگونه دسترسی‌های اعطا شده یا رد شده توسط آن نقش را باطل خواهد کرد. آیا ادامه می‌دهید؟</value>
   </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>اعضای نقش</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>مجوزهای نقش</value>
+  </data>
 </root>
