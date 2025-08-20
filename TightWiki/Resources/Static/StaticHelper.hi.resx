@@ -59,16 +59,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Administration" xml:space="preserve">
+    <value>प्रशासन</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>अनुमति दें</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>बनाएं</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>हटाएं</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>अस्वीकृत करें</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>संपादित करें</value>
+  </data>
   <data name="First" xml:space="preserve">
     <value>पहला</value>
   </data>
   <data name="Last" xml:space="preserve">
     <value>अंतिम</value>
   </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>संयम करें</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>आगे</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>पीछे</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>पढ़ें</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>आप अधिकृत नहीं हैं</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>आपके पास क्रिया करने की अनुमति नहीं है: {0}</value>
   </data>
 </root>

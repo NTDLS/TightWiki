@@ -59,16 +59,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Administration" xml:space="preserve">
+    <value>Адміністрація</value>
+  </data>
+  <data name="Allow" xml:space="preserve">
+    <value>Дозволити</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Deny" xml:space="preserve">
+    <value>Відмовити</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
   <data name="First" xml:space="preserve">
     <value>Перший</value>
   </data>
   <data name="Last" xml:space="preserve">
     <value>Останній</value>
   </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Модерувати</value>
+  </data>
   <data name="Next" xml:space="preserve">
     <value>Наступний</value>
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Попередній</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>Читати</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>Ви не авторизовані</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>У вас немає дозволу на виконання дії: {0}</value>
   </data>
 </root>
