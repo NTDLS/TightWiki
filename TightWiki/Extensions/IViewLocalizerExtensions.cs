@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Localization;
+using Microsoft.Extensions.Localization;
 
 namespace TightWiki.Extensions
 {
@@ -10,5 +11,8 @@ namespace TightWiki.Extensions
 
         public static string Format(this LocalizedHtmlString localizedHtmlString, params object?[] param)
             => string.Format(localizedHtmlString.Value, param);
+
+        public static string Format(this LocalizedString localizedString, params object?[] param)
+            => string.Format(localizedString.Value, param);
     }
 }

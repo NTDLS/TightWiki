@@ -21,8 +21,14 @@ namespace TightWiki.Controllers
         [AllowAnonymous]
         public ActionResult Browse(string givenCanonical)
         {
-            SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
-
+            try
+            {
+                SessionState.RequirePermission(givenCanonical, WikiPermission.Read);
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             SessionState.Page.Name = Localize("Tags");
 
             givenCanonical = NamespaceNavigation.CleanAndValidate(givenCanonical);

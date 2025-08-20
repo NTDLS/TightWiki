@@ -31,8 +31,14 @@ namespace TightWiki.Controllers
         [HttpPost("DeleteRole/{roleId:int}")]
         public ActionResult DeleteRole(ConfirmActionViewModel model, int roleId)
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             if (model.UserSelection == true)
             {
                 UsersRepository.DeleteRole(roleId);
@@ -42,6 +48,9 @@ namespace TightWiki.Controllers
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
         [Authorize]
         [HttpPost("AddRoleMember")]
         public IActionResult AddRoleMember([FromBody] AddRoleMemberRequest request)
@@ -66,6 +75,9 @@ namespace TightWiki.Controllers
             }
         }
 
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
         [Authorize]
         [HttpPost("RemoveRoleMember/{roleId:int}/{userId:Guid}")]
         public IActionResult RemoveRoleMember(int roleId, Guid userId)
@@ -82,6 +94,9 @@ namespace TightWiki.Controllers
             }
         }
 
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
         [Authorize]
         [HttpPost("RemoveRolePermission/{id:int}")]
         public IActionResult RemoveRolePermission(int id)
@@ -98,6 +113,9 @@ namespace TightWiki.Controllers
             }
         }
 
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
         [Authorize]
         [HttpPost("AddRolePermission")]
         public IActionResult AddRolePermission([FromBody] AddRolePermissionRequest request)
@@ -128,7 +146,14 @@ namespace TightWiki.Controllers
         [HttpGet("AddRole")]
         public ActionResult AddRole()
         {
-            SessionState.RequireAdminPermission();
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             SessionState.Page.Name = Localize("Add Role");
 
             return View(new AddRoleViewModel());
@@ -167,7 +192,14 @@ namespace TightWiki.Controllers
         [HttpGet("Role/{navigation}")]
         public ActionResult Role(string navigation)
         {
-            SessionState.RequireAdminPermission();
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             SessionState.Page.Name = Localize("Roles");
 
             navigation = Navigation.Clean(navigation);
@@ -197,8 +229,14 @@ namespace TightWiki.Controllers
         [HttpGet("Roles")]
         public ActionResult Roles()
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var orderBy = GetQueryValue("OrderBy");
             var orderByDirection = GetQueryValue("OrderByDirection");
 
@@ -218,8 +256,14 @@ namespace TightWiki.Controllers
         [HttpGet("Account/{navigation}")]
         public ActionResult Account(string navigation)
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var model = new Models.ViewModels.AdminSecurity.AccountProfileViewModel()
             {
                 AccountProfile = Models.ViewModels.AdminSecurity.AccountProfileAccountViewModel.FromDataModel(
@@ -245,8 +289,14 @@ namespace TightWiki.Controllers
         [HttpPost("Account/{navigation}")]
         public ActionResult Account(string navigation, Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             model.Themes = ConfigurationRepository.GetAllThemes();
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
@@ -407,8 +457,14 @@ namespace TightWiki.Controllers
         [HttpGet("AddAccount")]
         public ActionResult AddAccount()
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var defaultSignupRole = membershipConfig.Value<string>("Default Signup Role").EnsureNotNull();
             var customizationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Customization);
@@ -441,8 +497,14 @@ namespace TightWiki.Controllers
         [HttpPost("AddAccount")]
         public ActionResult AddAccount(Models.ViewModels.AdminSecurity.AccountProfileViewModel model)
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             model.Themes = ConfigurationRepository.GetAllThemes();
             model.TimeZones = TimeZoneItem.GetAll();
             model.Countries = CountryItem.GetAll();
@@ -556,8 +618,14 @@ namespace TightWiki.Controllers
         [HttpGet("Accounts")]
         public ActionResult Accounts()
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue("OrderBy");
             var orderByDirection = GetQueryValue("OrderByDirection");
@@ -587,8 +655,14 @@ namespace TightWiki.Controllers
         [HttpPost("DeleteAccount/{navigation}")]
         public ActionResult DeleteAccount(ConfirmActionViewModel model, string navigation)
         {
-            SessionState.RequireAdminPermission();
-
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             if (model.UserSelection == true)
             {
                 var profile = UsersRepository.GetAccountProfileByNavigation(navigation);

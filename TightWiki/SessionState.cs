@@ -6,11 +6,13 @@ using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Exceptions;
+using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
+using TightWiki.Static;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki
@@ -283,7 +285,7 @@ namespace TightWiki
 
         public void RequireAuthorizedPermission()
         {
-            if (!IsAuthenticated) throw new UnauthorizedException();
+            throw new UnauthorizedException(StaticHelper.Localizer["You are not authorized"]);
         }
 
         /// <summary>
@@ -293,7 +295,8 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permissions))
             {
-                throw new UnauthorizedException($"You do not have permission to perform the action: {string.Join(", ", permissions)}");
+                throw new UnauthorizedException(StaticHelper.Localizer["You do not have permission to perform the action: {0}"]
+                    .Format(string.Join(", ", permissions.Select(o => StaticHelper.Localizer[o.ToString()]))));
             }
         }
 
@@ -304,7 +307,8 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permission))
             {
-                throw new UnauthorizedException($"You do not have permission to perform the action: {permission}");
+                throw new UnauthorizedException(StaticHelper.Localizer["You do not have permission to perform the action: {0}"]
+                    .Format(StaticHelper.Localizer[permission.ToString()]));
             }
         }
 
@@ -315,7 +319,8 @@ namespace TightWiki
         {
             if (!IsAdministrator)
             {
-                throw new UnauthorizedException($"You do not have administrative permissions");
+                throw new UnauthorizedException(StaticHelper.Localizer["You do not have permission to perform the action: {0}"]
+                    .Format(StaticHelper.Localizer["Administration"].Value));
             }
         }
 

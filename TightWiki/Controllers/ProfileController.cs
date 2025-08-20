@@ -244,7 +244,14 @@ namespace TightWiki.Controllers
         [HttpGet("My")]
         public ActionResult My()
         {
-            SessionState.RequireAuthorizedPermission();
+            try
+            {
+                SessionState.RequireAuthorizedPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             SessionState.Page.Name = Localize("My Profile");
 
             var model = new AccountProfileViewModel()
@@ -271,8 +278,14 @@ namespace TightWiki.Controllers
         [HttpPost("My")]
         public ActionResult My(AccountProfileViewModel model)
         {
-            SessionState.RequireAuthorizedPermission();
-
+            try
+            {
+                SessionState.RequireAuthorizedPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             SessionState.Page.Name = Localize("My Profile");
 
             model.TimeZones = TimeZoneItem.GetAll();
@@ -368,8 +381,14 @@ namespace TightWiki.Controllers
         [HttpPost("Delete")]
         public ActionResult DeleteAccount(ConfirmActionViewModel model)
         {
-            SessionState.RequireAuthorizedPermission();
-
+            try
+            {
+                SessionState.RequireAuthorizedPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
             var profile = UsersRepository.GetBasicProfileByUserId(SessionState.Profile.EnsureNotNull().UserId);
 
             if (model.UserSelection == true && profile != null)
