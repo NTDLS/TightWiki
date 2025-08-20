@@ -211,17 +211,19 @@ namespace TightWiki.Controllers
                 IsBuiltIn = role.IsBuiltIn,
                 Id = role.Id,
                 Name = role.Name,
+
                 Members = UsersRepository.GetRoleMembersPaged(role.Id,
-                    GetQueryValue("usersPage", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Members")),
+                    GetQueryValue("Page_Members", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Members")),
 
                 AssignedPermissions = UsersRepository.GetRolePermissionsPaged(role.Id,
-                    GetQueryValue("rolesPage", 1), GetQueryValue("OrderBy_Permission"), GetQueryValue("OrderByDirection_Permission")),
+                    GetQueryValue("Page_Permissions", 1), GetQueryValue("OrderBy_Permission"), GetQueryValue("OrderByDirection_Permission")),
 
                 PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
                 Permissions = UsersRepository.GetAllPermissions()
             };
 
-            model.PaginationPageCount = (model.Members.FirstOrDefault()?.PaginationPageCount ?? 0);
+            model.PaginationPageCount_Members = (model.Members.FirstOrDefault()?.PaginationPageCount ?? 0);
+            model.PaginationPageCount_Permissions = (model.AssignedPermissions.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }

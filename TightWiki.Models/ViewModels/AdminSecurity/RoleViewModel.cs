@@ -30,6 +30,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         /// </summary>
         public List<PermissionDisposition> PermissionDispositions { get; set; } = new();
 
-        public int PaginationPageCount { get; set; }
+        public int PaginationPageCount_Members { get; set; }
+        public int PaginationPageCount_Permissions { get; set; }
     }
 }

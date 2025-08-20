@@ -26,12 +26,15 @@ namespace TightWiki.Library
         }
 
         public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount)
-            => Generate(string.Empty, "page", QueryStringConverter.ToDictionary(queryString), totalPageCount);
+            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, "page");
 
-        public static IHtmlContent Generate(string queryToken, IQueryCollection? queryString, int? totalPageCount)
-            => Generate(string.Empty, queryToken, QueryStringConverter.ToDictionary(queryString), totalPageCount);
+        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string queryToken)
+            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken);
 
-        public static IHtmlContent Generate(string url, string queryToken, Dictionary<string, string>? queryString, int? totalPageCount)
+        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken)
+            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken);
+
+        public static IHtmlContent Generate(string url, Dictionary<string, string>? queryString, int? totalPageCount, string queryToken)
         {
             var sb = new StringBuilder();
             int currentPage = 1;

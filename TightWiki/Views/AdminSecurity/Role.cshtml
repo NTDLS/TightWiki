@@ -37,6 +37,8 @@
             </div>
         </div>
         <div class="card-body">
+            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
+
             <table id="permissionsTable" class="table fixedTable100 table-striped mb-3" border="0" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
@@ -91,13 +93,15 @@
             </div>
         </div>
         <div class="card-body">
+            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Members")
+
             <table id="membersTable" class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
-                        <td><strong>@Localizer["Name"]</strong></td>
-                        <td><strong>@Localizer["Email Address"]</strong></td>
-                        <td><strong>@Localizer["First Name"]</strong></td>
-                        <td><strong>@Localizer["Last Name"]</strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AccountName", "Members")">@Localizer["Name"]</a></strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress", "Members")">@Localizer["Email Address"]</a></strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName", "Members")">@Localizer["First Name"]</a></strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "LastName", "Members")">@Localizer["Last Name"]</a></strong></td>
                         <td><strong>@Localizer["Action"]</strong></td>
                     </tr>
                 </thead>
