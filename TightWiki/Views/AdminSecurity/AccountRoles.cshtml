@@ -2,18 +2,18 @@
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject IViewLocalizer Localizer
-@model RoleViewModel
+@model AccountRolesViewModel
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    @Localizer.Format("Role: {0}", Model.Name)
+    @Localizer.Format("Account Roles and Permissions for: {0}", Model.AccountName)
 </h3>
 
 <p>
-    @Localizer["Role membership and permissions."]
+    @Localizer["Account roles and permissions for a single account."]
 </p>
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}" }))
@@ -31,7 +31,7 @@
                 <div>
                     @*Right-aligned "toolbar" controls*@
                     <button type="button" id="addPermissionToRoleButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissionToRoleModal">
-                        @Localizer["Add Permission to Role"]
+                        @Localizer["Add Permission to Account"]
                     </button>
                 </div>
             </div>
@@ -81,39 +81,33 @@
             <div class="d-flex justify-content-between align-items-center" id="toolbar">
                 <div>
                     @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Members"]</h4>
+                    <h4>@Localizer["Membership"]</h4>
                 </div>
 
                 <div>
                     @*Right-aligned "toolbar" controls*@
                     <button type="button" id="addMemberToRoleButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberToRoleModal">
-                        @Localizer["Add Member to Role"]
+                        @Localizer["Add Role to Account"]
                     </button>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Members")
+            @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Memberships")
 
             <table id="membersTable" class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr>
-                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "AccountName", "Members")">@Localizer["Name"]</a></strong></td>
-                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress", "Members")">@Localizer["Email Address"]</a></strong></td>
-                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName", "Members")">@Localizer["First Name"]</a></strong></td>
-                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "LastName", "Members")">@Localizer["Last Name"]</a></strong></td>
+                        <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Role", "Memberships")">@Localizer["Name"]</a></strong></td>
                         <td><strong>@Localizer["Action"]</strong></td>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var member in Model.Members)
+                    @foreach (var membership in Model.Memberships)
                     {
                         <tr>
-                            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/@member.Navigation">@member.AccountName</a></td>
-                            <td>@member.EmailAddress</td>
-                            <td>@member.FirstName</td>
-                            <td>@member.LastName</td>
-                            <td><a class="btn btn-warning btn-thin" onclick="removeMember(this, '@member.UserId')">@Localizer["Remove"]</a></td>
+                            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Role/@membership.Name">@membership.Name</a></td>
+                            <td><a class="btn btn-warning btn-thin" onclick="removeMembership(this, '@membership.Id')">@Localizer["Remove"]</a></td>
                         </tr>
                     }
                 </tbody>
@@ -121,22 +115,6 @@
         </div>
     </div>
 }
-
-<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
-    <div>
-        @*Left-aligned "toolbar" controls*@
-        @if(Model.IsBuiltIn != true)
-        {
-            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-                Localizer["Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?"].Format(Model.Name),
-                Localizer["Delete Role"].Value, $"/AdminSecurity/DeleteRole/{Model.Id}", $"{GlobalConfiguration.BasePath}/AdminSecurity/Roles", Context.Request.Path.Value)
-        }
-    </div>
-
-    <div>
-        @*Right-aligned "toolbar" controls*@
-    </div>
-</div>
 
 <script>
     async function removePermission(button, permissionId) {
@@ -163,7 +141,7 @@
         button.closest("tr").remove();
     }
 
-    async function removeMember(button, userId) {
+    async function removeMembership(button, userId) {
         if (!confirm('@Localizer["Are you sure you want to remove the member from this role?"]')) {
             return;
         }
@@ -585,7 +563,7 @@
             <td>${result.membership.emailAddress}</td>
             <td>${result.membership.firstName}</td>
             <td>${result.membership.lastName}</td>
-            <td><a class="btn btn-warning btn-thin" onclick="removeMember(this, '${result.membership.userId}')">@Localizer["Remove"]</a></td>
+            <td><a class="btn btn-warning btn-thin" onclick="removeMembership(this, '${result.membership.is}')">@Localizer["Remove"]</a></td>
         `;
 
         tableBody.appendChild(newRow);

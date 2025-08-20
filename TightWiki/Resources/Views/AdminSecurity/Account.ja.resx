@@ -101,6 +101,9 @@
   <data name="Password" xml:space="preserve">
     <value>パスワード</value>
   </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>権限と役割</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>役割</value>
   </data>

@@ -101,6 +101,9 @@
   <data name="Password" xml:space="preserve">
     <value>Mật khẩu</value>
   </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>Quyền truy cập và Vai trò</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>Vai Trò</value>
   </data>

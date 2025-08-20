@@ -101,6 +101,9 @@
   <data name="Password" xml:space="preserve">
     <value>كلمة المرور</value>
   </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>الأذونات والأدوار</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>الدور</value>
   </data>

@@ -285,7 +285,10 @@ namespace TightWiki
 
         public void RequireAuthorizedPermission()
         {
-            throw new UnauthorizedException(StaticHelper.Localizer["You are not authorized"]);
+            if (!IsAuthenticated)
+            {
+                throw new UnauthorizedException(StaticHelper.Localizer["You are not authorized"]);
+            }
         }
 
         /// <summary>

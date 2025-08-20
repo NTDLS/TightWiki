@@ -101,6 +101,9 @@
   <data name="Password" xml:space="preserve">
     <value>Contraseña</value>
   </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>Permisos y Roles</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>Rol</value>
   </data>

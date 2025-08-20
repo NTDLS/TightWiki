@@ -101,6 +101,9 @@
   <data name="Password" xml:space="preserve">
     <value>পাসওয়ার্ড</value>
   </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>অনুমতি এবং ভূমিকা</value>
+  </data>
   <data name="Role" xml:space="preserve">
     <value>ভূমিকা</value>
   </data>

@@ -59,76 +59,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account" xml:space="preserve">
-    <value>Účet</value>
-  </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Název účtu</value>
-  </data>
-  <data name="Avatar" xml:space="preserve">
-    <value>Avatar</value>
-  </data>
-  <data name="Biography" xml:space="preserve">
-    <value>Biografie</value>
-  </data>
-  <data name="Configuration for user account." xml:space="preserve">
-    <value>Nastavení uživatelského účtu.</value>
-  </data>
-  <data name="Confirm Password" xml:space="preserve">
-    <value>Potvrďte heslo</value>
-  </data>
-  <data name="Country" xml:space="preserve">
-    <value>Stát</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Odstranit</value>
-  </data>
-  <data name="Email Address" xml:space="preserve">
-    <value>Emailová adresa</value>
-  </data>
-  <data name="Email Confirmed?" xml:space="preserve">
-    <value>Byl email potvrzen?</value>
-  </data>
-  <data name="First Name" xml:space="preserve">
-    <value>Jméno</value>
-  </data>
-  <data name="Language" xml:space="preserve">
-    <value>Jazyk</value>
-  </data>
-  <data name="Last Name" xml:space="preserve">
-    <value>Příjmení</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Heslo</value>
-  </data>
-  <data name="Permissions and Roles" xml:space="preserve">
-    <value>Oprávnění a role</value>
-  </data>
-  <data name="Role" xml:space="preserve">
-    <value>Role</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Uložit</value>
-  </data>
-  <data name="Select a country" xml:space="preserve">
-    <value>Vyberte zemi</value>
-  </data>
-  <data name="Select a language" xml:space="preserve">
-    <value>Vyberte jazyk</value>
-  </data>
-  <data name="Select a role" xml:space="preserve">
-    <value>Vyberte roli</value>
-  </data>
-  <data name="Select a time-zone" xml:space="preserve">
-    <value>Vyberte časové pásmo</value>
-  </data>
-  <data name="System Default" xml:space="preserve">
-    <value>Výchozí nastavení systému</value>
-  </data>
-  <data name="Theme" xml:space="preserve">
-    <value>Tema</value>
-  </data>
-  <data name="Time Zone" xml:space="preserve">
-    <value>Časové pásmo</value>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value>Rola i uprawnienia konta dla: {0}</value>
   </data>
 </root>

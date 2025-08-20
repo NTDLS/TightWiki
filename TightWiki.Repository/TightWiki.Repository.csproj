@@ -180,6 +180,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Scripts\AddRoleMemberByName.sql" />
     <EmbeddedResource Include="Scripts\DeleteRole.sql" />
+    <EmbeddedResource Include="Scripts\GetAccountRoleMembershipPaged.sql" />
+    <EmbeddedResource Include="Scripts\GetAccountPermissionsPaged.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^007^Users^CreatePermissionDefaults.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^006^Users^RolePermission.sql" />
     <EmbeddedResource Include="Scripts\Initialization\Versions\2.26.0\^005^Users^AccountPermission.sql" />
@@ -199,7 +201,6 @@
     <EmbeddedResource Include="Scripts\AutoCompleteNamespace.sql" />
     <EmbeddedResource Include="Scripts\GetAllPermissions.sql" />
     <EmbeddedResource Include="Scripts\GetAllPermissionDispositions.sql" />
-    <EmbeddedResource Include="Scripts\GetAccountPermissionsForDisplay.sql" />
     <EmbeddedResource Include="Scripts\GetRolePermissionsPaged.sql" />
     <EmbeddedResource Include="Scripts\GetApparentRolePermissions.sql" />
     <EmbeddedResource Include="Scripts\IsUserMemberOfAdministrators.sql" />

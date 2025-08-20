@@ -169,26 +169,6 @@ namespace TightWiki.Repository
             });
         }
 
-        public static List<AccountPermission> GetAccountPermissionsForDisplay(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
-        {
-            return ManagedDataStorage.Users.Ephemeral(o =>
-            {
-                using var users_db = o.Attach("pages.db", "pages_db");
-
-                pageSize ??= GlobalConfiguration.PaginationSize;
-
-                var param = new
-                {
-                    PageSize = pageSize,
-                    PageNumber = pageNumber,
-                    UserId = userId
-                };
-
-                var query = RepositoryHelper.TransposeOrderby("GetAccountPermissionsForDisplay.sql", orderBy, orderByDirection);
-                return o.Query<AccountPermission>(query, param).ToList();
-            });
-        }
-
         public static List<AccountProfile> GetAllPublicProfilesPaged(int pageNumber, int? pageSize = null, string? searchToken = null)
         {
             pageSize ??= GlobalConfiguration.PaginationSize;
@@ -265,6 +245,40 @@ namespace TightWiki.Repository
             var query = RepositoryHelper.TransposeOrderby("GetRoleMembersPaged.sql", orderBy, orderByDirection);
 
             return ManagedDataStorage.Users.Query<AccountProfile>(query, param).ToList();
+        }
+
+        public static List<AccountPermission> GetAccountPermissionsPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            return ManagedDataStorage.Users.Ephemeral(o =>
+            {
+                using var users_db = o.Attach("pages.db", "pages_db");
+
+                pageSize ??= GlobalConfiguration.PaginationSize;
+
+                var param = new
+                {
+                    PageSize = pageSize,
+                    PageNumber = pageNumber,
+                    UserId = userId
+                };
+
+                var query = RepositoryHelper.TransposeOrderby("GetAccountPermissionsPaged.sql", orderBy, orderByDirection);
+                return o.Query<AccountPermission>(query, param).ToList();
+            });
+        }
+
+        public static List<AccountRoleMembership> GetAccountRoleMembershipPaged(Guid userId, int pageNumber, string? orderBy = null, string? orderByDirection = null, int? pageSize = null)
+        {
+            var param = new
+            {
+                UserId = userId,
+                PageNumber = pageNumber,
+                PageSize = GlobalConfiguration.PaginationSize
+            };
+
+            var query = RepositoryHelper.TransposeOrderby("GetAccountRoleMembershipPaged.sql", orderBy, orderByDirection);
+
+            return ManagedDataStorage.Users.Query<AccountRoleMembership>(query, param).ToList();
         }
 
         public static List<AccountProfile> GetAllUsers()

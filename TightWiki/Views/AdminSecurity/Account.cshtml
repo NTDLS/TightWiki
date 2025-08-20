@@ -20,6 +20,21 @@
 {
     @Html.AntiForgeryToken()
 
+    <div class="d-flex justify-content-between align-items-center mb-2" id="toolbar">
+        <div>
+            @*Left-aligned "toolbar" controls*@
+            <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
+        </div>
+
+        <div>
+        @*Right-aligned "toolbar" controls*@
+            <a class="btn btn-primary" href="@GlobalConfiguration.BasePath/AdminSecurity/AccountRoles/@Model.AccountProfile.Navigation">@Localizer["Permissions and Roles"]</a>
+            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?"].Format(Model.AccountProfile.AccountName),
+                Localizer["Delete"].Value, $"/AdminSecurity/DeleteAccount/{Model.AccountProfile.Navigation}", $"{GlobalConfiguration.BasePath}/AdminSecurity/Accounts", Context.Request.Path.Value)
+        </div>
+    </div>
+
     <form>
         @Html.HiddenFor(m => m.AccountProfile.UserId)
         @Html.HiddenFor(m => m.AccountProfile.Navigation)
@@ -180,23 +195,9 @@
 
         <div class="form-group row mt-2">
             <div class="col-sm-10 offset-sm-2">
-                <button type="submit" class="btn btn btn-primary">@Localizer["Save"]</button>
+                <button type="submit" class="btn btn btn-success">@Localizer["Save"]</button>
             </div>
         </div>
     </form>
 }
 <br />
-
-<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
-    <div>
-        @*Left-aligned "toolbar" controls*@
-        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-            Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?"].Format(Model.AccountProfile.AccountName),
-            Localizer["Delete"].Value, $"/AdminSecurity/DeleteAccount/{Model.AccountProfile.Navigation}", $"{GlobalConfiguration.BasePath}/AdminSecurity/Accounts", Context.Request.Path.Value)
-    </div>
-
-    <div>
-        @*Right-aligned "toolbar" controls*@
-    </div>
-</div>
-

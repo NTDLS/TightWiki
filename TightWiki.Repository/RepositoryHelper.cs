@@ -63,7 +63,7 @@ namespace TightWiki.Repository
                             }
                         }
 
-                        if(!configs.TryGetValue(orderBy, out string? field))
+                        if (!configs.TryGetValue(orderBy, out string? field))
                         {
                             throw new Exception($"No order by mapping was found in '{filename}' for the field '{orderBy}'.");
                         }

@@ -216,7 +216,7 @@ namespace TightWiki.Controllers
                     GetQueryValue("Page_Members", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Members")),
 
                 AssignedPermissions = UsersRepository.GetRolePermissionsPaged(role.Id,
-                    GetQueryValue("Page_Permissions", 1), GetQueryValue("OrderBy_Permission"), GetQueryValue("OrderByDirection_Permission")),
+                    GetQueryValue("Page_Permissions", 1), GetQueryValue("OrderBy_Permission"), GetQueryValue("OrderByDirection_Permissions")),
 
                 PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
                 Permissions = UsersRepository.GetAllPermissions()
@@ -247,6 +247,49 @@ namespace TightWiki.Controllers
             {
                 Roles = UsersRepository.GetAllRoles(orderBy, orderByDirection)
             };
+
+            return View(model);
+        }
+
+        #endregion
+
+        #region Account Roles.
+
+        [Authorize]
+        [HttpGet("AccountRoles/{navigation}")]
+        public ActionResult AccountRoles(string navigation)
+        {
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
+            SessionState.Page.Name = Localize("Roles");
+
+            navigation = Navigation.Clean(navigation);
+
+            var profile = UsersRepository.GetAccountProfileByNavigation(navigation);
+
+            var model = new AccountRolesViewModel()
+            {
+                Id = profile.UserId,
+                AccountName = profile.AccountName,
+
+                Memberships = UsersRepository.GetAccountRoleMembershipPaged(profile.UserId,
+                    GetQueryValue("Page_Memberships", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Memberships")),
+
+                AssignedPermissions = UsersRepository.GetAccountPermissionsPaged(profile.UserId,
+                    GetQueryValue("Page_Permissions", 1), GetQueryValue("OrderBy_Permissions"), GetQueryValue("OrderByDirection_Permissions")),
+
+                PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
+                Permissions = UsersRepository.GetAllPermissions()
+            };
+
+            model.PaginationPageCount_Members = (model.Memberships.FirstOrDefault()?.PaginationPageCount ?? 0);
+            model.PaginationPageCount_Permissions = (model.AssignedPermissions.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
