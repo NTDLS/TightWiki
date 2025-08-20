@@ -107,7 +107,7 @@
                     {
                         <tr>
                             <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Role/@membership.Name">@membership.Name</a></td>
-                            <td><a class="btn btn-warning btn-thin" onclick="removeMembership(this, '@membership.Id')">@Localizer["Remove"]</a></td>
+                            <td><a class="btn btn-warning btn-thin" onclick="removeMembership(this, '@membership.RoleId')">@Localizer["Remove"]</a></td>
                         </tr>
                     }
                 </tbody>
@@ -141,12 +141,12 @@
         button.closest("tr").remove();
     }
 
-    async function removeMembership(button, userId) {
+    async function removeMembership(button, roleId) {
         if (!confirm('@Localizer["Are you sure you want to remove the role from this account?"]')) {
             return;
         }
 
-        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveAccountMembership/@Model.Id/${userId}`, {
+        const response = await fetch(`@GlobalConfiguration.BasePath/AdminSecurity/RemoveRoleMember/${roleId}/@Model.Id`, {
             method: 'POST',
         });
 
@@ -383,8 +383,6 @@
             pageId: pageId
         };
 
-        console.log(payload);
-
         const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddAccountPermission', {
             method: 'POST',
             headers: {
@@ -407,7 +405,7 @@
 
         if(result.alreadyExists)
         {
-            alert('@Localizer["The role already has the specified permission."]')
+            alert('@Localizer["The account already has the specified permission."]')
             return;
         }
         const tableBody = document.querySelector("#permissionsTable tbody");
@@ -449,14 +447,14 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addAccountMembershipModalLabel">@Localizer["Add Member to Role"]</h5>
+                <h5 class="modal-title" id="addAccountMembershipModalLabel">@Localizer["Add Role to Account"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div>
-                    <label for="addAccountMembershipModalAccount" class="form-label fw-bold">@Localizer["Account"]</label>
-                    <select id="addAccountMembershipModalAccount" style="width: 100%"></select>
+                    <label for="addAccountMembershipModalRole" class="form-label fw-bold">@Localizer["Role"]</label>
+                    <select id="addAccountMembershipModalRole" style="width: 100%"></select>
                 </div>
             </div>
 
@@ -481,15 +479,15 @@
         if (addAccountMembershipModalInitialized)
         {
             // Reset the defaults on the modal:
-            $('#addAccountMembershipModalAccount').val(null).trigger('change');
+            $('#addAccountMembershipModalRole').val(null).trigger('change');
             return;
         }
-        $('#addAccountMembershipModalAccount').select2({
+        $('#addAccountMembershipModalRole').select2({
             dropdownParent: $('#addAccountMembershipModal'),
-            placeholder: "@Localizer["Select an account"]",
+            placeholder: "@Localizer["Select a role"]",
             minimumInputLength: 0,
             ajax: {
-                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutoCompleteAccount',
+                url: '@GlobalConfiguration.BasePath/AdminSecurity/AutoCompleteRole',
                 dataType: 'json',
                 delay: 250,
                 data: function(params) {
@@ -509,7 +507,7 @@
             }
         });
 
-        $('#addAccountMembershipModalAccount').val(null).trigger('change');
+        $('#addAccountMembershipModalRole').val(null).trigger('change');
 
         addAccountMembershipModalInitialized = true;
     });
@@ -517,19 +515,19 @@
     //User clicked the add button on the addAccountMembershipModal
     document.getElementById('addAccountMembershipModalInsertButton').addEventListener('click', async function () {
 
-        let account = $('#addAccountMembershipModalAccount').select2('data');
+        let role = $('#addAccountMembershipModalRole').select2('data');
 
-        if (account.length <= 0) {
-            alert("@Localizer["You must select an account."]");
+        if (role.length <= 0) {
+            alert("@Localizer["You must select a role."]");
             return;
         }
 
         const payload = {
-            roleId: '@Model.Id', //These are backwards, right?
-            userId: account[0].id, //These are backwards, right?
+            userId: '@Model.Id',
+            roleId: role[0].id,
         };
 
-        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddRoleMember', {
+        const response = await fetch('@GlobalConfiguration.BasePath/AdminSecurity/AddAccountMembership', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -559,11 +557,8 @@
         const newRow = document.createElement("tr");
 
         newRow.innerHTML = `
-            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Account/${result.membership.navigation}">${result.membership.accountName}</a></td>
-            <td>${result.membership.emailAddress}</td>
-            <td>${result.membership.firstName}</td>
-            <td>${result.membership.lastName}</td>
-            <td><a class="btn btn-warning btn-thin" onclick="removeMembership(this, '${result.membership.is}')">@Localizer["Remove"]</a></td>
+            <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Role/${result.membership.name}">${result.membership.name}</a></td>
+            <td><a class="btn btn-warning btn-thin" onclick="removeMembership(this, '${result.membership.id}')">@Localizer["Remove"]</a></td>
         `;
 
         tableBody.appendChild(newRow);

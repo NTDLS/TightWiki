@@ -178,7 +178,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\AddAccountMembership.sql" />
     <EmbeddedResource Include="Scripts\AddRoleMemberByName.sql" />
+    <EmbeddedResource Include="Scripts\AutoCompleteRole.sql" />
     <EmbeddedResource Include="Scripts\DeleteRole.sql" />
     <EmbeddedResource Include="Scripts\GetAccountRoleMembershipPaged.sql" />
     <EmbeddedResource Include="Scripts\GetAccountPermissionsPaged.sql" />

@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Permisos de la cuenta</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Membresía de rol de la cuenta</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Roles y permisos de la cuenta para una sola cuenta.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>Roles y Permisos de la Cuenta para: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Acción</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Agregar permiso a la cuenta</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Agregar rol a la cuenta</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>TODO</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>¿Está seguro de que desea quitar el permiso de esta cuenta?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>¿Está seguro de que desea quitar el rol de esta cuenta?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Disposición</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Espacio de nombres</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Página</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Permiso</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Eliminación fallida</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Recurso</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Tipo de recurso</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Seleccione una disposición</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Seleccione un espacio de nombres</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Seleccione una página</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Seleccione un permiso</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Seleccione un rol</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>La cuenta ya tiene el permiso especificado.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>La cuenta ya es miembro del rol especificado.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Página de Wiki</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Debe seleccionar un espacio de nombres.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Debe seleccionar una página.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Debe seleccionar una disposición de permiso.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Debe seleccionar un permiso.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Debe seleccionar un rol.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Debe seleccionar ya sea una página o un espacio de nombres.</value>
   </data>
 </root>

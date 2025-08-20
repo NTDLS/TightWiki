@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>खाता अनुमतियाँ</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>खाता भूमिका सदस्यता</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>एकल खाते के लिए खाता भूमिकाएँ और अनुमतियाँ।</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>खाता भूमिकाएँ और अनुमतियाँ: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>क्रिया</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>जोड़ें</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>खाते में अनुमति जोड़ें</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>खाते में भूमिका जोड़ें</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>सभी</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>क्या आप निश्चित हैं कि आप इस खाते से अनुमति हटाना चाहते हैं?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>क्या आप निश्चित हैं कि आप इस खाते से भूमिका हटाना चाहते हैं?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>बंद करें</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>निष्कर्ष</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>नाम</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>नेमस्पेस</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>पृष्ठ</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>अनुमति</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>हटाना विफल</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>हटाएं</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>संसाधन</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>संसाधन प्रकार</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>एक निष्कर्ष चुनें</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>एक नेमस्पेस चुनें</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>एक पृष्ठ चुनें</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>एक अनुमति चुनें</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>एक भूमिका चुनें</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>खाते में पहले से ही निर्दिष्ट अनुमति है।</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>खाता पहले से ही निर्दिष्ट भूमिका का सदस्य है।</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>विकि पृष्ठ</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>आपको एक नेमस्पेस चुनना होगा।</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>आपको एक पृष्ठ चुनना होगा।</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>आपको एक अनुमति निष्कर्ष चुनना होगा।</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>आपको एक अनुमति चुननी होगी।</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>आपको एक भूमिका चुननी होगी।</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>आपको या तो पृष्ठ या नेमस्पेस चुनना होगा।</value>
   </data>
 </root>

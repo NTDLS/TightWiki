@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Разрешения аккаунта</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Членство в ролях аккаунта</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Роли и разрешения аккаунта для одного аккаунта.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>Роли и разрешения учетной записи для: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Действие</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Добавить разрешение к аккаунту</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Добавить роль к аккаунту</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>ВСЕ</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить разрешение с этого аккаунта?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить роль с этого аккаунта?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Распределение</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Пространство имен</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Страница</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Разрешение</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Удаление не удалось</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Ресурс</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Тип ресурса</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Выберите распределение</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Выберите пространство имен</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Выберите страницу</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Выберите разрешение</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Выберите роль</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>У аккаунта уже есть указанное разрешение.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Аккаунт уже является членом указанной роли.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Вики-страница</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Вы должны выбрать пространство имен.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Вы должны выбрать страницу.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Вы должны выбрать распределение разрешения.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Вы должны выбрать разрешение.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Вы должны выбрать роль.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Вы должны выбрать либо страницу, либо пространство имен.</value>
   </data>
 </root>

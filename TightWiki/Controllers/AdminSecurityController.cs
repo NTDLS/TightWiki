@@ -52,6 +52,33 @@ namespace TightWiki.Controllers
         /// This is called by ajax/jquery and does not redirect when authorization fails.
         /// </summary>
         [Authorize]
+        [HttpPost("AddAccountMembership")]
+        public IActionResult AddAccountMembership([FromBody] AddAccountMembershipRequest request)
+        {
+            try
+            {
+                SessionState.RequireAdminPermission();
+
+                AddAccountMembershipResult? result = null;
+
+                bool alreadyExists = UsersRepository.IsAccountAMemberOfRole(request.UserId, request.RoleId, false);
+                if (!alreadyExists)
+                {
+                    result = UsersRepository.AddAccountMembership(request.UserId, request.RoleId);
+                }
+
+                return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// This is called by ajax/jquery and does not redirect when authorization fails.
+        /// </summary>
+        [Authorize]
         [HttpPost("AddRoleMember")]
         public IActionResult AddRoleMember([FromBody] AddRoleMemberRequest request)
         {
@@ -793,6 +820,19 @@ namespace TightWiki.Controllers
         #endregion
 
         #region AutoComplete.
+
+        [Authorize]
+        [HttpGet("AutoCompleteRole")]
+        public ActionResult AutoCompleteRole([FromQuery] string? q = null)
+        {
+            var roles = UsersRepository.AutoCompleteRole(q).ToList();
+
+            return Json(roles.Select(o => new
+            {
+                text = o.Name,
+                id = o.Id.ToString()
+            }));
+        }
 
         [Authorize]
         [HttpGet("AutoCompleteAccount")]

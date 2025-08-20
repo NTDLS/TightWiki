@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>أذونات الحساب</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>عضوية دور الحساب</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>أدوار الحساب وأذونات لحساب واحد.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>أدوار الحسابات والأذونات لـ: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>إجراء</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>إضافة</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>إضافة إذن للحساب</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>إضافة دور للحساب</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد إزالة الإذن من هذا الحساب؟</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد إزالة الدور من هذا الحساب؟</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>التصرف</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>المساحة الإسكانية</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>الصفحة</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>إذن</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>فشل الإزالة</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>المورد</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>نوع المورد</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>حدد تصرفًا</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>حدد مساحة إسكانية</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>حدد صفحة</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>حدد إذنًا</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>حدد دورًا</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>يمتلك الحساب بالفعل الإذن المحدد.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>الحساب هو بالفعل عضو في الدور المحدد.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>صفحة ويكي</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>يجب عليك تحديد مساحة إسكانية.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>يجب عليك تحديد صفحة.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>يجب عليك تحديد تصرف الإذن.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>يجب عليك تحديد إذن.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>يجب عليك تحديد دور.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>يجب عليك تحديد إما الصفحة أو المساحة الإسكانية.</value>
   </data>
 </root>

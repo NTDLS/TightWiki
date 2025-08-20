@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Oprávnění účtu</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Členství v roli účtu</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Role a oprávnění účtu pro jednotlivý účet.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>Role a oprávnění účtu pro: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Akce</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Přidat</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Přidat oprávnění k účtu</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Přidat roli k účtu</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>VŠE</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Jste si jisti, že chcete odebrat oprávnění z tohoto účtu?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Jste si jisti, že chcete odebrat roli z tohoto účtu?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Uložení</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Název</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Prostor názvů</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Stránka</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Oprávnění</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Odebrání selhalo</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Odebrat</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Zdroj</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Typ zdroje</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Vyberte uložení</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Vyberte prostor názvů</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Vyberte stránku</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Vyberte oprávnění</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Vyberte roli</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Účet již má zadané oprávnění.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Účet je již členem zadané role.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Wiki stránka</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Musíte vybrat prostor názvů.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Musíte vybrat stránku.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Musíte vybrat uložení oprávnění.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Musíte vybrat oprávnění.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Musíte vybrat roli.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Musíte vybrat buď stránku, nebo prostor názvů.</value>
   </data>
 </root>

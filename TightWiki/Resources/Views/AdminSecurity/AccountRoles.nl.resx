@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Accountmachtigingen</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Lidmaatschap van accountrol</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Accountrollen en -machtigingen voor een enkel account.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>Accountrollen en machtigingen voor: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Actie</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Toevoegen</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Machtiging aan account toevoegen</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Rol aan account toevoegen</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>ALLES</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Weet u zeker dat u de machtiging van dit account wilt verwijderen?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Weet u zeker dat u de rol van dit account wilt verwijderen?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Naamruimte</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Pagina</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Machtiging</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Verwijdering mislukt</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Bron</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Brontype</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Selecteer een disposition</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Selecteer een naamruimte</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Selecteer een pagina</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Selecteer een machtiging</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Selecteer een rol</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Het account heeft al de opgegeven machtiging.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Het account is al lid van de opgegeven rol.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Wiki-pagina</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>U moet een naamruimte selecteren.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>U moet een pagina selecteren.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>U moet een disposition voor de machtiging selecteren.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>U moet een machtiging selecteren.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>U moet een rol selecteren.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>U moet ofwel een pagina ofwel een naamruimte selecteren.</value>
   </data>
 </root>

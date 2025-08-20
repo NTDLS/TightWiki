@@ -1,6 +1,7 @@
 SELECT
 	AR.Id,
 	R.Name,
+	AR.RoleId,
 	@PageSize as PaginationPageSize,
 	(
 		SELECT

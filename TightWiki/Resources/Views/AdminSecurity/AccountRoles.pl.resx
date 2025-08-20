@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Uprawnienia konta</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Członkostwo w roli konta</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Role konta i uprawnienia dla pojedynczego konta.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>Rola i uprawnienia konta dla: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Działanie</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Dodaj</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Dodaj uprawnienie do konta</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Dodaj rolę do konta</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>WSZYSTKIE</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć uprawnienie z tego konta?</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć rolę z tego konta?</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Zamknij</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Podział</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Przestrzeń nazw</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Strona</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Uprawnienie</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Usunięcie nie powiodło się</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Zasób</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Typ zasobu</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Wybierz podział</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Wybierz przestrzeń nazw</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Wybierz stronę</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Wybierz uprawnienie</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Wybierz rolę</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Konto ma już określone uprawnienie.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Konto jest już członkiem określonej roli.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Strona Wiki</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Musisz wybrać przestrzeń nazw.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Musisz wybrać stronę.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Musisz wybrać podział uprawnienia.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Musisz wybrać uprawnienie.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Musisz wybrać rolę.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Musisz wybrać albo stronę, albo przestrzeń nazw.</value>
   </data>
 </root>

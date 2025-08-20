@@ -59,7 +59,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>مجوزهای حساب</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>عضویت نقش حساب</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>نقش‌ها و مجوزهای حساب برای یک حساب واحد.</value>
+  </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value>نقش‌ها و مجوزهای حساب برای: {0}</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>عملیات</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>اضافه کردن</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>اضافه کردن مجوز به حساب</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>اضافه کردن نقش به حساب</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>همه</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>آیا مطمئن هستید که می‌خواهید مجوز را از این حساب حذف کنید؟</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>آیا مطمئن هستید که می‌خواهید نقش را از این حساب حذف کنید؟</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>بستن</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>وضعیت</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>فضای نام</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>صفحه</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>مجوز</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>حذف با شکست مواجه شد</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>منبع</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>نوع منبع</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>یک وضعیت انتخاب کنید</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>یک فضای نام انتخاب کنید</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>یک صفحه انتخاب کنید</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>یک مجوز انتخاب کنید</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>یک نقش انتخاب کنید</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>حساب در حال حاضر مجوز مشخص شده را دارد.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>حساب در حال حاضر عضو نقش مشخص شده است.</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>صفحه ویکی</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>شما باید یک فضای نام انتخاب کنید.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>شما باید یک صفحه انتخاب کنید.</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>شما باید یک وضعیت مجوز انتخاب کنید.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>شما باید یک مجوز انتخاب کنید.</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>شما باید یک نقش انتخاب کنید.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>شما باید یا صفحه یا فضای نام را انتخاب کنید.</value>
   </data>
 </root>
