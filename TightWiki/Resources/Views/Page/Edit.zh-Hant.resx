@@ -173,4 +173,13 @@
   <data name="Change Summary" xml:space="preserve">
     <value>變更摘要</value>
   </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>表情符號</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>插入表情符號</value>
+  </data>
+  <data name="Search for emojis." xml:space="preserve">
+    <value>搜尋表情符號。</value>
+  </data>
 </root>

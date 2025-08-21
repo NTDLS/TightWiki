@@ -173,4 +173,13 @@
   <data name="Change Summary" xml:space="preserve">
     <value>変更の要約</value>
   </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>絵文字</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>絵文字を挿入</value>
+  </data>
+  <data name="Search for emojis." xml:space="preserve">
+    <value>絵文字を検索します。</value>
+  </data>
 </root>
