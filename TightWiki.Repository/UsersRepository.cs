@@ -474,15 +474,8 @@ namespace TightWiki.Repository
             return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetProfileByAccountNameOrEmailAndPasswordHash.sql", param);
         }
 
-        public static ProfileAvatar GetProfileAvatarByNavigation(string navigation)
-        {
-            var param = new
-            {
-                Navigation = navigation
-            };
-
-            return ManagedDataStorage.Users.QuerySingle<ProfileAvatar>("GetProfileAvatarByNavigation.sql", param);
-        }
+        public static ProfileAvatar? GetProfileAvatarByNavigation(string navigation)
+            => ManagedDataStorage.Users.QuerySingleOrDefault<ProfileAvatar>("GetProfileAvatarByNavigation.sql", new { Navigation = navigation });
 
         public static void UpdateProfile(AccountProfile item)
         {

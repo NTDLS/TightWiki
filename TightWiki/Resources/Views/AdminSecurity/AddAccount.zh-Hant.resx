@@ -71,6 +71,9 @@
   <data name="Biography" xml:space="preserve">
     <value>個人簡介</value>
   </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>更改頭像</value>
+  </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>確認密碼</value>
   </data>

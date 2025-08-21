@@ -11,196 +11,21 @@
 </h3>
 
 <p>
-    @Localizer["This is your profile, do with it what you may."]<br /><br />
+    @Localizer["This is your profile, do with it what you may."]
 </p>
 
 @using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="container">
-        <form>
-            @Html.HiddenFor(m => m.AccountProfile.UserId)
-            @Html.HiddenFor(m => m.AccountProfile.Navigation)
+    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+        <div>
+            <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
 
-            <div class="form-group row mb-1">
-                <label for="Avatar" class="col-sm-2 col-form-label"><strong>@Localizer["Avatar"]</strong></label>
-                <div class="col-sm-10">
-                    @if (@Model.AccountProfile.Navigation != "")
-                    {
-                        <img src="@GlobalConfiguration.BasePath/Profile/@Model.AccountProfile.Navigation/Avatar?max=150" class="mb-1" />
-                    }
-                    <input type="file" id="Avatar" name="Avatar" class="form-control-file" onchange="fileCheck(this);" />
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.EmailAddress)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-3">
-                <label for="EmailAddress" class="col-sm-2 col-form-label"><strong>@Localizer["Email Address"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.DisplayFor(m => m.AccountProfile.EmailAddress, new { @class = "form-control-plaintext" })
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.AccountName)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-3">
-                <label for="AccountName" class="col-sm-2 col-form-label"><strong>@Localizer["Account Name"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.AccountProfile.AccountName, new { @class = "form-control" })
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.FirstName)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <label for="FirstName" class="col-sm-2 col-form-label"><strong>@Localizer["First Name"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.AccountProfile.FirstName, new { @class = "form-control" })
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.LastName)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-3">
-                <label for="LastName" class="col-sm-2 col-form-label"><strong>@Localizer["Last Name"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "form-control" })
-                </div>
-            </div>
-            @*
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Role)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <label for="Role" class="col-sm-2 col-form-label"><strong>@Localizer["Role"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.DisplayFor(m => m.AccountProfile.Role, new { @class = "form-control-plaintext" })
-                </div>
-            </div>
-            *@
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Theme)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-3">
-                <label for="Theme" class="col-sm-2 col-form-label"><strong>@Localizer["Theme"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="AccountProfile.Theme" id="AccountProfile.Theme" class="form-control">
-                        <option value="">@Localizer["System Default"]</option>
-                        @foreach (var item in Model.Themes)
-                        {
-                            <option value="@item.Name" selected=@(Model.AccountProfile.Theme == item.Name ? "selected" : null)>
-                                @item.Name
-                            </option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Country)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <label for="Country" class="col-sm-2 col-form-label"><strong>@Localizer["Country"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="AccountProfile.Country" id="AccountProfile.Country" class="form-control">
-                        <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
-                        @foreach (var item in Model.Countries)
-                        {
-                            <option value="@item.Value" selected=@(Model.AccountProfile.Country == item.Value ? "selected" : null)>
-                                @item.Text
-                            </option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Language)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <label for="Language" class="col-sm-2 col-form-label"><strong>@Localizer["Language"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="AccountProfile.Language" id="AccountProfile.Language" class="form-control">
-                        <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
-                        @foreach (var item in Model.Languages)
-                        {
-                            <option value="@item.Value" selected=@(Model.AccountProfile.Language == item.Value ? "selected" : null)>
-                                @item.Text
-                            </option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Localizer["Time Zone"]</strong></label>
-                <div class="col-sm-10">
-                    <select name="AccountProfile.TimeZone" id="AccountProfile.TimeZone" class="form-control">
-                        <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
-                        @foreach (var item in Model.TimeZones)
-                        {
-                            <option value="@item.Value" selected=@(Model.AccountProfile.TimeZone == item.Value ? "selected" : null)>
-                                @item.Text
-                            </option>
-                        }
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <div class="col-sm-12">
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Biography)</div>
-                </div>
-            </div>
-            <div class="form-group row mb-1">
-                <label for="Biography" class="col-sm-2 col-form-label"><strong>@Localizer["Biography"]</strong></label>
-                <div class="col-sm-10">
-                    @Html.TextAreaFor(m => m.AccountProfile.Biography, new { @class = "form-control", style = "height:200px", Name = "Biography" })
-                </div>
-            </div>
-
-            <div class="form-group row mb-1">
-                <div class="col-sm-10 offset-sm-2">
-                    <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
-                </div>
-            </div>
-        </form>
-    </div>
-}
-
-<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
-    <div>
-        @*Left-aligned "toolbar" controls*@
-        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            @*Left-aligned "toolbar" controls*@
+            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
             Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?"].Format(Model.AccountProfile.AccountName),
-            Localizer["Delete Account"].Value, $"/Profile/Delete", $"{GlobalConfiguration.BasePath}/Profile/Deleted", Context.Request.Path.Value)
+                Localizer["Delete Account"].Value, $"/Profile/Delete", $"{GlobalConfiguration.BasePath}/Profile/Deleted", Context.Request.Path.Value)
     </div>
 
     <div>
@@ -208,5 +33,199 @@
     </div>
 </div>
 
+@Html.HiddenFor(m => m.AccountProfile.UserId)
+@Html.HiddenFor(m => m.AccountProfile.Navigation)
 
+<div class="form-group row mb-1">
+    <label for="Avatar" class="col-sm-2 col-form-label"><strong>@Localizer["Avatar"]</strong></label>
+    <div class="col-sm-10">
+        <div class="card shadow-sm" style="max-width: 250px;">
+            <div class="card-body text-center">
+                <div id="avatar-preview-container">
+                    @if (@Model.AccountProfile.Navigation != "")
+                        {
 
+                            <img id="avatar-preview"
+                                 src="@GlobalConfiguration.BasePath/Profile/@Model.AccountProfile.Navigation/Avatar?max=150"
+                                 alt="Image Preview"
+                                 class="img-thumbnail"
+                                 style="max-width: 200px; max-height: 200px;">
+                        }
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <label for="avatar" class="btn btn-primary">Change Avatar</label>
+                    <input type="file" id="avatar" name="Avatar" accept="image/*" class="d-none">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.EmailAddress)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="EmailAddress" class="col-sm-2 col-form-label"><strong>@Localizer["Email Address"]</strong></label>
+        <div class="col-sm-10">
+            @Html.DisplayFor(m => m.AccountProfile.EmailAddress, new { @class = "form-control-plaintext" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.AccountName)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="AccountName" class="col-sm-2 col-form-label"><strong>@Localizer["Account Name"]</strong></label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.AccountProfile.AccountName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.FirstName)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="FirstName" class="col-sm-2 col-form-label"><strong>@Localizer["First Name"]</strong></label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.AccountProfile.FirstName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.LastName)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="LastName" class="col-sm-2 col-form-label"><strong>@Localizer["Last Name"]</strong></label>
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Theme)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="Theme" class="col-sm-2 col-form-label"><strong>@Localizer["Theme"]</strong></label>
+        <div class="col-sm-10">
+            <select name="AccountProfile.Theme" id="AccountProfile.Theme" class="form-control">
+                <option value="">@Localizer["System Default"]</option>
+                @foreach (var item in Model.Themes)
+                {
+                    <option value="@item.Name" selected=@(Model.AccountProfile.Theme == item.Name ? "selected" : null)>
+                        @item.Name
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Country)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="Country" class="col-sm-2 col-form-label"><strong>@Localizer["Country"]</strong></label>
+        <div class="col-sm-10">
+            <select name="AccountProfile.Country" id="AccountProfile.Country" class="form-control">
+                <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
+                @foreach (var item in Model.Countries)
+                {
+                    <option value="@item.Value" selected=@(Model.AccountProfile.Country == item.Value ? "selected" : null)>
+                        @item.Text
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Language)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="Language" class="col-sm-2 col-form-label"><strong>@Localizer["Language"]</strong></label>
+        <div class="col-sm-10">
+            <select name="AccountProfile.Language" id="AccountProfile.Language" class="form-control">
+                <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
+                @foreach (var item in Model.Languages)
+                {
+                    <option value="@item.Value" selected=@(Model.AccountProfile.Language == item.Value ? "selected" : null)>
+                        @item.Text
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="TimeZone" class="col-sm-2 col-form-label"><strong>@Localizer["Time Zone"]</strong></label>
+        <div class="col-sm-10">
+            <select name="AccountProfile.TimeZone" id="AccountProfile.TimeZone" class="form-control">
+                <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
+                @foreach (var item in Model.TimeZones)
+                {
+                    <option value="@item.Value" selected=@(Model.AccountProfile.TimeZone == item.Value ? "selected" : null)>
+                        @item.Text
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row mb-1">
+        <div class="col-sm-12">
+            <div class="text-danger">@Html.ValidationMessageFor(m => m.AccountProfile.Biography)</div>
+        </div>
+    </div>
+    <div class="form-group row mb-1">
+        <label for="Biography" class="col-sm-2 col-form-label"><strong>@Localizer["Biography"]</strong></label>
+        <div class="col-sm-10">
+            @Html.TextAreaFor(m => m.AccountProfile.Biography, new { @class = "form-control", style = "height:200px", Name = "Biography" })
+        </div>
+    </div>
+}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let fileInput = document.getElementById("avatar");
+
+        if (fileInput) { // Ensure the element exists
+            fileInput.addEventListener("change", function (event) {
+                let file = event.target.files[0];
+                if (file) {
+                    let reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        let preview = document.getElementById("avatar-preview");
+                        let previewContainer = document.getElementById("avatar-preview-container");
+
+                        if (preview && previewContainer) {
+                            preview.src = e.target.result;
+                            previewContainer.style.display = "block"; // Show preview
+                        }
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    });
+</script>

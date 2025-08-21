@@ -17,6 +17,8 @@
 
 @using (Html.BeginForm(FormMethod.Post))
 {
+    @Html.AntiForgeryToken()
+
     if (sessionState.IsAuthenticated == true)
     {
         <div class="container">

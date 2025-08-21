@@ -13,8 +13,21 @@
 </h3>
 
 <p>
-    <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> @Localizer["version"] @Model.ApplicationVersion<br /><br />
+    <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> @Localizer["version"] @Model.ApplicationVersion
 </p>
+
+<div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+    <div>
+        @*Left-aligned "toolbar" controls*@
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
+        Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
+                Localizer["Purge Memory Cache"].Value, "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
+    </div>
+
+    <div>
+        @*Right-aligned "toolbar" controls*@
+    </div>
+</div>
 
 <div class="card shadow-lg">
     <div class="card-header">
@@ -110,11 +123,6 @@
         <h4>@Localizer["Cache"]</h4>
     </div>
     <div class="card-body">
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
-        Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
-                Localizer["Purge Memory Cache"].Value, "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
-        <br />
-
         <table class="table fixedTable100 table-striped mt-2" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td><strong>@Localizer["Items"]</strong></td>

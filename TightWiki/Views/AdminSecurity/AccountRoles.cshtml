@@ -20,21 +20,26 @@
 {
     @Html.AntiForgeryToken()
 
+    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+        <div>
+            @*Left-aligned "toolbar" controls*@
+            <button type="button" id="addPermissionToAccountButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissionToAccountModal">
+                @Localizer["Add Permission to Account"]
+            </button>
+
+            <button type="button" id="addAccountMembershipButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccountMembershipModal">
+                @Localizer["Add Role to Account"]
+            </button>
+        </div>
+
+        <div>
+            @*Right-aligned "toolbar" controls*@
+        </div>
+    </div>
+
     <div class="card shadow-lg">
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center" id="toolbar">
-                <div>
-                    @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Account Permissions"]</h4>
-                </div>
-
-                <div>
-                    @*Right-aligned "toolbar" controls*@
-                    <button type="button" id="addPermissionToAccountButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPermissionToAccountModal">
-                        @Localizer["Add Permission to Account"]
-                    </button>
-                </div>
-            </div>
+            <h4>@Localizer["Account Permissions"]</h4>
         </div>
         <div class="card-body">
             @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
@@ -78,19 +83,8 @@
 
     <div class="card shadow-lg mt-3">
         <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center" id="toolbar">
-                <div>
-                    @*Left-aligned "toolbar" controls*@
-                    <h4>@Localizer["Account Role Membership"]</h4>
-                </div>
-
-                <div>
-                    @*Right-aligned "toolbar" controls*@
-                    <button type="button" id="addAccountMembershipButton" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAccountMembershipModal">
-                        @Localizer["Add Role to Account"]
-                    </button>
-                </div>
-            </div>
+            @*Left-aligned "toolbar" controls*@
+            <h4>@Localizer["Account Role Membership"]</h4>
         </div>
         <div class="card-body">
             @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Memberships")

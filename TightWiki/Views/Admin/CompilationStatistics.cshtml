@@ -15,12 +15,12 @@
     @Localizer["The compilation statistics for all wiki page operations."]<br /><br />
 </p>
 
-<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+<div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
     <div>
         @*Left-aligned "toolbar" controls*@
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
-            Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
-            Localizer["Purge Compilation Statistics"].Value, "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value)
+        Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
+                Localizer["Purge Compilation Statistics"].Value, "/Admin/PurgeCompilationStatistics", Context.Request.Path.Value)
     </div>
 
     <div>

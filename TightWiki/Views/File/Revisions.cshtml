@@ -11,11 +11,13 @@
 </h3>
 
 <p>
-    @Localizer["All changes that have been made to the attached file."] <br /><br />
+    @Localizer["All changes that have been made to the attached file."]
 </p>
 
 @using (Html.BeginForm(FormMethod.Get))
 {
+    @Html.AntiForgeryToken()
+
     @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
 

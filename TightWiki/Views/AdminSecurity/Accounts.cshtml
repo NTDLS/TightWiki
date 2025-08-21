@@ -13,22 +13,24 @@
 </h3>
 
 <p>
-    @Localizer["Global configuration for user accounts."]<br /><br />
+    @Localizer["Global configuration for user accounts."]
 </p>
-
-<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
-    <div>
-        @*Left-aligned "toolbar" controls*@
-        <a class="btn btn-success" href="@GlobalConfiguration.BasePath/AdminSecurity/AddAccount">@Localizer["Add new account"]</a>
-    </div>
-
-    <div>
-        @*Right-aligned "toolbar" controls*@
-    </div>
-</div>
 
 @using (Html.BeginForm(FormMethod.Get))
 {
+    @Html.AntiForgeryToken()
+
+    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+        <div>
+            @*Left-aligned "toolbar" controls*@
+            <a class="btn btn-success" href="@GlobalConfiguration.BasePath/AdminSecurity/AddAccount">@Localizer["Add new account"]</a>
+        </div>
+
+        <div>
+            @*Right-aligned "toolbar" controls*@
+        </div>
+    </div>
+
     <div class="d-flex justify-content-end mb-4">
         <div class="flex-grow-1 me-2">
             @Html.TextBoxFor(x => x.SearchString, new { @class = "form-control" })

@@ -12,15 +12,15 @@
 </h3>
 
 <p>
-    @Localizer["Server and page exceptions."]<br /><br />
+    @Localizer["Server and page exceptions."]
 </p>
 
-<div class="d-flex justify-content-between align-items-center mb-3" id="toolbar">
+<div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
     <div>
         @*Left-aligned "toolbar" controls*@
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
-            @Localizer["This will permanently purge all exceptions. Continue?"].Value,
-            @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value)
+        @Localizer["This will permanently purge all exceptions. Continue?"].Value,
+                @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value)
     </div>
 
     <div>

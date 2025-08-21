@@ -51,7 +51,8 @@ namespace TightWiki.Controllers
             ProfileAvatar? avatar;
             if (GlobalConfiguration.EnablePublicProfiles)
             {
-                avatar = UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName));
+                avatar = UsersRepository.GetProfileAvatarByNavigation(NamespaceNavigation.CleanAndValidate(userAccountName))
+                    ?? new ProfileAvatar();
             }
             else
             {

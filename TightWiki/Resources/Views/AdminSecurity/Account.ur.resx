@@ -71,6 +71,9 @@
   <data name="Biography" xml:space="preserve">
     <value>جیوگرافی</value>
   </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>اوتار تبدیل کریں</value>
+  </data>
   <data name="Configuration for user account." xml:space="preserve">
     <value>صارف کے اکاؤنٹ کے لئے کنفیگریشن.</value>
   </data>

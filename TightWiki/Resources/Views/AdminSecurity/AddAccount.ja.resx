@@ -71,6 +71,9 @@
   <data name="Biography" xml:space="preserve">
     <value>経歴</value>
   </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>アバターの変更</value>
+  </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>パスワードの確認</value>
   </data>

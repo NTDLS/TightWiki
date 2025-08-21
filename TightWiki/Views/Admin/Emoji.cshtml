@@ -14,9 +14,23 @@
 @using (Html.BeginForm(null, null, new { navigation = Model.Emoji.Name }, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+
+    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+        <div>
+            @*Left-aligned "toolbar" controls*@
+            <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
+            @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
+            Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
+                Localizer["Delete"].Value, $"/Admin/DeleteEmoji/{Model.Emoji.Name}", $"{GlobalConfiguration.BasePath}/Admin/Emojis", Context.Request.Path.Value)
+    </div>
+
+        <div>
+            @*Right-aligned "toolbar" controls*@
+    </div>
+    </div>
+
     @Html.HiddenFor(m => m.OriginalName)
     @Html.HiddenFor(m => m.Emoji.Id)
-
 
     <div class="form-group row mb-1">
         <label for="ImageData" class="col-sm-2 col-form-label"><strong>@Localizer["Image"]</strong></label>
@@ -48,20 +62,6 @@
 
     <div class="form-group row mb-1">
         <div class="col-sm-10 offset-sm-2">
-            <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
         </div>
     </div>
 }
-
-<div class="d-flex justify-content-between align-items-center mt-2" id="toolbar">
-    <div>
-        @*Left-aligned "toolbar" controls*@
-        @ConfirmActionHelper.GenerateDangerButton(GlobalConfiguration.BasePath,
-            Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
-            Localizer["Delete"].Value, $"/Admin/DeleteEmoji/{Model.Emoji.Name}", $"{GlobalConfiguration.BasePath}/Admin/Emojis", Context.Request.Path.Value)
-    </div>
-
-    <div>
-        @*Right-aligned "toolbar" controls*@
-    </div>
-</div>
