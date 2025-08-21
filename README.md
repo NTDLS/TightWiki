@@ -19,13 +19,14 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * MIT license, you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
 * Completely customizable and rebrandable including name, title, footer, copyright and all images.
-* Editor toolbar with markup, link insertion, feature search.
+* Editor toolbar with markup, link insertion, feature search, and emojis.
 * User signup can be disabled, enabled and can require users to verify email before logging in.
-* Multiple user roles are supported for admin, moderators, contributors and basic members.
+* Role-based and per-user security for managing who can read/edit/delete/moderate pages and namespaces.
 * Easy page linking. Can even link to pages that do not exist and the link will subtly prompt you to create the page when logged in with a role that has page creation support.
 * Admin shows missing pages, namespace metrics, users, roles, etc.
 * Multi-language. Translated into 25 languages, so if you speak it - so does TightWiki.
 * Manual account creation, editing and deletion.
+* Emojis! Lots built-in, and you can add custom - including animations.
 * Page creation templates - to assit in uniformity and rapid page creation.
 * All dates/times are stored in UTC and localized for logged in users.
 * Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
