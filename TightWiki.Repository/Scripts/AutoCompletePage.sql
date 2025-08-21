@@ -9,5 +9,4 @@ WHERE
 	[Name] LIKE '%' || @SearchText || '%'
 ORDER BY
 	[Name]
-LIMIT
-	25;
+LIMIT 25;

@@ -11,5 +11,4 @@ WHERE
 	OR P.AccountName LIKE '%' || @SearchText || '%'
 ORDER BY
 	P.AccountName
-LIMIT
-	25;
+LIMIT 25;

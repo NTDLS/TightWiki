@@ -179,7 +179,10 @@
   <data name="Insert Emoji" xml:space="preserve">
     <value>Vložte emoji</value>
   </data>
-  <data name="Search for emojis." xml:space="preserve">
-    <value>Hľadajte emoji.</value>
+  <data name="Having trouble finding an emoji? View them all." xml:space="preserve">
+    <value>Máte problémy s hľadaním emoji? Zobrazte ich všetky.</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>Hľadajte ďalšie emoji.</value>
   </data>
 </root>

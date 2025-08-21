@@ -7,5 +7,5 @@ WHERE
 	R.[Name] LIKE '%' || @SearchText || '%'
 ORDER BY
 	R.[Name]
-LIMIT
-	25;
+LIMIT 25;
+

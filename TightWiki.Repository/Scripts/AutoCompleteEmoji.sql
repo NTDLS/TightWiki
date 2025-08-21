@@ -13,4 +13,4 @@ WHERE
 	)
 ORDER BY
 	E.Name
-LIMIT 10;
+LIMIT 25;

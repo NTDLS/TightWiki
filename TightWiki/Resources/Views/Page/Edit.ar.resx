@@ -179,7 +179,10 @@
   <data name="Insert Emoji" xml:space="preserve">
     <value>أدخل رمز تعبيري</value>
   </data>
-  <data name="Search for emojis." xml:space="preserve">
-    <value>ابحث عن الرموز التعبيرية.</value>
+  <data name="Having trouble finding an emoji? View them all." xml:space="preserve">
+    <value>هل تواجه صعوبة في العثور على رمز تعبيري؟ شاهد جميع الرموز التعبيرية.</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>ابحث عن المزيد من الرموز التعبيرية.</value>
   </data>
 </root>

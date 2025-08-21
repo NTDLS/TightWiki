@@ -179,7 +179,10 @@
   <data name="Insert Emoji" xml:space="preserve">
     <value>이모지 추가</value>
   </data>
-  <data name="Search for emojis." xml:space="preserve">
-    <value>이모지를 검색하세요.</value>
+  <data name="Having trouble finding an emoji? View them all." xml:space="preserve">
+    <value>이모지를 찾는 데 어려움이 있으신가요? 모든 이모지를 보세요.</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>더 많은 이모지를 검색하세요.</value>
   </data>
 </root>

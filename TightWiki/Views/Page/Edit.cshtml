@@ -416,10 +416,9 @@
 
         function debounce(fn, ms=350){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
 
-        const imagesTable = new Tabulator("#imageResults", {
-            height: "100%",
+        const imagesTable = new Tabulator("#emojiResultsTable", {
             layout: "fitColumns",
-            placeholder: '@Localizer["Search for emojis."]',
+            placeholder: '@Localizer["Search for more emojis."]',
             ajaxLoader: true,
             ajaxContentType: "json",
             ajaxResponse: function(url, params, resp) { return resp; },
@@ -450,13 +449,13 @@
             imagesTable.setData(emojiApi, { q });
        }
 
-       const $search = document.getElementById("imageSearch");
-       const $imageSearchBtn = document.getElementById("imageSearchBtn");
+       const $search = document.getElementById("insertEmojiModalSearchText");
+       const $insertEmojiModalSearchButton = document.getElementById("insertEmojiModalSearchButton");
        const debounced = debounce(()=>searchImages($search.value), 400);
 
        $search.addEventListener("input", debounced);
        $search.addEventListener("keydown", e=>{ if(e.key==="Enter") searchImages($search.value); });
-       $imageSearchBtn.addEventListener("click", ()=>searchImages($search.value));
+       $insertEmojiModalSearchButton.addEventListener("click", ()=>searchImages($search.value));
 
         //insertEmojiModal is about to be shown.
         document.getElementById('insertEmojiModal')?.addEventListener('shown.bs.modal',() => {
@@ -766,12 +765,11 @@
 
             <div class="modal-body p-3">
                 <div class="d-flex align-items-center gap-2 mb-2">
-                    <input id="imageSearch" type="text" class="form-control" placeholder="Search images…">
-                    <button id="imageSearchBtn" type="button" class="btn btn-outline-secondary">Search</button>
+                    <input id="insertEmojiModalSearchText" type="text" class="form-control" placeholder="Search for more emojis.">
+                    <button id="insertEmojiModalSearchButton" type="button" class="btn btn-outline-secondary">Search</button>
                 </div>
 
-                <div id="imageResults" class="border rounded" style="height: 360px;"></div>
-                <br />
+                <div id="emojiResultsTable" class="border rounded mb-2" style="max-height: 360px;"></div>
                 <a href="@GlobalConfiguration.BasePath/Wiki_Help::List_Of_All_Emojis" target="_blank" rel="noopener noreferrer">Having trouble finding an emoji? View them all.</a>
             </div>
         </div>
