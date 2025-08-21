@@ -72,7 +72,7 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 ![image](https://github.com/user-attachments/assets/c8e84282-c4e3-4f57-8bca-60c7fe7df804)
 
 # Compiliation
-![image](https://github.com/user-attachments/assets/88510729-ce17-42aa-a2da-cb54ef2a87d6)
+![image](https://github.com/user-attachments/assets/55dc9836-9dd4-4fcc-a922-923868d7d731)
 
 # Deleted Pages
 ![image](https://github.com/user-attachments/assets/80559132-60dc-42ab-bb51-cb66d25658df)
