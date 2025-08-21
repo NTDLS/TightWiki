@@ -418,6 +418,22 @@ namespace TightWiki.Controllers
             return Content(Localize("Success"));
         }
 
+        #region AutoComplete.
+
+        [Authorize]
+        [HttpGet("AutoCompleteEmoji")]
+        public ActionResult AutoCompleteEmoji([FromQuery] string? q = null)
+        {
+            var roles = EmojiRepository.AutoCompleteEmoji(q ?? string.Empty).ToList();
+
+            return Json(roles.Select(o => new
+            {
+                text = o
+            }));
+        }
+
+        #endregion
+
         /// <summary>
         /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>

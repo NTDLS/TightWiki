@@ -173,4 +173,13 @@
   <data name="Change Summary" xml:space="preserve">
     <value>Wijzigingssamenvatting</value>
   </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>Emoji</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>Emoji invoegen</value>
+  </data>
+  <data name="Search for emojis." xml:space="preserve">
+    <value>Zoek naar emoji's.</value>
+  </data>
 </root>

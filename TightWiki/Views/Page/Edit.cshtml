@@ -58,9 +58,11 @@
 </style>
 
 <script>
+    const emojiApi = '@(GlobalConfiguration.BasePath)/File/AutoCompleteEmoji';
     const editMode = @(Model?.Id > 0 && @sessionState.HoldsPermission(WikiPermission.Create) ? "true" : "false");
     var editor;
     var featureInsertModalTable;
+    var insertEmojiModal;
     var insertLinkModal;
     var featureInsertModal;
     var templatesModal;
@@ -95,6 +97,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
 
+    insertEmojiModal = new bootstrap.Modal('#insertEmojiModal');
     insertLinkModal = new bootstrap.Modal('#insertLinkModal');
     featureInsertModal = new bootstrap.Modal('#featureInsertModal');
     templatesModal = new bootstrap.Modal('#templatesModal');
@@ -391,6 +394,80 @@
                 });
         }
 
+       function onInsertEmoji(item){
+           const markdown = `%%${item.text}%%`;
+           const doc = editor.getDoc();
+           var selection = doc.getSelection();
+
+           doc.replaceSelection(markdown);
+
+           const cursor = doc.getCursor();
+           doc.setSelection({
+               line: cursor.line,
+               ch: cursor.ch - (markdown.length + 4)
+           }, {
+               line: cursor.line,
+               ch: cursor.ch
+           });
+
+           insertEmojiModal.hide();
+           editor.focus();
+       }
+
+        function debounce(fn, ms=350){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+
+        const imagesTable = new Tabulator("#imageResults", {
+            height: "100%",
+            layout: "fitColumns",
+            placeholder: '@Localizer["Search for emojis."]',
+            ajaxLoader: true,
+            ajaxContentType: "json",
+            ajaxResponse: function(url, params, resp) { return resp; },
+            columns: [
+                {
+                    title:"Image", field:"text", width:110, headerSort:false, hozAlign:"center",
+                    formatter:(cell)=>{
+                        const url = cell.getValue();
+                        return `<img src="@GlobalConfiguration.BasePath/File/Emoji/${url}" class="img-thumbnail" style="height:32px;max-width:32px;object-fit:cover;">`;
+                    }
+                },
+                {
+                    title:"Name", field:"text", minWidth:160, headerSort:false
+                },
+                {
+                    title:"Action", width:110, headerSort:false, hozAlign:"center",
+                    formatter: () => `<button type="button" class="btn btn-thin btn-primary">Insert</button>`,
+                    cellClick: (e, cell) => onInsertEmoji(cell.getRow().getData())
+                },
+            ],
+        });
+
+        async function searchImages(q) {
+            if(!q?.trim()){
+                imagesTable.clearData();
+                return;
+            }
+            imagesTable.setData(emojiApi, { q });
+       }
+
+       const $search = document.getElementById("imageSearch");
+       const $imageSearchBtn = document.getElementById("imageSearchBtn");
+       const debounced = debounce(()=>searchImages($search.value), 400);
+
+       $search.addEventListener("input", debounced);
+       $search.addEventListener("keydown", e=>{ if(e.key==="Enter") searchImages($search.value); });
+       $imageSearchBtn.addEventListener("click", ()=>searchImages($search.value));
+
+        //insertEmojiModal is about to be shown.
+        document.getElementById('insertEmojiModal')?.addEventListener('shown.bs.modal',() => {
+            //If the imagesTable has no data, load a default emoji list.
+            if(imagesTable.getData().length == 0)
+            {
+                imagesTable.setData(emojiApi, { q: '' });
+            }
+            $search.focus();
+        });
+
         setInterval(ping, 60000);
     });
 
@@ -484,6 +561,9 @@
                         <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
                             <img src="/images/toolbar/toolbar_Dark_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
                         </button>
+                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
+                            <img src="/images/toolbar/toolbar_Dark_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
+                        </button>
 
                         <div style="width:1px; height:24px; background-color:#ccc;"></div>
 
@@ -512,6 +592,9 @@
                         </button>
                         <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
                             <img src="/images/toolbar/toolbar_Light_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
+                            <img src="/images/toolbar/toolbar_Light_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
                         </button>
 
                         <div style="width:1px; height:24px; background-color:#222;"></div>
@@ -668,6 +751,26 @@
                     <em class="small"></em>
                     <button type="button" class="btn btn-success float-end" id="insertLinkModalInsertButton">@Localizer["Insert"]</button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="insertEmojiModal" aria-labelledby="insertEmojiModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="insertEmojiModalLabel">@Localizer["Insert Emoji"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+            </div>
+
+            <div class="modal-body p-3">
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <input id="imageSearch" type="text" class="form-control" placeholder="Search images…">
+                    <button id="imageSearchBtn" type="button" class="btn btn-outline-secondary">Search</button>
+                </div>
+
+                <div id="imageResults" class="border rounded" style="height: 360px;"></div>
             </div>
         </div>
     </div>

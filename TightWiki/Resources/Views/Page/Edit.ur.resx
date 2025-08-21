@@ -173,4 +173,13 @@
   <data name="Change Summary" xml:space="preserve">
     <value>تبدیلی کا خلاصہ</value>
   </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>ایمو جی</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>ایمو جی شامل کریں</value>
+  </data>
+  <data name="Search for emojis." xml:space="preserve">
+    <value>ایمو جیز کے لیے تلاش کریں۔</value>
+  </data>
 </root>

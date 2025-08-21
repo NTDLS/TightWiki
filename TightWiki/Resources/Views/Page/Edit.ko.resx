@@ -173,4 +173,13 @@
   <data name="Change Summary" xml:space="preserve">
     <value>변경 요약</value>
   </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>이모지</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>이모지 추가</value>
+  </data>
+  <data name="Search for emojis." xml:space="preserve">
+    <value>이모지를 검색하세요.</value>
+  </data>
 </root>

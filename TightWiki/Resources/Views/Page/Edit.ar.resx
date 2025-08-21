@@ -173,4 +173,13 @@
   <data name="Change Summary" xml:space="preserve">
     <value>ملخص التغيير</value>
   </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>رمز تعبيري</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>أدخل رمز تعبيري</value>
+  </data>
+  <data name="Search for emojis." xml:space="preserve">
+    <value>ابحث عن الرموز التعبيرية.</value>
+  </data>
 </root>

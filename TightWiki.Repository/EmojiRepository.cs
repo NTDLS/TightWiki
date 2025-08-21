@@ -9,6 +9,9 @@ namespace TightWiki.Repository
         public static List<Emoji> GetAllEmojis()
             => ManagedDataStorage.Emoji.Query<Emoji>("GetAllEmojis.sql").ToList();
 
+        public static IEnumerable<string> AutoCompleteEmoji(string term)
+            => ManagedDataStorage.Emoji.Query<string>("AutoCompleteEmoji.sql", new { Term = term });
+
         public static IEnumerable<Emoji> GetEmojisByCategory(string category)
             => ManagedDataStorage.Emoji.Query<Emoji>("GetEmojisByCategory.sql", new { Category = category });
 
