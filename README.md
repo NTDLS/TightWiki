@@ -68,6 +68,9 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Emojis Configuration 
 ![image](https://github.com/user-attachments/assets/3e78b853-d151-4ef4-ad7a-d4e68393643f)
 
+# Role-based security
+![image](https://github.com/user-attachments/assets/c8e84282-c4e3-4f57-8bca-60c7fe7df804)
+
 # Compiliation
 ![image](https://github.com/user-attachments/assets/88510729-ce17-42aa-a2da-cb54ef2a87d6)
 
