@@ -7,6 +7,8 @@
 @{
     var sessionState = ViewData["SessionState"] as SessionState ?? throw new Exception("Wiki State Context cannot be null.");
     string navBarClass = $"navbar navbar-expand-sm navbar-toggleable-sm {(TightWiki.Models.GlobalConfiguration.FixedMenuPosition ? "fixed-top" : "")} navbar-light bg-white border-bottom box-shadow mb-3";
+
+    var isPageProtected = sessionState.PageInstructions.Contains(WikiInstruction.Protect);
 }
 
 <!DOCTYPE html>
@@ -137,13 +139,21 @@
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">@Localizer["Comments"]</a>
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Delete))
+                                        @if (sessionState.Page.IsHistoricalVersion == false)
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">@Localizer["Delete this page"]</a>
+                                            if ((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
+                                                ||(isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
+                                            {
+                                                <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">@Localizer["Delete this page"]</a>
+                                            }                                           
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Edit) && sessionState.Page.IsHistoricalVersion == false)
+                                        @if (sessionState.Page.IsHistoricalVersion == false)
                                         {
-                                            <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">@Localizer["Edit"]</a>
+                                            if((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
+                                            || (isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
+                                            {
+                                                <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">@Localizer["Edit"]</a>
+                                            }
                                         }
                                         if (sessionState.HoldsPermission(WikiPermission.Read))
                                         {
@@ -153,11 +163,11 @@
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Refresh">@Localizer["Refresh"]</a>
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Moderate) && sessionState.Page.IsHistoricalVersion == true)
+                                        if (sessionState.Page.IsHistoricalVersion == true && sessionState.HoldsPermission(WikiPermission.Moderate))
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/revert/@sessionState.Page.Revision">@Localizer["Revert to revision"] @sessionState.Page.Revision</a>
                                         }
-                                        if (sessionState.HoldsPermission(WikiPermission.Read) && TightWiki.Models.GlobalConfiguration.EnablePageComments)
+                                        if (TightWiki.Models.GlobalConfiguration.EnablePageComments && sessionState.HoldsPermission(WikiPermission.Read))
                                         {
                                             <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">@Localizer["View"]</a>
                                         }
