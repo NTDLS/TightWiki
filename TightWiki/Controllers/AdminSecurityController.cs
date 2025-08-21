@@ -42,6 +42,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 UsersRepository.DeleteRole(roleId);
+                WikiCache.ClearCategory(WikiCache.Category.Security);
                 return NotifyOfSuccess(Localize("The specified role has been deleted."), model.YesRedirectURL);
             }
 
@@ -66,6 +67,7 @@ namespace TightWiki.Controllers
                 {
                     result = UsersRepository.AddAccountMembership(request.UserId, request.RoleId);
                 }
+                WikiCache.ClearCategory(WikiCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
             }
@@ -93,6 +95,7 @@ namespace TightWiki.Controllers
                 {
                     result = UsersRepository.AddRoleMember(request.UserId, request.RoleId);
                 }
+                WikiCache.ClearCategory(WikiCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, membership = result, message = (string?)null });
             }
@@ -113,6 +116,8 @@ namespace TightWiki.Controllers
             {
                 SessionState.RequireAdminPermission();
                 UsersRepository.RemoveRoleMember(roleId, userId);
+                WikiCache.ClearCategory(WikiCache.Category.Security);
+
                 return Ok(new { success = true, message = (string?)null });
             }
             catch (Exception ex)
@@ -132,6 +137,8 @@ namespace TightWiki.Controllers
             {
                 SessionState.RequireAdminPermission();
                 UsersRepository.RemoveRolePermission(id);
+                WikiCache.ClearCategory(WikiCache.Category.Security);
+
                 return Ok(new { success = true, message = (string?)null });
             }
             catch (Exception ex)
@@ -160,6 +167,7 @@ namespace TightWiki.Controllers
                     result = UsersRepository.InsertRolePermission(
                         request.RoleId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId);
                 }
+                WikiCache.ClearCategory(WikiCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, permission = result, message = (string?)null });
             }
@@ -211,6 +219,7 @@ namespace TightWiki.Controllers
             }
 
             UsersRepository.InsertRole(model.Name, model.Description);
+            WikiCache.ClearCategory(WikiCache.Category.Security);
 
             return Redirect($"{GlobalConfiguration.BasePath}/AdminSecurity/Roles");
         }
@@ -302,6 +311,7 @@ namespace TightWiki.Controllers
                     result = UsersRepository.InsertAccountPermission(
                         request.UserId, request.PermissionId, request.PermissionDispositionId, request.Namespace, request.PageId);
                 }
+                WikiCache.ClearCategory(WikiCache.Category.Security);
 
                 return Ok(new { success = true, alreadyExists = alreadyExists, permission = result, message = (string?)null });
             }
@@ -322,6 +332,8 @@ namespace TightWiki.Controllers
             {
                 SessionState.RequireAdminPermission();
                 UsersRepository.RemoveAccountPermission(id);
+                WikiCache.ClearCategory(WikiCache.Category.Security);
+
                 return Ok(new { success = true, message = (string?)null });
             }
             catch (Exception ex)
@@ -570,6 +582,7 @@ namespace TightWiki.Controllers
             }
 
             model.SuccessMessage = Localize("Your profile has been saved successfully!");
+            WikiCache.ClearCategory(WikiCache.Category.Security);
 
             return View(model);
         }
@@ -731,6 +744,7 @@ namespace TightWiki.Controllers
                     }
                 }
             }
+            WikiCache.ClearCategory(WikiCache.Category.Security);
 
             return NotifyOf(Localize("The account has been created."), model.ErrorMessage, $"/AdminSecurity/Account/{profile.Navigation}");
         }
@@ -808,8 +822,10 @@ namespace TightWiki.Controllers
                     //We're deleting our own account. Oh boy...
                     SignInManager.SignOutAsync();
 
+                    WikiCache.ClearCategory(WikiCache.Category.Security);
                     return NotifyOfSuccess(Localize("Your account has been deleted."), $"/Profile/Deleted");
                 }
+                WikiCache.ClearCategory(WikiCache.Category.Security);
 
                 return NotifyOfSuccess(Localize("The account has been deleted."), $"/AdminSecurity/Accounts");
             }
