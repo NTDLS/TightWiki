@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
+using System.Security;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Exceptions;
@@ -13,12 +14,16 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Static;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
     public class SessionState : ISessionState
     {
+        private readonly string _denyString = WikiPermissionDisposition.Deny.ToString();
+        private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
+
         public IQueryCollection? QueryString { get; set; }
 
         #region Authentication.
@@ -180,7 +185,7 @@ namespace TightWiki
                 return true;
             }
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [givenCanonical, string.Join("|", permissions).ToLowerInvariant()]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Security, [givenCanonical, Profile?.UserId, string.Join("|", permissions).ToLowerInvariant()]);
 
             return WikiCache.AddOrGet(cacheKey, () =>
             {
@@ -192,95 +197,97 @@ namespace TightWiki
                     page = PageRepository.GetPageInfoByNavigation(navigation.Canonical);
                 }
 
-                string denyString = WikiPermissionDisposition.Deny.ToString();
-                string allowString = WikiPermissionDisposition.Allow.ToString();
-
-                bool holdsPermission = false;
-
                 foreach (var permission in permissions)
                 {
-                    if (holdsPermission)
+                    //Remember that we are evaluating to see if the user holds ANY one of the supplied permissions.
+                    //So, we are going to evaluate each permission in the supplied array individually,
+                    //  ignoring any NULL results (as NULL means that the permission was not explicitly allowed or denied).
+                    //If the permission is explicitly allowed, we return true.
+                    //If the permission is explicitly denied, we move to the next permission because permission could
+                    //  have been denied on a namespace but explicitly allowed on a page (and yes, we test in that order).
+                    //Also note that we do not pass the page when the permission is Create - because that would make no sense.
+                    if (EvaluatePermission(permission, permission == WikiPermission.Create ? null : page) == true)
                     {
-                        break; // If we already hold the permission, no need to check further.
-                    }
-
-                    string permissionString = permission.ToString();
-
-                    if (page != null)
-                    {
-                        var pageIdString = page.Id.ToString();
-
-                        //Check to see the the user has been explicitly denied access to the current page.
-                        if (Permissions.Any(o => o.PageId == pageIdString
-                            && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                            && o.PermissionDisposition.Equals(denyString, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            continue;
-                        }
-                        //Check to see the the user has been explicitly granted access to the current page.
-                        if (Permissions.Any(o => o.PageId == pageIdString
-                            && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                            && o.PermissionDisposition.Equals(allowString, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            holdsPermission = true;
-                            continue;
-                        }
-
-                        //Check to see the the user has been explicitly denied access to the current namespace.
-                        if (Permissions.Any(o => o.Namespace?.Equals(page.Namespace, StringComparison.InvariantCultureIgnoreCase) == true
-                            && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                            && o.PermissionDisposition.Equals(denyString, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            continue;
-                        }
-
-                        //Check to see the the user has been explicitly granted access to the current namespace.
-                        if (Permissions.Any(o => o.Namespace?.Equals(page.Namespace, StringComparison.InvariantCultureIgnoreCase) == true
-                            && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                            && o.PermissionDisposition.Equals(allowString, StringComparison.InvariantCultureIgnoreCase)))
-                        {
-                            holdsPermission = true;
-                            continue;
-                        }
-                    }
-
-                    //Check to see the the user has been explicitly denied access to all pages.
-                    if (Permissions.Any(o => o.PageId?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                        && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                        && o.PermissionDisposition.Equals(denyString, StringComparison.InvariantCultureIgnoreCase)))
-                    {
-                        continue;
-                    }
-
-                    //Check to see the the user has been explicitly granted access to all pages.
-                    if (Permissions.Any(o => o.PageId?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                        && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                        && o.PermissionDisposition.Equals(allowString, StringComparison.InvariantCultureIgnoreCase)))
-                    {
-                        holdsPermission = true;
-                        continue;
-                    }
-
-                    //Check to see the the user has been explicitly denied access to all namespaces.
-                    if (Permissions.Any(o => o.Namespace?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                        && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                        && o.PermissionDisposition.Equals(denyString, StringComparison.InvariantCultureIgnoreCase)))
-                    {
-                        continue;
-                    }
-
-                    //Check to see the the user has been explicitly granted access to all namespaces.
-                    if (Permissions.Any(o => o.Namespace?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
-                        && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
-                        && o.PermissionDisposition.Equals(allowString, StringComparison.InvariantCultureIgnoreCase)))
-                    {
-                        holdsPermission = true;
-                        continue;
+                        return true;
                     }
                 }
-
-                return holdsPermission;
+                return false;
             }, WikiCache.DefaultCacheSeconds);
+        }
+
+        private bool? EvaluatePermission(WikiPermission permission, Models.DataModels.Page? page)
+        {
+            string permissionString = permission.ToString();
+
+            if (page != null)
+            {
+                var pageIdString = page.Id.ToString();
+
+                //Check to see the the user has been explicitly denied access to the current page.
+                if (Permissions.Any(o => o.PageId == pageIdString
+                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                    && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    return false;
+                }
+                //Check to see the the user has been explicitly granted access to the current page.
+                if (Permissions.Any(o => o.PageId == pageIdString
+                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                    && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    return true;
+                }
+
+                //Check to see the the user has been explicitly denied access to the current namespace.
+                if (Permissions.Any(o => o.Namespace?.Equals(page.Namespace, StringComparison.InvariantCultureIgnoreCase) == true
+                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                    && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    return false;
+                }
+
+                //Check to see the the user has been explicitly granted access to the current namespace.
+                if (Permissions.Any(o => o.Namespace?.Equals(page.Namespace, StringComparison.InvariantCultureIgnoreCase) == true
+                    && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                    && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
+                {
+                    return true;
+                }
+            }
+
+            //Check to see the the user has been explicitly denied access to all pages.
+            if (Permissions.Any(o => o.PageId?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
+                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return false;
+            }
+
+            //Check to see the the user has been explicitly granted access to all pages.
+            if (Permissions.Any(o => o.PageId?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
+                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return true;
+            }
+
+            //Check to see the the user has been explicitly denied access to all namespaces.
+            if (Permissions.Any(o => o.Namespace?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
+                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                && o.PermissionDisposition.Equals(_denyString, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return false;
+            }
+
+            //Check to see the the user has been explicitly granted access to all namespaces.
+            if (Permissions.Any(o => o.Namespace?.Equals("*", StringComparison.InvariantCultureIgnoreCase) == true
+                && o.Permission.Equals(permissionString, StringComparison.InvariantCultureIgnoreCase)
+                && o.PermissionDisposition.Equals(_allowString, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                return true;
+            }
+
+            return null;
         }
 
         public void RequireAuthorizedPermission()
