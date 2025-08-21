@@ -59,6 +59,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Các ký tự '::' được sử dụng để chỉ định tên không gian tên. Tên trang không thể chứa hơn một bộ các ký tự này.</value>
+  </data>
+  <data name="The page name contains characters which are disallowed: {0}." xml:space="preserve">
+    <value>Tên trang chứa các ký tự không được phép: {0}.</value>
+  </data>
   <data name="The page has been created." xml:space="preserve">
     <value>Trang đã được tạo.</value>
   </data>

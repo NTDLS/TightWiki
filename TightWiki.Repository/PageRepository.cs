@@ -709,6 +709,7 @@ namespace TightWiki.Repository
                         hasPageChanged = currentRevisionInfo.Name != page.Name
                             || currentRevisionInfo.Namespace != page.Namespace
                             || currentRevisionInfo.Description != page.Description
+                            || currentRevisionInfo.ChangeSummary != page.ChangeSummary
                             || currentRevisionInfo.DataHash != newDataHash;
                     }
 

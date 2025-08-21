@@ -8,12 +8,14 @@ using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
@@ -767,6 +769,19 @@ namespace TightWiki.Controllers
                 && string.IsNullOrEmpty(model.ChangeSummary))
             {
                 ModelState.AddModelError("ChangeSummary", Localize("A change summary is required for page edits."));
+                return View(model);
+            }
+
+            if (Utility.PageNameContainsUnsafeCharacters(model.Name))
+            {
+                ModelState.AddModelError("Name", localizer["The page name contains characters which are disallowed: {0}."]
+                    .Format(string.Join(' ', Utility.UnsafePageNameCharacters)));
+                return View(model);
+            }
+
+            if (Utility.CountOccurrencesOf(model.Name, "::") > 1)
+            {
+                ModelState.AddModelError("Name", Localize("The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters."));
                 return View(model);
             }
 

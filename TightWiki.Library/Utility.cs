@@ -7,6 +7,14 @@ namespace TightWiki.Library
 {
     public static class Utility
     {
+        public static readonly char[] UnsafePageNameCharacters = ['/', '\\', '<', '>'];
+
+        public static bool PageNameContainsUnsafeCharacters(string input)
+            => input.IndexOfAny(UnsafePageNameCharacters) >= 0;
+
+        public static int CountOccurrencesOf(string input, string substring)
+            => input.Split(["::"], StringSplitOptions.None).Length - 1;
+
         public static int PadVersionString(string versionString, int padLength = 3)
             => int.Parse(string.Join("", versionString.Split('.').Select(x => x.Trim().PadLeft(padLength, '0'))));
 

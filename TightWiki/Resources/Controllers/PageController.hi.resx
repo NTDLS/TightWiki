@@ -59,6 +59,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>अक्षर '::' एक namespace नाम को इंगित करने के लिए उपयोग किए जाते हैं। एक पृष्ठ नाम में इन अक्षरों का एक से अधिक सेट नहीं हो सकता।</value>
+  </data>
+  <data name="The page name contains characters which are disallowed: {0}." xml:space="preserve">
+    <value>पृष्ठ नाम में ऐसे अक्षर हैं जो अनुमत नहीं हैं: {0}.</value>
+  </data>
   <data name="The page has been created." xml:space="preserve">
     <value>पृष्ठ बनाया गया है।</value>
   </data>

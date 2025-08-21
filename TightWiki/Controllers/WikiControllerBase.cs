@@ -10,7 +10,6 @@ namespace TightWiki.Controllers
     public class WikiControllerBase<T>(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
         : Controller
     {
-
         public SessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;
@@ -54,7 +53,7 @@ namespace TightWiki.Controllers
 
         [NonAction]
         protected string Localize(string key, params object[] objs)
-            => String.Format(localizer[key].Value, objs);
+            => string.Format(localizer[key].Value, objs);
 
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.
