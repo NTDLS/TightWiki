@@ -108,9 +108,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 {
                     #region Fallback to LDAP authentication if enabled.
 
-                    if (true)//GlobalConfiguration.EnableLDAPAuthentication)
+                    if (true/*GlobalConfiguration.EnableLDAPAuthentication*/)
                     {
-                        if (true)//TestLdapCredential(Input.Username, Input.Password))
+                        if (true/*TestLdapCredential(Input.Username, Input.Password)*/)
                         {
                             //We successfully authenticated against LDAP.
                             var newUser = new IdentityUser()
@@ -118,17 +118,24 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 UserName = Input.Username
                             };
 
-                            //If the user does not already exist, create them:
-                            var createResult = await _userManager.CreateAsync(newUser);
-                            if (createResult.Succeeded)
+                            var foundUser = await _userManager.FindByNameAsync(Input.Username);
+                            if (foundUser != null)
                             {
-                                _logger.LogInformation("User created a new account with password.");
-
-                                var foundUser = await _userManager.FindByNameAsync(Input.Username);
-                                if (foundUser != null)
+                                await SignInManager.SignInAsync(newUser, Input.RememberMe);
+                                return Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                if (GlobalConfiguration.AllowSignup != true)
                                 {
-                                    // User exists, sign them in:
-                                    await SignInManager.SignInAsync(newUser, Input.RememberMe);
+                                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                                }
+
+                                //If the user does not already exist, create them:
+                                var createResult = await _userManager.CreateAsync(newUser);
+                                if (createResult.Succeeded)
+                                {
+                                    _logger.LogInformation("User created a new account with LDAP.");
 
                                     // Check if the user has a profile, if not, redirect to the supplemental info page.
                                     if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(foundUser.Id), out _) == false)
@@ -139,14 +146,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                         }
 
                                         //User exits but does not have a profile.
-                                        //This means that the user has authenticated externally, but has yet to complete the signup process.
+                                        //This means that the user has authenticated with LDSP, but has yet to complete the signup process.
                                         return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl = returnUrl });
                                     }
 
                                     return Redirect(returnUrl);
                                 }
+                                else
+                                {
+                                    return NotifyOfError("Failed to create the stub account for the LDAP credential.");
+                                }
                             }
-                            return Redirect(ReturnUrl);
                         }
                     }
 
