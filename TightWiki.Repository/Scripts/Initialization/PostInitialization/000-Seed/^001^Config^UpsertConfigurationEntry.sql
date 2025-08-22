@@ -297,3 +297,6 @@ ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'LDAP: Enable LDAP 
 INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'External Authentication' LIMIT 1), 'LDAP: Fully-Qualified Domain', '', 2, 'The fully qualified domain name to use when performing LDAP authentication.', 0, 0
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'LDAP: Fully-Qualified Domain', DataTypeId = 2, Description = 'The fully qualified domain name to use when performing LDAP authentication.', IsEncrypted = '0', IsRequired = '0';
+INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'External Authentication' LIMIT 1), 'LDAP: Use Secure Socket Layer', '0', 3, 'Whether or not to use a secure connection to LDAP. This is not always supported by domains.', 0, 1
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'LDAP: Use Secure Socket Layer', DataTypeId = 3, Description = 'Whether or not to use a secure connection to LDAP. This is not always supported by domains.', IsEncrypted = '0', IsRequired = '1';
