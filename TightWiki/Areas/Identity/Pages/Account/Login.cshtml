@@ -1,5 +1,6 @@
 ﻿@page
 @using System.Text.Encodings.Web
+@using TightWiki.Extensions
 @using TightWiki.Models
 @inject IViewLocalizer Localizer
 @model LoginModel
@@ -7,80 +8,114 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="row">
-    <div class="col-sm-12 col-md-8 col-lg-4">
-        <section>
-            <form id="account" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                    <label asp-for="Input.Email" class="form-label">@Localizer["Email"]</label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label asp-for="Input.Password" class="form-label">@Localizer["Password"]</label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div class="checkbox mb-3">
-                    <label asp-for="Input.RememberMe" class="form-label">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        @Html.DisplayNameFor(m => m.Input.RememberMe)
-                    </label>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Log in"]</button>
-                    <br />
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">@Localizer["Forgot your password?"]</a>
-                        <br />
-                        @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
-                        {
-                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@Localizer["Register as a new user"]</a>
-                            <br />
-                        }
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">@Localizer["Resend email confirmation"]</a>
-                        <br />
-                    </p>
-                </div>
-            </form>
-        </section>
-        <section>
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) > 0)
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)" method="post" class="form-horizontal">
-                        <div>
-                            <p>
+<div class="row justify-content-center my-5">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-4">
+                <h1 class="h4 mb-3">@Localizer["Log in"]</h1>
+
+                <form id="account" method="post" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-2" role="alert"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label asp-for="Input.Email">@Localizer["Email"]</label>
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <label asp-for="Input.Password">@Localizer["Password"]</label>
+                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="form-check m-0">
+                            <input class="form-check-input" asp-for="Input.RememberMe" id="rememberMeChk" />
+                            <label class="form-check-label" for="rememberMeChk">
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="small">@Localizer["Forgot your password?"]</a>
+                    </div>
+
+                    <button id="login-submit" type="submit" class="btn btn-primary w-100">
+                        @Localizer["Log in"]
+                    </button>
+                    @if ((Model.ExternalLogins?.Count ?? 0) > 0)
+                    {
+                    <div class="text-center text-muted my-3">
+                        @Localizer["- or -"]
+                    </div>
+                    }
+                </form>
+
+                @* External providers *@
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) > 0)
+                    {
+                        <form id="external-account"
+                              asp-page="./ExternalLogin"
+                              asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)"
+                              method="post">
+                            <div class="d-flex flex-wrap gap-2">
                                 @foreach (var provider in Model.ExternalLogins!)
                                 {
                                     if (provider.Name == "Google")
                                     {
-                                        <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Google account">
-                                            <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg" alt="Google" class="me-2" />
+                                        <button type="submit"
+                                                class="btn btn-outline-secondary provider-btn d-inline-flex align-items-center"
+                                                name="provider"
+                                                value="@provider.Name"
+                                                title="Log in using your Google account">
+                                            <img src="@GlobalConfiguration.BasePath/images/external/google-signin.svg" alt="Google" class="me-2 provider-icon" />
                                         </button>
                                     }
                                     else if (provider.Name == "Microsoft")
                                     {
-                                        <button type="submit" class="btn w-100 mb-3 d-flex align-items-center" name="provider" value="@provider.Name" title="Log in using your Microsoft account">
-                                            <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2" />
+                                        <button type="submit"
+                                            class="btn btn-outline-secondary provider-btn d-inline-flex align-items-center"
+                                                name="provider"
+                                                value="@provider.Name"
+                                                title="Log in using your Microsoft account">
+                                            <img src="@GlobalConfiguration.BasePath/images/external/microsoft-signin.svg" alt="Microsoft" class="me-2 provider-icon" />
                                         </button>
                                     }
                                     else
                                     {
-                                        <button type="submit" class="btn btn-primary w-100 mb-3" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
-                                            @provider.DisplayName
+                                        <button type="submit"
+                                            class="btn btn-outline-secondary provider-btn d-inline-flex align-items-center"
+                                                name="provider"
+                                                value="@provider.Name"
+                                                title="Log in using your @provider.DisplayName account">
+                                        <span>@Localizer["Sign in with {0}"].Format(provider.DisplayName)</span>
                                         </button>
                                     }
                                 }
-                            </p>
-                        </div>
-                    </form>
+                            </div>
+                        </form>
+                    }
                 }
-            }
-        </section>
+
+                <div class="mt-4 small">
+                    @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
+                    {
+                        <div class="mb-1">
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
+                                @Localizer["Register as a new user"]
+                            </a>
+                        </div>
+                    }
+                    <div>
+                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">
+                            @Localizer["Resend email confirmation"]
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 

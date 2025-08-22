@@ -9,3 +9,8 @@
     padding: 1px 6px;
     font-size: 14px;
 }
+
+/*Login page*/
+.provider-btn .provider-icon {
+    height: 30px;
+}
