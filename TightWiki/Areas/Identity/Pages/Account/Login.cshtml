@@ -18,9 +18,15 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-2" role="alert"></div>
 
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                        <label asp-for="Input.Email">@Localizer["Email"]</label>
-                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        @if(GlobalConfiguration.EnableLDAPAuthentication)
+                        {
+                            <label asp-for="Input.Username">@Localizer["Username"]</label>
+                        }
+                        else{
+                        <label asp-for="Input.Username">@Localizer["Email"]</label>
+                        }
+                        <span asp-validation-for="Input.Username" class="text-danger small"></span>
                     </div>
 
                     <div class="form-floating mb-3">

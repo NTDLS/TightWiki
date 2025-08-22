@@ -379,7 +379,7 @@ namespace TightWiki.Repository
             return accountProfile != null;
         }
 
-        public static AccountProfile GetBasicProfileByUserId(Guid userId)
+        public static AccountProfile? GetBasicProfileByUserId(Guid userId)
         {
             var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.User, [userId]);
 
@@ -390,8 +390,8 @@ namespace TightWiki.Repository
                     UserId = userId
                 };
 
-                return ManagedDataStorage.Users.QuerySingle<AccountProfile>("GetBasicProfileByUserId.sql", param);
-            }).EnsureNotNull();
+                return ManagedDataStorage.Users.QuerySingleOrDefault<AccountProfile?>("GetBasicProfileByUserId.sql", param);
+            });
         }
 
         public static AccountProfile GetAccountProfileByUserId(Guid userId, bool forceReCache = false)

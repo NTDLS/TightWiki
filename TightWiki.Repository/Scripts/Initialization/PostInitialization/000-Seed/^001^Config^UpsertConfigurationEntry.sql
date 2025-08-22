@@ -291,3 +291,9 @@ ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Show Change Summar
 INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
 SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'Functionality' LIMIT 1), 'Require Change Summary when Editing', '0', 3, 'Whether users are required to enter a change summary when editing pages. Note that "Show Change Summary when Editing" must also be enabled.', 0, 1
 ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'Require Change Summary when Editing', DataTypeId = 3, Description = 'Whether users are required to enter a change summary when editing pages. Note that "Show Change Summary when Editing" must also be enabled.', IsEncrypted = '0', IsRequired = '1';
+INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'External Authentication' LIMIT 1), 'LDAP: Enable LDAP Authentication', '0', 3, 'Whether or not to authenticate with LDAP when attempting to login users.', 0, 1
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'LDAP: Enable LDAP Authentication', DataTypeId = 3, Description = 'Whether or not to authenticate with LDAP when attempting to login users.', IsEncrypted = '0', IsRequired = '1';
+INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = 'External Authentication' LIMIT 1), 'LDAP: Fully-Qualified Domain', '', 2, 'The fully qualified domain name to use when performing LDAP authentication.', 0, 0
+ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = 'LDAP: Fully-Qualified Domain', DataTypeId = 2, Description = 'The fully qualified domain name to use when performing LDAP authentication.', IsEncrypted = '0', IsRequired = '0';

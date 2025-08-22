@@ -78,8 +78,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-            [EmailAddress(ErrorMessageResourceName = "EmailAddressAttribute_Invalid", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-            public string Email { get; set; }
+            public string Username { get; set; }
         }
 
         public IActionResult OnGet()
@@ -132,7 +131,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Username = info.Principal.FindFirstValue(ClaimTypes.Email)
                     };
                 }
                 return Page();
@@ -155,8 +154,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Username, CancellationToken.None);
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded == false)
@@ -195,12 +194,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         emailTemplate.Replace("##SITEADDRESS##", address);
                         emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
-                        await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
+                        await _emailSender.SendEmailAsync(Input.Username, emailSubject, emailTemplate.ToString());
 
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?Email={Input.Email}");
+                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?Email={Input.Username}");
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
