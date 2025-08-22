@@ -15,6 +15,9 @@
 </p>
 
 <form asp-page-handler="Confirmation" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl ?? "")" method="post">
+
+    @Html.HiddenFor(m => Model.UserId)
+
     <div class="container">
         <div class="form-group row mb-3">
             <label for="Input.AccountName" class="col-sm-2 col-form-label"><strong>@Localizer["Account Name"]</strong></label>

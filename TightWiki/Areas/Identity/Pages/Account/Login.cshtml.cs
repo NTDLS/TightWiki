@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System.DirectoryServices.Protocols;
-using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.DirectoryServices.Protocols;
+using System.Net;
 using TightWiki.Models;
 using TightWiki.Repository;
 
@@ -140,7 +140,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                                         //User exits but does not have a profile.
                                         //This means that the user has authenticated externally, but has yet to complete the signup process.
-                                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/LdapLoginSupplemental", new { Id = foundUser.Id, ReturnUrl = returnUrl });
+                                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl = returnUrl });
                                     }
 
                                     return Redirect(returnUrl);

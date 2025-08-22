@@ -132,7 +132,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             var user = await _userManager.FindByIdAsync(UserId.ToString());
             if (user == null)
             {
-                return NotifyOfError(_localizer["An error occurred while creating the user."]);
+                return NotifyOfError(_localizer["The specified user could not be found."]);
             }
 
             await _userManager.SetEmailAsync(user, Input.Email);
