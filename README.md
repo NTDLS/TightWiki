@@ -19,13 +19,14 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * MIT license, you can use it for free at home or at your business.
 * Open source, you can make changes, submit fixes or just make suggestions.
 * Completely customizable and rebrandable including name, title, footer, copyright and all images.
-* Editor toolbar with markup, link insertion, feature search.
+* Editor toolbar with markup, link insertion, feature search, and emojis.
 * User signup can be disabled, enabled and can require users to verify email before logging in.
-* Multiple user roles are supported for admin, moderators, contributors and basic members.
+* Role-based and per-user security for managing who can read/edit/delete/moderate pages and namespaces.
 * Easy page linking. Can even link to pages that do not exist and the link will subtly prompt you to create the page when logged in with a role that has page creation support.
 * Admin shows missing pages, namespace metrics, users, roles, etc.
 * Multi-language. Translated into 25 languages, so if you speak it - so does TightWiki.
 * Manual account creation, editing and deletion.
+* Emojis! Lots built-in, and you can add custom - including animations.
 * Page creation templates - to assit in uniformity and rapid page creation.
 * All dates/times are stored in UTC and localized for logged in users.
 * Admin moderation which is driven by page processing instructions for things like page deletions, review, drafts, etc.
@@ -67,8 +68,11 @@ We've beat the wiki up with more data than this, but this is our standard worklo
 # Emojis Configuration 
 ![image](https://github.com/user-attachments/assets/3e78b853-d151-4ef4-ad7a-d4e68393643f)
 
+# Role-based security
+![image](https://github.com/user-attachments/assets/c8e84282-c4e3-4f57-8bca-60c7fe7df804)
+
 # Compiliation
-![image](https://github.com/user-attachments/assets/88510729-ce17-42aa-a2da-cb54ef2a87d6)
+![image](https://github.com/user-attachments/assets/55dc9836-9dd4-4fcc-a922-923868d7d731)
 
 # Deleted Pages
 ![image](https://github.com/user-attachments/assets/80559132-60dc-42ab-bb51-cb66d25658df)
