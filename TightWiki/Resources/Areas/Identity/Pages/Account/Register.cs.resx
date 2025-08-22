@@ -59,7 +59,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
+  <data name="Display Name" xml:space="preserve">
     <value>Jméno účtu</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
@@ -101,7 +101,7 @@
   <data name="Signup" xml:space="preserve">
     <value>Registrovat se</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
+  <data name="This display name will be visible publicly." xml:space="preserve">
     <value>Tento název účtu bude veřejně viditelný.</value>
   </data>
   <data name="Time Zone" xml:space="preserve">

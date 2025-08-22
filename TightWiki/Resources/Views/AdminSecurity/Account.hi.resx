@@ -62,7 +62,7 @@
   <data name="Account" xml:space="preserve">
     <value>खाता</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
+  <data name="Display Name" xml:space="preserve">
     <value>खाता नाम</value>
   </data>
   <data name="Avatar" xml:space="preserve">
