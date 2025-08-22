@@ -198,3 +198,51 @@ html {
     .list-group-item a {
         color: #dddddd;
     }
+
+/*Select2:*/
+/* Dropdown background and text */
+.select2-dropdown {
+    background-color: #2b2b2b; /* dark background */
+    color: #fff; /* white text */
+    border: 1px solid #444;
+}
+
+/* Options */
+.select2-results__option {
+    background-color: #2b2b2b;
+    color: #fff;
+}
+
+/* Highlighted option */
+.select2-results__option--highlighted {
+    background-color: #3a6ea5;
+    color: #fff;
+}
+
+/* Selected item in the box */
+.select2-selection {
+    background-color: #2b2b2b !important;
+    color: #fff !important;
+    border: 1px solid #444 !important;
+}
+
+/* Placeholder text */
+.select2-selection__placeholder {
+    color: #aaa !important;
+}
+
+/* Selected value text */
+.select2-selection__rendered {
+    color: #fff !important;
+}
+
+/* Single select background */
+.select2-container--default .select2-selection--single {
+    background-color: #2b2b2b !important;
+    border: 1px solid #444 !important;
+}
+
+/* Arrow icon */
+.select2-selection__arrow b {
+    border-color: #aaa transparent transparent transparent !important;
+}

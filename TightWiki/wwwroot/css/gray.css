@@ -200,3 +200,52 @@ html {
     .list-group-item a {
         color: #0d6efd;
     }
+
+/* Select2 - Gray Theme */
+
+/* Dropdown background and text */
+.select2-dropdown {
+    background-color: #e0e0e0; /* light gray */
+    color: #222; /* dark text */
+    border: 1px solid #bbb;
+}
+
+/* Options */
+.select2-results__option {
+    background-color: #e0e0e0;
+    color: #222;
+}
+
+/* Highlighted option */
+.select2-results__option--highlighted {
+    background-color: #c0c0c0; /* medium gray highlight */
+    color: #000; /* black text */
+}
+
+/* Selected item in the box */
+.select2-selection {
+    background-color: #e0e0e0 !important;
+    color: #222 !important;
+    border: 1px solid #bbb !important;
+}
+
+/* Placeholder text */
+.select2-selection__placeholder {
+    color: #666 !important; /* muted gray */
+}
+
+/* Selected value text */
+.select2-selection__rendered {
+    color: #222 !important; /* dark text */
+}
+
+/* Single select background */
+.select2-container--default .select2-selection--single {
+    background-color: #e0e0e0 !important;
+    border: 1px solid #bbb !important;
+}
+
+/* Arrow icon */
+.select2-selection__arrow b {
+    border-color: #444 transparent transparent transparent !important;
+}
