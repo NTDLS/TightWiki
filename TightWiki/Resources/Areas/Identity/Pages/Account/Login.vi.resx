@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>Gửi lại xác nhận email</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- hoặc -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Đăng nhập với {0}</value>
+  </data>
 </root>

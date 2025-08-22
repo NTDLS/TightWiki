@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>E-posta onayını yeniden gönder</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- veya -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>{0} ile oturum aç</value>
+  </data>
 </root>

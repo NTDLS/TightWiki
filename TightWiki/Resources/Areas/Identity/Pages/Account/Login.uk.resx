@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>Повторно надіслати підтвердження електронної пошти</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- або -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Увійти за допомогою {0}</value>
+  </data>
 </root>

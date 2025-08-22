@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>重新发送电子邮件确认</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- 或者 -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>使用 {0} 登录</value>
+  </data>
 </root>

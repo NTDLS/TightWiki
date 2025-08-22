@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>ای میل کی تصدیق دوبارہ بھیجیں</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- یا -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>کے ساتھ سائن ان کریں {0}</value>
+  </data>
 </root>

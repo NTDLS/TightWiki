@@ -7,6 +7,7 @@
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <partial name="_StatusMessage" for="StatusMessage" />
 <h3>@ViewData["Title"]</h3>
@@ -16,15 +17,14 @@
         <li>
             <p>
                 @Localizer.Format("Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}.",
-                    "<a href=\"https://go.microsoft.com/fwlink/?Linkid=825072\">Android</a>",
-                    "<a href=\"https://go.microsoft.com/fwlink/?Linkid=825073\">iOS</a>",
-                    "<a href=\"https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en\">Android</a>",
-                    "<a href=\"https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8\">iOS</a>")
+                "<a href=\"https://go.microsoft.com/fwlink/?Linkid=825072\">Android</a>",
+                                "<a href=\"https://go.microsoft.com/fwlink/?Linkid=825073\">iOS</a>",
+                                "<a href=\"https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en\">Android</a>",
+                                "<a href=\"https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8\">iOS</a>")
             </p>
         </li>
         <li>
             <p>@Localizer.Format("Scan the QR Code or enter this key <kbd>{0}</kbd> into your two factor authenticator app. Spaces and casing do not matter.", Model.SharedKey)</p>
-            <div class="alert alert-info">@Localizer["Learn how to <a href=\"https://go.microsoft.com/fwlink/?Linkid=852423\">enable QR code generation</a>."]</div>
             <div id="qrCode"></div>
             <div id="qrCodeData" data-url="@Model.AuthenticatorUri"></div>
         </li>
@@ -36,7 +36,7 @@
                 <div class="col-md-6">
                     <form id="send-code" method="post">
                         <div class="form-floating mb-3">
-                            <input asp-for="Input.Code" class="form-control" autocomplete="off" placeholder="@Localizer["Please enter the code."].Value"/>
+                            <input asp-for="Input.Code" class="form-control" autocomplete="off" placeholder="@Localizer["Please enter the code."].Value" />
                             <label asp-for="Input.Code" class="control-label form-label">@Localizer["Verification Code"]</label>
                             <span asp-validation-for="Input.Code" class="text-danger"></span>
                         </div>
@@ -52,3 +52,15 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<script>
+    window.addEventListener("load", () => {
+      const uri = document.getElementById("qrCodeData").getAttribute('data-url');
+      new QRCode(document.getElementById("qrCode"),
+        {
+          text: uri,
+          width: 150,
+          height: 150
+        });
+    });
+</script>

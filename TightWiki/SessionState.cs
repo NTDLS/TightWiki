@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
-using System.Security;
 using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Exceptions;
@@ -14,7 +13,6 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Static;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki

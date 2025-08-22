@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>メール確認を再送</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- または -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>{0}でサインイン</value>
+  </data>
 </root>

@@ -12,6 +12,10 @@ namespace TightWiki.Models
         public static bool AllowSignup { get; set; }
         public static List<Emoji> Emojis { get; set; } = new();
         public static string BrandImageSmall { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Name of the site.
+        /// </summary>
         public static string Name { get; set; } = string.Empty;
         public static string FooterBlurb { get; set; } = string.Empty;
         public static string Copyright { get; set; } = string.Empty;

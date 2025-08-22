@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>Kirim ulang konfirmasi email</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- atau -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Masuk dengan {0}</value>
+  </data>
 </root>

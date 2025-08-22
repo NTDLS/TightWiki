@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>Znovu odeslat potvrzení e-mailem</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- nebo -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Přihlásit se pomocí {0}</value>
+  </data>
 </root>

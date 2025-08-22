@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>Stuur e-mailbevestiging opnieuw</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- of -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Inloggen met {0}</value>
+  </data>
 </root>

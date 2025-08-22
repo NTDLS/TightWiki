@@ -8,7 +8,6 @@ using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 using TightWiki.Caching;

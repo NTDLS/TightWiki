@@ -77,4 +77,10 @@
   <data name="Resend email confirmation" xml:space="preserve">
     <value>Reinvia la conferma dell'email</value>
   </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- o -</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Accedi con {0}</value>
+  </data>
 </root>
