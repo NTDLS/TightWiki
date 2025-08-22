@@ -66,7 +66,7 @@
     <value>požadované</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>Tento název účtu bude veřejně viditelný.</value>
+    <value>Tento zobrazený název bude veřejně viditelný.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>není vyžadováno</value>
@@ -84,7 +84,7 @@
     <value>Dokončit registraci</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>Název účtu</value>
+    <value>Zobrazený název</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>Příjmení</value>

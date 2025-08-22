@@ -60,9 +60,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Se requiere el nombre de la cuenta.</value>
+    <value>Se requiere un nombre para mostrar.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>El nombre de la cuenta ya está en uso.</value>
+    <value>El nombre para mostrar ya está en uso.</value>
   </data>
 </root>

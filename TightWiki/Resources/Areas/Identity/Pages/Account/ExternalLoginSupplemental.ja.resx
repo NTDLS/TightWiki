@@ -66,7 +66,7 @@
     <value>必須</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>このアカウント名は公開されます。</value>
+    <value>この表示名は公開されます。</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>任意</value>
@@ -84,7 +84,7 @@
     <value>サインアップを完了</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>アカウント名</value>
+    <value>表示名</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>姓</value>

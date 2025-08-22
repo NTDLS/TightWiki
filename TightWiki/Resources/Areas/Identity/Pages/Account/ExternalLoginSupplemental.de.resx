@@ -66,7 +66,7 @@
     <value>erforderlich</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>Dieser Kontoname wird öffentlich sichtbar sein.</value>
+    <value>Dieser Anzeigename wird öffentlich sichtbar sein.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>nicht erforderlich</value>
@@ -84,7 +84,7 @@
     <value>Registrierung abschließen</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>Kontoname</value>
+    <value>Anzeigename</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>Nachname</value>

@@ -63,7 +63,7 @@
     <value>Учетная запись</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>Имя аккаунта</value>
+    <value>Имя для отображения</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Аватар</value>

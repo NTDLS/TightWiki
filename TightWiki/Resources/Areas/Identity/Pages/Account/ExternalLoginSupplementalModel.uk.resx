@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Ім'я облікового запису є обов'язковим.</value>
+    <value>Відображуване ім'я обов'язкове.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>Ім'я облікового запису вже використовується.</value>
+    <value>Відображуване ім'я вже використовується.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>Сталася помилка під час отримання інформації про користувача від зовнішнього постачальника.</value>

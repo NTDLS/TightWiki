@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>অ্যাকাউন্টের নাম</value>
+    <value>প্রদর্শন নাম</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>পাসওয়ার্ড নিশ্চিত করুন</value>
@@ -102,7 +102,7 @@
     <value>সাইন আপ করুন</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>এই অ্যাকাউন্ট নামটি পাবলিকলি দৃশ্যমান থাকবে।</value>
+    <value>এই প্রদর্শন নামটি পাবলিকভাবে দৃশ্যমান থাকবে।</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>সময় অঞ্চল</value>

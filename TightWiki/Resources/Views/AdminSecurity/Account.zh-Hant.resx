@@ -63,7 +63,7 @@
     <value>账户</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>帳戶名稱</value>
+    <value>顯示名稱</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>头像</value>

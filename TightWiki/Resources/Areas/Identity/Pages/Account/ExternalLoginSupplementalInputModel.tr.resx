@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>Hesap Adı</value>
+    <value>Gösterim Adı</value>
   </data>
   <data name="Country" xml:space="preserve">
     <value>Ülke</value>

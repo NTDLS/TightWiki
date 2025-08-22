@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>Назва облікового запису</value>
+    <value>Ім'я на екрані</value>
   </data>
   <data name="Confirm password" xml:space="preserve">
     <value>Підтвердити пароль</value>

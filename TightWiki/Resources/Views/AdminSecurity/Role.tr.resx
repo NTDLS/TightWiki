@@ -185,4 +185,7 @@
   <data name="Role Permissions" xml:space="preserve">
     <value>Rol İzinleri</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Görünen Ad</value>
+  </data>
 </root>

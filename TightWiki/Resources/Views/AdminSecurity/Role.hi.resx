@@ -185,4 +185,7 @@
   <data name="Role Permissions" xml:space="preserve">
     <value>भूमिका अनुमतियाँ</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>प्रदर्शन नाम</value>
+  </data>
 </root>

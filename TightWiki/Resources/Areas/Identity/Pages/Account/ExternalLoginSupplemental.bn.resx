@@ -66,7 +66,7 @@
     <value>আবশ্যক</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>এই অ্যাকাউন্টের নাম জনসাধারণের জন্য দৃশ্যমান হবে।</value>
+    <value>এই প্রদর্শন নামটি জনসাধারণের সামনে দৃশ্যমান হবে।</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>আবশ্যক নয়</value>
@@ -84,7 +84,7 @@
     <value>নিবন্ধন সম্পন্ন করুন</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>অ্যাকাউন্টের নাম</value>
+    <value>প্রদর্শন নাম</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>শেষ নাম</value>

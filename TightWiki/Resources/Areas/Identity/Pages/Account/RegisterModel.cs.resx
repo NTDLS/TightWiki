@@ -60,9 +60,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Název účtu je povinný.</value>
+    <value>Jméno pro zobrazení je povinné.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>Název účtu se již používá.</value>
+    <value>Jméno pro zobrazení je již používáno.</value>
   </data>
 </root>

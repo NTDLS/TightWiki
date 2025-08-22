@@ -66,7 +66,7 @@
     <value>مطلوب</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>اسم الحساب هذا سيكون مرئيًا للجمهور.</value>
+    <value>سيكون اسم العرض هذا مرئيًا للجمهور.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>ليس مطلوبًا</value>
@@ -84,7 +84,7 @@
     <value>أكمل التسجيل</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>اسم الحساب</value>
+    <value>اسم العرض</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>الاسم الأخير</value>

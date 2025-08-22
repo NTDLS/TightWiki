@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Il nome dell'account è richiesto.</value>
+    <value>È richiesto un Nome Visualizzato.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>Il nome dell'account è già in uso.</value>
+    <value>Il Nome Visualizzato è già in uso.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>Si è verificato un errore nel recupero delle informazioni utenti dal fornitore esterno.</value>

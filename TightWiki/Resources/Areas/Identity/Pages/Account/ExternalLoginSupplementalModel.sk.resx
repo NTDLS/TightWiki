@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Vyžaduje sa názov účtu.</value>
+    <value>Je potrebné zadať zobrazované meno.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>Názov účtu sa už používa.</value>
+    <value>Zobrazované meno je už obsadené.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>Pri získavaní informácií o používateľovi od externého poskytovateľa sa vyskytla chyba.</value>

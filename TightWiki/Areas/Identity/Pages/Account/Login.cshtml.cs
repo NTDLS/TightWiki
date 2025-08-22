@@ -108,9 +108,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 {
                     #region Fallback to LDAP authentication if enabled.
 
-                    if (true/*GlobalConfiguration.EnableLDAPAuthentication*/)
+                    if (GlobalConfiguration.EnableLDAPAuthentication)
                     {
-                        if (true/*TestLdapCredential(Input.Username, Input.Password)*/)
+                        if (TestLdapCredential(Input.Username, Input.Password))
                         {
                             //We successfully authenticated against LDAP.
                             var newUser = new IdentityUser()
@@ -136,6 +136,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 if (createResult.Succeeded)
                                 {
                                     _logger.LogInformation("User created a new account with LDAP.");
+
+                                    foundUser = await _userManager.FindByNameAsync(Input.Username);
+                                    if(foundUser == null)
+                                    {
+                                        return NotifyOfError("Failed to locate the user account for the LDAP credential.");
+                                    }
 
                                     // Check if the user has a profile, if not, redirect to the supplemental info page.
                                     if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(foundUser.Id), out _) == false)

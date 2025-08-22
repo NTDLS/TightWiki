@@ -60,9 +60,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>계정 이름은 필수입니다.</value>
+    <value>디스플레이 이름은 필수입니다.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>계정 이름이 이미 사용되고 있습니다.</value>
+    <value>디스플레이 이름은 이미 사용 중입니다.</value>
   </data>
 </root>

@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>অ্যাকাউন্টের নাম প্রয়োজন।</value>
+    <value>প্রদর্শনী নাম প্রয়োজন।</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>অ্যাকাউন্টের নাম ইতিমধ্যে ব্যবহৃত হচ্ছে।</value>
+    <value>প্রদর্শনী নাম ইতিমধ্যে ব্যবহৃত হচ্ছে।</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>বাহ্যিক প্রদানকারী থেকে ব্যবহারকারীর তথ্য উদ্ধার করতে ত্রুটি হয়েছে।</value>

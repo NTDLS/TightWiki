@@ -63,7 +63,7 @@
     <value>Обліковий запис</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>Ім'я облікового запису</value>
+    <value>Ім'я для відображення</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Аватар</value>

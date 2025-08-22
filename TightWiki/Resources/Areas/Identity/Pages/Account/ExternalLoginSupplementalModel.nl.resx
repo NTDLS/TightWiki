@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Accountnaam is verplicht.</value>
+    <value>Weergavenaam is verplicht.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>Accountnaam is al in gebruik.</value>
+    <value>Weergavenaam is al in gebruik.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>Er is een fout opgetreden bij het ophalen van gebruikersinformatie van de externe aanbieder.</value>

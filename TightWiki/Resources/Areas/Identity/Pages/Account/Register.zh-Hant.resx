@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>帳戶名稱</value>
+    <value>顯示名稱</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>確認密碼</value>
@@ -102,7 +102,7 @@
     <value>注册</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>该账户名称将公开可见。</value>
+    <value>這個顯示名稱將會公開可見。</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>時區</value>

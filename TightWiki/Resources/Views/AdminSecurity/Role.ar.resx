@@ -185,4 +185,7 @@
   <data name="Role Permissions" xml:space="preserve">
     <value>أذونات الدور</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>اسم العرض</value>
+  </data>
 </root>

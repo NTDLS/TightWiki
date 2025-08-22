@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>Nombre de la cuenta</value>
+    <value>Nombre de visualización</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>Confirmar contraseña</value>
@@ -102,7 +102,7 @@
     <value>Registrar</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>Este nombre de cuenta será visible públicamente.</value>
+    <value>Este nombre de visualización será visible públicamente.</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>Zona horaria</value>

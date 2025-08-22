@@ -185,4 +185,7 @@
   <data name="Role Permissions" xml:space="preserve">
     <value>Permissões do Papel</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Nome de Exibição</value>
+  </data>
 </root>

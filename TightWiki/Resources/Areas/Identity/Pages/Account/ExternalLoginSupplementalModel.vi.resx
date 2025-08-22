@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>Tên tài khoản là bắt buộc.</value>
+    <value>Tên hiển thị là bắt buộc.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>Tên tài khoản đã được sử dụng.</value>
+    <value>Tên hiển thị đã được sử dụng.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>Đã xảy ra lỗi khi lấy thông tin người dùng từ nhà cung cấp bên ngoài.</value>

@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>Nome da Conta</value>
+    <value>Nome de Exibição</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>Confirmar Senha</value>
@@ -102,7 +102,7 @@
     <value>Cadastrar</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>Este nome de conta será visível publicamente.</value>
+    <value>Este nome de exibição será visível publicamente.</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>Fuso Horário</value>

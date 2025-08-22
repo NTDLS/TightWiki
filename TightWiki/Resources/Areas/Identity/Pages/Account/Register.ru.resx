@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>Имя учетной записи</value>
+    <value>Имя на экране</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>Подтвердите пароль</value>
@@ -102,7 +102,7 @@
     <value>Зарегистрироваться</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>Это имя аккаунта будет видно публично.</value>
+    <value>Это имя на экране будет видно публично.</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>Часовой пояс</value>

@@ -63,7 +63,7 @@
     <value>Tài khoản</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>Tên Tài Khoản</value>
+    <value>Tên hiển thị</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Ảnh đại diện</value>

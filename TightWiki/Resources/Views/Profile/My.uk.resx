@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>Ім'я акаунту</value>
+    <value>Ім'я для відображення</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Аватар</value>
@@ -75,7 +75,7 @@
     <value>Країна</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value>Видалити обліковий запис</value>
+    <value>Видалити акаунт</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>Видалення '{0}' назавжди призведе до видалення облікового запису. Усі сторінки, створені або змінені цим користувачем, будуть зараховані до облікового запису-підмінника, і ви не зможете скасувати цю дію. Продовжити?</value>

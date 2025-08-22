@@ -98,4 +98,7 @@
   <data name="Time Zone" xml:space="preserve">
     <value>Fuso orario</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Nome visualizzato</value>
+  </data>
 </root>

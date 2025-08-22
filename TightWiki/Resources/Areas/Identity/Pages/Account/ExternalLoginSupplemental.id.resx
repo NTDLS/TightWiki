@@ -66,7 +66,7 @@
     <value>diperlukan</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>Nama akun ini akan terlihat secara publik.</value>
+    <value>Nama tampilan ini akan terlihat secara publik.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>tidak diperlukan</value>
@@ -84,7 +84,7 @@
     <value>Selesaikan Pendaftaran</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value>Nama Akun</value>
+    <value>Nama Tampil</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>Nama Belakang</value>

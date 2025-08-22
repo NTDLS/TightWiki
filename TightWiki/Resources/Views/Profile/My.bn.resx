@@ -60,7 +60,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name" xml:space="preserve">
-    <value>অ্যাকাউন্টের নাম</value>
+    <value>প্রদর্শন নাম</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>অ্যাভাটার</value>
@@ -75,7 +75,7 @@
     <value>দেশ</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value>অ্যাকাউন্ট মুছুন</value>
+    <value>অ্যাকাউন্ট মুছে ফেলুন</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>‘{0}’ মুছে দিলে এই অ্যাকাউন্টটি স্থায়ীভাবে অপসারণ হবে। এই ব্যবহারকারী দ্বারা তৈরি বা পরিবর্তিত সব পৃষ্ঠা একটি প্রতিস্থাপন অ্যাকাউন্টের সাথে যুক্ত হবে এবং আপনি এই পদক্ষেপটি পুনরায় ফিরিয়ে নিতে পারবেন না। চলতে থাকুন?</value>

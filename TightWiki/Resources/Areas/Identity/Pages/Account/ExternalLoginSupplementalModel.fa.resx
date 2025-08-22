@@ -60,10 +60,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Display Name is required." xml:space="preserve">
-    <value>نام حساب الزامی است.</value>
+    <value>نام نمایشی الزامی است.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value>نام حساب قبلاً مورد استفاده قرار گرفته است.</value>
+    <value>نام نمایشی قبلاً در حال استفاده است.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>خطایی در استخراج اطلاعات کاربر از ارائه‌دهنده خارجی رخ داده است.</value>
