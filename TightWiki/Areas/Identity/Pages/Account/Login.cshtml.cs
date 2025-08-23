@@ -138,7 +138,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                     _logger.LogInformation("User created a new account with LDAP.");
 
                                     foundUser = await _userManager.FindByNameAsync(Input.Username);
-                                    if(foundUser == null)
+                                    if (foundUser == null)
                                     {
                                         return NotifyOfError("Failed to locate the user account for the LDAP credential.");
                                     }

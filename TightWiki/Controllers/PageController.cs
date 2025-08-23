@@ -14,7 +14,6 @@ using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
@@ -270,7 +269,7 @@ namespace TightWiki.Controllers
         public ActionResult Localization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions)
         {
             var referrer = Request.Headers.Referer.ToString();
-            ViewBag.ReturnUrl = String.IsNullOrEmpty(referrer) ? "" : referrer;
+            ViewBag.ReturnUrl = string.IsNullOrEmpty(referrer) ? "" : referrer;
 
             var languages = localizationOptions.Value.SupportedUICultures.EnsureNotNull()
                 .OrderBy(x => x.EnglishName, StringComparer.Create(CultureInfo.CurrentUICulture, ignoreCase: true)).ToList();
@@ -283,7 +282,7 @@ namespace TightWiki.Controllers
         [HttpGet("Page/SetLocalization")]
         public ActionResult SetLocalization([FromServices] IOptions<RequestLocalizationOptions> localizationOptions, string culture, string returnUrl)
         {
-            if (String.IsNullOrWhiteSpace(culture) || String.IsNullOrWhiteSpace(returnUrl))
+            if (String.IsNullOrWhiteSpace(culture) || string.IsNullOrWhiteSpace(returnUrl))
                 return BadRequest();
 
             if (SessionState.IsAuthenticated)
@@ -296,7 +295,7 @@ namespace TightWiki.Controllers
 
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
-                CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+                    CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
                 new CookieOptions
                 {
                     Expires = DateTimeOffset.UtcNow.AddYears(1),
@@ -773,8 +772,8 @@ namespace TightWiki.Controllers
 
             if (Utility.PageNameContainsUnsafeCharacters(model.Name))
             {
-                ModelState.AddModelError("Name", localizer["The page name contains characters which are disallowed: {0}."]
-                    .Format(string.Join(' ', Utility.UnsafePageNameCharacters)));
+                ModelState.AddModelError("Name", Localize("The page name contains characters which are disallowed: {0}.",
+                    string.Join(' ', Utility.UnsafePageNameCharacters)));
                 return View(model);
             }
 
