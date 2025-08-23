@@ -185,4 +185,7 @@
   <data name="Role Permissions" xml:space="preserve">
     <value>角色权限</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>显示名称</value>
+  </data>
 </root>

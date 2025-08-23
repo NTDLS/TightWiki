@@ -62,8 +62,8 @@
   <data name="Account" xml:space="preserve">
     <value>Compte</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Nom du compte</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Nom d'affichage</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>

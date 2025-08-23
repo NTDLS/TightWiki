@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>Accedi con {0}</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Nome utente</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>Impossibile creare l'account stub per le credenziali LDAP.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>Impossibile trovare l'account utente per le credenziali LDAP.</value>
+  </data>
 </root>

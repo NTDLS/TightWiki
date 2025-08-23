@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>账户名称</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>显示名称</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>确认密码</value>
@@ -101,8 +101,8 @@
   <data name="Signup" xml:space="preserve">
     <value>注册</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>此帐户名称将公开可见。</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>此显示名称将在公共场合可见。</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>时区</value>

@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>Nome da Conta</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Nome de Exibição</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>
@@ -75,7 +75,7 @@
     <value>País</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value>Deletar Conta</value>
+    <value>Excluir Conta</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>Excluir '{0}' removerá permanentemente a conta. Todas as páginas criadas ou modificadas por este usuário serão atribuídas a uma conta substituta e você não poderá reverter esta ação. Continuar?</value>

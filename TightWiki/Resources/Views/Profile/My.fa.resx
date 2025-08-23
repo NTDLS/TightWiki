@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>نام حساب</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>نام نمایشی</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>آواتار</value>
@@ -75,7 +75,7 @@
     <value>کشور</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value>حذف حساب</value>
+    <value>حذف حساب کاربری</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>حذف '{0}' به طور دائمی حساب را از بین خواهد برد. تمام صفحه‌هایی که توسط این کاربر ایجاد یا ویرایش شده‌اند به یک حساب جایگزین نسبت داده خواهد شد و شما نخواهید توانست این عمل را برگردانید. ادامه دهید؟</value>

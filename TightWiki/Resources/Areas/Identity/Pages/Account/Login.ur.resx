@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>کے ساتھ سائن ان کریں {0}</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>صارف کا نام</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>LDAP اسناد کے لیے اسٹب اکاؤنٹ تخلیق کرنے میں ناکامی۔</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>LDAP اسناد کے لیے صارف اکاؤنٹ تلاش کرنے میں ناکامی۔</value>
+  </data>
 </root>

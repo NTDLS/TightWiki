@@ -6,38 +6,23 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.DirectoryServices.Protocols;
 using System.Net;
 using TightWiki.Models;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
 
-    /// <summary>
-    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-    ///     directly from your code. This API may change or be removed in future releases.
-    /// </summary>
     public class LoginInputModel
     {
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-        [EmailAddress(ErrorMessageResourceName = "EmailAddressAttribute_Invalid", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         [DataType(DataType.Password, ErrorMessageResourceName = "DataTypeAttribute_EmptyDataTypeString", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string Password { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
@@ -45,32 +30,22 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class LoginModel : PageModelBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LoginModel> logger)
                         : base(signInManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public LoginInputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -88,6 +63,22 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
+        public static bool TestLdapCredential(string username, string password)
+        {
+            using var conn = new LdapConnection(GlobalConfiguration.LDAPFullyQualifiedDomain);
+            conn.SessionOptions.SecureSocketLayer = GlobalConfiguration.LDAPUseSecureSocketLayer;
+            conn.AuthType = AuthType.Basic;
+            try
+            {
+                conn.Bind(new NetworkCredential(username, password));
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
@@ -98,7 +89,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -115,6 +106,68 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 }
                 else
                 {
+                    #region Fallback to LDAP authentication if enabled.
+
+                    if (GlobalConfiguration.EnableLDAPAuthentication)
+                    {
+                        if (TestLdapCredential(Input.Username, Input.Password))
+                        {
+                            //We successfully authenticated against LDAP.
+                            var newUser = new IdentityUser()
+                            {
+                                UserName = Input.Username
+                            };
+
+                            var foundUser = await _userManager.FindByNameAsync(Input.Username);
+                            if (foundUser != null)
+                            {
+                                await SignInManager.SignInAsync(newUser, Input.RememberMe);
+                                return Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                if (GlobalConfiguration.AllowSignup != true)
+                                {
+                                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                                }
+
+                                //If the user does not already exist, create them:
+                                var createResult = await _userManager.CreateAsync(newUser);
+                                if (createResult.Succeeded)
+                                {
+                                    _logger.LogInformation("User created a new account with LDAP.");
+
+                                    foundUser = await _userManager.FindByNameAsync(Input.Username);
+                                    if(foundUser == null)
+                                    {
+                                        return NotifyOfError("Failed to locate the user account for the LDAP credential.");
+                                    }
+
+                                    // Check if the user has a profile, if not, redirect to the supplemental info page.
+                                    if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(foundUser.Id), out _) == false)
+                                    {
+                                        if (GlobalConfiguration.AllowSignup != true)
+                                        {
+                                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                                        }
+
+                                        //User exits but does not have a profile.
+                                        //This means that the user has authenticated with LDSP, but has yet to complete the signup process.
+                                        return RedirectToPage($"{GlobalConfiguration.BasePath}/Account/LdapLoginSupplemental", new { UserId = foundUser.Id, ReturnUrl = returnUrl });
+                                    }
+
+                                    return Redirect(returnUrl);
+                                }
+                                else
+                                {
+                                    return NotifyOfError("Failed to create the stub account for the LDAP credential.");
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion
+
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }

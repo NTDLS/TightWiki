@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>{0} ile oturum aç</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Kullanıcı Adı</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>LDAP kimlik bilgisi için geçici hesabı oluşturma başarısız oldu.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>LDAP kimlik bilgisi için kullanıcı hesabını bulma başarısız oldu.</value>
+  </data>
 </root>

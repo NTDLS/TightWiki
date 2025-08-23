@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>アカウント名</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>表示名</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>アバター</value>
@@ -75,7 +75,7 @@
     <value>国</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value>アカウントを削除</value>
+    <value>アカウント削除</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>'{0}'を削除すると、アカウントが完全に削除されます。このユーザーによって作成または変更されたすべてのページは代替アカウントに帰属し、このアクションを元に戻すことはできません。続行しますか？</value>

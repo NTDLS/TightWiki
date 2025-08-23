@@ -59,11 +59,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name is required." xml:space="preserve">
-    <value>खाता नाम आवश्यक है।</value>
+  <data name="Display Name is required." xml:space="preserve">
+    <value>डिस्प्ले नाम आवश्यक है।</value>
   </data>
-  <data name="Account Name is already in use." xml:space="preserve">
-    <value>खाता नाम पहले से ही उपयोग में है।</value>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value>डिस्प्ले नाम पहले ही उपयोग में है।</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value>बाहरी प्रदाता से उपयोगकर्ता जानकारी प्राप्त करते समय एक त्रुटि हुई।</value>

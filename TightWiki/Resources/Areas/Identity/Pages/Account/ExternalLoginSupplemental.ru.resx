@@ -65,8 +65,8 @@
   <data name="required" xml:space="preserve">
     <value>обязательно</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>Это имя учетной записи будет видно публично.</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Это имя для отображения будет видимо публично.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>необязательно</value>
@@ -83,8 +83,8 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Завершить регистрацию</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Имя учетной записи</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Имя для отображения</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>Фамилия</value>

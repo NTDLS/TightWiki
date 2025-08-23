@@ -98,4 +98,7 @@
   <data name="Time Zone" xml:space="preserve">
     <value>Saat Dilimi</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Görüntü Adı</value>
+  </data>
 </root>

@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>Увійти за допомогою {0}</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Ім'я користувача</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>Не вдалося створити обліковий запис-мішень для облікових даних LDAP.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>Не вдалося знайти обліковий запис користувача для облікових даних LDAP.</value>
+  </data>
 </root>

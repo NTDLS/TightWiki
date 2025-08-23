@@ -65,8 +65,8 @@
   <data name="required" xml:space="preserve">
     <value>verplicht</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>Deze accountnaam zal openbaar zichtbaar zijn.</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Deze weergegeven naam zal openbaar zichtbaar zijn.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>niet verplicht</value>
@@ -83,8 +83,8 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Aanmelding Voltooien</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Accountnaam</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Weergave Naam</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>Achternaam</value>

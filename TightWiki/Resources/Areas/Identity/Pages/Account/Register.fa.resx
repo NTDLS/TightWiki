@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>نام حساب</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>نام نمایشی</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>تأیید رمز عبور</value>
@@ -101,8 +101,8 @@
   <data name="Signup" xml:space="preserve">
     <value>ثبت‌نام</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>نام این حساب به‌صورت عمومی قابل مشاهده خواهد بود.</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>این نام نمایشی به‌طور عمومی قابل مشاهده خواهد بود.</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>منطقه زمانی</value>

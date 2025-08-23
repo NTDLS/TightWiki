@@ -59,10 +59,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name is required." xml:space="preserve">
-    <value>অ্যাকাউন্ট নাম প্রয়োজন।</value>
+  <data name="Display Name is required." xml:space="preserve">
+    <value>প্রদর্শন নাম আবশ্যক।</value>
   </data>
-  <data name="Account Name is already in use." xml:space="preserve">
-    <value>অ্যাকাউন্ট নাম ইতিমধ্যেই ব্যবহার করা হচ্ছে।</value>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value>প্রদর্শন নাম ইতিমধ্যেই ব্যবহৃত।</value>
   </data>
 </root>

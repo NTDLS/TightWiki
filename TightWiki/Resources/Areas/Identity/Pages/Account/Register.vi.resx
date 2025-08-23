@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>Tên tài khoản</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Tên hiển thị</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
     <value>Xác nhận mật khẩu</value>
@@ -101,8 +101,8 @@
   <data name="Signup" xml:space="preserve">
     <value>Đăng ký</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>Tên tài khoản này sẽ được hiển thị công khai.</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Tên hiển thị này sẽ được công khai.</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
     <value>Múi giờ</value>

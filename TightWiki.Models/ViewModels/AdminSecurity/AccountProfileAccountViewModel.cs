@@ -13,7 +13,7 @@ namespace TightWiki.Models.ViewModels.AdminSecurity
         [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string EmailAddress { get; set; } = string.Empty;
 
-        [Display(Name = "Account Name")]
+        [Display(Name = "Display Name")]
         [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Resources.ValTexts))]
         public string AccountName { get; set; } = string.Empty;
 

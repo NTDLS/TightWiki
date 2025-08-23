@@ -98,4 +98,7 @@
   <data name="Time Zone" xml:space="preserve">
     <value>समय क्षेत्र</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>प्रदर्शन नाम</value>
+  </data>
 </root>

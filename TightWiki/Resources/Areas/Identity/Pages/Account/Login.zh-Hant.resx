@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>使用 {0} 登入</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>用戶名稱</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>無法為 LDAP 憑據創建虛擬賬戶。</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>無法找到 LDAP 憑據的用戶賬戶。</value>
+  </data>
 </root>

@@ -65,8 +65,8 @@
   <data name="required" xml:space="preserve">
     <value>필수</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>이 계정 이름은 공개적으로 표시됩니다.</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>이 표시 이름은 공개적으로 표시됩니다.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>선택 사항</value>
@@ -83,8 +83,8 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>가입 완료</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>계정 이름</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>표시 이름</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>성</value>

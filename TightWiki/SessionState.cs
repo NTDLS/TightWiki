@@ -91,7 +91,7 @@ namespace TightWiki
             {
                 try
                 {
-                    string emailAddress = (user.Claims.First(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
+                    //string emailAddress = (user.Claims.First(x => x.Type == ClaimTypes.Email)?.Value).EnsureNotNull();
 
                     if (user.Identity?.IsAuthenticated == true)
                     {

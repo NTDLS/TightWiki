@@ -185,4 +185,7 @@
   <data name="Role Permissions" xml:space="preserve">
     <value>مجوزهای نقش</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>نام نمایشی</value>
+  </data>
 </root>

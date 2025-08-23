@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>Đăng nhập với {0}</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Tên người dùng</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>Không thể tạo tài khoản tạm thời cho thông tin xác thực LDAP.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>Không thể xác định tài khoản người dùng cho thông tin xác thực LDAP.</value>
+  </data>
 </root>

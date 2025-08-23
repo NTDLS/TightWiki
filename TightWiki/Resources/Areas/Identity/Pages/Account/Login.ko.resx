@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>{0}로 로그인</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>사용자 이름</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>LDAP 자격 증명을 위한 스텁 계정을 생성하지 못했습니다.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>LDAP 자격 증명을 위한 사용자 계정을 찾지 못했습니다.</value>
+  </data>
 </root>

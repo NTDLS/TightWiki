@@ -62,8 +62,8 @@
   <data name="Account" xml:space="preserve">
     <value>账户</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>账户名称</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>显示名称</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>头像</value>

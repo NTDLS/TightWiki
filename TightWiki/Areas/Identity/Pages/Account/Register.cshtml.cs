@@ -23,7 +23,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public List<LanguageItem> Languages { get; set; } = new();
 
 
-        [Display(Name = "Account Name")]
+        [Display(Name = "Display Name")]
         [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
         public string AccountName { get; set; } = string.Empty;
 
@@ -153,12 +153,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             if (string.IsNullOrWhiteSpace(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is required."]);
+                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
                 return Page();
             }
             else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
             {
-                ModelState.AddModelError("Input.AccountName", _localizer["Account Name is already in use."]);
+                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
                 return Page();
             }
 

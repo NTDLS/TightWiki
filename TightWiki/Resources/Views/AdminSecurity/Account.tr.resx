@@ -62,8 +62,8 @@
   <data name="Account" xml:space="preserve">
     <value>Hesap</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Hesap Adı</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Görüntüleme Adı</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Avatar</value>

@@ -62,8 +62,8 @@
   <data name="Account" xml:space="preserve">
     <value>Tài khoản</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Tên Tài Khoản</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Tên hiển thị</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>Ảnh đại diện</value>

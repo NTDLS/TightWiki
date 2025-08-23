@@ -59,8 +59,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Account Name" xml:space="preserve">
-    <value>帳戶名稱</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>顯示名稱</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>头像</value>
@@ -75,7 +75,7 @@
     <value>國家</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value>删除账户</value>
+    <value>刪除帳戶</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
     <value>刪除 '{0}' 將永久移除該帳戶。所有由此用戶創建或修改的頁面將歸屬於一個代理帳戶，您將無法恢復此操作。是否繼續？</value>

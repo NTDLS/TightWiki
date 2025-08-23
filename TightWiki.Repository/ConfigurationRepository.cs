@@ -386,6 +386,11 @@ namespace TightWiki.Repository
             var membershipConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var searchConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Search);
             var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.FilesAndAttachments);
+            var externalAuthentication = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
+
+            GlobalConfiguration.LDAPUseSecureSocketLayer = externalAuthentication.Value("LDAP: Use Secure Socket Layer", false);
+            GlobalConfiguration.EnableLDAPAuthentication = externalAuthentication.Value("LDAP: Enable LDAP Authentication", false);
+            GlobalConfiguration.LDAPFullyQualifiedDomain = externalAuthentication.Value("LDAP: Fully-Qualified Domain", string.Empty);
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
             GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
@@ -400,7 +405,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.SystemTheme = GetAllThemes().Single(o => o.Name == themeName);
             GlobalConfiguration.DefaultEmojiHeight = customizationConfig.Value<int>("Default Emoji Height");
             GlobalConfiguration.PaginationSize = customizationConfig.Value<int>("Pagination Size");
-            GlobalConfiguration.AllowGoogleAuthentication = membershipConfig.Value<bool>("Allow Google Authentication");
+
             GlobalConfiguration.DefaultTimeZone = customizationConfig?.Value<string>("Default TimeZone") ?? string.Empty;
             GlobalConfiguration.IncludeWikiDescriptionInMeta = functionalityConfig.Value<bool>("Include wiki Description in Meta");
             GlobalConfiguration.IncludeWikiTagsInMeta = functionalityConfig.Value<bool>("Include wiki Tags in Meta");

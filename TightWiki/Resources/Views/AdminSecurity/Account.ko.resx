@@ -62,8 +62,8 @@
   <data name="Account" xml:space="preserve">
     <value>계정</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>계정 이름</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>표시 이름</value>
   </data>
   <data name="Avatar" xml:space="preserve">
     <value>아바타</value>

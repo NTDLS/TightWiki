@@ -98,4 +98,7 @@
   <data name="Time Zone" xml:space="preserve">
     <value>시간대</value>
   </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>표시 이름</value>
+  </data>
 </root>

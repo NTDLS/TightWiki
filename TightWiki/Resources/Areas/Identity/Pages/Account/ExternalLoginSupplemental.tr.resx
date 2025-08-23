@@ -65,8 +65,8 @@
   <data name="required" xml:space="preserve">
     <value>gerekli</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>Bu hesap adı herkese açık olarak görünecektir.</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Bu gösterim adı kamuya açık olarak görünecektir.</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>gerekli değil</value>
@@ -83,8 +83,8 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>Kayıt işlemini tamamla</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>Hesap Adı</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>Gösterim Adı</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>Soyad</value>

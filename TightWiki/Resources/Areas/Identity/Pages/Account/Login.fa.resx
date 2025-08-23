@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>با {0} وارد شوید</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>نام کاربری</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>ایجاد حساب موقت برای اعتبار LDAP شکست خورد.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>عدم توانایی در پیدا کردن حساب کاربری برای اعتبار LDAP.</value>
+  </data>
 </root>

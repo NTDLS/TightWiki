@@ -65,8 +65,8 @@
   <data name="required" xml:space="preserve">
     <value>必填</value>
   </data>
-  <data name="This account name will be visible publicly." xml:space="preserve">
-    <value>此账户名称将公开可见。</value>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>此顯示名稱將公開可見。</value>
   </data>
   <data name="not required" xml:space="preserve">
     <value>非必填</value>
@@ -83,8 +83,8 @@
   <data name="Complete Signup" xml:space="preserve">
     <value>完成注册</value>
   </data>
-  <data name="Account Name" xml:space="preserve">
-    <value>帳戶名稱</value>
+  <data name="Display Name" xml:space="preserve">
+    <value>顯示名稱</value>
   </data>
   <data name="Last Name" xml:space="preserve">
     <value>姓氏</value>

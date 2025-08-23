@@ -22,9 +22,9 @@
         <form asp-page-handler="Confirmation" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="email" placeholder="@Localizer["Please enter your email."].Value"/>
-                <label asp-for="Input.Email" class="form-label"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input asp-for="Input.Username" class="form-control" autocomplete="email" placeholder="@Localizer["Please enter your email."].Value"/>
+                <label asp-for="Input.Username" class="form-label"></label>
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Register"]</button>
         </form>

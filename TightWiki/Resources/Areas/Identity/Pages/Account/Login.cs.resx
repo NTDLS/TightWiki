@@ -83,4 +83,13 @@
   <data name="Sign in with {0}" xml:space="preserve">
     <value>Přihlásit se pomocí {0}</value>
   </data>
+  <data name="Username" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
+    <value>Nelze vytvořit základní účet pro LDAP přihlašovací údaje.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>Nelze nalézt uživatelský účet pro LDAP přihlašovací údaje.</value>
+  </data>
 </root>
