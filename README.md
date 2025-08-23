@@ -41,6 +41,7 @@ The first thing that comes to mind is a Wiki but for some reason I can never fin
 * Wiki markup supports basic formatting, headings and sub-headings, tagging, tables, callouts, alerts, variables, bullets lists, dynamic glossaries, inline search results, dynamic tag clouds, related linking, expanding sections, auto-table of contents, and much more.
 * Wiki page editing is syntax highlighted.
 * Built in search supports fuzzy matching to support even mild misspellings.
+* Authentication: Built-in, Google, Microsoft, 2FA, OAuth, and LDAP.
 
 # Default home page
 ![image](https://github.com/user-attachments/assets/7a8c0c6f-b865-415c-9b29-9833ba2cf58f)
