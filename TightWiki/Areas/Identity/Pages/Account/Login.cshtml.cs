@@ -5,16 +5,17 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.DirectoryServices.Protocols;
 using System.Net;
+using TightWiki.Extensions;
 using TightWiki.Models;
 using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
-
     public class LoginInputModel
     {
         [Required(ErrorMessageResourceName = "RequiredAttribute_ValidationError", ErrorMessageResourceType = typeof(Models.Resources.ValTexts))]
@@ -33,10 +34,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LoginModel> logger, IStringLocalizer<ConfirmEmailModel> localizer)
                         : base(signInManager)
         {
+            _localizer = localizer;
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
@@ -107,7 +110,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             return (null, input, null);
         }
 
-        public bool TestLdapCredential(string username, string password, [NotNullWhen(true)] out string samAccountName)
+        public bool TestLdapCredential(string username, string password, [NotNullWhen(true)] out string samAccountName, [NotNullWhen(true)] out Guid? objectGuid)
         {
             try
             {
@@ -138,7 +141,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     ldapSearchBase,
                     filter,
                     SearchScope.Subtree,
-                    "sAMAccountName", "userPrincipalName", "cn", "mail", "distinguishedName"
+                    "sAMAccountName", "userPrincipalName", "cn", "mail", "distinguishedName", "objectGUID"
                 );
 
                 var response = (SearchResponse)conn.SendRequest(request);
@@ -146,7 +149,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 if (response.Entries.Count > 0)
                 {
                     var entry = response.Entries[0];
+
+                    string displayName = entry.Attributes["displayName"]?[0]?.ToString()
+                                         ?? entry.Attributes["cn"]?[0]?.ToString()
+                                         ?? sam;
+
                     samAccountName = entry.Attributes["sAMAccountName"][0].ToString();
+                    objectGuid = new Guid((byte[])entry.Attributes["objectGUID"][0]);
                     return true;
                 }
             }
@@ -155,6 +164,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 _logger.LogError(ex, "LDAP authentication error");
             }
 
+            objectGuid = null;
             samAccountName = null;
             return false;
 
@@ -191,15 +201,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     if (GlobalConfiguration.EnableLDAPAuthentication)
                     {
-                        if (TestLdapCredential(Input.Username, Input.Password, out var samAccountName))
+                        if (TestLdapCredential(Input.Username, Input.Password, out var samAccountName, out var objectGuid))
                         {
                             //We successfully authenticated against LDAP.
-                            var newUser = new IdentityUser()
-                            {
-                                UserName = samAccountName
-                            };
 
-                            var foundUser = await _userManager.FindByNameAsync(samAccountName);
+                            var loginInfo = new UserLoginInfo("LDAP", objectGuid.ToString(), "Active Directory");
+
+                            var foundUser = await _userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
                             if (foundUser != null)
                             {
                                 await SignInManager.SignInAsync(foundUser, Input.RememberMe);
@@ -212,16 +220,29 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                     return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
                                 }
 
+                                var newUser = new IdentityUser()
+                                {
+                                    UserName = samAccountName
+                                };
+
                                 //If the user does not already exist, create them:
                                 var createResult = await _userManager.CreateAsync(newUser);
                                 if (createResult.Succeeded)
                                 {
-                                    _logger.LogInformation("User created a new account with LDAP.");
+                                    _logger.LogInformation(_localizer["User created a new account with LDAP."]);
+
+                                    // Link the stable AD identity to this user
+                                    var addLogin = await _userManager.AddLoginAsync(newUser, loginInfo);
+                                    if (!addLogin.Succeeded)
+                                    {
+                                        throw new Exception(_localizer["Failed to add login info for LDAP stub account: {0}."]
+                                            .Format(string.Join("; ", addLogin.Errors.Select(e => $"{e.Code}:{e.Description}"))));
+                                    }
 
                                     foundUser = await _userManager.FindByNameAsync(samAccountName);
                                     if (foundUser == null)
                                     {
-                                        return NotifyOfError("Failed to locate the user account for the LDAP credential.");
+                                        throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
                                     }
 
                                     // Check if the user has a profile, if not, redirect to the supplemental info page.
@@ -241,7 +262,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 }
                                 else
                                 {
-                                    return NotifyOfError("Failed to create the stub account for the LDAP credential.");
+                                    throw new Exception(_localizer["Failed to create stub account for the LDAP credential: {0}."]
+                                        .Format(string.Join("; ", createResult.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                 }
                             }
                         }
@@ -249,7 +271,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                     #endregion
 
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
                     return Page();
                 }
             }
