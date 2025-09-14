@@ -106,6 +106,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 return (null, input.Substring(0, at), input); // upn = full input
             }
 
+            if(string.IsNullOrEmpty(GlobalConfiguration.LDAPDefaultSignInDomain) == false)
+            {
+                //plain sAMAccountName with a default domain.
+                return (GlobalConfiguration.LDAPDefaultSignInDomain, input, null);
+            }
+
             //plain sAMAccountName
             return (null, input, null);
         }

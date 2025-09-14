@@ -391,6 +391,7 @@ namespace TightWiki.Repository
             GlobalConfiguration.LDAPUseSecureSocketLayer = externalAuthentication.Value("LDAP: Use Secure Socket Layer", false);
             GlobalConfiguration.EnableLDAPAuthentication = externalAuthentication.Value("LDAP: Enable LDAP Authentication", false);
             GlobalConfiguration.LDAPFullyQualifiedDomain = externalAuthentication.Value("LDAP: Fully-Qualified Domain", string.Empty);
+            GlobalConfiguration.LDAPDefaultSignInDomain = externalAuthentication.Value("LDAP: Default Sign-in Domain", string.Empty);
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
             GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;
