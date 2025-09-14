@@ -61,13 +61,13 @@ SELECT 'Bullets', 'Scope Function', (SELECT Id FROM Page WHERE Name = 'Wiki Help
 Bullet1
 Bullet2
 >SubBullet1
-})
+}}
 '
 ON CONFLICT(Name, Type) DO UPDATE SET Type = 'Scope Function', Description = 'Create hierarchical ordered or unordered lists.', TemplateText = '{{Bullets
 Bullet1
 Bullet2
 >SubBullet1
-})
+}}
 ', PageId = (SELECT Id FROM Page WHERE Name = 'Wiki Help :: Bullets' LIMIT 1);
 INSERT INTO FeatureTemplate(Name, Type, PageId, Description, TemplateText)
 SELECT 'Callout', 'Scope Function', (SELECT Id FROM Page WHERE Name = 'Wiki Help :: Callout' LIMIT 1), 'Prominently display useful information in a fairly understated panel.', '{{Callout(Default, "Callout Title")
