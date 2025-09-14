@@ -438,24 +438,16 @@ namespace TightWiki.Controllers
         /// Gets a file from the database, converts it to a PNG with optional scaling and returns it to the client.
         /// </summary>
         [AllowAnonymous]
-        [HttpGet("Emoji/{givenPageNavigation}")]
-        public ActionResult Emoji(string givenPageNavigation)
+        [HttpGet("Emoji/{givenEmojiNavigation}")]
+        public ActionResult Emoji(string givenEmojiNavigation)
         {
-            try
-            {
-                SessionState.RequirePermission(givenPageNavigation, WikiPermission.Read);
-            }
-            catch (Exception ex)
-            {
-                return NotifyOfError(ex.GetBaseException().Message, "/");
-            }
-            var pageNavigation = Navigation.Clean(givenPageNavigation);
+            var emojiNavigation = Navigation.Clean(givenEmojiNavigation);
 
-            if (string.IsNullOrEmpty(pageNavigation) == false)
+            if (string.IsNullOrEmpty(emojiNavigation) == false)
             {
                 string scale = GetQueryValue("Scale", "100");
 
-                string shortcut = $"%%{pageNavigation.ToLowerInvariant()}%%";
+                string shortcut = $"%%{emojiNavigation.ToLowerInvariant()}%%";
                 var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
@@ -475,7 +467,7 @@ namespace TightWiki.Controllers
 
                         if (emoji.ImageData == null)
                         {
-                            return NotFound(Localize("Emoji {0} was not found", pageNavigation));
+                            return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
                         }
 
                         WikiCache.Put(imageCacheKey, emoji.ImageData);
@@ -535,7 +527,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            return NotFound(Localize("Emoji {0} was not found", pageNavigation));
+            return NotFound(Localize("Emoji {0} was not found", emojiNavigation));
         }
     }
 }
