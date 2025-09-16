@@ -54,10 +54,9 @@ namespace TightWiki.Security
         public static bool LdapCredentialChallenge(ConfigurationEntries externalAuthentication, IStringLocalizer localizer,
             string username, string password, [NotNullWhen(true)] out string? samAccountName, [NotNullWhen(true)] out Guid? objectGuid)
         {
-            var useSecureSocketLayer = externalAuthentication.Value("LDAP: Use Secure Socket Layer", false);
-            var EnableLDAPAuthentication = externalAuthentication.Value("LDAP: Enable LDAP Authentication", false);
-            var fullyQualifiedDomain = externalAuthentication.Value("LDAP: Fully-Qualified Domain", string.Empty);
-            var defaultSignInDomain = externalAuthentication.Value("LDAP: Default Sign-in Domain", string.Empty);
+            var useSecureSocketLayer = externalAuthentication.Value("LDAP : Use Secure Socket Layer", false);
+            var fullyQualifiedDomain = externalAuthentication.Value("LDAP : Fully-Qualified Domain", string.Empty);
+            var defaultSignInDomain = externalAuthentication.Value("LDAP : Default Sign-in Domain", string.Empty);
 
             var (domain, sam, upn) = ParseLogin(defaultSignInDomain, username);
 

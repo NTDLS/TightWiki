@@ -78,8 +78,8 @@
             public const string Performance = "Performance";
             public const string Customization = "Customization";
             public const string ExternalAuthentication = "External Authentication";
+            public const string LDAPAuthentication = "LDAP Authentication";
             public const string FilesAndAttachments = "Files and Attachments";
-
         }
     }
 }

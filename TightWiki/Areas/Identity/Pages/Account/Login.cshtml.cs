@@ -80,7 +80,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-                var externalAuthentication = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
+                var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
 
                 ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
@@ -111,7 +111,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         if (GlobalConfiguration.EnableLDAPAuthentication)
                         {
-                            if (LDAPUtility.LdapCredentialChallenge(externalAuthentication, StaticLocalizer.Localizer,
+                            if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, StaticLocalizer.Localizer,
                                 Input.Username, Input.Password, out var samAccountName, out var objectGuid))
                             {
                                 //We successfully authenticated against LDAP.

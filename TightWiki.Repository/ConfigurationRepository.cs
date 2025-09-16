@@ -386,12 +386,9 @@ namespace TightWiki.Repository
             var membershipConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
             var searchConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Search);
             var filesAndAttachmentsConfig = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.FilesAndAttachments);
-            var externalAuthentication = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
+            var ldapAuthentication = GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
 
-            GlobalConfiguration.LDAPUseSecureSocketLayer = externalAuthentication.Value("LDAP: Use Secure Socket Layer", false);
-            GlobalConfiguration.EnableLDAPAuthentication = externalAuthentication.Value("LDAP: Enable LDAP Authentication", false);
-            GlobalConfiguration.LDAPFullyQualifiedDomain = externalAuthentication.Value("LDAP: Fully-Qualified Domain", string.Empty);
-            GlobalConfiguration.LDAPDefaultSignInDomain = externalAuthentication.Value("LDAP: Default Sign-in Domain", string.Empty);
+            GlobalConfiguration.EnableLDAPAuthentication = ldapAuthentication.Value("LDAP : Enable LDAP Authentication", false);
 
             GlobalConfiguration.Address = basicConfig?.Value<string>("Address") ?? string.Empty;
             GlobalConfiguration.Name = basicConfig?.Value<string>("Name") ?? string.Empty;

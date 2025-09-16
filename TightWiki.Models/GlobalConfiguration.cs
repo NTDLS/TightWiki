@@ -10,10 +10,7 @@ namespace TightWiki.Models
         public static Theme SystemTheme { get; set; } = new();
         public static bool IsDebug { get; set; }
         public static bool AllowSignup { get; set; }
-        public static bool LDAPUseSecureSocketLayer { get; set; }
         public static bool EnableLDAPAuthentication { get; set; }
-        public static string LDAPFullyQualifiedDomain { get; set; } = string.Empty;
-        public static string LDAPDefaultSignInDomain { get; set; } = string.Empty;
 
         public static List<Emoji> Emojis { get; set; } = new();
         public static string BrandImageSmall { get; set; } = string.Empty;
