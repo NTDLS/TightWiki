@@ -130,22 +130,22 @@
 
                                 <div class="row g-3 align-items-end" id="ldapTestForm">
                                     <div class="col-sm-4">
-                                        <label for="ldapTestUsername" class="form-label">@Localizer["Username"]</label>
+                                        <label for="ldapTestUsername" class="form-label"><strong>@Localizer["Username"]</strong></label>
                                         <input type="text" id="ldapTestUsername" class="form-control" autocomplete="off">
                                     </div>
                                     <div class="col-sm-4">
-                                        <label for="ldapTestPassword" class="form-label">@Localizer["Password"]</label>
+                                        <label for="ldapTestPassword" class="form-label"><strong>@Localizer["Password"]</strong></label>
                                         <input type="password" id="ldapTestPassword" class="form-control" autocomplete="new-password">
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="button" id="btnLdapTest" class="btn btn-outline-primary">
                                             @Localizer["Test"]
                                         </button>
-                                        <div id="ldapTestSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></div>
+                                        <div id="ldapTestSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></div>
                                     </div>
                                 </div>
 
-                                <div id="ldapTestResult" class="mt-3" aria-live="polite"></div>
+                                <div id="ldapTestResult" class="mt-3"></div>
                             </div>
                         }
                     </div>
@@ -220,7 +220,7 @@
                 const data = await resp.json();
                 if (data.ok) {
                     const safeMsg = data.message ?? '@Localizer["Bind succeeded."]';
-                    const dn = data.distinguishedName ? `<div><strong>DN:</strong> ${data.distinguishedName}</div>` : '';
+                    const dn = data.distinguishedName ? `<div><strong>@Localizer["Distinguished Name:"]</strong> ${data.distinguishedName}</div>` : '';
                     setResult(`${safeMsg}${dn}`, true);
                 } else {
                     const err = data.error ?? '@Localizer["Bind failed."]';

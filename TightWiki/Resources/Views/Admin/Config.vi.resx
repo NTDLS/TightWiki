@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>Cấu hình</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Tên phân biệt:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>Giá trị cấu hình toàn cầu cho wiki, chức năng, hành vi, định dạng và thương hiệu của nó.</value>
   </data>

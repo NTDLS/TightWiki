@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>LDAP 챌린지 성공 (완전히 프로비전된 계정).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>LDAP 챌린지 (프로비전되지 않은 계정).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>LDAP 챌린지 성공, 그러나 사용자는 objectGUID 속성이 없습니다.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>LDAP 인증이 활성화되어 있지 않습니다.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지가 성공했습니다 (프로비저닝되지 않은 계정).</value>
   </data>
 </root>

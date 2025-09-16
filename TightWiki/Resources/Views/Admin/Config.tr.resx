@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>Yapılandırma</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Ayrıcalıklı İsim:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>Wiki için global yapılandırma değerleri, işlevselliği, davranışı, biçimlendirmesi ve markalaşması.</value>
   </data>

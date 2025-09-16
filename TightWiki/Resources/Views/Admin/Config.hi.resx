@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>कॉन्फ़िगरेशन</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>सम्मानित नाम:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>विकी के लिए वैश्विक कॉन्फ़िगरेशन मान, इसकी कार्यक्षमता, व्यवहार, प्रारूपण और ब्रांडिंग।</value>
   </data>

@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>La sfida LDAP è riuscita (account completamente configurato).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>La sfida LDAP (account non configurato).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>La sfida LDAP è riuscita, ma l'utente non ha un attributo objectGUID.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>L'autenticazione LDAP non è abilitata.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>La sfida LDAP è riuscita (account non ancora configurato).</value>
   </data>
 </root>

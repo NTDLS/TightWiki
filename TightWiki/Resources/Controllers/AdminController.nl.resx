@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>LDAP-uitdaging geslaagd (volledig geconfigureerd account).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>LDAP-uitdaging (niet-geconfigureerd account).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>LDAP-uitdaging geslaagd, maar de gebruiker heeft geen objectGUID-attribuut.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>LDAP-authenticatie is niet ingeschakeld.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP-uitdaging geslaagd (niet-geconfigureerd account).</value>
   </data>
 </root>

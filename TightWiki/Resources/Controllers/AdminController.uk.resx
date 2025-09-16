@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>Перевірка LDAP пройшла успішно (повністю налаштований акаунт).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>Перевірка LDAP (акаунт без налаштувань).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>Перевірка LDAP пройшла успішно, але у користувача немає атрибута objectGUID.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>Аутентифікація LDAP не увімкнена.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP виклик успішно пройдено (не налаштований обліковий запис).</value>
   </data>
 </root>

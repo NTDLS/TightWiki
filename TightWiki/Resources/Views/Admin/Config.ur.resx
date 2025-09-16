@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>تشکیلات</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>معروف نام:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>وکی کے لئے عالمی تشکیلاتی قیمتیں، اس کی فعالیت، سلوک، فارمیٹنگ اور برانڈنگ۔</value>
   </data>

@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>Tantangan LDAP berhasil (akun yang sepenuhnya dipasok).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>Tantangan LDAP (akun yang tidak dipasok).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>Tantangan LDAP berhasil, tetapi pengguna tidak memiliki atribut objectGUID.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>Autentikasi LDAP tidak diaktifkan.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Tantangan LDAP berhasil (akun yang belum disediakan).</value>
   </data>
 </root>

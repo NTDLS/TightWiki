@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>কনফিগারেশন</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>মহান নাম:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>উইকির জন্য বৈশ্বিক কনফিগারেশন মান, এর কার্যকারিতা, আচরণ, ফরম্যাটিং এবং ব্র্যান্ডিং।</value>
   </data>

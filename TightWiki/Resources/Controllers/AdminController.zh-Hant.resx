@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>LDAP 挑戰成功（完全配置的帳戶）。</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>LDAP 挑戰（未配置的帳戶）。</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>LDAP 挑戰成功，但用戶沒有 objectGUID 屬性。</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>LDAP 認證未啟用。</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰成功（未配置的帳號）。</value>
   </data>
 </root>

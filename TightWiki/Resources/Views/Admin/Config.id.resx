@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>Konfigurasi</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Nama Terhormat:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>Nilai konfigurasi global untuk wiki, fungsionalitasnya, perilakunya, format, dan branding.</value>
   </data>

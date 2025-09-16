@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>LDAP चुनौती सफल हुई (पूर्ण रूप से प्रावधानित खाता).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>LDAP चुनौती (अप्रावधानित खाता).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>LDAP चुनौती सफल हुई, लेकिन उपयोगकर्ता के पास objectGUID विशेषता नहीं है.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>LDAP प्रमाणीकरण सक्षम नहीं है.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP चुनौती सफल हुई (अप्रावधानित खाता)।</value>
   </data>
 </root>

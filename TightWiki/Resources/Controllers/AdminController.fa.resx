@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>چالش LDAP موفق شد (حساب به‌طور کامل تأمین شده).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>چالش LDAP (حساب تأمین نشده).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>چالش LDAP موفق شد، اما کاربر ویژگی objectGUID ندارد.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>احراز هویت LDAP فعال نیست.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>چالش LDAP با موفقیت انجام شد (حساب بدون تأمین).</value>
   </data>
 </root>

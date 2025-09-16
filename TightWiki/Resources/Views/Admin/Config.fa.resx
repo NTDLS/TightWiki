@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>پیکربندی</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>نام متمایز:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>مقدارهای پیکربندی جهانی برای ویکی، عملکرد، رفتار، قالب‌بندی و برندینگ آن.</value>
   </data>

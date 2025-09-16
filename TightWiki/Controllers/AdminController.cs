@@ -1611,7 +1611,7 @@ namespace TightWiki.Controllers
                     if (foundUser == null)
                     {
                         //User does not exist in TightWiki.
-                        return Json(new { ok = true, message = Localize("LDAP challenge (un-provisioned account)."), distinguishedName = samAccountName });
+                        return Json(new { ok = true, message = Localize("LDAP challenge succeeded (un-provisioned account)."), distinguishedName = samAccountName });
                     }
                     else
                     {

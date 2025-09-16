@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>LDAPチャレンジに成功しました（完全にプロビジョニングされたアカウント）。</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>LDAPチャレンジ（未プロビジョニングアカウント）。</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>LDAPチャレンジに成功しましたが、ユーザーにはobjectGUID属性がありません。</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>LDAP認証は有効になっていません。</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAPのチャレンジが成功しました（未プロビジョニングのアカウント）。</value>
   </data>
 </root>

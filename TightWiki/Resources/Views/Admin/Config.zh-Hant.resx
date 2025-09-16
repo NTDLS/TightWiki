@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>配置</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>distinguished名：</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>维基的全局配置值，包括其功能、行为、格式和品牌。</value>
   </data>

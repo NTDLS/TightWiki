@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>Configuratie</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Verschilnaam:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>Globale configuratiewaarden voor de wiki, de functionaliteit, het gedrag, de opmaak en de merkidentiteit.</value>
   </data>

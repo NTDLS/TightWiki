@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>LDAP zorluğu başarıyla tamamlandı (tamamen sağlanan hesap).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>LDAP zorluğu (sağlanmamış hesap).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>LDAP zorluğu başarılı oldu, ancak kullanıcının bir objectGUID niteliği yok.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>LDAP kimlik doğrulaması etkin değil.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP zorluğu başarıyla tamamlandı (provision edilmemiş hesap).</value>
   </data>
 </root>

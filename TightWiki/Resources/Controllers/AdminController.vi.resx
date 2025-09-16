@@ -272,13 +272,13 @@
   <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
     <value>Thách thức LDAP đã thành công (tài khoản được cung cấp đầy đủ).</value>
   </data>
-  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
-    <value>Thách thức LDAP (tài khoản chưa được cung cấp).</value>
-  </data>
   <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
     <value>Thách thức LDAP đã thành công, nhưng người dùng không có thuộc tính objectGUID.</value>
   </data>
   <data name="LDAP authentication is not enabled." xml:space="preserve">
     <value>Xác thực LDAP chưa được kích hoạt.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Thử thách LDAP thành công (tài khoản chưa được cung cấp).</value>
   </data>
 </root>

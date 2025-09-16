@@ -62,6 +62,9 @@
   <data name="Configuration" xml:space="preserve">
     <value>구성</value>
   </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>구별된 이름:</value>
+  </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>위키의 전역 구성 값, 기능, 동작, 형식 및 브랜딩.</value>
   </data>
