@@ -1,6 +1,64 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -60,45 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Administration" xml:space="preserve">
-    <value>Quản trị</value>
+    <value>管理</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>Cho phép</value>
+    <value>許可する</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Tạo</value>
+    <value>作成する</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Xóa</value>
+    <value>削除する</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Từ chối</value>
+    <value>拒否する</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Chỉnh sửa</value>
+    <value>編集する</value>
+  </data>
+  <data name="Either SAM or UPN are required for LDAP login." xml:space="preserve">
+    <value />
   </data>
   <data name="First" xml:space="preserve">
-    <value>Đầu tiên</value>
+    <value>最初</value>
   </data>
   <data name="Last" xml:space="preserve">
-    <value>Cuối cùng</value>
+    <value>最後</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value>Điều phối</value>
+    <value>モデレートする</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value>Kế tiếp</value>
+    <value>次</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value>Trước đó</value>
+    <value>前</value>
   </data>
   <data name="Read" xml:space="preserve">
-    <value>Đọc</value>
+    <value>読む</value>
   </data>
   <data name="You are not authorized" xml:space="preserve">
-    <value>Bạn không được phép</value>
+    <value>あなたは権限がありません</value>
   </data>
   <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
-    <value>Bạn không có quyền thực hiện hành động: {0}</value>
+    <value>アクションを実行する権限がありません: {0}</value>
   </data>
 </root>

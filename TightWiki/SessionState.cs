@@ -292,7 +292,7 @@ namespace TightWiki
         {
             if (!IsAuthenticated)
             {
-                throw new UnauthorizedException(StaticHelper.Localizer["You are not authorized"]);
+                throw new UnauthorizedException(StaticLocalizer.Localizer["You are not authorized"]);
             }
         }
 
@@ -303,8 +303,8 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permissions))
             {
-                throw new UnauthorizedException(StaticHelper.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(string.Join(", ", permissions.Select(o => StaticHelper.Localizer[o.ToString()]))));
+                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
+                    .Format(string.Join(", ", permissions.Select(o => StaticLocalizer.Localizer[o.ToString()]))));
             }
         }
 
@@ -315,8 +315,8 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permission))
             {
-                throw new UnauthorizedException(StaticHelper.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(StaticHelper.Localizer[permission.ToString()]));
+                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
+                    .Format(StaticLocalizer.Localizer[permission.ToString()]));
             }
         }
 
@@ -327,8 +327,8 @@ namespace TightWiki
         {
             if (!IsAdministrator)
             {
-                throw new UnauthorizedException(StaticHelper.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(StaticHelper.Localizer["Administration"].Value));
+                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
+                    .Format(StaticLocalizer.Localizer["Administration"].Value));
             }
         }
 

@@ -29,13 +29,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGetAsync(string email, string returnUrl = null)
         {
-            try{
-            returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (GlobalConfiguration.AllowSignup != true)
+            try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-            }
+                returnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
             }
             catch (Exception ex)
             {

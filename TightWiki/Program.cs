@@ -332,8 +332,8 @@ namespace TightWiki
             }
 
             //Global localization providers.
-            var localizer = app.Services.GetRequiredService<IStringLocalizer<StaticHelper>>();
-            StaticHelper.Initialize(localizer);
+            var localizer = app.Services.GetRequiredService<IStringLocalizer<StaticLocalizer>>();
+            StaticLocalizer.Initialize(localizer);
             PageSelectorGenerator.Initialize(localizer);
 
             app.UseRouting();

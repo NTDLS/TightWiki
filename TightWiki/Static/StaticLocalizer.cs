@@ -6,7 +6,7 @@ namespace TightWiki.Static
     /// This class is just used to provide localization to areas that are not views, pages, or controllers.
     /// Like a global localization provider.
     /// </summary>
-    public class StaticHelper
+    public class StaticLocalizer
     {
         public static IStringLocalizer Localizer
         {

@@ -56,48 +56,49 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            try{
-            if (ModelState.IsValid)
+            try
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (ModelState.IsValid)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                    {
+                        // Don't reveal that the user does not exist or is not confirmed
+                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
+                    }
+
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ResetPassword",
+                        pageHandler: null,
+                        values: new { area = "Identity", encodedCode },
+                        protocol: Request.Scheme);
+
+                    var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Reset Password Email"));
+                    var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+                    var siteName = basicConfig.Value<string>("Name");
+                    var address = basicConfig.Value<string>("Address");
+                    var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
+
+                    var emailSubject = "Reset password";
+                    emailTemplate.Replace("##SUBJECT##", emailSubject);
+                    emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
+                    emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
+                    emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
+                    emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
+                    emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
+                    emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
+                    emailTemplate.Replace("##CODE##", code);
+                    emailTemplate.Replace("##USERID##", user.Id);
+                    emailTemplate.Replace("##SITENAME##", siteName);
+                    emailTemplate.Replace("##SITEADDRESS##", address);
+                    emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
+
+                    await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
+
                     return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
                 }
-
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", encodedCode },
-                    protocol: Request.Scheme);
-
-                var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Reset Password Email"));
-                var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
-                var siteName = basicConfig.Value<string>("Name");
-                var address = basicConfig.Value<string>("Address");
-                var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(user.Id));
-
-                var emailSubject = "Reset password";
-                emailTemplate.Replace("##SUBJECT##", emailSubject);
-                emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
-                emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
-                emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
-                emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
-                emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
-                emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
-                emailTemplate.Replace("##CODE##", code);
-                emailTemplate.Replace("##USERID##", user.Id);
-                emailTemplate.Replace("##SITENAME##", siteName);
-                emailTemplate.Replace("##SITEADDRESS##", address);
-                emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
-
-                await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
-
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
-            }
             }
             catch (Exception ex)
             {

@@ -117,49 +117,49 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Email" xml:space="preserve">
-    <value>E-mail</value>
+  <data name="Administration" xml:space="preserve">
+    <value>प्रशासन</value>
   </data>
-  <data name="Password" xml:space="preserve">
-    <value>Wachtwoord</value>
+  <data name="Allow" xml:space="preserve">
+    <value>अनुमति दें</value>
   </data>
-  <data name="Log in" xml:space="preserve">
-    <value>Inloggen</value>
+  <data name="Create" xml:space="preserve">
+    <value>बनाएं</value>
   </data>
-  <data name="Forgot your password?" xml:space="preserve">
-    <value>Wachtwoord vergeten?</value>
+  <data name="Delete" xml:space="preserve">
+    <value>हटाएं</value>
   </data>
-  <data name="Register as a new user" xml:space="preserve">
-    <value>Registreren als nieuwe gebruiker</value>
+  <data name="Deny" xml:space="preserve">
+    <value>अस्वीकृत करें</value>
   </data>
-  <data name="Resend email confirmation" xml:space="preserve">
-    <value>Stuur e-mailbevestiging opnieuw</value>
+  <data name="Edit" xml:space="preserve">
+    <value>संपादित करें</value>
   </data>
-  <data name="- or -" xml:space="preserve">
-    <value>- of -</value>
-  </data>
-  <data name="Sign in with {0}" xml:space="preserve">
-    <value>Inloggen met {0}</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Gebruikersnaam</value>
-  </data>
-  <data name="Failed to create the stub account for the LDAP credential." xml:space="preserve">
-    <value>Het is niet gelukt om het stub-account voor de LDAP-credential te maken.</value>
-  </data>
-  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
-    <value>Het is niet gelukt om het gebruikersaccount voor de LDAP-credential te vinden.</value>
-  </data>
-  <data name="User created a new account with LDAP." xml:space="preserve">
+  <data name="Either SAM or UPN are required for LDAP login." xml:space="preserve">
     <value />
   </data>
-  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value />
+  <data name="First" xml:space="preserve">
+    <value>पहला</value>
   </data>
-  <data name="Invalid login attempt." xml:space="preserve">
-    <value />
+  <data name="Last" xml:space="preserve">
+    <value>अंतिम</value>
   </data>
-  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value />
+  <data name="Moderate" xml:space="preserve">
+    <value>संयम करें</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>आगे</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>पीछे</value>
+  </data>
+  <data name="Read" xml:space="preserve">
+    <value>पढ़ें</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>आप अधिकृत नहीं हैं</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>आपके पास क्रिया करने की अनुमति नहीं है: {0}</value>
   </data>
 </root>

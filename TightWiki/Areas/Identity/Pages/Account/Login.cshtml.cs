@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
-using MimeKit.Encodings;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-using System.DirectoryServices.Protocols;
 using System.Net;
 using TightWiki.Extensions;
+using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Security;
+using TightWiki.Static;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -76,137 +76,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
         }
 
-        public static string GetLdapSearchBase(string domainName)
-        {
-            // domainName like "corp.example.com"
-            var parts = domainName.Split('.');
-            return string.Join(",", parts.Select(p => $"DC={p}"));
-        }
-
-        static string EscapeLdapFilterValue(string value)
-        {
-            // RFC 4515 escaping: \ * ( ) and NUL
-            return value
-                .Replace(@"\", @"\5c")
-                .Replace("*", @"\2a")
-                .Replace("(", @"\28")
-                .Replace(")", @"\29")
-                .Replace("\0", @"\00");
-        }
-
-        static (string domain, string sam, string upn) ParseLogin(string input)
-        {
-            if (string.IsNullOrWhiteSpace(input))
-                throw new ArgumentException(nameof(input));
-
-            //DOMAIN\user
-            var slash = input.IndexOf('\\');
-            if (slash >= 0)
-            {
-                var domain = input.Substring(0, slash);
-                var user = input.Substring(slash + 1);
-                return (domain, user, null);
-            }
-
-            //user@domain.com (UPN)
-            var at = input.IndexOf('@');
-            if (at >= 0)
-            {
-                return (null, input.Substring(0, at), input); // upn = full input
-            }
-
-            //plain sAMAccountName
-            return (null, input, null);
-        }
-
-        public bool LdapCredentialChallenge(string username, string password, [NotNullWhen(true)] out string samAccountName, [NotNullWhen(true)] out Guid? objectGuid)
-        {
-            try
-            {
-                var (domain, sam, upn) = ParseLogin(username);
-
-                if (string.IsNullOrEmpty(upn) == false)
-                {
-                    username = upn; //Prefer UPN if we have it.
-                }
-                else if (string.IsNullOrEmpty(sam) == false)
-                {
-                    if (string.IsNullOrEmpty(domain) == false)
-                    {
-                        username = $"{sam}@{domain}";
-                    }
-                    else if (string.IsNullOrEmpty(GlobalConfiguration.LDAPDefaultSignInDomain) == false)
-                    {
-                        username = $"{sam}@{GlobalConfiguration.LDAPDefaultSignInDomain}";
-                    }
-                    else
-                    {
-                        username = sam;
-                    }
-                }
-                else
-                {
-                    throw new Exception(_localizer["Either SAM or UPN are required for LDAP login."]);
-                }
-
-                using var conn = new LdapConnection(GlobalConfiguration.LDAPFullyQualifiedDomain);
-                conn.SessionOptions.SecureSocketLayer = GlobalConfiguration.LDAPUseSecureSocketLayer;
-                conn.AuthType = AuthType.Basic;
-
-                conn.Bind(new NetworkCredential(username, password));
-
-                var ldapSearchBase = GetLdapSearchBase(GlobalConfiguration.LDAPFullyQualifiedDomain);
-
-                //Always try sAMAccountName=sam
-                var clauses = new List<string> { $"(sAMAccountName={EscapeLdapFilterValue(sam)})" };
-
-                //If we actually received a UPN, also try userPrincipalName
-                if (!string.IsNullOrEmpty(upn))
-                    clauses.Add($"(userPrincipalName={EscapeLdapFilterValue(upn)})");
-
-                var knownUpnSuffix = GlobalConfiguration.LDAPFullyQualifiedDomain;
-                if (domain != null && !string.IsNullOrEmpty(knownUpnSuffix))
-                    clauses.Add($"(userPrincipalName={EscapeLdapFilterValue($"{sam}@{knownUpnSuffix}")})");
-
-                var filter = $"(|{string.Join("", clauses)})";
-
-                var request = new SearchRequest(
-                    ldapSearchBase,
-                    filter,
-                    SearchScope.Subtree,
-                    "sAMAccountName", "userPrincipalName", "cn", "mail", "distinguishedName", "objectGUID"
-                );
-
-                var response = (SearchResponse)conn.SendRequest(request);
-
-                if (response.Entries.Count > 0)
-                {
-                    var entry = response.Entries[0];
-
-                    string displayName = entry.Attributes["displayName"]?[0]?.ToString()
-                                         ?? entry.Attributes["cn"]?[0]?.ToString()
-                                         ?? sam;
-
-                    samAccountName = entry.Attributes["sAMAccountName"][0].ToString();
-                    objectGuid = new Guid((byte[])entry.Attributes["objectGUID"][0]);
-                    return true;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
-            }
-
-            objectGuid = null;
-            samAccountName = null;
-            return false;
-        }
-
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             try
             {
+                var externalAuthentication = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
+
                 ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
                 ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -236,7 +111,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         if (GlobalConfiguration.EnableLDAPAuthentication)
                         {
-                            if (LdapCredentialChallenge(Input.Username, Input.Password, out var samAccountName, out var objectGuid))
+                            if (LDAPUtility.LdapCredentialChallenge(externalAuthentication, StaticLocalizer.Localizer,
+                                Input.Username, Input.Password, out var samAccountName, out var objectGuid))
                             {
                                 //We successfully authenticated against LDAP.
 

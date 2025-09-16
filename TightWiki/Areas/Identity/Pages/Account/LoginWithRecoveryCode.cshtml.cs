@@ -63,14 +63,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+                // Ensure the user has gone through the username & password screen first
+                var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+                if (user == null)
+                {
+                    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                }
 
             }
             catch (Exception ex)
@@ -83,42 +83,43 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            try{
-            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (!ModelState.IsValid)
+            try
             {
-                return Page();
-            }
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
-            var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);
+                var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+                if (user == null)
+                {
+                    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                }
 
-            var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
+                var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);
 
-            var userId = await _userManager.GetUserIdAsync(user);
+                var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
 
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
-                return Redirect(ReturnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User account locked out.");
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
-            }
-            else
-            {
-                _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
-                return Page();
-            }
+                var userId = await _userManager.GetUserIdAsync(user);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
+                    return Redirect(ReturnUrl);
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
+                }
+                else
+                {
+                    _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
+                    ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+                    return Page();
+                }
             }
             catch (Exception ex)
             {

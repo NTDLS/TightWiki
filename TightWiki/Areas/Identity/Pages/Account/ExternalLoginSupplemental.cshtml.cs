@@ -71,14 +71,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-            ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            if (GlobalConfiguration.AllowSignup != true)
-            {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-            }
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
 
-            PopulateDefaults();
+                PopulateDefaults();
             }
             catch (Exception ex)
             {
@@ -110,61 +110,61 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-            ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
+                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            if (GlobalConfiguration.AllowSignup != true)
-            {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-            }
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
 
-            PopulateDefaults();
+                PopulateDefaults();
 
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
-            if (string.IsNullOrWhiteSpace(Input.AccountName))
-            {
-                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
-                return Page();
-            }
-            else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
-            {
-                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
-                return Page();
-            }
+                if (string.IsNullOrWhiteSpace(Input.AccountName))
+                {
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    return Page();
+                }
+                else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
+                {
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    return Page();
+                }
 
-            var info = await SignInManager.GetExternalLoginInfoAsync();
-            if (info == null)
-            {
-                return NotifyOfError(_localizer["An error occurred retrieving user information from the external provider."]);
-            }
+                var info = await SignInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    return NotifyOfError(_localizer["An error occurred retrieving user information from the external provider."]);
+                }
 
-            var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
-            if (string.IsNullOrEmpty(email))
-            {
-                return NotifyOfError(_localizer["The email address was not supplied by the external provider."]);
-            }
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
+                if (string.IsNullOrEmpty(email))
+                {
+                    return NotifyOfError(_localizer["The email address was not supplied by the external provider."]);
+                }
 
-            var user = new IdentityUser { UserName = email, Email = email };
-            var result = await _userManager.CreateAsync(user);
-            if (!result.Succeeded)
-            {
-                return NotifyOfError(_localizer["An error occurred while creating the user."]);
-            }
+                var user = new IdentityUser { UserName = email, Email = email };
+                var result = await _userManager.CreateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return NotifyOfError(_localizer["An error occurred while creating the user."]);
+                }
 
-            result = await _userManager.AddLoginAsync(user, info);
-            if (!result.Succeeded)
-            {
-                return NotifyOfError(_localizer["An error occurred while adding the login."]);
-            }
+                result = await _userManager.AddLoginAsync(user, info);
+                if (!result.Succeeded)
+                {
+                    return NotifyOfError(_localizer["An error occurred while adding the login."]);
+                }
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
-            UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
-            UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+                UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
+                UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
-            var claimsToAdd = new List<Claim>
+                var claimsToAdd = new List<Claim>
             {
                 new ("timezone", Input.TimeZone),
                 new (ClaimTypes.Country, Input.Country),
@@ -173,9 +173,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 new ("lastname", Input.LastName ?? ""),
             };
 
-            SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+                SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
-            await SignInManager.SignInAsync(user, isPersistent: false);
+                await SignInManager.SignInAsync(user, isPersistent: false);
             }
             catch (Exception ex)
             {

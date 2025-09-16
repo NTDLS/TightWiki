@@ -42,36 +42,36 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
             try
             {
-            if (userId == null || email == null || code == null)
-            {
-                return Redirect($"{GlobalConfiguration.BasePath}/");
-            }
+                if (userId == null || email == null || code == null)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/");
+                }
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{userId}'.");
-            }
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound($"Unable to load user with ID '{userId}'.");
+                }
 
-            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ChangeEmailAsync(user, email, code);
-            if (!result.Succeeded)
-            {
-                StatusMessage = _localizer["Error changing email."];
-                return Page();
-            }
+                code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+                var result = await _userManager.ChangeEmailAsync(user, email, code);
+                if (!result.Succeeded)
+                {
+                    StatusMessage = _localizer["Error changing email."];
+                    return Page();
+                }
 
-            // In our UI email and user name are one and the same, so when we update the email
-            // we need to update the user name.
-            var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
-            if (!setUserNameResult.Succeeded)
-            {
-                StatusMessage = _localizer["Error changing user name."];
-                return Page();
-            }
+                // In our UI email and user name are one and the same, so when we update the email
+                // we need to update the user name.
+                var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
+                if (!setUserNameResult.Succeeded)
+                {
+                    StatusMessage = _localizer["Error changing user name."];
+                    return Page();
+                }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = _localizer["Thank you for confirming your email change."];
+                await _signInManager.RefreshSignInAsync(user);
+                StatusMessage = _localizer["Thank you for confirming your email change."];
 
             }
             catch (Exception ex)
