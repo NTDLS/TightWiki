@@ -130,7 +130,7 @@
 
                                 <div class="row g-3 align-items-end" id="ldapTestForm">
                                     <div class="col-sm-4">
-                                        <label for="ldapTestUsername" class="form-label">@Localizer["Username (sAMAccountName or UPN)"]</label>
+                                        <label for="ldapTestUsername" class="form-label">@Localizer["Username"]</label>
                                         <input type="text" id="ldapTestUsername" class="form-control" autocomplete="off">
                                     </div>
                                     <div class="col-sm-4">
@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="button" id="btnLdapTest" class="btn btn-outline-primary">
-                                            @Localizer["Test LDAP"]
+                                            @Localizer["Test"]
                                         </button>
                                         <div id="ldapTestSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></div>
                                     </div>
@@ -158,6 +158,20 @@
 }
 
 <script>
+    (function () {
+      const area = document.getElementById('ldapTestForm');
+      const testBtn = document.getElementById('btnLdapTest');
+
+      if (area && testBtn) {
+        area.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            testBtn.click();
+          }
+        });
+      }
+    })();
+
     (function () {
         const btn = document.getElementById('btnLdapTest');
         const spn = document.getElementById('ldapTestSpinner');
