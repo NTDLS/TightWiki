@@ -1623,7 +1623,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { ok = false, error = Localize($"LDAP error: {0}.", ex.Message) });
+                return Json(new { ok = false, error = Localize("LDAP error: {0}.", ex.Message) });
             }
         }
 
