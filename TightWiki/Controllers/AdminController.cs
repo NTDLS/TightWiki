@@ -26,7 +26,6 @@ namespace TightWiki.Controllers
     public class AdminController : WikiControllerBase<AdminController>
     {
         private readonly ITightEngine _tightEngine;
-        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<AdminController> _localizer;
 
@@ -35,7 +34,6 @@ namespace TightWiki.Controllers
         : base(signInManager, userManager, localizer)
         {
             _tightEngine = tightEngine;
-            _signInManager = signInManager;
             _userManager = userManager;
             _localizer = localizer;
 
