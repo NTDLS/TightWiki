@@ -31,3 +31,6 @@ ON CONFLICT(Name) DO UPDATE SET Description = 'File and Attachment settings.';
 INSERT INTO ConfigurationGroup(Id, Name, Description)
 SELECT 12, 'Cookies', 'Authentication and Cookies.'
 ON CONFLICT(Name) DO UPDATE SET Description = 'Authentication and Cookies.';
+INSERT INTO ConfigurationGroup(Id, Name, Description)
+SELECT 13, 'LDAP Authentication', 'Configuration for Active Directory authentication using LDAP'
+ON CONFLICT(Name) DO UPDATE SET Description = 'Configuration for Active Directory authentication using LDAP';
