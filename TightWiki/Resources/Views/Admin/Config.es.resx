@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>Valores de configuración global para la wiki, su funcionalidad, comportamiento, formato y marca.</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Guardar</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>Seleccionar una zona horaria</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Prueba</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>Probar la autenticación LDAP</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Nombre de usuario</value>
   </data>
 </root>

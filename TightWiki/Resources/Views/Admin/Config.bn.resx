@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>উইকির জন্য বৈশ্বিক কনফিগারেশন মান, এর কার্যকারিতা, আচরণ, ফরম্যাটিং এবং ব্র্যান্ডিং।</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>পাসওয়ার্ড</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>সংরক্ষণ করুন</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>একটি সময় জোন নির্বাচিত করুন</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>পরীক্ষা</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>LDAP প্রমাণীকরণ পরীক্ষা</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ব্যবহারকারীর নাম</value>
   </data>
 </root>

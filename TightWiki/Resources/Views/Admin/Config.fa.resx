@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>مقدارهای پیکربندی جهانی برای ویکی، عملکرد، رفتار، قالب‌بندی و برندینگ آن.</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>گذرواژه</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>ذخیره</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>یک منطقه زمانی را انتخاب کنید</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>آزمایش</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>آزمون احراز هویت LDAP</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>نام کاربری</value>
   </data>
 </root>

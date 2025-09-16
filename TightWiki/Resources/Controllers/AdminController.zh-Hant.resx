@@ -59,6 +59,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LDAP error: {0}." xml:space="preserve">
+    <value>LDAP 錯誤: {0}。</value>
+  </data>
   <data name="Account name is already in use." xml:space="preserve">
     <value>账户名称已在使用中。</value>
   </data>
@@ -259,5 +262,23 @@
   </data>
   <data name="{0} Delete" xml:space="preserve">
     <value>{0} 删除</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP 挑戰失敗。</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰成功（部分配置的帳戶）。</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰成功（完全配置的帳戶）。</value>
+  </data>
+  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰（未配置的帳戶）。</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP 挑戰成功，但用戶沒有 objectGUID 屬性。</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP 認證未啟用。</value>
   </data>
 </root>

@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>위키의 전역 구성 값, 기능, 동작, 형식 및 브랜딩.</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>저장</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>시간대 선택</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>테스트</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>LDAP 인증 테스트</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>사용자 이름</value>
   </data>
 </root>

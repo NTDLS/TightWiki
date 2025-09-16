@@ -59,6 +59,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LDAP error: {0}." xml:space="preserve">
+    <value>LDAP ত্রুটি: {0}.</value>
+  </data>
   <data name="Account name is already in use." xml:space="preserve">
     <value>অ্যাকাউন্টের নাম ইতিমধ্যেই ব্যবহৃত হচ্ছে।</value>
   </data>
@@ -259,5 +262,23 @@
   </data>
   <data name="{0} Delete" xml:space="preserve">
     <value>{0} মুছুন</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP চ্যালেঞ্জ ব্যর্থ হয়েছে.</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP চ্যালেঞ্জ সাফল্য অর্জন করেছে (আংশিকভাবে প্রস্তুত করা অ্যাকাউন্ট).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP চ্যালেঞ্জ সাফল্য অর্জন করেছে (সম্পূর্ণ প্রস্তুত করা অ্যাকাউন্ট).</value>
+  </data>
+  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
+    <value>LDAP চ্যালেঞ্জ (অপ্রস্তুত করা অ্যাকাউন্ট).</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP চ্যালেঞ্জ সফল হয়েছে, কিন্তু ব্যবহারকারীর একটি objectGUID অ্যাট্রিবিউট নেই.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP প্রমাণীকরণ সক্রিয় করা হয়নি.</value>
   </data>
 </root>

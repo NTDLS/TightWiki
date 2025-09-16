@@ -59,6 +59,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LDAP error: {0}." xml:space="preserve">
+    <value>Chyba LDAP: {0}.</value>
+  </data>
   <data name="Account name is already in use." xml:space="preserve">
     <value>Názov účtu sa už používa.</value>
   </data>
@@ -259,5 +262,23 @@
   </data>
   <data name="{0} Delete" xml:space="preserve">
     <value>Odstrániť {0}</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP výzva zlyhala.</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP výzva bola úspešná (čiastočne zabezpečený účet).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP výzva bola úspešná (úplne zabezpečený účet).</value>
+  </data>
+  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
+    <value>LDAP výzva (nepriradený účet).</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP výzva sa podarila, ale používateľ nemá atribút objectGUID.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP overenie nie je povolené.</value>
   </data>
 </root>

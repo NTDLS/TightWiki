@@ -59,6 +59,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LDAP error: {0}." xml:space="preserve">
+    <value>LDAP 오류: {0}.</value>
+  </data>
   <data name="Account name is already in use." xml:space="preserve">
     <value>계정 이름이 이미 사용 중입니다.</value>
   </data>
@@ -259,5 +262,23 @@
   </data>
   <data name="{0} Delete" xml:space="preserve">
     <value>{0} 삭제</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP 챌린지 실패.</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지 성공 (부분적으로 프로비전된 계정).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지 성공 (완전히 프로비전된 계정).</value>
+  </data>
+  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지 (프로비전되지 않은 계정).</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP 챌린지 성공, 그러나 사용자는 objectGUID 속성이 없습니다.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP 인증이 활성화되어 있지 않습니다.</value>
   </data>
 </root>

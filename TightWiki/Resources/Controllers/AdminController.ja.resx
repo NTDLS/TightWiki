@@ -59,6 +59,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LDAP error: {0}." xml:space="preserve">
+    <value>LDAPエラー: {0}。</value>
+  </data>
   <data name="Account name is already in use." xml:space="preserve">
     <value>アカウント名はすでに使用されています。</value>
   </data>
@@ -259,5 +262,23 @@
   </data>
   <data name="{0} Delete" xml:space="preserve">
     <value>{0} 削除</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAPチャレンジに失敗しました。</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAPチャレンジに成功しました（部分的にプロビジョニングされたアカウント）。</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAPチャレンジに成功しました（完全にプロビジョニングされたアカウント）。</value>
+  </data>
+  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
+    <value>LDAPチャレンジ（未プロビジョニングアカウント）。</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAPチャレンジに成功しましたが、ユーザーにはobjectGUID属性がありません。</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP認証は有効になっていません。</value>
   </data>
 </root>

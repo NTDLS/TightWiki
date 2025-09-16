@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>ウィキの全体設定値、その機能、動作、フォーマット、ブランディング。</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>パスワード</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>時間帯を選択する</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>テスト</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>LDAP 認証テスト</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ユーザー名</value>
   </data>
 </root>

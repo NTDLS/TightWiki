@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>Globálne konfiguračné hodnoty pre wiki, jej funkčnosť, správanie, formátovanie a branding.</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Heslo</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Uložiť</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>Vyberte časovú zónu</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>Testovať LDAP autentifikáciu</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Užívateľské meno</value>
   </data>
 </root>

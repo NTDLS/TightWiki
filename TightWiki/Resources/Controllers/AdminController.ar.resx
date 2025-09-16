@@ -59,6 +59,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LDAP error: {0}." xml:space="preserve">
+    <value>خطأ LDAP: {0}.</value>
+  </data>
   <data name="Account name is already in use." xml:space="preserve">
     <value>اسم الحساب مستخدم بالفعل.</value>
   </data>
@@ -259,5 +262,23 @@
   </data>
   <data name="{0} Delete" xml:space="preserve">
     <value>{0} حذف</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>فشل التحدي LDAP.</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>نجح التحدي LDAP (حساب مُجهز جزئيًا).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>نجح التحدي LDAP (حساب مُجهز بالكامل).</value>
+  </data>
+  <data name="LDAP challenge (un-provisioned account)." xml:space="preserve">
+    <value>تحدي LDAP (حساب غير مُجهز).</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>نجح التحدي LDAP، لكن المستخدم ليس لديه خاصية objectGUID.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>المصادقة عبر LDAP غير مفعلة.</value>
   </data>
 </root>

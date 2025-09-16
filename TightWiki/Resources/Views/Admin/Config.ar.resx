@@ -65,6 +65,9 @@
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
     <value>قيم الإعدادات العالمية للوكي، ووظائفه، وسلوكه، وتنسيقه، وعلامته التجارية.</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>احفظ</value>
   </data>
@@ -82,5 +85,14 @@
   </data>
   <data name="Select a time-zone" xml:space="preserve">
     <value>اختر منطقة زمنية</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>اختبار</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>اختبار مصادقة LDAP</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
   </data>
 </root>
