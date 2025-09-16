@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
-using Org.BouncyCastle.Utilities.Encoders;
-using System.DirectoryServices.Protocols;
-using System.Net;
 using System.Reflection;
 using TightWiki.Caching;
 using TightWiki.Engine.Implementation.Utility;
@@ -26,13 +23,24 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminController(
-        ITightEngine tightEngine,
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IStringLocalizer<AdminController> localizer)
-        : WikiControllerBase<AdminController>(signInManager, userManager, localizer)
+    public class AdminController : WikiControllerBase<AdminController>
     {
+        private readonly ITightEngine _tightEngine;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IStringLocalizer<AdminController> _localizer;
+
+        public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer)
+        : base(signInManager, userManager, localizer)
+        {
+            _tightEngine = tightEngine;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _localizer = localizer;
+
+        }
+
         #region Metrics.
 
         [Authorize]
@@ -459,7 +467,7 @@ namespace TightWiki.Controllers
                     return NotifyOfError(Localize("You cannot revert to the current page revision."));
                 }
 
-                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
+                Engine.Implementation.Helpers.UpsertPage(_tightEngine, page, SessionState);
 
                 return NotifyOfSuccess(Localize("The page has been reverted."), model.YesRedirectURL);
             }
@@ -526,7 +534,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                var state = tightEngine.Transform(SessionState, page);
+                var state = _tightEngine.Transform(SessionState, page);
                 model.PageId = pageId;
                 model.Revision = pageId;
                 model.Body = state.HtmlResult;
@@ -617,7 +625,7 @@ namespace TightWiki.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    Engine.Implementation.Helpers.UpsertPage(tightEngine, previousPageRevision, SessionState);
+                    Engine.Implementation.Helpers.UpsertPage(_tightEngine, previousPageRevision, SessionState);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -650,7 +658,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                var state = tightEngine.Transform(SessionState, page);
+                var state = _tightEngine.Transform(SessionState, page);
                 model.PageId = pageId;
                 model.Body = state.HtmlResult;
                 model.DeletedDate = SessionState.LocalizeDateTime(page.ModifiedDate);
@@ -704,7 +712,7 @@ namespace TightWiki.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                    Engine.Implementation.Helpers.RefreshPageMetadata(_tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess(Localize("All pages have been rebuilt."), model.YesRedirectURL);
             }
@@ -743,7 +751,7 @@ namespace TightWiki.Controllers
                         var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [page.Navigation, page.Revision, queryKey]);
                         if (WikiCache.Contains(cacheKey) == false)
                         {
-                            var state = tightEngine.Transform(SessionState, page, page.Revision);
+                            var state = _tightEngine.Transform(SessionState, page, page.Revision);
                             page.Body = state.HtmlResult;
 
                             if (state.ProcessingInstructions.Contains(WikiInstruction.NoCache) == false)
@@ -928,7 +936,7 @@ namespace TightWiki.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                    Engine.Implementation.Helpers.RefreshPageMetadata(_tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess(Localize("The page has restored."), model.YesRedirectURL);
             }
@@ -1600,7 +1608,7 @@ namespace TightWiki.Controllers
 
                     var loginInfo = new UserLoginInfo("LDAP", objectGuid.Value.ToString(), "Active Directory");
 
-                    var foundUser = await userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
+                    var foundUser = await _userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
 
                     if (foundUser == null)
                     {
