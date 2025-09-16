@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
+using Org.BouncyCastle.Utilities.Encoders;
+using System.DirectoryServices.Protocols;
+using System.Net;
 using System.Reflection;
 using TightWiki.Caching;
 using TightWiki.Engine.Implementation.Utility;
@@ -15,6 +18,8 @@ using TightWiki.Models.ViewModels.Admin;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
+using TightWiki.Security;
+using TightWiki.Static;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -1561,6 +1566,65 @@ namespace TightWiki.Controllers
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
+        }
+
+        #endregion
+
+        #region LDAP.
+
+        public record LdapTestRequest(string Username, string Password);
+
+        // POST: /Admin/TestLdap
+        [HttpPost("TestLdap")]
+        public async Task<IActionResult> TestLdap([FromBody] LdapTestRequest req)
+        {
+            var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
+
+            try
+            {
+
+                if (GlobalConfiguration.EnableLDAPAuthentication == false)
+                {
+                    return Json(new { ok = false, error = Localize("LDAP authentication is not enabled.") });
+                }
+
+                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, StaticLocalizer.Localizer,
+                    req.Username, req.Password, out var samAccountName, out var objectGuid))
+                {
+                    //We successfully authenticated against LDAP.
+
+                    if (objectGuid == null || objectGuid == Guid.Empty)
+                    {
+                        return Json(new { ok = false, error = Localize("LDAP challenge succeeded, but the user does not have an objectGUID attribute.") });
+                    }
+
+                    var loginInfo = new UserLoginInfo("LDAP", objectGuid.Value.ToString(), "Active Directory");
+
+                    var foundUser = await userManager.FindByLoginAsync(loginInfo.LoginProvider, loginInfo.ProviderKey);
+
+                    if (foundUser == null)
+                    {
+                        //User does not exist in TightWiki.
+                        return Json(new { ok = true, message = Localize("LDAP challenge (un-provisioned account)."), distinguishedName = samAccountName });
+                    }
+                    else
+                    {
+                        if (UsersRepository.TryGetBasicProfileByUserId(Guid.Parse(foundUser.Id), out _))
+                        {
+                            //User and profile exist in TightWiki.
+                            return Json(new { ok = true, message = Localize("LDAP challenge succeeded (fully provisioned account)."), distinguishedName = samAccountName });
+                        }
+
+                        //User exists in TightWiki, but the profile does not.
+                        return Json(new { ok = true, message = Localize("LDAP challenge succeeded (partially provisioned account)."), distinguishedName = samAccountName });
+                    }
+                }
+                return Json(new { ok = false, error = Localize("LDAP challenge failed.") });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { ok = false, error = Localize($"LDAP error: {0}.", ex.Message) });
+            }
         }
 
         #endregion
