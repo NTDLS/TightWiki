@@ -20,10 +20,14 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
+        private readonly ILogger<ForgotPasswordModel> _logger;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender)
+        public ForgotPasswordModel(
+            ILogger<ForgotPasswordModel> logger, UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender)
             : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
         }
@@ -52,6 +56,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+            try{
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(Input.Email);
@@ -93,7 +98,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ForgotPasswordConfirmation");
             }
-
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
     }

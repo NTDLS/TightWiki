@@ -123,66 +123,76 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
         {
-            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (GlobalConfiguration.AllowSignup != true)
+            try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-            }
-            PopulateDefaults();
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
+                PopulateDefaults();
+
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(string? returnUrl = null)
         {
-            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (GlobalConfiguration.AllowSignup != true)
+            try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-            }
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            PopulateDefaults();
-
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            if (string.IsNullOrWhiteSpace(Input.AccountName))
-            {
-                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
-                return Page();
-            }
-            else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
-            {
-                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
-                return Page();
-            }
-
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
-            {
-                var user = new IdentityUser()
+                if (GlobalConfiguration.AllowSignup != true)
                 {
-                    UserName = Input.Email,
-                    Email = Input.Email
-                };
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
 
-                var result = await _userManager.CreateAsync(user, Input.Password);
-                if (result.Succeeded)
+                PopulateDefaults();
+
+                if (!ModelState.IsValid)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    return Page();
+                }
 
-                    var userId = await _userManager.GetUserIdAsync(user);
+                if (string.IsNullOrWhiteSpace(Input.AccountName))
+                {
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    return Page();
+                }
+                else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
+                {
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    return Page();
+                }
 
-                    var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
-                    UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
-                    UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                if (ModelState.IsValid)
+                {
+                    var user = new IdentityUser()
+                    {
+                        UserName = Input.Email,
+                        Email = Input.Email
+                    };
 
-                    var claimsToAdd = new List<Claim>
+                    var result = await _userManager.CreateAsync(user, Input.Password);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+
+                        var userId = await _userManager.GetUserIdAsync(user);
+
+                        var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+                        UsersRepository.CreateProfile(Guid.Parse(userId), Input.AccountName);
+                        UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+
+                        var claimsToAdd = new List<Claim>
                     {
                         new ("timezone", Input.TimeZone),
                         new (ClaimTypes.Country, Input.Country),
@@ -191,55 +201,60 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         new ("lastname", Input.LastName ?? ""),
                     };
 
-                    SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+                        SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                        {
+                            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                        var callbackUrl = Url.Page(
-                            "/Account/ConfirmEmail",
-                            pageHandler: null,
-                            values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
-                            protocol: Request.Scheme);
+                            var callbackUrl = Url.Page(
+                                "/Account/ConfirmEmail",
+                                pageHandler: null,
+                                values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = ReturnUrl },
+                                protocol: Request.Scheme);
 
-                        var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
-                        var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
-                        var siteName = basicConfig.Value<string>("Name");
-                        var address = basicConfig.Value<string>("Address");
-                        var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
+                            var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
+                            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+                            var siteName = basicConfig.Value<string>("Name");
+                            var address = basicConfig.Value<string>("Address");
+                            var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));
 
-                        var emailSubject = "Confirm your email";
-                        emailTemplate.Replace("##SUBJECT##", emailSubject);
-                        emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
-                        emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
-                        emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
-                        emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
-                        emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
-                        emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
-                        emailTemplate.Replace("##CODE##", code);
-                        emailTemplate.Replace("##USERID##", userId);
-                        emailTemplate.Replace("##SITENAME##", siteName);
-                        emailTemplate.Replace("##SITEADDRESS##", address);
-                        emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty));
+                            var emailSubject = "Confirm your email";
+                            emailTemplate.Replace("##SUBJECT##", emailSubject);
+                            emailTemplate.Replace("##ACCOUNTCOUNTRY##", profile.Country);
+                            emailTemplate.Replace("##ACCOUNTTIMEZONE##", profile.TimeZone);
+                            emailTemplate.Replace("##ACCOUNTLANGUAGE##", profile.Language);
+                            emailTemplate.Replace("##ACCOUNTEMAIL##", profile.EmailAddress);
+                            emailTemplate.Replace("##ACCOUNTNAME##", profile.AccountName);
+                            emailTemplate.Replace("##PERSONNAME##", $"{profile.FirstName} {profile.LastName}");
+                            emailTemplate.Replace("##CODE##", code);
+                            emailTemplate.Replace("##USERID##", userId);
+                            emailTemplate.Replace("##SITENAME##", siteName);
+                            emailTemplate.Replace("##SITEADDRESS##", address);
+                            emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty));
 
-                        await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
+                            await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                        return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?email={Input.Email}&returnUrl={WebUtility.UrlEncode(returnUrl)}");
+                            return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegisterConfirmation?email={Input.Email}&returnUrl={WebUtility.UrlEncode(returnUrl)}");
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return Redirect(ReturnUrl);
+                        }
                     }
-                    else
+                    foreach (var error in result.Errors)
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return Redirect(ReturnUrl);
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             // If we got this far, something failed, redisplay form
             return Page();
         }

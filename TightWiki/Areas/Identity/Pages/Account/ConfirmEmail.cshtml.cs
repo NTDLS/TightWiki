@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Models;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -15,13 +16,16 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
+        private readonly ILogger<ConfirmEmailModel> _logger;
 
         public ConfirmEmailModel(
+            ILogger<ConfirmEmailModel> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IStringLocalizer<ConfirmEmailModel> localizer)
             : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _localizer = localizer;
         }
@@ -34,6 +38,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string StatusMessage { get; set; }
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
+            try
+            {
             if (userId == null || code == null)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/");
@@ -48,6 +54,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
             StatusMessage = result.Succeeded ? _localizer["Thank you for confirming your email."] : _localizer["Error confirming your email."];
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
     }

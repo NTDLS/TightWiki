@@ -23,14 +23,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
         private readonly IStringLocalizer<ResendEmailConfirmationModel> _localizer;
+        private readonly ILogger<ResendEmailConfirmationModel> _logger;
 
         public ResendEmailConfirmationModel(
+            ILogger<ResendEmailConfirmationModel> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IWikiEmailSender emailSender,
             IStringLocalizer<ResendEmailConfirmationModel> localizer)
                         : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
             _localizer = localizer;
@@ -60,15 +63,24 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
-            if (GlobalConfiguration.AllowSignup != true)
+            try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            try{
             if (GlobalConfiguration.AllowSignup != true)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
@@ -117,6 +129,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
             ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
     }

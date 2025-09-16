@@ -49,14 +49,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<ExternalLoginSupplementalModel> _localizer;
+        private readonly ILogger<ExternalLoginSupplementalModel> _logger;
 
         public ExternalLoginSupplementalModel(
+            ILogger<ExternalLoginSupplementalModel> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             IStringLocalizer<ExternalLoginSupplementalModel> localizer)
             : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _localizer = localizer;
         }
@@ -66,6 +69,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
+            try
+            {
             ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
             if (GlobalConfiguration.AllowSignup != true)
@@ -74,7 +79,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
 
             PopulateDefaults();
-
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
 
@@ -98,6 +108,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
+            try
+            {
             ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
             if (GlobalConfiguration.AllowSignup != true)
@@ -164,6 +176,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
             SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
             await SignInManager.SignInAsync(user, isPersistent: false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
 
             if (string.IsNullOrEmpty(ReturnUrl))
             {

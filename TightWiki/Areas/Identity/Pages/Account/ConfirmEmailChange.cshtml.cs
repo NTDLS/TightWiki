@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Models;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -16,13 +17,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IStringLocalizer<ConfirmEmailChangeModel> _localizer;
-
-        public ConfirmEmailChangeModel
-            (UserManager<IdentityUser> userManager,
+        private readonly ILogger<ConfirmEmailChangeModel> _logger;
+        public ConfirmEmailChangeModel(
+            ILogger<ConfirmEmailChangeModel> logger,
+            UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IStringLocalizer<ConfirmEmailChangeModel> localizer)
             : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
             _localizer = localizer;
@@ -37,6 +40,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(string userId, string email, string code)
         {
+            try
+            {
             if (userId == null || email == null || code == null)
             {
                 return Redirect($"{GlobalConfiguration.BasePath}/");
@@ -67,6 +72,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = _localizer["Thank you for confirming your email change."];
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
     }

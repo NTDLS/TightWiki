@@ -162,4 +162,7 @@
   <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
     <value />
   </data>
+  <data name="Either SAM or UPN are required for LDAP login." xml:space="preserve">
+    <value />
+  </data>
 </root>

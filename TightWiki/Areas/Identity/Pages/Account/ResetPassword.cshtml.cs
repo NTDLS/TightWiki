@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using TightWiki.Models;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -55,14 +56,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
     }
 
-
     public class ResetPasswordModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly ILogger<ResetPasswordModel> _logger;
 
-        public ResetPasswordModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public ResetPasswordModel(ILogger<ResetPasswordModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
                         : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
         }
 
@@ -76,43 +78,61 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet(string encodedCode = null)
         {
-            if (encodedCode == null)
+            try
             {
-                return BadRequest("A code must be supplied for password reset.");
-            }
-            else
-            {
-                Input = new ResetPasswordInputModel
+                if (encodedCode == null)
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(encodedCode))
-                };
-                return Page();
+                    return BadRequest("A code must be supplied for password reset.");
+                }
+                else
+                {
+                    Input = new ResetPasswordInputModel
+                    {
+                        Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(encodedCode))
+                    };
+                    return Page();
+                }
             }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return Page();
-            }
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user == null)
-            {
-                // Don't reveal that the user does not exist
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
-            }
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                if (user == null)
+                {
+                    // Don't reveal that the user does not exist
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
+                }
 
-            var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
-            if (result.Succeeded)
-            {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
-            }
+                var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
+                if (result.Succeeded)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/ResetPasswordConfirmation");
+                }
 
-            foreach (var error in result.Errors)
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+            catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
             }
             return Page();
         }

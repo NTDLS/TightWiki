@@ -1,4 +1,5 @@
-﻿using TightWiki.Models;
+﻿using System.Diagnostics;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
@@ -25,9 +26,13 @@ namespace TightWiki.Repository
 
         public static void InsertException(Exception ex)
         {
+            var stackTrace = new StackTrace();
+            var method = stackTrace.GetFrame(1)?.GetMethod();
+            var message = string.IsNullOrEmpty(method?.Name) ? string.Empty : $"Error in {method?.Name}";
+
             var param = new
             {
-                Text = string.Empty,
+                Text = message,
                 ExceptionText = ex.Message,
                 StackTrace = ex.StackTrace,
                 CreatedDate = DateTime.UtcNow,

@@ -53,16 +53,19 @@ namespace TightWiki.Areas.Identity.Pages.Account
         [BindProperty]
         public string? ReturnUrl { get; set; }
 
-        private UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<LdapLoginSupplementalModel> _localizer;
+        private readonly ILogger<LdapLoginSupplementalInputModel> _logger;
 
         public LdapLoginSupplementalModel(
+            ILogger<LdapLoginSupplementalInputModel> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             IStringLocalizer<LdapLoginSupplementalModel> localizer)
             : base(signInManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _localizer = localizer;
         }
@@ -72,15 +75,22 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public IActionResult OnGet()
         {
-            ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (GlobalConfiguration.AllowSignup != true)
+            try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
+
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
+
+                PopulateDefaults();
             }
-
-            PopulateDefaults();
-
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
             return Page();
         }
 
@@ -104,44 +114,46 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (GlobalConfiguration.AllowSignup != true)
+            try
             {
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
-            }
+                ReturnUrl = WebUtility.UrlDecode(ReturnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            PopulateDefaults();
+                if (GlobalConfiguration.AllowSignup != true)
+                {
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/RegistrationIsNotAllowed");
+                }
 
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+                PopulateDefaults();
 
-            if (string.IsNullOrWhiteSpace(Input.AccountName))
-            {
-                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
-                return Page();
-            }
-            else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
-            {
-                ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
-                return Page();
-            }
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
-            var user = await _userManager.FindByIdAsync(UserId.ToString());
-            if (user == null)
-            {
-                return NotifyOfError(_localizer["The specified user could not be found."]);
-            }
+                if (string.IsNullOrWhiteSpace(Input.AccountName))
+                {
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    return Page();
+                }
+                else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
+                {
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    return Page();
+                }
 
-            await _userManager.SetEmailAsync(user, Input.Email);
+                var user = await _userManager.FindByIdAsync(UserId.ToString());
+                if (user == null)
+                {
+                    return NotifyOfError(_localizer["The specified user could not be found."]);
+                }
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
-            UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
-            UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+                await _userManager.SetEmailAsync(user, Input.Email);
 
-            var claimsToAdd = new List<Claim>
+                var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+                UsersRepository.CreateProfile(Guid.Parse(user.Id), Input.AccountName);
+                UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
+
+                var claimsToAdd = new List<Claim>
             {
                 new ("timezone", Input.TimeZone),
                 new (ClaimTypes.Country, Input.Country),
@@ -150,9 +162,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 new ("lastname", Input.LastName ?? ""),
             };
 
-            SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
+                SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 
-            await SignInManager.SignInAsync(user, isPersistent: false);
+                await SignInManager.SignInAsync(user, isPersistent: false);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
 
             if (string.IsNullOrEmpty(ReturnUrl))
             {

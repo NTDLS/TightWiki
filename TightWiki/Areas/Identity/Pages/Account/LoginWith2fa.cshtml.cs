@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using TightWiki.Models;
+using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -72,58 +73,75 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnGetAsync(bool rememberMe, string returnUrl = null)
         {
-            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            // Ensure the user has gone through the username & password screen first
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-
-            if (user == null)
+            try
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-            }
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            RememberMe = rememberMe;
+                // Ensure the user has gone through the username & password screen first
+                var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+
+                if (user == null)
+                {
+                    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                }
+
+                RememberMe = rememberMe;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
+            }
 
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)
         {
-            ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
-
-            if (!ModelState.IsValid)
+            try
             {
-                return Page();
-            }
+                ReturnUrl = WebUtility.UrlDecode(returnUrl ?? $"{GlobalConfiguration.BasePath}/");
 
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+                if (user == null)
+                {
+                    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                }
+
+                var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+                var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, Input.RememberMachine);
+
+                var userId = await _userManager.GetUserIdAsync(user);
+
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
+                    return Redirect(ReturnUrl);
+                }
+                else if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
+                    return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
+                }
+                else
+                {
+                    _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
+                    ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+                    return Page();
+                }
+            }
+            catch (Exception ex)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                _logger.LogError("Exception: {Message}", ex.Message);
+                ExceptionRepository.InsertException(ex);
             }
-
-            var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
-
-            var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, Input.RememberMachine);
-
-            var userId = await _userManager.GetUserIdAsync(user);
-
-            if (result.Succeeded)
-            {
-                _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
-                return Redirect(ReturnUrl);
-            }
-            else if (result.IsLockedOut)
-            {
-                _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
-                return Redirect($"{GlobalConfiguration.BasePath}/Identity/Account/Lockout");
-            }
-            else
-            {
-                _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-                return Page();
-            }
+            return Page();
         }
     }
 }
