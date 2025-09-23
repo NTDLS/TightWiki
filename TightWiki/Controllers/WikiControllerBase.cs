@@ -33,6 +33,7 @@ namespace TightWiki.Controllers
             }
             return default;
         }
+
         [NonAction]
         protected V GetQueryValue<V>(string key, V defaultValue)
         {
