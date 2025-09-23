@@ -214,7 +214,7 @@ namespace TightWiki.Controllers
         [HttpGet("Page/Search")]
         public ActionResult Search()
         {
-            string searchString = GetQueryValue("SearchString") ?? string.Empty;
+            string searchString = GetQueryValue("SearchString", string.Empty);
             if (string.IsNullOrEmpty(searchString) == false)
             {
                 var model = new PageSearchViewModel()
@@ -239,7 +239,7 @@ namespace TightWiki.Controllers
         [HttpPost("Page/Search")]
         public ActionResult Search(PageSearchViewModel model)
         {
-            string searchString = GetQueryValue("SearchString") ?? string.Empty;
+            string searchString = GetQueryValue("SearchString", string.Empty);
             if (string.IsNullOrEmpty(searchString) == false)
             {
                 model = new PageSearchViewModel()
@@ -334,7 +334,7 @@ namespace TightWiki.Controllers
                 return NotFound();
             }
 
-            var deleteAction = GetQueryValue("Delete");
+            var deleteAction = GetQueryValue<string>("Delete");
             if (string.IsNullOrEmpty(deleteAction) == false && SessionState.IsAuthenticated)
             {
                 if (SessionState.HoldsPermission(givenCanonical, WikiPermission.Moderate))
@@ -511,8 +511,8 @@ namespace TightWiki.Controllers
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new RevisionsViewModel()
             {
@@ -725,7 +725,7 @@ namespace TightWiki.Controllers
             }
             else
             {
-                var pageName = GetQueryValue("Name").DefaultWhenNullOrEmpty(pageNavigation);
+                var pageName = GetQueryValue<string>("Name").DefaultWhenNullOrEmpty(pageNavigation);
 
                 string templateName = ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Customization, "New Page Template").EnsureNotNull();
                 string templateNavigation = NamespaceNavigation.CleanAndValidate(templateName);
@@ -905,9 +905,10 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            string givenScale = GetQueryValue("Scale", "100");
+            var scale = GetQueryValue<int?>("Scale");
+            var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, givenScale]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, pageRevision, scale, maxWidth]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
                 return File(cached.Bytes, cached.ContentType);
@@ -925,15 +926,15 @@ namespace TightWiki.Controllers
 
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
-                int parsedScale = int.Parse(givenScale);
-                if (parsedScale > 500)
+                if (scale > 500)
                 {
-                    parsedScale = 500;
+                    scale = 500;
                 }
-                if (parsedScale != 100)
+                //Enforce scale if specified.
+                if (scale != null && scale != 100)
                 {
-                    int width = (int)(img.Width * (parsedScale / 100.0));
-                    int height = (int)(img.Height * (parsedScale / 100.0));
+                    int width = (int)(img.Width * (scale / 100.0));
+                    int height = (int)(img.Height * (scale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -963,6 +964,22 @@ namespace TightWiki.Controllers
                         WikiCache.Put(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
+                }
+                //Enforce max width if specified.
+                else if (maxWidth > 0 && img.Width > maxWidth)
+                {
+                    double widthScale = (double)maxWidth / img.Width;
+
+                    int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
+                    int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
+
+                    using var image = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    image.SaveAsPng(ms);
+
+                    var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                    WikiCache.Put(cacheKey, cacheItem);
+                    return File(cacheItem.Bytes, cacheItem.ContentType);
                 }
                 else
                 {

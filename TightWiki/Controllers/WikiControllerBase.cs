@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
+using Org.BouncyCastle.Asn1.Ocsp;
 using TightWiki.Models;
 
 namespace TightWiki.Controllers
@@ -24,16 +25,23 @@ namespace TightWiki.Controllers
             => base.Redirect(url.EnsureNotNull());
 
         [NonAction]
-        protected string? GetQueryValue(string key)
-            => Request.Query[key];
-
+        protected V? GetQueryValue<V>(string key)
+        {
+            if (Request.Query.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+            {
+                return Converters.ConvertToNullable<V>(value);
+            }
+            return default;
+        }
         [NonAction]
-        protected string GetQueryValue(string key, string defaultValue)
-            => (string?)Request.Query[key] ?? defaultValue;
-
-        [NonAction]
-        protected int GetQueryValue(string key, int defaultValue)
-            => int.Parse(GetQueryValue(key, defaultValue.ToString()));
+        protected V GetQueryValue<V>(string key, V defaultValue)
+        {
+            if (Request.Query.TryGetValue(key, out var value) && !string.IsNullOrEmpty(value))
+            {
+                return Converters.ConvertToNullable<V>(value) ?? defaultValue;
+            }
+            return defaultValue;
+        }
 
         [NonAction]
         protected string? GetFormValue(string key)

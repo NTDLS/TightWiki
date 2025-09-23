@@ -35,9 +35,10 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            int givenScale = GetQueryValue("Scale", 100);
+            var scale = GetQueryValue<int?>("Scale");
+            var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
                 return File(cached.Bytes, cached.ContentType);
@@ -54,14 +55,15 @@ namespace TightWiki.Controllers
 
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(file.Data));
 
-                if (givenScale > 500)
+                if (scale > 500)
                 {
-                    givenScale = 500;
+                    scale = 500;
                 }
-                if (givenScale != 100)
+                //Enforce scale if specified.
+                if (scale != null && scale != 100)
                 {
-                    int width = (int)(img.Width * (givenScale / 100.0));
-                    int height = (int)(img.Height * (givenScale / 100.0));
+                    int width = (int)(img.Width * (scale / 100.0));
+                    int height = (int)(img.Height * (scale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -93,6 +95,21 @@ namespace TightWiki.Controllers
                         WikiCache.Put(cacheKey, cacheItem);
                         return File(cacheItem.Bytes, cacheItem.ContentType);
                     }
+                }
+                //Enforce max width if specified.
+                else if (maxWidth > 0 && img.Width > maxWidth)
+                {
+                    double widthScale = (double)maxWidth / img.Width;
+
+                    int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
+                    int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
+
+                    using var image = ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    file.ContentType = BestEffortConvertImage(image, ms, file.ContentType);
+                    var cacheItem = new ImageCacheItem(ms.ToArray(), file.ContentType);
+                    WikiCache.Put(cacheKey, cacheItem);
+                    return File(cacheItem.Bytes, cacheItem.ContentType);
                 }
                 else
                 {
@@ -126,9 +143,10 @@ namespace TightWiki.Controllers
             var pageNavigation = new NamespaceNavigation(givenPageNavigation);
             var fileNavigation = new NamespaceNavigation(givenFileNavigation);
 
-            int givenScale = GetQueryValue("Scale", 100);
+            var scale = GetQueryValue<int?>("Scale");
+            var maxWidth = GetQueryValue<int?>("MaxWidth");
 
-            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, givenScale]);
+            var cacheKey = WikiCacheKeyFunction.Build(WikiCache.Category.Page, [givenPageNavigation, givenFileNavigation, fileRevision, scale, maxWidth]);
             if (WikiCache.TryGet<ImageCacheItem>(cacheKey, out var cached))
             {
                 return File(cached.Bytes, cached.ContentType);
@@ -139,15 +157,16 @@ namespace TightWiki.Controllers
             {
                 var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(Utility.Decompress(file.Data)));
 
-                if (givenScale > 500)
+                if (scale > 500)
                 {
-                    givenScale = 500;
+                    scale = 500;
                 }
 
-                if (givenScale != 100)
+                //Enforce scale if specified.
+                if (scale != null && scale != 100)
                 {
-                    int width = (int)(img.Width * (givenScale / 100.0));
-                    int height = (int)(img.Height * (givenScale / 100.0));
+                    int width = (int)(img.Width * (scale / 100.0));
+                    int height = (int)(img.Height * (scale / 100.0));
 
                     //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                     //  dimension to become very small (or even negative). So here we will check the height and width
@@ -164,6 +183,22 @@ namespace TightWiki.Controllers
                         height += difference;
                         width += difference;
                     }
+
+                    using var image = Images.ResizeImage(img, width, height);
+                    using var ms = new MemoryStream();
+                    image.SaveAsPng(ms);
+
+                    var cacheItem = new ImageCacheItem(ms.ToArray(), "image/png");
+                    WikiCache.Put(cacheKey, cacheItem);
+                    return File(cacheItem.Bytes, cacheItem.ContentType);
+                }
+                //Enforce max width if specified.
+                else if (maxWidth > 0 && img.Width > maxWidth)
+                {
+                    double widthScale = (double)maxWidth / img.Width;
+
+                    int width = Math.Max(1, (int)Math.Round(img.Width * widthScale));
+                    int height = Math.Max(1, (int)Math.Round(img.Height * widthScale));
 
                     using var image = Images.ResizeImage(img, width, height);
                     using var ms = new MemoryStream();
@@ -445,14 +480,14 @@ namespace TightWiki.Controllers
 
             if (string.IsNullOrEmpty(emojiNavigation) == false)
             {
-                string scale = GetQueryValue("Scale", "100");
+                var givenScale = GetQueryValue("Scale", 100);
 
                 string shortcut = $"%%{emojiNavigation.ToLowerInvariant()}%%";
                 var emoji = GlobalConfiguration.Emojis.Where(o => o.Shortcut == shortcut).FirstOrDefault();
                 if (emoji != null)
                 {
                     //Do we have this scale cached already?
-                    var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut, scale]);
+                    var scaledImageCacheKey = WikiCacheKey.Build(WikiCache.Category.Emoji, [shortcut, givenScale]);
                     if (WikiCache.TryGet<ImageCacheItem>(scaledImageCacheKey, out var cachedEmoji))
                     {
                         return File(cachedEmoji.Bytes, cachedEmoji.ContentType);
@@ -479,17 +514,16 @@ namespace TightWiki.Controllers
 
                         var img = SixLabors.ImageSharp.Image.Load(new MemoryStream(decompressedImageBytes));
 
-                        int customScalePercent = int.Parse(scale);
-                        if (customScalePercent > 500)
+                        if (givenScale > 500)
                         {
-                            customScalePercent = 500;
+                            givenScale = 500;
                         }
 
                         var (Width, Height) = Utility.ScaleToMaxOf(img.Width, img.Height, GlobalConfiguration.DefaultEmojiHeight);
 
                         //Adjust to any specified scaling.
-                        Height = (int)(Height * (customScalePercent / 100.0));
-                        Width = (int)(Width * (customScalePercent / 100.0));
+                        Height = (int)(Height * (givenScale / 100.0));
+                        Width = (int)(Width * (givenScale / 100.0));
 
                         //Adjusting by a ratio (and especially after applying additional scaling) may have caused one
                         //  dimension to become very small (or even negative). So here we will check the height and width

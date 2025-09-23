@@ -249,10 +249,10 @@ namespace TightWiki.Controllers
                 Name = role.Name,
 
                 Members = UsersRepository.GetRoleMembersPaged(role.Id,
-                    GetQueryValue("Page_Members", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Members")),
+                    GetQueryValue("Page_Members", 1), GetQueryValue<string>("OrderBy_Members"), GetQueryValue<string>("OrderByDirection_Members")),
 
                 AssignedPermissions = UsersRepository.GetRolePermissionsPaged(role.Id,
-                    GetQueryValue("Page_Permissions", 1), GetQueryValue("OrderBy_Permission"), GetQueryValue("OrderByDirection_Permissions")),
+                    GetQueryValue("Page_Permissions", 1), GetQueryValue<string>("OrderBy_Permission"), GetQueryValue<string>("OrderByDirection_Permissions")),
 
                 PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
                 Permissions = UsersRepository.GetAllPermissions()
@@ -276,8 +276,8 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new RolesViewModel()
             {
@@ -366,10 +366,10 @@ namespace TightWiki.Controllers
                 AccountName = profile.AccountName,
 
                 Memberships = UsersRepository.GetAccountRoleMembershipPaged(profile.UserId,
-                    GetQueryValue("Page_Memberships", 1), GetQueryValue("OrderBy_Members"), GetQueryValue("OrderByDirection_Memberships")),
+                    GetQueryValue("Page_Memberships", 1), GetQueryValue<string>("OrderBy_Members"), GetQueryValue<string>("OrderByDirection_Memberships")),
 
                 AssignedPermissions = UsersRepository.GetAccountPermissionsPaged(profile.UserId,
-                    GetQueryValue("Page_Permissions", 1), GetQueryValue("OrderBy_Permissions"), GetQueryValue("OrderByDirection_Permissions")),
+                    GetQueryValue("Page_Permissions", 1), GetQueryValue<string>("OrderBy_Permissions"), GetQueryValue<string>("OrderByDirection_Permissions")),
 
                 PermissionDispositions = UsersRepository.GetAllPermissionDispositions(),
                 Permissions = UsersRepository.GetAllPermissions()
@@ -762,9 +762,9 @@ namespace TightWiki.Controllers
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
-            var searchString = GetQueryValue("SearchString") ?? string.Empty;
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
+            var searchString = GetQueryValue("SearchString", string.Empty);
 
             var model = new AccountsViewModel()
             {

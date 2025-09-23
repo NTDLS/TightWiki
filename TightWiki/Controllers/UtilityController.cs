@@ -44,11 +44,11 @@ namespace TightWiki.Controllers
         {
             var model = new ConfirmActionViewModel
             {
-                ControllerURL = GetQueryValue("controllerURL").EnsureNotNull(),
-                YesRedirectURL = GetQueryValue("yesRedirectURL").EnsureNotNull(),
-                NoRedirectURL = GetQueryValue("noRedirectURL").EnsureNotNull(),
-                Message = GetQueryValue("message").EnsureNotNull(),
-                Style = GetQueryValue("Style").EnsureNotNull()
+                ControllerURL = GetQueryValue<string>("controllerURL").EnsureNotNull(),
+                YesRedirectURL = GetQueryValue<string>("yesRedirectURL").EnsureNotNull(),
+                NoRedirectURL = GetQueryValue<string>("noRedirectURL").EnsureNotNull(),
+                Message = GetQueryValue<string>("message").EnsureNotNull(),
+                Style = GetQueryValue<string>("Style").EnsureNotNull()
             };
 
             return View(model);

@@ -223,8 +223,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Compilations Statistics");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new PageCompilationStatisticsViewModel()
             {
@@ -260,7 +260,7 @@ namespace TightWiki.Controllers
 
             SessionState.Page.Name = Localize("Page Moderation");
 
-            var instruction = GetQueryValue("Instruction");
+            var instruction = GetQueryValue<string>("Instruction");
             if (instruction != null)
             {
                 var model = new PageModerateViewModel()
@@ -311,8 +311,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Missing Pages");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new MissingPagesViewModel()
             {
@@ -343,8 +343,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Namespaces");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new NamespacesViewModel()
             {
@@ -371,8 +371,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Namespace");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new NamespaceViewModel()
             {
@@ -412,9 +412,9 @@ namespace TightWiki.Controllers
             }
             SessionState.Page.Name = Localize("Pages");
 
-            var searchString = GetQueryValue("SearchString");
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var searchString = GetQueryValue<string>("SearchString");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new PagesViewModel()
             {
@@ -486,8 +486,8 @@ namespace TightWiki.Controllers
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new DeletedPagesRevisionsViewModel()
             {
@@ -558,8 +558,8 @@ namespace TightWiki.Controllers
             var pageNavigation = NamespaceNavigation.CleanAndValidate(givenCanonical);
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new PageRevisionsViewModel()
             {
@@ -680,8 +680,8 @@ namespace TightWiki.Controllers
             }
             var searchString = GetQueryValue("SearchString", string.Empty);
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new DeletedPagesViewModel()
             {
@@ -961,8 +961,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Orphaned Page Attachments");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new OrphanedPageAttachmentsViewModel()
             {
@@ -1045,8 +1045,8 @@ namespace TightWiki.Controllers
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
             //var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new MenuItemsViewModel()
             {
@@ -1273,9 +1273,9 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Emojis");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
-            var searchString = GetQueryValue("SearchString") ?? string.Empty;
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
+            var searchString = GetQueryValue("SearchString", string.Empty);
 
             var model = new EmojisViewModel()
             {
@@ -1518,8 +1518,8 @@ namespace TightWiki.Controllers
             SessionState.Page.Name = Localize("Exceptions");
 
             var pageNumber = GetQueryValue("page", 1);
-            var orderBy = GetQueryValue("OrderBy");
-            var orderByDirection = GetQueryValue("OrderByDirection");
+            var orderBy = GetQueryValue<string>("OrderBy");
+            var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
             var model = new ExceptionsViewModel()
             {
