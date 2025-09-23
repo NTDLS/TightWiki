@@ -64,7 +64,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("TagGlossary (InfiniteString pageTags, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
                     _collection.Add("RecentlyModified (Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
                     _collection.Add("TextGlossary (String searchPhrase, Integer Top='1000', String styleName['List','Full']='Full', Boolean showNamespace='false')");
-                    _collection.Add("Image (String name, Integer scale='100', String altText=null, String class=null)");
+                    _collection.Add("Image (String name, Integer scale=null, String altText=null, String class=null, Integer maxWidth=null)");
                     _collection.Add("File (String name, String linkText, Boolean showSize='false')");
                     _collection.Add("Related (String styleName['List','Flat','Full']='Full', Integer pageSize='10', Boolean pageSelector='true')");
                     _collection.Add("Similar (Integer similarity='80', String styleName['List','Flat','Full']='Full', Integer pageSize='10', Boolean pageSelector='true')");
@@ -435,10 +435,11 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays an image that is attached to the page.
                 case "image": //##Image(Name, [optional:default=100]Scale, [optional:default=""]Alt-Text)
                     {
-                        string imageName = function.Parameters.Get<string>("name");
-                        string alt = function.Parameters.Get("alttext", imageName);
+                        var imageName = function.Parameters.Get<string>("name");
+                        var alt = function.Parameters.Get("alttext", imageName);
                         var imgClass = function.Parameters.GetNullable<string>("class");
-                        int scale = function.Parameters.Get<int>("scale");
+                        var scale = function.Parameters.GetNullable<int?>("scale");
+                        var maxWidth = function.Parameters.GetNullable<int?>("maxWidth");
 
                         bool explicitNamespace = imageName.Contains("::");
                         bool isPageForeignImage = false;
@@ -447,8 +448,12 @@ namespace TightWiki.Engine.Implementation.Handlers
                         {
                             imgClass = $"class=\"{imgClass}\"";
                         }
+                        else
+                        {
+                            imgClass = "class=\"img-fluid\"";
+                        }
 
-                        string navigation = state.Page.Navigation;
+                            string navigation = state.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
                             string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
@@ -472,17 +477,21 @@ namespace TightWiki.Engine.Implementation.Handlers
                             }
                         }
 
+                        var queryParams = new List<string>();
+                        if (scale != 100) queryParams.Add($"Scale={scale}");
+                        if (maxWidth != null) queryParams.Add($"MaxWidth={maxWidth}");
+
                         if (state.Revision != null && isPageForeignImage == false)
                         {
                             //Check for isPageForeignImage because we don't version foreign page files.
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}/{state.Revision}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
                             return new HandlerResult(image);
                         }
                         else
                         {
                             string link = $"/Page/Image/{navigation}/{NamespaceNavigation.CleanAndValidate(imageName)}";
-                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?Scale={scale}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
+                            string image = $"<a href=\"{GlobalConfiguration.BasePath}{link}\" target=\"_blank\"><img src=\"{GlobalConfiguration.BasePath}{link}?{string.Join('&', queryParams)}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
                             return new HandlerResult(image);
                         }
                     }
