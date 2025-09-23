@@ -58,6 +58,91 @@
 </style>
 
 <script>
+    function addClipboardImagePasteUpload(editor) {
+        const inputEl = editor.getInputField();
+        inputEl.addEventListener('paste', async (e) => {
+        try {
+            const dt = e.clipboardData || window.clipboardData;
+            if (!dt) return;
+
+            const files = [];
+
+            //Prefer items (for type checking). Fallback to files list.
+            if (dt.items && dt.items.length) {
+                for (const item of dt.items) {
+                    if (item.kind === 'file') {
+                        const file = item.getAsFile();
+                        if (file && /^image\//i.test(file.type))
+                        {
+                            files.push(file);
+                        }
+                    }
+                }
+            } else if (dt.files && dt.files.length) {
+                for (const f of dt.files) {
+                    if (f && /^image\//i.test(f.type)) {
+                        files.push(f);
+                    }
+                }
+            }
+
+            if (files.length === 0) return; //Let normal text paste continue
+            e.preventDefault(); //We found images; stop the browser from pasting base64 content
+
+            //Build FormData the same way our drag/drop uses it
+            const formData = new FormData();
+            const chosenNames = [];
+            let count = 0;
+
+            for (const file of files) {
+                const safeName = suggestFilenameForPaste(file, count++);
+                formData.append("postedFiles", file, safeName);
+                chosenNames.push(safeName);
+            }
+
+            const resp = await fetch('@Url.Action("UploadDragDrop", "File")/@sessionState.PageNavigationEscaped', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await resp.json();
+
+            //Insert tags at cursor
+            const doc = editor.getDoc();
+            const cursor = doc.getCursor();
+            const tags = chosenNames.map(n => toWikiimageTag(n)).join("\n");
+            doc.replaceRange(tags, cursor);
+
+           //Refresh the attachments list
+           $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
+
+         } catch (err) {
+           const uploadStatus = document.getElementById('uploadStatus');
+           if (uploadStatus) {
+             uploadStatus.innerHTML = `<p>@Localizer["Unexpected Error"]: ${err.message}</p>`;
+           }
+           console.error(err);
+         }
+       });
+     }
+
+     //Create a readable filename.
+     function suggestFilenameForPaste(file, count) {
+       const extFromName = (file.name || '').split('.').pop();
+       const extFromType = (file.type || '').split('/')[1];
+       const ext = (extFromName && extFromName.length <= 5) ? extFromName : (extFromType || 'png');
+       const stamp = new Date().toISOString().replace(/[-:T.Z]/g, '').slice(0, 15);
+       return `clip_${stamp}_${count}.${ext}`;
+     }
+
+     //Convert filename to TightWiki tag.
+     function toWikiimageTag(name) {
+       const ext = (name.split('.').pop() || '').toLowerCase();
+       const isImage = ['png','jpg','jpeg','gif','bmp','webp','avif','tif','tiff'].includes(ext);
+       return isImage ? `##Image("${name}")` : `##File(${name})`;
+     }
+</script>
+
+<script>
     const emojiApi = '@(GlobalConfiguration.BasePath)/File/AutoCompleteEmoji';
     const editMode = @(Model?.Id > 0 && @sessionState.HoldsPermission(WikiPermission.Create) ? "true" : "false");
     var editor;
@@ -316,6 +401,9 @@
             const dropSection = document.getElementById('dropSection');
             const fileInput = document.getElementById('fileInput');
             const uploadStatus = document.getElementById('uploadStatus');
+
+            addClipboardImagePasteUpload(editor);
+
             // Handle dragover event
             dropSection.addEventListener('dragover', (e) => {
                 e.preventDefault();
@@ -491,6 +579,7 @@
     }
 
 </script>
+
 
 <div class="bodyDiv">
     <div class="card shadow-lg">
