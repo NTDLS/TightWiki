@@ -34,20 +34,19 @@
             $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
             $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
             $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
-
-            $('a[href="#detachLink"]').click(function (e) {
-                var fileName = e.target.id;
-                if (confirm("@(Localizer["Are you sure you want to detach"]) '" + fileName + "'?")) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@GlobalConfiguration.BasePath/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
-                        success: function (result) {
-                            $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Model.PageNavigation");
-                        }
-                    });
-                }
-            });
         });
+
+        function detachFile(fileName) {
+            if (confirm("@(Localizer["Are you sure you want to detach"]) '" + fileName + "'?")) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@GlobalConfiguration.BasePath/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
+                    success: function (result) {
+                        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Model.PageNavigation");
+                    }
+                });
+            }
+        }
 
         function copyToClipboard(text, element) {
 
