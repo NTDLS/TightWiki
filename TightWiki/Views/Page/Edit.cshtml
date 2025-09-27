@@ -471,9 +471,9 @@
                 .then(response => response.json())  // Read the response as JSON
                 .then(result => {
                     if (result.success) {
-                        uploadStatus.innerHTML = "<p>@Localizer["Upload successful"]: ${result.message}</p>";
+                        uploadStatus.innerHTML = `<p>@Localizer["Upload successful"] - ${result.message}</p>`;
                     } else {
-                        uploadStatus.innerHTML = "<p>@Localizer["Error"]: ${result.message}</p>";
+                        uploadStatus.innerHTML = `<p>@Localizer["Error"] - ${result.message}</p>`;
                     }
                     $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 })

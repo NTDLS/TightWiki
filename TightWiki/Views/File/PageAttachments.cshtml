@@ -37,12 +37,16 @@
         });
 
         function detachFile(fileName) {
+
             if (confirm("@(Localizer["Are you sure you want to detach"]) '" + fileName + "'?")) {
                 $.ajax({
                     type: 'POST',
-                    url: '@GlobalConfiguration.BasePath/File/Detach/@Model.PageNavigation/' + fileName + '/@Model.PageRevision',
+                    url: '@GlobalConfiguration.BasePath/File/Detach/'
+                         + encodeURIComponent('@Html.Raw(Model.PageNavigation)')
+                         + '/' + encodeURIComponent(fileName)
+                         + '/' + encodeURIComponent('@Model.PageRevision'),
                     success: function (result) {
-                        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Model.PageNavigation");
+                        $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@Html.Raw(Model.PageNavigation)");
                     }
                 });
             }
