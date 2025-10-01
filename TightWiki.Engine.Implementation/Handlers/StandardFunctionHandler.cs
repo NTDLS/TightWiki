@@ -55,6 +55,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("Seq (String key='Default')");
                     _collection.Add("Set (String key, String value)");
                     _collection.Add("Get (String key)");
+                    _collection.Add("IFrame (String wikiPageOrURL, Integer height=null, Integer width=null, Integer border='0', Boolean allowFullScreen='false', String class=null, String title=null)");
                     _collection.Add("Color (String color, String text)");
                     _collection.Add("Tag (InfiniteString pageTags)"); //This is left here for backwards compatibility, Tag does not change the output, so it should be a processing instruction.
                     _collection.Add("SearchList (String searchPhrase, String styleName['List','Full']='Full', Integer pageSize='5', Boolean pageSelector='true', Boolean allowFuzzyMatching='false', Boolean showNamespace='false')");
@@ -406,6 +407,44 @@ namespace TightWiki.Engine.Implementation.Handlers
                         }
 
                         throw new Exception($"The wiki variable {key} is not defined. It should be set with ##Set() before calling Get().");
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
+                case "iframe":
+                    {
+                        var cssClass = function.Parameters.GetNullable<string?>("class");
+                        var title = function.Parameters.GetNullable<string?>("title");
+                        var wikiPageOrURL = function.Parameters.Get<string>("wikiPageOrURL");
+                        var allowFullScreen = function.Parameters.Get<bool>("allowFullScreen");
+                        var height = function.Parameters.GetNullable<int?>("height");
+                        var width = function.Parameters.GetNullable<int?>("width");
+                        var border = function.Parameters.Get<int>("border");
+
+                        var props = new List<string>();
+
+                        if (string.IsNullOrEmpty(title) == false)
+                            props.Add($"title=\"{title}\"");
+                        if (allowFullScreen)
+                            props.Add($"allowFullScreen");
+                        if (height != null)
+                            props.Add($"height=\"{height}\"");
+                        if (width != null)
+                            props.Add($"width=\"{width}\"");
+
+                        if (string.IsNullOrEmpty(cssClass) && width == null && height == null)
+                        {
+                            cssClass = "ratio ratio-16x9";
+                        }
+                        
+                        props.Add($"style=\"border:{border}px solid;\"");
+
+                        if (!(wikiPageOrURL.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase)
+                            || wikiPageOrURL.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase)))
+                        {
+                            wikiPageOrURL = $"{GlobalConfiguration.BasePath}/{wikiPageOrURL}";
+                        }
+
+                        return new HandlerResult($"<div class=\"{cssClass}\"><iframe src=\"{wikiPageOrURL}\" {string.Join(" ", props)} ></iframe></div>");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
