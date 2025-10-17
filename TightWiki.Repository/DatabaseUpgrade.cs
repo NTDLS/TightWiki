@@ -6,16 +6,20 @@ namespace TightWiki.Repository
 {
     public static class DatabaseUpgrade
     {
+        /// <summary>
+        /// Gets the current version stored in the VersionState table.
+        /// </summary>
         public static string GetVersionStateVersion()
-        {
-            var entries = ManagedDataStorage.Config.ExecuteScalar<string>(@"Scripts\Initialization\GetVersionStateVersion.sql");
-            return entries ?? "0.0.0";
-        }
+            => ManagedDataStorage.Config.ExecuteScalar<string>(@"Scripts\Initialization\GetVersionStateVersion.sql") ?? "0.0.0";
 
+        /// <summary>
+        /// Stores the current assembly version into the VersionState table.
+        /// </summary>
         public static void SetVersionStateVersion()
         {
-            var version = string.Join('.',
+            var version = string.Join('.', //Note that we only care about major.minor.patch hence the Take(3).
                 (Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3));
+
             ManagedDataStorage.Config.Execute(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
         }
 
@@ -36,7 +40,7 @@ namespace TightWiki.Repository
 
                 var assembly = Assembly.GetExecutingAssembly();
 
-                int currentPaddedVersion = Utility.PadVersionString(
+                int currentPaddedVersion = Utility.PadVersionString( //Note that we only care about major.minor.patch hence the Take(3).
                     string.Join('.', (assembly.GetName().Version?.ToString() ?? "0.0.0.0").Split('.').Take(3)));
 
                 if (currentPaddedVersion == storedPaddedVersion)
@@ -140,7 +144,7 @@ namespace TightWiki.Repository
             {
                 int endOfConditional = scriptText.IndexOf('(');
                 int endOfFirstLine = scriptText.IndexOf('\n');
-                var conditionalTag = scriptText.Substring(4, endOfConditional - 4).Trim();
+                var conditionalTag = scriptText.Substring(4, endOfConditional - 4).Trim().ToUpperInvariant();
                 var conditionalParam = scriptText.Substring(endOfConditional + 1, endOfFirstLine - endOfConditional).Trim().Trim(['(', ')']).Trim();
 
                 #region Conditional processing.
@@ -221,4 +225,3 @@ namespace TightWiki.Repository
         }
     }
 }
-
