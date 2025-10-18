@@ -47,7 +47,20 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/css/bootstrap.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Theme:Begin -->
+    @foreach (var file in sessionState.UserTheme.Files)
+    {
+        if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
+        {
+            <link rel="stylesheet" href="@file" />
+        }
+        else
+        {
+            <link rel="stylesheet" href="@Url.Content($"~{file}")" />
+        }
+    }
+    <!-- Theme:End-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/css/tabulator.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -62,26 +75,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.7/js/bootstrap.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tabulator/6.3.1/js/tabulator.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-    <!-- Theme:Begin -->
-    @foreach (var file in sessionState.UserTheme.Files)
-    {
-        if (file.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase) || file.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
-        {
-            <link rel="stylesheet" href="@file" />
-        }
-        else{
-            <link rel="stylesheet" href="@Url.Content($"~{file}")" />
-        }
-    }
-    <!-- Theme:End-->
-
     <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
 
     <script>
         $(document).ready(function () {
         localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
         $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
+        let navheight = $('nav').outerHeight() + 20; // spacing between navbar and main container
+        $('#maincontainer').css('margin-top', navheight + 'px');
         $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
         $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
         $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
@@ -254,7 +255,7 @@
         </nav>
     </header>
 
-    <div class="container" @(TightWiki.Models.GlobalConfiguration.FixedMenuPosition ? "style=margin-top:80px;" : "")>
+    <div id="maincontainer" class="container" >
         <main role="main" class="pb-3">
             @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLPreBody)
 
