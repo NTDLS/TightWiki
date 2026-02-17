@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
-using Org.BouncyCastle.Asn1.Ocsp;
 using TightWiki.Models;
 
 namespace TightWiki.Controllers
