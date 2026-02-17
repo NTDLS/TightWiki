@@ -453,7 +453,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                             imgClass = "class=\"img-fluid\"";
                         }
 
-                            string navigation = state.Page.Navigation;
+                        string navigation = state.Page.Navigation;
                         if (imageName.StartsWith("http", StringComparison.InvariantCultureIgnoreCase))
                         {
                             string image = $"<a href=\"{imageName}\" target=\"_blank\"><img src=\"{imageName}\" border=\"0\" alt=\"{alt}\" {imgClass} /></a>";
