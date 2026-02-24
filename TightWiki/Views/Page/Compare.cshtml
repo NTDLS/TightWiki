@@ -96,12 +96,12 @@ else
 
     <h6>
         @Localizer.Format("Changes made to this page for revision {0} by {1} on {2}.",
-            $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
-            $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
-            Model.ModifiedDate)
-    </h6>
+        $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
+        $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
+        Model.ModifiedDate)
+</h6>
 
-    @if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))
+@if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))
     {
         <div class="alert alert-secondary py-2 mb-3">
             <strong>@Localizer["Summary"]:</strong> "@Model.ChangeSummary"
@@ -129,16 +129,18 @@ else
                     for (int i = 0; i < count; i++)
                     {
                         var o = i < oldLines.Count ? oldLines[i] : null;
+
                         var n = i < newLines.Count ? newLines[i] : null;
                         var lcO = RowClass(o?.Type ?? ChangeType.Imaginary);
                         var lcN = RowClass(n?.Type ?? ChangeType.Imaginary);
-                        <tr class="@lcO">
+
+                        <tr>
                             <td class="ln">@o?.Position</td>
                             <td class="gutter"><div class="bar"></div></td>
-                            <td>@RenderLine(o)</td>
+                            <td class="@lcO">@RenderLine(o)</td>
                             <td class="ln">@n?.Position</td>
                             <td class="gutter"><div class="bar"></div></td>
-                            <td>@RenderLine(n)</td>
+                            <td class="@lcN">@RenderLine(n)</td>
                         </tr>
                     }
                 }
