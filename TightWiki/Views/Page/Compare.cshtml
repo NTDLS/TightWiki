@@ -17,7 +17,33 @@ else
     <link rel="stylesheet" href="@GlobalConfiguration.BasePath/css/diffPlexLight.css" />
 }
 
+<style>
+    tr.chunk-toolbar td.chunk-toolbar-cell {
+        padding: 0px;
+        white-space: normal !important;
+    }
+
+    .chunk-toolbar-inner {
+        white-space: normal !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    tr.diff-row.chunk-old-picked td.new-cell {
+        opacity: .35;
+    }
+
+    tr.diff-row.chunk-new-picked td.old-cell {
+        opacity: .35;
+    }
+</style>
+
 @functions {
+    record DiffChunk(int Index, int Start, int End);
+
     string RowClass(DiffPlex.DiffBuilder.Model.ChangeType t) => t switch
     {
         ChangeType.Inserted => "inserted",
@@ -26,6 +52,59 @@ else
         ChangeType.Imaginary => "imaginary",
         _ => "unchanged"
     };
+
+    static bool IsChanged(DiffPiece? o, DiffPiece? n)
+    {
+        var ot = o?.Type ?? ChangeType.Imaginary;
+        var nt = n?.Type ?? ChangeType.Imaginary;
+
+        // Treat Imaginary as "no line". We only consider it changed if the other side isn't unchanged.
+        bool oChanged = ot != ChangeType.Unchanged && ot != ChangeType.Imaginary;
+        bool nChanged = nt != ChangeType.Unchanged && nt != ChangeType.Imaginary;
+
+        // If either side is inserted/deleted/modified, it's changed.
+        // Also if one side is imaginary and the other is inserted/deleted/modified, it's changed.
+        return (ot != ChangeType.Unchanged) || (nt != ChangeType.Unchanged);
+    }
+
+    static List<DiffChunk> BuildChunks(IReadOnlyList<DiffPiece> oldLines, IReadOnlyList<DiffPiece> newLines)
+    {
+        var max = Math.Max(oldLines.Count, newLines.Count);
+        var chunks = new List<DiffChunk>();
+        int i = 0;
+        int chunkIndex = 0;
+
+        while (i < max)
+        {
+            var o = i < oldLines.Count ? oldLines[i] : null;
+            var n = i < newLines.Count ? newLines[i] : null;
+
+            if (!IsChanged(o, n))
+            {
+                i++;
+                continue;
+            }
+
+            int start = i;
+
+            while (i < max)
+            {
+                o = i < oldLines.Count ? oldLines[i] : null;
+                n = i < newLines.Count ? newLines[i] : null;
+
+                if (!IsChanged(o, n))
+                    break;
+
+                i++;
+            }
+
+            int end = i - 1;
+            chunks.Add(new DiffChunk(chunkIndex++, start, end));
+        }
+
+        return chunks;
+    }
+
 
     IHtmlContent RenderPieces(IReadOnlyList<DiffPiece> pieces)
     {
@@ -108,43 +187,136 @@ else
         </div>
     }
 
-    <div class="diff-wrap">
-        <table class="diff-table">
-            <thead class="diff-head">
-                <tr>
-                    <th class="ln">Old</th>
-                    <th class="gutter"></th>
-                    <th class="code">Text</th>
-                    <th class="ln">New</th>
-                    <th class="gutter"></th>
-                    <th class="code">Text</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    var oldLines = Model.DiffModel.OldText.Lines;
-                    var newLines = Model.DiffModel.NewText.Lines;
+    <form method="post" action="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@(Model.ThisRevision ?? 0)/Merge">
+        @Html.AntiForgeryToken()
 
-                    var count = Math.Max(oldLines.Count, newLines.Count);
-                    for (int i = 0; i < count; i++)
-                    {
-                        var o = i < oldLines.Count ? oldLines[i] : null;
+        <input type="hidden" id="chunkChoices" name="chunkChoices" value="{}" />
 
-                        var n = i < newLines.Count ? newLines[i] : null;
-                        var lcO = RowClass(o?.Type ?? ChangeType.Imaginary);
-                        var lcN = RowClass(n?.Type ?? ChangeType.Imaginary);
+        <div class="diff-wrap">
+            <table class="diff-table" id="diffTable">
+                <thead class="diff-head">
+                    <tr>
+                        <th class="ln">Old</th>
+                        <th class="gutter"></th>
+                        <th class="code">Text</th>
+                        <th class="ln">New</th>
+                        <th class="gutter"></th>
+                        <th class="code">Text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var oldLines = Model.DiffModel.OldText.Lines;
+                        var newLines = Model.DiffModel.NewText.Lines;
 
-                        <tr>
-                            <td class="ln">@o?.Position</td>
-                            <td class="gutter"><div class="bar"></div></td>
-                            <td class="@lcO">@RenderLine(o)</td>
-                            <td class="ln">@n?.Position</td>
-                            <td class="gutter"><div class="bar"></div></td>
-                            <td class="@lcN">@RenderLine(n)</td>
-                        </tr>
+                        var count = Math.Max(oldLines.Count, newLines.Count);
+
+                        var chunks = BuildChunks(oldLines, newLines);
+
+                        var chunkByStart = chunks.ToDictionary(c => c.Start, c => c);
+
+                        DiffChunk? FindChunkForRow(int row)
+                        {
+                            foreach (var c in chunks)
+                            {
+                                if (row >= c.Start && row <= c.End)
+                                {
+                                    return c;
+                                }
+                            }
+                            return null;
+                        }
+
+                        for (int i = 0; i < count; i++)
+                        {
+                            // If this row starts a chunk, inject a "chunk header" row.
+                            if (chunkByStart.TryGetValue(i, out var chunk))
+                            {
+                                <tr class="chunk-toolbar" data-chunk="@chunk.Index">
+                                    <td colspan="6" class="chunk-toolbar-cell">
+                                        <div class="chunk-toolbar-inner">
+                                            <span class="badge text-bg-secondary">Chunk @chunk.Index</span>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="chooseChunk(@chunk.Index, 'old')">Use Old</button>
+                                            <button type="button" class="btn btn-sm btn-outline-success" onclick="chooseChunk(@chunk.Index, 'new')">Use New</button>
+                                            <span class="small text-muted">Lines @(chunk.Start + 1) - @(chunk.End + 1)</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+
+                            var o = i < oldLines.Count ? oldLines[i] : null;
+                            var n = i < newLines.Count ? newLines[i] : null;
+
+                            var lcO = RowClass(o?.Type ?? ChangeType.Imaginary);
+                            var lcN = RowClass(n?.Type ?? ChangeType.Imaginary);
+
+                            var rowChunk = FindChunkForRow(i);
+                            var chunkAttr = rowChunk is null ? "" : $"data-chunk=\"{rowChunk.Index}\"";
+
+                            <tr class="diff-row" @Html.Raw(chunkAttr)>
+                                <td class="ln">@o?.Position</td>
+                                <td class="gutter"><div class="bar"></div></td>
+                                <td class="@lcO old-cell">@RenderLine(o)</td>
+
+                                <td class="ln">@n?.Position</td>
+                                <td class="gutter"><div class="bar"></div></td>
+                                <td class="@lcN new-cell">@RenderLine(n)</td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+            <button type="button" class="btn btn-outline-secondary" onclick="selectAll('old')">Select all Old</button>
+            <button type="button" class="btn btn-outline-secondary" onclick="selectAll('new')">Select all New</button>
+
+            <button type="submit" class="btn btn-primary ms-auto">
+                Save merged result
+            </button>
+        </div>
+    </form>
 }
+
+
+<script>
+    const chunkChoices = {};
+
+    function syncChoices() {
+        document.getElementById('chunkChoices').value = JSON.stringify(chunkChoices);
+    }
+
+    function chooseChunk(chunkIndex, side) {
+        chunkChoices[String(chunkIndex)] = side;
+        syncChoices();
+
+        //Update styling for that chunk
+        const rows = document.querySelectorAll(`tr.diff-row[data-chunk="${chunkIndex}"]`);
+        rows.forEach(r => {
+            r.classList.remove('chunk-old-picked', 'chunk-new-picked');
+            r.classList.add(side === 'old' ? 'chunk-old-picked' : 'chunk-new-picked');
+        });
+    }
+
+    function selectAll(side) {
+        //Choose for all chunk toolbars present
+        const toolbars = document.querySelectorAll('tr.chunk-toolbar[data-chunk]');
+        toolbars.forEach(tb => {
+            const idx = tb.getAttribute('data-chunk');
+            chooseChunk(idx, side);
+        });
+    }
+
+    // Default behavior: if user doesn't pick, treat as "new"
+    // (You can flip this to 'old' if you want.)
+    window.addEventListener('DOMContentLoaded', () => {
+        const toolbars = document.querySelectorAll('tr.chunk-toolbar[data-chunk]');
+        toolbars.forEach(tb => {
+            const idx = tb.getAttribute('data-chunk');
+            if (chunkChoices[String(idx)] == null) {
+                chooseChunk(idx, 'new');
+            }
+        });
+    });
+</script>
