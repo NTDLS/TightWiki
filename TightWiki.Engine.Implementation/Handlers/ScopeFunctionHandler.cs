@@ -1,4 +1,5 @@
 ﻿using NTDLS.Helpers;
+using System.Net;
 using System.Text;
 using TightWiki.Engine.Function;
 using TightWiki.Engine.Implementation.Utility;
@@ -84,17 +85,19 @@ namespace TightWiki.Engine.Implementation.Handlers
                 case "code":
                     {
                         var html = new StringBuilder();
-
                         string language = function.Parameters.Get<string>("language");
+
+                        scopeBody = scopeBody.Replace("\r\n", "\n").Replace("\t", "    ");
+
+                        var encodedScopeBody = WebUtility.HtmlEncode(scopeBody);
+
                         if (string.IsNullOrEmpty(language) || language?.ToLowerInvariant() == "auto")
                         {
-                            html.Append($"<pre>");
-                            html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
+                            html.Append($"<pre><code>{encodedScopeBody}</code></pre>");
                         }
                         else
                         {
-                            html.Append($"<pre class=\"language-{language}\">");
-                            html.Append($"<code>{scopeBody.Replace("\r\n", "\n").Replace("\n", SoftBreak)}</code></pre>");
+                            html.Append($"<pre class=\"language-{language}\"><code>{encodedScopeBody}</code></pre>");
                         }
 
                         return new HandlerResult(html.ToString())
