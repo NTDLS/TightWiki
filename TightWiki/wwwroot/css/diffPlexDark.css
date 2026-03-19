@@ -5,7 +5,8 @@
     --del-ch: #e74c3c; /* bright red bar/text */
     --mod-bg: #3a2f1e; /* dark amber background */
     --mod-ch: #f39c12; /* bright amber bar/text */
-    --dim-bg: #2d2d2d; /* slightly lighter than main bg for gutter/imaginary */
+    --dim-gg: #2d2d2d; /* slightly lighter than main bg for gutter */
+    --dim-bg: #3e3e3e; /* slightly lighter than main bg for imaginary */
     --border: #444; /* darker border for dark theme */
 }
 
@@ -56,6 +57,7 @@
 .gutter {
     width: .4rem;
     padding: 0;
+    background: var(--dim-gg);
 }
 
 .bar {
