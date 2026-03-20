@@ -13,7 +13,7 @@ namespace TightWiki.Library
             => input.IndexOfAny(UnsafePageNameCharacters) >= 0;
 
         public static int CountOccurrencesOf(string input, string substring)
-            => input.Split(["::"], StringSplitOptions.None).Length - 1;
+            => input.Split(substring, StringSplitOptions.None).Length - 1;
 
         public static int PadVersionString(string versionString, int padLength = 3)
             => int.Parse(string.Join("", versionString.Split('.').Select(x => x.Trim().PadLeft(padLength, '0'))));
