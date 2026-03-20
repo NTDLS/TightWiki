@@ -157,6 +157,9 @@
     var select2Initialized = false;
     let previewRequestInFlight = null;
     let lastPreviewBody = null;
+    let initialBodyValue = '';
+    let isBodyDirty = false;
+    let isSubmitting = false;
 
     function surroundSelectionWith(open, close) {
         const doc = editor.getDoc();
@@ -191,6 +194,17 @@
     insertLinkModal = new bootstrap.Modal('#insertLinkModal');
     featureInsertModal = new bootstrap.Modal('#featureInsertModal');
     templatesModal = new bootstrap.Modal('#templatesModal');
+
+    const pageEditForm = document.getElementById('pageEditForm');
+    if (pageEditForm) {
+        pageEditForm.addEventListener('submit', function () {
+            if (editor) {
+                editor.save();
+            }
+            clearBodyDirtyState();
+            isSubmitting = true;
+        });
+    }
 
     document.getElementById('insertLinkModal').addEventListener('shown.bs.modal', function() {
         if (select2Initialized)
@@ -402,6 +416,14 @@
             autocorrect: true              // Enables autocorrect
         });
 
+        initialBodyValue = getCurrentBodyValue();
+        isBodyDirty = false;
+
+        editor.on('change', function () {
+            updateBodyDirtyState();
+            lastPreviewBody = null;
+        });
+
         if (editMode) {
             const dropSection = document.getElementById('dropSection');
             const fileInput = document.getElementById('fileInput');
@@ -570,6 +592,26 @@
         setInterval(ping, 60000);
     });
 
+    function getCurrentBodyValue() {
+        return editor ? editor.getValue() : (document.getElementById('Body')?.value || '');
+    }
+
+    function updateBodyDirtyState() {
+        isBodyDirty = getCurrentBodyValue() !== initialBodyValue;
+    }
+
+    function clearBodyDirtyState() {
+        initialBodyValue = getCurrentBodyValue();
+        isBodyDirty = false;
+    }
+
+    window.addEventListener('beforeunload', function (e) {
+        if (!isSubmitting && isBodyDirty) {
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+
     function ping() {
         const spans = document.querySelectorAll('.badge.text-bg-danger');
         fetch('@Url.Action("Ping", "Page")?r=' + Math.random(), { method: 'GET' })
@@ -652,7 +694,7 @@
     <div class="card shadow-lg">
         <div class="card-header"><h3>@Localizer["Content"]</h3></div>
         <div class="card-body">
-            @using (Html.BeginForm(FormMethod.Post))
+            @using (Html.BeginForm(FormMethod.Post, new { id = "pageEditForm" }))
             {
                 @Html.HiddenFor(x => x.Id)
 
