@@ -18,6 +18,8 @@
 <script src="@Url.Content("~/codemirror/mode/tightwiki/tightwiki.js")"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/addon/scroll/simplescrollbars.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<script src="@Url.Content("~/syntax/highlight.min.js")"></script>
+
 <style type="text/css">
     .CodeMirror {
         border: 1px solid #eee;
@@ -641,6 +643,7 @@
             previewError.classList.remove('d-none');
         } finally {
             previewLoading.classList.add('d-none');
+            hljs.highlightAll();
         }
     }
 </script>
