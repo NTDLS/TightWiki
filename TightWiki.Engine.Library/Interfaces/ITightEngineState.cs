@@ -79,5 +79,16 @@ namespace TightWiki.Engine.Library.Interfaces
         /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
         /// <see cref="WikiMatchSet.AllowNestedDecode"/></param>
         public void SwapInStoredMatches(WikiString pageContent, bool forceNestedDecode);
+
+        /// <summary>
+        /// Replaces soft and hard line break markers in the specified page content with the provided override value or
+        /// a default replacement.
+        /// </summary>
+        /// <remarks>This method modifies the provided WikiString instance in place. If different
+        /// replacements are needed for soft and hard breaks, call this method separately for each type.</remarks>
+        /// <param name="pageContent">The wiki page content in which line break markers will be replaced. Cannot be null.</param>
+        /// <param name="overrideValue">The string to use as a replacement for both soft and hard line break markers. If null, uses "\r\n" for soft
+        /// breaks and "<br />" for hard breaks.</param>
+        public void SwapInLineBreaks(WikiString pageContent, string? overrideValue = null);
     }
 }

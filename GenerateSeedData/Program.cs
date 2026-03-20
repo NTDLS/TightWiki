@@ -77,6 +77,8 @@ namespace GenerateSeedData
             }
             File.WriteAllText(@$"{outputPath}\^{index++:D3}^Pages^FeatureTemplate.sql", sb.ToString());
             #endregion
+
+            //TODO: Add Help pages.
         }
 
         /// <summary>

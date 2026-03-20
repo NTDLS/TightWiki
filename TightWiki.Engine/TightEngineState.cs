@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -181,8 +182,7 @@ namespace TightWiki.Engine
 
                 //While we were transforming, we replaced new-lines with magic strings so now we need
                 //  to swap those back to real new-lines and line-breaks for the final HTML result.
-                pageContent.Replace(SoftBreak, "\r\n");
-                pageContent.Replace(HardBreak, "<br />");
+                SwapInLineBreaks(pageContent);
 
                 //Prepend any headers that were added by wiki handlers.
                 foreach (var header in Headers)
@@ -275,6 +275,21 @@ namespace TightWiki.Engine
         }
 
         /// <summary>
+        /// Replaces soft and hard line break markers in the specified page content with the provided override value or
+        /// a default replacement.
+        /// </summary>
+        /// <remarks>This method modifies the provided WikiString instance in place. If different
+        /// replacements are needed for soft and hard breaks, call this method separately for each type.</remarks>
+        /// <param name="pageContent">The wiki page content in which line break markers will be replaced. Cannot be null.</param>
+        /// <param name="overrideValue">The string to use as a replacement for both soft and hard line break markers. If null, uses "\r\n" for soft
+        /// breaks and "<br />" for hard breaks.</param>
+        public void SwapInLineBreaks(WikiString pageContent, string? overrideValue = null)
+        {
+            pageContent.Replace(SoftBreak, overrideValue ?? "\r\n");
+            pageContent.Replace(HardBreak, overrideValue ?? "<br />");
+        }
+
+        /// <summary>
         /// Transform basic markup such as bold, italics, underline, etc. for single and multi-line.
         /// </summary>
         private void TransformMarkup(WikiString pageContent)
@@ -338,7 +353,7 @@ namespace TightWiki.Engine
             {
                 string value = match.Value.Substring(2, match.Value.Length - 4);
                 value = HttpUtility.HtmlEncode(value);
-                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", "<br />\r\n"), false);
+                StoreMatch(WikiMatchType.Literal, pageContent, match.Value, value.Replace("\r", "").Trim().Replace("\n", $"{HardBreak}"), false);
             }
         }
 

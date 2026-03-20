@@ -94,6 +94,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         //  in, we need to swap them in before encoding the text for HTML. This is to allow us
                         //  to display wiki code and also use literals #{}# within code blocks.
                         state.SwapInStoredMatches(wikiScopeBody, true);
+                        state.SwapInLineBreaks(wikiScopeBody, "\r\n");
 
                         var encodedScopeBody = WebUtility.HtmlEncode(wikiScopeBody.ToString());
 
