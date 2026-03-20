@@ -184,83 +184,86 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var html = new StringBuilder();
 
-                        string type = function.Parameters.Get<string>("type");
-
-                        if (type == "unordered")
+                        switch (function.Parameters.Get<string>("type").ToLowerInvariant())
                         {
-                            var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                            int currentLevel = 0;
-
-                            foreach (var line in lines)
-                            {
-                                int newIndent = 0;
-                                for (; newIndent < line.Length && line[newIndent] == '>'; newIndent++)
+                            case "unordered":
                                 {
-                                    //Count how many '>' are at the start of the line.
-                                }
-                                newIndent++;
+                                    var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
 
-                                if (newIndent < currentLevel)
-                                {
-                                    for (; currentLevel != newIndent; currentLevel--)
+                                    int currentLevel = 0;
+
+                                    foreach (var line in lines)
+                                    {
+                                        int newIndent = 0;
+                                        for (; newIndent < line.Length && line[newIndent] == '>'; newIndent++)
+                                        {
+                                            //Count how many '>' are at the start of the line.
+                                        }
+                                        newIndent++;
+
+                                        if (newIndent < currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel--)
+                                            {
+                                                html.Append($"</ul>");
+                                            }
+                                        }
+                                        else if (newIndent > currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel++)
+                                            {
+                                                html.Append($"<ul>");
+                                            }
+                                        }
+
+                                        html.Append($"<li>{line.Trim(['>'])}</li>");
+                                    }
+
+                                    for (; currentLevel > 0; currentLevel--)
                                     {
                                         html.Append($"</ul>");
                                     }
                                 }
-                                else if (newIndent > currentLevel)
+                                break;
+                            case "ordered":
                                 {
-                                    for (; currentLevel != newIndent; currentLevel++)
+                                    var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
+
+                                    int currentLevel = 0;
+
+                                    foreach (var line in lines)
                                     {
-                                        html.Append($"<ul>");
+                                        int newIndent = 0;
+                                        for (; newIndent < line.Length && line[newIndent] == '>'; newIndent++)
+                                        {
+                                            //Count how many '>' are at the start of the line.
+                                        }
+                                        newIndent++;
+
+                                        if (newIndent < currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel--)
+                                            {
+                                                html.Append($"</ol>");
+                                            }
+                                        }
+                                        else if (newIndent > currentLevel)
+                                        {
+                                            for (; currentLevel != newIndent; currentLevel++)
+                                            {
+                                                html.Append($"<ol>");
+                                            }
+                                        }
+
+                                        html.Append($"<li>{line.Trim(['>'])}</li>");
                                     }
-                                }
 
-                                html.Append($"<li>{line.Trim(['>'])}</li>");
-                            }
-
-                            for (; currentLevel > 0; currentLevel--)
-                            {
-                                html.Append($"</ul>");
-                            }
-                        }
-                        else if (type == "ordered")
-                        {
-                            var lines = scopeBody.Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Select(o => o.Trim()).Where(o => o.Length > 0);
-
-                            int currentLevel = 0;
-
-                            foreach (var line in lines)
-                            {
-                                int newIndent = 0;
-                                for (; newIndent < line.Length && line[newIndent] == '>'; newIndent++)
-                                {
-                                    //Count how many '>' are at the start of the line.
-                                }
-                                newIndent++;
-
-                                if (newIndent < currentLevel)
-                                {
-                                    for (; currentLevel != newIndent; currentLevel--)
+                                    for (; currentLevel > 0; currentLevel--)
                                     {
                                         html.Append($"</ol>");
                                     }
                                 }
-                                else if (newIndent > currentLevel)
-                                {
-                                    for (; currentLevel != newIndent; currentLevel++)
-                                    {
-                                        html.Append($"<ol>");
-                                    }
-                                }
-
-                                html.Append($"<li>{line.Trim(['>'])}</li>");
-                            }
-
-                            for (; currentLevel > 0; currentLevel--)
-                            {
-                                html.Append($"</ol>");
-                            }
+                                break;
                         }
                         return new HandlerResult(html.ToString());
                     }
@@ -298,16 +301,16 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var html = new StringBuilder();
 
-                        string direction = function.Parameters.Get<string>("direction");
                         var lines = scopeBody.Split("\n").Select(o => o.Trim()).ToList();
 
-                        if (direction == "ascending")
+                        switch (function.Parameters.Get<string>("direction").ToLowerInvariant())
                         {
-                            html.Append(string.Join("\r\n", lines.OrderBy(o => o)));
-                        }
-                        else
-                        {
-                            html.Append(string.Join("\r\n", lines.OrderByDescending(o => o)));
+                            case "ascending":
+                                html.Append(string.Join("\r\n", lines.OrderBy(o => o)));
+                                break;
+                            case "descending":
+                                html.Append(string.Join("\r\n", lines.OrderByDescending(o => o)));
+                                break;
                         }
                         return new HandlerResult(html.ToString());
                     }

@@ -194,7 +194,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var searchToken = function.Parameters.GetNullable<string>("searchToken");
                         var profiles = UsersRepository.GetAllPublicProfilesPaged(pageNumber, pageSize, searchToken);
 
-                        if (profiles.Count() > 0)
+                        if (profiles.Count > 0)
                         {
                             html.Append("<ul>");
 
@@ -243,7 +243,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                     html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Page/Binary/{state.Page.Navigation}/{file.FileNavigation}\">{file.Name} </a>");
                                 }
 
-                                if (styleName == "full")
+                                if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     html.Append($" - ({file.FriendlySize})");
                                 }
@@ -287,7 +287,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                             {
                                 html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{item.Navigation}/{item.Revision}\">{item.Revision} by {item.ModifiedByUserName} on {state.Session.LocalizeDateTime(item.ModifiedDate)}</a>");
 
-                                if (styleName == "full")
+                                if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     var thisRev = PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision);
                                     var prevRev = PageRepository.GetPageRevisionByNavigation(state.Page.Navigation, item.Revision - 1);
@@ -736,7 +736,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                         html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                     }
 
-                                    if (styleName == "full")
+                                    if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                     {
                                         if (page?.Description?.Length > 0)
                                         {
@@ -794,7 +794,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                         html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                     }
 
-                                    if (styleName == "full")
+                                    if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                     {
                                         if (page?.Description?.Length > 0)
                                         {
@@ -843,7 +843,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                     html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                 }
 
-                                if (styleName == "full")
+                                if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     if (page?.Description?.Length > 0)
                                     {
@@ -892,7 +892,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                                     html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
                                 }
 
-                                if (styleName == "full")
+                                if (styleName.Equals("full", StringComparison.InvariantCultureIgnoreCase))
                                 {
                                     if (page?.Description?.Length > 0)
                                     {
@@ -924,31 +924,31 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         var pages = PageRepository.GetSimilarPagesPaged(state.Page.Id, similarity, pageNumber, pageSize);
 
-                        if (styleName == "list")
+                        switch (styleName.ToLowerInvariant())
                         {
-                            html.Append("<ul>");
-                            foreach (var page in pages)
-                            {
-                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
-                            }
-                            html.Append("</ul>");
-                        }
-                        else if (styleName == "flat")
-                        {
-                            foreach (var page in pages)
-                            {
-                                if (html.Length > 0) html.Append(" | ");
-                                html.Append($"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
-                            }
-                        }
-                        else if (styleName == "full")
-                        {
-                            html.Append("<ul>");
-                            foreach (var page in pages)
-                            {
-                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
-                            }
-                            html.Append("</ul>");
+                            case "list":
+                                html.Append("<ul>");
+                                foreach (var page in pages)
+                                {
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                                }
+                                html.Append("</ul>");
+                                break;
+                            case "flat":
+                                foreach (var page in pages)
+                                {
+                                    if (html.Length > 0) html.Append(" | ");
+                                    html.Append($"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                                }
+                                break;
+                            case "full":
+                                html.Append("<ul>");
+                                foreach (var page in pages)
+                                {
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
+                                }
+                                html.Append("</ul>");
+                                break;
                         }
 
                         if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)
@@ -973,31 +973,31 @@ namespace TightWiki.Engine.Implementation.Handlers
 
                         var pages = PageRepository.GetRelatedPagesPaged(state.Page.Id, pageNumber, pageSize);
 
-                        if (styleName == "list")
+                        switch (styleName.ToLowerInvariant())
                         {
-                            html.Append("<ul>");
-                            foreach (var page in pages)
-                            {
-                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
-                            }
-                            html.Append("</ul>");
-                        }
-                        else if (styleName == "flat")
-                        {
-                            foreach (var page in pages)
-                            {
-                                if (html.Length > 0) html.Append(" | ");
-                                html.Append($"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
-                            }
-                        }
-                        else if (styleName == "full")
-                        {
-                            html.Append("<ul>");
-                            foreach (var page in pages)
-                            {
-                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
-                            }
-                            html.Append("</ul>");
+                            case "list":
+                                html.Append("<ul>");
+                                foreach (var page in pages)
+                                {
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                                }
+                                html.Append("</ul>");
+                                break;
+                            case "flat":
+                                foreach (var page in pages)
+                                {
+                                    if (html.Length > 0) html.Append(" | ");
+                                    html.Append($"<a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a>");
+                                }
+                                break;
+                            case "full":
+                                html.Append("<ul>");
+                                foreach (var page in pages)
+                                {
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/{page.Navigation}\">{page.Title}</a> - {page.Description}");
+                                }
+                                html.Append("</ul>");
+                                break;
                         }
 
                         if (pageSelector && pages.Count > 0 && pages.First().PaginationPageCount > 1)

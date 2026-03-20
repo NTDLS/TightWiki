@@ -71,25 +71,25 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays a tag link list.
                 case "tags": //##tags
                     {
-                        string styleName = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         var html = new StringBuilder();
 
-                        if (styleName == "list")
+                        switch (function.Parameters.Get<string>("styleName").ToLowerInvariant())
                         {
-                            html.Append("<ul>");
-                            foreach (var tag in state.Tags)
-                            {
-                                html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
-                            }
-                            html.Append("</ul>");
-                        }
-                        else if (styleName == "flat")
-                        {
-                            foreach (var tag in state.Tags)
-                            {
-                                if (html.Length > 0) html.Append(" | ");
-                                html.Append($"<a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
-                            }
+                            case "list":
+                                html.Append("<ul>");
+                                foreach (var tag in state.Tags)
+                                {
+                                    html.Append($"<li><a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
+                                }
+                                html.Append("</ul>");
+                                break;
+                            case "flat":
+                                foreach (var tag in state.Tags)
+                                {
+                                    if (html.Length > 0) html.Append(" | ");
+                                    html.Append($"<a href=\"{GlobalConfiguration.BasePath}/Tag/Browse/{tag}\">{tag}</a>");
+                                }
+                                break;
                         }
 
                         return new HandlerResult(html.ToString());
