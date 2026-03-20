@@ -78,14 +78,33 @@
     <link rel="stylesheet" href="@Url.Content("~/css/base.css")" />
 
     <script>
-        $(document).ready(function () {
-        localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
-        $('nav').removeClass('navbar-light bg-white').addClass('@sessionState.UserTheme.ClassNavBar');
-        let navheight = $('nav').outerHeight() + 20; // spacing between navbar and main container
-        $('#maincontainer').css('margin-top', navheight + 'px');
-        $('a.nav-link').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassNavLink');
-        $('a.dropdown-item').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassDropdown');
-        $('span.glyphicon').removeClass('text-dark').addClass('@sessionState.UserTheme.ClassBranding');
+        $(function () {
+            localStorage.setItem('theme', '@sessionState.UserTheme.EditorTheme');
+
+            $('nav')
+                .removeClass('navbar-light bg-white')
+                .addClass('@sessionState.UserTheme.ClassNavBar');
+
+            $('a.nav-link')
+                .removeClass('text-dark')
+                .addClass('@sessionState.UserTheme.ClassNavLink');
+
+            $('a.dropdown-item')
+                .removeClass('text-dark')
+                .addClass('@sessionState.UserTheme.ClassDropdown');
+
+            $('span.glyphicon')
+                .removeClass('text-dark')
+                .addClass('@sessionState.UserTheme.ClassBranding');
+
+            // Fixed menu adjustment (conditionally rendered by Razor)
+            @if (TightWiki.Models.GlobalConfiguration.FixedMenuPosition)
+            {
+                <text>
+                let navheight = $('nav').outerHeight() + 20;
+                $('#maincontainer').css('margin-top', navheight + 'px');
+                </text>
+            }
         });
     </script>
 
@@ -112,9 +131,9 @@
                         }
 
                         @if (sessionState.HoldsPermission(WikiPermission.Create)
-                        || (sessionState.ShouldCreatePage == true && sessionState.HoldsPermission(WikiPermission.Create))
-                        || (sessionState.Page.Exists == true && (sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
-                        )
+                                                || (sessionState.ShouldCreatePage == true && sessionState.HoldsPermission(WikiPermission.Create))
+                                                || (sessionState.Page.Exists == true && (sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
+                                                )
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Localizer["Page"]</a>
@@ -143,14 +162,14 @@
                                         @if (sessionState.Page.IsHistoricalVersion == false)
                                         {
                                             if ((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
-                                                ||(isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
+                                                || (isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
                                             {
                                                 <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Delete">@Localizer["Delete this page"]</a>
-                                            }                                           
+                                            }
                                         }
                                         @if (sessionState.Page.IsHistoricalVersion == false)
                                         {
-                                            if((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
+                                            if ((isPageProtected != true && sessionState.HoldsPermission(WikiPermission.Edit))
                                             || (isPageProtected == true && sessionState.HoldsPermission(WikiPermission.Moderate)))
                                             {
                                                 <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Edit">@Localizer["Edit"]</a>
@@ -195,7 +214,7 @@
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Emojis">@Localizer["Emojis"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/MenuItems">@Localizer["Site Menu"]</a>
                                         <div class="dropdown-divider"></div>
-                                       <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/CompilationStatistics">@Localizer["Compilations"]</a>
+                                        <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/CompilationStatistics">@Localizer["Compilations"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Database">@Localizer["Database"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Localizer["Exceptions"]</a>
                                         <a class="dropdown-item text-dark" href="@GlobalConfiguration.BasePath/Admin/Metrics">@Localizer["Metrics"]</a>
@@ -255,7 +274,7 @@
         </nav>
     </header>
 
-    <div id="maincontainer" class="container" >
+    <div id="maincontainer" class="container">
         <main role="main" class="pb-3">
             @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLPreBody)
 
@@ -293,17 +312,17 @@
 
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                        setTimeout(function () {
-                            let alertElement = document.getElementById('success-alert');
-                            if (alertElement) {
-                                // Add fade-out effect
-                                alertElement.classList.remove('show');
-                                alertElement.classList.add('fade');
+                    setTimeout(function () {
+                    let alertElement = document.getElementById('success-alert');
+                    if (alertElement) {
+                    // Add fade-out effect
+                    alertElement.classList.remove('show');
+                    alertElement.classList.add('fade');
 
-                                // Remove the alert completely after the fade-out animation
-                                setTimeout(() => alertElement.remove(), 300);
-                            }
-                        }, 5000);
+                    // Remove the alert completely after the fade-out animation
+                    setTimeout(() => alertElement.remove(), 300);
+                    }
+                    }, 5000);
                     });
                 </script>
             }
