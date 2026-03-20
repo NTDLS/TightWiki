@@ -18,13 +18,8 @@ namespace TightWiki.Engine.Implementation.Handlers
         /// <param name="text">The text for the self link.</param>
         public HandlerResult Handle(ITightEngineState state, int depth, string link, string text)
         {
-            double fontSize = 2.2 - (depth - 1) * 0.2;
-            if (fontSize < 0.8)
-            {
-                fontSize = 0.8;
-            }
-
-            string html = $"<span class=\"mb-0\" style=\"font-size: {fontSize}rem;\"><a name=\"{link}\">{text}</a></span>\r\n";
+            depth = Math.Clamp(depth, 1, 6);
+            string html = $"""<div class="tw-heading tw-heading-{depth}" id="{link}"><a href="#{link}">{text}</a></div>""";
             return new HandlerResult(html);
         }
     }
