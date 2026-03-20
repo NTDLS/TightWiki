@@ -5,23 +5,24 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-    @Localizer["Logout"]
-</h3>
+<h3>@Localizer["Logout"]</h3>
 
 <p>
-    @Localizer["Logging out will make sure that others cant use this session to make changes to the wiki. You'll need to log back in before making changes."]<br /><br />
+    @Localizer["Logging out will make sure that others cant use this session to make changes to the wiki. You'll need to log back in before making changes."]
 </p>
 
-@{
-    if (User.Identity?.IsAuthenticated ?? false)
-    {
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-            <button type="submit" class="btn btn-primary">@Localizer["Logout"]</button>
-        </form>
-    }
-    else
-    {
-        <p>@Localizer["You have successfully logged out of the application."]</p>
-    }
+@if (User.Identity?.IsAuthenticated ?? false)
+{
+    <form class="form-inline"
+          asp-area="Identity"
+          asp-page="/Account/Logout"
+          asp-route-returnUrl="@($"{TightWiki.Models.GlobalConfiguration.BasePath}/")"
+          method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-primary">@Localizer["Logout"]</button>
+    </form>
+}
+else
+{
+    <p>@Localizer["You have successfully logged out of the application."]</p>
 }

@@ -11,7 +11,8 @@ using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
-    public class LogoutModel : PageModelBase
+    public class LogoutModel
+        : PageModelBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LogoutModel> _logger;
@@ -19,7 +20,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
 
         public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LogoutModel> logger, IAuthenticationSchemeProvider schemeProvider)
-                        : base(signInManager)
+            : base(signInManager)
         {
             _schemeProvider = schemeProvider;
             _signInManager = signInManager;
