@@ -1,73 +1,72 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.29.1</Version>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <Compile Remove="keys\**" />
-    <Content Remove="keys\**" />
-    <EmbeddedResource Remove="keys\**" />
-    <None Remove="keys\**" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>2.29.2</Version>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
-    <PackageReference Include="DiffPlex" Version="1.9.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="10.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.5">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="NTDLS.DelegateThreadPooling" Version="2.0.4" />
-    <PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.5" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugSymbols>False</DebugSymbols>
+		<DebugType>None</DebugType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
-    <ProjectReference Include="..\TightWiki.Email\TightWiki.Email.csproj" />
-    <ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
-    <ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
-    <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
-    <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
-    <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
-    <ProjectReference Include="..\TightWiki.Security\TightWiki.Security.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="keys\**" />
+		<Content Remove="keys\**" />
+		<EmbeddedResource Remove="keys\**" />
+		<None Remove="keys\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Views\Admin\PageRevisions.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="Views\File\Revisions.cshtml">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Update="wwwroot\css\light.css">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
+		<PackageReference Include="DiffPlex" Version="1.9.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="10.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.5" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.5">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NTDLS.DelegateThreadPooling" Version="2.0.4" />
+		<PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.5" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Static\My.cs.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Resources\Static\My.sk.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TightWiki.Caching\TightWiki.Caching.csproj" />
+		<ProjectReference Include="..\TightWiki.Email\TightWiki.Email.csproj" />
+		<ProjectReference Include="..\TightWiki.Engine.Implementation\TightWiki.Engine.Implementation.csproj" />
+		<ProjectReference Include="..\TightWiki.Engine\TightWiki.Engine.csproj" />
+		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
+		<ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
+		<ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
+		<ProjectReference Include="..\TightWiki.Security\TightWiki.Security.csproj" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<Content Update="Views\Admin\PageRevisions.cshtml">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="Views\File\Revisions.cshtml">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="wwwroot\css\light.css">
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Static\My.cs.resx">
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Static\My.sk.resx">
+			<SubType>Designer</SubType>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

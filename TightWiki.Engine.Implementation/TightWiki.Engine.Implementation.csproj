@@ -1,21 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Version>2.29.1</Version>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Version>2.29.2</Version>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <DebugSymbols>False</DebugSymbols>
-    <DebugType>None</DebugType>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugSymbols>False</DebugSymbols>
+		<DebugType>None</DebugType>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TightWiki.Engine.Library\TightWiki.Engine.Library.csproj" />
-    <ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
-    <ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
-    <ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<ProjectReference Include="..\TightWiki.Engine.Library\TightWiki.Engine.Library.csproj" />
+		<ProjectReference Include="..\TightWiki.Library\TightWiki.Library.csproj" />
+		<ProjectReference Include="..\TightWiki.Models\TightWiki.Models.csproj" />
+		<ProjectReference Include="..\TightWiki.Repository\TightWiki.Repository.csproj" />
+	</ItemGroup>
 </Project>
