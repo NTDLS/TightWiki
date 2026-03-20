@@ -1,6 +1,7 @@
 ﻿namespace TightWiki.Models.ViewModels.Profile
 {
-    public class ConfirmViewModel : ViewModelBase
+    public class ConfirmViewModel
+        : ViewModelBase
     {
     }
 }

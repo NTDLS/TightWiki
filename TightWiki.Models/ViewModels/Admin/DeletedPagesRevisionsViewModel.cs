@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.ViewModels.Admin
 {
-    public class DeletedPagesRevisionsViewModel : ViewModelBase
+    public class DeletedPagesRevisionsViewModel
+        : ViewModelBase
     {
         public int PageId { get; set; }
         public string Name { get; set; } = string.Empty;

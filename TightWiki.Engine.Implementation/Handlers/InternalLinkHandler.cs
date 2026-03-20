@@ -11,7 +11,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles links from one wiki page to another.
     /// </summary>
-    public class InternalLinkHandler : IInternalLinkHandler
+    public class InternalLinkHandler
+        : IInternalLinkHandler
     {
         /// <summary>
         /// Handles an internal wiki link.

@@ -17,7 +17,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handled standard function calls, where the function call is replaced with the function result.
     /// </summary>
-    public class StandardFunctionHandler : IStandardFunctionHandler
+    public class StandardFunctionHandler
+        : IStandardFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

@@ -4,7 +4,8 @@ using TightWiki.Models.DataModels;
 
 namespace TightWiki.Models.ViewModels.Profile
 {
-    public class PublicViewModel : ViewModelBase
+    public class PublicViewModel
+        : ViewModelBase
     {
         public string Navigation { get; set; } = string.Empty;
         public Guid Id { get; set; }

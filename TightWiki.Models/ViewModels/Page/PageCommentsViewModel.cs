@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.ViewModels.Page
 {
-    public class PageCommentsViewModel : ViewModelBase
+    public class PageCommentsViewModel
+        : ViewModelBase
     {
         public List<PageComment> Comments { get; set; } = new();
         public string Comment { get; set; } = string.Empty;

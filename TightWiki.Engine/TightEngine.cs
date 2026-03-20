@@ -4,7 +4,8 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine
 {
-    public class TightEngine : ITightEngine
+    public class TightEngine
+        : ITightEngine
     {
         public IScopeFunctionHandler ScopeFunctionHandler { get; private set; }
         public IStandardFunctionHandler StandardFunctionHandler { get; private set; }

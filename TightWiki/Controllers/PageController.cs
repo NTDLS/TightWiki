@@ -27,12 +27,8 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("")]
-    public class PageController(
-        ITightEngine tightEngine,
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IStringLocalizer<PageController> localizer,
-        ISideBySideDiffBuilder diffBuilder)
+    public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, IStringLocalizer<PageController> localizer, ISideBySideDiffBuilder diffBuilder)
         : WikiControllerBase<PageController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]

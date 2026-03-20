@@ -6,7 +6,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles wiki headings. These are automatically added to the table of contents.
     /// </summary>
-    public class HeadingHandler : IHeadingHandler
+    public class HeadingHandler
+        : IHeadingHandler
     {
         /// <summary>
         /// Handles wiki headings. These are automatically added to the table of contents.

@@ -10,7 +10,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles processing-instruction function calls, these functions affect the way the page is processed, but are not directly replaced with text.
     /// </summary>
-    public class ProcessingInstructionFunctionHandler : IProcessingInstructionFunctionHandler
+    public class ProcessingInstructionFunctionHandler
+        : IProcessingInstructionFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

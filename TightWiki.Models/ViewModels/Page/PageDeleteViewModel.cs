@@ -1,6 +1,7 @@
 ﻿namespace TightWiki.Models.ViewModels.Page
 {
-    public class PageDeleteViewModel : ViewModelBase
+    public class PageDeleteViewModel
+        : ViewModelBase
     {
         public int CountOfAttachments { get; set; }
         public int MostCurrentRevision { get; set; }

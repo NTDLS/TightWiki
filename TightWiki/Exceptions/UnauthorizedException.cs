@@ -1,6 +1,7 @@
 ﻿namespace TightWiki.Exceptions
 {
-    public class UnauthorizedException : Exception
+    public class UnauthorizedException
+        : Exception
     {
         public UnauthorizedException()
             : base()

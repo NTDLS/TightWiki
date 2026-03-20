@@ -19,10 +19,8 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminSecurityController(
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IStringLocalizer<AdminSecurityController> localizer)
+    public class AdminSecurityController(SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, IStringLocalizer<AdminSecurityController> localizer)
         : WikiControllerBase<AdminSecurityController>(signInManager, userManager, localizer)
     {
         #region Roles.

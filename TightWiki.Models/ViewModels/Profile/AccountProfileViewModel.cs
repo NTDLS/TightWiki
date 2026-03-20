@@ -2,7 +2,8 @@ using TightWiki.Library;
 
 namespace TightWiki.Models.ViewModels.Profile
 {
-    public class AccountProfileViewModel : ViewModelBase
+    public class AccountProfileViewModel
+        : ViewModelBase
     {
         public List<Theme> Themes { get; set; } = new();
         public List<TimeZoneItem> TimeZones { get; set; } = new();

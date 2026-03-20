@@ -9,10 +9,7 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class UtilityController(
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IStringLocalizer<UtilityController> localizer)
+    public class UtilityController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<UtilityController> localizer)
         : WikiControllerBase<UtilityController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]

@@ -12,10 +12,7 @@ using static TightWiki.Library.Constants;
 namespace TightWiki.Controllers
 {
     [Authorize]
-    public class TagsController(
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IStringLocalizer<TagsController> localizer)
+    public class TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<TagsController> localizer)
         : WikiControllerBase<TagsController>(signInManager, userManager, localizer)
     {
         [AllowAnonymous]

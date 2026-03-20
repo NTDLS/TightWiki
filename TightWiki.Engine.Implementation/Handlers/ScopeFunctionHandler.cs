@@ -13,7 +13,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handled scope function calls, where the function applies to all of the text in the given scope.
     /// </summary>
-    public class ScopeFunctionHandler : IScopeFunctionHandler
+    public class ScopeFunctionHandler
+        : IScopeFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

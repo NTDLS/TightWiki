@@ -7,7 +7,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles wiki comments. These are generally removed from the result.
     /// </summary>
-    public class CommentHandler : ICommentHandler
+    public class CommentHandler
+        : ICommentHandler
     {
         /// <summary>
         /// Handles a wiki comment.

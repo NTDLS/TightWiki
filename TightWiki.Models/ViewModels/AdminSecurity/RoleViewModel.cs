@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.ViewModels.AdminSecurity
 {
-    public class RoleViewModel : ViewModelBase
+    public class RoleViewModel
+        : ViewModelBase
     {
         public int Id { get; set; }
 

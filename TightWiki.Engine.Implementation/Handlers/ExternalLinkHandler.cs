@@ -7,7 +7,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles links the wiki to another site.
     /// </summary>
-    public class ExternalLinkHandler : IExternalLinkHandler
+    public class ExternalLinkHandler
+        : IExternalLinkHandler
     {
         /// <summary>
         /// Handles an internal wiki link.

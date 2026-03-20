@@ -12,7 +12,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles post-processing function calls.
     /// </summary>
-    public class PostProcessingFunctionHandler : IPostProcessingFunctionHandler
+    public class PostProcessingFunctionHandler
+        : IPostProcessingFunctionHandler
     {
         private static FunctionPrototypeCollection? _collection;
 

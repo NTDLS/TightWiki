@@ -6,7 +6,8 @@ using System.Globalization;
 
 namespace TightWiki.Library
 {
-    public class InvariantDecimalModelBinderProvider : IModelBinderProvider
+    public class InvariantDecimalModelBinderProvider
+        : IModelBinderProvider
     {
         public IModelBinder? GetBinder(ModelBinderProviderContext context)
         {
@@ -22,7 +23,8 @@ namespace TightWiki.Library
         }
     }
 
-    public class InvariantDecimalModelBinder(Type modelType, ILoggerFactory loggerFactory) : IModelBinder
+    public class InvariantDecimalModelBinder(Type modelType, ILoggerFactory loggerFactory)
+        : IModelBinder
     {
         readonly SimpleTypeModelBinder _baseBinder = new SimpleTypeModelBinder(modelType, loggerFactory);
 

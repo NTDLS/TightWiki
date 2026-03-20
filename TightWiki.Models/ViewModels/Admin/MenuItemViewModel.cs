@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.ViewModels.Admin
 {
-    public class MenuItemViewModel : ViewModelBase
+    public class MenuItemViewModel
+        : ViewModelBase
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;

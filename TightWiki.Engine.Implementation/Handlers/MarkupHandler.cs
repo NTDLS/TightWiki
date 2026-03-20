@@ -7,7 +7,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles basic markup/style instructions like bole, italic, underline, etc.
     /// </summary>
-    public class MarkupHandler : IMarkupHandler
+    public class MarkupHandler
+        : IMarkupHandler
     {
         /// <summary>
         /// Handles basic markup instructions like bole, italic, underline, etc.

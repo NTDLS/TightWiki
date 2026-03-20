@@ -1,6 +1,7 @@
 namespace TightWiki.Models.ViewModels.Page
 {
-    public class DeletedPageRevisionViewModel : ViewModelBase
+    public class DeletedPageRevisionViewModel
+        : ViewModelBase
     {
         public int PageId { get; set; }
         public int Revision { get; set; }

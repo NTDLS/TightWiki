@@ -1,6 +1,7 @@
 ﻿namespace TightWiki.Models.ViewModels.Utility
 {
-    public class ConfirmActionViewModel : ViewModelBase
+    public class ConfirmActionViewModel
+        : ViewModelBase
     {
         public string ControllerURL { get; set; } = string.Empty;
         public string YesRedirectURL { get; set; } = string.Empty;

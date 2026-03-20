@@ -3,7 +3,8 @@ using TightWiki.Models.DataModels;
 
 namespace TightWiki.Models.ViewModels.Profile
 {
-    public class AccountViewModel : ViewModelBase
+    public class AccountViewModel
+        : ViewModelBase
     {
         public List<TimeZoneItem> TimeZones { get; set; } = new();
         public List<CountryItem> Countries { get; set; } = new();

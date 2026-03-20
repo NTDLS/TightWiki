@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.ViewModels.Page
 {
-    public class PageEditViewModel : ViewModelBase
+    public class PageEditViewModel
+        : ViewModelBase
     {
         public int Id { get; set; }
 

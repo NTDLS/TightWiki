@@ -2,7 +2,8 @@
 
 namespace TightWiki.Models.ViewModels.AdminSecurity
 {
-    public class AccountRolesViewModel : ViewModelBase
+    public class AccountRolesViewModel
+        : ViewModelBase
     {
         public Guid Id { get; set; }
 

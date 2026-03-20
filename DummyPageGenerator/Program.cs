@@ -19,7 +19,8 @@ namespace DummyPageGenerator
 {
     internal class Program
     {
-        public class NoOpCompletionHandler : ICompletionHandler
+        public class NoOpCompletionHandler
+            : ICompletionHandler
         {
             public void Complete(ITightEngineState state)
             {

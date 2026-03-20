@@ -8,7 +8,8 @@ namespace TightWiki.Engine.Implementation.Handlers
     /// <summary>
     /// Handles wiki emojis.
     /// </summary>
-    public class EmojiHandler : IEmojiHandler
+    public class EmojiHandler
+        : IEmojiHandler
     {
         /// <summary>
         /// Handles an emoji instruction.

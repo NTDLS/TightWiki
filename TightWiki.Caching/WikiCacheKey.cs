@@ -6,7 +6,8 @@ namespace TightWiki.Caching
     /// Contains a verbatim cache key.
     /// </summary>
     /// <param name="key"></param>
-    public class WikiCacheKey(string key) : IWikiCacheKey
+    public class WikiCacheKey(string key)
+        : IWikiCacheKey
     {
         public string Key { get; set; } = key;
 

@@ -17,10 +17,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("File")]
-    public class FileController(
-        SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager,
-        IStringLocalizer<FileController> localizer)
+    public class FileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<FileController> localizer)
         : WikiControllerBase<FileController>(signInManager, userManager, localizer)
     {
         /// <summary>

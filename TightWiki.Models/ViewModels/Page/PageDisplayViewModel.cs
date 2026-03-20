@@ -2,7 +2,8 @@ using TightWiki.Models.DataModels;
 
 namespace TightWiki.Models.ViewModels.Page
 {
-    public class PageDisplayViewModel : ViewModelBase
+    public class PageDisplayViewModel
+        : ViewModelBase
     {
         public string Body { get; set; } = string.Empty;
         public string ModifiedByUserName { get; set; } = string.Empty;
