@@ -36,7 +36,6 @@ namespace TightWiki.Library
 
         public static IHtmlContent Generate(string url, Dictionary<string, string>? queryString, int? totalPageCount, string queryToken)
         {
-            var sb = new StringBuilder();
             int currentPage = 1;
 
             var firstPage = QueryStringConverter.Clone(queryString);
@@ -62,33 +61,26 @@ namespace TightWiki.Library
 
             if ((totalPageCount ?? 0) > 1 || currentPage > 1)
             {
-                sb.Append($"<center>");
-                if (currentPage > 1)
-                {
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(firstPage)}\">&lt;&lt; {Localizer["First"]}</a>");
-                    sb.Append("&nbsp; | &nbsp;");
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(prevPage)}\">&lt; {Localizer["Previous"]}</a>");
-                }
-                else
-                {
-                    sb.Append($"&lt;&lt; {Localizer["First"]} &nbsp; | &nbsp; &lt; {Localizer["Previous"]}");
-                }
-                sb.Append("&nbsp; | &nbsp;");
-
-                if (currentPage < totalPageCount)
-                {
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(nextPage)}\">{Localizer["Next"]} &gt;</a>");
-                    sb.Append("&nbsp; | &nbsp;");
-                    sb.Append($"<a href=\"{url}?{QueryStringConverter.FromCollection(lastPage)}\">{Localizer["Last"]} &gt;&gt;</a>");
-                }
-                else
-                {
-                    sb.Append($"{Localizer["Next"]} &gt; &nbsp; | &nbsp; {Localizer["Last"]} &gt;&gt;");
-                }
-                sb.Append($"</center>");
+                return new HtmlString($@"
+                    <div class='d-flex justify-content-center'>
+                        <div class='btn-group' role='group'>
+                            <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{QueryStringConverter.FromCollection(firstPage)}'>
+                                <i class='bi bi-chevron-double-left'></i>
+                            </a>
+                            <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{QueryStringConverter.FromCollection(prevPage)}'>
+                                <i class='bi bi-chevron-left'></i>
+                            </a>
+                            <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{QueryStringConverter.FromCollection(nextPage)}'>
+                                <i class='bi bi-chevron-right'></i>
+                            </a>
+                            <a class='btn btn-outline-secondary {(currentPage < totalPageCount ? "" : "disabled")}' href='{url}?{QueryStringConverter.FromCollection(lastPage)}'>
+                                <i class='bi bi-chevron-double-right'></i>
+                            </a>
+                        </div>
+                    </div>");
             }
 
-            return new HtmlString(sb.ToString());
+            return new HtmlString(string.Empty);
         }
     }
 }
