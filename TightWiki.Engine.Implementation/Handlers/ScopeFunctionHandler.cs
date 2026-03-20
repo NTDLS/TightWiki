@@ -333,7 +333,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var html = new StringBuilder();
 
-                        var style = BGFGStyle.GetForegroundStyle(function.Parameters.Get("styleName", "default")).Swap();
+                        var style = FillStyler.GetForegroundStyle(function.Parameters.Get("styleName", "default")).Swap();
                         html.Append($"<p class=\"{style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</p>");
                         return new HandlerResult(html.ToString());
                     }
@@ -343,7 +343,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var html = new StringBuilder();
 
-                        var style = BGFGStyle.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
+                        var style = FillStyler.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
                         html.Append($"<div class=\"p-3 mb-2 {style.ForegroundStyle} {style.BackgroundStyle}\">{scopeBody}</div>");
                         return new HandlerResult(html.ToString());
                     }
@@ -383,12 +383,13 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var html = new StringBuilder();
 
                         string titleText = function.Parameters.Get<string>("titleText");
-                        var style = BGFGStyle.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
+                        var borderStyle = BorderStyler.GetBorderStyle(function.Parameters.Get("styleName", "default"));
+                        var fillStyle = FillStyler.GetBackgroundStyle(function.Parameters.Get("styleName", "default"));
 
-                        html.Append($"<div class=\"card {style.ForegroundStyle} {style.BackgroundStyle} shadow-lg mb-3\">");
+                        html.Append($"<div class=\"card {borderStyle.ForegroundStyle} {borderStyle.BorderStyle} shadow-lg mb-3\">");
                         if (string.IsNullOrEmpty(titleText) == false)
                         {
-                            html.Append($"<div class=\"card-header\">{titleText}</div>");
+                            html.Append($"<div class=\"card-header {fillStyle.ForegroundStyle} {fillStyle.BackgroundStyle}\">{titleText}</div>");
                         }
                         html.Append("<div class=\"card-body\">");
                         html.Append($"<p class=\"card-text\">{scopeBody}</p>");
