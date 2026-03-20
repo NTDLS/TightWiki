@@ -24,8 +24,9 @@
         height: 50em;
     }
 
-    .active {
+    #editorTabs .nav-link.active {
         background-color: lightgreen !important;
+        border-color: #dee2e6 #dee2e6 #fff;
     }
 
     #dropSection {
@@ -152,6 +153,8 @@
     var featureInsertModal;
     var templatesModal;
     var select2Initialized = false;
+    let previewRequestInFlight = null;
+    let lastPreviewBody = null;
 
     function surroundSelectionWith(open, close) {
         const doc = editor.getDoc();
@@ -436,6 +439,13 @@
                 const files = fileInput.files;
                 handleFileUpload(files);
             });
+
+            const previewTabButton = document.getElementById('preview-tab');
+            if (previewTabButton) {
+                previewTabButton.addEventListener('shown.bs.tab', function () {
+                    loadPreview();
+                });
+            }
         }
         else {
 
@@ -578,8 +588,62 @@
             });
     }
 
-</script>
+    async function loadPreview() {
+        const previewContent = document.getElementById('previewContent');
+        const previewLoading = document.getElementById('previewLoading');
+        const previewError = document.getElementById('previewError');
 
+        previewError.classList.add('d-none');
+        previewError.textContent = '';
+
+        const body = editor ? editor.getValue() : document.getElementById('Body').value;
+        const pageName = document.getElementById('Name')?.value || '';
+
+        if (body === lastPreviewBody) {
+            return;
+        }
+
+        lastPreviewBody = body;
+
+        previewLoading.classList.remove('d-none');
+        previewContent.innerHTML = '';
+
+        try {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+            const response = await fetch('@Url.Action("Preview", "Page")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify({
+                    body: body,
+                    name: pageName,
+                    pageNavigation: '@sessionState.PageNavigation'
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('HTTP ' + response.status);
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+                previewContent.innerHTML = result.html;
+            } else {
+                previewError.textContent = result.message || '@Localizer["Failed to load preview."]';
+                previewError.classList.remove('d-none');
+            }
+        } catch (err) {
+            previewError.textContent = '@Localizer["Unexpected Error"]' + ': ' + err.message;
+            previewError.classList.remove('d-none');
+        } finally {
+            previewLoading.classList.add('d-none');
+        }
+    }
+</script>
 
 <div class="bodyDiv">
     <div class="card shadow-lg">
@@ -627,74 +691,132 @@
                     <div class="text-danger">@Html.ValidationMessageFor(m => m.ChangeSummary)</div>
                 }
 
-                <!-- Toolbar -->
-                @if (@sessionState.UserTheme.EditorTheme == "dark")
-                {
-                    <div class="d-flex gap-2 mb-2">
-                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('**','**')">
-                            <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('//','//')">
-                            <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('__','__')">
-                            <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('~~','~~')">
-                            <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('!!','!!')">
-                            <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
-                            <img src="/images/toolbar/toolbar_Dark_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
-                            <img src="/images/toolbar/toolbar_Dark_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
-                        </button>
+                <!-- EDITOR TABS BEGIN -->
 
-                        <div style="width:1px; height:24px; background-color:#ccc;"></div>
-
-                        <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
-                            @Localizer["Insert"] <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
+                <ul class="nav nav-tabs mb-3" id="editorTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active"
+                                id="edit-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#edit-tab-pane"
+                                type="button"
+                                role="tab"
+                                aria-controls="edit-tab-pane"
+                                aria-selected="true">
+                            @Localizer["Edit"]
                         </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="preview-tab"
+                                data-bs-toggle="tab"
+                                data-bs-target="#preview-tab-pane"
+                                type="button"
+                                role="tab"
+                                aria-controls="preview-tab-pane"
+                                aria-selected="false">
+                            @Localizer["Preview"]
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="editorTabContent">
+                    <div class="tab-pane fade show active"
+                         id="edit-tab-pane"
+                         role="tabpanel"
+                         aria-labelledby="edit-tab"
+                         tabindex="0">
+                        <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
+
+                        <!-- Toolbar -->
+                        @if (@sessionState.UserTheme.EditorTheme == "dark")
+                        {
+                            <div class="d-flex gap-2 mb-2">
+                                <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('**','**')">
+                                    <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('//','//')">
+                                    <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('__','__')">
+                                    <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('~~','~~')">
+                                    <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('!!','!!')">
+                                    <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
+                                    <img src="/images/toolbar/toolbar_Dark_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
+                                    <img src="/images/toolbar/toolbar_Dark_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
+                                </button>
+
+                                <div style="width:1px; height:24px; background-color:#ccc;"></div>
+
+                                <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
+                                    @Localizer["Insert"] <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="d-flex gap-2 mb-2">
+                                <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('**','**')">
+                                    <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('//','//')">
+                                    <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('__','__')">
+                                    <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('~~','~~')">
+                                    <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('!!','!!')">
+                                    <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
+                                    <img src="/images/toolbar/toolbar_Light_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
+                                </button>
+                                <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
+                                    <img src="/images/toolbar/toolbar_Light_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
+                                </button>
+
+                                <div style="width:1px; height:24px; background-color:#222;"></div>
+
+                                <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
+                                    @Localizer["Insert"] <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
+                                </button>
+                            </div>
+                        }
+
+                        <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
                     </div>
-                }
-                else
-                {
-                    <div class="d-flex gap-2 mb-2">
-                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('**','**')">
-                            <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('//','//')">
-                            <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('__','__')">
-                            <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('~~','~~')">
-                            <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('!!','!!')">
-                            <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
-                            <img src="/images/toolbar/toolbar_Light_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
-                            <img src="/images/toolbar/toolbar_Light_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
-                        </button>
 
-                        <div style="width:1px; height:24px; background-color:#222;"></div>
+                    <div class="tab-pane fade"
+                         id="preview-tab-pane"
+                         role="tabpanel"
+                         aria-labelledby="preview-tab"
+                         tabindex="0">
 
-                        <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
-                            @Localizer["Insert"] <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
-                        </button>
+                        <div id="previewLoading" class="py-3 d-none">
+                            <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                            @Localizer["Loading preview..."]
+                        </div>
+
+                        <div id="previewError" class="alert alert-danger d-none mt-3"></div>
+
+                        <div id="previewContent" class="border rounded p-3 mt-3 bg-body">
+                            <em>@Localizer["Preview will appear here."]</em>
+                        </div>
                     </div>
-                }
+                </div>
 
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Body)</div>
-                <textarea id="Body" name="Body" spellcheck="true">@(Model?.Body ?? String.Empty)</textarea>
+                <!-- EDITOR END -->
                 <br />
 
                 <div class="form-group">

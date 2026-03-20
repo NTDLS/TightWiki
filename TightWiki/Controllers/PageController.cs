@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
@@ -17,6 +18,7 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
+using TightWiki.Models.Requests;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
 using static TightWiki.Library.Constants;
@@ -683,6 +685,64 @@ namespace TightWiki.Controllers
         #endregion
 
         #region Edit.
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Preview([FromBody] PagePreviewRequest request)
+        {
+            if (request == null || string.IsNullOrWhiteSpace(request.Body))
+            {
+                return Json(new
+                {
+                    success = true,
+                    html = "<em>No content to preview.</em>"
+                });
+            }
+
+            try
+            {
+                //We're really only showing the text that was passed in, so this check is wholly unnecessary.
+                /*
+                try
+                {
+                    //If the page exists, user must have read access to preview since we will show the existing page content with the new content.
+                    var existingPage = PageRepository.GetPageRevisionByNavigation(request.PageNavigation);
+                    if (existingPage != null)
+                    {
+                        SessionState.RequirePermission(request.PageNavigation, WikiPermission.Read);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(ex.GetBaseException().Message, "/");
+                }
+                */
+
+                var page = new Page()
+                {
+                    Body = request.Body,
+                    Name = request.Name,
+                    Navigation = request.PageNavigation,
+                };
+
+                var state = tightEngine.Transform(SessionState, page);
+
+                return Json(new
+                {
+                    success = true,
+                    html = state.HtmlResult
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = ex.Message
+                });
+            }
+        }
 
         [Authorize]
         [HttpGet("{givenCanonical}/Create")]
