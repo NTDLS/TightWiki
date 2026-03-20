@@ -61,7 +61,7 @@ namespace TightWiki.Engine.Library.Interfaces
         /// </summary>
         public T GetStateValue<T>(string key, T defaultValue);
 
-        string GetNextQueryToken();
+        string GetNextHttpQueryToken();
 
         /// <summary>
         /// Transforms "included" wiki pages, for example if a wiki function
@@ -70,5 +70,14 @@ namespace TightWiki.Engine.Library.Interfaces
         /// <param name="page">The child page to process</param>
         /// <param name="revision">The optional revision of the child page to process</param>
         ITightEngineState TransformChild(IPage page, int? revision = null);
+
+        /// <summary>
+        /// Replaces placeholders in the specified page content with previously stored match values.
+        /// </summary>
+        /// <param name="pageContent">The page content in which placeholders will be replaced. Cannot be null.</param>
+        /// <param name="forceDecode">If true, matches are replaced even if they are set to not allow nested decode.
+        /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
+        /// <see cref="WikiMatchSet.AllowNestedDecode"/></param>
+        public void SwapInStoredMatches(WikiString pageContent, bool forceNestedDecode);
     }
 }

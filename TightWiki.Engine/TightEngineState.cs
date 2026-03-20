@@ -13,7 +13,8 @@ using static TightWiki.Engine.Library.Constants;
 
 namespace TightWiki.Engine
 {
-    public class TightEngineState : ITightEngineState
+    public class TightEngineState
+        : ITightEngineState
     {
         public ITightEngine Engine { get; private set; }
 
@@ -142,42 +143,44 @@ namespace TightWiki.Engine
 
                 pageContent.Replace("\r\n", "\n");
 
+                //The order of transformations is important, the first thing we need to do is transform
+                //  literals so that the content inside them is not transformed by any other handlers
+                //  and is displayed verbatim on the page. For example, if we have a code block with
+                //  some wiki markup inside it, we don't want that wiki markup to be transformed,
+                //  we want it to be displayed as-is.
                 TransformLiterals(pageContent);
 
+                //Now we transform all other handlers, we loop through them until we have no more matches
+                //  to transform because some handlers can introduce new wiki markup that needs to be
+                //  transformed. For example, if we have a template that includes other templates, we
+                //  need to keep transforming until we have transformed all the included templates and
+                //  there is no more wiki markup to transform.
                 while (TransformAll(pageContent) > 0)
                 {
                 }
 
+                //Now we transform post-processing functions, these are functions that need to be
+                //  transformed after all other transformations have been done. For example, we
+                //  can't build a table-of-contents until we have parsed the entire page and
+                //  identified all the headings.
                 TransformPostProcessingFunctions(pageContent);
                 TransformWhitespace(pageContent);
 
                 if (PageTitle != null)
                 {
+                    //Page title will be a wiki placeholder (set by the title() function), retrieve the content and replace the title.
                     if (Matches.TryGetValue(PageTitle, out var pageTitle))
                     {
                         PageTitle = pageTitle.Content;
                     }
                 }
 
+                //Finally, we swap in all the matches that we have stored throughout
+                //  the transformation process with their resulting content.
+                SwapInStoredMatches(pageContent, true);
 
-                int length;
-                do
-                {
-                    length = pageContent.Length;
-                    foreach (var v in Matches)
-                    {
-                        if (OmitMatches.Contains(v.Value.MatchType))
-                        {
-                            /// When matches are omitted, the entire match will be removed from the resulting wiki text.
-                            pageContent.Replace(v.Key, string.Empty);
-                        }
-                        else
-                        {
-                            pageContent.Replace(v.Key, v.Value.Content);
-                        }
-                    }
-                } while (length != pageContent.Length);
-
+                //While we were transforming, we replaced new-lines with magic strings so now we need
+                //  to swap those back to real new-lines and line-breaks for the final HTML result.
                 pageContent.Replace(SoftBreak, "\r\n");
                 pageContent.Replace(HardBreak, "<br />");
 
@@ -187,6 +190,7 @@ namespace TightWiki.Engine
                     pageContent.Insert(0, header);
                 }
 
+                //TADA! We should have our final HTML result ready to go.
                 HtmlResult = pageContent.ToString();
             }
             catch (Exception ex)
@@ -207,20 +211,45 @@ namespace TightWiki.Engine
 
             _matchesStoredPerIteration = 0;
 
+            //Some of the functions need to be processed before others, for example the CODE function
+            //  needs to be processed before other functions because it can contain wiki markup that
+            //  we don't want to transform, we want it to be displayed verbatim on the page. So we do
+            //  a first pass for those functions, then we do a second pass for the rest of the functions.
+            TransformScopeFunctions(pageContent, true); //First pass for "first chance" functions.
+            TransformStandardFunctions(pageContent, true); //First pass for "first chance" functions.
+
             TransformComments(pageContent);
             TransformHeadings(pageContent);
 
-            TransformScopeFunctions(pageContent);
-
+            TransformScopeFunctions(pageContent, false); //Second pass for all functions.
             TransformVariables(pageContent);
             TransformLinks(pageContent);
             TransformMarkup(pageContent);
             TransformEmoji(pageContent);
 
-            TransformStandardFunctions(pageContent, true);
-            TransformStandardFunctions(pageContent, false);
+            TransformStandardFunctions(pageContent, false); //Second pass for all functions.
             TransformProcessingInstructionFunctions(pageContent);
 
+            //Lastly, we swap in all the matches that we have stored throughout this iteration with
+            //  their resulting content so that they can be transformed in the next iteration if needed.
+            //  We have to do this at the end of the iteration because if we swap them in before we have
+            //  transformed all the handlers, we might end up with new wiki markup that needs to be
+            //  transformed in this same iteration and we would miss it if we swapped them in before
+            //  transforming all the handlers.
+            SwapInStoredMatches(pageContent, false);
+
+            return _matchesStoredPerIteration;
+        }
+
+        /// <summary>
+        /// Replaces placeholders in the specified page content with previously stored match values.
+        /// </summary>
+        /// <param name="pageContent">The page content in which placeholders will be replaced. Cannot be null.</param>
+        /// <param name="forceNestedDecode">If true, matches are replaced even if they are set to not allow nested decode.
+        /// ForceDecode is typically only executed at the end of all processing but is made available here for special use cases by custom functions.
+        /// <see cref="WikiMatchSet.AllowNestedDecode"/></param>
+        public void SwapInStoredMatches(WikiString pageContent, bool forceNestedDecode)
+        {
             //We have to replace a few times because we could have replace tags (guids) nested inside others.
             int length;
             do
@@ -228,7 +257,7 @@ namespace TightWiki.Engine
                 length = pageContent.Length;
                 foreach (var v in Matches)
                 {
-                    if (v.Value.AllowNestedDecode)
+                    if (v.Value.AllowNestedDecode || forceNestedDecode)
                     {
                         if (OmitMatches.Contains(v.Value.MatchType))
                         {
@@ -243,8 +272,6 @@ namespace TightWiki.Engine
                     }
                 }
             } while (length != pageContent.Length);
-
-            return _matchesStoredPerIteration;
         }
 
         /// <summary>
@@ -318,7 +345,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Matching nested blocks with regex was hell, I escaped with a loop. ¯\_(ツ)_/¯
         /// </summary>
-        private void TransformScopeFunctions(WikiString pageContent)
+        private void TransformScopeFunctions(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             var content = pageContent.ToString();
 
@@ -333,26 +360,44 @@ namespace TightWiki.Engine
                 {
                     break;
                 }
-                int endPos = content.IndexOf("}}", startPos);
+                int enterScope;
+                int exitScope;
+                int endScopeSearchIndex = startPos;
 
-                if (endPos < 0 || endPos < startPos)
+                do
                 {
-                    var exception = new StringBuilder();
-                    exception.AppendLine($"<strong>A parsing error occurred after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
-                    if (rawBlock?.Length > 0)
+                    int endPos = content.IndexOf("}}", endScopeSearchIndex);
+
+                    if (endPos < 0 || endPos < startPos)
                     {
-                        exception.AppendLine($"<strong>The last successfully parsed block was:</strong><br /> {rawBlock}");
+                        var exception = new StringBuilder();
+                        exception.AppendLine($"<strong>A parsing error occurred after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
+                        if (rawBlock?.Length > 0)
+                        {
+                            exception.AppendLine($"<strong>The last successfully parsed block was:</strong><br /> {rawBlock}");
+                        }
+                        exception.AppendLine($"<strong>The problem occurred after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
+                        exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {pageContent}<br /><br />");
+
+                        throw new Exception(exception.ToString());
                     }
-                    exception.AppendLine($"<strong>The problem occurred after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
-                    exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {pageContent}<br /><br />");
 
-                    throw new Exception(exception.ToString());
-                }
+                    rawBlock = content.Substring(startPos, endPos - startPos + 2);
 
-                rawBlock = content.Substring(startPos, endPos - startPos + 2);
+                    //Count the number of opening and closing tags in the block to make sure
+                    //  we are matching the correct closing tag for this block, not a nested one.
+                    //If there are more opening tags than closing tags, we know that the closing
+                    //  tag we found is for a nested block and not the current block, so we keep
+                    //  searching until we find the closing tag that matches the number of opening
+                    //  tags (or we run out of content to search through, which would be an error).
+                    enterScope = Utility.CountOccurrencesOf(rawBlock, "{{");
+                    exitScope = Utility.CountOccurrencesOf(rawBlock, "}}");
+
+                    endScopeSearchIndex++;
+                } while (enterScope > exitScope);
+
                 var transformBlock = new WikiString(rawBlock);
-                TransformScopeFunctions(transformBlock, true);
-                TransformScopeFunctions(transformBlock, false);
+                TransformScopeFunctionBlock(transformBlock, onlyProcessFirstChanceFunctions);
                 content = content.Replace(rawBlock, transformBlock.ToString());
             }
 
@@ -365,7 +410,7 @@ namespace TightWiki.Engine
         /// </summary>
         /// <param name="pageContent"></param>
         /// <param name="onlyProcessFirstChanceFunctions">Only process early functions (like code blocks)</param>
-        private void TransformScopeFunctions(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
+        private void TransformScopeFunctionBlock(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             // {{([\\S\\s]*)}}
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -384,7 +429,7 @@ namespace TightWiki.Engine
                 try
                 {
                     function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, mockFunctionCall, out paramEndIndex);
-                    if (onlyProcessFirstChanceFunctions && !!function.Prototype.IsFirstChance)
+                    if (onlyProcessFirstChanceFunctions && !function.Prototype.IsFirstChance)
                     {
                         //We are only processing "first chance" functions, so skip processing this function.
                         continue;
@@ -396,10 +441,9 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                string scopeBody = mockFunctionCall.Substring(paramEndIndex).Trim();
-
                 try
                 {
+                    var scopeBody = mockFunctionCall.Substring(paramEndIndex).Trim();
                     var result = functionHandler.Handle(this, function, scopeBody);
                     StoreHandlerResult(result, WikiMatchType.ScopeFunction, pageContent, match.Value);
                 }
@@ -413,7 +457,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform headings. These are the basic HTML H1-H6 headings but they are saved for the building of the table of contents.
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformHeadings(WikiString pageContent)
         {
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -484,7 +527,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform variables.
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformVariables(WikiString pageContent)
         {
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -526,7 +568,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform links, these can be internal Wiki links or external links.
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformLinks(WikiString pageContent)
         {
             //Parse external explicit links. eg. [[http://test.net]].
@@ -676,7 +717,6 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform processing instructions are used to flag pages for specific needs such as deletion, review, draft, etc.
         /// </summary>
-        /// <param name="pageContent"></param>
         private void TransformProcessingInstructionFunctions(WikiString pageContent)
         {
             // <code>(\\@\\@[\\w-]+\\(\\))|(\\@\\@[\\w-]+\\(.*?\\))|(\\@\\@[\\w-]+)</code><br/>
@@ -714,8 +754,7 @@ namespace TightWiki.Engine
         /// <summary>
         /// Transform functions is used to call wiki functions such as including template pages, setting tags and displaying images.
         /// </summary>
-        /// <param name="pageContent"></param>
-        private void TransformStandardFunctions(WikiString pageContent, bool isFirstChance)
+        private void TransformStandardFunctions(WikiString pageContent, bool onlyProcessFirstChanceFunctions)
         {
             //Remove the last "(\#\#[\w-]+)" if you start to have matching problems:
             var orderedMatches = WikiUtility.OrderMatchesByLengthDescending(
@@ -749,9 +788,18 @@ namespace TightWiki.Engine
                     continue;
                 }
 
-                var firstChanceFunctions = new string[] { "include", "inject" }; //Process these the first time through.
-                if (isFirstChance && firstChanceFunctions.Contains(function.Name.ToLowerInvariant()) == false)
+                try
                 {
+                    function = FunctionParser.ParseAndGetFunctionCall(functionHandler.Prototypes, match.Value, out var paramEndIndex);
+                    if (onlyProcessFirstChanceFunctions && !function.Prototype.IsFirstChance)
+                    {
+                        //We are only processing "first chance" functions, so skip processing this function.
+                        continue;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    StoreError(pageContent, match.Value, ex.Message);
                     continue;
                 }
 
@@ -932,7 +980,7 @@ namespace TightWiki.Engine
         ///     their own query strings. For instance, we can have more than one pager on a wiki page, this
         /// allows each pager to track its own current page in the query string.
         /// </summary>
-        public string GetNextQueryToken()
+        public string GetNextHttpQueryToken()
         {
             _queryTokenHash = Security.Helpers.Sha256(Security.Helpers.EncryptString(Security.Helpers.MachineKey, _queryTokenHash));
             return $"H{Security.Helpers.Crc32(_queryTokenHash)}";

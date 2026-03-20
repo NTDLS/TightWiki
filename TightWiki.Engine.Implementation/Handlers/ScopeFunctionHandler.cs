@@ -87,9 +87,14 @@ namespace TightWiki.Engine.Implementation.Handlers
                         var html = new StringBuilder();
                         string language = function.Parameters.Get<string>("language");
 
-                        scopeBody = scopeBody.Replace("\r\n", "\n").Replace("\t", "    ");
+                        var wikiScopeBody = new WikiString(scopeBody.Replace("\r\n", "\n").Replace("\t", "    "));
 
-                        var encodedScopeBody = WebUtility.HtmlEncode(scopeBody);
+                        // On the off-chance that the scope body contains matches that need to be swapped
+                        //  in, we need to swap them in before encoding the text for HTML. This is to allow us
+                        //  to display wiki code and also use literals #{}# within code blocks.
+                        state.SwapInStoredMatches(wikiScopeBody, true);
+
+                        var encodedScopeBody = WebUtility.HtmlEncode(wikiScopeBody.ToString());
 
                         if (string.IsNullOrEmpty(language) || language?.ToLowerInvariant() == "auto")
                         {
