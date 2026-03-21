@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using System.Text;
 
 namespace TightWiki.Library
 {
@@ -61,7 +60,7 @@ namespace TightWiki.Library
 
             if ((totalPageCount ?? 0) > 1 || currentPage > 1)
             {
-                return new HtmlString($@"
+                var html = $@"
                     <div class='d-flex justify-content-center'>
                         <div class='btn-group' role='group'>
                             <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{QueryStringConverter.FromCollection(firstPage)}'>
@@ -77,7 +76,11 @@ namespace TightWiki.Library
                                 <i class='bi bi-chevron-double-right'></i>
                             </a>
                         </div>
-                    </div>");
+                    </div>";
+
+                //When used in a wiki page. the result of the pager will be subject of the wikifier and the new-lines will be processed as <br />.
+                //To avoid this, we remove all new-lines from the generated HTML.
+                return new HtmlString(html.Trim().Replace("\n", "").Replace("\r", ""));
             }
 
             return new HtmlString(string.Empty);
