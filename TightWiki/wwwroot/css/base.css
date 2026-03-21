@@ -16,36 +16,39 @@
 }
 
 .tw-heading {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.0rem;
+    margin-top: 0.9rem;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 0;
 }
-
     .tw-heading a {
         color: inherit;
         text-decoration: none;
     }
-
 .tw-heading-1 {
     font-size: 2.2rem;
 }
-
 .tw-heading-2 {
     font-size: 1.8rem;
 }
-
 .tw-heading-3 {
     font-size: 1.5rem;
 }
-
 .tw-heading-4 {
     font-size: 1.25rem;
 }
-
 .tw-heading-5 {
     font-size: 1.05rem;
 }
-
 .tw-heading-6 {
     font-size: 0.95rem;
+}
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 0.0rem;
+}
+
+li > p {
+    margin-bottom: 0;
 }

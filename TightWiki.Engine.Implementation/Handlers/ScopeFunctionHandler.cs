@@ -51,7 +51,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("Code (String language['auto','wiki','cpp','lua','graphql','swift','r','yaml','kotlin','scss','shell','vbnet','json','objectivec','perl','diff','wasm','php','xml','bash','csharp','css','go','ini','javascript','less','makefile','markdown','plaintext','python','python-repl','ruby','rust','sql','typescript']='auto')").IsFirstChance = true;
                     _collection.Add("Bullets (String type['unordered','ordered']='unordered')");
                     _collection.Add("Order (String direction['ascending','descending']='ascending')");
-                    _collection.Add("Jumbotron ()");
+                    _collection.Add("Jumbotron (String styleName['primary','secondary','success','info','warning','danger']='secondary')");
                     _collection.Add("Callout (String styleName['default','primary','secondary','success','info','warning','danger']='default', String titleText='')");
                     _collection.Add("Background (String styleName['default','primary','secondary','light','dark','success','info','warning','danger','muted']='default')");
                     _collection.Add("Foreground (String styleName['default','primary','secondary','light','dark','success','info','warning','danger','muted']='default')");
@@ -293,7 +293,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                         string style = function.Parameters.Get<string>("styleName").ToLowerInvariant();
                         style = style == "default" ? "" : $"alert-{style}";
 
-                        if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h1>{titleText}</h1>{scopeBody}";
+                        if (!string.IsNullOrEmpty(titleText)) scopeBody = $"<h3>{titleText}</h3>{scopeBody}";
                         html.Append($"<div class=\"alert {style} shadow-lg\">{scopeBody}</div>");
                         return new HandlerResult(html.ToString());
                     }
@@ -321,8 +321,10 @@ namespace TightWiki.Engine.Implementation.Handlers
                     {
                         var html = new StringBuilder();
 
+                        var fillStyle = FillStyler.GetBackgroundStyle(function.Parameters.Get("styleName", "secondary"));
+
                         string titleText = function.Parameters.Get("titleText", "");
-                        html.Append($"<div class=\"mt-4 p-5 bg-secondary text-white rounded\">");
+                        html.Append($"<div class=\"mt-4 p-5 {fillStyle.ForegroundStyle} {fillStyle.BackgroundStyle} rounded\">");
                         if (!string.IsNullOrEmpty(titleText)) html.Append($"<h1>{titleText}</h1>");
                         html.Append($"<p>{scopeBody}</p>");
                         html.Append($"</div>");

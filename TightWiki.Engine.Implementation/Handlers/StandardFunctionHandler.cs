@@ -73,6 +73,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                     _collection.Add("Inject (String pageName)").IsFirstChance = true;
                     _collection.Add("Include (String pageName)").IsFirstChance = true;
                     _collection.Add("BR (Integer Count='1')");
+                    _collection.Add("DotNetVersion ()");
                     _collection.Add("HR (Integer Height='1')");
                     _collection.Add("Revisions (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
                     _collection.Add("Attachments (String styleName['Full','List']='Full', Integer pageSize='5', Boolean pageSelector='true', String pageName=null)");
@@ -1045,6 +1046,13 @@ namespace TightWiki.Engine.Implementation.Handlers
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
+                //Displays the version of .net that the wiki is running on.
+                case "dotnetversion":
+                    {
+                        return new HandlerResult(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription);
+                    }
+
+                //------------------------------------------------------------------------------------------------------------------------------
                 //Displays the version of the wiki.
                 case "appversion":
                     {
@@ -1079,7 +1087,7 @@ namespace TightWiki.Engine.Implementation.Handlers
                 //Displays the description of the current page.
                 case "description":
                     {
-                        return new HandlerResult($"<h1>{state.Page.Description}</h1>");
+                        return new HandlerResult($"{state.Page.Description}");
                     }
 
                 //------------------------------------------------------------------------------------------------------------------------------
