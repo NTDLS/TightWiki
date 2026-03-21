@@ -23,7 +23,6 @@
 <style type="text/css">
     .CodeMirror {
         border: 1px solid #eee;
-        height: 50em;
     }
 
     #editorTabs .nav-link.active {
@@ -416,6 +415,23 @@
             autocorrect: true              // Enables autocorrect
         });
 
+        const editorHeightSelect = document.getElementById('editorHeightSelect');
+        const savedEditorHeight = localStorage.getItem('tightwiki.editorHeight') || '50em';
+
+        if (editorHeightSelect) {
+            editorHeightSelect.value = savedEditorHeight;
+            setEditorHeight(savedEditorHeight);
+
+            editorHeightSelect.addEventListener('change', function () {
+                const selectedHeight = this.value;
+                setEditorHeight(selectedHeight);
+                localStorage.setItem('tightwiki.editorHeight', selectedHeight);
+            });
+        }
+        else {
+            setEditorHeight(savedEditorHeight);
+        }
+
         initialBodyValue = getCurrentBodyValue();
         isBodyDirty = false;
 
@@ -611,6 +627,14 @@
         }
     });
 
+    function setEditorHeight(height) {
+        if (!editor) return;
+
+        const wrapper = editor.getWrapperElement();
+        wrapper.style.height = height;
+        editor.refresh();
+    }
+
     function ping() {
         const spans = document.querySelectorAll('.badge.text-bg-danger');
         fetch('@Url.Action("Ping", "Page")?r=' + Math.random(), { method: 'GET' })
@@ -711,58 +735,83 @@
                             <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localizer["Choose template"]</button>
                         }
                     }
-                    <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
+                    <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
                 </div>
                 <br />
 
-                <strong>@Localizer["Name"]</strong>
-                <br />
-                @Html.TextBoxFor(x => x.Name, new { style = "width:50%" })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
-                <br />
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label fw-semibold">@Localizer["Name"]</label>
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                    <div class="text-danger small">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </div>
+                </div>
 
-                <strong>@Localizer["Description"]</strong>
-                <br />
-                @Html.TextBoxFor(x => x.Description, new { style = "width:90%" })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Description)</div>
-                <br />
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-semibold">@Localizer["Description"]</label>
+                    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+                    <div class="text-danger small">
+                        @Html.ValidationMessageFor(m => m.Description)
+                    </div>
+                </div>
 
                 @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
                 {
-                    <strong>@Localizer["Change Summary"]</strong>
-                    <br />
-                    @Html.TextAreaFor(x => x.ChangeSummary, new { style = "width:90%", placeholder = @Localizer["What did you change and why?"].Value })
-                    <div class="text-danger">@Html.ValidationMessageFor(m => m.ChangeSummary)</div>
+                    <div class="mb-3">
+                        <label asp-for="ChangeSummary" class="form-label fw-semibold">@Localizer["Change Summary"]</label>
+                        @Html.TextAreaFor(x => x.ChangeSummary, new
+                        {
+                            @class = "form-control",
+                            rows = 3,
+                            placeholder = @Localizer["What did you change and why?"].Value
+                        })
+                        <div class="text-danger small">
+                            @Html.ValidationMessageFor(m => m.ChangeSummary)
+                        </div>
+                    </div>
                 }
-
                 <!-- EDITOR TABS BEGIN -->
 
-                <ul class="nav nav-tabs mb-3" id="editorTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active"
-                                id="edit-tab"
-                                data-bs-toggle="tab"
-                                data-bs-target="#edit-tab-pane"
-                                type="button"
-                                role="tab"
-                                aria-controls="edit-tab-pane"
-                                aria-selected="true">
-                            @Localizer["Edit"]
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link"
-                                id="preview-tab"
-                                data-bs-toggle="tab"
-                                data-bs-target="#preview-tab-pane"
-                                type="button"
-                                role="tab"
-                                aria-controls="preview-tab-pane"
-                                aria-selected="false">
-                            @Localizer["Preview"]
-                        </button>
-                    </li>
-                </ul>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <ul class="nav nav-tabs" id="editorTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active"
+                                    id="edit-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#edit-tab-pane"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="edit-tab-pane"
+                                    aria-selected="true">
+                                @Localizer["Edit"]
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link"
+                                    id="preview-tab"
+                                    data-bs-toggle="tab"
+                                    data-bs-target="#preview-tab-pane"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="preview-tab-pane"
+                                    aria-selected="false">
+                                @Localizer["Preview"]
+                            </button>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center gap-2">
+                        <label asp-for="editorHeightSelect" class="form-label fw-semibold">@Localizer["Editor Size"]</label>
+                        <select id="editorHeightSelect" class="form-select form-select-sm" style="width:auto;">
+                            <option value="10em">@Localizer["Extra Small"]</option>
+                            <option value="20em">@Localizer["Small"]</option>
+                            <option value="30em" selected>@Localizer["Medium"]</option>
+                            <option value="40em">@Localizer["Large"]</option>
+                            <option value="50em">@Localizer["Extra Large"]</option>
+                            <option value="80em">@Localizer["Huge"]</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="tab-content" id="editorTabContent">
                     <div class="tab-pane fade show active"
@@ -870,7 +919,7 @@
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
                         <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
                     }
-                    <span class="badge text-bg-danger invisible">@Localizer["unauthorized"]</span>
+                    <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
                 </div>
             }
         </div>
