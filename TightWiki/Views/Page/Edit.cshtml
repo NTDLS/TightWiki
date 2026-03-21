@@ -463,16 +463,8 @@
                 const files = fileInput.files;
                 handleFileUpload(files);
             });
-
-            const previewTabButton = document.getElementById('preview-tab');
-            if (previewTabButton) {
-                previewTabButton.addEventListener('shown.bs.tab', function () {
-                    loadPreview();
-                });
-            }
         }
         else {
-
             $('#templatesModal .js_use-template').on('click', function(e) {
                 e.preventDefault();
                 $.ajax($(this).attr('data-tmpurl'), {
@@ -483,6 +475,13 @@
                         templatesModal.hide();
                     }
                 });
+            });
+        }
+
+        const previewTabButton = document.getElementById('preview-tab');
+        if (previewTabButton) {
+            previewTabButton.addEventListener('shown.bs.tab', function () {
+                loadPreview();
             });
         }
 
@@ -856,7 +855,7 @@
                         <div id="previewError" class="alert alert-danger d-none mt-3"></div>
 
                         <div id="previewContent" class="border rounded p-3 mt-3 bg-body">
-                            <em>@Localizer["Preview will appear here."]</em>
+                            <em>@Localizer["Please wait, loading preview..."]</em>
                         </div>
                     </div>
                 </div>
