@@ -1,0 +1,10 @@
+SELECT
+	ConfigurationGroupName,
+	ConfigurationEntryName,
+	Value,
+	DataTypeId,
+	Description,
+	IsEncrypted,
+	IsRequired
+FROM
+	DefaultConfiguration

@@ -10,7 +10,7 @@ dotnet publish .\GenerateSeedData -c Release -o publish\GenerateSeedData --runti
 
 del .\TightWiki.Repository\Scripts\Initialization\PostInitialization\000-Seed\*.sql /q
 
-publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki\Defaults"
+publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki.Repository\Defaults"
 
 chcp 65001 >nul
 set ESC=

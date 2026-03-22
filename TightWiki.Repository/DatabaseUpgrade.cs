@@ -1,6 +1,7 @@
 ﻿using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Library;
+using TightWiki.Models.DataModels.Defaults;
 
 namespace TightWiki.Repository
 {
@@ -23,21 +24,11 @@ namespace TightWiki.Repository
             ManagedDataStorage.Config.Execute(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
         }
 
-        public static bool UpgradeDatabase()
-        {
-            var wasUpgraded = ApplyDatabaseUpgradeScripts();
-            if (wasUpgraded)
-            {
-                ApplySeedData();
-            }
-            return wasUpgraded;
-        }
-
         /// <summary>
         /// See @Initialization.Versions.md
         /// Returns true if an upgrade was performed, false if the database was already at the latest version.
         /// </summary>
-        private static bool ApplyDatabaseUpgradeScripts()
+        public static bool ApplyDatabaseUpgradeScripts()
         {
             try
             {
@@ -170,25 +161,14 @@ namespace TightWiki.Repository
             return null;
         }
 
-        private static void ApplySeedData()
+        public static void ApplyAllSeedData()
         {
-            try
-            {
-                var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
-                var configDatabaseDirectory = Path.GetDirectoryName(configDatabase);
-                if (configDatabaseDirectory == null)
-                {
-                    ExceptionRepository.InsertException("Could not determine the directory for the config database. Skipping seeding default data.");
-                    return;
-                }
+            var defaultConfiguration = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
+            var defaultFeatureTemplate = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
+            var defaultTheme = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+            var defaultWikiPage = ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql");
 
-                var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
-                File.WriteAllBytes(Path.Combine(configDatabaseDirectory, "defaults.db"), defaultDatabaseBytes);
-            }
-            catch (Exception ex)
-            {
-                ExceptionRepository.InsertException(ex, "An error occurred while seeding default data after database upgrade.");
-            }
+
         }
 
         private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)

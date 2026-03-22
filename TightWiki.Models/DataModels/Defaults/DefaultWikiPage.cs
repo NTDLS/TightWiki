@@ -1,4 +1,4 @@
-﻿namespace GenerateSeedData.Models
+﻿namespace TightWiki.Models.DataModels.Defaults
 {
     public class DefaultWikiPage
     {

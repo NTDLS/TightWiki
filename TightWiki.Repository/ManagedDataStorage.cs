@@ -37,6 +37,6 @@ namespace TightWiki.Repository
         public static SqliteManagedFactory Exceptions { get; private set; } = new();
         public static SqliteManagedFactory Users { get; private set; } = new();
         public static SqliteManagedFactory Config { get; private set; } = new();
-        public static SqliteManagedFactory? Defaults { get; public set; }
+        public static SqliteManagedFactory Defaults { get; private set; } = new();
     }
 }

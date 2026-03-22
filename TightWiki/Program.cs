@@ -48,13 +48,18 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
-            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(false);
+            var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts();
+
+            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(wasDatabaseUpgraded);
             if (defaultsDatabasePath != null)
             {
-                ManagedDataStorage.Defaults = new SqliteManagedFactory(defaultsDatabasePath);
+                ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
             }
 
-            DatabaseUpgrade.UpgradeDatabase();
+            //if (wasDatabaseUpgraded)
+            {
+                DatabaseUpgrade.ApplyAllSeedData(); //TODO: Remove this line!
+            }
 
             ConfigurationRepository.ReloadEverything();
 

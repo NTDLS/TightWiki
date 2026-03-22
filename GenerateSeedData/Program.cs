@@ -1,6 +1,6 @@
-﻿using GenerateSeedData.Models;
-using NTDLS.SqliteDapperWrapper;
+﻿using NTDLS.SqliteDapperWrapper;
 using System.Text;
+using TightWiki.Models.DataModels.Defaults;
 
 namespace GenerateSeedData
 {
@@ -82,14 +82,14 @@ namespace GenerateSeedData
 
             #region Default Pages
 
-            Console.WriteLine("Generating: DefaultPages.");
+            Console.WriteLine("Generating: DefaultWikiPages.");
 
-            defaults.Execute(@"Scripts\RecreateDefaultPagesTable.sql");
-            var wikiPages = pagesDb.Query<DefaultWikiPage>(@"Scripts\GetDefaultDefaultPages.sql");
+            defaults.Execute(@"Scripts\RecreateDefaultWikiPagesTable.sql");
+            var wikiPages = pagesDb.Query<DefaultWikiPage>(@"Scripts\GetDefaultDefaultWikiPages.sql");
             foreach (var page in wikiPages)
             {
                 sb.Clear();
-                sb.AppendLine("INSERT INTO DefaultPages(Name, Namespace, Navigation, Description, Revision, DataHash, Body)");
+                sb.AppendLine("INSERT INTO DefaultWikiPages(Name, Namespace, Navigation, Description, Revision, DataHash, Body)");
                 sb.AppendLine($"SELECT '{ESQ(page.Name)}', '{ESQ(page.Namespace)}', '{ESQ(page.Navigation)}', '{ESQ(page.Description)}', {page.Revision}, {page.DataHash}, '{ESQ(page.Body)}';");
                 defaults.Execute(sb.ToString());
             }

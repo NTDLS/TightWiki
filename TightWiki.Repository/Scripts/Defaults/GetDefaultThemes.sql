@@ -1,0 +1,10 @@
+SELECT
+	Name,
+	DelimitedFiles,
+	ClassNavBar,
+	ClassNavLink,
+	ClassDropdown,
+	ClassBranding,
+	EditorTheme
+FROM
+	DefaultThemes
