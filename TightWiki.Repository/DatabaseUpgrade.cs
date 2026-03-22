@@ -1,4 +1,5 @@
-﻿using NTDLS.Helpers;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Xml.Linq;
@@ -192,12 +193,39 @@ namespace TightWiki.Repository
                     });
             }
 
+            var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+            foreach (var defaultTheme in defaultThemes)
+            {
+                ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeTheme.sql",
+                    new
+                    {
+                        Name = defaultTheme.Name,
+                        DelimitedFiles = defaultTheme.DelimitedFiles,
+                        ClassNavBar = defaultTheme.ClassNavBar,
+                        ClassNavLink = defaultTheme.ClassNavLink,
+                        ClassDropdown = defaultTheme.ClassDropdown,
+                        ClassBranding = defaultTheme.ClassBranding,
+                        EditorTheme = defaultTheme.EditorTheme
+                    });
+            }
 
             var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
-            var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+            foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
+            {
+                ManagedDataStorage.Pages.Execute(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
+                    new
+                    {
+                        Name = defaultFeatureTemplate.Name,
+                        Type = defaultFeatureTemplate.Type,
+                        PageName = defaultFeatureTemplate.PageName,
+                        Description = defaultFeatureTemplate.Description,
+                        TemplateText = defaultFeatureTemplate.TemplateText
+                    });
+            }
+
+
+
             var defaultWikiPages = ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql");
-
-
         }
 
         private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)

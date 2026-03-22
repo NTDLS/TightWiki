@@ -186,6 +186,8 @@
 		<EmbeddedResource Include="Scripts\Defaults\GetDefaultThemes.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\GetDefaultConfigurations.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeConfigurationEntry.sql" />
+		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeFeatureTemplate.sql" />
+		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeTheme.sql" />
 		<EmbeddedResource Include="Scripts\Defaults\Merge\MergeConfigurationGroup.sql" />
 		<EmbeddedResource Include="Scripts\DeleteRole.sql" />
 		<EmbeddedResource Include="Scripts\GetAccountRoleMembershipPaged.sql" />

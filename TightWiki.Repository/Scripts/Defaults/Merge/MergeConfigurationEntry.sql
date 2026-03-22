@@ -1,4 +1,13 @@
-INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)
+INSERT INTO ConfigurationEntry
+(
+	ConfigurationGroupId,
+	Name,
+	Value,
+	DataTypeId,
+	Description,
+	IsEncrypted,
+	IsRequired
+)
 SELECT
 	(SELECT CG.Id FROM ConfigurationGroup as CG WHERE CG.Name = @ConfigurationGroupName LIMIT 1),
 	@Name,
@@ -14,4 +23,4 @@ SET
 	DataTypeId = @DataTypeId,
 	Description = @Description,
 	IsEncrypted = @IsEncrypted,
-	IsRequired = @IsRequired
+	IsRequired = @IsRequired;
