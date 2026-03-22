@@ -1,8 +1,16 @@
 @echo off
 set path=%PATH%;C:\Program Files\7-Zip;
 
+REM -------------------Generate seed data.
 rd .\Publish /q /s
+md Publish
+dotnet publish .\GenerateSeedData -c Release -o publish\GenerateSeedData --runtime win-x64 --self-contained false
+del .\TightWiki.Repository\Scripts\Initialization\PostInitialization\000-Seed\*.sql /q
+publish\GenerateSeedData\GenerateSeedData.exe ".\Data" ".\TightWiki.Repository\Defaults"
 
+
+REM -------------------Build
+rd .\Publish /q /s
 md Publish
 md Publish\TightWiki.Windows.x64
 md Publish\TightWiki.Windows.x64\data
@@ -12,6 +20,8 @@ md Publish\TightWiki.Linux.x64\data
 dotnet publish .\TightWiki -c Release -o publish\TightWiki.Windows.x64\Site --runtime win-x64 --self-contained false
 dotnet publish .\TightWiki -c Release -o publish\TightWiki.Linux.x64\Site --runtime linux-x64 --self-contained false
 
+REM -------------------Package
+del .\Data\defaults.db
 copy .\Data\*.* Publish\TightWiki.Windows.x64\data
 copy .\Data\*.* Publish\TightWiki.Linux.x64\data
 
