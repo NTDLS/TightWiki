@@ -1559,7 +1559,7 @@ namespace TightWiki.Controllers
 
             var model = new ExceptionsViewModel()
             {
-                Exceptions = LoggingRepository.GetAllExceptionsPaged(pageNumber, orderBy, orderByDirection)
+                Exceptions = LoggingRepository.GetLogEntriesPaged(pageNumber, orderBy, orderByDirection)
             };
 
             model.PaginationPageCount = (model.Exceptions.FirstOrDefault()?.PaginationPageCount ?? 0);
@@ -1583,7 +1583,7 @@ namespace TightWiki.Controllers
 
             var model = new ExceptionViewModel()
             {
-                Exception = LoggingRepository.GetExceptionById(id)
+                Exception = LoggingRepository.GetLogEntryById(id)
             };
 
             return View(model);
@@ -1603,7 +1603,7 @@ namespace TightWiki.Controllers
             }
             if (model.UserSelection == true)
             {
-                LoggingRepository.PurgeExceptions();
+                LoggingRepository.PurgeLogs();
                 return NotifyOfSuccess(Localize("All exceptions have been purged."), model.YesRedirectURL);
             }
 

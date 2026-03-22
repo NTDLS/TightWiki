@@ -163,7 +163,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    LoggingRepository.InsertException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                    LoggingRepository.WriteException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
                 }
             }
 
@@ -393,7 +393,7 @@ namespace TightWiki
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(ex, "An error occurred while applying seed data after database upgrade.");
+                        LoggingRepository.WriteException(ex, "An error occurred while applying seed data after database upgrade.");
                     }
                 }
 
@@ -403,10 +403,9 @@ namespace TightWiki
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while validating encryption or creating the admin user.");
+                    LoggingRepository.WriteException(ex, "An error occurred while validating encryption or creating the admin user.");
                 }
             }
-
 
             app.Run();
         }

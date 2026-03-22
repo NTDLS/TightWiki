@@ -375,7 +375,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                LoggingRepository.InsertException(ex, "Failed to upload file.");
+                LoggingRepository.WriteException(ex, "Failed to upload file.");
                 return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
             }
         }
