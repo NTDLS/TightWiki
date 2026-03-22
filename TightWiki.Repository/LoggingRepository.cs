@@ -4,11 +4,24 @@ using TightWiki.Models.DataModels;
 
 namespace TightWiki.Repository
 {
-    public static class ExceptionRepository
+    public static class LoggingRepository
     {
         public static void PurgeExceptions()
         {
-            ManagedDataStorage.Exceptions.Execute("PurgeExceptions.sql");
+            ManagedDataStorage.Logging.Execute("PurgeExceptions.sql");
+        }
+
+        public static void CreateTablesIfNotExist()
+        {
+            if (ManagedDataStorage.Logging.DoesTableExist("Severity"))
+            {
+                ManagedDataStorage.Logging.Execute(@"Scripts\CreateSeverityTable.sql");
+            }
+
+            if (ManagedDataStorage.Logging.DoesTableExist("Log"))
+            {
+                ManagedDataStorage.Logging.Execute(@"Scripts\CreateLogTable.sql");
+            }
         }
 
         public static void InsertException(string? text = null, string? exceptionText = null, string? stackTrace = null)
@@ -21,7 +34,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            ManagedDataStorage.Exceptions.Execute("InsertException.sql", param);
+            ManagedDataStorage.Logging.Execute("InsertException.sql", param);
         }
 
         public static void InsertException(Exception ex)
@@ -38,7 +51,7 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow,
             };
 
-            ManagedDataStorage.Exceptions.Execute("InsertException.sql", param);
+            ManagedDataStorage.Logging.Execute("InsertException.sql", param);
         }
 
         public static void InsertException(Exception ex, string? text = null)
@@ -51,12 +64,12 @@ namespace TightWiki.Repository
                 CreatedDate = DateTime.UtcNow
             };
 
-            ManagedDataStorage.Exceptions.Execute("InsertException.sql", param);
+            ManagedDataStorage.Logging.Execute("InsertException.sql", param);
         }
 
         public static int GetExceptionCount()
         {
-            return ManagedDataStorage.Exceptions.ExecuteScalar<int>("GetExceptionCount.sql");
+            return ManagedDataStorage.Logging.ExecuteScalar<int>("GetExceptionCount.sql");
         }
 
         public static List<WikiException> GetAllExceptionsPaged(int pageNumber,
@@ -69,7 +82,7 @@ namespace TightWiki.Repository
             };
 
             var query = RepositoryHelper.TransposeOrderby("GetAllExceptionsPaged.sql", orderBy, orderByDirection);
-            return ManagedDataStorage.Exceptions.Query<WikiException>(query, param).ToList();
+            return ManagedDataStorage.Logging.Query<WikiException>(query, param).ToList();
         }
 
         public static WikiException GetExceptionById(int id)
@@ -79,7 +92,7 @@ namespace TightWiki.Repository
                 Id = id
             };
 
-            return ManagedDataStorage.Exceptions.QuerySingle<WikiException>("GetExceptionById.sql", param);
+            return ManagedDataStorage.Logging.QuerySingle<WikiException>("GetExceptionById.sql", param);
         }
     }
 }

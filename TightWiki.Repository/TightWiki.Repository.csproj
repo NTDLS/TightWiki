@@ -176,6 +176,8 @@
 
 	<ItemGroup>
 		<EmbeddedResource Include="Defaults\defaults.db" />
+		<EmbeddedResource Include="Scripts\CreateSeverityTable.sql" />
+		<EmbeddedResource Include="Scripts\CreateLogTable.sql" />
 		<EmbeddedResource Include="Scripts\AddAccountMembership.sql" />
 		<EmbeddedResource Include="Scripts\AddRoleMemberByName.sql" />
 		<EmbeddedResource Include="Scripts\AutoCompleteRole.sql" />

@@ -122,7 +122,7 @@ namespace TightWiki
                         httpContext.SignOutAsync(user.Identity.AuthenticationType);
                     }
 
-                    ExceptionRepository.InsertException(ex);
+                    LoggingRepository.InsertException(ex);
                 }
             }
 

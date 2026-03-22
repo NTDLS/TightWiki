@@ -20,7 +20,7 @@ namespace TightWiki.Repository
                         ("Pages", Pages),
                         ("Statistics", Statistics),
                         ("Emoji", Emoji),
-                        ("Exceptions", Exceptions),
+                        ("Logging", Logging),
                         ("Users", Users),
                         ("Config", Config),
                         //("Defaults", Defaults), //We do not expose this as it is only used for initial seeding of the database.
@@ -34,7 +34,7 @@ namespace TightWiki.Repository
         public static SqliteManagedFactory Pages { get; private set; } = new();
         public static SqliteManagedFactory Statistics { get; private set; } = new();
         public static SqliteManagedFactory Emoji { get; private set; } = new();
-        public static SqliteManagedFactory Exceptions { get; private set; } = new();
+        public static SqliteManagedFactory Logging { get; private set; } = new();
         public static SqliteManagedFactory Users { get; private set; } = new();
         public static SqliteManagedFactory Config { get; private set; } = new();
         public static SqliteManagedFactory Defaults { get; private set; } = new();

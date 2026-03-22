@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.Reflection;
@@ -123,7 +124,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                ExceptionRepository.InsertException(ex, "Database upgrade failed.");
+                LoggingRepository.InsertException(ex, "Database upgrade failed.");
                 //Yea, we want to write this to the console so that it can be seen when running manually.
                 Console.WriteLine($"Database upgrade failed: {ex.Message}");
                 return false;
@@ -139,18 +140,24 @@ namespace TightWiki.Repository
         /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
         /// unchanged.</param>
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
-        public static string? CreateDefaultsDatabase(bool overwrite)
+        public static string? CreateDefaultsDatabase(ConfigurationManager configuration, bool overwrite)
         {
             try
             {
-                var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
-                var configDatabaseDirectory = Path.GetDirectoryName(configDatabase);
-                if (configDatabaseDirectory == null)
+                //We have to have a "DatabasePath" or a valid config database path.
+                var databasePath = configuration.GetConnectionString("DatabasePath");
+                if (string.IsNullOrEmpty(databasePath))
                 {
-                    ExceptionRepository.InsertException("Could not determine the directory for the config database.");
-                    return null;
+                    var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
+                    databasePath = Path.GetDirectoryName(configDatabase);
+                    if (databasePath == null)
+                    {
+                        LoggingRepository.InsertException("Could not determine the directory for the config database.");
+                        return null;
+                    }
                 }
-                var defaultsDatabasePath = Path.Combine(configDatabaseDirectory, "defaults.db");
+
+                var defaultsDatabasePath = Path.Combine(databasePath, "defaults.db");
 
                 if (!File.Exists(defaultsDatabasePath) || overwrite)
                 {
@@ -161,7 +168,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                ExceptionRepository.InsertException(ex, "An error occurred while extracting the default data database.");
+                LoggingRepository.InsertException(ex, "An error occurred while extracting the default data database.");
             }
             return null;
         }

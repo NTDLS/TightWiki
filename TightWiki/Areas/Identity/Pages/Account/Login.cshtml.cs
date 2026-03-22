@@ -72,7 +72,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex, "LDAP authentication error");
+                LoggingRepository.InsertException(ex, "LDAP authentication error");
             }
         }
 
@@ -196,7 +196,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
+                LoggingRepository.InsertException(ex);
             }
 
             // If we got this far, something failed, redisplay form

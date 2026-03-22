@@ -19,10 +19,10 @@ namespace TightWiki.Engine.Implementation
         {
             if (ex != null)
             {
-                ExceptionRepository.InsertException(ex, customText);
+                LoggingRepository.InsertException(ex, customText);
             }
 
-            ExceptionRepository.InsertException(customText);
+            LoggingRepository.InsertException(customText);
         }
     }
 }

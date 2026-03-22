@@ -41,7 +41,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                ExceptionRepository.InsertException(ex);
+                LoggingRepository.InsertException(ex);
             }
             return Page();
         }

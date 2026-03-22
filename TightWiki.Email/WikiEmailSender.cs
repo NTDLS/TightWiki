@@ -51,7 +51,7 @@ namespace TightWiki.Email
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                ExceptionRepository.InsertException(ex);
+                LoggingRepository.InsertException(ex);
             }
         }
     }

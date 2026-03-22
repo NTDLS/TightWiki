@@ -19,6 +19,7 @@ using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
 using TightWiki.Engine.Implementation.Handlers;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
@@ -36,17 +37,19 @@ namespace TightWiki
 
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("UsersConnection")));
+            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
+            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
+            ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
+            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
+            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
+            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
+            ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
+            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
 
-            ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetConnectionString("PagesConnection"));
-            ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetConnectionString("DeletedPagesConnection"));
-            ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetConnectionString("DeletedPageRevisionsConnection"));
-            ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetConnectionString("StatisticsConnection"));
-            ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetConnectionString("EmojiConnection"));
-            ManagedDataStorage.Exceptions.SetConnectionString(builder.Configuration.GetConnectionString("ExceptionsConnection"));
-            ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
-            ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
+            var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
+            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
+
+            LoggingRepository.CreateTablesIfNotExist();
 
             //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
             //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
@@ -55,7 +58,7 @@ namespace TightWiki
             //  via a call to DatabaseUpgrade.ApplyAllSeedData()
             var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts();
 
-            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(wasDatabaseUpgraded);
+            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(builder.Configuration, wasDatabaseUpgraded);
             if (defaultsDatabasePath != null)
             {
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
@@ -160,7 +163,7 @@ namespace TightWiki
                 }
                 else
                 {
-                    ExceptionRepository.InsertException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
+                    LoggingRepository.InsertException($"Cannot read/write to the specified path for persistent keys: {persistKeysPath}. Check the configuration and path permission.");
                 }
             }
 

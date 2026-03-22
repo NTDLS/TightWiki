@@ -65,7 +65,7 @@ namespace TightWiki.Repository
                 using var pages_db = o.Attach("pages.db", "pages_db");
 
                 var result = o.QuerySingle<WikiDatabaseStatistics>("GetWikiDatabaseStatistics.sql");
-                result.Exceptions = ExceptionRepository.GetExceptionCount();
+                result.Exceptions = LoggingRepository.GetExceptionCount();
 
                 return result;
             });
