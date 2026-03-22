@@ -25,12 +25,13 @@ using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
 using TightWiki.Static;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             SqlMapper.AddTypeHandler(new GuidTypeHandler());
 
@@ -54,11 +55,6 @@ namespace TightWiki
             if (defaultsDatabasePath != null)
             {
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
-            }
-
-            //if (wasDatabaseUpgraded)
-            {
-                DatabaseUpgrade.ApplyAllSeedData(); //TODO: Remove this line!
             }
 
             ConfigurationRepository.ReloadEverything();
@@ -371,23 +367,39 @@ namespace TightWiki
                 name: "Page_Edit",
                 pattern: "Page/{givenCanonical}/Edit");
 
-            ILogger<Program> logger;
-
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                logger = services.GetRequiredService<ILogger<Program>>();
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                var tightEngine = services.GetRequiredService<ITightEngine>();
+
+                if (wasDatabaseUpgraded)
+                {
+                    try
+                    {
+                        await DatabaseUpgrade.ApplyAllSeedData(logger, userManager, tightEngine,
+                            [DefaultDataType.Themes,
+                            DefaultDataType.Configurations,
+                            DefaultDataType.FeatureTemplates,
+                            DefaultDataType.WikiHelpPages]);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "An error occurred while applying seed data after database upgrade.");
+                    }
+                }
 
                 try
                 {
-                    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
                     SecurityRepository.ValidateEncryptionAndCreateAdminUser(userManager);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding the database.");
+                    logger.LogError(ex, "An error occurred while validating encryption or creating the admin user.");
                 }
             }
+
 
             app.Run();
         }

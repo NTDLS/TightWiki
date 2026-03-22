@@ -193,13 +193,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
                         UsersRepository.AddRoleMemberByname(Guid.Parse(user.Id), membershipConfig.Value<string>("Default Signup Role").EnsureNotNull());
 
                         var claimsToAdd = new List<Claim>
-                    {
-                        new ("timezone", Input.TimeZone),
-                        new (ClaimTypes.Country, Input.Country),
-                        new ("language", Input.Language),
-                        new ("firstname", Input.FirstName ?? ""),
-                        new ("lastname", Input.LastName ?? ""),
-                    };
+                        {
+                            new ("timezone", Input.TimeZone),
+                            new (ClaimTypes.Country, Input.Country),
+                            new ("language", Input.Language),
+                            new ("firstname", Input.FirstName ?? ""),
+                            new ("lastname", Input.LastName ?? ""),
+                        };
 
                         SecurityRepository.UpsertUserClaims(_userManager, user, claimsToAdd);
 

@@ -5,12 +5,11 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
-using TightWiki.Repository;
 using static TightWiki.Engine.Library.Constants;
 
-namespace TightWiki.Engine.Implementation
+namespace TightWiki.Repository
 {
-    public class Helpers
+    public class RepositoryHelpers
     {
         /// <summary>
         /// Inserts a new page if Page.Id == 0, other wise updates the page. All metadata is written to the database.

@@ -8,3 +8,6 @@ SELECT
 	Body
 FROM
 	DefaultWikiPages
+WHERE
+	Namespace = @Namespace;
+

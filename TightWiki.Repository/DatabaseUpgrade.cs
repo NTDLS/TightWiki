@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Security.Claims;
 using System.Xml.Linq;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Models.DataModels;
 using TightWiki.Models.DataModels.Defaults;
+using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -164,68 +170,215 @@ namespace TightWiki.Repository
             return null;
         }
 
-        public static void ApplyAllSeedData()
+        public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, DefaultDataType[] defaultDataTypes)
         {
-            var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
-            foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
+            #region Get or create admin user.
+
+            var adminUserId = ManagedDataStorage.Users.QueryFirstOrDefault<Guid?>(@"Scripts\Defaults\GetAdminUserId.sql");
+
+            //Check to see if we already have an admin user. If not, we will create one with a random password.
+            try
             {
-                ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
-                    new
+                if (adminUserId == null)
+                {
+                    logger.LogWarning("Admin user with ID {AdminUserId} was not found in the identity database. A new admin user will be created.", adminUserId);
+
+                    //We couldn't find an admin user, so we will create a new one with a random password.
+                    var user = new IdentityUser()
                     {
-                        Name = defaultConfigurationGroup.ConfigurationGroupName,
-                        Description = defaultConfigurationGroup.ConfigurationGroupDescription
-                    });
+                        UserName = "admin"
+                    };
+
+                    var existingUser = await userManager.FindByNameAsync(user.UserName);
+
+                    if (existingUser != null)
+                    {
+                        adminUserId = Guid.Parse(existingUser.Id);
+                    }
+                    else
+                    {
+                        var result = await userManager.CreateAsync(user, PasswordGenerator.Generate(32));
+                        if (result.Succeeded)
+                        {
+                            logger.LogInformation("Database upgrade user created a new account with password.");
+
+                            adminUserId = Guid.Parse(await userManager.GetUserIdAsync(user));
+
+                            UsersRepository.CreateProfile(adminUserId.Value, user.UserName);
+
+                            var claimsToAdd = new List<Claim> { new("firstname", "Database"), new("lastname", "Upgrade") };
+
+                            SecurityRepository.UpsertUserClaims(userManager, user, claimsToAdd);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
             }
 
-            var defaultConfigurations = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
-            foreach (var defaultConfiguration in defaultConfigurations)
+            if (adminUserId == null)
             {
-                ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
-                    new
-                    {
-                        Name = defaultConfiguration.ConfigurationEntryName,
-                        Value = defaultConfiguration.Value,
-                        DataTypeId = defaultConfiguration.DataTypeId,
-                        Description = defaultConfiguration.ConfigurationEntryDescription,
-                        IsEncrypted = defaultConfiguration.IsEncrypted,
-                        IsRequired = defaultConfiguration.IsRequired,
-                        ConfigurationGroupName = defaultConfiguration.ConfigurationGroupName,
-                    });
+                logger.LogError("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                return;
             }
 
-            var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
-            foreach (var defaultTheme in defaultThemes)
+            #endregion
+
+            if (defaultDataTypes.Contains(DefaultDataType.Configurations))
             {
-                ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeTheme.sql",
-                    new
+                try
+                {
+                    var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
+                    foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
                     {
-                        Name = defaultTheme.Name,
-                        DelimitedFiles = defaultTheme.DelimitedFiles,
-                        ClassNavBar = defaultTheme.ClassNavBar,
-                        ClassNavLink = defaultTheme.ClassNavLink,
-                        ClassDropdown = defaultTheme.ClassDropdown,
-                        ClassBranding = defaultTheme.ClassBranding,
-                        EditorTheme = defaultTheme.EditorTheme
-                    });
+                        ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
+                            new
+                            {
+                                Name = defaultConfigurationGroup.ConfigurationGroupName,
+                                Description = defaultConfigurationGroup.ConfigurationGroupDescription
+                            });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while seeding default configuration groups.");
+                }
+
+                try
+                {
+                    var defaultConfigurations = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
+                    foreach (var defaultConfiguration in defaultConfigurations)
+                    {
+                        ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
+                            new
+                            {
+                                Name = defaultConfiguration.ConfigurationEntryName,
+                                Value = defaultConfiguration.Value,
+                                DataTypeId = defaultConfiguration.DataTypeId,
+                                Description = defaultConfiguration.ConfigurationEntryDescription,
+                                IsEncrypted = defaultConfiguration.IsEncrypted,
+                                IsRequired = defaultConfiguration.IsRequired,
+                                ConfigurationGroupName = defaultConfiguration.ConfigurationGroupName,
+                            });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while seeding default configuration entries.");
+                }
             }
 
-            var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
-            foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
+            if (defaultDataTypes.Contains(DefaultDataType.Themes))
             {
-                ManagedDataStorage.Pages.Execute(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
-                    new
+                try
+                {
+                    var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+                    foreach (var defaultTheme in defaultThemes)
                     {
-                        Name = defaultFeatureTemplate.Name,
-                        Type = defaultFeatureTemplate.Type,
-                        PageName = defaultFeatureTemplate.PageName,
-                        Description = defaultFeatureTemplate.Description,
-                        TemplateText = defaultFeatureTemplate.TemplateText
-                    });
+                        ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeTheme.sql",
+                            new
+                            {
+                                Name = defaultTheme.Name,
+                                DelimitedFiles = defaultTheme.DelimitedFiles,
+                                ClassNavBar = defaultTheme.ClassNavBar,
+                                ClassNavLink = defaultTheme.ClassNavLink,
+                                ClassDropdown = defaultTheme.ClassDropdown,
+                                ClassBranding = defaultTheme.ClassBranding,
+                                EditorTheme = defaultTheme.EditorTheme
+                            });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while seeding default themes.");
+                }
             }
 
+            if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages)
+                || defaultDataTypes.Contains(DefaultDataType.WikiIncludePages)
+                || defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
+            {
+                try
+                {
 
+                    List<DefaultWikiPage> defaultWikiPages = new();
 
-            var defaultWikiPages = ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql");
+                    if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages))
+                    {
+                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                            new { Namespace = "Wiki Help" }));
+                    }
+                    if (defaultDataTypes.Contains(DefaultDataType.WikiIncludePages))
+                    {
+                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                            new { Namespace = "Include" }));
+                    }
+                    if (defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
+                    {
+                        defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
+                            new { Namespace = "Builtin" }));
+                    }
+
+                    foreach (var defaultWikiPage in defaultWikiPages)
+                    {
+                        var existingPage = ManagedDataStorage.Pages.QueryFirstOrDefault<Models.DataModels.Page>(@"Scripts\Defaults\GetPageByNavigation.sql",
+                            new
+                            {
+                                Navigation = defaultWikiPage.Navigation
+                            });
+
+                        if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
+                        {
+                            var wikiPage = new Models.DataModels.Page()
+                            {
+                                Id = existingPage?.Id ?? 0,
+                                Name = defaultWikiPage.Name,
+                                Navigation = defaultWikiPage.Navigation,
+                                Description = defaultWikiPage.Description,
+                                Body = defaultWikiPage.Body,
+                                DataHash = defaultWikiPage.DataHash,
+                                CreatedByUserId = adminUserId.Value,
+                                ModifiedByUserId = adminUserId.Value,
+                                CreatedDate = DateTime.UtcNow,
+                                ModifiedDate = DateTime.UtcNow
+                            };
+
+                            RepositoryHelpers.UpsertPage(tightEngine, wikiPage);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
+                }
+            }
+
+            if (defaultDataTypes.Contains(DefaultDataType.FeatureTemplates))
+            {
+                try
+                {
+                    var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
+                    foreach (var defaultFeatureTemplate in defaultFeatureTemplates)
+                    {
+                        ManagedDataStorage.Pages.Execute(@"Scripts\Defaults\Merge\MergeFeatureTemplate.sql",
+                            new
+                            {
+                                Name = defaultFeatureTemplate.Name,
+                                Type = defaultFeatureTemplate.Type,
+                                PageName = defaultFeatureTemplate.PageName,
+                                Description = defaultFeatureTemplate.Description,
+                                TemplateText = defaultFeatureTemplate.TemplateText
+                            });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while seeding default feature templates.");
+                }
+            }
+
         }
 
         private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)

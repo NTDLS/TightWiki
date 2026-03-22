@@ -247,7 +247,7 @@ namespace DummyPageGenerator
                     ModifiedDate = DateTime.UtcNow,
                     Description = string.Join(' ', WordsRepository.GetRandomWords(_random.Next(3, 5))),
                 };
-                int newPageId = TightWiki.Engine.Implementation.Helpers.UpsertPage(engine, page);
+                int newPageId = RepositoryHelpers.UpsertPage(engine, page);
 
                 if (_random.Next(100) >= 70)
                 {
@@ -309,7 +309,7 @@ namespace DummyPageGenerator
                     + "\r\n" + bottomText.Trim();
                 pageToModify.ModifiedByUserId = userId;
                 pageToModify.ModifiedByUserId = userId;
-                TightWiki.Engine.Implementation.Helpers.UpsertPage(engine, pageToModify);
+                RepositoryHelpers.UpsertPage(engine, pageToModify);
 
                 if (_random.Next(100) >= 90)
                 {

@@ -1,3 +1,5 @@
+UPDATE FeatureTemplate SET PageId = NULL WHERE PageId = @PageId;
+
 INSERT INTO deletedpages_db.[PageComment](Id,PageId,CreatedDate,UserId,Body)
 SELECT Id,PageId,CreatedDate,UserId,Body FROM [PageComment] WHERE PageId = @PageId;
 

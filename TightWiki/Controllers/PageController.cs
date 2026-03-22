@@ -442,7 +442,7 @@ namespace TightWiki.Controllers
 
             if (page != null)
             {
-                Engine.Implementation.Helpers.RefreshPageMetadata(tightEngine, page, SessionState);
+                RepositoryHelpers.RefreshPageMetadata(tightEngine, page, SessionState);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}/{pageNavigation}");
@@ -633,7 +633,7 @@ namespace TightWiki.Controllers
             if (confirmAction == true)
             {
                 var page = PageRepository.GetPageRevisionByNavigation(pageNavigation, pageRevision).EnsureNotNull();
-                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
+                RepositoryHelpers.UpsertPage(tightEngine, page, SessionState);
                 return NotifyOfSuccess(Localize("The page has been reverted."), $"/{pageNavigation}");
             }
 
@@ -869,7 +869,7 @@ namespace TightWiki.Controllers
                     return View(model);
                 }
 
-                page.Id = Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
+                page.Id = RepositoryHelpers.UpsertPage(tightEngine, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 
@@ -917,7 +917,7 @@ namespace TightWiki.Controllers
                 page.Navigation = NamespaceNavigation.CleanAndValidate(model.Name);
                 page.Description = model.Description ?? "";
 
-                Engine.Implementation.Helpers.UpsertPage(tightEngine, page, SessionState);
+                RepositoryHelpers.UpsertPage(tightEngine, page, SessionState);
 
                 SessionState.SetPageId(page.Id);
 

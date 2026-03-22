@@ -661,7 +661,18 @@ namespace TightWiki.Repository
             });
         }
 
-        public static int SavePage(Page page)
+        /// <summary>
+        /// Creates a new page or updates an existing page and its revision history in the data store.
+        /// 
+        /// DO NOT USE DIRECLTY: Use RepositoryHelpers.UpsertPage() instead.
+        /// </summary>
+        /// <remarks>If the page content or metadata has changed, a new revision is created and all
+        /// attachments are associated with the latest revision. The method automatically manages transaction handling
+        /// and revision incrementing.</remarks>
+        /// <param name="page">The page to create or update. The page's properties determine whether a new page is created or an existing
+        /// page is updated. Cannot be null.</param>
+        /// <returns>The unique identifier of the created or updated page.</returns>
+        internal static int SavePage(Page page)
         {
             var pageUpsertParam = new
             {

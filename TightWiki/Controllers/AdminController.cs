@@ -6,6 +6,7 @@ using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Caching;
+using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
@@ -29,15 +30,16 @@ namespace TightWiki.Controllers
         private readonly ITightEngine _tightEngine;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<AdminController> _localizer;
+        private readonly ILogger<AdminController> _logger;
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer)
-        : base(signInManager, userManager, localizer)
+            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer, ILogger<AdminController> logger)
+            : base(signInManager, userManager, localizer)
         {
             _tightEngine = tightEngine;
             _userManager = userManager;
             _localizer = localizer;
-
+            _logger = logger;
         }
 
         #region Metrics.
@@ -83,6 +85,40 @@ namespace TightWiki.Controllers
             };
 
             return View(model);
+        }
+
+        [Authorize]
+        [HttpPost("Database/restore/{defaultData}")]
+        public async Task<ActionResult> Database(ConfirmActionViewModel model, string defaultData)
+        {
+            var defaultDataType = Enum.Parse<DefaultDataType>(defaultData);
+
+            try
+            {
+                SessionState.RequireAdminPermission();
+            }
+            catch (Exception ex)
+            {
+                return NotifyOfError(ex.GetBaseException().Message, "/");
+            }
+            SessionState.Page.Name = Localize("Restore");
+
+            if (model.UserSelection == true)
+            {
+                try
+                {
+                    await DatabaseUpgrade.ApplyAllSeedData(_logger, _userManager, _tightEngine, [defaultDataType]);
+
+                    return NotifyOfSuccess(Localize("Restore complete."), model.YesRedirectURL);
+
+                }
+                catch (Exception ex)
+                {
+                    return NotifyOfError(Localize("Operation failed: {0}", ex.Message), model.YesRedirectURL);
+                }
+            }
+
+            return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");
         }
 
         [Authorize]
@@ -466,7 +502,7 @@ namespace TightWiki.Controllers
                     return NotifyOfError(Localize("You cannot revert to the current page revision."));
                 }
 
-                Engine.Implementation.Helpers.UpsertPage(_tightEngine, page, SessionState);
+                Repository.RepositoryHelpers.UpsertPage(_tightEngine, page, SessionState);
 
                 return NotifyOfSuccess(Localize("The page has been reverted."), model.YesRedirectURL);
             }
@@ -624,7 +660,7 @@ namespace TightWiki.Controllers
                 {
                     int previousRevision = PageRepository.GetPagePreviousRevision(page.Id, revision);
                     var previousPageRevision = PageRepository.GetPageRevisionByNavigation(pageNavigation, previousRevision).EnsureNotNull();
-                    Engine.Implementation.Helpers.UpsertPage(_tightEngine, previousPageRevision, SessionState);
+                    Repository.RepositoryHelpers.UpsertPage(_tightEngine, previousPageRevision, SessionState);
                 }
 
                 PageRepository.MovePageRevisionToDeletedById(page.Id, revision, SessionState.Profile.EnsureNotNull().UserId);
@@ -711,7 +747,7 @@ namespace TightWiki.Controllers
             {
                 foreach (var page in PageRepository.GetAllPages())
                 {
-                    Engine.Implementation.Helpers.RefreshPageMetadata(_tightEngine, page, SessionState);
+                    Repository.RepositoryHelpers.RefreshPageMetadata(_tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess(Localize("All pages have been rebuilt."), model.YesRedirectURL);
             }
@@ -935,7 +971,7 @@ namespace TightWiki.Controllers
                 var page = PageRepository.GetLatestPageRevisionById(pageId);
                 if (page != null)
                 {
-                    Engine.Implementation.Helpers.RefreshPageMetadata(_tightEngine, page, SessionState);
+                    Repository.RepositoryHelpers.RefreshPageMetadata(_tightEngine, page, SessionState);
                 }
                 return NotifyOfSuccess(Localize("The page has restored."), model.YesRedirectURL);
             }

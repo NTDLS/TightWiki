@@ -1,4 +1,4 @@
-﻿namespace TightWiki.Engine.Implementation
+﻿namespace TightWiki.Models.DataModels
 {
     public class AggregatedSearchToken
     {

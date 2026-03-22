@@ -5,4 +5,4 @@ SELECT
    Description,
    TemplateText
 FROM
-	DefaultFeatureTemplates
+	DefaultFeatureTemplates;

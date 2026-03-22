@@ -7,6 +7,16 @@
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
+        public enum DefaultDataType
+        {
+            Configurations,
+            Themes,
+            WikiHelpPages,
+            WikiBuiltinPages,
+            WikiIncludePages,
+            FeatureTemplates = 5
+        }
+
         public enum WikiPermissionDisposition
         {
             Allow,

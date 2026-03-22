@@ -7,4 +7,4 @@ SELECT
 	ClassBranding,
 	EditorTheme
 FROM
-	DefaultThemes
+	DefaultThemes;

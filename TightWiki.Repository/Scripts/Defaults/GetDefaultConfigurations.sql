@@ -8,4 +8,4 @@ SELECT
 	IsEncrypted,
 	IsRequired
 FROM
-	DefaultConfiguration
+	DefaultConfiguration;
