@@ -14,6 +14,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
+using NTDLS.SqliteDapperWrapper;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;
@@ -47,7 +48,14 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
+            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(false);
+            if (defaultsDatabasePath != null)
+            {
+                ManagedDataStorage.Defaults = new SqliteManagedFactory(defaultsDatabasePath);
+            }
+
             DatabaseUpgrade.UpgradeDatabase();
+
             ConfigurationRepository.ReloadEverything();
 
             // Add DiffPlex services.
@@ -358,12 +366,13 @@ namespace TightWiki
                 name: "Page_Edit",
                 pattern: "Page/{givenCanonical}/Edit");
 
-            //
-            // to do language route
+            ILogger<Program> logger;
 
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
+                logger = services.GetRequiredService<ILogger<Program>>();
+
                 try
                 {
                     var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
@@ -371,13 +380,13 @@ namespace TightWiki
                 }
                 catch (Exception ex)
                 {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred while seeding the database.");
                 }
             }
 
             app.Run();
         }
+
         private static bool CanReadWrite(string path)
         {
             try

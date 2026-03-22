@@ -110,3 +110,5 @@ TranslationAI/bin/
 TranslationAI/obj/
 
 TightWiki/keys/
+
+Data/defaults.db

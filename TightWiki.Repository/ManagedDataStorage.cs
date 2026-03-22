@@ -22,7 +22,8 @@ namespace TightWiki.Repository
                         ("Emoji", Emoji),
                         ("Exceptions", Exceptions),
                         ("Users", Users),
-                        ("Config", Config)
+                        ("Config", Config),
+                        //("Defaults", Defaults), //We do not expose this as it is only used for initial seeding of the database.
                     ];
                 return _collection;
             }
@@ -36,5 +37,6 @@ namespace TightWiki.Repository
         public static SqliteManagedFactory Exceptions { get; private set; } = new();
         public static SqliteManagedFactory Users { get; private set; } = new();
         public static SqliteManagedFactory Config { get; private set; } = new();
+        public static SqliteManagedFactory? Defaults { get; public set; }
     }
 }

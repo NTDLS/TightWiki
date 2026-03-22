@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace GenerateSeedData.Models
+﻿namespace GenerateSeedData.Models
 {
     public class DefaultTheme
     {

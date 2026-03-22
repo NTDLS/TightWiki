@@ -23,10 +23,21 @@ namespace TightWiki.Repository
             ManagedDataStorage.Config.Execute(@"Scripts\Initialization\SetVersionStateVersion.sql", new { Version = version });
         }
 
+        public static bool UpgradeDatabase()
+        {
+            var wasUpgraded = ApplyDatabaseUpgradeScripts();
+            if (wasUpgraded)
+            {
+                ApplySeedData();
+            }
+            return wasUpgraded;
+        }
+
         /// <summary>
         /// See @Initialization.Versions.md
+        /// Returns true if an upgrade was performed, false if the database was already at the latest version.
         /// </summary>
-        public static void UpgradeDatabase()
+        private static bool ApplyDatabaseUpgradeScripts()
         {
             try
             {
@@ -45,7 +56,7 @@ namespace TightWiki.Repository
 
                 if (currentPaddedVersion == storedPaddedVersion)
                 {
-                    return; //The database version is already at the latest version.
+                    return false; //The database version is already at the latest version.
                 }
 
                 Console.WriteLine($"Starting database initialization.");
@@ -112,12 +123,71 @@ namespace TightWiki.Repository
                 }
 
                 SetVersionStateVersion();
+                return true;
             }
             catch (Exception ex)
             {
                 ExceptionRepository.InsertException(ex, "Database upgrade failed.");
                 //Yea, we want to write this to the console so that it can be seen when running manually.
                 Console.WriteLine($"Database upgrade failed: {ex.Message}");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Creates a copy of the default database file in the configuration directory if it does not already exist, or
+        /// overwrites it if specified.
+        /// </summary>
+        /// <remarks>We do this because WE own the defaults database and we do not want the user to have to put it in the proper place.
+        /// after every upgrade.</remarks>
+        /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
+        /// unchanged.</param>
+        /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
+        public static string? CreateDefaultsDatabase(bool overwrite)
+        {
+            try
+            {
+                var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
+                var configDatabaseDirectory = Path.GetDirectoryName(configDatabase);
+                if (configDatabaseDirectory == null)
+                {
+                    ExceptionRepository.InsertException("Could not determine the directory for the config database.");
+                    return null;
+                }
+                var defaultsDatabasePath = Path.Combine(configDatabaseDirectory, "defaults.db");
+
+                if (!File.Exists(defaultsDatabasePath) || overwrite)
+                {
+                    var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
+                    File.WriteAllBytes(defaultsDatabasePath, defaultDatabaseBytes);
+                }
+                return defaultsDatabasePath;
+            }
+            catch (Exception ex)
+            {
+                ExceptionRepository.InsertException(ex, "An error occurred while extracting the default data database.");
+            }
+            return null;
+        }
+
+        private static void ApplySeedData()
+        {
+            try
+            {
+                var configDatabase = ManagedDataStorage.Config.Ephemeral(o => o.NativeConnection.DataSource);
+                var configDatabaseDirectory = Path.GetDirectoryName(configDatabase);
+                if (configDatabaseDirectory == null)
+                {
+                    ExceptionRepository.InsertException("Could not determine the directory for the config database. Skipping seeding default data.");
+                    return;
+                }
+
+                var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
+                File.WriteAllBytes(Path.Combine(configDatabaseDirectory, "defaults.db"), defaultDatabaseBytes);
+            }
+            catch (Exception ex)
+            {
+                ExceptionRepository.InsertException(ex, "An error occurred while seeding default data after database upgrade.");
             }
         }
 
