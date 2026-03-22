@@ -112,10 +112,6 @@
 		<None Remove="Scripts\GetWikiDatabaseStatistics.sql" />
 		<None Remove="Scripts\GetWikiMetrics.sql" />
 		<None Remove="Scripts\GetWordsCount.sql" />
-		<None Remove="Scripts\Initialization\PostInitialization\000-Seed\^000^Config^UpsertConfigurationGroup.sql" />
-		<None Remove="Scripts\Initialization\PostInitialization\000-Seed\^001^Config^UpsertConfigurationEntry.sql" />
-		<None Remove="Scripts\Initialization\PostInitialization\000-Seed\^002^Config^UpsertTheme.sql" />
-		<None Remove="Scripts\Initialization\PostInitialization\000-Seed\^003^Pages^FeatureTemplate.sql" />
 		<None Remove="Scripts\Initialization\Versions\2.18.0\001 - ConfigurationConstraints.sql" />
 		<None Remove="Scripts\Initialization\001_VersionState - Copy.sql" />
 		<None Remove="Scripts\Initialization\GetVersionStateVersion.sql" />
@@ -220,10 +216,6 @@
 		<EmbeddedResource Include="Scripts\GetApparentAccountPermissions.sql" />
 		<EmbeddedResource Include="Scripts\GetAllFeatureTemplates.sql" />
 		<EmbeddedResource Include="Scripts\GetAllTemplatePages.sql" />
-		<EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^000^Config^UpsertConfigurationGroup.sql" />
-		<EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^001^Config^UpsertConfigurationEntry.sql" />
-		<EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^002^Config^UpsertTheme.sql" />
-		<EmbeddedResource Include="Scripts\Initialization\PostInitialization\000-Seed\^003^Pages^FeatureTemplate.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.25.1\^001^Pages^ChangeSummary.sql" />
 		<EmbeddedResource Include="Scripts\AutoCompletePage.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.18.0\^000^Config^ConfigurationConstraints.sql" />

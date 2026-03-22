@@ -1,6 +1,6 @@
-namespace GenerateSeedData
+namespace GenerateSeedData.Models
 {
-    public partial class FeatureTemplate
+    public partial class DefaultFeatureTemplate
     {
         public string Name { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;

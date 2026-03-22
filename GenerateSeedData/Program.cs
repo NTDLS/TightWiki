@@ -1,5 +1,5 @@
-﻿using Dapper;
-using Microsoft.Data.Sqlite;
+﻿using GenerateSeedData.Models;
+using NTDLS.SqliteDapperWrapper;
 using System.Text;
 
 namespace GenerateSeedData
@@ -14,71 +14,91 @@ namespace GenerateSeedData
                 return;
             }
 
-            var sb = new StringBuilder();
-
+            string dbPath = args[0];
             string outputPath = args[1];
 
-            using var configDb = new SqliteConnection(@$"Data Source={args[0]}\config.db");
-            configDb.Open();
+            File.Delete(Path.Combine(outputPath, "defaults.db"));
+            File.Delete(Path.Combine(outputPath, "defaults.db.zip"));
 
-            using var pagesDb = new SqliteConnection(@$"Data Source={args[0]}\pages.db");
-            pagesDb.Open();
+            GenerateDefaultsDatabase(dbPath, outputPath);
+        }
 
-            int index = 0;
 
-            #region ConfigurationGroup.
-            sb.Clear();
-            var configurationGroups = configDb.Query<ConfigurationGroup>("SELECT * FROM ConfigurationGroup");
-            Console.WriteLine("Generating: ConfigurationGroup.");
-            foreach (var cg in configurationGroups)
+        static void GenerateDefaultsDatabase(string dbPath, string outputPath)
+        {
+            var sb = new StringBuilder();
+
+            using var configDb = new SqliteManagedInstance(Path.Combine(dbPath, "config.db"));
+            using var pagesDb = new SqliteManagedInstance(Path.Combine(dbPath, "pages.db"));
+            using var defaults = new SqliteManagedInstance(Path.Combine(outputPath, "defaults.db"));
+
+            #region DefaultConfiguration.
+
+            Console.WriteLine("Generating: DefaultConfiguration.");
+
+            defaults.Execute(@"Scripts\RecreateDefaultConfigurationTable.sql");
+            var configurations = configDb.Query<DefaultConfiguration>(@"Scripts\GetDefaultConfiguration.sql");
+            foreach (var t in configurations)
             {
-                sb.AppendLine("INSERT INTO ConfigurationGroup(Id, Name, Description)");
-                sb.AppendLine($"SELECT {cg.Id}, '{ESQ(cg.Name)}', '{ESQ(cg.Description)}'");
-                sb.AppendLine($"ON CONFLICT(Name) DO UPDATE SET Description = '{ESQ(cg.Description)}';");
+                sb.Clear();
+                sb.AppendLine("INSERT INTO DefaultConfiguration(ConfigurationGroupName, ConfigurationEntryName, Value, DataTypeId, Description, IsEncrypted, IsRequired)");
+                sb.AppendLine($"SELECT '{ESQ(t.ConfigurationGroupName)}', '{ESQ(t.ConfigurationEntryName)}', '{ESQ(t.Value)}', {t.DataTypeId}, '{ESQ(t.Description)}', {(t.IsEncrypted ? 1 : 0)}, {(t.IsRequired ? 1 : 0)}");
+                defaults.Execute(sb.ToString());
             }
-            File.WriteAllText(@$"{outputPath}\^{index++:D3}^Config^UpsertConfigurationGroup.sql", sb.ToString());
-            #endregion
 
-            #region ConfigurationEntry.
-            sb.Clear();
-            var configurationEntries = configDb.Query<ConfigurationEntry>("SELECT CG.Name as ConfigurationGroupName, CE.Id, CE.ConfigurationGroupId, CE.Name, CE.Value, CE.DataTypeId, CE.Description, CE.IsEncrypted, CE.IsRequired FROM ConfigurationEntry as CE INNER JOIN ConfigurationGroup as CG ON CG.Id = CE.ConfigurationGroupId");
-            Console.WriteLine("Generating: ConfigurationEntry.");
-            foreach (var ce in configurationEntries)
-            {
-                sb.AppendLine("INSERT INTO ConfigurationEntry(ConfigurationGroupId, Name, Value, DataTypeId, Description, IsEncrypted, IsRequired)");
-                sb.AppendLine($"SELECT (SELECT Id FROM ConfigurationGroup WHERE Name = '{ce.ConfigurationGroupName}' LIMIT 1), '{ESQ(ce.Name)}', '{ESQ(ce.Value)}', {ce.DataTypeId}, '{ESQ(ce.Description)}', {(ce.IsEncrypted ? 1 : 0)}, {(ce.IsRequired ? 1 : 0)}");
-                sb.AppendLine($"ON CONFLICT(ConfigurationGroupId, Name) DO UPDATE SET Name = '{ESQ(ce.Name)}', DataTypeId = {ce.DataTypeId}, Description = '{ESQ(ce.Description)}', IsEncrypted = '{(ce.IsEncrypted ? 1 : 0)}', IsRequired = '{(ce.IsRequired ? 1 : 0)}';");
-            }
-            File.WriteAllText(@$"{outputPath}\^{index++:D3}^Config^UpsertConfigurationEntry.sql", sb.ToString());
             #endregion
 
             #region Theme.
-            sb.Clear();
-            var themes = configDb.Query<Theme>("SELECT * FROM Theme");
-            Console.WriteLine("Generating: Theme.");
+
+            Console.WriteLine("Generating: DefaultThemes.");
+
+            defaults.Execute(@"Scripts\RecreateDefaultThemesTable.sql");
+            var themes = configDb.Query<DefaultTheme>(@"Scripts\GetDefaultThemes.sql");
             foreach (var t in themes)
             {
-                sb.AppendLine("INSERT INTO Theme(Name, DelimitedFiles, ClassNavBar, ClassNavLink, ClassDropdown, ClassBranding, EditorTheme)");
+                sb.Clear();
+                sb.AppendLine("INSERT INTO DefaultThemes(Name, DelimitedFiles, ClassNavBar, ClassNavLink, ClassDropdown, ClassBranding, EditorTheme)");
                 sb.AppendLine($"SELECT '{ESQ(t.Name)}', '{ESQ(t.DelimitedFiles)}', '{ESQ(t.ClassNavBar)}', '{ESQ(t.ClassNavLink)}', '{ESQ(t.ClassDropdown)}', '{ESQ(t.ClassBranding)}', '{ESQ(t.EditorTheme)}'");
-                sb.AppendLine($"ON CONFLICT(Name) DO UPDATE SET DelimitedFiles = '{ESQ(t.DelimitedFiles)}', ClassNavBar = '{ESQ(t.ClassNavBar)}', ClassNavLink = '{ESQ(t.ClassNavLink)}', ClassDropdown = '{ESQ(t.ClassDropdown)}', ClassBranding = '{ESQ(t.ClassBranding)}', EditorTheme = '{ESQ(t.EditorTheme)}';");
+                defaults.Execute(sb.ToString());
             }
-            File.WriteAllText(@$"{outputPath}\^{index++:D3}^Config^UpsertTheme.sql", sb.ToString());
+
             #endregion
 
             #region FeatureTemplate.
-            sb.Clear();
-            var featureTemplates = pagesDb.Query<FeatureTemplate>("SELECT FT.Name, FT.Type, P.Name as PageName, FT.Description, FT.TemplateText FROM FeatureTemplate as FT INNER JOIN Page as P ON P.Id = FT.PageId");
-            Console.WriteLine("Generating: FeatureTemplate.");
-            foreach (var t in featureTemplates)
+
+            Console.WriteLine("Generating: DefaultFeatureTemplates.");
+
+            defaults.Execute(@"Scripts\RecreateDefaultFeatureTemplatesTable.sql");
+            var templates = pagesDb.Query<DefaultFeatureTemplate>(@"Scripts\GetFeatureTemplates.sql");
+            foreach (var t in templates)
             {
-                sb.AppendLine("INSERT INTO FeatureTemplate(Name, Type, PageId, Description, TemplateText)");
-                sb.AppendLine($"SELECT '{ESQ(t.Name)}', '{ESQ(t.Type)}', (SELECT Id FROM Page WHERE Name = '{ESQ(t.PageName)}' LIMIT 1), '{ESQ(t.Description)}', '{ESQ(t.TemplateText)}'");
-                sb.AppendLine($"ON CONFLICT(Name, Type) DO UPDATE SET Type = '{ESQ(t.Type)}', Description = '{ESQ(t.Description)}', TemplateText = '{ESQ(t.TemplateText)}', PageId = (SELECT Id FROM Page WHERE Name = '{ESQ(t.PageName)}' LIMIT 1);");
+                sb.Clear();
+                sb.AppendLine("INSERT INTO DefaultFeatureTemplates(Name, Type, PageName, Description, TemplateText)");
+                sb.AppendLine($"SELECT '{ESQ(t.Name)}', '{ESQ(t.Type)}', '{ESQ(t.PageName)}', '{ESQ(t.Description)}', '{ESQ(t.TemplateText)}'");
+                defaults.Execute(sb.ToString());
             }
-            File.WriteAllText(@$"{outputPath}\^{index++:D3}^Pages^FeatureTemplate.sql", sb.ToString());
+
             #endregion
 
-            //TODO: Add Help pages.
+            #region Default Pages
+
+            Console.WriteLine("Generating: DefaultPages.");
+
+            defaults.Execute(@"Scripts\RecreateDefaultPagesTable.sql");
+            var wikiPages = pagesDb.Query<DefaultWikiPage>(@"Scripts\GetDefaultDefaultPages.sql");
+            foreach (var page in wikiPages)
+            {
+                sb.Clear();
+                sb.AppendLine("INSERT INTO DefaultPages(Name, Namespace, Navigation, Description, Revision, DataHash, Body)");
+                sb.AppendLine($"SELECT '{ESQ(page.Name)}', '{ESQ(page.Namespace)}', '{ESQ(page.Navigation)}', '{ESQ(page.Description)}', {page.Revision}, {page.DataHash}, '{ESQ(page.Body)}';");
+                defaults.Execute(sb.ToString());
+            }
+
+            defaults.NativeConnection.Close();
+            defaults.NativeConnection.Dispose();
+            defaults.Dispose();
+
+            #endregion
         }
 
         /// <summary>

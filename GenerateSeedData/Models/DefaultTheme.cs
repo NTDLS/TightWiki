@@ -1,6 +1,8 @@
-﻿namespace GenerateSeedData
+﻿using System.Xml.Linq;
+
+namespace GenerateSeedData.Models
 {
-    public class Theme
+    public class DefaultTheme
     {
         public string Name { get; set; } = string.Empty;
         public string DelimitedFiles { get; set; } = string.Empty;

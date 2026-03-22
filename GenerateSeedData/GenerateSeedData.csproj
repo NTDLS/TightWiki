@@ -8,6 +8,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.3.3" />
+	  <EmbeddedResource Include="Scripts\GetDefaultConfiguration.sql" />
+	  <EmbeddedResource Include="Scripts\GetDefaultThemes.sql" />
+	  <EmbeddedResource Include="Scripts\RecreateDefaultConfigurationTable.sql" />
+	  <EmbeddedResource Include="Scripts\RecreateDefaultThemesTable.sql" />
+	  <EmbeddedResource Include="Scripts\RecreateDefaultPagesTable.sql" />
+	  <EmbeddedResource Include="Scripts\RecreateDefaultFeatureTemplatesTable.sql" />
+	  <EmbeddedResource Include="Scripts\GetFeatureTemplates.sql" />
+	  <EmbeddedResource Include="Scripts\GetDefaultDefaultPages.sql" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="NTDLS.SqliteDapperWrapper" Version="1.4.0" />
 	</ItemGroup>
 </Project>
