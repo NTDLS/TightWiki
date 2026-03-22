@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>إجراء</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>الصفحات المدمجة</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>قاعدة البيانات</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>قوالب الميزات</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>تضمين الصفحات</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>الاسم</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>تحسين</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>استعادة الإعدادات</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>الحجم</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>السمات</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>سيقوم هذا بالتحقق من سلامة قاعدة البيانات والتحقق من جميع المفاتيح الخارجية. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>سيتم دمج جميع الإعدادات الافتراضية، ولكن لن يتم الكتابة فوق أي من الإعدادات التي قمت بتكوينها حتى الآن. هل تريد المتابعة؟</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>سيقوم هذا بتحسين فهارس قاعدة البيانات وبنيتها. هل تريد المتابعة؟</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>سيقوم هذا بإزالة المساحة الفارغة من قاعدة البيانات، مما يمكن أن يحرر مساحة إذا تم حذف الكثير من البيانات. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>سيتم استعادة جميع صفحات الفضاء الاسمي المدمجة، وسيتم الكتابة فوق أي تخصيصات قد تكون قد أجريتها. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>سيتم استعادة جميع السمات الافتراضية، وسيتم الكتابة فوق أي تخصيصات قد تكون قد أجريتها في قاعدة البيانات. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>سيتم استعادة جميع قوالب الميزات، وسيتم الكتابة فوق أي تخصيصات قد تكون قد أجريتها. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>سيتم استعادة جميع صفحات الفضاء الاسمي للتضمين. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>سيتم استعادة جميع صفحات الفضاء الاسمي لمساعدة ويكي. هل تريد المتابعة؟</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>تفريغ</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>الإصدار</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>صفحات مساعدة ويكي</value>
   </data>
 </root>

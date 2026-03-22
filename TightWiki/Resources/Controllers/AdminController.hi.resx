@@ -281,4 +281,10 @@
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
     <value>LDAP चुनौती सफल हुई (अप्रावधानित खाता)।</value>
   </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>पूरी पुनर्स्थापना।</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>पुनर्स्थापना</value>
+  </data>
 </root>

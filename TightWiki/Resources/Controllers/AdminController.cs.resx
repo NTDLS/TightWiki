@@ -281,4 +281,10 @@
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
     <value>LDAP výzva byla úspěšná (neprovisionovaný účet).</value>
   </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Obnovení dokončeno.</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
 </root>

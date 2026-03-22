@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>Akce</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Vestavěné Stránky</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>Databáze</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Šablony Funkcí</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Zahrnout Stránky</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Jméno</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>Optimalizovat</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>Obnovit Konfiguraci</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>Velikost</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Šablony</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>To zkontroluje integritu databáze a ověří všechny cizí klíče. Pokračovat?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Tímto se sloučí všechny výchozí konfigurace, ale nepřepíše žádná vaše aktuálně nastavená nastavení. Pokračovat?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>Tím se optimalizují indexy a struktura databáze. Pokračovat?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>Tím se z databáze odstraní prázdné místo, které může uvolnit místo, pokud bylo smazáno velké množství dat. Pokračovat?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Tímto se obnoví všechny vestavěné stránky jmenných prostorů, přepíše jakékoli úpravy, které jste mohli provést. Pokračovat?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Tímto se obnoví všechny výchozí šablony, přepíše jakékoli úpravy, které jste mohli provést v databázi. Pokračovat?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Tímto se obnoví všechny šablony funkcí, přepíše jakékoli úpravy, které jste mohli provést. Pokračovat?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Tímto se obnoví všechny stránky jmenného prostoru Include. Pokračovat?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Tímto se obnoví všechny stránky jmenného prostoru Wiki Help. Pokračovat?</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>Vyčistit</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Verze</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Stránky Nápovědy Wiki</value>
   </data>
 </root>

@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>ক্রিয়া</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>নির্মিত পৃষ্ঠাগুলি</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>ডেটাবেস</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>ফিচার টেমপ্লেট</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>পৃষ্ঠাগুলি অন্তর্ভুক্ত করুন</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>নাম</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>সর্বোত্তম করুন</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>কনফিগারেশন পুনরুদ্ধার করুন</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>আকার</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>থিমগুলি</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>এটি ডেটাবেসের অখণ্ডতা পরীক্ষা করবে এবং সমস্ত বিদেশী চাবি যাচাই করবে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>এটি সমস্ত ডিফল্ট কনফিগারেশনকে একত্রিত করবে, তবে এটি আপনার বর্তমানে কনফিগার করা সেটিংসগুলিকে ওভাররাইট করবে না। চালিয়ে যাবেন?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>এটি ডেটাবেসের সূচক এবং গঠন সর্বোত্তম করবে। চালিয়ে যাবেন?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>এটি ডেটাবেস থেকে খালি স্থান সরিয়ে দেবে, যা অনেক ডেটা মুছে ফেলা হলে স্থান মুক্ত করতে পারে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>এটি সমস্ত নির্মিত নেমস্পেস পৃষ্ঠাগুলি পুনরুদ্ধার করবে, কোন কাস্টমাইজেশন আপনি করতে পারেন তা ওভাররাইট করবে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>এটি সমস্ত ডিফল্ট থিম পুনরুদ্ধার করবে, ডাটাবেসে আপনি যে কোন কাস্টমাইজেশন করেছেন তা ওভাররাইট করে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>এটি সমস্ত ফিচার টেমপ্লেট পুনরুদ্ধার করবে, আপনি যে কোন কাস্টমাইজেশন করেছেন তা ওভাররাইট করে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>এটি সমস্ত অন্তর্ভুক্ত নেমস্পেস পৃষ্ঠাগুলি পুনরুদ্ধার করবে। চালিয়ে যাবেন?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>এটি সমস্ত উইকি সহায়তা নেমস্পেস পৃষ্ঠাগুলি পুনরুদ্ধার করবে। চালিয়ে যাবেন?</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>ভ্যাকুয়াম</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>সংস্করণ</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>উইকি সহায়তা পৃষ্ঠাগুলি</value>
   </data>
 </root>

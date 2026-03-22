@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>Tindakan</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Halaman bawaan</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>Basis Data</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Template Fitur</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Inklusi Halaman</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nama</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>Optimalkan</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>Pulihkan Konfigurasi</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>Ukuran</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Tema</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>Ini akan memeriksa integritas basis data dan memvalidasi semua kunci asing. Lanjutkan?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Ini akan menggabungkan semua konfigurasi default, tetapi tidak akan menimpa pengaturan Anda saat ini. Melanjutkan?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>Ini akan mengoptimalkan indeks dan struktur basis data. Lanjutkan?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>Ini akan menghapus ruang kosong dari basis data, yang bisa membebaskan ruang jika banyak data telah dihapus. Lanjutkan?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Ini akan memulihkan semua halaman namespace bawaan, menimpa kustomisasi yang mungkin Anda buat. Melanjutkan?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Ini akan memulihkan semua tema default, menimpa kustomisasi yang mungkin Anda buat di database. Melanjutkan?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Ini akan memulihkan semua Template Fitur, menimpa kustomisasi yang mungkin Anda buat. Melanjutkan?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Ini akan memulihkan semua halaman namespace Inklusi. Melanjutkan?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Ini akan memulihkan semua halaman namespace Wiki Bantuan. Melanjutkan?</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>Vakum</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Versi</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Halaman Bantuan Wiki</value>
   </data>
 </root>

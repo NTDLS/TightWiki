@@ -281,4 +281,10 @@
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
     <value>LDAP 挑戰成功（未配置的帳號）。</value>
   </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>恢復完成。</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>恢復</value>
+  </data>
 </root>

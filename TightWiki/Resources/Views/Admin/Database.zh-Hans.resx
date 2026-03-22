@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>操作</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>内置页面</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>数据库</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>功能模板</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>包含页面</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>名称</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>优化</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>恢复配置</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>大小</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>主题</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>这将检查数据库的完整性并验证所有外键。继续？</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>这将合并所有默认配置，但不会覆盖您当前配置的任何设置。继续吗？</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>这将优化数据库索引和结构。继续？</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>这将从数据库中删除空白空间，如果删除了大量数据，可以释放空间。继续？</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>这将恢复所有内置命名空间页面，覆盖您可能所做的任何自定义。继续吗？</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>这将恢复所有默认主题，覆盖您在数据库中可能所做的任何自定义。继续吗？</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>这将恢复所有功能模板，覆盖您可能所做的任何自定义。继续吗？</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>这将恢复所有包含命名空间页面。继续吗？</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>这将恢复所有维基帮助命名空间页面。继续吗？</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>清理</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>版本</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>维基帮助页面</value>
   </data>
 </root>

@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>Azione</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Pagine integrate</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>Database</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Modelli di funzionalità</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Includi pagine</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nome</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>Ottimizza</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>Ripristina configurazione</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>Dimensione</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Temi</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>Questo verificherà l'integrità del database e convaliderà tutte le chiavi esterne. Continuare?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Questo unirà tutte le configurazioni predefinite, ma non sovrascriverà nessuna delle impostazioni attualmente configurate. Continuare?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>Questo ottimizzerà gli indici e la struttura del database. Continuare?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>Questo rimuoverà lo spazio vuoto dal database, il che può liberare spazio se sono stati eliminati molti dati. Continuare?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Questo ripristinerà tutte le pagine di namespace integrate, sovrascrivendo eventuali personalizzazioni che potresti aver fatto. Continuare?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Questo ripristinerà tutti i temi predefiniti, sovrascrivendo eventuali personalizzazioni che potresti aver fatto nel database. Continuare?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Questo ripristinerà tutti i modelli di funzionalità, sovrascrivendo eventuali personalizzazioni che potresti aver fatto. Continuare?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Questo ripristinerà tutte le pagine di namespace Include. Continuare?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Questo ripristinerà tutte le pagine di namespace Wiki Help. Continuare?</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>Pulizia</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Versione</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Pagine di aiuto Wiki</value>
   </data>
 </root>

@@ -281,4 +281,10 @@
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
     <value>LDAP 챌린지가 성공했습니다 (프로비저닝되지 않은 계정).</value>
   </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>복원 완료.</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>복원</value>
+  </data>
 </root>

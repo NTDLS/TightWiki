@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>Hành động</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Các Trang Tích Hợp Sẵn</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>Cơ sở dữ liệu</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Mẫu Tính Năng</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Bao Gồm Các Trang</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Tên</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>Tối ưu hóa</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>Khôi Phục Cấu Hình</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>Kích thước</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Chủ Đề</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>Điều này sẽ kiểm tra tính toàn vẹn của cơ sở dữ liệu và xác thực tất cả các khóa ngoại. Tiếp tục không?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Điều này sẽ hợp nhất tất cả cấu hình mặc định, nhưng sẽ không ghi đè lên bất kỳ cài đặt nào bạn đã cấu hình hiện tại. Tiếp tục?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>Điều này sẽ tối ưu hóa chỉ mục và cấu trúc cơ sở dữ liệu. Tiếp tục không?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>Điều này sẽ xóa không gian trống khỏi cơ sở dữ liệu, điều này có thể giải phóng không gian nếu nhiều dữ liệu đã bị xóa. Tiếp tục không?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Điều này sẽ khôi phục tất cả các trang không gian tên tích hợp sẵn, ghi đè lên bất kỳ tùy chỉnh nào bạn có thể đã thực hiện. Tiếp tục?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Điều này sẽ khôi phục tất cả các chủ đề mặc định, ghi đè lên bất kỳ tùy chỉnh nào bạn có thể đã thực hiện trong cơ sở dữ liệu. Tiếp tục?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Điều này sẽ khôi phục tất cả các Mẫu Tính Năng, ghi đè lên bất kỳ tùy chỉnh nào bạn có thể đã thực hiện. Tiếp tục?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Điều này sẽ khôi phục tất cả các trang không gian tên bao gồm. Tiếp tục?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Điều này sẽ khôi phục tất cả các trang không gian tên Wiki Trợ Giúp. Tiếp tục?</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>Hút bụi</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Phiên bản</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Các Trang Trợ Giúp Wiki</value>
   </data>
 </root>

@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>Дія</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Вбудовані сторінки</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>База даних</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Шаблони функцій</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Включити сторінки</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Ім'я</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>Оптимізувати</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>Відновити конфігурацію</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>Розмір</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Тематики</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>Це перевірить цілісність бази даних і підтвердить всі зовнішні ключі. Продовжити?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Це об’єднає всі стандартні налаштування, але не перезапише жодне з ваших нинішніх налаштувань. Продовжити?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>Це оптимізує індекси та структуру бази даних. Продовжити?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>Це видалить пустий простір з бази даних, що може звільнити місце, якщо було видалено багато даних. Продовжити?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Це відновить всі вбудовані сторінки простору імен, перезаписуючи будь-які зміни, які ви могли внести. Продовжити?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Це відновить всі стандартні теми, перезаписуючи будь-які зміни, які ви могли внести в базу даних. Продовжити?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Це відновить всі шаблони функцій, перезаписуючи будь-які зміни, які ви могли внести. Продовжити?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Це відновить всі сторінки простору імен Include. Продовжити?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Це відновить всі сторінки простору імен Wiki Help. Продовжити?</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>Вакуум</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Версія</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Сторінки допомоги Wiki</value>
   </data>
 </root>

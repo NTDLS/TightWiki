@@ -281,4 +281,10 @@
   <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
     <value>LDAP zorluğu başarıyla tamamlandı (provision edilmemiş hesap).</value>
   </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Geri yükleme tamamlandı.</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Geri yükleme</value>
+  </data>
 </root>

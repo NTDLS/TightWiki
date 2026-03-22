@@ -62,8 +62,17 @@
   <data name="Action" xml:space="preserve">
     <value>アクション</value>
   </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>組み込みページ</value>
+  </data>
   <data name="Database" xml:space="preserve">
     <value>データベース</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>機能テンプレート</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>ページを含める</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>名前</value>
@@ -71,17 +80,41 @@
   <data name="Optimize" xml:space="preserve">
     <value>最適化</value>
   </data>
+  <data name="Restore Configuration" xml:space="preserve">
+    <value>構成を復元する</value>
+  </data>
   <data name="Size" xml:space="preserve">
     <value>サイズ</value>
   </data>
+  <data name="Themes" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
     <value>これはデータベースの整合性を確認し、すべての外部キーを検証します。続行しますか？</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>これはすべてのデフォルト構成を統合しますが、現在設定されている設定を上書きすることはありません。続けますか？</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
     <value>これはデータベースのインデックスと構造を最適化します。続行しますか？</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value>これはデータベースから空きスペースを削除し、多くのデータが削除された場合にスペースを解放できます。続行しますか？</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>これはすべての組み込みネームスペースページを復元し、行ったカスタマイズを上書きします。続けますか？</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>これはすべてのデフォルトテーマを復元し、データベースで行ったカスタマイズを上書きします。続けますか？</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>これはすべての機能テンプレートを復元し、行ったカスタマイズを上書きします。続けますか？</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>これはすべてのIncludeネームスペースページを復元します。続けますか？</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>これはすべてのWikiヘルプネームスペースページを復元します。続けますか？</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
     <value>バキューム</value>
@@ -94,5 +127,8 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>バージョン</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Wikiヘルプページ</value>
   </data>
 </root>
