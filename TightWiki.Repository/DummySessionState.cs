@@ -11,7 +11,7 @@ namespace TightWiki.Repository
         public IQueryCollection? QueryString { get; set; }
 
         public IAccountProfile? Profile { get; set; }
- 
+
         public bool HoldsPermission(WikiPermission[] permissions) => true;
 
         public bool HoldsPermission(WikiPermission permission) => true;

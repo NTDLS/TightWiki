@@ -14,7 +14,6 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
-using NTDLS.SqliteDapperWrapper;
 using TightWiki.Email;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation;

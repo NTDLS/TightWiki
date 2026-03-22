@@ -6,7 +6,6 @@ using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
 using TightWiki.Caching;
-using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;

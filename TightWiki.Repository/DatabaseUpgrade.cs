@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using NTDLS.Helpers;
-using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Security.Claims;
-using System.Xml.Linq;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
-using TightWiki.Library.Interfaces;
-using TightWiki.Models.DataModels;
 using TightWiki.Models.DataModels.Defaults;
 using static TightWiki.Library.Constants;
 
