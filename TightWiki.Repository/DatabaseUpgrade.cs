@@ -1,5 +1,7 @@
 ﻿using NTDLS.Helpers;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using System.Xml.Linq;
 using TightWiki.Library;
 using TightWiki.Models.DataModels.Defaults;
 
@@ -163,10 +165,37 @@ namespace TightWiki.Repository
 
         public static void ApplyAllSeedData()
         {
-            var defaultConfiguration = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
-            var defaultFeatureTemplate = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
-            var defaultTheme = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
-            var defaultWikiPage = ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql");
+            var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
+            foreach (var defaultConfigurationGroup in defaultConfigurationGroups)
+            {
+                ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationGroup.sql",
+                    new
+                    {
+                        Name = defaultConfigurationGroup.ConfigurationGroupName,
+                        Description = defaultConfigurationGroup.ConfigurationGroupDescription
+                    });
+            }
+
+            var defaultConfigurations = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurations.sql");
+            foreach (var defaultConfiguration in defaultConfigurations)
+            {
+                ManagedDataStorage.Config.Execute(@"Scripts\Defaults\Merge\MergeConfigurationEntry.sql",
+                    new
+                    {
+                        Name = defaultConfiguration.ConfigurationEntryName,
+                        Value = defaultConfiguration.Value,
+                        DataTypeId = defaultConfiguration.DataTypeId,
+                        Description = defaultConfiguration.ConfigurationEntryDescription,
+                        IsEncrypted = defaultConfiguration.IsEncrypted,
+                        IsRequired = defaultConfiguration.IsRequired,
+                        ConfigurationGroupName = defaultConfiguration.ConfigurationGroupName,
+                    });
+            }
+
+
+            var defaultFeatureTemplates = ManagedDataStorage.Defaults.Query<DefaultFeatureTemplate>(@"Scripts\Defaults\GetDefaultFeatureTemplates.sql");
+            var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
+            var defaultWikiPages = ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql");
 
 
         }

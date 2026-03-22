@@ -3,7 +3,8 @@ SELECT
 	ConfigurationEntryName,
 	Value,
 	DataTypeId,
-	Description,
+	ConfigurationGroupDescription,
+	ConfigurationEntryDescription,
 	IsEncrypted,
 	IsRequired
 FROM

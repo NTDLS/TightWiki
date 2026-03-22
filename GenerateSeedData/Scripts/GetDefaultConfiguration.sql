@@ -3,7 +3,8 @@
 	CE.Name as ConfigurationEntryName,
 	CE.Value,
 	CE.DataTypeId,
-	CE.Description,
+	CE.Description ConfigurationEntryDescription,
+	CG.Description ConfigurationGroupDescription,
 	CE.IsEncrypted,
 	CE.IsRequired
 FROM

@@ -41,8 +41,8 @@ namespace GenerateSeedData
             foreach (var t in configurations)
             {
                 sb.Clear();
-                sb.AppendLine("INSERT INTO DefaultConfiguration(ConfigurationGroupName, ConfigurationEntryName, Value, DataTypeId, Description, IsEncrypted, IsRequired)");
-                sb.AppendLine($"SELECT '{ESQ(t.ConfigurationGroupName)}', '{ESQ(t.ConfigurationEntryName)}', '{ESQ(t.Value)}', {t.DataTypeId}, '{ESQ(t.Description)}', {(t.IsEncrypted ? 1 : 0)}, {(t.IsRequired ? 1 : 0)}");
+                sb.AppendLine("INSERT INTO DefaultConfiguration(ConfigurationGroupName, ConfigurationEntryName, Value, DataTypeId, ConfigurationGroupDescription, ConfigurationEntryDescription, IsEncrypted, IsRequired)");
+                sb.AppendLine($"SELECT '{ESQ(t.ConfigurationGroupName)}', '{ESQ(t.ConfigurationEntryName)}', '{ESQ(t.Value)}', {t.DataTypeId}, '{ESQ(t.ConfigurationGroupDescription)}','{ESQ(t.ConfigurationEntryDescription)}', {(t.IsEncrypted ? 1 : 0)}, {(t.IsRequired ? 1 : 0)}");
                 defaults.Execute(sb.ToString());
             }
 

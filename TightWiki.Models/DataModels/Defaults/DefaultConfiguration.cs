@@ -6,7 +6,8 @@
         public string ConfigurationEntryName { get; set; } = string.Empty;
         public string Value { get; set; } = string.Empty;
         public int DataTypeId { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public string ConfigurationGroupDescription { get; set; } = string.Empty;
+        public string ConfigurationEntryDescription { get; set; } = string.Empty;
         public bool IsEncrypted { get; set; }
         public bool IsRequired { get; set; }
     }

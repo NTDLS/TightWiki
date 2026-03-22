@@ -5,7 +5,8 @@ CREATE TABLE DefaultConfiguration (
 	ConfigurationEntryName TEXT NOT NULL COLLATE NOCASE,
 	Value	TEXT,
 	DataTypeId	int NOT NULL,
-	Description	TEXT COLLATE NOCASE,
+	ConfigurationEntryDescription TEXT COLLATE NOCASE,
+	ConfigurationGroupDescription TEXT COLLATE NOCASE,
 	IsEncrypted	INTEGER NOT NULL,
 	IsRequired	INTEGER NOT NULL
 );
