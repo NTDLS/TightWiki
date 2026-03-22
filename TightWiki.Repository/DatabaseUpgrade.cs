@@ -56,7 +56,7 @@ namespace TightWiki.Repository
                     return false; //The database version is already at the latest version.
                 }
 
-                Console.WriteLine($"Starting database initialization.");
+                LoggingRepository.WriteLog(WikiSeverity.Information, $"Starting database upgrade.");
 
                 var manifestResources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -124,9 +124,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                LoggingRepository.InsertException(ex, "Database upgrade failed.");
-                //Yea, we want to write this to the console so that it can be seen when running manually.
-                Console.WriteLine($"Database upgrade failed: {ex.Message}");
+                LoggingRepository.WriteException(ex, "Database upgrade failed.");
                 return false;
             }
         }
@@ -142,6 +140,8 @@ namespace TightWiki.Repository
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
         public static string? CreateDefaultsDatabase(ConfigurationManager configuration, bool overwrite)
         {
+            LoggingRepository.WriteLog(WikiSeverity.Information, "Creating defaults database.");
+
             try
             {
                 //We have to have a "DatabasePath" or a valid config database path.
@@ -152,7 +152,7 @@ namespace TightWiki.Repository
                     databasePath = Path.GetDirectoryName(configDatabase);
                     if (databasePath == null)
                     {
-                        LoggingRepository.InsertException("Could not determine the directory for the config database.");
+                        LoggingRepository.WriteException("Could not determine the directory for the config database.");
                         return null;
                     }
                 }
@@ -168,7 +168,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                LoggingRepository.InsertException(ex, "An error occurred while extracting the default data database.");
+                LoggingRepository.WriteException(ex, "An error occurred while extracting the default data database.");
             }
             return null;
         }
@@ -184,7 +184,7 @@ namespace TightWiki.Repository
             {
                 if (adminUserId == null)
                 {
-                    logger.LogWarning("Admin user with ID {AdminUserId} was not found in the identity database. A new admin user will be created.", adminUserId);
+                    LoggingRepository.WriteLog(WikiSeverity.Warning, $"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
 
                     //We couldn't find an admin user, so we will create a new one with a random password.
                     var user = new IdentityUser()
@@ -203,7 +203,7 @@ namespace TightWiki.Repository
                         var result = await userManager.CreateAsync(user, PasswordGenerator.Generate(32));
                         if (result.Succeeded)
                         {
-                            logger.LogInformation("Database upgrade user created a new account with password.");
+                            LoggingRepository.WriteLog(WikiSeverity.Information, "Database upgrade user created a new account with password.");
 
                             adminUserId = Guid.Parse(await userManager.GetUserIdAsync(user));
 
@@ -218,12 +218,12 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                LoggingRepository.WriteException(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
             }
 
             if (adminUserId == null)
             {
-                logger.LogError("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                LoggingRepository.WriteException("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
                 return;
             }
 
@@ -248,7 +248,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default configuration groups.");
+                    LoggingRepository.WriteException(ex, "An error occurred while seeding default configuration groups.");
                 }
 
                 try
@@ -271,7 +271,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default configuration entries.");
+                    LoggingRepository.WriteException(ex, "An error occurred while seeding default configuration entries.");
                 }
             }
 
@@ -301,7 +301,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default themes.");
+                    LoggingRepository.WriteException(ex, "An error occurred while seeding default themes.");
                 }
             }
 
@@ -362,7 +362,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
+                    LoggingRepository.WriteException(ex, "An error occurred while seeding default wiki help pages.");
                 }
             }
 
@@ -390,7 +390,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "An error occurred while seeding default feature templates.");
+                    LoggingRepository.WriteException(ex, "An error occurred while seeding default feature templates.");
                 }
             }
 
@@ -399,7 +399,7 @@ namespace TightWiki.Repository
 
         private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)
         {
-            Console.WriteLine($"Executing initialization script: \"{fullUpdateScriptPath}\"");
+            LoggingRepository.WriteLog(WikiSeverity.Information, $"Executing initialization script: \"{fullUpdateScriptPath}\"");
 
             //Get the script text.
             using var stream = assembly.GetManifestResourceStream(fullUpdateScriptPath);

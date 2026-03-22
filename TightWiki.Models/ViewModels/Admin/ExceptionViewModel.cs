@@ -5,6 +5,6 @@ namespace TightWiki.Models.ViewModels.Admin
     public class ExceptionViewModel
         : ViewModelBase
     {
-        public WikiException Exception { get; set; } = new();
+        public WikiLogEntry Exception { get; set; } = new();
     }
 }

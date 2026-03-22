@@ -1,19 +1,22 @@
 SELECT
-	Id,
-	[Text],
-	[ExceptionText],
-	[StackTrace],
-	[CreatedDate],
+	L.Id,
+	S.Name as Severity,
+	L.[Text],
+	L.[ExceptionText],
+	L.[StackTrace],
+	L.[CreatedDate],
 
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
 			CAST((Count(0) + (@PageSize - 1.0)) / @PageSize AS INTEGER)
 		FROM
-			[Exception] as P
+			Log as P
 	) as PaginationPageCount
 FROM
-	[Exception]
+	Log as L
+INNER JOIN Severity as S
+	ON L.SeverityId = S.Id
 --CUSTOM_ORDER_BEGIN::
 --CONFIG::
 /*
