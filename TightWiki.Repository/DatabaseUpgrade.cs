@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Xml.Linq;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
+using TightWiki.Library.Interfaces;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.DataModels.Defaults;
 using static TightWiki.Library.Constants;
@@ -172,7 +173,7 @@ namespace TightWiki.Repository
 
         public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, DefaultDataType[] defaultDataTypes)
         {
-            #region Get or create admin user.
+            #region Seed: AdminUser.
 
             var adminUserId = ManagedDataStorage.Users.QueryFirstOrDefault<Guid?>(@"Scripts\Defaults\GetAdminUserId.sql");
 
@@ -226,6 +227,8 @@ namespace TightWiki.Repository
 
             #endregion
 
+            #region Seed: Configurations.
+
             if (defaultDataTypes.Contains(DefaultDataType.Configurations))
             {
                 try
@@ -270,6 +273,10 @@ namespace TightWiki.Repository
                 }
             }
 
+            #endregion
+
+            #region Seed: Themes.
+
             if (defaultDataTypes.Contains(DefaultDataType.Themes))
             {
                 try
@@ -296,12 +303,17 @@ namespace TightWiki.Repository
                 }
             }
 
+            #endregion
+
+            #region Seed: WikiPages.
+
             if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages)
                 || defaultDataTypes.Contains(DefaultDataType.WikiIncludePages)
                 || defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
             {
                 try
                 {
+                    var dummySessionState = new DummySessionState();
 
                     List<DefaultWikiPage> defaultWikiPages = new();
 
@@ -324,12 +336,9 @@ namespace TightWiki.Repository
                     foreach (var defaultWikiPage in defaultWikiPages)
                     {
                         var existingPage = ManagedDataStorage.Pages.QueryFirstOrDefault<Models.DataModels.Page>(@"Scripts\Defaults\GetPageByNavigation.sql",
-                            new
-                            {
-                                Navigation = defaultWikiPage.Navigation
-                            });
+                            new { Navigation = defaultWikiPage.Navigation });
 
-                        if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
+                        //if (existingPage == null || existingPage.DataHash != defaultWikiPage.DataHash)
                         {
                             var wikiPage = new Models.DataModels.Page()
                             {
@@ -345,7 +354,7 @@ namespace TightWiki.Repository
                                 ModifiedDate = DateTime.UtcNow
                             };
 
-                            RepositoryHelpers.UpsertPage(tightEngine, wikiPage);
+                            RepositoryHelpers.UpsertPage(tightEngine, wikiPage, dummySessionState);
                         }
                     }
                 }
@@ -354,6 +363,10 @@ namespace TightWiki.Repository
                     logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
                 }
             }
+
+            #endregion
+
+            #region Seed: FeatureTemplates.
 
             if (defaultDataTypes.Contains(DefaultDataType.FeatureTemplates))
             {
@@ -379,6 +392,7 @@ namespace TightWiki.Repository
                 }
             }
 
+            #endregion
         }
 
         private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)

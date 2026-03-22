@@ -17,7 +17,8 @@ using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
-    public class SessionState : ISessionState
+    public class SessionState
+        : ISessionState
     {
         private readonly string _denyString = WikiPermissionDisposition.Deny.ToString();
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();

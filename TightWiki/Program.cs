@@ -49,6 +49,11 @@ namespace TightWiki
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetConnectionString("UsersConnection"));
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetConnectionString("ConfigConnection"));
 
+            //Upgrade database if needed and create defaults database if needed. This is done at the very beginning before
+            //  almost anything else to ensure the database is in the correct state for the rest of the application to work with.
+            //
+            // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
+            //  via a call to DatabaseUpgrade.ApplyAllSeedData()
             var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts();
 
             var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(wasDatabaseUpgraded);
