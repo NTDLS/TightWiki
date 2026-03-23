@@ -2,9 +2,9 @@
 
 namespace TightWiki.Models.ViewModels.Admin
 {
-    public class ExceptionViewModel
+    public class EventLogEntryViewModel
         : ViewModelBase
     {
-        public WikiLogEntry Exception { get; set; } = new();
+        public WikiLogEntry LogEntry { get; set; } = new();
     }
 }

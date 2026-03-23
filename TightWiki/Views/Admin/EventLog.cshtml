@@ -1,4 +1,4 @@
-﻿@model TightWiki.Models.ViewModels.Admin.ExceptionsViewModel
+﻿@model TightWiki.Models.ViewModels.Admin.EventLogViewModel
 @using TightWiki.Library
 @using TightWiki.Models
 @inject IViewLocalizer Localizer
@@ -8,19 +8,19 @@
 }
 
 <h3>
-    @Localizer["Exceptions"]
+    @Localizer["Event Log"]
 </h3>
 
 <p>
-    @Localizer["Server and page exceptions."]
+    @Localizer["Server and page event logs."]
 </p>
 
 <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
     <div>
         @*Left-aligned "toolbar" controls*@
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
-        @Localizer["This will permanently purge all exceptions. Continue?"].Value,
-                @Localizer["Purge Exceptions"].Value, "/Admin/PurgeExceptions", Context.Request.Path.Value)
+        @Localizer["This will permanently purge all event logs. Continue?"].Value,
+                @Localizer["Purge Event Log"].Value, "/Admin/PurgeEventLog", Context.Request.Path.Value)
     </div>
 
     <div>
@@ -28,7 +28,7 @@
     </div>
 </div>
 
-@if (Model.Exceptions.Count > 0)
+@if (Model.LogEntries.Count > 0)
 {
     @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
     <br />
@@ -37,18 +37,18 @@
         <thead>
             <tr>
                 <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "Id")">@Localizer["Id"]</a></strong></td>
+                <td><strong>@Localizer["Severity"]</strong></td>
                 <td><strong>@Localizer["Text"]</strong></td>
-                <td><strong>@Localizer["Exception"]</strong></td>
                 <td><strong><a href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">@Localizer["Date/Time"]</a></strong></td>
             </tr>
         </thead>
 
-        @foreach (var ex in Model.Exceptions)
+        @foreach (var ex in Model.LogEntries)
         {
             <tr>
-                <td><a href="@GlobalConfiguration.BasePath/Admin/Exception/@ex.Id">@ex.Id</a></td>
+                <td><a href="@GlobalConfiguration.BasePath/Admin/EventLogEntry/@ex.Id">@ex.Id</a></td>
+                <td>@ex.Severity</td>
                 <td>@ex.Text</td>
-                <td>@ex.ExceptionText</td>
                 <td>@ex.CreatedDate</td>
             </tr>
         }
@@ -60,7 +60,7 @@ else
 {
     <div class="d-flex small text-muted mb-0">
         <strong>
-            @Localizer["The exception log is currently empty."]
+            @Localizer["The event log is empty."]
         </strong>
     </div>
 }

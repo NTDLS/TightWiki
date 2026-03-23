@@ -1557,12 +1557,12 @@ namespace TightWiki.Controllers
             var orderBy = GetQueryValue<string>("OrderBy");
             var orderByDirection = GetQueryValue<string>("OrderByDirection");
 
-            var model = new ExceptionsViewModel()
+            var model = new EventLogViewModel()
             {
-                Exceptions = LoggingRepository.GetLogEntriesPaged(pageNumber, orderBy, orderByDirection)
+                LogEntries = LoggingRepository.GetLogEntriesPaged(pageNumber, orderBy, orderByDirection)
             };
 
-            model.PaginationPageCount = (model.Exceptions.FirstOrDefault()?.PaginationPageCount ?? 0);
+            model.PaginationPageCount = (model.LogEntries.FirstOrDefault()?.PaginationPageCount ?? 0);
 
             return View(model);
         }
@@ -1581,17 +1581,17 @@ namespace TightWiki.Controllers
             }
             SessionState.Page.Name = Localize("Exception");
 
-            var model = new ExceptionViewModel()
+            var model = new EventLogEntryViewModel()
             {
-                Exception = LoggingRepository.GetLogEntryById(id)
+                LogEntry = LoggingRepository.GetLogEntryById(id)
             };
 
             return View(model);
         }
 
         [Authorize]
-        [HttpPost("PurgeExceptions")]
-        public ActionResult PurgeExceptions(ConfirmActionViewModel model)
+        [HttpPost("PurgeEventLog")]
+        public ActionResult PurgeEventLog(ConfirmActionViewModel model)
         {
             try
             {
@@ -1604,7 +1604,7 @@ namespace TightWiki.Controllers
             if (model.UserSelection == true)
             {
                 LoggingRepository.PurgeLogs();
-                return NotifyOfSuccess(Localize("All exceptions have been purged."), model.YesRedirectURL);
+                return NotifyOfSuccess(Localize("All event logs have been purged."), model.YesRedirectURL);
             }
 
             return Redirect($"{GlobalConfiguration.BasePath}{model.NoRedirectURL}");

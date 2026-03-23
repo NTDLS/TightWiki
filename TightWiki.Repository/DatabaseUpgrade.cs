@@ -140,8 +140,6 @@ namespace TightWiki.Repository
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
         public static string? CreateDefaultsDatabase(ILogger logger, ConfigurationManager configuration, bool overwrite)
         {
-            logger.LogInformation("Creating defaults database.");
-
             try
             {
                 //We have to have a "DatabasePath" or a valid config database path.
@@ -161,6 +159,7 @@ namespace TightWiki.Repository
 
                 if (!File.Exists(defaultsDatabasePath) || overwrite)
                 {
+                    logger.LogInformation("Creating defaults database.");
                     var defaultDatabaseBytes = EmbeddedResourceReader.LoadBytes(@"Defaults\defaults.db");
                     File.WriteAllBytes(defaultsDatabasePath, defaultDatabaseBytes);
                 }
