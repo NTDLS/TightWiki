@@ -206,6 +206,8 @@
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.1\^001^Users^AddCreatePermissionToContributor.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.8\^001^DeletedPageRevisions^AddChangeSummary.sql" />
 		<EmbeddedResource Include="Scripts\Initialization\Versions\2.27.8\^001^DeletedPages^AddChangeSummary.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.0\^000^Config^FixLanguageCodes.sql" />
+		<EmbeddedResource Include="Scripts\Initialization\Versions\2.31.0\^001^Users^FixLanguageCodes.sql" />
 		<EmbeddedResource Include="Scripts\InsertRole.sql" />
 		<EmbeddedResource Include="Scripts\DoesRoleExist.sql" />
 		<EmbeddedResource Include="Scripts\InsertAccountPermission.sql" />
