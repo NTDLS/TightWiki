@@ -13,7 +13,7 @@ namespace LocalizerScan
     {
         private static readonly Regex[] KeyPatterns =
         [
-            new(@"Localize\[""((?:[^""\\]|\\.)*)""\]", RegexOptions.Compiled),
+            new(@"Localize\(""((?:[^""\\]|\\.)*)""\)", RegexOptions.Compiled),
             new(@"Localizer\[""((?:[^""\\]|\\.)*)""\]", RegexOptions.Compiled),
             new(@"Localizer\.Format\(""((?:[^""\\]|\\.)*)""\s*[,\)]", RegexOptions.Compiled),
             new(@"_localizer\[""((?:[^""\\]|\\.)*)""\]", RegexOptions.Compiled),
