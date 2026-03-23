@@ -1,7 +1,7 @@
 ﻿@page
 @using System.Text.Encodings.Web
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model LoginWith2faModel
 @{
@@ -9,10 +9,10 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Two-factor authentication"]
+    @Localizer["Two-factor authentication"]
 </h3>
 
-<p>@SharedLocalizer.Static["Your login is protected with an authenticator app. Enter your authenticator code below."]</p>
+<p>@Localizer["Your login is protected with an authenticator app. Enter your authenticator code below."]</p>
 <hr />
 
 <div class="row">
@@ -32,14 +32,14 @@
                 </label>
             </div>
             <div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">@SharedLocalizer.Static["Log in"]</button>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Log in"]</button>
             </div>
         </form>
     </div>
 </div>
 <p>
-    @SharedLocalizer.Static["Don't have access to your authenticator device?"]
-    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">@SharedLocalizer.Static["You can log in with a recovery code"]</a>.
+    @Localizer["Don't have access to your authenticator device?"]
+    <a id="recovery-code-login" asp-page="./LoginWithRecoveryCode" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)">@Localizer["You can log in with a recovery code"]</a>.
 </p>
 
 @section Scripts {

@@ -1,6 +1,6 @@
 ﻿@page
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model AccessDeniedModel
 @{
@@ -8,7 +8,7 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Access denied."]
+    @Localizer["Access denied."]
 </h3>
 
-<p class="text-danger">@SharedLocalizer.Static["You do not have access to this resource."]</p>
+<p class="text-danger">@Localizer["You do not have access to this resource."]</p>

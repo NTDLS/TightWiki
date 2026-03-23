@@ -11,11 +11,10 @@ namespace LocalizerScan
     {
         private static readonly Regex[] KeyPatterns =
         [
-            new(@"SharedLocalizer\.Static\[""((?:[^""\\]|\\.)*)""\]", RegexOptions.Compiled),
-            new(@"SharedLocalizer\.Static\.Format\(""((?:[^""\\]|\\.)*)""\s*[,\)]", RegexOptions.Compiled),
-
             new(@"Localizer\[""((?:[^""\\]|\\.)*)""\]", RegexOptions.Compiled),
-            new(@"Localizer\.Format\(""((?:[^""\\]|\\.)*)""\s*[,\)]", RegexOptions.Compiled)
+            new(@"Localizer\.Format\(""((?:[^""\\]|\\.)*)""\s*[,\)]", RegexOptions.Compiled),
+            new(@"_localizer\[""((?:[^""\\]|\\.)*)""\]", RegexOptions.Compiled),
+            new(@"_localizer\.Format\(""((?:[^""\\]|\\.)*)""\s*[,\)]", RegexOptions.Compiled)
         ];
 
         private static readonly SupportedCultures _supportedCultures = new SupportedCultures();
@@ -60,7 +59,7 @@ namespace LocalizerScan
                     .Where(o => !o.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                var keysFoundInCode = new SortedDictionary<string, List<string>>(StringComparer.Ordinal);
+                var keysFoundInCode = new SortedDictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
 
                 foreach (var sourceCodeFile in sourceCodeFiles)
                 {

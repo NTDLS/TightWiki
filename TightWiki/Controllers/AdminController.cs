@@ -15,7 +15,6 @@ using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using TightWiki.Security;
-using TightWiki.Translations;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -30,8 +29,8 @@ namespace TightWiki.Controllers
         private readonly ILogger<ITightEngine> _logger;
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger)
-            : base(logger, signInManager, userManager)
+            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _tightEngine = tightEngine;
             _userManager = userManager;
@@ -1627,7 +1626,7 @@ namespace TightWiki.Controllers
                     return Json(new { ok = false, error = Localize("LDAP authentication is not enabled.") });
                 }
 
-                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, SharedLocalizer.Static,
+                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, Localizer,
                     req.Username, req.Password, out var samAccountName, out var objectGuid))
                 {
                     //We successfully authenticated against LDAP.

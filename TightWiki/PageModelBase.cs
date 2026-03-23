@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 
 namespace TightWiki
@@ -10,6 +11,8 @@ namespace TightWiki
     public class PageModelBase
         : PageModel
     {
+        public ISharedLocalizationText Localizer { get; private set; }
+
         public SessionState SessionState { get; private set; } = new();
         public SignInManager<IdentityUser> SignInManager { get; private set; }
 
@@ -19,8 +22,9 @@ namespace TightWiki
 
         private readonly ILogger<ITightEngine> _logger;
 
-        public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager)
+        public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
         {
+            Localizer = localizer;
             _logger = logger;
             SignInManager = signInManager;
         }
@@ -30,11 +34,13 @@ namespace TightWiki
             ViewData["SessionState"] = SessionState.Hydrate(_logger, SignInManager, this);
         }
 
-        /*
         [NonAction]
-        public override RedirectResult Redirect(string? url)
-            => base.Redirect(url.EnsureNotNull());
-        */
+        protected string Localize(string key)
+            => Localizer[key].Value;
+
+        [NonAction]
+        protected string Localize(string key, params object?[] objs)
+            => string.Format(Localizer[key].Value, objs);
 
         [NonAction]
         protected string? GetQueryString(string key)

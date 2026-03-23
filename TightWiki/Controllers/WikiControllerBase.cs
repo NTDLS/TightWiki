@@ -3,15 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using NTDLS.Helpers;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Translations;
 
 namespace TightWiki.Controllers
 {
     public class WikiControllerBase<T>(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager)
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
         : Controller
     {
+        public ISharedLocalizationText Localizer { get; private set; } = localizer;
         public SessionState SessionState { get; private set; } = new();
 
         public readonly SignInManager<IdentityUser> SignInManager = signInManager;
@@ -59,11 +60,11 @@ namespace TightWiki.Controllers
 
         [NonAction]
         protected string Localize(string key)
-            => SharedLocalizer.Static[key].Value;
+            => Localizer[key].Value;
 
         [NonAction]
-        protected string Localize(string key, params object[] objs)
-            => string.Format(SharedLocalizer.Static[key].Value, objs);
+        protected string Localize(string key, params object?[] objs)
+            => string.Format(Localizer[key].Value, objs);
 
         /// <summary>
         /// Displays the successMessage unless the errorMessage is present.

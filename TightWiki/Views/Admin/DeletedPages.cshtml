@@ -1,8 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.DeletedPagesViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@inject ISharedLocalizationText Localizer
 
 @{
     Layout = "_Layout";
@@ -12,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Deleted Pages"]
+            @Localizer["Deleted Pages"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Pages that have been deleted. Can be purged or restored."]
+            @Localizer["Pages that have been deleted. Can be purged or restored."]
         </div>
     </div>
 </div>
@@ -23,13 +22,13 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-trash me-2"></i>@SharedLocalizer.Static["Deleted Page Queue"]
+            <i class="bi bi-trash me-2"></i>@Localizer["Deleted Page Queue"]
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
             GlobalConfiguration.BasePath,
-            SharedLocalizer.Static["This will permanently purge all deleted pages. Continue?"].Value,
-            SharedLocalizer.Static["Purge Deleted Pages"].Value,
+            Localizer["This will permanently purge all deleted pages. Continue?"].Value,
+            Localizer["Purge Deleted Pages"].Value,
             "/Admin/PurgeDeletedPages",
             Context.Request.Path.Value)
     </div>
@@ -42,12 +41,12 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder= SharedLocalizer.Static["Search deleted pages..."].Value
+                        placeholder= Localizer["Search deleted pages..."].Value
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@SharedLocalizer.Static["Search"]
+                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
                     </button>
                 </div>
             </div>
@@ -69,11 +68,11 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Page")">
-                                @SharedLocalizer.Static["Page"]
+                                @Localizer["Page"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @SharedLocalizer.Static["Action"]
+                            @Localizer["Action"]
                         </th>
                     </tr>
                 </thead>
@@ -101,16 +100,16 @@
                                 <div class="d-flex gap-2">
                                     @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
                                         GlobalConfiguration.BasePath,
-                                        SharedLocalizer.Static["This will restore the deleted page and all of its history. Continue?"].Value,
-                                        SharedLocalizer.Static["Restore"].Value,
+                                        Localizer["This will restore the deleted page and all of its history. Continue?"].Value,
+                                        Localizer["Restore"].Value,
                                         "/Admin/RestoreDeletedPage/" + p.Id,
                                         Context.Request.Path.Value,
                                         @class: "btn btn-sm btn-outline-primary d-inline-flex align-items-center")
 
                                     @TightWiki.Library.ConfirmActionHelper.GenerateDangerButton(
                                         GlobalConfiguration.BasePath,
-                                        SharedLocalizer.Static["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
-                                        SharedLocalizer.Static["Purge"].Value,
+                                        Localizer["This will permanently delete the specified page, all revisions and attachments. Continue?"].Value,
+                                        Localizer["Purge"].Value,
                                         "/Admin/PurgeDeletedPage/" + p.Id,
                                         Context.Request.Path.Value,
                                         @class: "btn btn-sm btn-outline-danger d-inline-flex align-items-center")
@@ -132,7 +131,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-inbox me-2"></i>
-            @SharedLocalizer.Static["Either the deleted pages queue is empty or your search criteria returned no results."]
+            @Localizer["Either the deleted pages queue is empty or your search criteria returned no results."]
         </div>
     </div>
 }

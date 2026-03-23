@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -44,8 +45,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public LoginWith2faModel(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger)
-                        : base(logger, signInManager)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _signInManager = signInManager;
             _userManager = userManager;

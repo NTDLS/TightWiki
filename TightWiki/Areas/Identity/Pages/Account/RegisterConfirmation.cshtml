@@ -1,6 +1,6 @@
 ﻿@page
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model RegisterConfirmationModel
 @{
@@ -8,11 +8,11 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Register confirmation"]
+    @Localizer["Register confirmation"]
 </h3>
 
 <p>
-    @SharedLocalizer.Static["Please check your email to confirm your account."]
+    @Localizer["Please check your email to confirm your account."]
 </p>
 
 

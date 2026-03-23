@@ -25,8 +25,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         public ForgotPasswordModel(
             ILogger<ITightEngine> logger, UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender)
-            : base(logger, signInManager)
+            SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;

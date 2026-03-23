@@ -2,8 +2,8 @@
 @using System.Text.Encodings.Web
 @using TightWiki.Extensions
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model LoginModel
 @{
@@ -14,7 +14,7 @@
     <div class="col-12 col-sm-10 col-md-8 col-lg-5">
         <div class="card shadow-lg border-0">
             <div class="card-body p-4">
-                <h1 class="h4 mb-3">@SharedLocalizer.Static["Log in"]</h1>
+                <h1 class="h4 mb-3">@Localizer["Log in"]</h1>
 
                 <form id="account" method="post" novalidate>
                     <div asp-validation-summary="ModelOnly" class="text-danger small mb-2" role="alert"></div>
@@ -23,17 +23,17 @@
                         <input asp-for="Input.Username" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         @if(GlobalConfiguration.EnableLDAPAuthentication)
                         {
-                            <label asp-for="Input.Username">@SharedLocalizer.Static["Username"]</label>
+                            <label asp-for="Input.Username">@Localizer["Username"]</label>
                         }
                         else{
-                        <label asp-for="Input.Username">@SharedLocalizer.Static["Email"]</label>
+                        <label asp-for="Input.Username">@Localizer["Email"]</label>
                         }
                         <span asp-validation-for="Input.Username" class="text-danger small"></span>
                     </div>
 
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Input.Password">@SharedLocalizer.Static["Password"]</label>
+                        <label asp-for="Input.Password">@Localizer["Password"]</label>
                         <span asp-validation-for="Input.Password" class="text-danger small"></span>
                     </div>
 
@@ -45,16 +45,16 @@
                             </label>
                         </div>
 
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="small">@SharedLocalizer.Static["Forgot your password?"]</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="small">@Localizer["Forgot your password?"]</a>
                     </div>
 
                     <button id="login-submit" type="submit" class="btn btn-primary w-100">
-                        @SharedLocalizer.Static["Log in"]
+                        @Localizer["Log in"]
                     </button>
                     @if ((Model.ExternalLogins?.Count ?? 0) > 0)
                     {
                     <div class="text-center text-muted my-3">
-                        @SharedLocalizer.Static["- or -"]
+                        @Localizer["- or -"]
                     </div>
                     }
                 </form>
@@ -97,7 +97,7 @@
                                                 name="provider"
                                                 value="@provider.Name"
                                                 title="Log in using your @provider.DisplayName account">
-                                        <span>@SharedLocalizer.Static["Sign in with {0}"].Format(provider.DisplayName)</span>
+                                        <span>@Localizer["Sign in with {0}"].Format(provider.DisplayName)</span>
                                         </button>
                                     }
                                 }
@@ -111,13 +111,13 @@
                     {
                         <div class="mb-1">
                             <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
-                                @SharedLocalizer.Static["Register as a new user"]
+                                @Localizer["Register as a new user"]
                             </a>
                         </div>
                     }
                     <div>
                         <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">
-                            @SharedLocalizer.Static["Resend email confirmation"]
+                            @Localizer["Resend email confirmation"]
                         </a>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 ﻿@using TightWiki.Models
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Admin.EventLogEntryViewModel
 @{
@@ -9,12 +9,12 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Event Log Entry"]
+    @Localizer["Event Log Entry"]
 </h3>
 
 <div class="card shadow-sm">
     <div class="card-header fw-semibold">
-        @SharedLocalizer.Static["Log Entry Details"]
+        @Localizer["Log Entry Details"]
     </div>
 
     <div class="table-responsive">
@@ -22,12 +22,12 @@
             <tbody>
 
                 <tr>
-                    <th class="w-25">@SharedLocalizer.Static["Id"]</th>
+                    <th class="w-25">@Localizer["Id"]</th>
                     <td>@Model.LogEntry.Id</td>
                 </tr>
 
                 <tr>
-                    <th>@SharedLocalizer.Static["Severity"]</th>
+                    <th>@Localizer["Severity"]</th>
                     <td>
                         @{
                             string severity = Model.LogEntry.Severity ?? "";
@@ -64,14 +64,14 @@
                 </tr>
 
                 <tr>
-                    <th>@SharedLocalizer.Static["Date/Time"]</th>
+                    <th>@Localizer["Date/Time"]</th>
                     <td>@Model.LogEntry.CreatedDate</td>
                 </tr>
 
                 @if (!string.IsNullOrEmpty(Model.LogEntry.Text))
                 {
                     <tr>
-                        <th>@SharedLocalizer.Static["Text"]</th>
+                        <th>@Localizer["Text"]</th>
                         <td class="text-break">@Model.LogEntry.Text</td>
                     </tr>
                 }
@@ -79,7 +79,7 @@
                 @if (!string.IsNullOrEmpty(Model.LogEntry.ExceptionText))
                 {
                     <tr>
-                        <th>@SharedLocalizer.Static["Exception"]</th>
+                        <th>@Localizer["Exception"]</th>
                         <td class="text-danger text-break">
                             @Model.LogEntry.ExceptionText
                         </td>
@@ -89,7 +89,7 @@
                 @if (!string.IsNullOrEmpty(Model.LogEntry.StackTrace))
                 {
                     <tr>
-                        <th>@SharedLocalizer.Static["Stack Trace"]</th>
+                        <th>@Localizer["Stack Trace"]</th>
                         <td>
                             <pre class="mb-0 small bg-light p-2 rounded border"
                                  style="white-space: pre-wrap; max-height: 300px; overflow-y: auto;">

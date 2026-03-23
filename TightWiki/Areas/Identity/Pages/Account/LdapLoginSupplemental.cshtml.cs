@@ -8,7 +8,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -56,16 +55,18 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
         public LdapLoginSupplementalModel(
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore)
-            : base(logger, signInManager)
+            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;
+            _localizer = localizer;
         }
 
         [BindProperty]
@@ -129,19 +130,19 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (string.IsNullOrWhiteSpace(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", SharedLocalizer.Static["Display Name is required."]);
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
                     return Page();
                 }
                 else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", SharedLocalizer.Static["Display Name is already in use."]);
+                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
                     return Page();
                 }
 
                 var user = await _userManager.FindByIdAsync(UserId.ToString());
                 if (user == null)
                 {
-                    return NotifyOfError(SharedLocalizer.Static["The specified user could not be found."]);
+                    return NotifyOfError(_localizer["The specified user could not be found."]);
                 }
 
                 await _userManager.SetEmailAsync(user, Input.Email);

@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using NTDLS.Helpers;
@@ -90,6 +89,14 @@ namespace TightWiki
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
                 .AddXmlDataContractSerializerFormatters();
+
+
+            builder.Services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+
+            builder.Services.AddScoped<ISharedLocalizationText, SharedLocalizationText>();
 
             builder.Services.AddRazorPages();
 
@@ -335,8 +342,7 @@ namespace TightWiki
 
             //We are just going to use one giant resource file for all the shared strings in the application for simplicity.
             //This makes it easy to scan the code and add missing source language entries to the resource file, as well as to find and reuse existing entries.
-            var localizer = app.Services.GetRequiredService<IStringLocalizer<SharedLocalizer>>();
-            SharedLocalizer.InitializeStaticLocalizer(localizer);
+            SharedLocalizer.Initialize(app.Services);
 
             app.UseRouting();
 

@@ -20,8 +20,8 @@ namespace TightWiki.Controllers
     [Authorize]
     [Route("[controller]")]
     public class AdminSecurityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager)
-        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager)
+        UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer)
     {
         #region Roles.
 

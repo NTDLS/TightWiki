@@ -9,7 +9,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -57,8 +56,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public ChangePasswordModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITightEngine> logger)
-                        : base(logger, signInManager)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -132,7 +131,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = SharedLocalizer.Static["Your password has been changed."];
+            StatusMessage = Localizer["Your password has been changed."];
 
             return RedirectToPage();
         }

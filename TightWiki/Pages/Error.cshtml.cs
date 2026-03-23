@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 
 namespace TightWiki.Pages
 {
@@ -15,8 +16,8 @@ namespace TightWiki.Pages
 
         private readonly ILogger<ITightEngine> _logger;
 
-        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager)
-            : base(logger, signInManager)
+        public ErrorModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _logger = logger;
         }

@@ -1,9 +1,9 @@
-@using TightWiki.Models
-
-@using TightWiki.Resources
-
 @using System.Globalization
 @using System.Runtime.InteropServices;
+@using TightWiki.Models
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
+
 @model TightWiki.Models.ViewModels.Admin.MetricsViewModel
 @{
     Layout = "_Layout";
@@ -13,12 +13,12 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Metrics"]
+            @Localizer["Metrics"]
         </h3>
         <div class="text-muted">
             <a href="http://NetworkDLS.com/" class="text-decoration-none">NetworkDLS</a>
             <a href="http://TightWiki.com/" class="text-decoration-none">TightWiki</a>
-            @SharedLocalizer.Static["version"] @Model.ApplicationVersion
+            @Localizer["version"] @Model.ApplicationVersion
         </div>
     </div>
 </div>
@@ -26,13 +26,13 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-speedometer2 me-2"></i>@SharedLocalizer.Static["System Metrics"]
+            <i class="bi bi-speedometer2 me-2"></i>@Localizer["System Metrics"]
         </span>
 
         @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
             GlobalConfiguration.BasePath,
-            SharedLocalizer.Static["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
-            SharedLocalizer.Static["Purge Memory Cache"].Value,
+            Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
+            Localizer["Purge Memory Cache"].Value,
             "/Admin/PurgeMemoryCache",
             Context.Request.Path.Value))
     </div>
@@ -41,22 +41,22 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header">
         <span class="fw-semibold">
-            <i class="bi bi-pc-display me-2"></i>@SharedLocalizer.Static["Environment"]
+            <i class="bi bi-pc-display me-2"></i>@Localizer["Environment"]
         </span>
     </div>
     <div class="table-responsive">
         <table class="table table-striped align-middle mb-0">
             <tbody>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Operating System"]</th>
+                    <th scope="row">@Localizer["Operating System"]</th>
                     <td>@RuntimeInformation.OSDescription</td>
-                    <th scope="row">@SharedLocalizer.Static["OS Architecture"]</th>
+                    <th scope="row">@Localizer["OS Architecture"]</th>
                     <td>@RuntimeInformation.OSArchitecture</td>
                 </tr>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Process Architecture"]</th>
+                    <th scope="row">@Localizer["Process Architecture"]</th>
                     <td>@RuntimeInformation.ProcessArchitecture</td>
-                    <th scope="row">@SharedLocalizer.Static["Framework Version"]</th>
+                    <th scope="row">@Localizer["Framework Version"]</th>
                     <td>@RuntimeInformation.FrameworkDescription</td>
                 </tr>
                 <tr>
@@ -73,44 +73,44 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header">
         <span class="fw-semibold">
-            <i class="bi bi-graph-up me-2"></i>@SharedLocalizer.Static["General"]
+            <i class="bi bi-graph-up me-2"></i>@Localizer["General"]
         </span>
     </div>
     <div class="table-responsive">
         <table class="table table-striped align-middle mb-0">
             <tbody>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Pages"]</th>
+                    <th scope="row">@Localizer["Pages"]</th>
                     <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
-                    <th scope="row">@SharedLocalizer.Static["Page Revisions"]</th>
+                    <th scope="row">@Localizer["Page Revisions"]</th>
                     <td>@Model.Metrics.PageRevisions.ToString("N0")</td>
                 </tr>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Page Attachments"]</th>
+                    <th scope="row">@Localizer["Page Attachments"]</th>
                     <td>@Model.Metrics.PageAttachments.ToString("N0")</td>
-                    <th scope="row">@SharedLocalizer.Static["Inter-Page Links"]</th>
+                    <th scope="row">@Localizer["Inter-Page Links"]</th>
                     <td>@Model.Metrics.IntraLinks.ToString("N0")</td>
                 </tr>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Page Tags"]</th>
+                    <th scope="row">@Localizer["Page Tags"]</th>
                     <td>@Model.Metrics.PageTags.ToString("N0")</td>
-                    <th scope="row">@SharedLocalizer.Static["Page Attachment Revisions"]</th>
+                    <th scope="row">@Localizer["Page Attachment Revisions"]</th>
                     <td>@Model.Metrics.PageAttachmentRevisions.ToString("N0")</td>
                 </tr>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Page Search Tokens"]</th>
+                    <th scope="row">@Localizer["Page Search Tokens"]</th>
                     <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
-                    <th scope="row">@SharedLocalizer.Static["Namespaces"]</th>
+                    <th scope="row">@Localizer["Namespaces"]</th>
                     <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Users"]</th>
+                    <th scope="row">@Localizer["Users"]</th>
                     <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
-                    <th scope="row">@SharedLocalizer.Static["Profiles"]</th>
+                    <th scope="row">@Localizer["Profiles"]</th>
                     <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
                 </tr>
                 <tr>
-                    <th scope="row">@SharedLocalizer.Static["Exceptions"]</th>
+                    <th scope="row">@Localizer["Exceptions"]</th>
                     <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
                     <th scope="row">&nbsp;</th>
                     <td>&nbsp;</td>
@@ -123,19 +123,19 @@
 <div class="card shadow-sm">
     <div class="card-header">
         <span class="fw-semibold">
-            <i class="bi bi-memory me-2"></i>@SharedLocalizer.Static["Cache"]
+            <i class="bi bi-memory me-2"></i>@Localizer["Cache"]
         </span>
     </div>
     <div class="table-responsive">
         <table class="table table-striped align-middle mb-0">
             <thead class="table-light">
                 <tr>
-                    <th scope="col" class="text-end">@SharedLocalizer.Static["Items"]</th>
-                    <th scope="col" class="text-end">@SharedLocalizer.Static["Puts"]</th>
-                    <th scope="col" class="text-end">@SharedLocalizer.Static["Gets"]</th>
-                    <th scope="col" class="text-end">@SharedLocalizer.Static["Hits"]</th>
-                    <th scope="col" class="text-end">@SharedLocalizer.Static["Misses"]</th>
-                    <th scope="col" class="text-end">@SharedLocalizer.Static["Limit(MB)"]</th>
+                    <th scope="col" class="text-end">@Localizer["Items"]</th>
+                    <th scope="col" class="text-end">@Localizer["Puts"]</th>
+                    <th scope="col" class="text-end">@Localizer["Gets"]</th>
+                    <th scope="col" class="text-end">@Localizer["Hits"]</th>
+                    <th scope="col" class="text-end">@Localizer["Misses"]</th>
+                    <th scope="col" class="text-end">@Localizer["Limit(MB)"]</th>
                 </tr>
             </thead>
             <tbody>

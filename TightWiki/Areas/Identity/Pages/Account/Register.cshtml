@@ -1,8 +1,8 @@
 ﻿@page
 @using TightWiki.Models
 @using System.Text.Encodings.Web
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model RegisterModel
 @{
@@ -11,9 +11,9 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@SharedLocalizer.Static["Create a new account"]</h3>
+        <h3 class="mb-1">@Localizer["Create a new account"]</h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Create your account and configure your basic profile details."]
+            @Localizer["Create your account and configure your basic profile details."]
         </div>
     </div>
 </div>
@@ -23,7 +23,7 @@
         <div class="card shadow-sm">
             <div class="card-header">
                 <span class="fw-semibold">
-                    <i class="bi bi-person-plus me-2"></i>@SharedLocalizer.Static["Register"]
+                    <i class="bi bi-person-plus me-2"></i>@Localizer["Register"]
                 </span>
             </div>
 
@@ -34,7 +34,7 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <label for="Input_Email" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Email Address"]
+                                @Localizer["Email Address"]
                             </label>
                             @Html.TextBoxFor(m => m.Input.Email, new
                             {
@@ -50,13 +50,13 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_Password" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Password"]
+                                @Localizer["Password"]
                             </label>
                             @Html.PasswordFor(m => m.Input.Password, new
                             {
                                 @class = "form-control",
                                 autocomplete = "new-password",
-                                placeholder= SharedLocalizer.Static["Required"].Value,
+                                placeholder= Localizer["Required"].Value,
                                 id = "Input_Password"
                             })
                             <div class="text-danger small">
@@ -66,13 +66,13 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_ConfirmPassword" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Confirm Password"]
+                                @Localizer["Confirm Password"]
                             </label>
                             @Html.PasswordFor(m => m.Input.ConfirmPassword, new
                             {
                                 @class = "form-control",
                                 autocomplete = "new-password",
-                                placeholder= SharedLocalizer.Static["Required"].Value,
+                                placeholder= Localizer["Required"].Value,
                                 id = "Input_ConfirmPassword"
                             })
                             <div class="text-danger small">
@@ -82,16 +82,16 @@
 
                         <div class="col-12">
                             <label for="Input_AccountName" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Display Name"]
+                                @Localizer["Display Name"]
                             </label>
                             @Html.TextBoxFor(m => m.Input.AccountName, new
                             {
                                 @class = "form-control",
-                                placeholder= SharedLocalizer.Static["Required"].Value,
+                                placeholder= Localizer["Required"].Value,
                                 id = "Input_AccountName"
                             })
                             <div class="form-text">
-                                @SharedLocalizer.Static["This display name will be visible publicly."]
+                                @Localizer["This display name will be visible publicly."]
                             </div>
                             <div class="text-danger small">
                                 @Html.ValidationMessageFor(m => m.Input.AccountName)
@@ -100,12 +100,12 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_FirstName" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["First Name"]
+                                @Localizer["First Name"]
                             </label>
                             @Html.TextBoxFor(m => m.Input.FirstName, new
                             {
                                 @class = "form-control",
-                                placeholder= SharedLocalizer.Static["Optional"].Value,
+                                placeholder= Localizer["Optional"].Value,
                                 id = "Input_FirstName"
                             })
                             <div class="text-danger small">
@@ -115,12 +115,12 @@
 
                         <div class="col-12 col-md-6">
                             <label for="Input_LastName" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Last Name"]
+                                @Localizer["Last Name"]
                             </label>
                             @Html.TextBoxFor(m => m.Input.LastName, new
                             {
                                 @class = "form-control",
-                                placeholder= SharedLocalizer.Static["Optional"].Value,
+                                placeholder= Localizer["Optional"].Value,
                                 id = "Input_LastName"
                             })
                             <div class="text-danger small">
@@ -130,10 +130,10 @@
 
                         <div class="col-12 col-md-4">
                             <label for="Input_Country" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Country"]
+                                @Localizer["Country"]
                             </label>
                             <select name="Input.Country" id="Input_Country" class="form-select">
-                                <option value="">@SharedLocalizer.Static["Select a country"]</option>
+                                <option value="">@Localizer["Select a country"]</option>
                                 @foreach (var item in Model.Input.Countries)
                                 {
                                     <option value="@item.Value" selected="@(Model.Input.Country == item.Value ? "selected" : null)">
@@ -148,10 +148,10 @@
 
                         <div class="col-12 col-md-4">
                             <label for="Input_Language" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Language"]
+                                @Localizer["Language"]
                             </label>
                             <select name="Input.Language" id="Input_Language" class="form-select">
-                                <option value="">@SharedLocalizer.Static["Select a language"]</option>
+                                <option value="">@Localizer["Select a language"]</option>
                                 @foreach (var item in Model.Input.Languages)
                                 {
                                     <option value="@item.Value" selected="@(Model.Input.Language == item.Value ? "selected" : null)">
@@ -166,10 +166,10 @@
 
                         <div class="col-12 col-md-4">
                             <label for="Input_TimeZone" class="form-label fw-semibold">
-                                @SharedLocalizer.Static["Time Zone"]
+                                @Localizer["Time Zone"]
                             </label>
                             <select name="Input.TimeZone" id="Input_TimeZone" class="form-select">
-                                <option value="">@SharedLocalizer.Static["Select a time-zone"]</option>
+                                <option value="">@Localizer["Select a time-zone"]</option>
                                 @foreach (var item in Model.Input.TimeZones)
                                 {
                                     <option value="@item.Value" selected="@(Model.Input.TimeZone == item.Value ? "selected" : null)">
@@ -184,7 +184,7 @@
 
                         <div class="col-12">
                             <button id="login-submit" type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-person-plus me-1"></i>@SharedLocalizer.Static["Signup"]
+                                <i class="bi bi-person-plus me-1"></i>@Localizer["Signup"]
                             </button>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
             <div class="card shadow-sm">
                 <div class="card-header">
                     <span class="fw-semibold">
-                        <i class="bi bi-box-arrow-in-right me-2"></i>@SharedLocalizer.Static["Use another service to register"]
+                        <i class="bi bi-box-arrow-in-right me-2"></i>@Localizer["Use another service to register"]
                     </span>
                 </div>
 

@@ -1,5 +1,5 @@
-﻿
-@using TightWiki.Resources
+﻿@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Utility.ConfirmActionViewModel
 @{
@@ -37,7 +37,7 @@
 <div class="@cardClass">
     <div class="@headerClass">
         <div class="@headerTextClass">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>@SharedLocalizer.Static["Are you sure?"]
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Are you sure?"]
         </div>
     </div>
 
@@ -58,14 +58,14 @@
                         class="@yesButtonClass"
                         name="UserSelection"
                         value="true">
-                    @SharedLocalizer.Static["Yes"]
+                    @Localizer["Yes"]
                 </button>
 
                 <button type="submit"
                         class="btn btn-success"
                         name="UserSelection"
                         value="false">
-                    @SharedLocalizer.Static["No"]
+                    @Localizer["No"]
                 </button>
             </div>
         </form>

@@ -1,7 +1,7 @@
 ﻿@using TightWiki.Models
 @using static TightWiki.Library.Constants
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Page.PageCommentsViewModel
 @{
@@ -12,13 +12,13 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Comments"]
+            @Localizer["Comments"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["All comments made on the given page."]
+            @Localizer["All comments made on the given page."]
         </div>
         <div class="mt-1">
-            <span class="text-muted">@SharedLocalizer.Static["Page"]:</span>
+            <span class="text-muted">@Localizer["Page"]:</span>
             <a class="text-decoration-none fw-semibold"
                    href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">
                 @sessionState.Page.Name
@@ -36,7 +36,7 @@
         <div class="card shadow-sm mb-3">
             <div class="card-header">
                 <span class="fw-semibold">
-                    <i class="bi bi-chat-left-text me-2"></i>@SharedLocalizer.Static["Leave a Comment"]
+                    <i class="bi bi-chat-left-text me-2"></i>@Localizer["Leave a Comment"]
                 </span>
             </div>
             <div class="card-body">
@@ -46,11 +46,11 @@
                                name="Comment"
                                id="Comment"
                                class="form-control"
-                               placeholder="@SharedLocalizer.Static["Type comment..."]" />
+                               placeholder="@Localizer["Type comment..."]" />
                     </div>
                     <div class="col-12 col-md-auto">
                         <button type="submit" value="Post" class="btn btn-primary w-100">
-                            <i class="bi bi-send me-1"></i>@SharedLocalizer.Static["Post"]
+                            <i class="bi bi-send me-1"></i>@Localizer["Post"]
                         </button>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
             <div class="card-body">
                 <a class="text-decoration-none"
                        href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">
-                    @SharedLocalizer.Static["Login to leave a comment"]
+                    @Localizer["Login to leave a comment"]
                 </a>
             </div>
         </div>
@@ -113,8 +113,8 @@
                             {
                                 <a href="?Delete=@h.Id"
                                        class="small text-danger text-decoration-none"
-                                       onclick="return confirm('@SharedLocalizer.Static["Are you sure you want to delete this comment?"]')">
-                                    @SharedLocalizer.Static["Delete"]
+                                       onclick="return confirm('@Localizer["Are you sure you want to delete this comment?"]')">
+                                    @Localizer["Delete"]
                                 </a>
                             }
                         </div>
@@ -128,7 +128,7 @@
         <div class="card shadow-sm mt-3">
             <div class="card-body text-muted">
                 <i class="bi bi-chat me-2"></i>
-                @SharedLocalizer.Static["The page does not have any comments, why don't you add one?"]
+                @Localizer["The page does not have any comments, why don't you add one?"]
             </div>
         </div>
     }

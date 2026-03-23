@@ -24,8 +24,9 @@ namespace TightWiki.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-            : base(logger, signInManager, userManager)
+        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _logger = logger;
             _signInManager = signInManager;

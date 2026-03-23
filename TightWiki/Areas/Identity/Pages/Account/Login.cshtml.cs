@@ -13,7 +13,6 @@ using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
 using TightWiki.Security;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -35,10 +34,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
-        public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
-                        : base(logger, signInManager)
+        public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
+            _localizer = localizer;
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
@@ -108,7 +110,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         if (GlobalConfiguration.EnableLDAPAuthentication)
                         {
-                            if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, SharedLocalizer.Static,
+                            if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, _localizer,
                                 Input.Username, Input.Password, out var samAccountName, out var objectGuid))
                             {
                                 //We successfully authenticated against LDAP.
@@ -141,26 +143,26 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                                         if (createResult.Succeeded)
                                         {
-                                            _logger.LogInformation(SharedLocalizer.Static["User created a new account with LDAP."]);
+                                            _logger.LogInformation(_localizer["User created a new account with LDAP."]);
 
                                             // Link the stable AD identity to this user
                                             var addLogin = await _userManager.AddLoginAsync(newUser, loginInfo);
                                             if (!addLogin.Succeeded)
                                             {
-                                                throw new Exception(SharedLocalizer.Static["Failed to add login info for LDAP stub account: {0}."]
+                                                throw new Exception(_localizer["Failed to add login info for LDAP stub account: {0}."]
                                                     .Format(string.Join("; ", addLogin.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                             }
 
                                             foundUser = await _userManager.FindByNameAsync(samAccountName);
                                             if (foundUser == null)
                                             {
-                                                throw new Exception(SharedLocalizer.Static["Failed to locate the user account for the LDAP credential."]);
+                                                throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
                                             }
 
                                         }
                                         else
                                         {
-                                            throw new Exception(SharedLocalizer.Static["Failed to create stub account for the LDAP credential: {0}."]
+                                            throw new Exception(_localizer["Failed to create stub account for the LDAP credential: {0}."]
                                                 .Format(string.Join("; ", createResult.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                         }
                                     }
@@ -185,7 +187,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                         #endregion
 
-                        ModelState.AddModelError(string.Empty, SharedLocalizer.Static["Invalid login attempt."]);
+                        ModelState.AddModelError(string.Empty, _localizer["Invalid login attempt."]);
                         return Page();
                     }
                 }

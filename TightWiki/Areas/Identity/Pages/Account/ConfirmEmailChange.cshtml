@@ -1,6 +1,6 @@
 ﻿@page
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model ConfirmEmailChangeModel
 @{
@@ -8,7 +8,7 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Confirm email change"]
+    @Localizer["Confirm email change"]
 </h3>
 
 <p><partial name="_StatusMessage" model="Model.StatusMessage" /></p>

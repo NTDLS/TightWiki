@@ -1,8 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.MenuItemsViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@inject ISharedLocalizationText Localizer
 
 @{
     Layout = "_Layout";
@@ -12,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Site Menu Items"]
+            @Localizer["Site Menu Items"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Global configuration for the site menu."]
+            @Localizer["Global configuration for the site menu."]
         </div>
     </div>
 </div>
@@ -23,12 +22,12 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-list-ul me-2"></i>@SharedLocalizer.Static["Menu Configuration"]
+            <i class="bi bi-list-ul me-2"></i>@Localizer["Menu Configuration"]
         </span>
 
         <a class="btn btn-success"
                href="@GlobalConfiguration.BasePath/Admin/MenuItem">
-            <i class="bi bi-plus-circle me-1"></i>@SharedLocalizer.Static["Add new item"]
+            <i class="bi bi-plus-circle me-1"></i>@Localizer["Add new item"]
         </a>
     </div>
 
@@ -41,19 +40,19 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @SharedLocalizer.Static["Name"]
+                                @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Link")">
-                                @SharedLocalizer.Static["Hyperlink"]
+                                @Localizer["Hyperlink"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Ordinal")">
-                                @SharedLocalizer.Static["Ordinal"]
+                                @Localizer["Ordinal"]
                             </a>
                         </th>
                     </tr>
@@ -76,7 +75,7 @@
                                 }
                                 else
                                 {
-                                    <span class="text-muted">@SharedLocalizer.Static["(No link)"]</span>
+                                    <span class="text-muted">@Localizer["(No link)"]</span>
                                 }
                             </td>
 
@@ -93,7 +92,7 @@
     {
         <div class="card-body text-muted">
             <i class="bi bi-list me-2"></i>
-            @SharedLocalizer.Static["There are no menu items configured."]
+            @Localizer["There are no menu items configured."]
         </div>
     }
 </div>

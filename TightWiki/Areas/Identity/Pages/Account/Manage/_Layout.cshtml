@@ -1,5 +1,5 @@
-﻿
-@using TightWiki.Resources
+﻿@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @{
     if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
@@ -12,10 +12,10 @@
     }
 }
 
-<h1>@SharedLocalizer.Static["Manage your account"]</h1>
+<h1>@Localizer["Manage your account"]</h1>
 
 <div>
-    <h2>@SharedLocalizer.Static["Change your account settings"]</h2>
+    <h2>@Localizer["Change your account settings"]</h2>
     <hr />
     <div class="row">
         <div class="col-md-3">

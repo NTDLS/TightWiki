@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 
@@ -19,8 +20,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IWikiEmailSender _emailSender;
         private readonly ILogger<ITightEngine> _logger;
 
-        public RegisterConfirmationModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWikiEmailSender emailSender)
-                        : base(logger, signInManager)
+        public RegisterConfirmationModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;

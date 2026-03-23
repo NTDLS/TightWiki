@@ -5,8 +5,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -17,8 +17,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
         public GenerateRecoveryCodesModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<ITightEngine> logger)
-                        : base(logger, signInManager)
+            ILogger<ITightEngine> logger, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _userManager = userManager;
             _logger = logger;
@@ -74,7 +74,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             RecoveryCodes = recoveryCodes.ToArray();
 
             _logger.LogInformation("User with ID '{UserId}' has generated new 2FA recovery codes.", userId);
-            StatusMessage = SharedLocalizer.Static["You have generated new recovery codes."];
+            StatusMessage = Localizer["You have generated new recovery codes."];
             return RedirectToPage($"{GlobalConfiguration.BasePath}/Identity/ShowRecoveryCodes");
         }
     }

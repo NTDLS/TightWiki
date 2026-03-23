@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Localization;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.DirectoryServices.Protocols;
 using System.Net;
+using TightWiki.Library;
 using TightWiki.Models.DataModels;
 
 namespace TightWiki.Security
@@ -51,7 +51,7 @@ namespace TightWiki.Security
             return (string.IsNullOrEmpty(defaultSignInDomain) ? null : defaultSignInDomain, input, null);
         }
 
-        public static bool LdapCredentialChallenge(ConfigurationEntries externalAuthentication, IStringLocalizer localizer,
+        public static bool LdapCredentialChallenge(ConfigurationEntries externalAuthentication, ISharedLocalizationText localizer,
             string username, string password, [NotNullWhen(true)] out string? samAccountName, [NotNullWhen(true)] out Guid? objectGuid)
         {
             var useSecureSocketLayer = externalAuthentication.Value("LDAP : Use Secure Socket Layer", false);

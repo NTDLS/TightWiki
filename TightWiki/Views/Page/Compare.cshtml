@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Html
 @using DiffPlex.DiffBuilder.Model
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Page.PageCompareViewModel
 @{
@@ -54,13 +54,13 @@ else
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Page Revisions"]
+            @Localizer["Page Revisions"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Review the differences between revisions of this page."]
+            @Localizer["Review the differences between revisions of this page."]
         </div>
         <div class="mt-1">
-            <span class="text-muted">@SharedLocalizer.Static["Page"]:</span>
+            <span class="text-muted">@Localizer["Page"]:</span>
             <a class="text-decoration-none fw-semibold"
                href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">
                 @sessionState.Page.Name
@@ -74,11 +74,11 @@ else
     <div class="card shadow-sm border-warning">
         <div class="card-header bg-warning-subtle border-warning">
             <div class="fw-semibold text-dark">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>@SharedLocalizer.Static["Revision not found"]
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Revision not found"]
             </div>
         </div>
         <div class="card-body">
-            @SharedLocalizer.Static["The requested page or revision does not exist."]
+            @Localizer["The requested page or revision does not exist."]
         </div>
     </div>
 }
@@ -90,44 +90,44 @@ else
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-arrow-left-right me-2"></i>@SharedLocalizer.Static["Revision Comparison"]
+                <i class="bi bi-arrow-left-right me-2"></i>@Localizer["Revision Comparison"]
             </span>
 
             <div class="d-flex flex-wrap gap-2">
                 <a class="btn btn-outline-primary btn-sm"
                    href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">
-                    <i class="bi bi-clock-history me-1"></i>@SharedLocalizer.Static["View all revisions"]
+                    <i class="bi bi-clock-history me-1"></i>@Localizer["View all revisions"]
                 </a>
 
                 <a class="btn btn-outline-success btn-sm @disablePrev"
                    href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@(Model.PreviousRevision ?? 0)"
                    aria-disabled="@(disablePrev == "disabled" ? "true" : "false")">
-                    <i class="bi bi-arrow-left me-1"></i>@SharedLocalizer.Static["Previous"]
+                    <i class="bi bi-arrow-left me-1"></i>@Localizer["Previous"]
                 </a>
 
                 <a class="btn btn-outline-success btn-sm @disableNext"
                    href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare@("/")@((Model.ThisRevision ?? 0) + 1)"
                    aria-disabled="@(disableNext == "disabled" ? "true" : "false")">
-                    @SharedLocalizer.Static["Next"]<i class="bi bi-arrow-right ms-1"></i>
+                    @Localizer["Next"]<i class="bi bi-arrow-right ms-1"></i>
                 </a>
             </div>
         </div>
 
         <div class="card-body">
             <div class="text-muted">
-                @SharedLocalizer.Static["Revision"]:
+                @Localizer["Revision"]:
                 <a class="text-decoration-none fw-semibold"
                    href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@Model.ThisRevision">
                     @(Model.ThisRevision ?? 0)
                 </a>
                 <span class="mx-1">•</span>
-                @SharedLocalizer.Static["Modified by"]:
+                @Localizer["Modified by"]:
                 <a class="text-decoration-none"
                    href="@GlobalConfiguration.BasePath/Profile/@Model.ModifiedByUserName/Public">
                     @Model.ModifiedByUserName
                 </a>
                 <span class="mx-1">•</span>
-                @SharedLocalizer.Static["Modified date"]: @Model.ModifiedDate
+                @Localizer["Modified date"]: @Model.ModifiedDate
             </div>
         </div>
     </div>
@@ -135,14 +135,14 @@ else
     @if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))
     {
         <div class="alert alert-secondary py-2 mb-3">
-            <strong>@SharedLocalizer.Static["Summary"]:</strong> @Model.ChangeSummary
+            <strong>@Localizer["Summary"]:</strong> @Model.ChangeSummary
         </div>
     }
 
     <div class="card shadow-sm">
         <div class="card-header">
             <span class="fw-semibold">
-                <i class="bi bi-file-diff me-2"></i>@SharedLocalizer.Static["Differences"]
+                <i class="bi bi-file-diff me-2"></i>@Localizer["Differences"]
             </span>
         </div>
         <div class="card-body p-0">

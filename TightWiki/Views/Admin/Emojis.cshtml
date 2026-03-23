@@ -1,8 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.EmojisViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@inject ISharedLocalizationText Localizer
 
 @{
     Layout = "_Layout";
@@ -12,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Emojis"]
+            @Localizer["Emojis"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Global configuration for Emojis."]
+            @Localizer["Global configuration for Emojis."]
         </div>
     </div>
 </div>
@@ -25,12 +24,12 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-emoji-smile me-2"></i>@SharedLocalizer.Static["Emoji Management"]
+                <i class="bi bi-emoji-smile me-2"></i>@Localizer["Emoji Management"]
             </span>
 
             <a class="btn btn-success"
                    href="@GlobalConfiguration.BasePath/Admin/AddEmoji">
-                <i class="bi bi-plus-circle me-1"></i>@SharedLocalizer.Static["Add new emoji"]
+                <i class="bi bi-plus-circle me-1"></i>@Localizer["Add new emoji"]
             </a>
         </div>
 
@@ -40,12 +39,12 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder= SharedLocalizer.Static["Search emojis..."].Value
+                        placeholder = Localizer["Search emojis..."].Value
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@SharedLocalizer.Static["Search"]
+                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
                     </button>
                 </div>
             </div>
@@ -67,17 +66,17 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @SharedLocalizer.Static["Name"]
+                                @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Shortcut")">
-                                @SharedLocalizer.Static["Shortcut"]
+                                @Localizer["Shortcut"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @SharedLocalizer.Static["Image"]
+                            @Localizer["Image"]
                         </th>
                     </tr>
                 </thead>
@@ -116,7 +115,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-emoji-frown me-2"></i>
-            @SharedLocalizer.Static["Either there are no emojis configured or your search criteria returned no results."]
+            @Localizer["Either there are no emojis configured or your search criteria returned no results."]
         </div>
     </div>
 }

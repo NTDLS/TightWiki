@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -16,13 +16,15 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
         public ConfirmEmailModel(
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
-            : base(logger, signInManager)
+            UserManager<IdentityUser> userManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
+            _localizer = localizer;
             _logger = logger;
             _userManager = userManager;
         }
@@ -50,7 +52,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
                 var result = await _userManager.ConfirmEmailAsync(user, code);
-                StatusMessage = result.Succeeded ? SharedLocalizer.Static["Thank you for confirming your email."] : SharedLocalizer.Static["Error confirming your email."];
+                StatusMessage = result.Succeeded ? _localizer["Thank you for confirming your email."] : _localizer["Error confirming your email."];
 
             }
             catch (Exception ex)

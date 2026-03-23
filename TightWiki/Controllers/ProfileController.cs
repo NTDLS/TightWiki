@@ -21,8 +21,8 @@ namespace TightWiki.Controllers
 {
     [Route("[controller]")]
     public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
-        : WikiControllerBase<ProfileController>(logger, signInManager, userManager)
+        UserManager<IdentityUser> userManager, IWebHostEnvironment environment, ISharedLocalizationText localizer)
+        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer)
     {
         private readonly IWebHostEnvironment _environment = environment;
 

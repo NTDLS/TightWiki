@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Identity;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -20,8 +21,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public AccessDeniedModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager)
-            : base(logger, signInManager)
+        public AccessDeniedModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
 
         }

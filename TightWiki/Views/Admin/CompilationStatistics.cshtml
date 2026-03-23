@@ -1,8 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PageCompilationStatisticsViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@inject ISharedLocalizationText Localizer
 
 @{
     Layout = "_Layout";
@@ -12,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Compilations"]
+            @Localizer["Compilations"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["The compilation statistics for all wiki page operations."]
+            @Localizer["The compilation statistics for all wiki page operations."]
         </div>
     </div>
 </div>
@@ -23,13 +22,13 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-bar-chart-line me-2"></i>@SharedLocalizer.Static["Compilation Statistics"]
+            <i class="bi bi-bar-chart-line me-2"></i>@Localizer["Compilation Statistics"]
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
             GlobalConfiguration.BasePath,
-            SharedLocalizer.Static["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
-            SharedLocalizer.Static["Purge Compilation Statistics"].Value,
+            Localizer["Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?"].Value,
+            Localizer["Purge Compilation Statistics"].Value,
             "/Admin/PurgeCompilationStatistics",
             Context.Request.Path.Value)
     </div>
@@ -47,61 +46,61 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Namespace")">
-                                @SharedLocalizer.Static["Name"]
+                                @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">
-                                @SharedLocalizer.Static["Date/Time"]
+                                @Localizer["Date/Time"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Compilations")">
-                                @SharedLocalizer.Static["Compilations"]
+                                @Localizer["Compilations"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AvgBuildTimeMs")">
-                                @SharedLocalizer.Static["Duration"]
+                                @Localizer["Duration"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikiMatches")">
-                                @SharedLocalizer.Static["Matches"]
+                                @Localizer["Matches"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "TotalErrorCount")">
-                                @SharedLocalizer.Static["Errors"]
+                                @Localizer["Errors"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AvgOutgoingLinkCount")">
-                                @SharedLocalizer.Static["Links"]
+                                @Localizer["Links"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AvgTagCount")">
-                                @SharedLocalizer.Static["Tags"]
+                                @Localizer["Tags"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AvgRawBodySize")">
-                                @SharedLocalizer.Static["Raw Size"]
+                                @Localizer["Raw Size"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AvgWikifiedBodySize")">
-                                @SharedLocalizer.Static["Wikified Size"]
+                                @Localizer["Wikified Size"]
                             </a>
                         </th>
                     </tr>
@@ -184,7 +183,7 @@
     {
         <div class="card-body text-muted">
             <i class="bi bi-bar-chart me-2"></i>
-            @SharedLocalizer.Static["There are no compilation statistics available."]
+            @Localizer["There are no compilation statistics available."]
         </div>
     }
 </div>

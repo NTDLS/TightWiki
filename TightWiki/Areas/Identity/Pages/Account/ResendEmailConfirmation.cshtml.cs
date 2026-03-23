@@ -14,7 +14,6 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -24,17 +23,20 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
         private readonly ILogger<ITightEngine> _logger;
+        private readonly ISharedLocalizationText _localizer;
 
         public ResendEmailConfirmationModel(
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IWikiEmailSender emailSender)
-                        : base(logger, signInManager)
+            IWikiEmailSender emailSender,
+            ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _logger = logger;
             _userManager = userManager;
             _emailSender = emailSender;
+            _localizer = localizer;
         }
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var user = await _userManager.FindByEmailAsync(Input.Email);
                 if (user == null)
                 {
-                    ModelState.AddModelError(string.Empty, SharedLocalizer.Static["Verification email sent. Please check your email."]);
+                    ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
                     return Page();
                 }
 
@@ -126,7 +128,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(Input.Email, emailSubject, emailTemplate.ToString());
 
-                ModelState.AddModelError(string.Empty, SharedLocalizer.Static["Verification email sent. Please check your email."]);
+                ModelState.AddModelError(string.Empty, _localizer["Verification email sent. Please check your email."]);
             }
             catch (Exception ex)
             {

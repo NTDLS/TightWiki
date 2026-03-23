@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -19,8 +20,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger, IAuthenticationSchemeProvider schemeProvider)
-            : base(logger, signInManager)
+        public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
+            ILogger<ITightEngine> logger, IAuthenticationSchemeProvider schemeProvider, ISharedLocalizationText localizer)
+            : base(logger, signInManager, localizer)
         {
             _schemeProvider = schemeProvider;
             _signInManager = signInManager;

@@ -1,6 +1,6 @@
 ﻿@page
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model LockoutModel
 @{
@@ -8,7 +8,7 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Locked out"]
+    @Localizer["Locked out"]
 </h3>
 
-<p>@SharedLocalizer.Static["This account has been locked out, please try again later."]</p>
+<p>@Localizer["This account has been locked out, please try again later."]</p>

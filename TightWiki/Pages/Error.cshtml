@@ -1,27 +1,28 @@
 ﻿@page
 
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model ErrorModel
 @{
-    ViewData["Title"]= SharedLocalizer.Static["Error"].Value;
+    ViewData["Title"]= Localizer["Error"].Value;
 }
 
-<h1 class="text-danger">@SharedLocalizer.Static["Error"].</h1>
-<h2 class="text-danger">@SharedLocalizer.Static["An error occurred while processing your request."]</h2>
+<h1 class="text-danger">@Localizer["Error"].</h1>
+<h2 class="text-danger">@Localizer["An error occurred while processing your request."]</h2>
 
 @if (Model.ShowRequestId)
 {
     <p>
-        <strong>@SharedLocalizer.Static["Request ID"]:</strong> <code>@Model.RequestId</code>
+        <strong>@Localizer["Request ID"]:</strong> <code>@Model.RequestId</code>
     </p>
 }
 
-<h3>@SharedLocalizer.Static["Development Mode"]</h3>
+<h3>@Localizer["Development Mode"]</h3>
 <p>
-    @SharedLocalizer.Static["Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred."]
+    @Localizer["Swapping to the <strong>Development</strong> environment displays detailed information about the error that occurred."]
 </p>
 <p>
-    <strong>@SharedLocalizer.Static["The Development environment shouldn't be enabled for deployed applications."]</strong>
-    @SharedLocalizer.Static["It can result in displaying sensitive information from exceptions to end users."]
+    <strong>@Localizer["The Development environment shouldn't be enabled for deployed applications."]</strong>
+    @Localizer["It can result in displaying sensitive information from exceptions to end users."]
 </p>

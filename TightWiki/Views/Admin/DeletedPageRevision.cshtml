@@ -1,6 +1,6 @@
 ﻿@using TightWiki.Models
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Page.DeletedPageRevisionViewModel
 @{
@@ -11,20 +11,20 @@
 <div class="card shadow-sm border-warning mb-3">
     <div class="card-header bg-warning-subtle border-warning">
         <div class="fw-semibold text-dark">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>@SharedLocalizer.Static["Viewing a deleted page revision"]
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Viewing a deleted page revision"]
         </div>
     </div>
 
     <div class="card-body">
         <div class="mb-3">
-            @SharedLocalizer.Static.Format("You are viewing a page revision which was deleted on {0} by {1}.", Model.DeletedDate, Model.DeletedByUserName)
+            @Localizer.Format("You are viewing a page revision which was deleted on {0} by {1}.", Model.DeletedDate, Model.DeletedByUserName)
         </div>
 
         <div class="d-flex flex-wrap gap-2">
             @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
                 GlobalConfiguration.BasePath,
-                SharedLocalizer.Static["This will restore the deleted revision. Continue?"].Value,
-                SharedLocalizer.Static["Restore This Revision"].Value,
+                Localizer["This will restore the deleted revision. Continue?"].Value,
+                Localizer["Restore This Revision"].Value,
                 $"/Admin/RestoreDeletedPageRevision/{Model.PageId}/{Model.Revision}",
                 "/Admin/DeletedPageRevisions",
                 Context.Request.Path.Value)
@@ -35,7 +35,7 @@
 <div class="card shadow-sm">
     <div class="card-header">
         <span class="fw-semibold">
-            <i class="bi bi-file-earmark-text me-2"></i>@SharedLocalizer.Static["Deleted Revision Content"]
+            <i class="bi bi-file-earmark-text me-2"></i>@Localizer["Deleted Revision Content"]
         </span>
     </div>
     <div class="card-body">

@@ -58,6 +58,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="- or -" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="(No description)" xml:space="preserve">
     <value></value>
   </data>
@@ -67,13 +70,10 @@
   <data name="(No text)" xml:space="preserve">
     <value></value>
   </data>
-  <data name="- or -" xml:space="preserve">
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
     <value></value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="ALL" xml:space="preserve">
     <value></value>
   </data>
   <data name="Access denied." xml:space="preserve">
@@ -100,10 +100,10 @@
   <data name="Account Role Membership" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
     <value></value>
   </data>
-  <data name="Account roles and permissions for a single account." xml:space="preserve">
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
     <value></value>
   </data>
   <data name="Accounts" xml:space="preserve">
@@ -115,10 +115,22 @@
   <data name="Add Account" xml:space="preserve">
     <value></value>
   </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Add Emoji" xml:space="preserve">
     <value></value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add new account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add new emoji" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add new item" xml:space="preserve">
     <value></value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
@@ -133,22 +145,10 @@
   <data name="Add Role to Account" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Add new account" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Add new emoji" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Add new item" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Admin" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Administration" xml:space="preserve">
+  <data name="ALL" xml:space="preserve">
     <value></value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
@@ -170,15 +170,6 @@
     <value></value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="An error occurred while adding the login." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="An error occurred while creating the user." xml:space="preserve">
     <value></value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
@@ -259,25 +250,25 @@
   <data name="Change Avatar" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Change Image" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Change Summary" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Change email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change Image" xml:space="preserve">
     <value></value>
   </data>
   <data name="Change password" xml:space="preserve">
     <value></value>
   </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Change your account settings" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Choose Image" xml:space="preserve">
+  <data name="Choose a page" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Choose a page" xml:space="preserve">
+  <data name="Choose Image" xml:space="preserve">
     <value></value>
   </data>
   <data name="Choose template" xml:space="preserve">
@@ -319,13 +310,13 @@
   <data name="Configure authenticator app" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Confirm Password" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Confirm email change" xml:space="preserve">
     <value></value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
     <value></value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
@@ -391,10 +382,10 @@
   <data name="Delete Account" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Delete Role" xml:space="preserve">
+  <data name="Delete page '{0}'?" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Delete page '{0}'?" xml:space="preserve">
+  <data name="Delete Role" xml:space="preserve">
     <value></value>
   </data>
   <data name="Delete this page" xml:space="preserve">
@@ -478,12 +469,6 @@
   <data name="Display Name" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Display Name is already in use." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Display Name is required." xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Disposition" xml:space="preserve">
     <value></value>
   </data>
@@ -559,25 +544,7 @@
   <data name="Error" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Error changing email." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Error changing user name." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Error confirming your email." xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Error from external provider: {0}" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Error loading external login information." xml:space="preserve">
     <value></value>
   </data>
   <data name="Errors" xml:space="preserve">
@@ -598,10 +565,10 @@
   <data name="Export" xml:space="preserve">
     <value></value>
   </data>
-  <data name="External URL" xml:space="preserve">
+  <data name="External logins" xml:space="preserve">
     <value></value>
   </data>
-  <data name="External logins" xml:space="preserve">
+  <data name="External URL" xml:space="preserve">
     <value></value>
   </data>
   <data name="Extra Large" xml:space="preserve">
@@ -610,16 +577,7 @@
   <data name="Extra Small" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
     <value></value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
@@ -733,9 +691,6 @@
   <data name="Inter-Page Links" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Invalid login attempt." xml:space="preserve">
-    <value></value>
-  </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
     <value></value>
   </data>
@@ -754,10 +709,10 @@
   <data name="Large" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Last Name" xml:space="preserve">
+  <data name="Last modified by" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Last modified by" xml:space="preserve">
+  <data name="Last Name" xml:space="preserve">
     <value></value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
@@ -853,12 +808,6 @@
   <data name="Modified Date" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Modified by" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Modified date" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="My" xml:space="preserve">
     <value></value>
   </data>
@@ -901,7 +850,7 @@
   <data name="Not a member?" xml:space="preserve">
     <value></value>
   </data>
-  <data name="OS Architecture" xml:space="preserve">
+  <data name="not required" xml:space="preserve">
     <value></value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
@@ -925,6 +874,9 @@
   <data name="Orphaned Page Attachments" xml:space="preserve">
     <value></value>
   </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Page" xml:space="preserve">
     <value></value>
   </data>
@@ -946,6 +898,9 @@
   <data name="Page Revisions" xml:space="preserve">
     <value></value>
   </data>
+  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Page Search" xml:space="preserve">
     <value></value>
   </data>
@@ -953,9 +908,6 @@
     <value></value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
     <value></value>
   </data>
   <data name="Pages" xml:space="preserve">
@@ -1123,10 +1075,10 @@
   <data name="Remove this {0} login from your account" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Request ID" xml:space="preserve">
+  <data name="Request failed:" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Request failed:" xml:space="preserve">
+  <data name="Request ID" xml:space="preserve">
     <value></value>
   </data>
   <data name="Required" xml:space="preserve">
@@ -1141,9 +1093,6 @@
   <data name="Reset" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Reset Password" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Reset authenticator app" xml:space="preserve">
     <value></value>
   </data>
@@ -1153,7 +1102,7 @@
   <data name="Reset it" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Reset password" xml:space="preserve">
+  <data name="Reset Password" xml:space="preserve">
     <value></value>
   </data>
   <data name="Reset password confirmation" xml:space="preserve">
@@ -1189,10 +1138,10 @@
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
     <value></value>
   </data>
-  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
+  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
+  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
     <value></value>
   </data>
   <data name="Review the differences between revisions of this page." xml:space="preserve">
@@ -1207,7 +1156,7 @@
   <data name="Revision not found" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Revisions" xml:space="preserve">
+  <data name="revisions" xml:space="preserve">
     <value></value>
   </data>
   <data name="Role" xml:space="preserve">
@@ -1216,10 +1165,10 @@
   <data name="Role Members" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Role Permissions" xml:space="preserve">
+  <data name="Role membership and permissions." xml:space="preserve">
     <value></value>
   </data>
-  <data name="Role membership and permissions." xml:space="preserve">
+  <data name="Role Permissions" xml:space="preserve">
     <value></value>
   </data>
   <data name="Role: {0}" xml:space="preserve">
@@ -1366,15 +1315,6 @@
   <data name="Text" xml:space="preserve">
     <value></value>
   </data>
-  <data name="Thank you for confirming your email change." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="Thank you for confirming your email." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
-    <value></value>
-  </data>
   <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
     <value></value>
   </data>
@@ -1384,7 +1324,7 @@
   <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
     <value></value>
   </data>
-  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
     <value></value>
   </data>
   <data name="The event log is empty." xml:space="preserve">
@@ -1409,9 +1349,6 @@
     <value></value>
   </data>
   <data name="The selected page does not have any revisions." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="The specified user could not be found." xml:space="preserve">
     <value></value>
   </data>
   <data name="Theme" xml:space="preserve">
@@ -1507,6 +1444,12 @@
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
     <value></value>
   </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
     <value></value>
   </data>
@@ -1514,12 +1457,6 @@
     <value></value>
   </data>
   <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
     <value></value>
   </data>
   <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
@@ -1552,9 +1489,6 @@
   <data name="Type comment..." xml:space="preserve">
     <value></value>
   </data>
-  <data name="URL must start with" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="Unable to delete page" xml:space="preserve">
     <value></value>
   </data>
@@ -1579,6 +1513,9 @@
   <data name="Upload successful" xml:space="preserve">
     <value></value>
   </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="Use another service to register" xml:space="preserve">
     <value></value>
   </data>
@@ -1586,9 +1523,6 @@
     <value></value>
   </data>
   <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="User created a new account with LDAP." xml:space="preserve">
     <value></value>
   </data>
   <data name="Username" xml:space="preserve">
@@ -1654,9 +1588,6 @@
   <data name="Yes" xml:space="preserve">
     <value></value>
   </data>
-  <data name="You are not authorized" xml:space="preserve">
-    <value></value>
-  </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
     <value></value>
   </data>
@@ -1678,7 +1609,7 @@
   <data name="You do not have access to this resource." xml:space="preserve">
     <value></value>
   </data>
-  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+  <data name="You have {0} recovery codes left." xml:space="preserve">
     <value></value>
   </data>
   <data name="You have 1 recovery code left." xml:space="preserve">
@@ -1700,9 +1631,6 @@
     <value></value>
   </data>
   <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
-    <value></value>
-  </data>
-  <data name="You have {0} recovery codes left." xml:space="preserve">
     <value></value>
   </data>
   <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
@@ -1741,19 +1669,64 @@
   <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
     <value></value>
   </data>
-  <data name="not required" xml:space="preserve">
+  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
     <value></value>
   </data>
-  <data name="required" xml:space="preserve">
+  <data name="An error occurred while adding the login." xml:space="preserve">
     <value></value>
   </data>
-  <data name="revisions" xml:space="preserve">
+  <data name="An error occurred while creating the user." xml:space="preserve">
     <value></value>
   </data>
-  <data name="version" xml:space="preserve">
+  <data name="Display Name is already in use." xml:space="preserve">
     <value></value>
   </data>
-  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+  <data name="Display Name is required." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error changing email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error changing user name." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error confirming your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error from external provider: {0}" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error loading external login information during confirmation." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error loading external login information." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Thank you for confirming your email change." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Thank you for confirming your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The specified user could not be found." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="User created a new account with LDAP." xml:space="preserve">
     <value></value>
   </data>
 </root>

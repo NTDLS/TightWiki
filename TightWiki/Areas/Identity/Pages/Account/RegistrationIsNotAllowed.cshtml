@@ -1,6 +1,6 @@
 ﻿@page
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model RegistrationIsNotAllowedModel
 @{
@@ -9,7 +9,7 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Registration is not allowed"]
+    @Localizer["Registration is not allowed"]
 </h3>
 
-<p class="text-danger">@SharedLocalizer.Static["Registration is not allowed."]</p>
+<p class="text-danger">@Localizer["Registration is not allowed."]</p>

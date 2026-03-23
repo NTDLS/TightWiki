@@ -1,8 +1,7 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.NamespacesViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-
-@using TightWiki.Resources
+@inject ISharedLocalizationText Localizer
 
 @{
     Layout = "_Layout";
@@ -12,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Namespaces"]
+            @Localizer["Namespaces"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["All namespaces contained in the wiki."]
+            @Localizer["All namespaces contained in the wiki."]
         </div>
     </div>
 </div>
@@ -34,13 +33,13 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @SharedLocalizer.Static["Name"]
+                                @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-end text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Pages")">
-                                @SharedLocalizer.Static["Pages"]
+                                @Localizer["Pages"]
                             </a>
                         </th>
                     </tr>
@@ -76,7 +75,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-folder2-open me-2"></i>
-            @SharedLocalizer.Static["There are currently no pages which exist within namespaces."]
+            @Localizer["There are currently no pages which exist within namespaces."]
         </div>
     </div>
 }

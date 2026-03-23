@@ -1,6 +1,6 @@
 ﻿@using TightWiki.Models
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Admin.PageModerateViewModel
 @{
@@ -11,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static["Page Moderate"]
+            @Localizer["Page Moderate"]
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc."]
+            @Localizer["Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc."]
         </div>
     </div>
 </div>
@@ -22,7 +22,7 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header">
         <span class="fw-semibold">
-            <i class="bi bi-funnel me-2"></i>@SharedLocalizer.Static["Filter"]
+            <i class="bi bi-funnel me-2"></i>@Localizer["Filter"]
         </span>
     </div>
 
@@ -34,13 +34,13 @@
                     @Html.DropDownListFor(
                         m => m.Instruction,
                         new SelectList(Model.Instructions),
-                        SharedLocalizer.Static["Select an instruction"].Value,
+                        Localizer["Select an instruction"].Value,
                         new { @class = "form-select", id = "instructionDropdown" })
                 </div>
 
                 <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-arrow-clockwise me-1"></i>@SharedLocalizer.Static["Refresh"]
+                        <i class="bi bi-arrow-clockwise me-1"></i>@Localizer["Refresh"]
                     </button>
                 </div>
             </div>
@@ -59,10 +59,10 @@
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col">@SharedLocalizer.Static["Name"]</th>
-                        <th scope="col" class="text-nowrap">@SharedLocalizer.Static["Revision"]</th>
-                        <th scope="col">@SharedLocalizer.Static["Modified By"]</th>
-                        <th scope="col" class="text-nowrap">@SharedLocalizer.Static["Modified Date"]</th>
+                        <th scope="col">@Localizer["Name"]</th>
+                        <th scope="col" class="text-nowrap">@Localizer["Revision"]</th>
+                        <th scope="col">@Localizer["Modified By"]</th>
+                        <th scope="col" class="text-nowrap">@Localizer["Modified Date"]</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,7 +106,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-filter-circle me-2"></i>
-            @SharedLocalizer.Static["There are no pages which contain the selected processing instruction."]
+            @Localizer["There are no pages which contain the selected processing instruction."]
         </div>
     </div>
 }

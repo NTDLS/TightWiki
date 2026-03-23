@@ -58,1702 +58,1675 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="- or -" xml:space="preserve">
+    <value></value>
+  </data>
   <data name="(No description)" xml:space="preserve">
-    <value>(Ei kirjelduse)</value>
+    <value></value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value>(Ei linki)</value>
+    <value></value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value>(Teksti puudub)</value>
-  </data>
-  <data name="- or -" xml:space="preserve">
-    <value>- või -</value>
-  </data>
-  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value>2FA on keelatud. Saate 2FA uuesti lubada, kui seadistate autentimisrakenduse</value>
-  </data>
-  <data name="ALL" xml:space="preserve">
-    <value>KÕIK</value>
-  </data>
-  <data name="Access denied." xml:space="preserve">
-    <value>Juurdepääs keelatud.</value>
-  </data>
-  <data name="Account" xml:space="preserve">
-    <value>Kontrollkonto</value>
-  </data>
-  <data name="Account Deleted!" xml:space="preserve">
-    <value>Kontoga on tehtud lõpp!</value>
-  </data>
-  <data name="Account Editor" xml:space="preserve">
-    <value>Kontoe toimetaja</value>
-  </data>
-  <data name="Account Email Verification" xml:space="preserve">
-    <value>Konto E-posti kinnitus</value>
-  </data>
-  <data name="Account Management" xml:space="preserve">
-    <value>Konto haldus</value>
-  </data>
-  <data name="Account Permissions" xml:space="preserve">
-    <value>KontoÕigused</value>
-  </data>
-  <data name="Account Role Membership" xml:space="preserve">
-    <value>Konto rolli liikmelisus</value>
-  </data>
-  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value>Konto rollid ja õigused: {0}</value>
-  </data>
-  <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value>Ühe konto rollid ja õigused.</value>
-  </data>
-  <data name="Accounts" xml:space="preserve">
-    <value>Kontod</value>
-  </data>
-  <data name="Action" xml:space="preserve">
-    <value>Tegevus</value>
-  </data>
-  <data name="Add Account" xml:space="preserve">
-    <value>Lisa konto</value>
-  </data>
-  <data name="Add Emoji" xml:space="preserve">
-    <value>Lisa emotikon</value>
-  </data>
-  <data name="Add Member to Role" xml:space="preserve">
-    <value>Lisa liige rollile</value>
-  </data>
-  <data name="Add Permission to Account" xml:space="preserve">
-    <value>Lisa luba kontole</value>
-  </data>
-  <data name="Add Permission to Role" xml:space="preserve">
-    <value>Lisa luba rollile</value>
-  </data>
-  <data name="Add Role" xml:space="preserve">
-    <value>Lisa roll</value>
-  </data>
-  <data name="Add Role to Account" xml:space="preserve">
-    <value>Lisa roll kontole</value>
-  </data>
-  <data name="Add authenticator app" xml:space="preserve">
-    <value>Lisa autentimisseade rakenduse</value>
-  </data>
-  <data name="Add new account" xml:space="preserve">
-    <value>Lisa uus konto</value>
-  </data>
-  <data name="Add new emoji" xml:space="preserve">
-    <value>Lisa uus emojis</value>
-  </data>
-  <data name="Add new item" xml:space="preserve">
-    <value>Lisa uus ese</value>
-  </data>
-  <data name="Admin" xml:space="preserve">
-    <value>Admin</value>
-  </data>
-  <data name="Administration" xml:space="preserve">
-    <value>Haldus</value>
-  </data>
-  <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value>Kõik muudatused, mis on tehtud lisatud failile.</value>
-  </data>
-  <data name="All changes that have been made to the page." xml:space="preserve">
-    <value>Kõik muudatused, mis on tehtud lehel.</value>
-  </data>
-  <data name="All comments made on the given page." xml:space="preserve">
-    <value>Kõik kommentaarid antud lehel.</value>
-  </data>
-  <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value>Kõik vikis sisalduvad nimeruumid.</value>
-  </data>
-  <data name="All pages contained in the namespace." xml:space="preserve">
-    <value>Kõik nimeruumi kuuluvad lehed.</value>
-  </data>
-  <data name="All pages contained in the wiki." xml:space="preserve">
-    <value>Kõik vikis sisalduvad lehed.</value>
-  </data>
-  <data name="Already a member?" xml:space="preserve">
-    <value>Oled juba liige?</value>
-  </data>
-  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
-    <value>Välise teenuse pakkujalt kasutaja teabe saamisel ilmnes viga.</value>
-  </data>
-  <data name="An error occurred while adding the login." xml:space="preserve">
-    <value>Logi lisamisel tekkis viga.</value>
-  </data>
-  <data name="An error occurred while creating the user." xml:space="preserve">
-    <value>Tõrge tekkis kasutaja loomisel.</value>
-  </data>
-  <data name="An error occurred while processing your request." xml:space="preserve">
-    <value>Tõrge tekkis teie päringu töötlemisel.</value>
-  </data>
-  <data name="Analysis" xml:space="preserve">
-    <value>Analüüs</value>
-  </data>
-  <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value>Oled sa kindel, et soovid selle kustutamisega jätkata?</value>
-  </data>
-  <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value>Oled sa kindel, et soovid jätkata?</value>
-  </data>
-  <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value>Oled sa kindel, et soovid selle kommentaari kustutada?</value>
-  </data>
-  <data name="Are you sure you want to detach" xml:space="preserve">
-    <value>Oled sa kindel, et soovid lahti ühendada</value>
-  </data>
-  <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value>Oled sa kindel, et soovid rakendusest välja logida?</value>
-  </data>
-  <data name="Are you sure?" xml:space="preserve">
-    <value>Oled sa kindel?</value>
-  </data>
-  <data name="Associate your {0} account." xml:space="preserve">
-    <value>Seosta oma {0} kontoga.</value>
-  </data>
-  <data name="Associated Pages" xml:space="preserve">
-    <value>Seotud lehed</value>
-  </data>
-  <data name="Associated Tags" xml:space="preserve">
-    <value>Seotud sildid</value>
-  </data>
-  <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value>Lisage faile, lohistades need siia või valides need käsitsi allpool:</value>
-  </data>
-  <data name="Attachments" xml:space="preserve">
-    <value>Manused</value>
-  </data>
-  <data name="Authenticator app" xml:space="preserve">
-    <value>Autentimise rakendus</value>
-  </data>
-  <data name="Available Languages" xml:space="preserve">
-    <value>Saadaval keeled</value>
-  </data>
-  <data name="Avatar" xml:space="preserve">
-    <value>Avatar</value>
-  </data>
-  <data name="Bind failed." xml:space="preserve">
-    <value>Sidumine nurjus.</value>
-  </data>
-  <data name="Bind succeeded." xml:space="preserve">
-    <value>Sidumine õnnestus.</value>
-  </data>
-  <data name="Biography" xml:space="preserve">
-    <value>Elulugu</value>
-  </data>
-  <data name="Bold" xml:space="preserve">
-    <value>Tugevõime</value>
-  </data>
-  <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value>Sirvita lehti, millele on märgitud erinevad töötlusjuhised, et näha, mis on mustandina, ootel kustutamist, kaitstud jne.</value>
-  </data>
-  <data name="Built-in Pages" xml:space="preserve">
-    <value>Builditud lehed</value>
-  </data>
-  <data name="Cache" xml:space="preserve">
-    <value>Välihoidla</value>
-  </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Tühista</value>
-  </data>
-  <data name="Categories" xml:space="preserve">
-    <value>Kategooriad</value>
-  </data>
-  <data name="Change Avatar" xml:space="preserve">
-    <value>Muuda Avatar</value>
-  </data>
-  <data name="Change Image" xml:space="preserve">
-    <value>Muuda Pilt</value>
-  </data>
-  <data name="Change Summary" xml:space="preserve">
-    <value>Muuda Kokkuvõtet</value>
-  </data>
-  <data name="Change email" xml:space="preserve">
-    <value>Muuda e-posti</value>
-  </data>
-  <data name="Change password" xml:space="preserve">
-    <value>Vaheta parooli</value>
-  </data>
-  <data name="Change your account settings" xml:space="preserve">
-    <value>Muuda oma konto seadeid</value>
-  </data>
-  <data name="Choose Image" xml:space="preserve">
-    <value>Vali Pilt</value>
-  </data>
-  <data name="Choose a page" xml:space="preserve">
-    <value>Vali leht</value>
-  </data>
-  <data name="Choose template" xml:space="preserve">
-    <value>Vali mall</value>
-  </data>
-  <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value>Valige kasutajaliidese eelistatud keel.</value>
-  </data>
-  <data name="Close" xml:space="preserve">
-    <value>Sulge</value>
-  </data>
-  <data name="Comma-separated categories" xml:space="preserve">
-    <value>Kaasahaaratud kategooriad</value>
-  </data>
-  <data name="Comments" xml:space="preserve">
-    <value>Kommentaarid</value>
-  </data>
-  <data name="Compilation Statistics" xml:space="preserve">
-    <value>Koostamise statistika</value>
-  </data>
-  <data name="Compilations" xml:space="preserve">
-    <value>Kogumikud</value>
-  </data>
-  <data name="Complete Signup" xml:space="preserve">
-    <value>Täielik registreerimine</value>
-  </data>
-  <data name="Configuration" xml:space="preserve">
-    <value>Seadistus</value>
-  </data>
-  <data name="Configuration for an emoji." xml:space="preserve">
-    <value>Seadistus emotikoni jaoks.</value>
-  </data>
-  <data name="Configuration for user account." xml:space="preserve">
-    <value>Kasutajakonto seadistus.</value>
-  </data>
-  <data name="Configuration to add an emoji." xml:space="preserve">
-    <value>Emotikoni lisamise seadistus.</value>
-  </data>
-  <data name="Configure authenticator app" xml:space="preserve">
-    <value>Konfigureeri autentimishaldur</value>
-  </data>
-  <data name="Confirm Password" xml:space="preserve">
-    <value>Kinnita parool</value>
-  </data>
-  <data name="Confirm email change" xml:space="preserve">
-    <value>Kinnita e-posti muutmine</value>
-  </data>
-  <data name="Confirm logout" xml:space="preserve">
-    <value>Kinnita välja logimine</value>
-  </data>
-  <data name="Confirm your email address." xml:space="preserve">
-    <value>Kinnita oma e-posti aadress.</value>
-  </data>
-  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value>Kinnituslink e-posti muutmiseks on saatnud. Palun kontrolli oma e-posti.</value>
-  </data>
-  <data name="Confirmed" xml:space="preserve">
-    <value>Kinnitatud</value>
-  </data>
-  <data name="Content" xml:space="preserve">
-    <value>Sisu</value>
-  </data>
-  <data name="Continue" xml:space="preserve">
-    <value>Jätka</value>
-  </data>
-  <data name="Copy Tag" xml:space="preserve">
-    <value>Kopeeri silt</value>
-  </data>
-  <data name="Country" xml:space="preserve">
-    <value>Riik</value>
-  </data>
-  <data name="Create a new account" xml:space="preserve">
-    <value>Loo uus konto</value>
-  </data>
-  <data name="Create new page" xml:space="preserve">
-    <value>Loo uus lehekülg</value>
-  </data>
-  <data name="Create new role." xml:space="preserve">
-    <value>Loo uus roll.</value>
-  </data>
-  <data name="Create new user account." xml:space="preserve">
-    <value>Loo uus kasutajakonto.</value>
-  </data>
-  <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value>Loo oma konto ja seadista oma põhisüsteemiandmed.</value>
-  </data>
-  <data name="Created Date" xml:space="preserve">
-    <value>Kuupäev</value>
-  </data>
-  <data name="Credentials" xml:space="preserve">
-    <value>volitused</value>
-  </data>
-  <data name="Current admin login" xml:space="preserve">
-    <value>Praegune administraatori sisselogimine</value>
-  </data>
-  <data name="Database" xml:space="preserve">
-    <value>Andmebaas</value>
-  </data>
-  <data name="Database Utilities" xml:space="preserve">
-    <value>Andmebaasi utiliidid</value>
-  </data>
-  <data name="Date/Time" xml:space="preserve">
-    <value>Kuupäev/kellaaeg</value>
-  </data>
-  <data name="Default password has not been changed" xml:space="preserve">
-    <value>Algne parool ei ole muudetud</value>
-  </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Kustuta</value>
-  </data>
-  <data name="Delete Account" xml:space="preserve">
-    <value>Konto kustutamine</value>
-  </data>
-  <data name="Delete Role" xml:space="preserve">
-    <value>Rolli kustutamine</value>
-  </data>
-  <data name="Delete page '{0}'?" xml:space="preserve">
-    <value>Kas soovite kustutada lehte '{0}'?</value>
-  </data>
-  <data name="Delete this page" xml:space="preserve">
-    <value>Kustuta see leht</value>
-  </data>
-  <data name="Deleted By" xml:space="preserve">
-    <value>Kustutas</value>
-  </data>
-  <data name="Deleted Date" xml:space="preserve">
-    <value>Kustutamise kuupäev</value>
-  </data>
-  <data name="Deleted Page Content" xml:space="preserve">
-    <value>Kustutatud lehe sisu</value>
-  </data>
-  <data name="Deleted Page Queue" xml:space="preserve">
-    <value>Kustutatud lehe järjekord</value>
-  </data>
-  <data name="Deleted Page Revisions" xml:space="preserve">
-    <value>Kustutatud lehe muudatused</value>
-  </data>
-  <data name="Deleted Pages" xml:space="preserve">
-    <value>Kustutatud lehed</value>
-  </data>
-  <data name="Deleted Revision Content" xml:space="preserve">
-    <value>Kustutatud Revidiooni Sisu</value>
-  </data>
-  <data name="Deleted Revisions" xml:space="preserve">
-    <value>Kustutatud Revidioonid</value>
-  </data>
-  <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value>Kui kustutate '{0}', liigutatakse leht, kõik {1} revidiooni ja sellega seotud faililiidetused kustutusteekonda. Seda toimingut saavad ainult administraator või moderaator tagasi pöörata. Jätkata?</value>
-  </data>
-  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value>Kui kustutate '{0}', liigub leht koos kõigi {1} revidiooni ja {2} faililiidetustega kustutusteekonda.</value>
-  </data>
-  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value>Kui kustutate '{0}', eemaldatakse konto püsivalt. Kõik selle kasutaja loodud või muudetud lehed kuvatakse vahetuskonto nime all ning te ei saa seda toimingut tagasi pöörata. Jätkata?</value>
-  </data>
-  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value>Kui kustutate '{0}', eemaldatakse konto püsivalt. Kõik selle kasutaja loodud või muudetud lehed kuvatakse vahetuskonto nime all. Jätkata?</value>
-  </data>
-  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value>Kui kustutate '{0}', eemaldatakse menüü element püsivalt ning te ei saa seda toimingut tagasi pöörata. Jätkata?</value>
-  </data>
-  <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value>Kui kustutate '{1}' revideerimise {0}, liigutatakse lehe revideerimine kustutusteekonda. Seda toimingut saavad ainult administraator või moderaator tagasi pöörata. Jätkata?</value>
-  </data>
-  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value>Kui kustutate emotikon '{0}', eemaldatakse pilt püsivalt ja kõik viited sellele muutuvad orvuks. Te ei saa seda kustutamist tagasi pöörata. Jätkata?</value>
-  </data>
-  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value>Kui kustutate roll '{0}', tühistatakse kõik selle rolli poolt antud või võõrandatud õigused. Jätkata?</value>
-  </data>
-  <data name="Description" xml:space="preserve">
-    <value>Kirjeldus</value>
-  </data>
-  <data name="Detach" xml:space="preserve">
-    <value>Eemalda</value>
-  </data>
-  <data name="Details" xml:space="preserve">
-    <value>Detailid</value>
-  </data>
-  <data name="Development Mode" xml:space="preserve">
-    <value>Arendusrežiim</value>
-  </data>
-  <data name="Differences" xml:space="preserve">
-    <value>Erinevused</value>
-  </data>
-  <data name="Disable 2FA" xml:space="preserve">
-    <value>Keela 2FA</value>
-  </data>
-  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value>Keela kahtejärgne autentimine (2FA)</value>
-  </data>
-  <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value>2FA keelamine ei muuda autentimisrakendites kasutatud võtmeid.</value>
-  </data>
-  <data name="Discussion for this page." xml:space="preserve">
-    <value>Arutelu selle lehe jaoks.</value>
-  </data>
-  <data name="Display Name" xml:space="preserve">
-    <value>Näidutunnus</value>
-  </data>
-  <data name="Display Name is already in use." xml:space="preserve">
-    <value>Näidunimi on juba kasutusel.</value>
-  </data>
-  <data name="Display Name is required." xml:space="preserve">
-    <value>Näidunimi on kohustuslik.</value>
-  </data>
-  <data name="Disposition" xml:space="preserve">
-    <value>Otsus</value>
-  </data>
-  <data name="Distinguished Name:" xml:space="preserve">
-    <value>Nimetus:</value>
-  </data>
-  <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value>Kas teil pole juurdepääsu oma autentimisseadmele?</value>
-  </data>
-  <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value>Laadige alla kahefaktoriline autentimiserakendus nagu Microsoft Authenticator aadressile {0} ja {1} või Google Authenticator aadressile {2} ja {3}.</value>
-  </data>
-  <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value>Laske failid siia või klõpsake üleslaadimiseks käsitsi.</value>
-  </data>
-  <data name="Drop files here..." xml:space="preserve">
-    <value>Laske failid siia...</value>
-  </data>
-  <data name="Duration" xml:space="preserve">
-    <value>Kestus</value>
-  </data>
-  <data name="Edit" xml:space="preserve">
-    <value>Muuda</value>
-  </data>
-  <data name="Editor Size" xml:space="preserve">
-    <value>Suurus</value>
-  </data>
-  <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value>Kas kustutatud lehtede järjekord on tühi või teie otsingukriteeriumid ei andnud tulemust.</value>
-  </data>
-  <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value>Kas kontosid ei ole seadistatud või teie otsingukriteeriumid ei andnud tulemust.</value>
-  </data>
-  <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value>Kas emoji ei ole seadistatud või teie otsingukriteeriumid ei andnud tulemust.</value>
-  </data>
-  <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value>Kas lehti ei ole või teie otsingukriteeriumid ei andnud tulemust.</value>
-  </data>
-  <data name="Email" xml:space="preserve">
-    <value>E-post</value>
-  </data>
-  <data name="Email Address" xml:space="preserve">
-    <value>E-posti aadress</value>
-  </data>
-  <data name="Email Confirmed?" xml:space="preserve">
-    <value>Kas e-post on kinnitatud?</value>
-  </data>
-  <data name="Emoji" xml:space="preserve">
-    <value>Emoji</value>
-  </data>
-  <data name="Emoji Editor" xml:space="preserve">
-    <value>Emoji redaktor</value>
-  </data>
-  <data name="Emoji Management" xml:space="preserve">
-    <value>Emoji haldamine</value>
-  </data>
-  <data name="Emojis" xml:space="preserve">
-    <value>Sümbolid</value>
-  </data>
-  <data name="Enter a URL." xml:space="preserve">
-    <value>Sisesta URL.</value>
-  </data>
-  <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value>Sisesta sisemine tee või väline URL.</value>
-  </data>
-  <data name="Enter your email." xml:space="preserve">
-    <value>Sisesta oma e-post.</value>
-  </data>
-  <data name="Environment" xml:space="preserve">
-    <value>Keskkond</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Viga</value>
-  </data>
-  <data name="Error changing email." xml:space="preserve">
-    <value>Viga e-posti muutmisel.</value>
-  </data>
-  <data name="Error changing user name." xml:space="preserve">
-    <value>Viga kasutajanime muutmisel.</value>
-  </data>
-  <data name="Error confirming your email." xml:space="preserve">
-    <value>Viga e-posti kinnitamisel.</value>
-  </data>
-  <data name="Error copying text" xml:space="preserve">
-    <value>Teksti kopeerimisel tekkis viga</value>
-  </data>
-  <data name="Error from external provider: {0}" xml:space="preserve">
-    <value>Viga välise teenusepakkuja poolt: {0}</value>
-  </data>
-  <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value>Viga välise sisselogimise teabe laadimisel kinnitamisel.</value>
-  </data>
-  <data name="Error loading external login information." xml:space="preserve">
-    <value>Viga välise sisselogimise teabe laadimisel.</value>
-  </data>
-  <data name="Errors" xml:space="preserve">
-    <value>Vead</value>
-  </data>
-  <data name="Event Log" xml:space="preserve">
-    <value>Sündmuste päevik</value>
-  </data>
-  <data name="Event Log Entry" xml:space="preserve">
-    <value>Sündmuse kirje</value>
-  </data>
-  <data name="Exception" xml:space="preserve">
-    <value>Erind</value>
-  </data>
-  <data name="Exceptions" xml:space="preserve">
-    <value>Erandid</value>
-  </data>
-  <data name="Export" xml:space="preserve">
-    <value>Eksport</value>
-  </data>
-  <data name="External URL" xml:space="preserve">
-    <value>Väline URL</value>
-  </data>
-  <data name="External logins" xml:space="preserve">
-    <value>Väline sisselogimine</value>
-  </data>
-  <data name="Extra Large" xml:space="preserve">
-    <value>Väga suur</value>
-  </data>
-  <data name="Extra Small" xml:space="preserve">
-    <value>Väga väike</value>
-  </data>
-  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value>Ei õnnestunud LDAP-i stub-konto sisselogimisteabe lisamine: {0}.</value>
-  </data>
-  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value>Ei õnnestunud LDAP-i mandaadi jaoks stub-konto loomine: {0}.</value>
-  </data>
-  <data name="Failed to load preview." xml:space="preserve">
-    <value>Eelvaate laadimine nurjus.</value>
-  </data>
-  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
-    <value>Ei õnnestunud leida kasutajakonto LDAP-i mandaadi jaoks.</value>
-  </data>
-  <data name="Feature Templates" xml:space="preserve">
-    <value>Funktsiooni mallid</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>Fail</value>
-  </data>
-  <data name="Filter" xml:space="preserve">
-    <value>Filter</value>
-  </data>
-  <data name="First Name" xml:space="preserve">
-    <value>Eesnimi</value>
-  </data>
-  <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value>Cache tühjendamine eemaldab kõik vahemälu üksused ja nõuab andmebaasi päringuid lehtede taaskasutamisel. Jätkata?</value>
-  </data>
-  <data name="Forget this browser" xml:space="preserve">
-    <value>Unustage see brauser</value>
-  </data>
-  <data name="Forgot password confirmation" xml:space="preserve">
-    <value>Unustatud parooli kinnitus</value>
-  </data>
-  <data name="Forgot your password?" xml:space="preserve">
-    <value>Kas unustasid oma parooli?</value>
-  </data>
-  <data name="Framework Version" xml:space="preserve">
-    <value>Raamistiku versioon</value>
-  </data>
-  <data name="General" xml:space="preserve">
-    <value>Üldine</value>
-  </data>
-  <data name="Generate Recovery Codes" xml:space="preserve">
-    <value>Kas tõesti soovite taastamiskoodid genereerida</value>
-  </data>
-  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value>Genereeri kahefaktoriline autentimine (2FA) taastamiskoodid</value>
-  </data>
-  <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value>Uute taastamiskoodide loomine ei muuda autentimisrakenduste jaoks kasutatavaid võtmeid.</value>
-  </data>
-  <data name="Gets" xml:space="preserve">
-    <value>Saab</value>
-  </data>
-  <data name="Global configuration for Emojis." xml:space="preserve">
-    <value>Emotikonide globaalne konfiguratsioon.</value>
-  </data>
-  <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value>Turvarollide ja liikmesuse globaalne konfiguratsioon.</value>
-  </data>
-  <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value>Saidi menüüelemendi globaalne konfiguratsioon.</value>
-  </data>
-  <data name="Global configuration for the site menu." xml:space="preserve">
-    <value>Saidi menüü globaalne konfiguratsioon.</value>
-  </data>
-  <data name="Global configuration for user accounts." xml:space="preserve">
-    <value>Kasutajakontode globaalne konfiguratsioon.</value>
-  </data>
-  <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value>Wikile, selle funktsionaalsusele, käitumisele, vormindamisele ja brändingule kehtestatud globaalsed väärtused.</value>
-  </data>
-  <data name="Hello {0}!" xml:space="preserve">
-    <value>Tere, {0}!</value>
-  </data>
-  <data name="Highlight" xml:space="preserve">
-    <value>Esile tõstma</value>
-  </data>
-  <data name="Hits" xml:space="preserve">
-    <value>Vajutused</value>
-  </data>
-  <data name="Huge" xml:space="preserve">
-    <value>Suur</value>
-  </data>
-  <data name="Hyperlink" xml:space="preserve">
-    <value>Hüperlink</value>
-  </data>
-  <data name="Id" xml:space="preserve">
-    <value>ID</value>
-  </data>
-  <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value>Kui see on siin, peaksid saama selle üles leida.</value>
-  </data>
-  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value>Kui kaotad oma seadme ja sul pole taastamiskoodid, kaotad juurdepääsu oma kontole.</value>
-  </data>
-  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value>Kui taasalustad oma autentimismärgi, ei tööta sinu autentimisrakendus seni, kuni seda uuesti konfigureerid.</value>
-  </data>
-  <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value>Kui soovid muuta autentimisrakenduses kasutatavat märki, peaksid uuesti seadistama oma autentimismärgid.</value>
-  </data>
-  <data name="Image" xml:space="preserve">
-    <value>Pilt</value>
-  </data>
-  <data name="Include Pages" xml:space="preserve">
-    <value>Lisa leheküljed</value>
-  </data>
-  <data name="Info1" xml:space="preserve">
-    <value>Info1</value>
-  </data>
-  <data name="Info2" xml:space="preserve">
-    <value>Info2</value>
-  </data>
-  <data name="Insert" xml:space="preserve">
-    <value>Sisesta</value>
-  </data>
-  <data name="Insert Emoji" xml:space="preserve">
-    <value>Sisesta Emojikaga</value>
-  </data>
-  <data name="Inter-Page Links" xml:space="preserve">
-    <value>Vahesivide Linkid</value>
-  </data>
-  <data name="Invalid login attempt." xml:space="preserve">
-    <value>Kehtetu sisselogimiskatse.</value>
-  </data>
-  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value>See võib põhjustada tundlike andmete kuvamist vigadest lõppkasutajatele.</value>
-  </data>
-  <data name="Italic" xml:space="preserve">
-    <value>Kursiiv</value>
-  </data>
-  <data name="Items" xml:space="preserve">
-    <value>Üksused</value>
-  </data>
-  <data name="Language" xml:space="preserve">
-    <value>Keele</value>
-  </data>
-  <data name="Languages" xml:space="preserve">
-    <value>Keeled</value>
-  </data>
-  <data name="Large" xml:space="preserve">
-    <value>Suur</value>
-  </data>
-  <data name="Last Name" xml:space="preserve">
-    <value>Perekonnanimi</value>
-  </data>
-  <data name="Last modified by" xml:space="preserve">
-    <value>Viimati muutis</value>
-  </data>
-  <data name="Leave a Comment" xml:space="preserve">
-    <value>Jäta kommentaar</value>
-  </data>
-  <data name="Limit(MB)" xml:space="preserve">
-    <value>Piirang(MB)</value>
-  </data>
-  <data name="Link Text (Optional)" xml:space="preserve">
-    <value>Linki tekst (valikuline)</value>
-  </data>
-  <data name="Link Type" xml:space="preserve">
-    <value>Lingitüüp</value>
-  </data>
-  <data name="Links" xml:space="preserve">
-    <value>Lingid</value>
-  </data>
-  <data name="Loading preview..." xml:space="preserve">
-    <value>Eelvaate laadimine...</value>
-  </data>
-  <data name="Locked out" xml:space="preserve">
-    <value>Võtmeühendus</value>
-  </data>
-  <data name="Log Entries" xml:space="preserve">
-    <value>Sisselogimised</value>
-  </data>
-  <data name="Log Entry Details" xml:space="preserve">
-    <value>Sisselogimise üksikasjad</value>
-  </data>
-  <data name="Log in" xml:space="preserve">
-    <value>Sisselogimine</value>
-  </data>
-  <data name="Log in using your {0} account" xml:space="preserve">
-    <value>Sisselogimine kasutades oma {0} kontot</value>
-  </data>
-  <data name="Logged out" xml:space="preserve">
-    <value>Väljalogitud</value>
-  </data>
-  <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value>Väljalogimine tagab, et teised ei saa seda seanssi kasutada muudatuste tegemiseks wikis. Enne muudatuste tegemist peate uuesti sisse logima.</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Sisene</value>
-  </data>
-  <data name="Login to leave a comment" xml:space="preserve">
-    <value>Sisselogimisel jätke kommentaar</value>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Välju</value>
-  </data>
-  <data name="Lower numbers appear first." xml:space="preserve">
-    <value>Madalamad arvud ilmuvad esimesena.</value>
-  </data>
-  <data name="Manage Email" xml:space="preserve">
-    <value>Halda e-kirju</value>
-  </data>
-  <data name="Manage your account" xml:space="preserve">
-    <value>Halda oma kontot</value>
-  </data>
-  <data name="Manage your external logins" xml:space="preserve">
-    <value>Halda oma väliseid sisselogimisi</value>
-  </data>
-  <data name="Matches" xml:space="preserve">
-    <value>Vastab</value>
-  </data>
-  <data name="Medium" xml:space="preserve">
-    <value>Keskmine</value>
-  </data>
-  <data name="Menu Configuration" xml:space="preserve">
-    <value>Menüüseadistus</value>
-  </data>
-  <data name="Menu Item Editor" xml:space="preserve">
-    <value>Menüüelemendi redaktor</value>
-  </data>
-  <data name="Metrics" xml:space="preserve">
-    <value>Mõõdud</value>
-  </data>
-  <data name="Misses" xml:space="preserve">
-    <value>Puudused</value>
-  </data>
-  <data name="Missing Pages" xml:space="preserve">
-    <value>Puuduvad lehed</value>
-  </data>
-  <data name="Moderate" xml:space="preserve">
-    <value>Mõõdukas</value>
-  </data>
-  <data name="Modified" xml:space="preserve">
-    <value>Muudetud</value>
-  </data>
-  <data name="Modified By" xml:space="preserve">
-    <value>Muudeti</value>
-  </data>
-  <data name="Modified Date" xml:space="preserve">
-    <value>Muudamise kuupäev</value>
-  </data>
-  <data name="Modified by" xml:space="preserve">
-    <value>Muudeti</value>
-  </data>
-  <data name="Modified date" xml:space="preserve">
-    <value>Muudamise kuupäev</value>
-  </data>
-  <data name="My" xml:space="preserve">
-    <value>Minu</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Nimi</value>
-  </data>
-  <data name="Namespace" xml:space="preserve">
-    <value>Nimeruum</value>
-  </data>
-  <data name="Namespaces" xml:space="preserve">
-    <value>Nimeruumid</value>
-  </data>
-  <data name="New Account" xml:space="preserve">
-    <value>Uus Konto</value>
-  </data>
-  <data name="New Emoji" xml:space="preserve">
-    <value>Uus Emotikon</value>
-  </data>
-  <data name="New Role" xml:space="preserve">
-    <value>Uus Roll</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value>Järgmine</value>
-  </data>
-  <data name="No" xml:space="preserve">
-    <value>Ei</value>
-  </data>
-  <data name="No avatar uploaded." xml:space="preserve">
-    <value>Profilipilti pole üles laaditud.</value>
-  </data>
-  <data name="No database information is available." xml:space="preserve">
-    <value>Andmebaasi teavet pole saadaval.</value>
-  </data>
-  <data name="No image selected." xml:space="preserve">
-    <value>Valitud pilti pole.</value>
-  </data>
-  <data name="No image uploaded." xml:space="preserve">
-    <value>Pilti pole üles laaditud.</value>
-  </data>
-  <data name="Not a member?" xml:space="preserve">
-    <value>Pole liige?</value>
-  </data>
-  <data name="OS Architecture" xml:space="preserve">
-    <value>Opsüsteemi arhitektuur</value>
-  </data>
-  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value>Pärast seda, kui olete skänneerinud QR-koodi või sisestanud ülaloleva võtme, pakub teie kaheFaktori autentimise rakendus teile ainulaadset koodi. Sisestage kood allolevasse kinnituskasti.</value>
-  </data>
-  <data name="Operating System" xml:space="preserve">
-    <value>Operatsioonisüsteem</value>
-  </data>
-  <data name="Optimize" xml:space="preserve">
-    <value>Optimeeri</value>
-  </data>
-  <data name="Optional" xml:space="preserve">
-    <value>Valikuline</value>
-  </data>
-  <data name="Ordinal" xml:space="preserve">
-    <value>Järjend</value>
-  </data>
-  <data name="Orphaned Attachments" xml:space="preserve">
-    <value>Hülgatud manusfailid</value>
-  </data>
-  <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value>Hülgatud lehekülje manusfailid</value>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>Lehekülg</value>
-  </data>
-  <data name="Page Administration" xml:space="preserve">
-    <value>Lehekülje haldus</value>
-  </data>
-  <data name="Page Attachment Revisions" xml:space="preserve">
-    <value>Lehekülje lisamise versioonid</value>
-  </data>
-  <data name="Page Attachments" xml:space="preserve">
-    <value>Lehekülje lisad</value>
-  </data>
-  <data name="Page File Revisions" xml:space="preserve">
-    <value>Lehekülje faili versioonid</value>
-  </data>
-  <data name="Page Moderate" xml:space="preserve">
-    <value>Lehekülje haldamine</value>
-  </data>
-  <data name="Page Revisions" xml:space="preserve">
-    <value>Lehekülje versioonid</value>
-  </data>
-  <data name="Page Search" xml:space="preserve">
-    <value>Lehekülje otsing</value>
-  </data>
-  <data name="Page Search Tokens" xml:space="preserve">
-    <value>Lehekülje otsingutõlked</value>
-  </data>
-  <data name="Page Tags" xml:space="preserve">
-    <value>Lehekülje sildid</value>
-  </data>
-  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value>Lehekülje versioonid, mis on selle lehekülje jaoks kustutatud. Neid saab puhastada või taastada.</value>
-  </data>
-  <data name="Pages" xml:space="preserve">
-    <value>Leheküljed</value>
-  </data>
-  <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value>Kustutatud leheküljed. Saab kustutada või taastada.</value>
-  </data>
-  <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value>Leheküljed, millele on lingitud, kuid ei eksisteeri.</value>
-  </data>
-  <data name="Password" xml:space="preserve">
-    <value>Parool</value>
-  </data>
-  <data name="Permission" xml:space="preserve">
-    <value>Luba</value>
-  </data>
-  <data name="Permissions and Roles" xml:space="preserve">
-    <value>Luba ja Rollid</value>
-  </data>
-  <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value>Palun kontrollige oma e-posti, et kinnitada oma konto.</value>
-  </data>
-  <data name="Please check your email to reset your password." xml:space="preserve">
-    <value>Palun kontrollige oma e-posti, et taasalata oma parooli.</value>
-  </data>
-  <data name="Please click here to log in" xml:space="preserve">
-    <value>Palun klõpsake siin, et sisse logida</value>
-  </data>
-  <data name="Please confirm your new password." xml:space="preserve">
-    <value>Palun kinnitage oma uus parool.</value>
-  </data>
-  <data name="Please confirm your password." xml:space="preserve">
-    <value>Palun kinnita oma parool.</value>
-  </data>
-  <data name="Please enter both username and password." xml:space="preserve">
-    <value>Palun sisesta nii kasutajanimi kui ka parool.</value>
-  </data>
-  <data name="Please enter new email." xml:space="preserve">
-    <value>Palun sisesta uus e-posti aadress.</value>
-  </data>
-  <data name="Please enter the code." xml:space="preserve">
-    <value>Palun sisesta kood.</value>
-  </data>
-  <data name="Please enter your email." xml:space="preserve">
-    <value>Palun sisesta oma e-posti aadress.</value>
-  </data>
-  <data name="Please enter your new password." xml:space="preserve">
-    <value>Palun sisesta oma uus parool.</value>
-  </data>
-  <data name="Please enter your old password." xml:space="preserve">
-    <value>Palun sisesta oma vana parool.</value>
-  </data>
-  <data name="Please enter your password." xml:space="preserve">
-    <value>Palun sisesta oma parool.</value>
-  </data>
-  <data name="Please wait, loading preview..." xml:space="preserve">
-    <value>Oota, laetakse eelvaadet...</value>
-  </data>
-  <data name="Post" xml:space="preserve">
-    <value>Postitus</value>
-  </data>
-  <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value>Eelnevaatsed kõigi lehtede vahemälu</value>
-  </data>
-  <data name="Preview" xml:space="preserve">
-    <value>Eelvaade</value>
-  </data>
-  <data name="Previous" xml:space="preserve">
-    <value>Eelmine</value>
-  </data>
-  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value>Privaatsuse ja küpsiste poliitikat ei ole aktsepteeritud.</value>
-  </data>
-  <data name="Process Architecture" xml:space="preserve">
-    <value>Protsessi arhitektuur</value>
-  </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profiil</value>
-  </data>
-  <data name="Profile Details" xml:space="preserve">
-    <value>Profiili üksikasjad</value>
-  </data>
-  <data name="Profile Settings" xml:space="preserve">
-    <value>Profiili seaded</value>
-  </data>
-  <data name="Profiles" xml:space="preserve">
-    <value>Profiilid</value>
-  </data>
-  <data name="Public profile information." xml:space="preserve">
-    <value>Avalik profiili teave.</value>
-  </data>
-  <data name="Purge" xml:space="preserve">
-    <value>Puhastamine</value>
-  </data>
-  <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value>Puhastamise kompileerimise statistika</value>
-  </data>
-  <data name="Purge Deleted Pages" xml:space="preserve">
-    <value>Kustuta lehekülgede kogutud andmed</value>
-  </data>
-  <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value>Kustuta kustutatud redaktsioonid</value>
-  </data>
-  <data name="Purge Event Log" xml:space="preserve">
-    <value>Puhastusüksuse logi</value>
-  </data>
-  <data name="Purge Memory Cache" xml:space="preserve">
-    <value>Puhasta mälupuhver</value>
-  </data>
-  <data name="Purge Orphaned Attachments" xml:space="preserve">
-    <value>Puhasta orvuks jäänud manused</value>
-  </data>
-  <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
-    <value>Lehekülje kogumissüsteemi statistika puhastamine kustutab kõik salvestatud kogumissüsteemi statistika kõikide lehekülgede kohta. Jätkata?</value>
-  </data>
-  <data name="Put these codes in a safe place." xml:space="preserve">
-    <value>Aseta need koodid turvalisse kohta.</value>
-  </data>
-  <data name="Puts" xml:space="preserve">
-    <value>Put</value>
-  </data>
-  <data name="Raw Size" xml:space="preserve">
-    <value>RBA suurus</value>
-  </data>
-  <data name="Rebuild All Pages" xml:space="preserve">
-    <value>Uuenda kõiki lehti</value>
-  </data>
-  <data name="Recently Modified" xml:space="preserve">
-    <value>Hiljuti muudetud</value>
-  </data>
-  <data name="Recovery code" xml:space="preserve">
-    <value>Taastamiskood</value>
-  </data>
-  <data name="Recovery code verification" xml:space="preserve">
-    <value>Taastamiskoodi kinnitamine</value>
-  </data>
-  <data name="Recovery codes" xml:space="preserve">
-    <value>Taastamiskoodid</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>Värskenda</value>
-  </data>
-  <data name="Register" xml:space="preserve">
-    <value>Registreeri</value>
-  </data>
-  <data name="Register as a new user" xml:space="preserve">
-    <value>Registreeru uue kasutajana</value>
-  </data>
-  <data name="Register confirmation" xml:space="preserve">
-    <value>Registreerimise kinnitus</value>
-  </data>
-  <data name="Registered Logins" xml:space="preserve">
-    <value>Registreeritud sisselogimised</value>
-  </data>
-  <data name="Registration is not allowed" xml:space="preserve">
-    <value>Registreerumine ei ole lubatud</value>
-  </data>
-  <data name="Registration is not allowed." xml:space="preserve">
-    <value>Registreerumine ei ole lubatud.</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>Eemalda</value>
-  </data>
-  <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value>Eemalda see {0} sisselogimine oma kontolt</value>
-  </data>
-  <data name="Request ID" xml:space="preserve">
-    <value>Päringu ID</value>
-  </data>
-  <data name="Request failed:" xml:space="preserve">
-    <value>Päring ebaõnnestus:</value>
-  </data>
-  <data name="Required" xml:space="preserve">
-    <value>Nõutav</value>
-  </data>
-  <data name="Resend" xml:space="preserve">
-    <value>Saada uuesti</value>
-  </data>
-  <data name="Resend email confirmation" xml:space="preserve">
-    <value>Saada uuesti kinnituskiri e-posti teel</value>
-  </data>
-  <data name="Reset" xml:space="preserve">
-    <value>lähtesta</value>
-  </data>
-  <data name="Reset Password" xml:space="preserve">
-    <value>lähtesta parooli</value>
-  </data>
-  <data name="Reset authenticator app" xml:space="preserve">
-    <value>lähtesta autentimise rakendus</value>
-  </data>
-  <data name="Reset authenticator key" xml:space="preserve">
-    <value>lähtesta autentimisvõtme</value>
-  </data>
-  <data name="Reset it" xml:space="preserve">
-    <value>lähtesta see</value>
-  </data>
-  <data name="Reset password" xml:space="preserve">
-    <value>lähtesta parool</value>
-  </data>
-  <data name="Reset password confirmation" xml:space="preserve">
-    <value>parooli lähtestamise kinnitamine</value>
-  </data>
-  <data name="Reset recovery codes" xml:space="preserve">
-    <value>lähtesta taastamiskoodid</value>
-  </data>
-  <data name="Reset your password." xml:space="preserve">
-    <value>Lähtesta oma parool.</value>
-  </data>
-  <data name="Resource" xml:space="preserve">
-    <value>Ressurss</value>
-  </data>
-  <data name="Restore" xml:space="preserve">
-    <value>Taasta</value>
-  </data>
-  <data name="Restore This Page" xml:space="preserve">
-    <value>Taasta see lehekülg</value>
-  </data>
-  <data name="Restore This Revision" xml:space="preserve">
-    <value>Taasta see muudatus</value>
-  </data>
-  <data name="Revert" xml:space="preserve">
-    <value>Tagasi</value>
-  </data>
-  <data name="Revert to revision" xml:space="preserve">
-    <value>Tagasi revisiioonile</value>
-  </data>
-  <data name="Revert to revision {0}?" xml:space="preserve">
-    <value>Tagasi revisiioonile {0}?</value>
-  </data>
-  <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value>«{0}» tagastamine revisioonilt {1} kuni {2} eemaldab {3} muutused.</value>
-  </data>
-  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
-    <value>Tagasivõtmine ei tähenda siiski, et muutused kaoksid, vaid loob uue revüü, milles on tagasivõetud muudatused.</value>
-  </data>
-  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value>„{0}” tagastamine revisioonilt {1} kuni {2} eemaldab {3} muutused.&lt;br /&gt;Tagasivõtmine ei tähenda siiski, et muudatused kaoksid, vaid loob uue revüü, milles on tagasivõetud muudatused.&lt;br /&gt;&lt;br /&gt;Oled kindel, et soovid jätkata?&lt;br /&gt;&lt;br /&gt;</value>
-  </data>
-  <data name="Review the differences between revisions of this page." xml:space="preserve">
-    <value>Vaata erinevusi selle lehekülje revideerimiste vahel.</value>
-  </data>
-  <data name="Revision" xml:space="preserve">
-    <value>Revision</value>
-  </data>
-  <data name="Revision Comparison" xml:space="preserve">
-    <value>Versiooni võrdlus</value>
-  </data>
-  <data name="Revision not found" xml:space="preserve">
-    <value>Versiooni ei leitud</value>
-  </data>
-  <data name="Revisions" xml:space="preserve">
-    <value>Versioonid</value>
-  </data>
-  <data name="Role" xml:space="preserve">
-    <value>Roll</value>
-  </data>
-  <data name="Role Members" xml:space="preserve">
-    <value>Rolli liikmed</value>
-  </data>
-  <data name="Role Permissions" xml:space="preserve">
-    <value>Rolli õigused</value>
-  </data>
-  <data name="Role membership and permissions." xml:space="preserve">
-    <value>Rolli liikmelisus ja õigused.</value>
-  </data>
-  <data name="Role: {0}" xml:space="preserve">
-    <value>Roll: {0}</value>
-  </data>
-  <data name="Roles" xml:space="preserve">
-    <value>Rollid</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Säästa</value>
-  </data>
-  <data name="Save the page before uploading files." xml:space="preserve">
-    <value>Salvesta leht enne failide üleslaadimist.</value>
-  </data>
-  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
-    <value>Skaneeri QR-kood või sisesta see võti &lt;kbd&gt;{0}&lt;/kbd&gt; kahe faktoriga autentimise rakendusse. Tühikud ja suurused ei oma tähtsust.</value>
-  </data>
-  <data name="Search" xml:space="preserve">
-    <value>Otsi</value>
-  </data>
-  <data name="Search accounts..." xml:space="preserve">
-    <value>Otsi kontosid...</value>
-  </data>
-  <data name="Search deleted pages..." xml:space="preserve">
-    <value>Otsi kustutatud lehti...</value>
-  </data>
-  <data name="Search emojis..." xml:space="preserve">
-    <value>Otsi emojimärke...</value>
-  </data>
-  <data name="Search for more emojis." xml:space="preserve">
-    <value>Otsi rohkem emoje.</value>
-  </data>
-  <data name="Search pages..." xml:space="preserve">
-    <value>Otsi lehti...</value>
-  </data>
-  <data name="Search text" xml:space="preserve">
-    <value>Otsi teksti</value>
-  </data>
-  <data name="Security Roles" xml:space="preserve">
-    <value>Turvateenused</value>
-  </data>
-  <data name="Select a country" xml:space="preserve">
-    <value>Vali riik</value>
-  </data>
-  <data name="Select a language" xml:space="preserve">
-    <value>Vali keel</value>
-  </data>
-  <data name="Select a role" xml:space="preserve">
-    <value>Vali roll</value>
-  </data>
-  <data name="Select a theme" xml:space="preserve">
-    <value>Vali teema</value>
-  </data>
-  <data name="Select a time-zone" xml:space="preserve">
-    <value>Vali ajavöönd</value>
-  </data>
-  <data name="Select a wiki page." xml:space="preserve">
-    <value>Vali vikisait.</value>
-  </data>
-  <data name="Select an instruction" xml:space="preserve">
-    <value>Vali juhend</value>
-  </data>
-  <data name="Send verification email" xml:space="preserve">
-    <value>Saada kinnituskiri</value>
-  </data>
-  <data name="Server and page event logs" xml:space="preserve">
-    <value>Serveri ja lehe sündmuste logid</value>
-  </data>
-  <data name="Set password" xml:space="preserve">
-    <value>Määra parool</value>
-  </data>
-  <data name="Set up authenticator app" xml:space="preserve">
-    <value>Seadista autentimisrakendus</value>
-  </data>
-  <data name="Set your password" xml:space="preserve">
-    <value>Määra oma parool</value>
-  </data>
-  <data name="Severity" xml:space="preserve">
-    <value>Tõsidus</value>
-  </data>
-  <data name="Shortcut" xml:space="preserve">
-    <value>Kiirtee</value>
-  </data>
-  <data name="Sign in with {0}" xml:space="preserve">
-    <value>Logi sisse {0} abil</value>
-  </data>
-  <data name="Signup" xml:space="preserve">
-    <value>Registreeru</value>
-  </data>
-  <data name="Signup. Almost there..." xml:space="preserve">
-    <value>Registreeru. Peaaegu kohal...</value>
-  </data>
-  <data name="Site Menu" xml:space="preserve">
-    <value>Lehe menüü</value>
-  </data>
-  <data name="Site Menu Item" xml:space="preserve">
-    <value>Lehe menüü ese</value>
-  </data>
-  <data name="Site Menu Items" xml:space="preserve">
-    <value>Lehe menüüelemendid</value>
-  </data>
-  <data name="Size" xml:space="preserve">
-    <value>Suurus</value>
-  </data>
-  <data name="Small" xml:space="preserve">
-    <value>Väike</value>
-  </data>
-  <data name="Source Page" xml:space="preserve">
-    <value>Allika leht</value>
-  </data>
-  <data name="Stack Trace" xml:space="preserve">
-    <value>Virnejälg</value>
-  </data>
-  <data name="Strikethrough" xml:space="preserve">
-    <value>Märkeruut</value>
-  </data>
-  <data name="Summary" xml:space="preserve">
-    <value>Kokkuvõte</value>
-  </data>
-  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value>Vahetades &lt;strong&gt;arendus&lt;/strong&gt; keskkonnale näidatakse üksikasjalikku teavet toimunud vea kohta.</value>
-  </data>
-  <data name="System Default" xml:space="preserve">
-    <value>Süsteemi vaikeväärtus</value>
-  </data>
-  <data name="System Metrics" xml:space="preserve">
-    <value>Süsteemi mõõdikud</value>
-  </data>
-  <data name="Tag Copied" xml:space="preserve">
-    <value>Silt Kopeeritud</value>
-  </data>
-  <data name="Tags" xml:space="preserve">
-    <value>Sildid</value>
-  </data>
-  <data name="Target Page" xml:space="preserve">
-    <value>Sihtleht</value>
-  </data>
-  <data name="Test" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="Test LDAP Authentication" xml:space="preserve">
-    <value>LDAP autentimise testimine</value>
-  </data>
-  <data name="Text" xml:space="preserve">
-    <value>Tekst</value>
-  </data>
-  <data name="Thank you for confirming your email change." xml:space="preserve">
-    <value>Tänan teid e-posti muudatuse kinnitamise eest.</value>
-  </data>
-  <data name="Thank you for confirming your email." xml:space="preserve">
-    <value>Tänan teid e-posti kinnitamise eest.</value>
-  </data>
-  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
-    <value>Arendusmootorit ei tohi lubada juurutatud rakendustele.</value>
-  </data>
-  <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
-    <value>konto on kustutatud ja kogu sisu, mis selle kontoga loodud või muudetud, on omistatud anonymiseeritud profiilile.</value>
-  </data>
-  <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
-    <value>Kõigi wiki lehe operatsioonide kokkupuhetulemuste statistika.</value>
-  </data>
-  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
-    <value>Praegune brauser on unustatud. Kui logite uuesti sisse sellest brauserist, küsitakse teie 2fa koodi.</value>
-  </data>
-  <data name="The email address was not supplied by the external provider." xml:space="preserve">
-    <value>Välise teenuse pakkuja ei esitanud e-posti aadressi.</value>
-  </data>
-  <data name="The event log is empty." xml:space="preserve">
-    <value>Ajaloosõnumeid ei ole.</value>
-  </data>
-  <data name="The external login was added." xml:space="preserve">
-    <value>Välise sisselogimine on lisatud.</value>
-  </data>
-  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
-    <value>Välise sisselogimist ei lisatud. Väliseid sisselogimisi saab siduda ainult ühe kontoga.</value>
-  </data>
-  <data name="The external login was not removed." xml:space="preserve">
-    <value>Välise sisselogimist ei eemaldatud.</value>
-  </data>
-  <data name="The external login was removed." xml:space="preserve">
-    <value>Väline sisselogimine on eemaldatud.</value>
-  </data>
-  <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
-    <value>Lehel ei ole kommentaare, miks sa ei lisa ühte?</value>
-  </data>
-  <data name="The requested page or revision does not exist." xml:space="preserve">
-    <value>Päringus olev leht või muudatus ei eksisteeri.</value>
-  </data>
-  <data name="The selected page does not have any revisions." xml:space="preserve">
-    <value>Valitud lehel pole õigeid redigeerimisi.</value>
-  </data>
-  <data name="The specified user could not be found." xml:space="preserve">
-    <value>Kinnitavat kasutajat ei leitud.</value>
-  </data>
-  <data name="Theme" xml:space="preserve">
-    <value>Teema</value>
-  </data>
-  <data name="Themes" xml:space="preserve">
-    <value>Teemad</value>
-  </data>
-  <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
-    <value>Hetkel pole ühtegi puuduvat lehte, mida teised vikilehed viitavad.</value>
-  </data>
-  <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
-    <value>Hetkel ei eksisteeri lehti nimederuumides.</value>
-  </data>
-  <data name="There are no compilation statistics available." xml:space="preserve">
-    <value>Mittekõlarjumise statistikat pole saadaval.</value>
-  </data>
-  <data name="There are no deleted revisions for this page." xml:space="preserve">
-    <value>Sel lehel pole kustutatud redigeerimisi.</value>
-  </data>
-  <data name="There are no menu items configured." xml:space="preserve">
-    <value>Menüüd ei ole konfigureeritud.</value>
-  </data>
-  <data name="There are no orphaned page attachments." xml:space="preserve">
-    <value>Ükski lehepõhine manustamine pole uhitud.</value>
-  </data>
-  <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
-    <value>Ei ole lehti, mis sisaldaks valitud töötlemisjuhist.</value>
-  </data>
-  <data name="There are no security roles configured." xml:space="preserve">
-    <value>Seadistamata olevaid tururolle ei ole.</value>
-  </data>
-  <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
-    <value>Need on kõik lehekülje manused, mis ei ole enam ühendatud ühegi lehekülje versiooniga.</value>
-  </data>
-  <data name="This account has been locked out, please try again later." xml:space="preserve">
-    <value>Selle konto on lukustatud, palun proovige hiljem uuesti.</value>
-  </data>
-  <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
-    <value>Seda toimingut saavad tagasi võtta ainult moderaator või administrator.</value>
-  </data>
-  <data name="This action only disables 2FA." xml:space="preserve">
-    <value>Seda toimingut eemaldab ainult 2FA.</value>
-  </data>
-  <data name="This display name will be visible publicly." xml:space="preserve">
-    <value>See kuva nimi on avalikult nähtav.</value>
-  </data>
-  <data name="This file does not have any revisions." xml:space="preserve">
-    <value>Sellel failil pole ühtegi versiooni.</value>
-  </data>
-  <data name="This is your profile, do with it what you may." xml:space="preserve">
-    <value>See on teie profiil, tehke sellega, mida soovite.</value>
-  </data>
-  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
-    <value>See protsess keelab 2FA, kuni kinnitate oma autentimisrakenduse. Kui te ei lõpeta oma autentimisrakenduse seadistamist, võite kaotada juurdepääsu oma kontole.</value>
-  </data>
-  <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
-    <value>See kontrollib andmebaasi terviklikkust ja kehtivust kõigi võõrvõtmete osas. Jätkata?</value>
-  </data>
-  <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
-    <value>See koostab kõik wikilehed ja salvestab need vahemällu. See võib võtta aega! Jätkata?</value>
-  </data>
-  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
-    <value>See ühendab kõik vaikekonfiguratsiooni seaded, kuid ei kirjelda olemasolevaid seadeid. Jätkata?</value>
-  </data>
-  <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
-    <value>See optimeerib andmebaasi indekseid ja struktuuri. Jätkata?</value>
-  </data>
-  <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
-    <value>See kustutab püsivalt määratud lisatud faili. Jätkata?</value>
-  </data>
-  <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value>See kustutab püsivalt määratud kustutatud versiooni. Jätkata?</value>
-  </data>
-  <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
-    <value>See kustutab püsivalt määratud lehe, kõik versioonid ja failid. Jätkata?</value>
-  </data>
-  <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
-    <value>See pühendab püsivalt kõik kustutatud leheversioonid lehe "{0}" jaoks. Jätkata?</value>
-  </data>
-  <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
-    <value>See pühendab püsivalt kõik kustutatud lehed. Jätkata?</value>
-  </data>
-  <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
-    <value>See pühendab püsivalt kõik sündmuste logid. Jätkata?</value>
-  </data>
-  <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
-    <value>See pühkib püsivalt kõik orvuks jäänud lehemanused. Jätkata?</value>
-  </data>
-  <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
-    <value>See taastab kõiki vikilehekülgi. See võib võtta mõnda aega! Jätkata?</value>
-  </data>
-  <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
-    <value>See eemaldab andmebaasist tühja ruumi, mis võib vabastada ruumi, kui palju andmeid on kustutatud. Jätkata?</value>
-  </data>
-  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value>See taastab kõik Funktsioonimalle, kirjutades üle kõik kohandused, mida võite olla teinud. Jätkata?</value>
-  </data>
-  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
-    <value>See taastab kõik Lisamise nimelahendiga leheküljed. Jätkata?</value>
-  </data>
-  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
-    <value>See taastab kõik Vikilehe Abi nimelahendiga leheküljed. Jätkata?</value>
-  </data>
-  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value>See taastab kõik sisseehitatud nimelahendiga leheküljed, kirjutades üle kõik kohandused, mida võite olla teinud. Jätkata?</value>
-  </data>
-  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
-    <value>See taastab kõik vaikeerinevad teemad, kirjutades üle kõik kohandused, mida võite olla teinud andmebaasis. Jätkata?</value>
-  </data>
-  <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
-    <value>See taastab kustutatud lehekülje ja kogu selle ajaloo. Jätkata?</value>
-  </data>
-  <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
-    <value>See taastab kustutatud redaktsiooni. Jätkata?</value>
-  </data>
-  <data name="Time Zone" xml:space="preserve">
-    <value>Aja tsoon</value>
-  </data>
-  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
-    <value>Autentimisrakenduse kasutamiseks toimige järgmiselt:</value>
-  </data>
-  <data name="Truncate Page Revisions" xml:space="preserve">
-    <value>Lehekülje muudatuste kärpimine</value>
-  </data>
-  <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
-    <value>Lehekülje muudatuste kärpimine kustutab kogu muudatuste ajaloo kõigilt lehtedelt ja lehe manustelt. See jätab alles ainult kõige värskema versiooni kõigist objektidest. Tavaliselt peetakse seda suureks asjaks! Kas jätkata?</value>
-  </data>
-  <data name="Two-factor authentication" xml:space="preserve">
-    <value>Kaksfaktoriline autentimine</value>
-  </data>
-  <data name="Two-factor authentication (2FA)" xml:space="preserve">
-    <value>Kaksfaktoriline autentimine (2FA)</value>
-  </data>
-  <data name="Type" xml:space="preserve">
-    <value>Tüüp</value>
-  </data>
-  <data name="Type comment..." xml:space="preserve">
-    <value>Kirjuta kommentaar...</value>
-  </data>
-  <data name="URL must start with" xml:space="preserve">
-    <value>URL peab algama</value>
-  </data>
-  <data name="Unable to delete page" xml:space="preserve">
-    <value>Lehekülge ei saa kustutada</value>
-  </data>
-  <data name="Unauthorized" xml:space="preserve">
-    <value>Luvamata</value>
-  </data>
-  <data name="Unconfirmed" xml:space="preserve">
-    <value>Kinnitamata</value>
-  </data>
-  <data name="Underline" xml:space="preserve">
-    <value>Allkiri</value>
-  </data>
-  <data name="Unexpected Error" xml:space="preserve">
-    <value>Ettearvamatu viga</value>
-  </data>
-  <data name="Unexpected error:" xml:space="preserve">
-    <value>Ettearvamatu viga:</value>
-  </data>
-  <data name="Update password" xml:space="preserve">
-    <value>Värskenda parool</value>
-  </data>
-  <data name="Upload successful" xml:space="preserve">
-    <value>Üleslaadimine õnnestus</value>
-  </data>
-  <data name="Use another service to register" xml:space="preserve">
-    <value>Kasuta registreerumiseks teist teenust</value>
-  </data>
-  <data name="Use commas to separate categories." xml:space="preserve">
-    <value>Erinevate kategooriate eraldamiseks kasutage koma.</value>
-  </data>
-  <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
-    <value>Kasutage mallide nimi ruumi, et lisada leht mallide nimekirja, nt Templates :: Minu esimene mall.</value>
-  </data>
-  <data name="User created a new account with LDAP." xml:space="preserve">
-    <value>Kasutaja lõi LDAPiga uue konto.</value>
-  </data>
-  <data name="Username" xml:space="preserve">
-    <value>Kasutajanimi</value>
-  </data>
-  <data name="Users" xml:space="preserve">
-    <value>Kasutajad</value>
-  </data>
-  <data name="Vacuum" xml:space="preserve">
-    <value>Vakum</value>
-  </data>
-  <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
-    <value>Erinevad tööriistad SQLite andmebaasi haldamise abistamiseks.</value>
-  </data>
-  <data name="Verification Code" xml:space="preserve">
-    <value>Kinnituskood</value>
-  </data>
-  <data name="Verification code is invalid." xml:space="preserve">
-    <value>Kinnituskood on kehtetu.</value>
-  </data>
-  <data name="Verification email sent. Please check your email." xml:space="preserve">
-    <value>Kinnituskiri on saadetud. Palun kontrollige oma e-posti.</value>
-  </data>
-  <data name="Verify" xml:space="preserve">
-    <value>Kinnita</value>
-  </data>
-  <data name="Version" xml:space="preserve">
-    <value>Versioon</value>
-  </data>
-  <data name="View" xml:space="preserve">
-    <value>Nägemine</value>
-  </data>
-  <data name="View all comments" xml:space="preserve">
-    <value>Kogu kommentaaride vaatamine</value>
-  </data>
-  <data name="View all revisions" xml:space="preserve">
-    <value>Kõigi revisioonide vaatamine</value>
-  </data>
-  <data name="View latest revision" xml:space="preserve">
-    <value>Viimane revisioon</value>
-  </data>
-  <data name="Viewing a deleted page" xml:space="preserve">
-    <value>Kustutatud lehe vaatamine</value>
-  </data>
-  <data name="Viewing a deleted page revision" xml:space="preserve">
-    <value>Kustutatud lehe revisiooni vaatamine</value>
-  </data>
-  <data name="Viewing a historical version" xml:space="preserve">
-    <value>Ajaloolise versiooni vaatamine</value>
-  </data>
-  <data name="What did you change and why?" xml:space="preserve">
-    <value>Mida sa muutisid ja miks?</value>
-  </data>
-  <data name="Wiki Help Pages" xml:space="preserve">
-    <value>Wiki Abi leheküljed</value>
-  </data>
-  <data name="Wiki Page" xml:space="preserve">
-    <value>Wiki leht</value>
-  </data>
-  <data name="Wikified Size" xml:space="preserve">
-    <value>Wikifitseeritud Suurused</value>
-  </data>
-  <data name="Yes" xml:space="preserve">
-    <value>Jah</value>
-  </data>
-  <data name="You are not authorized" xml:space="preserve">
-    <value>Teil pole õigus</value>
-  </data>
-  <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value>Te spruugite lehekülje versiooni, mis kustutati {0} poolt {1}.</value>
-  </data>
-  <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value>Te vaadatate lehekülge, mis kustutati {0} poolt {1}.</value>
-  </data>
-  <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
-    <value>Te vaatate versiooni {0} leheküljest "{1}", mille muutis {2} {3}.</value>
-  </data>
-  <data name="You can generate a new set of recovery codes." xml:space="preserve">
-    <value>Saate genereerida uue taastumiskoodide komplekti.</value>
-  </data>
-  <data name="You can log in with a recovery code" xml:space="preserve">
-    <value>Saate sisse logida taastumiskoodiga</value>
-  </data>
-  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
-    <value>Teil pole selle saidi kohaliku kasutajanime/parooli. Lisage kohaliku konto, et saaksite sisse logida ilma välise sisselogimiseta.</value>
-  </data>
-  <data name="You do not have access to this resource." xml:space="preserve">
-    <value>Teil pole sellele ressursile juurdepääsu.</value>
-  </data>
-  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
-    <value>Teil EI'lita õigus sooritada toimingut: {0}</value>
-  </data>
-  <data name="You have 1 recovery code left." xml:space="preserve">
-    <value>Sul on jäänud 1 taastamiskood.</value>
-  </data>
-  <data name="You have generated new recovery codes." xml:space="preserve">
-    <value>Sa oled loonud uusi taastamiskoode.</value>
-  </data>
-  <data name="You have no recovery codes left." xml:space="preserve">
-    <value>Sul pole enam taastamiskoode.</value>
-  </data>
-  <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
-    <value>Sa oled esitanud taaskäivituskoodi kasutades sisselogimise taotlust. See sisselogimine ei jää meelde, kuni sa sisestad autentimisrakenduse koodi või keeldud kahefaktorilisest autentimisest ja logid uuesti sisse.</value>
-  </data>
-  <data name="You have successfully logged out of the application." xml:space="preserve">
-    <value>Sa oled edukalt välja logitud rakendusest.</value>
-  </data>
-  <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
-    <value>Sa oled edukalt LDAP-ga sisse loginud, kuid meil on vaja veel veidi teavet.</value>
-  </data>
-  <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
-    <value>Sa oled edukalt välja loginud välise teenusepakkuja kaudu, kuid meil on vaja veel veidi teavet.</value>
-  </data>
-  <data name="You have {0} recovery codes left." xml:space="preserve">
-    <value>Sul on {0} taastamiskoodi jäänud.</value>
-  </data>
-  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
-    <value>Sul tuleb nõustuda poliitikaga enne, kui saad lubada kahefaktorilist autentimist.</value>
-  </data>
-  <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
-    <value>Teil tuleb enne sisselogimist taastese-koodi komplekt genereerida.</value>
-  </data>
-  <data name="You should generate a new set of recovery codes." xml:space="preserve">
-    <value>Soovitatav on genereerida uus taastese-koodi komplekt.</value>
-  </data>
-  <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
-    <value>Sa oled edukalt autentitud kasutades {0}. Palun sisesta selle saidi e-posti aadress ja klõpsa Registratsioon-nupul, et lõpetada sisselogimine.</value>
-  </data>
-  <data name="Your authenticator app has been verified." xml:space="preserve">
-    <value>Sinu autentimissaadikut on kinnitatud.</value>
-  </data>
-  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value>Sinu autentimissaadiku võti on taastatud, pead konfigureerima oma autentimissaadiku rakenduse uue võtmega.</value>
-  </data>
-  <data name="Your email is unchanged." xml:space="preserve">
-    <value>Sinu e-posti aadress jääb samaks.</value>
-  </data>
-  <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
-    <value>Sinu sisselogimist kaitseb autentimissaadik. Sisesta oma autentimissaadiku kood allpool.</value>
-  </data>
-  <data name="Your password has been changed." xml:space="preserve">
-    <value>Sinu parool on muudetud.</value>
-  </data>
-  <data name="Your password has been reset." xml:space="preserve">
-    <value>Sinu parool on taastatud.</value>
-  </data>
-  <data name="Your password has been set." xml:space="preserve">
-    <value>Sinu parool on määratud.</value>
-  </data>
-  <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
-    <value>Teie otsingu kriteeriumid ei andnud ühtegi lehte, lihtsustage oma otsinguteksti.</value>
-  </data>
-  <data name="not required" xml:space="preserve">
-    <value>pole nõutav</value>
-  </data>
-  <data name="required" xml:space="preserve">
-    <value>nõutav</value>
-  </data>
-  <data name="revisions" xml:space="preserve">
-    <value>parandused</value>
-  </data>
-  <data name="version" xml:space="preserve">
-    <value>versioon</value>
+    <value></value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value>{0}Jätka nüüd{1} või suunatakse teid ümber {2} sekundiga.</value>
+    <value></value>
+  </data>
+  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Access denied." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Deleted!" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Editor" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Email Verification" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Management" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Permissions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Emoji" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add new account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add new emoji" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add new item" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="All changes that have been made to the attached file." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="All changes that have been made to the page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="All comments made on the given page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="All namespaces contained in the wiki." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="All pages contained in the namespace." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="All pages contained in the wiki." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Already a member?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to delete this comment?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to detach" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to log out of the application?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Associate your {0} account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Associated Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Associated Tags" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Available Languages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Bind failed." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Bind succeeded." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Cache" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change Image" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Choose Image" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Choose template" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Choose your preferred language for the interface." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Comma-separated categories" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Compilation Statistics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Compilations" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Complete Signup" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configuration for an emoji." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configuration for user account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configuration to add an emoji." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configure authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirm email change" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirm logout" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirm your email address." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Copy Tag" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Create a new account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Create new page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Create new role." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Create new user account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Create your account and configure your basic profile details." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Created Date" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Credentials" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Current admin login" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Database Utilities" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Date/Time" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default password has not been changed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Delete Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Delete this page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted By" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Date" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Page Content" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Page Queue" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Page Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Revision Content" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleted Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Differences" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Discussion for this page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Don't have access to your authenticator device?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Drop files here..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Editor Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Emoji" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Emoji Editor" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Emoji Management" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Enter a URL." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Enter an internal path or external URL." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Enter your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error copying text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Extra Large" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Extra Small" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to load preview." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Forget this browser" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Generate Recovery Codes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Gets" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Global configuration for Emojis." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Global configuration for security roles and membership." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Global configuration for the site menu item." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Global configuration for the site menu." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Global configuration for user accounts." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Hello {0}!" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Hits" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Huge" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="If it's here, you should be able to find it." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Info1" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Info2" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Inter-Page Links" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Last modified by" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Leave a Comment" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Limit(MB)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Loading preview..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Locked out" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Log Entries" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Logged out" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Login to leave a comment" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Lower numbers appear first." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Manage Email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Manage your external logins" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Menu Configuration" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Menu Item Editor" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Misses" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Modified By" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Modified Date" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="New Account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="New Emoji" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="New Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="No avatar uploaded." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="No database information is available." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="No image selected." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="No image uploaded." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Not a member?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="not required" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Operating System" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Optimize" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Orphaned Attachments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Administration" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Attachment Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Attachments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page File Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Moderate" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Search" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Search Tokens" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Tags" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please check your email to confirm your account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please check your email to reset your password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please click here to log in" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please confirm your password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter both username and password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter new email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter the code." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter your new password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter your old password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Please wait, loading preview..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pre-Cache All Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Profile Details" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Profile Settings" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Public profile information." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge Compilation Statistics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge Deleted Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge Deleted Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge Event Log" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge Memory Cache" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purge Orphaned Attachments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Puts" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Raw Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Rebuild All Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Recently Modified" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Recovery code" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Recovery code verification" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Register as a new user" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Register confirmation" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Registration is not allowed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Registration is not allowed." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Request failed:" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Request ID" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Resend email confirmation" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset it" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset Password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset password confirmation" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset recovery codes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Restore This Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Restore This Revision" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revert to revision" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revert to revision {0}?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Review the differences between revisions of this page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revision" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revision Comparison" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revision not found" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Role: {0}" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Save the page before uploading files." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search accounts..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search deleted pages..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search emojis..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search pages..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Search text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Security Roles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a language" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a theme" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a time-zone" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a wiki page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select an instruction" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Send verification email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Set up authenticator app" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Set your password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Severity" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Signup. Almost there..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Site Menu" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Site Menu Item" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Site Menu Items" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Source Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Stack Trace" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="System Metrics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Tag Copied" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Target Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The event log is empty." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The external login was added." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The external login was not removed." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The external login was removed." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The requested page or revision does not exist." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The selected page does not have any revisions." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are no compilation statistics available." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are no deleted revisions for this page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are no menu items configured." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are no orphaned page attachments." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="There are no security roles configured." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This account has been locked out, please try again later." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This action only disables 2FA." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This file does not have any revisions." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This is your profile, do with it what you may." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Truncate Page Revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Two-factor authentication (2FA)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Type comment..." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Unable to delete page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Unexpected Error" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Unexpected error:" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Upload successful" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Use another service to register" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Use commas to separate categories." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Vacuum" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Verification code is invalid." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Verification email sent. Please check your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="View all comments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="View all revisions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="View latest revision" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Viewing a deleted page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Viewing a deleted page revision" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Viewing a historical version" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Wikified Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You can generate a new set of recovery codes." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You can log in with a recovery code" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You do not have access to this resource." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have {0} recovery codes left." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have 1 recovery code left." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have generated new recovery codes." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have no recovery codes left." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have successfully logged out of the application." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You should generate a new set of recovery codes." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your authenticator app has been verified." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your email is unchanged." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your password has been reset." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="An error occurred while adding the login." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="An error occurred while creating the user." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Display Name is required." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error changing email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error changing user name." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error confirming your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error from external provider: {0}" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error loading external login information during confirmation." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Error loading external login information." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Thank you for confirming your email change." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Thank you for confirming your email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The specified user could not be found." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="User created a new account with LDAP." xml:space="preserve">
+    <value></value>
   </data>
 </root>

@@ -1,6 +1,6 @@
 ﻿@page
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model ResendEmailConfirmationModel
 @{
@@ -8,10 +8,10 @@
 }
 
 <h3>
-    @SharedLocalizer.Static["Resend email confirmation"]
+    @Localizer["Resend email confirmation"]
 </h3>
 
-<p>@SharedLocalizer.Static["Enter your email."]</p>
+<p>@Localizer["Enter your email."]</p>
 <hr />
 
 <div class="row">
@@ -23,7 +23,7 @@
                 <label asp-for="Input.Email" class="form-label"></label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">@SharedLocalizer.Static["Resend"]</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Resend"]</button>
         </form>
     </div>
 </div>

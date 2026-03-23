@@ -1,8 +1,7 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
-
-@using TightWiki.Resources
+@inject ISharedLocalizationText Localizer
 
 @model AccountRolesViewModel
 @{
@@ -13,10 +12,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @SharedLocalizer.Static.Format("Account Roles and Permissions for: {0}", Model.AccountName)
+            @Localizer.Format("Account Roles and Permissions for: {0}", Model.AccountName)
         </h3>
         <div class="text-muted">
-            @SharedLocalizer.Static["Account roles and permissions for a single account."]
+            @Localizer["Account roles and permissions for a single account."]
         </div>
     </div>
 </div>
@@ -32,7 +31,7 @@
                     class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#addPermissionToAccountModal">
-                <i class="bi bi-shield-plus me-1"></i>@SharedLocalizer.Static["Add Permission to Account"]
+                <i class="bi bi-shield-plus me-1"></i>@Localizer["Add Permission to Account"]
             </button>
 
             <button type="button"
@@ -40,7 +39,7 @@
                     class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#addAccountMembershipModal">
-                <i class="bi bi-person-plus me-1"></i>@SharedLocalizer.Static["Add Role to Account"]
+                <i class="bi bi-person-plus me-1"></i>@Localizer["Add Role to Account"]
             </button>
         </div>
     </div>
@@ -48,7 +47,7 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-shield-lock me-2"></i>@SharedLocalizer.Static["Account Permissions"]
+                <i class="bi bi-shield-lock me-2"></i>@Localizer["Account Permissions"]
             </span>
             <div>
                 @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
@@ -62,23 +61,23 @@
                         <th scope="col" style="width: 18%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Disposition", "Permissions")">
-                                @SharedLocalizer.Static["Disposition"]
+                                @Localizer["Disposition"]
                             </a>
                         </th>
                         <th scope="col" style="width: 20%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Permission", "Permissions")">
-                                @SharedLocalizer.Static["Permission"]
+                                @Localizer["Permission"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Resource", "Permissions")">
-                                @SharedLocalizer.Static["Resource"]
+                                @Localizer["Resource"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @SharedLocalizer.Static["Action"]
+                            @Localizer["Action"]
                         </th>
                     </tr>
                 </thead>
@@ -107,15 +106,15 @@
                                 @if (permission.Namespace != null)
                                 {
                                     <span>
-                                        <span class="text-muted">@SharedLocalizer.Static["Namespace"]:</span>
-                                        @(permission.ResourceName == "*" ? SharedLocalizer.Static["ALL"] : permission.ResourceName)
+                                        <span class="text-muted">@Localizer["Namespace"]:</span>
+                                        @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)
                                     </span>
                                 }
                                 else if (permission.PageId != null)
                                 {
                                     <span>
-                                        <span class="text-muted">@SharedLocalizer.Static["Page"]:</span>
-                                        @(permission.ResourceName == "*" ? SharedLocalizer.Static["ALL"] : permission.ResourceName)
+                                        <span class="text-muted">@Localizer["Page"]:</span>
+                                        @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)
                                     </span>
                                 }
                             </td>
@@ -124,7 +123,7 @@
                                 <button type="button"
                                         class="btn btn-outline-warning btn-sm"
                                         onclick="removePermission(this, '@permission.Id')">
-                                    <i class="bi bi-trash me-1"></i>@SharedLocalizer.Static["Remove"]
+                                    <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
                                 </button>
                             </td>
                         </tr>
@@ -137,7 +136,7 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-people me-2"></i>@SharedLocalizer.Static["Account Role Membership"]
+                <i class="bi bi-people me-2"></i>@Localizer["Account Role Membership"]
             </span>
             <div>
                 @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Memberships")
@@ -151,11 +150,11 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Role", "Memberships")">
-                                @SharedLocalizer.Static["Name"]
+                                @Localizer["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @SharedLocalizer.Static["Action"]
+                            @Localizer["Action"]
                         </th>
                     </tr>
                 </thead>
@@ -173,7 +172,7 @@
                                 <button type="button"
                                         class="btn btn-outline-warning btn-sm"
                                         onclick="removeMembership(this, '@membership.RoleId')">
-                                    <i class="bi bi-person-dash me-1"></i>@SharedLocalizer.Static["Remove"]
+                                    <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
                                 </button>
                             </td>
                         </tr>

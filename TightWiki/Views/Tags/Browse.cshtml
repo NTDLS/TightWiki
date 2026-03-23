@@ -1,5 +1,5 @@
-﻿
-@using TightWiki.Resources
+﻿@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Page.BrowseViewModel
 @{
@@ -8,11 +8,11 @@
 }
 
 <div class="card shadow-lg">
-    <div class="card-header"><strong>@SharedLocalizer.Static["Associated Tags"]</strong></div>
+    <div class="card-header"><strong>@Localizer["Associated Tags"]</strong></div>
     <div class="card-body">@Html.Raw(Model.TagCloud)</div>
 </div>
 
 <div class="card shadow-lg">
-    <div class="card-header"><strong>@SharedLocalizer.Static["Associated Pages"]</strong></div>
+    <div class="card-header"><strong>@Localizer["Associated Pages"]</strong></div>
     <div class="card-body">@Html.Raw(Model.AssociatedPages)</div>
 </div>

@@ -4,6 +4,7 @@ using NTDLS.Helpers;
 using System.Net;
 using System.Security.Claims;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.ViewModels;
 using TightWiki.Repository;
@@ -22,8 +23,8 @@ namespace TightWiki.Controllers
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore)
-            : base(logger, signInManager, userManager)
+            IUserStore<IdentityUser> userStore, ISharedLocalizationText localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _userStore = userStore;
             _emailStore = (IUserEmailStore<IdentityUser>)_userStore;

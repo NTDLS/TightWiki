@@ -12,7 +12,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -42,8 +41,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IWikiEmailSender emailSender)
-                        : base(logger, signInManager)
+            IWikiEmailSender emailSender, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -150,12 +149,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 emailTemplate.Replace("##CALLBACKURL##", HtmlEncoder.Default.Encode(callbackUrl));
 
                 await _emailSender.SendEmailAsync(Input.NewEmail, emailSubject, emailTemplate.ToString());
-                StatusMessage = SharedLocalizer.Static["Confirmation link to change email sent. Please check your email."];
+                StatusMessage = Localizer["Confirmation link to change email sent. Please check your email."];
 
                 return RedirectToPage();
             }
 
-            StatusMessage = SharedLocalizer.Static["Your email is unchanged."];
+            StatusMessage = Localizer["Your email is unchanged."];
             return RedirectToPage();
         }
 
@@ -187,7 +186,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
                 "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            StatusMessage = SharedLocalizer.Static["Verification email sent. Please check your email."];
+            StatusMessage = Localizer["Verification email sent. Please check your email."];
             return RedirectToPage();
         }
     }

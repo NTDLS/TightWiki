@@ -1,6 +1,6 @@
 ﻿@using TightWiki.Models
-
-@using TightWiki.Resources
+@using TightWiki.Library
+@inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Page.PageRevertViewModel
 @{
@@ -12,13 +12,13 @@
     <div class="card-header bg-warning-subtle border-warning">
         <div class="fw-semibold text-dark">
             <i class="bi bi-arrow-counterclockwise me-2"></i>
-            @SharedLocalizer.Static.Format("Revert to revision {0}?", sessionState.Page.Revision)
+            @Localizer.Format("Revert to revision {0}?", sessionState.Page.Revision)
         </div>
     </div>
 
     <div class="card-body">
         <div class="mb-3">
-            @SharedLocalizer.Static.Format("Reverting \"{0}\" from revision {1} to {2} will rollback {3} changes.",
+            @Localizer.Format("Reverting \"{0}\" from revision {1} to {2} will rollback {3} changes.",
                 Model.PageName,
                 sessionState.Page.MostCurrentRevision,
                 sessionState.Page.Revision,
@@ -26,11 +26,11 @@
         </div>
 
         <div class="mb-3 text-muted">
-            @SharedLocalizer.Static["Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes."]
+            @Localizer["Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes."]
         </div>
 
         <div class="mb-4 fw-semibold">
-            @SharedLocalizer.Static["Are you sure you want to continue?"]
+            @Localizer["Are you sure you want to continue?"]
         </div>
 
         @using (Html.BeginForm(FormMethod.Post))
@@ -42,14 +42,14 @@
                         class="btn btn-warning"
                         name="IsActionConfirmed"
                         value="true">
-                    <i class="bi bi-arrow-counterclockwise me-1"></i>@SharedLocalizer.Static["Yes"]
+                    <i class="bi bi-arrow-counterclockwise me-1"></i>@Localizer["Yes"]
                 </button>
 
                 <button type="submit"
                         class="btn btn-success"
                         name="IsActionConfirmed"
                         value="false">
-                    <i class="bi bi-x-circle me-1"></i>@SharedLocalizer.Static["No"]
+                    <i class="bi bi-x-circle me-1"></i>@Localizer["No"]
                 </button>
             </div>
         }

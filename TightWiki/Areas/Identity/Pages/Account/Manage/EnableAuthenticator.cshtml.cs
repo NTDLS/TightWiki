@@ -9,8 +9,8 @@ using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Library;
 using TightWiki.Models;
-using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -42,8 +42,8 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         public EnableAuthenticatorModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             ILogger<ITightEngine> logger,
-            UrlEncoder urlEncoder)
-                        : base(logger, signInManager)
+            UrlEncoder urlEncoder, ISharedLocalizationText localizer)
+                        : base(logger, signInManager, localizer)
         {
             _userManager = userManager;
             _logger = logger;
@@ -119,7 +119,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (!is2faTokenValid)
             {
-                ModelState.AddModelError("Input.Code", SharedLocalizer.Static["Verification code is invalid."]);
+                ModelState.AddModelError("Input.Code", Localizer["Verification code is invalid."]);
                 await LoadSharedKeyAndQrCodeUriAsync(user);
                 return Page();
             }
@@ -128,7 +128,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
-            StatusMessage = SharedLocalizer.Static["Your authenticator app has been verified."];
+            StatusMessage = Localizer["Your authenticator app has been verified."];
 
             if (await _userManager.CountRecoveryCodesAsync(user) == 0)
             {
