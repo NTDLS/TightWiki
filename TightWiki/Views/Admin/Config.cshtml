@@ -28,16 +28,16 @@
             <div class="col-12">
                 <div class="card shadow-lg">
                     <div class="card-header">
-                        <h4>@group.Name</h4>
-                        <p>@group.Description</p>
+                        <h4>@Localizer[group.Name]</h4>
+                        <p>@Localizer[group.Description]</p>
                     </div>
                     <div class="card-body">
                         @foreach (var entry in group.Entries)
                         {
                             <div class="form-group row mb-3">
                                 <label for="@entry.ConfigurationGroupId:@entry.Id" class="col-sm-2 col-form-label">
-                                    <strong>@entry.Name</strong><br />
-                                    <small class="text-muted">@entry.Description</small>
+                                    <strong>@Localizer[entry.Name]</strong><br />
+                                    <small class="text-muted">@Localizer[entry.Description]</small>
                                 </label>
                                 <div class="col-sm-10">
                                     @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
