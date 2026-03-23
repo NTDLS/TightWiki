@@ -364,6 +364,9 @@ namespace TightWiki.Controllers
             //This is not 100% necessary, I just want to prevent the user from needing to refresh to view the new theme.
             SessionState.UserTheme = ConfigurationRepository.GetAllThemes().SingleOrDefault(o => o.Name == model.AccountProfile.Theme) ?? GlobalConfiguration.SystemTheme;
 
+            model.AccountProfile = AccountProfileAccountViewModel.FromDataModel(
+                    UsersRepository.GetAccountProfileByUserId(userId));
+
             return View(model);
         }
 

@@ -125,24 +125,6 @@
                                 </div>
 
                                 <div class="col-12 col-md-4">
-                                    <label for="AccountProfile_Theme" class="form-label fw-semibold">
-                                        @Localizer["Theme"]
-                                    </label>
-                                    <select name="AccountProfile.Theme" id="AccountProfile_Theme" class="form-select">
-                                        <option value="">@Localizer["System Default"]</option>
-                                        @foreach (var item in Model.Themes)
-                                        {
-                                            <option value="@item.Name" selected="@(Model.AccountProfile.Theme == item.Name ? "selected" : null)">
-                                                @item.Name
-                                            </option>
-                                        }
-                                    </select>
-                                    <div class="text-danger small">
-                                        @Html.ValidationMessageFor(m => m.AccountProfile.Theme)
-                                    </div>
-                                </div>
-
-                                <div class="col-12 col-md-4">
                                     <label for="AccountProfile_Country" class="form-label fw-semibold">
                                         @Localizer["Country"]
                                     </label>
@@ -178,7 +160,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12">
+                                <div class="col-12 col-md-4">
                                     <label for="AccountProfile_TimeZone" class="form-label fw-semibold">
                                         @Localizer["Time Zone"]
                                     </label>
@@ -193,6 +175,24 @@
                                     </select>
                                     <div class="text-danger small">
                                         @Html.ValidationMessageFor(m => m.AccountProfile.TimeZone)
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="AccountProfile_Theme" class="form-label fw-semibold">
+                                        @Localizer["Theme"]
+                                    </label>
+                                    <select name="AccountProfile.Theme" id="AccountProfile_Theme" class="form-select">
+                                        <option value="">@Localizer["System Default"]</option>
+                                        @foreach (var item in Model.Themes)
+                                        {
+                                            <option value="@item.Name" selected="@(Model.AccountProfile.Theme == item.Name ? "selected" : null)">
+                                                @item.Name
+                                            </option>
+                                        }
+                                    </select>
+                                    <div class="text-danger small">
+                                        @Html.ValidationMessageFor(m => m.AccountProfile.Theme)
                                     </div>
                                 </div>
 

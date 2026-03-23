@@ -399,6 +399,7 @@ namespace TightWiki.Controllers
             {
                 AccountProfile = Models.ViewModels.AdminSecurity.AccountProfileAccountViewModel.FromDataModel(
                     UsersRepository.GetAccountProfileByNavigation(Navigation.Clean(navigation))),
+
                 Credential = new CredentialViewModel(),
                 Themes = ConfigurationRepository.GetAllThemes(),
                 TimeZones = TimeZoneItem.GetAll(),
@@ -579,7 +580,7 @@ namespace TightWiki.Controllers
                 }
             }
 
-            model.SuccessMessage = Localize("Your profile has been saved successfully!");
+            model.SuccessMessage = Localize("The profile has been saved successfully!");
             WikiCache.ClearCategory(WikiCache.Category.Security);
 
             return View(model);
