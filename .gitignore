@@ -112,3 +112,7 @@ TranslationAI/obj/
 TightWiki/keys/
 
 Data/defaults.db
+
+LocalizerScan/bin/
+
+LocalizerScan/obj/

@@ -1,29 +1,10 @@
 ﻿using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Localization;
 
 namespace TightWiki.Library
 {
     public static class PageSelectorGenerator
     {
-        public static IStringLocalizer Localizer
-        {
-            get
-            {
-                if (_localizer == null)
-                {
-                    throw new InvalidOperationException("StaticHelper has not been initialized. Call StaticHelper.Initializer() with a valid IStringLocalizer instance.");
-                }
-                return _localizer;
-            }
-        }
-        private static IStringLocalizer? _localizer;
-
-        public static void Initialize(IStringLocalizer localizer)
-        {
-            _localizer = localizer;
-        }
-
         public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount)
             => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, "page");
 

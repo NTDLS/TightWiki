@@ -4,7 +4,15 @@ namespace TightWiki.Library
 {
     public class CultureInfoSettings
     {
-        public CultureInfo? Culture { get; set; }
-        public bool IsUIComplete { get; set; }
+        public string Code { get; set; }
+        public string Name { get; set; }
+        public CultureInfo Culture { get; set; }
+
+        public CultureInfoSettings(string code, string name)
+        {
+            Code = code;
+            Name = name;
+            Culture = new CultureInfo(code);
+        }
     }
 }
