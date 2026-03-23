@@ -3,4 +3,4 @@ CREATE TABLE "Severity" (
 	"Name"	text NOT NULL UNIQUE,
 	PRIMARY KEY("Id" AUTOINCREMENT)
 );
-INSERT INTO Severity(Name) VALUES ('Verbose'), ('Information'), ('Warning'), ('Error');
+INSERT INTO Severity(Name) VALUES ('Trace'), ('Debug'), ('Information'), ('Warning'), ('Error'), ('Critical'), ('None');

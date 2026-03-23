@@ -7,10 +7,12 @@ namespace TightWiki.Repository
         : ILogger
     {
         private readonly string _category;
+        private readonly LogLevel _minLevel;
 
-        public DatabaseLogger(string category)
+        public DatabaseLogger(string category, LogLevel minLevel)
         {
             _category = category;
+            _minLevel = minLevel;
         }
 
         public bool IsEnabled(LogLevel logLevel) => true;
@@ -23,18 +25,9 @@ namespace TightWiki.Repository
             Func<TState, Exception?, string> formatter)
         {
             var message = formatter(state, exception);
-            var severity = logLevel switch
-            {
-                LogLevel.Trace or LogLevel.Debug => WikiSeverity.Verbose,
-                LogLevel.Information => WikiSeverity.Information,
-                LogLevel.Warning => WikiSeverity.Warning,
-                LogLevel.Error or LogLevel.Critical => WikiSeverity.Error,
-                _ => WikiSeverity.Verbose,
-            };
-
             try
             {
-                LoggingRepository.WriteLog(severity, message, exception?.GetBaseException()?.Message, exception?.StackTrace);
+                LoggingRepository.WriteLog(logLevel, message, exception?.GetBaseException()?.Message, exception?.StackTrace);
             }
             catch
             {

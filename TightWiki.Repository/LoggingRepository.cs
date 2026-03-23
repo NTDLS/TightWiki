@@ -1,4 +1,5 @@
-﻿using TightWiki.Models;
+﻿using Microsoft.Extensions.Logging;
+using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using static TightWiki.Library.Constants;
 
@@ -25,11 +26,11 @@ namespace TightWiki.Repository
         }
 
         public static void WriteException(string? text = null, string? exceptionText = null, string? stackTrace = null)
-            => WriteLog(WikiSeverity.Error, text, exceptionText, stackTrace);
+            => WriteLog(LogLevel.Error, text, exceptionText, stackTrace);
 
-        public static void WriteLog(WikiSeverity severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
+        public static void WriteLog(LogLevel severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
         {
-            if (severity == WikiSeverity.Error)
+            if (severity >= LogLevel.Warning)
             {
                 Console.WriteLine($"{text} {exceptionText} {stackTrace}");
             }

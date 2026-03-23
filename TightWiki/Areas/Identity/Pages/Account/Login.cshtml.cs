@@ -92,7 +92,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User logged in.");
+                        _logger.LogDebug("User logged in.");
                         return Redirect(ReturnUrl);
                     }
                     if (result.RequiresTwoFactor)

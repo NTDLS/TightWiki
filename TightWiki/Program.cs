@@ -35,11 +35,14 @@ namespace TightWiki
 
             var builder = WebApplication.CreateBuilder(args);
 
+            //This is the minimum log level for the database logger, which is used for logging application events and errors to the database.
+            var minimumLogLevel = Enum.Parse<LogLevel>(builder.Configuration.GetValue("EventLogLevel", LogLevel.Information.ToString()));
+
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
             ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
 
             builder.Logging.ClearProviders();
-            builder.Logging.AddProvider(new DatabaseLoggerProvider());
+            builder.Logging.AddProvider(new DatabaseLoggerProvider(minimumLogLevel));
 
             ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
             ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
@@ -48,7 +51,7 @@ namespace TightWiki
             ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
 
-            var independentLogger = new DatabaseLogger("");
+            var independentLogger = new DatabaseLogger("", LogLevel.Information);
 
             var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));

@@ -17,14 +17,6 @@
             FeatureTemplates = 5
         }
 
-        public enum WikiSeverity
-        {
-            Verbose,
-            Information,
-            Warning,
-            Error
-        }
-
         public enum WikiPermissionDisposition
         {
             Allow,

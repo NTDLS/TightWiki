@@ -43,7 +43,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 _logger.LogError("Exception: {Message}", ex.Message);
             }
 
-            _logger.LogInformation("User logged out.");
+            _logger.LogDebug("User logged out.");
             if (returnUrl != null)
             {
                 return Redirect(returnUrl);

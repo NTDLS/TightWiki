@@ -34,7 +34,9 @@
                             string icon = "bi-circle";
                             string badge = "border-secondary text-secondary bg-light";
 
-                            if (severity.Equals("Verbose", StringComparison.OrdinalIgnoreCase))
+                            if (severity.Equals("Trace", StringComparison.OrdinalIgnoreCase)
+                                || severity.Equals("Debug", StringComparison.OrdinalIgnoreCase)
+                                || severity.Equals("None", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-terminal";
                                 badge = "border-secondary text-secondary bg-light";
@@ -42,7 +44,7 @@
                             else if (severity.Equals("Information", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-info-circle-fill";
-                                badge = "border-info text-info bg-info-light";
+                                badge = "border-info text-info bg-light";
                             }
                             else if (severity.Equals("Warning", StringComparison.OrdinalIgnoreCase))
                             {
@@ -53,6 +55,11 @@
                             {
                                 icon = "bi-x-circle-fill";
                                 badge = "border-danger text-danger bg-light";
+                            }
+                            else if (severity.Equals("Critical", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-fire";
+                                badge = "border-dark text-dark bg-light";
                             }
                         }
 
