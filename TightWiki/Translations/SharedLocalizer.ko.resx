@@ -59,1084 +59,1084 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- 또는 -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(설명 없음)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(링크 없음)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(텍스트 없음)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}지금 계속 진행하거나{1} {2}초 후에 리디렉션됩니다.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>이중 인증(2fa)이 비활성화되었습니다. 인증 앱을 설정하면 다시 활성화할 수 있습니다</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>접근 거부.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>계정</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>계정이 삭제되었습니다!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>계정 편집기</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>계정 이메일 확인</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>계정 관리</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>계정 권한</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>계정 역할 멤버십</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>단일 계정의 계정 역할 및 권한.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>이 계정의 역할과 권한: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>계정들</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>동작</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>계정 추가</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>인증 앱 추가</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>이모지 추가</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>역할에 멤버 추가</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>새 계정 추가</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>새 이모지 추가</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>새 항목 추가</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>계정에 권한 추가</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>역할에 권한 추가</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>역할 추가</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>계정에 역할 추가</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>관리자</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>모두</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>첨부된 파일에 대한 모든 변경 사항.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>페이지에 대한 모든 변경 사항.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>지정된 페이지에 남겨진 모든 댓글.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>위키에 포함된 모든 네임스페이스.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>네임스페이스에 포함된 모든 페이지.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>위키에 포함된 모든 페이지.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>이미 회원이신가요?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>요청을 처리하는 동안 오류가 발생했습니다.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>분석</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>이 삭제를 계속하시겠습니까?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>계속하시겠습니까?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>이 댓글을 삭제하시겠습니까?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>분리하시겠습니까</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>앱에서 로그아웃하시겠습니까?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>확실합니까?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>{0} 계정을 연결하세요.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>연결된 페이지</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>연결된 태그</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>여기에 드롭하거나 아래에서 수동으로 선택하여 파일을 첨부하세요:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>첨부파일</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>인증 앱</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>사용 가능한 언어</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>아바타</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>연 결실패.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>연결 성공.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>자기소개</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>굵게</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>여러 처리 지침으로 표시된 페이지를 검색하여 초안, 삭제 대기 중, 보호됨 등을 확인하세요.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>내장 페이지</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>캐시</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>취소</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>카테고리</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>아바타 변경</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>이메일 변경</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>이미지 변경</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>비밀번호 변경</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>요약 변경</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>계정 설정 변경</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>페이지 선택</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>이미지 선택</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>템플릿 선택</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>인터페이스에 사용할 선호하는 언어를 선택하세요.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>닫기</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>쉼표로 구분된 카테고리</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>댓글</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>컴파일 통계</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>컴파일</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>가입 완료</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>구성</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>이모지 설정.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>사용자 계정 설정.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>이모지 추가를 위한 설정.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>인증기 앱 구성</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>이메일 변경 확인</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>로그아웃 확인</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>비밀번호 확인</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>이메일 주소를 확인하세요.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>이메일 변경 확인 링크를 보냈습니다. 이메일을 확인하세요.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>확인됨</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>내용</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>계속하기</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>태그 복사</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>국가</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>새 계정 생성</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>새 페이지 생성</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>새 역할 생성.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>새 사용자 계정 생성.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>계정을 생성하고 기본 프로필 세부 정보를 구성하세요.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>생성 날짜</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>자격 증명</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>현재 관리자 로그인</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>데이터베이스</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>데이터베이스 유틸리티</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>날짜/시간</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>기본 비밀번호가 변경되지 않았습니다</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>삭제</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>계정 삭제</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>페이지 '{0}'를 삭제하시겠습니까?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>역할 삭제</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>이 페이지 삭제</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>삭제자</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>삭제 날짜</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지 내용</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지 대기열</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지 수정 기록</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>삭제된 수정 내용</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>삭제된 수정 기록</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{0}'를 삭제하면 페이지, 모든 {1} 수정 기록 및 관련 파일 첨부가 삭제 대기열로 이동합니다. 이 작업은 관리자 또는 중재자만 되돌릴 수 있습니다. 계속하시겠습니까?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>'{0}' 삭제는 페이지를 이동시키며, 모든 {1} 수정 내용과 {2} 파일 첨부를 삭제 대기열로 이동시킵니다.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{0}' 삭제는 계정을 영구적으로 삭제합니다. 이 사용자가 생성하거나 수정한 모든 페이지는 대리 계정으로 귀속되며, 이 작업을 되돌릴 수 없습니다. 계속하시겠습니까?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{0}' 삭제는 계정을 영구적으로 삭제합니다. 이 사용자가 생성하거나 수정한 모든 페이지는 대리 계정으로 귀속됩니다. 계속하시겠습니까?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{0}' 삭제는 메뉴 항목을 영구적으로 삭제하며, 이 작업을 되돌릴 수 없습니다. 계속하시겠습니까?</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{1}'의 수정판 {0}을 삭제하면 페이지 수정 내용이 삭제 대기열로 이동됩니다. 이 작업은 관리자 또는 중재자만 되돌릴 수 있습니다. 계속하시겠습니까?</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{0}' 이모티콘 삭제는 이미지를 영구적으로 제거하며, 이에 대한 모든 참조는 고아 상태가 됩니다. 이 삭제를 되돌릴 수 없습니다. 계속하시겠습니까?</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>'{0}' 역할 삭제는 해당 역할이 부여한 또는 거부한 모든 권한을 회수합니다. 계속하시겠습니까?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>설명</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>분리</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>세부 정보</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>개발 모드</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>차이점</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>2단계 인증 비활성화</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>이중 인증(2FA) 비활성화</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>2단계 인증을 비활성화하더라도 인증기 앱에서 사용하는 키는 변경되지 않습니다.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>이 페이지에 대한 토론.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>표시 이름</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>처분</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>구별 이름:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>인증기 장치에 접근할 수 없나요?</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Microsoft Authenticator 또는 Google Authenticator와 같은 이중 인증 앱을 {0} 및 {1} 또는 {2} 및 {3}에 대해 다운로드하세요.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>여기에 파일 첨부를 끌거나 수동으로 업로드하려면 클릭하세요.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>여기에 파일을 놓으세요...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>지속 시간</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>편집</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>편집기 크기</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지 큐가 비어 있거나 검색 기준이 결과를 반환하지 않았습니다.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>설정된 계정이 없거나 검색 기준이 결과를 반환하지 않았습니다.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>설정된 이모지 없이 검색하거나 검색 기준이 결과를 반환하지 않았습니다.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>페이지가 없거나 검색 기준이 결과를 반환하지 않았습니다.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>이메일</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>이메일 주소</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>이메일 확인됨?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>이모지</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>이모지 편집기</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>이모지 관리</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>이모지들</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>URL을 입력하세요.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>내부 경로나 외부 URL을 입력하세요.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>이메일을 입력하세요.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>환경</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>오류</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>텍스트 복사 오류</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>오류들</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>이벤트 로그</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>이벤트 로그 항목</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>예외</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>예외들</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>내보내기</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>외부 로그인</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>외부 URL</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>특대형</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>극소형</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>미리보기를 불러오지 못했습니다.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>기능 템플릿</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>파일</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>필터</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>이름</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>메모리 캐시를 플러시하면 캐시된 항목이 모두 삭제되고 페이지 요청 시 데이터베이스에 다시 접속해야 합니다. 계속하시겠습니까?</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>이 브라우저를 잊기</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
-    <value></value>
+    <value>비밀번호 분실 확인</value>
   </data>
   <data name="Forgot your password?" xml:space="preserve">
-    <value></value>
+    <value>비밀번호를 잊으셨나요?</value>
   </data>
   <data name="Framework Version" xml:space="preserve">
-    <value></value>
+    <value>프레임워크 버전</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value></value>
+    <value>일반</value>
   </data>
   <data name="Generate Recovery Codes" xml:space="preserve">
-    <value></value>
+    <value>복구 코드 생성</value>
   </data>
   <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value></value>
+    <value>이중 인증(2FA) 복구 코드를 생성합니다</value>
   </data>
   <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>새 복구 코드를 생성해도 인증기 앱에서 사용하는 키는 변경되지 않습니다.</value>
   </data>
   <data name="Gets" xml:space="preserve">
-    <value></value>
+    <value>얻기</value>
   </data>
   <data name="Global configuration for Emojis." xml:space="preserve">
-    <value></value>
+    <value>이모지에 대한 글로벌 구성입니다.</value>
   </data>
   <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value></value>
+    <value>보안 역할 및 멤버십에 대한 글로벌 구성입니다.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value></value>
+    <value>사이트 메뉴 항목에 대한 글로벌 구성입니다.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
-    <value></value>
+    <value>사이트 메뉴에 대한 글로벌 구성입니다.</value>
   </data>
   <data name="Global configuration for user accounts." xml:space="preserve">
-    <value></value>
+    <value>사용자 계정에 대한 글로벌 구성입니다.</value>
   </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value></value>
+    <value>위키, 그 기능, 행동, 포맷팅 및 브랜딩에 대한 글로벌 구성 값입니다.</value>
   </data>
   <data name="Hello {0}!" xml:space="preserve">
-    <value></value>
+    <value>안녕하세요 {0}!</value>
   </data>
   <data name="Highlight" xml:space="preserve">
-    <value></value>
+    <value>강조</value>
   </data>
   <data name="Hits" xml:space="preserve">
-    <value></value>
+    <value>조회수</value>
   </data>
   <data name="Huge" xml:space="preserve">
-    <value></value>
+    <value>거대한</value>
   </data>
   <data name="Hyperlink" xml:space="preserve">
-    <value></value>
+    <value>하이퍼링크</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value></value>
+    <value>아이디</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value></value>
+    <value>여기 있다면 찾을 수 있어야 합니다.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>장치를 분실하거나 복구 코드를 가지고 있지 않으면 계정에 접속할 수 없습니다.</value>
   </data>
   <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value></value>
+    <value>인증기 키를 재설정하면, 다시 구성을 할 때까지 인증기 앱이 작동하지 않습니다.</value>
   </data>
   <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value></value>
+    <value>인증기 앱에서 사용하는 키를 변경하려면 인증기 키를 재설정해야 합니다.</value>
   </data>
   <data name="Image" xml:space="preserve">
-    <value></value>
+    <value>이미지</value>
   </data>
   <data name="Include Pages" xml:space="preserve">
-    <value></value>
+    <value>페이지 포함</value>
   </data>
   <data name="Info1" xml:space="preserve">
-    <value></value>
+    <value>정보1</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value></value>
+    <value>정보2</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value></value>
+    <value>삽입</value>
   </data>
   <data name="Insert Emoji" xml:space="preserve">
-    <value></value>
+    <value>이모지 삽입</value>
   </data>
   <data name="Inter-Page Links" xml:space="preserve">
-    <value></value>
+    <value>페이지 간 링크</value>
   </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value></value>
+    <value>이것은 예외로부터 민감한 정보를 최종 사용자에게 표시하는 결과를 초래할 수 있습니다.</value>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value></value>
+    <value>이탤릭</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value></value>
+    <value>항목</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value></value>
+    <value>언어</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value></value>
+    <value>언어들</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value></value>
+    <value>큰</value>
   </data>
   <data name="Last modified by" xml:space="preserve">
-    <value></value>
+    <value>수정한 마지막 사람</value>
   </data>
   <data name="Last Name" xml:space="preserve">
-    <value></value>
+    <value>성과</value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
-    <value></value>
+    <value>댓글 남기기</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value></value>
+    <value>제한(MB)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
-    <value></value>
+    <value>링크 텍스트 (선택 사항)</value>
   </data>
   <data name="Link Type" xml:space="preserve">
-    <value></value>
+    <value>링크 유형</value>
   </data>
   <data name="Links" xml:space="preserve">
-    <value></value>
+    <value>링크</value>
   </data>
   <data name="Loading preview..." xml:space="preserve">
-    <value></value>
+    <value>미리보기 로드 중...</value>
   </data>
   <data name="Locked out" xml:space="preserve">
-    <value></value>
+    <value>잠김</value>
   </data>
   <data name="Log Entries" xml:space="preserve">
-    <value></value>
+    <value>로그 항목</value>
   </data>
   <data name="Log Entry Details" xml:space="preserve">
-    <value></value>
+    <value>로그 항목 세부 정보</value>
   </data>
   <data name="Log in" xml:space="preserve">
-    <value></value>
+    <value>로그인</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value></value>
+    <value>{0} 계정을 사용하여 로그인</value>
   </data>
   <data name="Logged out" xml:space="preserve">
-    <value></value>
+    <value>로그아웃됨</value>
   </data>
   <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value></value>
+    <value>로그아웃하면 다른 사람이 이 세션을 사용하여 위키를 변경하는 것을 방지할 수 있습니다. 변경하기 전에 다시 로그인해야 합니다.</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value></value>
+    <value>로그인</value>
   </data>
   <data name="Login to leave a comment" xml:space="preserve">
-    <value></value>
+    <value>댓글을 남기려면 로그인하세요</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value></value>
+    <value>로그아웃</value>
   </data>
   <data name="Lower numbers appear first." xml:space="preserve">
-    <value></value>
+    <value>숫자가 낮을수록 먼저 표시됩니다.</value>
   </data>
   <data name="Manage Email" xml:space="preserve">
-    <value></value>
+    <value>이메일 관리</value>
   </data>
   <data name="Manage your account" xml:space="preserve">
-    <value></value>
+    <value>계정을 관리하세요</value>
   </data>
   <data name="Manage your external logins" xml:space="preserve">
-    <value></value>
+    <value>외부 로그인 관리</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value></value>
+    <value>일치</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value></value>
+    <value>중간</value>
   </data>
   <data name="Menu Configuration" xml:space="preserve">
-    <value></value>
+    <value>메뉴 구성</value>
   </data>
   <data name="Menu Item Editor" xml:space="preserve">
-    <value></value>
+    <value>메뉴 항목 편집기</value>
   </data>
   <data name="Metrics" xml:space="preserve">
-    <value></value>
+    <value>지표</value>
   </data>
   <data name="Misses" xml:space="preserve">
-    <value></value>
+    <value>실패</value>
   </data>
   <data name="Missing Pages" xml:space="preserve">
-    <value></value>
+    <value>누락된 페이지</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value></value>
+    <value>보통</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value></value>
+    <value>수정됨</value>
   </data>
   <data name="Modified By" xml:space="preserve">
-    <value></value>
+    <value>수정자</value>
   </data>
   <data name="Modified Date" xml:space="preserve">
-    <value></value>
+    <value>수정 날짜</value>
   </data>
   <data name="My" xml:space="preserve">
-    <value></value>
+    <value>내</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value></value>
+    <value>이름</value>
   </data>
   <data name="Namespace" xml:space="preserve">
-    <value></value>
+    <value>네임스페이스</value>
   </data>
   <data name="Namespaces" xml:space="preserve">
-    <value></value>
+    <value>네임스페이스들</value>
   </data>
   <data name="New Account" xml:space="preserve">
-    <value></value>
+    <value>새 계정</value>
   </data>
   <data name="New Emoji" xml:space="preserve">
-    <value></value>
+    <value>새 이모티콘</value>
   </data>
   <data name="New Role" xml:space="preserve">
-    <value></value>
+    <value>새 역할</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value></value>
+    <value>다음</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value></value>
+    <value>아니오</value>
   </data>
   <data name="No avatar uploaded." xml:space="preserve">
-    <value></value>
+    <value>아바타가 업로드되지 않았습니다.</value>
   </data>
   <data name="No database information is available." xml:space="preserve">
-    <value></value>
+    <value>데이터베이스 정보가 없습니다.</value>
   </data>
   <data name="No image selected." xml:space="preserve">
-    <value></value>
+    <value>이미지가 선택되지 않았습니다.</value>
   </data>
   <data name="No image uploaded." xml:space="preserve">
-    <value></value>
+    <value>이미지가 업로드되지 않았습니다.</value>
   </data>
   <data name="Not a member?" xml:space="preserve">
-    <value></value>
+    <value>회원이 아니신가요?</value>
   </data>
   <data name="not required" xml:space="preserve">
-    <value></value>
+    <value>필수 아님</value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value></value>
+    <value>QR 코드를 스캔하거나 위에 입력한 키를 입력하면 이중 인증 앱이 고유 코드를 제공합니다. 아래 확인란에 코드를 입력하세요.</value>
   </data>
   <data name="Operating System" xml:space="preserve">
-    <value></value>
+    <value>운영 체제</value>
   </data>
   <data name="Optimize" xml:space="preserve">
-    <value></value>
+    <value>최적화</value>
   </data>
   <data name="Optional" xml:space="preserve">
-    <value></value>
+    <value>선택 사항</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value></value>
+    <value>서수</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>고아 첨부파일</value>
   </data>
   <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>고아 페이지 첨부파일</value>
   </data>
   <data name="OS Architecture" xml:space="preserve">
-    <value></value>
+    <value>OS 아키텍처</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value></value>
+    <value>페이지</value>
   </data>
   <data name="Page Administration" xml:space="preserve">
-    <value></value>
+    <value>페이지 관리</value>
   </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
-    <value></value>
+    <value>페이지 첨부파일 수정</value>
   </data>
   <data name="Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>페이지 첨부파일</value>
   </data>
   <data name="Page File Revisions" xml:space="preserve">
-    <value></value>
+    <value>페이지 파일 수정</value>
   </data>
   <data name="Page Moderate" xml:space="preserve">
-    <value></value>
+    <value>페이지 검수</value>
   </data>
   <data name="Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>페이지 수정 기록</value>
   </data>
   <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지의 페이지 수정 기록입니다. 삭제하거나 복원할 수 있습니다.</value>
   </data>
   <data name="Page Search" xml:space="preserve">
-    <value></value>
+    <value>페이지 검색</value>
   </data>
   <data name="Page Search Tokens" xml:space="preserve">
-    <value></value>
+    <value>페이지 검색 토큰</value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
+    <value>페이지 태그</value>
   </data>
   <data name="Pages" xml:space="preserve">
-    <value></value>
+    <value>페이지들</value>
   </data>
   <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지입니다. 삭제하거나 복원할 수 있습니다.</value>
   </data>
   <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value></value>
+    <value>연결되었지만 존재하지 않는 페이지들입니다.</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value></value>
+    <value>비밀번호</value>
   </data>
   <data name="Permission" xml:space="preserve">
-    <value></value>
+    <value>권한</value>
   </data>
   <data name="Permissions and Roles" xml:space="preserve">
-    <value></value>
+    <value>권한 및 역할</value>
   </data>
   <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value></value>
+    <value>계정을 확인하려면 이메일을 확인하세요.</value>
   </data>
   <data name="Please check your email to reset your password." xml:space="preserve">
-    <value></value>
+    <value>비밀번호를 재설정하려면 이메일을 확인하세요.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value></value>
+    <value>여기를 클릭하여 로그인하세요</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value></value>
+    <value>새 비밀번호를 확인하세요.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value></value>
+    <value>비밀번호를 확인하세요.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value></value>
+    <value>사용자 이름과 비밀번호를 모두 입력하세요.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
-    <value></value>
+    <value>새 이메일을 입력하세요.</value>
   </data>
   <data name="Please enter the code." xml:space="preserve">
-    <value></value>
+    <value>코드를 입력하세요.</value>
   </data>
   <data name="Please enter your email." xml:space="preserve">
-    <value></value>
+    <value>이메일을 입력하세요.</value>
   </data>
   <data name="Please enter your new password." xml:space="preserve">
-    <value></value>
+    <value>새 비밀번호를 입력하세요.</value>
   </data>
   <data name="Please enter your old password." xml:space="preserve">
-    <value></value>
+    <value>이전 비밀번호를 입력하세요.</value>
   </data>
   <data name="Please enter your password." xml:space="preserve">
-    <value></value>
+    <value>비밀번호를 입력하세요.</value>
   </data>
   <data name="Please wait, loading preview..." xml:space="preserve">
-    <value></value>
+    <value>잠시만 기다려 주세요. 미리보기 로딩 중...</value>
   </data>
   <data name="Post" xml:space="preserve">
-    <value></value>
+    <value>게시물</value>
   </data>
   <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value></value>
+    <value>모든 페이지 사전 캐시</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value></value>
+    <value>미리보기</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value></value>
+    <value>이전</value>
   </data>
   <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value></value>
+    <value>개인정보 보호 및 쿠키 정책에 동의하지 않았습니다.</value>
   </data>
   <data name="Process Architecture" xml:space="preserve">
-    <value></value>
+    <value>프로세스 아키텍처</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value></value>
+    <value>프로필</value>
   </data>
   <data name="Profile Details" xml:space="preserve">
-    <value></value>
+    <value>프로필 상세 정보</value>
   </data>
   <data name="Profile Settings" xml:space="preserve">
-    <value></value>
+    <value>프로필 설정</value>
   </data>
   <data name="Profiles" xml:space="preserve">
-    <value></value>
+    <value>프로필</value>
   </data>
   <data name="Public profile information." xml:space="preserve">
-    <value></value>
+    <value>공개 프로필 정보.</value>
   </data>
   <data name="Purge" xml:space="preserve">
-    <value></value>
+    <value>삭제</value>
   </data>
   <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>삭제 컴파일 통계</value>
   </data>
   <data name="Purge Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>삭제된 페이지 삭제</value>
   </data>
   <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>삭제된 개정판 삭제</value>
   </data>
   <data name="Purge Event Log" xml:space="preserve">
-    <value></value>
+    <value>삭제 이벤트 로그</value>
   </data>
   <data name="Purge Memory Cache" xml:space="preserve">
-    <value></value>
+    <value>메모리 캐시 삭제</value>
   </data>
   <data name="Purge Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>고아 첨부파일 삭제</value>
   </data>
   <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>페이지 컴파일 통계를 삭제하면 모든 페이지의 저장된 컴파일 통계가 삭제됩니다. 계속하시겠습니까?</value>
   </data>
   <data name="Put these codes in a safe place." xml:space="preserve">
-    <value></value>
+    <value>이 코드를 안전한 곳에 보관하십시오.</value>
   </data>
   <data name="Puts" xml:space="preserve">
-    <value></value>
+    <value>넣기</value>
   </data>
   <data name="Raw Size" xml:space="preserve">
-    <value></value>
+    <value>원시 크기</value>
   </data>
   <data name="Rebuild All Pages" xml:space="preserve">
-    <value></value>
+    <value>모든 페이지 다시 빌드</value>
   </data>
   <data name="Recently Modified" xml:space="preserve">
-    <value></value>
+    <value>최근 수정됨</value>
   </data>
   <data name="Recovery code" xml:space="preserve">
-    <value></value>
+    <value>복구 코드</value>
   </data>
   <data name="Recovery code verification" xml:space="preserve">
-    <value></value>
+    <value>복구 코드 검증</value>
   </data>
   <data name="Recovery codes" xml:space="preserve">
-    <value></value>
+    <value>복구 코드</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value></value>
+    <value>새로고침</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value></value>
+    <value>등록</value>
   </data>
   <data name="Register as a new user" xml:space="preserve">
-    <value></value>
+    <value>새 사용자로 등록</value>
   </data>
   <data name="Register confirmation" xml:space="preserve">
-    <value></value>
+    <value>등록 확인</value>
   </data>
   <data name="Registered Logins" xml:space="preserve">
-    <value></value>
+    <value>등록된 로그인</value>
   </data>
   <data name="Registration is not allowed" xml:space="preserve">
-    <value></value>
+    <value>등록이 허용되지 않습니다</value>
   </data>
   <data name="Registration is not allowed." xml:space="preserve">
-    <value></value>
+    <value>등록이 허용되지 않습니다.</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value></value>
+    <value>제거</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value></value>
+    <value>이 {0} 로그인 정보를 계정에서 제거합니다</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
-    <value></value>
+    <value>요청 실패:</value>
   </data>
   <data name="Request ID" xml:space="preserve">
-    <value></value>
+    <value>요청 ID</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value></value>
+    <value>필수</value>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value></value>
+    <value>다시 보내기</value>
   </data>
   <data name="Resend email confirmation" xml:space="preserve">
-    <value></value>
+    <value>이메일 인증 다시 보내기</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value></value>
+    <value>초기화</value>
   </data>
   <data name="Reset authenticator app" xml:space="preserve">
-    <value></value>
+    <value>인증기 앱 재설정</value>
   </data>
   <data name="Reset authenticator key" xml:space="preserve">
-    <value></value>
+    <value>인증자 키 재설정</value>
   </data>
   <data name="Reset it" xml:space="preserve">
-    <value></value>
+    <value>재설정하세요</value>
   </data>
   <data name="Reset Password" xml:space="preserve">
-    <value></value>
+    <value>비밀번호 재설정</value>
   </data>
   <data name="Reset password confirmation" xml:space="preserve">
-    <value></value>
+    <value>비밀번호 재설정 확인</value>
   </data>
   <data name="Reset recovery codes" xml:space="preserve">
-    <value></value>
+    <value>복구 코드를 재설정</value>
   </data>
   <data name="Reset your password." xml:space="preserve">
-    <value></value>
+    <value>비밀번호를 재설정하세요.</value>
   </data>
   <data name="Resource" xml:space="preserve">
-    <value></value>
+    <value>리소스</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value></value>
+    <value>복구하기</value>
   </data>
   <data name="Restore This Page" xml:space="preserve">
-    <value></value>
+    <value>이 페이지 복구</value>
   </data>
   <data name="Restore This Revision" xml:space="preserve">
-    <value></value>
+    <value>이 수정본 복구</value>
   </data>
   <data name="Revert" xml:space="preserve">
-    <value></value>
+    <value>원상복구</value>
   </data>
   <data name="Revert to revision" xml:space="preserve">
-    <value></value>
+    <value>수정본으로 되돌리기</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value></value>
+    <value>수정본 {0}로 되돌리시겠습니까?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value></value>
+    <value>"{0}"을(를) 수정본 {1}에서 {2}로 되돌리면 {3} 변경 사항이 롤백됩니다.</value>
   </data>
   <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
     <value></value>
@@ -2162,6 +2162,72 @@
     <value></value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
     <value></value>
   </data>
 </root>

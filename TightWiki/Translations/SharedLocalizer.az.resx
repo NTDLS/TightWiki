@@ -2164,4 +2164,70 @@
   <data name="Word Exclusions" xml:space="preserve">
     <value>Kəlmə İstisnaları</value>
   </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Siz bir rol seçməlisiniz.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>Hesab artıq göstərilən rolun üzvüdür.</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Resurs növü</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Əlavə et</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Bu hesabdan icazəni silmək istəyinizdən əminsinizmi?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Silmə uğursuz oldu</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Bu hesabdan vəzifəni silmək istəyinizdən əminsinizmi?</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Bir vəziyyəti seçin</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Bir icazə seçin</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Bir səhifə seçin</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Bir ad sahəsi seçin</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>İcazə vəziyyətini seçməlisiniz.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Siz icazəni seçməlisiniz.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Siz vərəqi seçməlisiniz.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Siz namespace seçməlisiniz.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Ya vərəqi, ya da namespace seçməlisiniz.</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Hesab artıq göstərilən icazəyə malikdir.</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Bu roldan icazəni silmək istədiyinizə əminsinizmi?</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Bu üzvü roldan çıxarmaq istədiyinizə əminsinizmi?</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Roldan artıq göstərilən icazəyə malikdir.</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Hesab seçin</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Hesab seçməlisiniz.</value>
+  </data>
 </root>

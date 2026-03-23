@@ -2164,4 +2164,70 @@
   <data name="Word Exclusions" xml:space="preserve">
     <value>Изключения за думи</value>
   </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>Трябва да изберете роля.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>акаунтът вече е член на посочената роля.</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value>Тип ресурс</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Добави</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value>Наистина ли искате да премахнете разрешението от този акаунт?</value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value>Неуспешно премахване</value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value>Наистина ли искате да премахнете ролята от този акаунт?</value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value>Изберете разположение</value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value>Изберете разрешение</value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value>Изберете страница</value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value>Изберете пространство от имена</value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value>Трябва да изберете разпределение на разрешения.</value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value>Трябва да изберете разрешение.</value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value>Трябва да изберете страница.</value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value>Трябва да изберете пространство за имена.</value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value>Трябва да изберете или страница, или пространство за имена.</value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value>Гараният профил вече има посоченото разрешение.</value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value>Наистина ли искате да премахнете разрешението от тази роля?</value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value>Наистина ли искате да премахнете участника от тази роля?</value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value>Ролята вече има посоченото разрешение.</value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value>Изберете акаунт</value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
+    <value>Трябва да изберете акаунт.</value>
+  </data>
 </root>

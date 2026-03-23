@@ -8,13 +8,17 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-    @Localizer["Configuration"]
-</h3>
 
-<p>
-    @Localizer["Global configuration values for the wiki, its functionality, behavior, formatting and branding."]
-</p>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Configuration"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Global configuration values for the wiki, its functionality, behavior, formatting and branding."]
+        </div>
+    </div>
+</div>
 
 @using (Html.BeginForm(FormMethod.Post))
 {

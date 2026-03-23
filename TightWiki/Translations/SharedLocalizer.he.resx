@@ -1619,549 +1619,615 @@
     <value>יצרת קודי שיקום חדשים.</value>
   </data>
   <data name="You have no recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>אין לך עוד קודי שיקום.</value>
   </data>
   <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
-    <value></value>
+    <value>בקשת להיכנס באמצעות קוד שיקום. כניסה זו לא תזכר עד שתספק קוד אפליקציית אימות בהתחברות או שתבטל את 2FA ותחזור להתחבר.</value>
   </data>
   <data name="You have successfully logged out of the application." xml:space="preserve">
-    <value></value>
+    <value>התנתקת בהצלחה מהיישום.</value>
   </data>
   <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>התחברת בהצלחה באמצעות LDAP אבל עדיין דרוש לנו קצת מידע.</value>
   </data>
   <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>התחברת בהצלחה עם ספק חיצוני אבל עדיין דרוש לנו קצת מידע.</value>
   </data>
   <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
-    <value></value>
+    <value>עליך לאשר את המדיניות לפני שתוכל להפעיל אימות בשני שלבים.</value>
   </data>
   <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
-    <value></value>
+    <value>עליך ליצור סט חדש של קודי שיקום לפני שתוכל להיכנס באמצעות קוד שיקום.</value>
   </data>
   <data name="You should generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>עליך ליצור סט חדש של קודי שיקום.</value>
   </data>
   <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
-    <value></value>
+    <value>הצלחת לאמת את עצמך ב-{0}. אנא הזינו כתובת אימייל לאתר זה למטה ולחצו על כפתור ההרשמה כדי לסיים את ההתחברות.</value>
   </data>
   <data name="Your authenticator app has been verified." xml:space="preserve">
-    <value></value>
+    <value>האפליקציה לאימות זיהוי שלך אומתה בהצלחה.</value>
   </data>
   <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value></value>
+    <value>מפתח אפליקציית האישור שלך אופס מחדש, תצטרך להגדיר את אפליקציית האישור שלך באמצעות המפתח החדש.</value>
   </data>
   <data name="Your email is unchanged." xml:space="preserve">
-    <value></value>
+    <value>האימייל שלך אינו משתנה.</value>
   </data>
   <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
-    <value></value>
+    <value>הכניסה שלך מוגנת באמצעות אפליקציית אימות. הזן את קוד האישור שלך למטה.</value>
   </data>
   <data name="Your password has been changed." xml:space="preserve">
-    <value></value>
+    <value>סיסמתך שונתה.</value>
   </data>
   <data name="Your password has been reset." xml:space="preserve">
-    <value></value>
+    <value>הסיסמה שלך אופסה מחדש.</value>
   </data>
   <data name="Your password has been set." xml:space="preserve">
-    <value></value>
+    <value>הסיסמה שלך הוגדרה.</value>
   </data>
   <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
-    <value></value>
+    <value>קריטריוני החיפוש שלך לא הניבו תוצאות, הפכו את טקסט החיפוש לפשוט יותר.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
-    <value></value>
+    <value>אירעה שגיאה בעת קבלת מידע על המשתמש מספק חיצוני.</value>
   </data>
   <data name="An error occurred while adding the login." xml:space="preserve">
-    <value></value>
+    <value>אירעה שגיאה בעת הוספת ההתחברות.</value>
   </data>
   <data name="An error occurred while creating the user." xml:space="preserve">
-    <value></value>
+    <value>אירעה שגיאה בעת יצירת המשתמש.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value></value>
+    <value>השם המוצג כבר בשימוש.</value>
   </data>
   <data name="Display Name is required." xml:space="preserve">
-    <value></value>
+    <value>נדרש שם הצג.</value>
   </data>
   <data name="Error changing email." xml:space="preserve">
-    <value></value>
+    <value>שגיאה בשינוי דואר אלקטרוני.</value>
   </data>
   <data name="Error changing user name." xml:space="preserve">
-    <value></value>
+    <value>שגיאה בשינוי שם המשתמש.</value>
   </data>
   <data name="Error confirming your email." xml:space="preserve">
-    <value></value>
+    <value>שגיאה באישור הדואר האלקטרוני שלך.</value>
   </data>
   <data name="Error from external provider: {0}" xml:space="preserve">
-    <value></value>
+    <value>שגיאה מספק חיצוני: {0}</value>
   </data>
   <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value></value>
+    <value>שגיאה בטעינת מידע הכניסה החיצוני במהלך האישור.</value>
   </data>
   <data name="Error loading external login information." xml:space="preserve">
-    <value></value>
+    <value>שגיאה בטעינת מידע הכניסה החיצוני.</value>
   </data>
   <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value></value>
+    <value>נכשלה ההוספה של פרטי הכניסה לחשבון ה-LDAP: {0}.</value>
   </data>
   <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value></value>
+    <value>נכשלה יצירת חשבון זמני לאישור האישורים של ה-LDAP: {0}.</value>
   </data>
   <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
-    <value></value>
+    <value>הניסיון לאתר את חשבון המשתמש לפרטי LDAP נכשל.</value>
   </data>
   <data name="Invalid login attempt." xml:space="preserve">
-    <value></value>
+    <value>ניסיון כניסה לא חוקי.</value>
   </data>
   <data name="Thank you for confirming your email change." xml:space="preserve">
-    <value></value>
+    <value>תודה שהאשררת את שינוי הדוא"ל שלך.</value>
   </data>
   <data name="Thank you for confirming your email." xml:space="preserve">
-    <value></value>
+    <value>תודה שהאשררת את הדוא"ל שלך.</value>
   </data>
   <data name="The email address was not supplied by the external provider." xml:space="preserve">
-    <value></value>
+    <value>כתובת הדוא"ל לא סופקה על ידי ספק חיצוני.</value>
   </data>
   <data name="The specified user could not be found." xml:space="preserve">
-    <value></value>
+    <value>לא נמצא המשתמש שצוין.</value>
   </data>
   <data name="User created a new account with LDAP." xml:space="preserve">
-    <value></value>
+    <value>המשתמש יצר חשבון חדש עם LDAP.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>כתובת</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>אפשר התאמה מעורפלת</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>אפשר רישום</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>אימות וקובצי Cookie.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>בסיסי</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>הגדרות ויקי בסיסיות כגון עיצוב.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>תמונת המותג (קטן)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>limit זיכרון מטמון במגהבייט</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>תצורה לאימות באמצעות Active Directory באמצעות LDAP</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>תצורה הקשורה לחיפוש ומינדוס.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>קובצי Cookie</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>זכויות יוצרים</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>הגדרה אישית</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>מדינה ברירת מחדל</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>גובה איימוש ברירת מחדל</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>שפה ברירת מחדל</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>מספר שינויים אחרונים בפרופיל ברירת מחדל</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>תפקיד הרשמה ברירת מחדל</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>אזור זמן ברירת מחדל</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>הגדרות דואר אלקטרוני ו-SMTP.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>הפעל תגובות בעמוד</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>הפעל פרופילים ציבוריים</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>שעות תפוגה</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>אימות חיצוני</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>ספקי אימות חיצוניים</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>הגדרות קובץ וקבצים מצורפים.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>קבצים וקבצים מצורפים</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>מיקום במערכת הקבצים שבו נשמרים עוגיות מתמשכות להתחברות סשן שמורה.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>מיקום תפריט ההדגשה הקבועה</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>כותרת תחתונה</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>הצהרת הכותרת התחתונה</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>מאחורי שם התצוגה</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>פונקציונליות</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>פונקציונליות כללית של ויקי.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientId</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientSecret</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : שימוש בא Authentication של Google</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>כותרת</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>תבנית דוא"ל HTML לאימות חשבון חדש</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>תבנית דוא"ל HTML לשימוש בעת שליחת אימייל לאיפוס סיסמה.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>פריסת HTML</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>פריסת HTML.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>HTML הממוקם בתוך תג ה-body אך מיד לאחר תוכן ה-body האחר.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML שהוכנס בתוך תג ה-body אך לפני התוכן האחר של הדף.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML שהוכנס לסרגל התחתון של הדף.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML שהוכנס לתוך סעיף הכותרת של ה-HTML. מקום שימושי לשים בו סקריפטים ו-CSS.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>אם מוגדר, המשתמשים לא יוכלו להתחבר עד לאימות כתובת הדואר האלקטרוני שלהם. אם משתנה, יש להפעיל מחדש את האתר. ברירת מחדל: פעיל.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>אם מוגדר, המשתמשים יורשו להירשם וליצור חשבון משלהם. ברירת מחדל: פעיל.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>כלול חיפוש בסרגל הניווט</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>כלול תיאור ויקי ב-Meta</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>כלול תגיות ויקי ב-Meta</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : דומיין כניסה ברירת מחדל</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : הפעל אימות LDAP</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : דומיין מלא-מאומת</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : שימוש ב-Secure Socket Layer</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>אימות LDAP</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>התאמות מראה ותחושה.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>גודל הקובץ המקסימלי לצירוף</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>גודל הקובץ המקסימלי לסמל אישי</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>גודל הקובץ המקסימלי לאימוג'י</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>הגודל המקסימלי בבייטים לצירוף עמוד של משתמש.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>הגודל המקסימלי בבייטים לתמונה של סמל אישי של משתמש.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>הגודל המקסימלי בבייטים לתמונת אימוג'י.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>חברות</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>הגדרות חברות כגון ברירות מחדל לחברים חדשים והרשאות.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientId</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientSecret</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : שימוש באימות של Microsoft</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>תוצאה מינימלית להתאמה</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>תבנית עמוד חדש</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>מספר השעות לפני ש-cookie יפוג.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : סמכות</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientId</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : שימוש באימות OIDC</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>זמן מטמון עמוד (שניות)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>העמוד לא קיים</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>גודל דף</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>ביצועים</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>הגדרות הקשורות לביצועים.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>נתיב מפתחות שמירת נתונים</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>פורט</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>גוף הפוסט</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>לפני הגוף</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>אמוג׳י מונפשים לפני הטעינה</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>מדדים של אוסף רשומות</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>דרוש סיכום שינויים בעת העריכה</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>דרוש אימות דוא״ל</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>עמוד לא קיים של שינויים שנעשו</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>הצג סיכום שינויים בעת העריכה</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>הצג הערות בתחתית העמוד</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>הצג את האחרונה שהשתנתה בתחתית העמוד</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>הפרד אותיות קמייל</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>תבנית: דוא״ל לאימות חשבון</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>תבנית: דוא״ל לאיפוס סיסמה</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>שם החשבון שיש להשתמש בכל ההודעות הדואריות.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>הנושא הבסיסי שיש להשתמש בו לכל עיצוב האתר.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>תמונת המותג של הוויקי, שמוצגת בראש כל דפי הוויקי.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>זכויות היוצרים של הוויקי, שמוצגות בתחתית כל דף.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>המדינה לשימוש לתרבות האתר לאורחים.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>המדינה המוגדרת כברירת מחדל לחשבונות חדשים.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>הדומיין המוגדר כברירת מחדל כאשר המשתמש לא מציין UPN או דומיין מלא ומורכב\שם משתמש בזמן ההתחברות.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>הגובה המוגדר כברירת מחדל לס scaling של סמלונים. הרוחב יוגדל באותה יחס. ברירת מחדל: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>השפה המוגדרת כברירת מחדל לחשבונות חדשים.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>התפקיד המוגדר כברירת מחדל שמועדפים לחשבונות כאשר הם נרשמים. ברירת מחדל: תורם.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>אזור הזמן המוגדר כברירת מחדל לחשבונות חדשים.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>اسم התצוגה שמוצג לכל תקשורת דוא"ל.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>תחתית הוויקי, מוצגת בתחתית כל הדפים.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>שם המתחם המלא לשימוש בעת ביצוע אימות LDAP.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>הכתובת של הוויקי שלך באינטרנט.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>השפה שיש להשתמש בה לתרבות האתר עבור אורחים.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>מגבלת הזיכרון (במתגים) למטמון. פריטים ישנים יוסרו כאשר המגבלה מגיעה. ברירת מחדל: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>שם דף הוויקי שיוצג כאשר מתבקש דף שאינו קיים.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>שם דף הוויקי שיוצג כאשר נבקשת אחת מגרסאות הדף שאינה קיימת.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>שם דף הוויקי שישמש כתוכן ברירת מחדל כאשר נוצרות דפי ויקי חדשים.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>שם הוויקי, זה מוצג בכל מקום.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>מספר הפריטים שיש להחזיר בעת שימוש בניופוגציה. ברירת מחדל: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>מספר הדפים שהועתקו לאחרונה להציג בפרופילים הפומביים של המשתמשים. ברירת מחדל: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>מספר השניות לאחסן דפים בזיכרון (0 = מושבת). ברירת מחדל: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>סיסמת SMTP לשימוש בעת שליחת דואר אלקטרוני.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>פורט SMTP לשימוש בעת שליחת דואר אלקטרוני. ברירת מחדל: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>כתובת IP/שרת SMTP שיש להשתמש בעת שליחת דואר אלקטרוני.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>אזור הזמן שיש להשתמש בו לתרבות האתר עבור אורחים.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>השתמש ב-SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>ערך בין 0.0 ל-1.0 שמגדיר עד כמה חיפוש הדף צריך להיות חזק לפני שהוא מוחזר בתוצאות החיפוש. ברירת מחדל: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>כאשר בונים אינדקס חיפוש, מילות מפתח אלו יוסרו מאינדוקס. (מופרדות בפסיקים)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>כאשר תגובות מופעלות, אפשרות זו גורמת להופעת תגובות בתחתית כל דף. ברירת מחדל: פעיל.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם תוצג תיבת חיפוש בסרגל הניווט. ברירת מחדל: פעיל.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>האם OpenID Connect פעיל או לא.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>האם המנוע יבצע טעינה מעחילה של אמיוג'י מונפשים בזמן התחלה או לא.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>האם לאמת זהות עם LDAP כאשר מנסים להיכנס משתמשים או לא.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>האם להשתמש בחיבור מאובטח ל-LDAP או לא. זה לא תמיד נתמך על ידי דומיינים.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם תתאפשר הוספת תגובות לדף. נדרשת אימות לתגובה, אך כל אחד יכול לקרוא. ברירת מחדל: פעיל.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>האם יש להתחבר ל-SMTP באמצעות SSL או לא.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם יש לכלול את תיאור הדף במטא בראש קוד ה-HTML. ברירת מחדל: מופעל.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>האם יש להישאר בתפריט העליון במקומו כאשר גוללים אנכית.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם יש לכלול את תגי הוויקי שהתחברו לדף במילות המפתח במטא בראש ה-HTML. ברירת מחדל: מופעל.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם לאפשר התאמות לא מדויקות בעת חיפוש. ברירת מחדל: מופעל.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>האם יש לרשום את מדדי הריכוז של רישום הוויקי של הדף למסד הנתונים. זה יכול לשמש לשיפור ביצועים, אך עלול לגרום גם לאיטיות. ברירת מחדל: מנוטרל.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם להציג את המשתמש האחרון ואת התאריך שבו שונה הדף עם קישור לפרופיל המשתמש הציבורי. ברירת מחדל: מופעל.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>האם להציג תיבת טקסט לאפשר למשתמש להזין תקציר שינוי בעת עריכת דפים.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>האם לפצל מחרוזות CamelCased בעת עיבוד דפים לטוקני חיפוש. זה יכול לעזור כאשר דפים מכילים הרבה תוכן תכנותי/קוד. ברירת מחדל: מופעל.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>האם נדרש ממשתמשים להזין תקציר שינוי בעת עריכת דפים. שימו לב ש-"הצגת תקציר שינוי בעת עריכה" חייב גם להיות מופעל.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>האם המבקרים יכולים לצפות בחברים ובפרופילים הציבוריים שלהם.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
+    <value>מילים שמושלאות</value>
+  </data>
+  <data name="You must select a role." xml:space="preserve">
+    <value>עליך לבחור תפקיד.</value>
+  </data>
+  <data name="The account is already a member of the specified role." xml:space="preserve">
+    <value>החשבון כבר חבר בתפקיד המפורש.</value>
+  </data>
+  <data name="Resource type" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Removal failed" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a disposition" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a permission" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select a namespace" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a permission disposition." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a permission." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select a namespace." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select either page or namespace." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The account already has the specified permission." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The role already has the specified permission." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Select an account" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="You must select an account." xml:space="preserve">
     <value></value>
   </data>
 </root>
