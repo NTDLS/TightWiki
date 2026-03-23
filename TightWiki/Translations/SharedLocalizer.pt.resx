@@ -59,364 +59,364 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- ou -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Sem descrição)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Sem link)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Sem texto)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Continue agora{1} ou você será redirecionado em {2} segundos.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>2fa foi desativado. Você pode reativar a 2fa ao configurar um aplicativo autenticador</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Acesso negado.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>Conta</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Conta excluída!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Editor de Conta</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Verificação de E-mail da Conta</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Gerenciamento de Conta</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Permissões de Conta</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Membro de Função da Conta</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Funções e permissões de conta para uma única conta.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Funções e Permissões de Conta para: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Contas</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Ação</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Conta</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Adicionar aplicativo autenticador</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Emoji</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Membro ao Cargo</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Adicionar nova conta</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Adicionar novo emoji</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Adicionar novo item</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Permissão à Conta</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Permissão ao Cargo</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Cargo</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Adicionar Cargo à Conta</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Administrador</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>TODOS</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Todas as alterações feitas no arquivo anexado.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Todas as alterações feitas na página.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Todos os comentários feitos na página indicada.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Todos os namespaces contidos no wiki.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Todas as páginas contidas no namespace.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Todas as páginas contidas no wiki.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Já é um membro?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>Ocorreu um erro ao processar sua solicitação.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Análise</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Você tem certeza de que deseja continuar com essa exclusão?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Você tem certeza de que deseja continuar?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Você tem certeza de que deseja excluir este comentário?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Tem certeza de que deseja desvincular</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Tem certeza de que deseja sair da aplicação?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Tem certeza?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Associe sua conta {0}.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Páginas Associadas</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Tags Associadas</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Anexe arquivos soltando-os aqui ou selecionando-os manualmente abaixo:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Anexos</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Aplicativo autenticador</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Idiomas disponíveis</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Avatar</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Falha ao vincular.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Vinculação bem-sucedida.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Biografia</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Negrito</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Navegue por páginas marcadas com várias instruções de processamento para ver o que está em rascunho, aguardando exclusão, protegido, etc.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Páginas integradas</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Cache</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Cancelar</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Categorias</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Alterar Avatar</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Alterar e-mail</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Alterar imagem</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Alterar senha</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Alterar resumo</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Alterar configurações da sua conta</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Escolha uma página</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Escolher Imagem</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Escolher modelo</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Escolha seu idioma preferido para a interface.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Fechar</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Categorias separadas por vírgula</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Comentários</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Estatísticas de compilação</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Compilações</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Cadastro completo</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Configuração</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Configuração para um emoji.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Configuração para conta de usuário.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Configuração para adicionar um emoji.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Configurar aplicativo autenticador</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Confirmar alteração de email</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Confirmar logout</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Confirmar senha</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Confirme seu endereço de email.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Link de confirmação para alterar o email enviado. Por favor, verifique seu email.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Confirmado</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Conteúdo</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Continuar</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Copiar Tag</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>País</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Criar uma nova conta</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Criar nova página</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Criar nova função.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Criar uma nova conta de usuário.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Crie sua conta e configure seus detalhes básicos de perfil.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Data de Criação</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Credenciais</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Login de administrador atual</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Banco de dados</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Utilitários do banco de dados</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Data/Hora</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>A senha padrão não foi alterada</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Excluir</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Excluir Conta</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Excluir página '{0}'?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Excluir Função</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Excluir esta página</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Excluído por</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Data de exclusão</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Conteúdo da página excluída</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Fila de páginas excluídas</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisões da página excluída</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Páginas excluídas</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Conteúdo da revisão excluída</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisões excluídas</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Excluir '{0}' moverá a página, todas as {1} revisões e os anexos de arquivo associados para a fila de exclusão. Essa ação só pode ser desfeita por um administrador ou moderador. Deseja continuar?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
     <value></value>

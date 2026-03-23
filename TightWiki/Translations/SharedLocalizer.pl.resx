@@ -59,2175 +59,2175 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- lub -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Brak opisu)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Brak linku)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Brak tekstu)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Kontynuuj teraz{1} lub zostaniesz przekierowany w {2} sekund.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>2fa zostało wyłączone. Możesz ponownie włączyć 2fa, konfigurując aplikację autoryzacyjną</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Dostęp odmówiony.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>Konto</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Konto Usunięte!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Edytor konta</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Weryfikacja adresu e-mail konta</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Zarządzanie kontem</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Uprawnienia konta</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Członkostwo w roli konta</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Role i uprawnienia konta dla pojedynczego konta.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Role i uprawnienia konta dla: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Konta</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Akcja</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Dodaj konto</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Dodaj aplikację uwierzytelniającą</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Dodaj emotikon</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Dodaj członka do roli</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Dodaj nowe konto</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Dodaj nowy emotikon</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Dodaj nowy przedmiot</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Dodaj uprawnienie do konta</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Dodaj uprawnienie do roli</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Dodaj rolę</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Dodaj rolę do konta</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Administrator</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>WSZYSTKO</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Wszystkie zmiany wprowadzone w załączonym pliku.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Wszystkie zmiany wprowadzone na stronie.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Wszystkie komentarze na danej stronie.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Wszystkie namespace'y zawarte w wiki.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Wszystkie strony zawarte w namespace.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Wszystkie strony zawarte w wiki.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Już jesteś członkiem?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>Wystąpił błąd podczas przetwarzania Twojego żądania.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Analiza</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz kontynuować tę usunięcie?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz kontynuować?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz usunąć ten komentarz?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz odłączyć</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz wylogować się z aplikacji?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Powiąż swoje konto {0}.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Powiązane strony</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Powiązane tagi</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Załącz pliki, upuszczając je tutaj lub wybierając ręcznie poniżej:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Załączniki</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Aplikacja uwierzytelniająca</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Dostępne języki</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Awatar</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Nie udało się połączyć.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Połączenie powiodło się.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Biografia</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Pogrubienie</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Przeglądaj strony oznaczone różnymi instrukcjami przetwarzania, aby zobaczyć, co jest w wersji roboczej, oczekuje na usunięcie, chronione itp.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Wbudowane strony</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Karta pamięci</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Anuluj</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Kategorie</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Zmień awatar</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Zmień e-mail</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Zmień obraz</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Zmień hasło</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Zmień podsumowanie</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Zmień ustawienia konta</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Wybierz stronę</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Wybierz obraz</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Wybierz szablon</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Wybierz preferowany język interfejsu.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Zamknij</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Kategorie oddzielone przecinkami</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Uwagi</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statystyki kompilacji</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Kompozycje</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Cała rejestracja</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja emotikony.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja konta użytkownika.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja dodania emotikony.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Skonfiguruj aplikację uwierzytelniającą</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Potwierdź zmianę e-maila</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Potwierdź wylogowanie</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Potwierdź hasło</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Potwierdź swój adres e-mail.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Link do potwierdzenia zmiany e-maila został wysłany. Sprawdź swój e-mail.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Potwierdzono</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Treść</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Kontynuuj</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Kopiuj Tag</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>Kraj</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Utwórz nowe konto</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Utwórz nową stronę</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Utwórz nową rolę.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Utwórz nowe konto użytkownika.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Załóż swoje konto i skonfiguruj podstawowe dane profilu.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Data utworzenia</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Poświadczenia</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Aktualne dane logowania administratora</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Baza danych</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Narzędzia bazy danych</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Data/Godzina</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>Domyślne hasło nie zostało zmienione</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Usuń</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Usuń konto</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Usunąć stronę '{0}'?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Usuń rolę</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Usuń tę stronę</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Usunięte przez</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Data usunięcia</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Zawartość usuniętej strony</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Kolejka usuniętych stron</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Wersje usuniętej strony</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Usunięte strony</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Zawartość wersji usuniętej</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Wersje usunięte</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie '{0}' spowoduje przeniesienie strony, wszystkich {1} wersji i powiązanych załączników plikowych do kolejki usunięcia. Ta akcja może zostać cofnięta tylko przez administratora lub moderatora. Kontynuować?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>Usunięcie '{0}' przeniesie stronę, wraz z wszystkimi {1} wersjami i {2} załącznikami plików, do kolejki usuwania.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie '{0}' spowoduje trwałe usunięcie konta. Wszystkie strony utworzone lub zmodyfikowane przez tego użytkownika będą przypisane do konta zastępczego, a Ty nie będziesz mógł tego cofnąć. Kontynuować?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie '{0}' spowoduje trwałe usunięcie konta. Wszystkie strony utworzone lub zmodyfikowane przez tego użytkownika będą przypisane do konta zastępczego. Kontynuować?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie '{0}' spowoduje trwałe usunięcie elementu menu i nie będziesz mógł tego cofnąć. Kontynuować?</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie wersji {0} "{1}" przeniesie wersję strony do kolejki usuwania. Tę akcję mogą cofnąć tylko administrator lub moderator. Kontynuować?</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie emoji '{0}' spowoduje trwałe usunięcie obrazu, a wszelkie odniesienia do niego będą seanorwane. Nie będziesz mógł tego cofnąć. Kontynuować?</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie roli '{0}' odwoła wszelkie uprawnienia nadane lub odmówione przez tę rolę. Kontynuować?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>Opis</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>Odłącz</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Szczegóły</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>Tryb deweloperski</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>Różnice</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>Wyłącz 2FA</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Wyłącz uwierzytelnianie dwuskładnikowe (2FA)</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Wyłączenie 2FA nie zmienia kluczy używanych w aplikacjach autoryzacyjnych.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>Dyskusja na temat tej strony.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>Nazwa wyświetlana</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>Rozmieszczenie</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>Wyróżniona nazwa:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>Nie masz dostępu do urządzenia autoryzującego?</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Pobierz aplikację do uwierzytelniania dwuskładnikowego, taką jak Microsoft Authenticator dla {0} i {1} lub Google Authenticator dla {2} i {3}.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>Upuść tutaj załączniki plików lub kliknij, aby przesłać je ręcznie.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>Upuść pliki tutaj...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>Czas trwania</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>Edytuj</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>Rozmiar edytora</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Tablica usuniętych stron jest pusta lub kryteria wyszukiwania nie zwróciły wyników.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Nie ma skonfigurowanych kont lub kryteria wyszukiwania nie zwróciły wyników.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Nie ma skonfigurowanych emoji lub kryteria wyszukiwania nie zwróciły wyników.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Nie ma stron lub kryteria wyszukiwania nie zwróciły wyników.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>E-mail</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>Adres e-mail</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>Czy e-mail został potwierdzony?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emotikona</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>Edytor emotikon</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>Zarządzanie emotikonami</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>Emotikony</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>Wpisz adres URL.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>Wpisz wewnętrzną ścieżkę lub zewnętrzny URL.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>Wpisz swój e-mail.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>Środowisko</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>Błąd</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>Błąd podczas kopiowania tekstu</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>Błędy</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>Log zdarzeń</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>Pozycja w logu zdarzeń</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>Wyjątek</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>Wyjątki</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>Eksport</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>Zewnętrzne logowania</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>Zewnętrzny URL</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>Super Duże</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>Miniaturowe</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>Nie udało się wczytać podglądu.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>Szablony funkcji</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>Plik</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>Filtr</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>Imię</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Wyczyszczenie pamięci podręcznej spowoduje usunięcie wszystkich zapisanych elementów i wymusi odpytywanie bazy danych, gdy będą żądane strony. Kontynuować?</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>Zapomnij o tej przeglądarce</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Potwierdzenie zapomnianego hasła</value>
   </data>
   <data name="Forgot your password?" xml:space="preserve">
-    <value></value>
+    <value>Zapomniałeś hasła?</value>
   </data>
   <data name="Framework Version" xml:space="preserve">
-    <value></value>
+    <value>Wersja Frameworka</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value></value>
+    <value>Ogólne</value>
   </data>
   <data name="Generate Recovery Codes" xml:space="preserve">
-    <value></value>
+    <value>Generuj kody odzyskiwania</value>
   </data>
   <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Generuj kody odzyskiwania uwierzytelniania dwuskładnikowego (2FA)</value>
   </data>
   <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Generowanie nowych kodów odzyskiwania nie zmienia kluczy używanych w aplikacjach uwierzytelniających.</value>
   </data>
   <data name="Gets" xml:space="preserve">
-    <value></value>
+    <value>Uzyskuje</value>
   </data>
   <data name="Global configuration for Emojis." xml:space="preserve">
-    <value></value>
+    <value>Globalna konfiguracja emoji.</value>
   </data>
   <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value></value>
+    <value>Globalna konfiguracja ról bezpieczeństwa i członkostwa.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value></value>
+    <value>Globalowa konfiguracja elementu menu witryny.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
-    <value></value>
+    <value>Globalowa konfiguracja dla menu witryny.</value>
   </data>
   <data name="Global configuration for user accounts." xml:space="preserve">
-    <value></value>
+    <value>Globalowa konfiguracja dla kont użytkowników.</value>
   </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value></value>
+    <value>Globalne wartości konfiguracji dla wiki, jej funkcjonalności, zachowania, formatowania i brandingu.</value>
   </data>
   <data name="Hello {0}!" xml:space="preserve">
-    <value></value>
+    <value>Cześć {0}!</value>
   </data>
   <data name="Highlight" xml:space="preserve">
-    <value></value>
+    <value>Podświetlenie</value>
   </data>
   <data name="Hits" xml:space="preserve">
-    <value></value>
+    <value>Odsłony</value>
   </data>
   <data name="Huge" xml:space="preserve">
-    <value></value>
+    <value>Ogromny</value>
   </data>
   <data name="Hyperlink" xml:space="preserve">
-    <value></value>
+    <value>Hiperłącze</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value></value>
+    <value>Id</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value></value>
+    <value>Jeśli to tutaj, powinieneś to znaleźć.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Jeśli zgubisz swoje urządzenie i nie masz kodów odzyskiwania, stracisz dostęp do swojego konta.</value>
   </data>
   <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value></value>
+    <value>Jeśli zresetujesz klucz autoryzatora, Twoja aplikacja autoryzatora nie będzie działać, dopóki jej nie skonfigurujesz ponownie.</value>
   </data>
   <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value></value>
+    <value>Jeśli chcesz zmienić klucz używany w aplikacji autoryzatora, powinieneś zresetować klucze autoryzatora.</value>
   </data>
   <data name="Image" xml:space="preserve">
-    <value></value>
+    <value>Obraz</value>
   </data>
   <data name="Include Pages" xml:space="preserve">
-    <value></value>
+    <value>Zawarte strony</value>
   </data>
   <data name="Info1" xml:space="preserve">
-    <value></value>
+    <value>Info1</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value></value>
+    <value>Info2</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value></value>
+    <value>Wstawić</value>
   </data>
   <data name="Insert Emoji" xml:space="preserve">
-    <value></value>
+    <value>Wstaw Emoji</value>
   </data>
   <data name="Inter-Page Links" xml:space="preserve">
-    <value></value>
+    <value>Linki między stronami</value>
   </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value></value>
+    <value>Może to powodować wyświetlanie poufnych informacji z wyjątków do końcowych użytkowników.</value>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value></value>
+    <value>Kursywa</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value></value>
+    <value>Elementy</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value></value>
+    <value>Język</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value></value>
+    <value>Języki</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value></value>
+    <value>Duży</value>
   </data>
   <data name="Last modified by" xml:space="preserve">
-    <value></value>
+    <value>Ostatnio edytował</value>
   </data>
   <data name="Last Name" xml:space="preserve">
-    <value></value>
+    <value>Nazwisko</value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
-    <value></value>
+    <value>Zostaw komentarz</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value></value>
+    <value>Limit (MB)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
-    <value></value>
+    <value>Tekst odnośnika (opcjonalnie)</value>
   </data>
   <data name="Link Type" xml:space="preserve">
-    <value></value>
+    <value>Typ odnośnika</value>
   </data>
   <data name="Links" xml:space="preserve">
-    <value></value>
+    <value>Linki</value>
   </data>
   <data name="Loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Ładowanie podglądu...</value>
   </data>
   <data name="Locked out" xml:space="preserve">
-    <value></value>
+    <value>Zablokowany</value>
   </data>
   <data name="Log Entries" xml:space="preserve">
-    <value></value>
+    <value>Wpisy w dzienniku</value>
   </data>
   <data name="Log Entry Details" xml:space="preserve">
-    <value></value>
+    <value>Szczegóły wpisu w dzienniku</value>
   </data>
   <data name="Log in" xml:space="preserve">
-    <value></value>
+    <value>Zaloguj się</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value></value>
+    <value>Zaloguj się za pomocą konta {0}</value>
   </data>
   <data name="Logged out" xml:space="preserve">
-    <value></value>
+    <value>Wylogowano</value>
   </data>
   <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value></value>
+    <value>Wylogowanie zapewni, że inni nie będą mogli korzystać z tej sesji, aby wprowadzać zmiany w wiki. Musisz się ponownie zalogować, zanim dokonasz zmian.</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value></value>
+    <value>Zaloguj się</value>
   </data>
   <data name="Login to leave a comment" xml:space="preserve">
-    <value></value>
+    <value>Zaloguj się, aby zostawić komentarz</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value></value>
+    <value>Wyloguj się</value>
   </data>
   <data name="Lower numbers appear first." xml:space="preserve">
-    <value></value>
+    <value>Niższe numery pojawiają się jako pierwsze.</value>
   </data>
   <data name="Manage Email" xml:space="preserve">
-    <value></value>
+    <value>Zarządzaj e-mailem</value>
   </data>
   <data name="Manage your account" xml:space="preserve">
-    <value></value>
+    <value>Zarządzaj swoim kontem</value>
   </data>
   <data name="Manage your external logins" xml:space="preserve">
-    <value></value>
+    <value>Zarządzaj swoimi zewnętrznymi logowaniami</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value></value>
+    <value>Pasujące</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value></value>
+    <value>Średni</value>
   </data>
   <data name="Menu Configuration" xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja menu</value>
   </data>
   <data name="Menu Item Editor" xml:space="preserve">
-    <value></value>
+    <value>Edytor pozycji menu</value>
   </data>
   <data name="Metrics" xml:space="preserve">
-    <value></value>
+    <value>Metriki</value>
   </data>
   <data name="Misses" xml:space="preserve">
-    <value></value>
+    <value>Braki</value>
   </data>
   <data name="Missing Pages" xml:space="preserve">
-    <value></value>
+    <value>Brakujące strony</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value></value>
+    <value>Umiarkowany</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value></value>
+    <value>Zmodyfikowany</value>
   </data>
   <data name="Modified By" xml:space="preserve">
-    <value></value>
+    <value>Zmodyfikowano przez</value>
   </data>
   <data name="Modified Date" xml:space="preserve">
-    <value></value>
+    <value>Data modyfikacji</value>
   </data>
   <data name="My" xml:space="preserve">
-    <value></value>
+    <value>My</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value></value>
+    <value>Name</value>
   </data>
   <data name="Namespace" xml:space="preserve">
-    <value></value>
+    <value>Namespace</value>
   </data>
   <data name="Namespaces" xml:space="preserve">
-    <value></value>
+    <value>Namespaces</value>
   </data>
   <data name="New Account" xml:space="preserve">
-    <value></value>
+    <value>Nowe konto</value>
   </data>
   <data name="New Emoji" xml:space="preserve">
-    <value></value>
+    <value>Nowy emoji</value>
   </data>
   <data name="New Role" xml:space="preserve">
-    <value></value>
+    <value>Nowa rola</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value></value>
+    <value>Następny</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value></value>
+    <value>Nie</value>
   </data>
   <data name="No avatar uploaded." xml:space="preserve">
-    <value></value>
+    <value>Nie załadowano awatara.</value>
   </data>
   <data name="No database information is available." xml:space="preserve">
-    <value></value>
+    <value>Brak dostępnych informacji w bazie danych.</value>
   </data>
   <data name="No image selected." xml:space="preserve">
-    <value></value>
+    <value>Nie wybrano obrazu.</value>
   </data>
   <data name="No image uploaded." xml:space="preserve">
-    <value></value>
+    <value>Nie przesłano obrazu.</value>
   </data>
   <data name="Not a member?" xml:space="preserve">
-    <value></value>
+    <value>Nie jesteś członkiem?</value>
   </data>
   <data name="not required" xml:space="preserve">
-    <value></value>
+    <value>nie jest wymagane</value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value></value>
+    <value>Po zeskanowaniu kodu QR lub wpisaniu klucza powyżej, Twoja aplikacja do dwuskładnikowej autoryzacji dostarczy Ci unikalny kod. Wprowadź kod w poniższym polu potwierdzenia.</value>
   </data>
   <data name="Operating System" xml:space="preserve">
-    <value></value>
+    <value>System operacyjny</value>
   </data>
   <data name="Optimize" xml:space="preserve">
-    <value></value>
+    <value>Optymalizuj</value>
   </data>
   <data name="Optional" xml:space="preserve">
-    <value></value>
+    <value>Opcjonalne</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value></value>
+    <value>Porządkowy</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Porzucone załączniki</value>
   </data>
   <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Porzucone załączniki stron</value>
   </data>
   <data name="OS Architecture" xml:space="preserve">
-    <value></value>
+    <value>Architektura OS</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value></value>
+    <value>Strona</value>
   </data>
   <data name="Page Administration" xml:space="preserve">
-    <value></value>
+    <value>Administracja stroną</value>
   </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
-    <value></value>
+    <value>Rewizje załączników strony</value>
   </data>
   <data name="Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Załączniki strony</value>
   </data>
   <data name="Page File Revisions" xml:space="preserve">
-    <value></value>
+    <value>Rewizje plików strony</value>
   </data>
   <data name="Page Moderate" xml:space="preserve">
-    <value></value>
+    <value>Moderacja strony</value>
   </data>
   <data name="Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Rewizje strony</value>
   </data>
   <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Wersje stron, które zostały usunięte dla podanej strony. Można je usunąć lub przywrócić.</value>
   </data>
   <data name="Page Search" xml:space="preserve">
-    <value></value>
+    <value>Szukaj strony</value>
   </data>
   <data name="Page Search Tokens" xml:space="preserve">
-    <value></value>
+    <value>Tokeny wyszukiwania strony</value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
+    <value>Tagi strony</value>
   </data>
   <data name="Pages" xml:space="preserve">
-    <value></value>
+    <value>Strony</value>
   </data>
   <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Strony, które zostały usunięte. Można je usunąć lub przywrócić.</value>
   </data>
   <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value></value>
+    <value>Strony, które zostały podłączone, ale nie istnieją.</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value></value>
+    <value>Hasło</value>
   </data>
   <data name="Permission" xml:space="preserve">
-    <value></value>
+    <value>Uprawnienie</value>
   </data>
   <data name="Permissions and Roles" xml:space="preserve">
-    <value></value>
+    <value>Uprawnienia i Role</value>
   </data>
   <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value></value>
+    <value>Sprawdź swój e-mail, aby potwierdzić swoje konto.</value>
   </data>
   <data name="Please check your email to reset your password." xml:space="preserve">
-    <value></value>
+    <value>Sprawdź swój e-mail, aby zresetować hasło.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value></value>
+    <value>kliknij tutaj, aby się zalogować</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value></value>
+    <value>Proszę potwierdź swoje nowe hasło.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value></value>
+    <value>Proszę potwierdź swoje hasło.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value></value>
+    <value>Proszę wprowadzić nazwę użytkownika i hasło.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
-    <value></value>
+    <value>Wprowadź nowy e-mail.</value>
   </data>
   <data name="Please enter the code." xml:space="preserve">
-    <value></value>
+    <value>Wprowadź kod.</value>
   </data>
   <data name="Please enter your email." xml:space="preserve">
-    <value></value>
+    <value>Wprowadź swój e-mail.</value>
   </data>
   <data name="Please enter your new password." xml:space="preserve">
-    <value></value>
+    <value>Wprowadź nowe hasło.</value>
   </data>
   <data name="Please enter your old password." xml:space="preserve">
-    <value></value>
+    <value>Proszę wprowadzić stare hasło.</value>
   </data>
   <data name="Please enter your password." xml:space="preserve">
-    <value></value>
+    <value>Proszę wprowadzić hasło.</value>
   </data>
   <data name="Please wait, loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Proszę czekać, ładowanie podglądu...</value>
   </data>
   <data name="Post" xml:space="preserve">
-    <value></value>
+    <value>Post</value>
   </data>
   <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value></value>
+    <value>Wstępne buforowanie wszystkich stron</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value></value>
+    <value>Podgląd</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value></value>
+    <value>Poprzedni</value>
   </data>
   <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value></value>
+    <value>Polityka prywatności i cookies nie została zaakceptowana.</value>
   </data>
   <data name="Process Architecture" xml:space="preserve">
-    <value></value>
+    <value>Architektura procesu</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value></value>
+    <value>Profil</value>
   </data>
   <data name="Profile Details" xml:space="preserve">
-    <value></value>
+    <value>Szczegóły profilu</value>
   </data>
   <data name="Profile Settings" xml:space="preserve">
-    <value></value>
+    <value>Ustawienia profilu</value>
   </data>
   <data name="Profiles" xml:space="preserve">
-    <value></value>
+    <value>Profile</value>
   </data>
   <data name="Public profile information." xml:space="preserve">
-    <value></value>
+    <value>Publiczne informacje o profilu.</value>
   </data>
   <data name="Purge" xml:space="preserve">
-    <value></value>
+    <value>Wyczyść</value>
   </data>
   <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statystyki kompilacji wyczyść</value>
   </data>
   <data name="Purge Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Usuń strony usunięte</value>
   </data>
   <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Usuń usunięte wersje</value>
   </data>
   <data name="Purge Event Log" xml:space="preserve">
-    <value></value>
+    <value>Dziennik zdarzeń czyszczenia</value>
   </data>
   <data name="Purge Memory Cache" xml:space="preserve">
-    <value></value>
+    <value>Wyczyść pamięć podręczną</value>
   </data>
   <data name="Purge Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Usuń porzucone załączniki</value>
   </data>
   <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Usunięcie statystyk kompilacji strony spowoduje usunięcie wszystkich zapisanych statystyk kompilacji dla wszystkich stron. Kontynuować?</value>
   </data>
   <data name="Put these codes in a safe place." xml:space="preserve">
-    <value></value>
+    <value>Umieść te kody w bezpiecznym miejscu.</value>
   </data>
   <data name="Puts" xml:space="preserve">
-    <value></value>
+    <value>Ustawienia</value>
   </data>
   <data name="Raw Size" xml:space="preserve">
-    <value></value>
+    <value>Rozmiar surowy</value>
   </data>
   <data name="Rebuild All Pages" xml:space="preserve">
-    <value></value>
+    <value>Przebuduj wszystkie strony</value>
   </data>
   <data name="Recently Modified" xml:space="preserve">
-    <value></value>
+    <value>Ostatnio zmodyfikowane</value>
   </data>
   <data name="Recovery code" xml:space="preserve">
-    <value></value>
+    <value>Kod odzyskiwania</value>
   </data>
   <data name="Recovery code verification" xml:space="preserve">
-    <value></value>
+    <value>Weryfikacja kodu odzyskiwania</value>
   </data>
   <data name="Recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Kody odzyskiwania</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value></value>
+    <value>Odśwież</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value></value>
+    <value>Zarejestruj się</value>
   </data>
   <data name="Register as a new user" xml:space="preserve">
-    <value></value>
+    <value>Zarejestruj się jako nowy użytkownik</value>
   </data>
   <data name="Register confirmation" xml:space="preserve">
-    <value></value>
+    <value>Potwierdzenie rejestracji</value>
   </data>
   <data name="Registered Logins" xml:space="preserve">
-    <value></value>
+    <value>Zarejestrowane loginy</value>
   </data>
   <data name="Registration is not allowed" xml:space="preserve">
-    <value></value>
+    <value>Rejestracja jest niedozwolona</value>
   </data>
   <data name="Registration is not allowed." xml:space="preserve">
-    <value></value>
+    <value>Rejestracja jest niedozwolona.</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value></value>
+    <value>Usuń</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value></value>
+    <value>Usuń ten login {0} ze swojego konta</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
-    <value></value>
+    <value>Żądanie nie powiodło się:</value>
   </data>
   <data name="Request ID" xml:space="preserve">
-    <value></value>
+    <value>ID żądania</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value></value>
+    <value>Wymagane</value>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value></value>
+    <value>Wyślij ponownie</value>
   </data>
   <data name="Resend email confirmation" xml:space="preserve">
-    <value></value>
+    <value>Wyślij ponownie potwierdzenie e-mail</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value></value>
+    <value>Resetuj</value>
   </data>
   <data name="Reset authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Zresetuj aplikację uwierzytelniającą</value>
   </data>
   <data name="Reset authenticator key" xml:space="preserve">
-    <value></value>
+    <value>Zresetuj klucz uwierzytelniający</value>
   </data>
   <data name="Reset it" xml:space="preserve">
-    <value></value>
+    <value>Resetuj to</value>
   </data>
   <data name="Reset Password" xml:space="preserve">
-    <value></value>
+    <value>Zresetuj hasło</value>
   </data>
   <data name="Reset password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Potwierdzenie resetowania hasła</value>
   </data>
   <data name="Reset recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Zresetuj kody odzyskiwania</value>
   </data>
   <data name="Reset your password." xml:space="preserve">
-    <value></value>
+    <value>Zresetuj swoje hasło.</value>
   </data>
   <data name="Resource" xml:space="preserve">
-    <value></value>
+    <value>Zasób</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value></value>
+    <value>Przywróć</value>
   </data>
   <data name="Restore This Page" xml:space="preserve">
-    <value></value>
+    <value>Przywróć tę stronę</value>
   </data>
   <data name="Restore This Revision" xml:space="preserve">
-    <value></value>
+    <value>Przywróć tę wersję</value>
   </data>
   <data name="Revert" xml:space="preserve">
-    <value></value>
+    <value>Cofnij</value>
   </data>
   <data name="Revert to revision" xml:space="preserve">
-    <value></value>
+    <value>Przywróć do wersji</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value></value>
+    <value>Cofnąć do wersji {0}?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value></value>
+    <value>Cofnięcie "{0}" z wersji {1} do {2} cofnie {3} zmiany.</value>
   </data>
   <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value></value>
+    <value>Przywracanie {0} z rewizji {1} do {2} cofnie zmiany {3}.&lt;br /&gt;Przywracanie nie oznacza, że zmiany zostaną utracone, jednak proces cofania utworzy nową rewizję z cofniętymi zmianami.&lt;br /&gt;&lt;br /&gt;Czy na pewno chcesz kontynuować?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
-    <value></value>
+    <value>Przywracanie nie oznacza, że zmiany zostaną utracone, jednak proces cofania utworzy nową rewizję z cofniętymi zmianami.</value>
   </data>
   <data name="Review the differences between revisions of this page." xml:space="preserve">
-    <value></value>
+    <value>Przejrzyj różnice między rewizjami tej strony.</value>
   </data>
   <data name="Revision" xml:space="preserve">
-    <value></value>
+    <value>Rewizja</value>
   </data>
   <data name="Revision Comparison" xml:space="preserve">
-    <value></value>
+    <value>Porównanie rewizji</value>
   </data>
   <data name="Revision not found" xml:space="preserve">
-    <value></value>
+    <value>Rewizja nie znaleziona</value>
   </data>
   <data name="revisions" xml:space="preserve">
-    <value></value>
+    <value>rewizje</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value></value>
+    <value>Rola</value>
   </data>
   <data name="Role Members" xml:space="preserve">
-    <value></value>
+    <value>Członkowie roli</value>
   </data>
   <data name="Role membership and permissions." xml:space="preserve">
-    <value></value>
+    <value>Przynależność do roli i uprawnienia.</value>
   </data>
   <data name="Role Permissions" xml:space="preserve">
-    <value></value>
+    <value>Uprawnienia roli</value>
   </data>
   <data name="Role: {0}" xml:space="preserve">
-    <value></value>
+    <value>Rola: {0}</value>
   </data>
   <data name="Roles" xml:space="preserve">
-    <value></value>
+    <value>Role</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value></value>
+    <value>Zapisz</value>
   </data>
   <data name="Save the page before uploading files." xml:space="preserve">
-    <value></value>
+    <value>Zapisz stronę przed przesłaniem plików.</value>
   </data>
   <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
-    <value></value>
+    <value>Zeskanuj kod QR lub wpisz ten klucz &lt;kbd&gt;{0}&lt;/kbd&gt; w swojej aplikacji autoryzatora dwuskładnikowego. Spacje i wielkość liter nie mają znaczenia.</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value></value>
+    <value>Szukaj</value>
   </data>
   <data name="Search accounts..." xml:space="preserve">
-    <value></value>
+    <value>Szukaj kont...</value>
   </data>
   <data name="Search deleted pages..." xml:space="preserve">
-    <value></value>
+    <value>Szukaj usuniętych stron...</value>
   </data>
   <data name="Search emojis..." xml:space="preserve">
-    <value></value>
+    <value>Szukaj emotikon...</value>
   </data>
   <data name="Search for more emojis." xml:space="preserve">
-    <value></value>
+    <value>Wyszukaj więcej emotikonów.</value>
   </data>
   <data name="Search pages..." xml:space="preserve">
-    <value></value>
+    <value>Wyszukuj strony...</value>
   </data>
   <data name="Search text" xml:space="preserve">
-    <value></value>
+    <value>Wyszukaj tekst</value>
   </data>
   <data name="Security Roles" xml:space="preserve">
-    <value></value>
+    <value>Role bezpieczeństwa</value>
   </data>
   <data name="Select a country" xml:space="preserve">
-    <value></value>
+    <value>Wybierz kraj</value>
   </data>
   <data name="Select a language" xml:space="preserve">
-    <value></value>
+    <value>Wybierz język</value>
   </data>
   <data name="Select a role" xml:space="preserve">
-    <value></value>
+    <value>Wybierz rolę</value>
   </data>
   <data name="Select a theme" xml:space="preserve">
-    <value></value>
+    <value>Wybierz motyw</value>
   </data>
   <data name="Select a time-zone" xml:space="preserve">
-    <value></value>
+    <value>Wybierz strefę czasową</value>
   </data>
   <data name="Select a wiki page." xml:space="preserve">
-    <value></value>
+    <value>Wybierz stronę wiki.</value>
   </data>
   <data name="Select an instruction" xml:space="preserve">
-    <value></value>
+    <value>Wybierz instrukcję</value>
   </data>
   <data name="Send verification email" xml:space="preserve">
-    <value></value>
+    <value>Wyślij e-mail weryfikacyjny</value>
   </data>
   <data name="Server and page event logs" xml:space="preserve">
-    <value></value>
+    <value>Dzienniki zdarzeń serwera i strony</value>
   </data>
   <data name="Set password" xml:space="preserve">
-    <value></value>
+    <value>Ustaw hasło</value>
   </data>
   <data name="Set up authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Skonfiguruj aplikację uwierzytelniającą</value>
   </data>
   <data name="Set your password" xml:space="preserve">
-    <value></value>
+    <value>Ustaw swoje hasło</value>
   </data>
   <data name="Severity" xml:space="preserve">
-    <value></value>
+    <value>Stopień powagi</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value></value>
+    <value>Skrót</value>
   </data>
   <data name="Sign in with {0}" xml:space="preserve">
-    <value></value>
+    <value>Zaloguj się za pomocą {0}</value>
   </data>
   <data name="Signup" xml:space="preserve">
-    <value></value>
+    <value>Rejestracja</value>
   </data>
   <data name="Signup. Almost there..." xml:space="preserve">
-    <value></value>
+    <value>Rejestracja. Już prawie tam...</value>
   </data>
   <data name="Site Menu" xml:space="preserve">
-    <value></value>
+    <value>Menu strony</value>
   </data>
   <data name="Site Menu Item" xml:space="preserve">
-    <value></value>
+    <value>Pozycja menu strony</value>
   </data>
   <data name="Site Menu Items" xml:space="preserve">
-    <value></value>
+    <value>Pozycje menu strony</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value></value>
+    <value>Rozmiar</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value></value>
+    <value>Mały</value>
   </data>
   <data name="Source Page" xml:space="preserve">
-    <value></value>
+    <value>Strona źródłowa</value>
   </data>
   <data name="Stack Trace" xml:space="preserve">
-    <value></value>
+    <value>Ślad stosu</value>
   </data>
   <data name="Strikethrough" xml:space="preserve">
-    <value></value>
+    <value>Z przekreśleniem</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value></value>
+    <value>Podsumowanie</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value></value>
+    <value>Przełączanie na środowisko &lt;strong&gt;Rozwoju&lt;/strong&gt; wyświetla szczegółowe informacje o wystąpłym błędzie.</value>
   </data>
   <data name="System Default" xml:space="preserve">
-    <value></value>
+    <value>Domyślne systemowe</value>
   </data>
   <data name="System Metrics" xml:space="preserve">
-    <value></value>
+    <value>Mierniki systemowe</value>
   </data>
   <data name="Tag Copied" xml:space="preserve">
-    <value></value>
+    <value>Tag Skopiowany</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value></value>
+    <value>Tagi</value>
   </data>
   <data name="Target Page" xml:space="preserve">
-    <value></value>
+    <value>Docelowa strona</value>
   </data>
   <data name="Test" xml:space="preserve">
-    <value></value>
+    <value>Test</value>
   </data>
   <data name="Test LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Testuj uwierzytelnianie LDAP</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value></value>
+    <value>Tekst</value>
   </data>
   <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
-    <value></value>
+    <value>Konto zostało usunięte, a cała zawartość utworzona lub zmodyfikowana przez to konto została przypisana do zanonimizowanego profilu.</value>
   </data>
   <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
-    <value></value>
+    <value>Statystyki kompilacji dla wszystkich operacji na stronie wiki.</value>
   </data>
   <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
-    <value></value>
+    <value>Aktualna przeglądarka została zapomniana. Po ponownym zalogowaniu się z tej przeglądarki zostaniesz poproszony o kod 2fa.</value>
   </data>
   <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
-    <value></value>
+    <value>Środowisko developerskie nie powinno być włączone dla wdrożonych aplikacji.</value>
   </data>
   <data name="The event log is empty." xml:space="preserve">
-    <value></value>
+    <value>Dziennik zdarzeń jest pusty.</value>
   </data>
   <data name="The external login was added." xml:space="preserve">
-    <value></value>
+    <value>Dodano logowanie z zewnątrz.</value>
   </data>
   <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
-    <value></value>
+    <value>Logowanie z zewnątrz nie zostało dodane. Logowania z zewnątrz mogą być powiązane tylko z jednym kontem.</value>
   </data>
   <data name="The external login was not removed." xml:space="preserve">
-    <value></value>
+    <value>Logowanie z zewnątrz nie zostało usunięte.</value>
   </data>
   <data name="The external login was removed." xml:space="preserve">
-    <value></value>
+    <value>Logowanie z zewnątrz zostało usunięte.</value>
   </data>
   <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
-    <value></value>
+    <value>Na stronie nie ma żadnych komentarzy, dlaczego nie dodasz jednego?</value>
   </data>
   <data name="The requested page or revision does not exist." xml:space="preserve">
-    <value></value>
+    <value>Żądana strona lub wersja nie istnieje.</value>
   </data>
   <data name="The selected page does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Wybrana strona nie zawiera żadnych wersji.</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value></value>
+    <value>Motyw</value>
   </data>
   <data name="Themes" xml:space="preserve">
-    <value></value>
+    <value>Motywy</value>
   </data>
   <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Obecnie nie ma brakujących stron, które są odwoływane przez inne strony wiki.</value>
   </data>
   <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
-    <value></value>
+    <value>Obecnie nie ma stron znajdujących się w przestrzeniach nazw.</value>
   </data>
   <data name="There are no compilation statistics available." xml:space="preserve">
-    <value></value>
+    <value>Brak dostępnych statystyk kompilacji.</value>
   </data>
   <data name="There are no deleted revisions for this page." xml:space="preserve">
-    <value></value>
+    <value>Brak usuniętych wersji tej strony.</value>
   </data>
   <data name="There are no menu items configured." xml:space="preserve">
-    <value></value>
+    <value>Nie skonfigurowano pozycji menu.</value>
   </data>
   <data name="There are no orphaned page attachments." xml:space="preserve">
-    <value></value>
+    <value>Brak porzuconych załączników do stron.</value>
   </data>
   <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
-    <value></value>
+    <value>Brak stron zawierających wybrane instrukcje przetwarzania.</value>
   </data>
   <data name="There are no security roles configured." xml:space="preserve">
-    <value></value>
+    <value>Nie skonfigurowano żadnych ról bezpieczeństwa.</value>
   </data>
   <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
-    <value></value>
+    <value>To wszystkie załączniki do stron, które nie są już dołączone do żadnej wersji strony.</value>
   </data>
   <data name="This account has been locked out, please try again later." xml:space="preserve">
-    <value></value>
+    <value>To konto zostało zablokowane, spróbuj ponownie później.</value>
   </data>
   <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
-    <value></value>
+    <value>Ta akcja może być cofnięta tylko przez moderatora lub administratora.</value>
   </data>
   <data name="This action only disables 2FA." xml:space="preserve">
-    <value></value>
+    <value>Ta akcja wyłącza tylko 2FA.</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value></value>
+    <value>Ta nazwa wyświetlana będzie widoczna publicznie.</value>
   </data>
   <data name="This file does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Ten plik nie posiada żadnych wersji.</value>
   </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
-    <value></value>
+    <value>To jest Twój profil, rób z nim, co chcesz.</value>
   </data>
   <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Ten proces wyłącza 2FA do momentu zweryfikowania Twojej aplikacji uwierzytelniającej. Jeśli nie skonfigurujesz swojej aplikacji uwierzytelniającej, możesz stracić dostęp do swojego konta.</value>
   </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Sprawdzi to integralność bazy danych i zweryfikuje wszystkie klucze obce. Kontynuować?</value>
   </data>
   <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>To spowoduje skompilowanie wszystkich stron w wiki i zapisanie ich w pamięci podręcznej. To może zająć trochę czasu! Kontynuować?</value>
   </data>
   <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To połączy się z domyślną konfiguracją, ale nie nadpisze żadnych obecnie ustawionych opcji. Kontynuować?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To zoptymalizuje indeksy bazy danych i strukturę. Kontynuować?</value>
   </data>
   <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale usunie wybrane załącznik. Kontynuować?</value>
   </data>
   <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale usunie wybraną usuniętą wersję. Kontynuować?</value>
   </data>
   <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale usunie wybraną stronę, wszystkie wersje i załączniki. Kontynuować?</value>
   </data>
   <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale usunie wszystkie usunięte wersje stron dla "{0}". Kontynuować?</value>
   </data>
   <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale usunie wszystkie usunięte strony. Kontynuować?</value>
   </data>
   <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale wyczyści wszystkie dzienniki zdarzeń. Kontynuować?</value>
   </data>
   <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To trwale usunie wszystkie porzucone załączniki stron. Kontynuować?</value>
   </data>
   <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>To odnowi wszystkie strony w wiki. To może zająć trochę czasu! Kontynuować?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To usunie pustą przestrzeń z bazy danych, co może zwolnić miejsce, jeśli usunięto dużo danych. Kontynuować?</value>
   </data>
   <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci wszystkie wbudowane strony przestrzeni nazw, nadpisując wszelkie zmiany, które mogłeś wprowadzić. Kontynuować?</value>
   </data>
   <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci wszystkie domyślne motywy, nadpisując wszelkie zmiany, które mogłeś wprowadzić w bazie danych. Kontynuować?</value>
   </data>
   <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci wszystkie Szablony Funkcji, nadpisując wszelkie zmiany, które mogłeś wprowadzić. Kontynuować?</value>
   </data>
   <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci wszystkie strony przestrzeni nazw Zawartość. Kontynuować?</value>
   </data>
   <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci wszystkie strony przestrzeni nazw Pomoc Wiki. Kontynuować?</value>
   </data>
   <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci usuniętą stronę i całą jej historię. Kontynuować?</value>
   </data>
   <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>To przywróci usuniętą rewizję. Kontynuować?</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
-    <value></value>
+    <value>Strefa czasowa</value>
   </data>
   <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
-    <value></value>
+    <value>Aby użyć aplikacji uwierzytelniającej, wykonaj następujące kroki:</value>
   </data>
   <data name="Truncate Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Ogranicz wersje strony</value>
   </data>
   <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ograniczenie wersji strony spowoduje usunięcie całej historii wersji dla wszystkich stron i załączników do stron. Pozostanie tylko najnowsza wersja wszystkich obiektów. Ogólnie jest to uważane za poważną sprawę! Kontynuować?</value>
   </data>
   <data name="Two-factor authentication" xml:space="preserve">
-    <value></value>
+    <value>Uwierzytelnianie dwuskładnikowe</value>
   </data>
   <data name="Two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Uwierzytelnianie dwuskładnikowe (2FA)</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value></value>
+    <value>Typ</value>
   </data>
   <data name="Type comment..." xml:space="preserve">
-    <value></value>
+    <value>Wpisz komentarz...</value>
   </data>
   <data name="Unable to delete page" xml:space="preserve">
-    <value></value>
+    <value>Nie można usunąć strony</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
-    <value></value>
+    <value>Nieautoryzowany</value>
   </data>
   <data name="Unconfirmed" xml:space="preserve">
-    <value></value>
+    <value>Niepotwierdzony</value>
   </data>
   <data name="Underline" xml:space="preserve">
-    <value></value>
+    <value>Podkreśl</value>
   </data>
   <data name="Unexpected Error" xml:space="preserve">
-    <value></value>
+    <value>Nieoczekiwany błąd</value>
   </data>
   <data name="Unexpected error:" xml:space="preserve">
-    <value></value>
+    <value>Nieoczekiwany błąd:</value>
   </data>
   <data name="Update password" xml:space="preserve">
-    <value></value>
+    <value>Zmień hasło</value>
   </data>
   <data name="Upload successful" xml:space="preserve">
-    <value></value>
+    <value>Przesyłanie powiodło się</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value></value>
+    <value>Adres URL musi zaczynać się od</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
-    <value></value>
+    <value>Użyj innej usługi do rejestracji</value>
   </data>
   <data name="Use commas to separate categories." xml:space="preserve">
-    <value></value>
+    <value>Użyj przecinków, aby oddzielić kategorie.</value>
   </data>
   <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
-    <value></value>
+    <value>Użyj przestrzeni nazw Templates, aby dodać stronę do listy szablonów, np. Templates :: My First Template.</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value></value>
+    <value>Nazwa użytkownika</value>
   </data>
   <data name="Users" xml:space="preserve">
-    <value></value>
+    <value>Użytkownicy</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
-    <value></value>
+    <value>Odrzut</value>
   </data>
   <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
-    <value></value>
+    <value>Różne narzędzia wspomagające zarządzanie bazą danych SQLite.</value>
   </data>
   <data name="Verification Code" xml:space="preserve">
-    <value></value>
+    <value>Kod weryfikacyjny</value>
   </data>
   <data name="Verification code is invalid." xml:space="preserve">
-    <value></value>
+    <value>Kod weryfikacyjny jest nieprawidłowy.</value>
   </data>
   <data name="Verification email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Wysłano mail weryfikacyjny. Sprawdź swoją skrzynkę.</value>
   </data>
   <data name="Verify" xml:space="preserve">
-    <value></value>
+    <value>Zweryfikuj</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value></value>
+    <value>Wersja</value>
   </data>
   <data name="View" xml:space="preserve">
-    <value></value>
+    <value>Widok</value>
   </data>
   <data name="View all comments" xml:space="preserve">
-    <value></value>
+    <value>Zobacz wszystkie komentarze</value>
   </data>
   <data name="View all revisions" xml:space="preserve">
-    <value></value>
+    <value>Zobacz wszystkie wersje</value>
   </data>
   <data name="View latest revision" xml:space="preserve">
-    <value></value>
+    <value>Zobacz najnowszą wersję</value>
   </data>
   <data name="Viewing a deleted page" xml:space="preserve">
-    <value></value>
+    <value>Przeglądanie usunitej strony</value>
   </data>
   <data name="Viewing a deleted page revision" xml:space="preserve">
-    <value></value>
+    <value>Przeglądanie wersji usuniętej strony</value>
   </data>
   <data name="Viewing a historical version" xml:space="preserve">
-    <value></value>
+    <value>Przeglądanie historycznej wersji</value>
   </data>
   <data name="What did you change and why?" xml:space="preserve">
-    <value></value>
+    <value>Czy zmieniłeś coś i dlaczego?</value>
   </data>
   <data name="Wiki Help Pages" xml:space="preserve">
-    <value></value>
+    <value>Strony Pomocy Wiki</value>
   </data>
   <data name="Wiki Page" xml:space="preserve">
-    <value></value>
+    <value>Strona Wiki</value>
   </data>
   <data name="Wikified Size" xml:space="preserve">
-    <value></value>
+    <value>Wielkość wikifikowana</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value></value>
+    <value>Tak</value>
   </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value></value>
+    <value>Przeglądasz wersję strony, która została usunięta {0} przez {1}.</value>
   </data>
   <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value></value>
+    <value>Przeglądasz stronę, która została usunięta {0} przez {1}.</value>
   </data>
   <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
-    <value></value>
+    <value>Przeglądasz wersję {0} "{1}" zmodyfikowaną przez {2} dnia {3}.</value>
   </data>
   <data name="You can generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Możesz wygenerować nowy zestaw kodów odzyskiwania.</value>
   </data>
   <data name="You can log in with a recovery code" xml:space="preserve">
-    <value></value>
+    <value>Możesz zalogować się za pomocą kodu odzyskiwania</value>
   </data>
   <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
-    <value></value>
+    <value>Nie masz lokalnej nazwy użytkownika/hasła dla tej witryny. Dodaj lokalne konto, aby móc się zalogować bez zewnętrznego logowania.</value>
   </data>
   <data name="You do not have access to this resource." xml:space="preserve">
-    <value></value>
+    <value>Nie masz dostępu do tego zasobu.</value>
   </data>
   <data name="You have {0} recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>Pozostało Ci {0} kodów odzyskiwania.</value>
   </data>
   <data name="You have 1 recovery code left." xml:space="preserve">
-    <value></value>
+    <value>Pozostał Ci 1 kod odzyskiwania.</value>
   </data>
   <data name="You have generated new recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Wygenerowałeś nowe kody odzyskiwania.</value>
   </data>
   <data name="You have no recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>Nie masz już żadnych kodów odzyskiwania.</value>
   </data>
   <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
-    <value></value>
+    <value>Poprosiłeś o zalogowanie się kodem odzyskiwania. To logowanie nie zostanie zapamiętane, dopóki nie wprowadzisz kodu z aplikacji uwierzytelniania przy logowaniu lub nie wyłączysz 2FA i nie zalogujesz się ponownie.</value>
   </data>
   <data name="You have successfully logged out of the application." xml:space="preserve">
-    <value></value>
+    <value>Wylogowałeś się pomyślnie z aplikacji.</value>
   </data>
   <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>Pomyślnie zalogowałeś się przez LDAP, ale nadal potrzebujemy trochę informacji.</value>
   </data>
   <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>Pomyślnie zalogowałeś się przez zewnętrznego dostawcę, ale nadal potrzebujemy trochę informacji.</value>
   </data>
   <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
-    <value></value>
+    <value>Musisz zaakceptować politykę, zanim będziesz mógł włączyć dwuskładnikowe uwierzytelnianie.</value>
   </data>
   <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
-    <value></value>
+    <value>Musisz wygenerować nowy zestaw kodów odzyskiwania, zanim będziesz mógł zalogować się kodem odzyskiwania.</value>
   </data>
   <data name="You should generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Powinieneś wygenerować nowy zestaw kodów odzyskiwania.</value>
   </data>
   <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
-    <value></value>
+    <value>Udało się uwierzytelnienie za pomocą {0}. Wpisz adres e-mail dla tej strony poniżej i kliknij przycisk Rejestruj, aby dokończyć logowanie.</value>
   </data>
   <data name="Your authenticator app has been verified." xml:space="preserve">
-    <value></value>
+    <value>Twój aplikacja uwierzytelniająca została zweryfikowana.</value>
   </data>
   <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value></value>
+    <value>Twój klucz aplikacji uwierzytelniającej został zresetowany, musisz skonfigurować swoją aplikację uwierzytelniającą za pomocą nowego klucza.</value>
   </data>
   <data name="Your email is unchanged." xml:space="preserve">
-    <value></value>
+    <value>Twój e-mail pozostaje bez zmian.</value>
   </data>
   <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
-    <value></value>
+    <value>Twój login jest chroniony za pomocą aplikacji uwierzytelniającej. Wprowadź poniżej kod uwierzytelniający.</value>
   </data>
   <data name="Your password has been changed." xml:space="preserve">
-    <value></value>
+    <value>Twoje hasło zostało zmienione.</value>
   </data>
   <data name="Your password has been reset." xml:space="preserve">
-    <value></value>
+    <value>Twoje hasło zostało zresetowane.</value>
   </data>
   <data name="Your password has been set." xml:space="preserve">
-    <value></value>
+    <value>Twoje hasło zostało ustawione.</value>
   </data>
   <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
-    <value></value>
+    <value>Twoje kryteria wyszukiwania nie dały żadnych wyników, uprość swój tekst wyszukiwania.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
-    <value></value>
+    <value>Wystąpił błąd podczas pobierania informacji o użytkowniku od zewnętrznego dostawcy.</value>
   </data>
   <data name="An error occurred while adding the login." xml:space="preserve">
-    <value></value>
+    <value>Wystąpił błąd podczas dodawania logowania.</value>
   </data>
   <data name="An error occurred while creating the user." xml:space="preserve">
-    <value></value>
+    <value>Wystąpił błąd podczas tworzenia użytkownika.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value></value>
+    <value>Nazwa wyświetlana jest już w użyciu.</value>
   </data>
   <data name="Display Name is required." xml:space="preserve">
-    <value></value>
+    <value>Nazwa wyświetlana jest wymagana.</value>
   </data>
   <data name="Error changing email." xml:space="preserve">
-    <value></value>
+    <value>Błąd podczas zmiany e-maila.</value>
   </data>
   <data name="Error changing user name." xml:space="preserve">
-    <value></value>
+    <value>Błąd podczas zmiany nazwy użytkownika.</value>
   </data>
   <data name="Error confirming your email." xml:space="preserve">
-    <value></value>
+    <value>Błąd potwierdzania Twojego e-maila.</value>
   </data>
   <data name="Error from external provider: {0}" xml:space="preserve">
-    <value></value>
+    <value>Błąd z zewnętrznego dostawcy: {0}</value>
   </data>
   <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value></value>
+    <value>Błąd podczas ładowania informacji o zewnętrznym logowaniu podczas potwierdzenia.</value>
   </data>
   <data name="Error loading external login information." xml:space="preserve">
-    <value></value>
+    <value>Błąd podczas ładowania informacji o zewnętrznym logowaniu.</value>
   </data>
   <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value></value>
+    <value>Nie udało się dodać informacji o logowaniu dla konta hapless LDAP: {0}.</value>
   </data>
   <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value></value>
+    <value>Nie udało się utworzyć konta tymczasowego dla poświadczenia LDAP: {0}.</value>
   </data>
   <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
-    <value></value>
+    <value>Nie udało się odnaleźć konta użytkownika dla poświadczeń LDAP.</value>
   </data>
   <data name="Invalid login attempt." xml:space="preserve">
-    <value></value>
+    <value>Nieprawidłowe próba logowania.</value>
   </data>
   <data name="Thank you for confirming your email change." xml:space="preserve">
-    <value></value>
+    <value>Dziękujemy za potwierdzenie zmiany adresu email.</value>
   </data>
   <data name="Thank you for confirming your email." xml:space="preserve">
-    <value></value>
+    <value>Dziękujemy za potwierdzenie adresu email.</value>
   </data>
   <data name="The email address was not supplied by the external provider." xml:space="preserve">
-    <value></value>
+    <value>Adres email nie został dostarczony przez zewnętrznego dostawcę.</value>
   </data>
   <data name="The specified user could not be found." xml:space="preserve">
-    <value></value>
+    <value>Nie można odnaleźć wskazanego użytkownika.</value>
   </data>
   <data name="User created a new account with LDAP." xml:space="preserve">
-    <value></value>
+    <value>Użytkownik utworzył nowe konto z LDAP.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>Adres</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>Zezwól na dopasowanie przybliżone</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>Zezwól na rejestrację</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>Uwierzytelnianie i pliki cookie.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>Podstawowy</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>Podstawowe ustawienia wiki, takie jak formatowanie.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>Wizerunek marki (Mały)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>Limit pamięci podręcznej MB</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja uwierzytelniania Active Directory za pomocą LDAP</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>Konfiguracja związana z wyszukiwaniem i indeksowaniem.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>Cookies</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>Prawa autorskie</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>Dostosowywanie</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>Kraj domyślny</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>Domyśladna wysokość emotikony</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>Domyślny język</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>Domyślny licznik ostatnich modyfikacji profilu</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>Domyślna rola podczas rejestracji</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>Domyślny strefa czasowa</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>Ustawienia EMail i SMTP.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>Włącz komentarze na stronie</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>Włącz publiczne profile</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>Godziny wygaśnięcia</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>Zewnętrzna autoryzacja</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>Zewnętrzni dostawcy autoryzacji</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>Ustawienia plików i załączników.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>Pliki i załączniki</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>Lokalizacja systemu plików, w której przechowywane są trwałe ciasteczka dla zapisanych sesji logowania.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>Ustawienie pozycji nagłówka menu</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>Stopka</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>Blurb Stopki</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>Od wyświetlanej nazwy</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>Funkcjonalność</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>Ogólna funkcjonalność wiki.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientId</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientSecret</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : Użyj uwierzytelniania Google</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>Nagłówek</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>Szablon e-maila HTML do weryfikacji nowego konta</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>Szablon e-maila HTML do wysyłania resetowania hasła.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>Szkic HTML</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>Szkic HTML.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>Układ HTML umieszczony wewnątrz tagu body, ale bezpośrednio po innym treści w body.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML umieszczony wewnątrz tagu body, tuż przed inną zawartością strony.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML umieszczony w sekcji stopki strony.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML umieszczony w sekcji nagłówka HTML. Przydatne miejsce na umieszczenie skryptów i CSS.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Jeśli ustawione, użytkownicy nie mogą się zalogować, dopóki ich adresy e-mail nie zostaną zweryfikowane. Jeśli zostanie zmienione, konie rest aracja strony. Domyślnie: Włączone.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Jeśli ustawione, użytkownicy będą mogli się zarejestrować i utworzyć własne konto. Domyślnie: Włączone.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>Dodaj wyszukiwanie na pasku nawigacyjnym</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>Dodaj opis wiki do meta</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>Dodaj tagi wiki do meta</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Domyślna domena logowania</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Włącz uwierzytelnianie LDAP</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : W pełni kwalifikowana domena</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Użyj bezpiecznego gniazda SSL</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Uwierzytelnianie LDAP</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>Dostosowania wyglądu &amp; odczucia.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>Maksymalny rozmiar pliku załącznika</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>Max rozmiar pliku awatara</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>Maksymalny rozmiar pliku emoji</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>Maksymalny rozmiar w bajtach dla dowolnego załącznika na stronie użytkownika.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>Maksymalny rozmiar w bajtach dla zdjęcia awatara użytkownika.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>Maksymalny rozmiar w bajtach dla obrazu emoji.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>Członkostwo</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>Ustawienia członkostwa, takie jak domyślne dla nowych członków i uprawnienia.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientId</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientSecret</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Użyj uwierzytelniania Microsoft</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>Minimalny wynik dopasowania</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>Nowy szablon strony</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>Liczba godzin przed wygaśnięciem plików cookies.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Authority</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientId</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Użyj uwierzytelniania OIDC</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>Czas pamięci podręcznej strony (sekundy)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Strona nie istnieje</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>Rozmiar paginacji</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>Wydajność</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>Ustawienia związane z wydajnością.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>Ścieżka kluczy przechowywania</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>Port</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>Post-Body</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>Przedtreść</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>Animowane Emotikony przed załadowaniem</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>Metryki Kompilacji Nagrania</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Wymagaj Podsumowania Zmian podczas Edycji</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Wymagaj weryfikacji e-maila</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Strona Nie Istnieje dla Poprawki</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Pokazuj Podsumowanie Zmian podczas Edycji</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Wyświetl komentarze w stopce strony</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Wyświetl ostatnią modyfikację w stopce strony</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>Podziel wielbłąd wersalnym</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>Szablon: Email weryfikacyjny konta</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>Szablon: Email resetujący hasło</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Nazwa konta używana we wszystkich komunikatach email.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Podstawowy motyw do użycia dla wszystkiego stylizacji strony.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Wizerunek marki wiki, wyświetlany na górze wszystkich stron wiki.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Prawa autorskie wiki, wyświetlane na dole wszystkich stron.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Kraj do użycia dla kultury strony dla gości.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Domyślny kraj do użycia dla nowych kont.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>Domyślna domena do użycia, gdy użytkownik nie określi UPN lub w pełni kwalifikowanej domeny\\Nazwa użytkownika podczas logowania.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Domyślna wysokość do skalowania emoji. Szerokość będzie skalowana w tym samym stosunku. Domyślnie: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Domyślny język do użycia dla nowych kont.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Domyślna rola przypisywana kontom podczas rejestracji. Domyślnie: Współtwórca.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Domyślny obszar czasowy do użycia dla nowych kont.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Wyświetlana nazwa do pokazania we wszystkich komunikatach email.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Stopka wiki, wyświetlana na dole wszystkich stron.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>Pełna nazwa domeny używana podczas uwierzytelniania LDAP.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Adres internetowy twojego wiki.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Język używany dla kultury witryny dla gości.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Limit pamięci (w megabajtach) dla pamięci cache. Najstarsze elementy zostaną usunięte po osiągnięciu limitu. Domyślnie: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>Nazwa strony wiki wyświetlana po wywołaniu nieistniejącej strony.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>nazwa strony wiki do wyświetlenia, gdy żądana jest nieistniejąca wersja strony</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>nazwa strony wiki używana jako domyślna treść podczas tworzenia nowych stron wiki</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Nazwa wiki, która jest wyświetlana wszędzie</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Liczba elementów do zwrócenia przy użyciu paginacji. Domyślnie: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>Liczba ostatnio zmodyfikowanych stron do wyświetlenia na publicznych profilach użytkowników. Domyślnie: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Liczba sekund do buforowania stron w pamięci (0 = wyłączone). Domyślnie: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Hasło SMTP do użycia podczas wysyłania e-maili.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>Port SMTP do użycia podczas wysyłania e-maili. Domyślnie: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Adres IP/host serwera SMTP do użycia podczas wysyłania e-maili.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Strefa czasowa używana dla kultury witryny dla gości.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>Użyj SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>Wartość między 0,0 a 1,0, która określa, jak mocne musi być dopasowanie pasujące do wyszukiwania strony, zanim zostanie wyświetlone w wynikach wyszukiwania. Domyślnie: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>Podczas tworzenia indeksu wyszukiwania te słowa będą wykluczone z indeksowania. (Oddzielone przecinkiem)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Gdy komentarze są włączone, ta opcja powoduje wyświetlanie komentarzy na dole każdej strony. Domyślnie: włączone.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy pole wyszukiwania będzie wyświetlane na pasku nawigacyjnym. Domyślnie: włączone.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy OpenID Connect jest włączony.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>Czy silnik powinien wykonywać leniwe wstępne ładowanie wszystkich animowanych emotikon podczas uruchomienia.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>Czy uwierzytelnianie z LDAP jest włączone podczas próby logowania użytkowników.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>Czy używać bezpiecznego połączenia z LDAP. Nie jest to zawsze obsługiwane przez domeny.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy komentarze na stronie będą włączone. Uwierzytelnianie jest wymagane do komentowania, ale wszyscy mogą czytać. Domyślnie: włączone.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>Czy SMTP powinno łączyć się za pomocą SSL, czy nie.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy opis strony powinien być zawarty w meta nagłówku HTML. Domyślnie: Włączone.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Czy górne menu powinno pozostać na miejscu podczas przewijania w pionie.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy tagi wiki przypięte do strony powinny być zawarte w meta słowach kluczowych nagłówka HTML. Domyślnie: Włączone.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy dozwolone są niepełne dopasowania podczas wyszukiwania. Domyślnie: Włączone.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Czy rekordować metryki kompilacji rekordów wiki strony w bazie danych. Może to być użyteczne do optymalizacji wydajności, ale samo w sobie może powodować spowolnienie. Domyślnie: Wyłączone.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy wyświetlać ostatniego użytkownika i datę, kiedy strona została zmodyfikowana, z linkiem do publicznego profilu użytkownika. Domyślnie: Włączone.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>Czy wyświetlić pole tekstowe umożliwiające użytkownikowi wpisanie podsumowania zmiany podczas edycji stron.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy rozdzielać CamelCasedStrings podczas parsowania stron na tokeny wyszukiwania. Może być przydatne, gdy strony zawierają dużo treści programistycznej/kodowej. Domyślnie: Włączone.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Czy użytkownicy muszą wprowadzić podsumowanie zmiany podczas edycji stron. Należy pamiętać, że opcja "Pokaż Podsumowanie Zmiany podczas Edycji" również musi być włączona.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Czy odwiedzający mogą przeglądać członków i ich publiczne profile.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Wyłączenia słów</value>
   </data>
   <data name="You must select a role." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać rolę.</value>
   </data>
   <data name="The account is already a member of the specified role." xml:space="preserve">
-    <value></value>
+    <value>Konto już jest członkiem określonej roli.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Typ zasobu</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Dodaj</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Jesteś pewien, że chcesz usunąć uprawnienie z tego konta?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Nie udało się usunąć</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Jesteś pewien, że chcesz usunąć rolę z tego konta?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Wybierz sposób postępowania</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Wybierz uprawnienie</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Wybierz stronę</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Wybierz przestrzeń nazw</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać przeznaczenie uprawnienia.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać uprawnienie.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać stronę.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać przestrzeń nazw.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać stronę lub przestrzeń nazw.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>To konto ma już przypisane to uprawnienie.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz usunąć to uprawnienie z tej roli?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Czy na pewno chcesz usunąć członka z tej roli?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Rola już posiada określone uprawnienie.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Wybierz konto</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Musisz wybrać konto.</value>
   </data>
 </root>
