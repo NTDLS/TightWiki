@@ -21,8 +21,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public LockoutModel(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public LockoutModel(ILogger<LockoutModel> logger, SignInManager<IdentityUser> signInManager)
+            : base(logger, signInManager)
         {
 
         }

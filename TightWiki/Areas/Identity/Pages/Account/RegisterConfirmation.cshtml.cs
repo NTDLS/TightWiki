@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -20,7 +19,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterConfirmationModel> _logger;
 
         public RegisterConfirmationModel(ILogger<RegisterConfirmationModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IWikiEmailSender emailSender)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _logger = logger;
             _userManager = userManager;
@@ -41,7 +40,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }

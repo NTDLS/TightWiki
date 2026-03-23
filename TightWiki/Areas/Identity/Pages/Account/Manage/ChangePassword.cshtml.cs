@@ -59,7 +59,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             SignInManager<IdentityUser> signInManager,
             ILogger<ChangePasswordModel> logger,
             IStringLocalizer<ChangePasswordModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

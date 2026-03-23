@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -38,7 +37,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             ILogger<LoginWithRecoveryCodeModel> logger)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -76,7 +75,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }
@@ -124,7 +122,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
 
             return Page();

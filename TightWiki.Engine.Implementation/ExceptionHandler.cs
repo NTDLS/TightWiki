@@ -1,5 +1,5 @@
-﻿using TightWiki.Engine.Library.Interfaces;
-using TightWiki.Repository;
+﻿using Microsoft.Extensions.Logging;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Engine.Implementation
 {
@@ -19,10 +19,10 @@ namespace TightWiki.Engine.Implementation
         {
             if (ex != null)
             {
-                LoggingRepository.WriteException(ex, customText);
+                state.Logger.LogError(ex, customText);
             }
 
-            LoggingRepository.WriteException(customText);
+            state.Logger.LogError(customText);
         }
     }
 }

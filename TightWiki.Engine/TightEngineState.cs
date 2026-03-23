@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -53,6 +54,7 @@ namespace TightWiki.Engine
         public ISessionState? Session { get; }
         public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
         public int NestDepth { get; private set; } //Used for recursion.
+        public ILogger Logger { get; private set; }
 
         #endregion
 
@@ -104,9 +106,10 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
-        internal TightEngineState(ITightEngine engine, ISessionState? session,
+        internal TightEngineState(ILogger logger, ITightEngine engine, ISessionState? session,
             IPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
+            Logger = logger;
             QueryString = session?.QueryString ?? new QueryCollection();
             Page = page;
             Revision = revision;
@@ -130,7 +133,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The optional revision of the child page to process.</param>
         public ITightEngineState TransformChild(IPage page, int? revision = null)
         {
-            return new TightEngineState(Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
+            return new TightEngineState(Logger, Engine, Session, page, revision, OmitMatches.ToArray(), NestDepth + 1).Transform();
         }
 
         internal ITightEngineState Transform()

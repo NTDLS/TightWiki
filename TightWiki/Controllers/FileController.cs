@@ -17,9 +17,24 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("File")]
-    public class FileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<FileController> localizer)
-        : WikiControllerBase<FileController>(signInManager, userManager, localizer)
+    public class FileController
+        : WikiControllerBase<FileController>
     {
+        private readonly ILogger<FileController> _logger;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IStringLocalizer<FileController> _localizer;
+
+        public FileController(ILogger<FileController> logger, SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager, IStringLocalizer<FileController> localizer)
+            : base(logger, signInManager, userManager, localizer)
+        {
+            _logger = logger;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _localizer = localizer;
+        }
+
         /// <summary>
         /// Gets an image attached to a page.
         /// </summary>
@@ -375,7 +390,7 @@ namespace TightWiki.Controllers
             }
             catch (Exception ex)
             {
-                LoggingRepository.WriteException(ex, "Failed to upload file.");
+                _logger.LogError("Failed to upload file: {Message}", ex.Message);
                 return StatusCode(500, new { success = false, message = Localize("An error occurred: {0}", ex.Message) });
             }
         }

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -20,7 +19,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
 
         public LogoutModel(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, ILogger<LogoutModel> logger, IAuthenticationSchemeProvider schemeProvider)
-            : base(signInManager)
+            : base(logger, signInManager)
         {
             _schemeProvider = schemeProvider;
             _signInManager = signInManager;
@@ -39,7 +38,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
 
             _logger.LogInformation("User logged out.");

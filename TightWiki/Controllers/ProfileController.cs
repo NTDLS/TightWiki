@@ -20,9 +20,9 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
+    public class ProfileController(ILogger<ProfileController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
         IWebHostEnvironment environment, IStringLocalizer<ProfileController> localizer)
-        : WikiControllerBase<ProfileController>(signInManager, userManager, localizer)
+        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer)
     {
         private readonly IWebHostEnvironment _environment = environment;
 

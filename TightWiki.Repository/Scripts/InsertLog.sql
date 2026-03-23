@@ -1,14 +1,14 @@
 INSERT INTO Log
 (
 	SeverityId,
-	Text
+	Text,
 	ExceptionText,
 	StackTrace,
 	CreatedDate
 )
 SELECT
 	S.Id,
-	@Text
+	@Text,
 	@ExceptionText,
 	@StackTrace,
 	@CreatedDate

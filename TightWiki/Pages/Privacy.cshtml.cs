@@ -7,7 +7,7 @@ namespace TightWiki.Pages
         private readonly ILogger<PrivacyModel> _logger;
 
         public PrivacyModel(SignInManager<IdentityUser> signInManager, ILogger<PrivacyModel> logger)
-            : base(signInManager)
+            : base(logger, signInManager)
         {
             _logger = logger;
         }

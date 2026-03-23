@@ -6,7 +6,8 @@ using TightWiki.Models;
 
 namespace TightWiki
 {
-    public class PageModelBase : PageModel
+    public class PageModelBase
+        : PageModel
     {
         public SessionState SessionState { get; private set; } = new();
         public SignInManager<IdentityUser> SignInManager { get; private set; }
@@ -15,14 +16,17 @@ namespace TightWiki
         public string WarningMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        public PageModelBase(SignInManager<IdentityUser> signInManager)
+        private readonly ILogger _logger;
+
+        public PageModelBase(ILogger logger, SignInManager<IdentityUser> signInManager)
         {
+            _logger = logger;
             SignInManager = signInManager;
         }
 
         public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
         {
-            ViewData["SessionState"] = SessionState.Hydrate(SignInManager, this);
+            ViewData["SessionState"] = SessionState.Hydrate(_logger, SignInManager, this);
         }
 
         /*

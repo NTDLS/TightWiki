@@ -14,8 +14,8 @@ namespace TightWiki.Pages
 
         private readonly ILogger<ErrorModel> _logger;
 
-        public ErrorModel(SignInManager<IdentityUser> signInManager, ILogger<ErrorModel> logger)
-            : base(signInManager)
+        public ErrorModel(ILogger<ErrorModel> logger, SignInManager<IdentityUser> signInManager)
+            : base(logger, signInManager)
         {
             _logger = logger;
         }

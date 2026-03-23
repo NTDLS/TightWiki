@@ -9,8 +9,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public RegistrationIsNotAllowedModel(SignInManager<IdentityUser> signInManager)
-                        : base(signInManager)
+        public RegistrationIsNotAllowedModel(ILogger<RegistrationIsNotAllowedModel> logger, SignInManager<IdentityUser> signInManager)
+                        : base(logger, signInManager)
         {
         }
     }

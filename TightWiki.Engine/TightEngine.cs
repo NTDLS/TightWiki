@@ -1,4 +1,5 @@
-﻿using TightWiki.Engine.Library.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library.Interfaces;
 using static TightWiki.Engine.Library.Constants;
 
@@ -7,6 +8,7 @@ namespace TightWiki.Engine
     public class TightEngine
         : ITightEngine
     {
+        public ILogger<ITightEngine> Logger { get; set; }
         public IScopeFunctionHandler ScopeFunctionHandler { get; private set; }
         public IStandardFunctionHandler StandardFunctionHandler { get; private set; }
         public IProcessingInstructionFunctionHandler ProcessingInstructionFunctionHandler { get; private set; }
@@ -21,6 +23,7 @@ namespace TightWiki.Engine
         public ICompletionHandler CompletionHandler { get; private set; }
 
         public TightEngine(
+            ILogger<ITightEngine> logger,
             IStandardFunctionHandler standardFunctionHandler,
             IScopeFunctionHandler scopeFunctionHandler,
             IProcessingInstructionFunctionHandler processingInstructionFunctionHandler,
@@ -34,6 +37,7 @@ namespace TightWiki.Engine
             IExceptionHandler exceptionHandler,
             ICompletionHandler completionHandler)
         {
+            Logger = logger;
             StandardFunctionHandler = standardFunctionHandler;
 
             StandardFunctionHandler = standardFunctionHandler;
@@ -58,6 +62,6 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         public ITightEngineState Transform(ISessionState? session, IPage page, int? revision = null, WikiMatchType[]? omitMatches = null)
-            => new TightEngineState(this, session, page, revision, omitMatches).Transform();
+            => new TightEngineState(Logger, this, session, page, revision, omitMatches).Transform();
     }
 }

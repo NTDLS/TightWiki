@@ -19,8 +19,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public AccessDeniedModel(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public AccessDeniedModel(ILogger<AccessDeniedModel> logger, SignInManager<IdentityUser> signInManager)
+            : base(logger, signInManager)
         {
 
         }

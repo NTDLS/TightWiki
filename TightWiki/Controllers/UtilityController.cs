@@ -9,8 +9,8 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class UtilityController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<UtilityController> localizer)
-        : WikiControllerBase<UtilityController>(signInManager, userManager, localizer)
+    public class UtilityController(ILogger<UtilityController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<UtilityController> localizer)
+        : WikiControllerBase<UtilityController>(logger, signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         [HttpGet("Notify")]

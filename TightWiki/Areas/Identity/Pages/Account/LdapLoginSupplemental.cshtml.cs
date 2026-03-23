@@ -63,7 +63,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             IStringLocalizer<LdapLoginSupplementalModel> localizer)
-            : base(signInManager)
+            : base(logger, signInManager)
         {
             _logger = logger;
             _userManager = userManager;
@@ -89,7 +89,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }
@@ -169,7 +168,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
 
             if (string.IsNullOrEmpty(ReturnUrl))

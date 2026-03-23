@@ -19,11 +19,12 @@ namespace TightWiki.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
 
         public AccountController(
+            Logger<AccountController> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             IStringLocalizer<AccountController> localizer)
-            : base(signInManager, userManager, localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _userStore = userStore;
             _emailStore = (IUserEmailStore<IdentityUser>)_userStore;

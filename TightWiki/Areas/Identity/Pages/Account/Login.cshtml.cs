@@ -38,7 +38,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
 
         public LoginModel(ILogger<LoginModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<ConfirmEmailModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _localizer = localizer;
             _signInManager = signInManager;
@@ -71,8 +71,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             }
             catch (Exception ex)
             {
-                _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex, "LDAP authentication error");
+                _logger.LogError("LDAP authentication error: {Message}", ex.Message);
             }
         }
 
@@ -196,7 +195,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
 
             // If we got this far, something failed, redisplay form

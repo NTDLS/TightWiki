@@ -12,8 +12,8 @@ using static TightWiki.Library.Constants;
 namespace TightWiki.Controllers
 {
     [Authorize]
-    public class TagsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<TagsController> localizer)
-        : WikiControllerBase<TagsController>(signInManager, userManager, localizer)
+    public class TagsController(ILogger<TagsController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<TagsController> localizer)
+        : WikiControllerBase<TagsController>(logger, signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         public ActionResult Browse(string givenCanonical)

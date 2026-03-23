@@ -33,7 +33,7 @@ namespace TightWiki.Controllers
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer, ILogger<AdminController> logger)
-            : base(signInManager, userManager, localizer)
+            : base(logger, signInManager, userManager, localizer)
         {
             _tightEngine = tightEngine;
             _userManager = userManager;

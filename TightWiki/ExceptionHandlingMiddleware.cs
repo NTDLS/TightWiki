@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using TightWiki.Exceptions;
 using TightWiki.Models;
-using TightWiki.Repository;
 
 namespace TightWiki
 {
@@ -46,7 +45,6 @@ namespace TightWiki
                 var exceptionText = $"IP Address: {context.Connection.RemoteIpAddress},\r\n Request: {request},\r\n RouteValues: {routeValues}\r\n";
 
                 _logger.LogError(ex, exceptionText);
-                LoggingRepository.InsertException(ex, exceptionText);
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                 context.Response.ContentType = "application/json";

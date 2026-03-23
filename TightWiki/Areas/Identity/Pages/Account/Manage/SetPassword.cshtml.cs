@@ -43,10 +43,11 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IStringLocalizer<SetPasswordModel> _localizer;
 
         public SetPasswordModel(
+            ILogger<SetPasswordModel> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IStringLocalizer<SetPasswordModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
 
         {
             _userManager = userManager;

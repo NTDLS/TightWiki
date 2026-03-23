@@ -25,7 +25,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public ForgotPasswordModel(
             ILogger<ForgotPasswordModel> logger, UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender)
-            : base(signInManager)
+            : base(logger, signInManager)
         {
             _logger = logger;
             _userManager = userManager;
@@ -103,7 +103,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }

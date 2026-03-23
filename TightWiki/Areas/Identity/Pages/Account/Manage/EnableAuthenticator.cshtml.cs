@@ -44,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             ILogger<EnableAuthenticatorModel> logger,
             UrlEncoder urlEncoder,
             IStringLocalizer<EnableAuthenticatorModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _userManager = userManager;
             _logger = logger;

@@ -34,7 +34,7 @@ namespace TightWiki.Repository
         /// See @Initialization.Versions.md
         /// Returns true if an upgrade was performed, false if the database was already at the latest version.
         /// </summary>
-        public static bool ApplyDatabaseUpgradeScripts()
+        public static bool ApplyDatabaseUpgradeScripts(ILogger logger)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace TightWiki.Repository
                     return false; //The database version is already at the latest version.
                 }
 
-                LoggingRepository.WriteLog(WikiSeverity.Information, $"Starting database upgrade.");
+                logger.LogInformation("Starting database upgrade.");
 
                 var manifestResources = Assembly.GetExecutingAssembly().GetManifestResourceNames();
 
@@ -72,7 +72,7 @@ namespace TightWiki.Repository
                     {
                         int endIndex = fullPreInitScriptPath.IndexOf(endVersionTag, startPreTagIndex, StringComparison.InvariantCultureIgnoreCase);
                         var scriptName = fullPreInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(assembly, fullPreInitScriptPath, scriptName);
+                        ProcessInitializationScript(logger, assembly, fullPreInitScriptPath, scriptName);
                     }
                 }
 
@@ -97,7 +97,7 @@ namespace TightWiki.Repository
                             int filesFolderVersion = Utility.PadVersionString(fullVersionedInitScriptPath.Substring(startVersionTagIndex, endIndex - startVersionTagIndex).Trim().Replace("_", ""));
                             if (filesFolderVersion > storedPaddedVersion)
                             {
-                                ProcessInitializationScript(assembly, fullVersionedInitScriptPath, scriptName);
+                                ProcessInitializationScript(logger, assembly, fullVersionedInitScriptPath, scriptName);
                             }
                         }
                     }
@@ -115,7 +115,7 @@ namespace TightWiki.Repository
                     {
                         int endIndex = fullPostInitScriptPath.IndexOf(endVersionTag, startPostTagIndex, StringComparison.InvariantCultureIgnoreCase);
                         var scriptName = fullPostInitScriptPath.Substring(endIndex + endVersionTag.Length).Trim().Replace("_", "");
-                        ProcessInitializationScript(assembly, fullPostInitScriptPath, scriptName);
+                        ProcessInitializationScript(logger, assembly, fullPostInitScriptPath, scriptName);
                     }
                 }
 
@@ -124,7 +124,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                LoggingRepository.WriteException(ex, "Database upgrade failed.");
+                logger.LogError(ex, "Database upgrade failed.");
                 return false;
             }
         }
@@ -138,9 +138,9 @@ namespace TightWiki.Repository
         /// <param name="overwrite">true to overwrite the existing defaults database if it exists; otherwise, false to leave the existing file
         /// unchanged.</param>
         /// <returns>The full path to the created or existing defaults database file, or null if the operation fails.</returns>
-        public static string? CreateDefaultsDatabase(ConfigurationManager configuration, bool overwrite)
+        public static string? CreateDefaultsDatabase(ILogger logger, ConfigurationManager configuration, bool overwrite)
         {
-            LoggingRepository.WriteLog(WikiSeverity.Information, "Creating defaults database.");
+            logger.LogInformation("Creating defaults database.");
 
             try
             {
@@ -168,7 +168,7 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                LoggingRepository.WriteException(ex, "An error occurred while extracting the default data database.");
+                logger.LogError(ex, "An error occurred while extracting the default data database.");
             }
             return null;
         }
@@ -184,7 +184,7 @@ namespace TightWiki.Repository
             {
                 if (adminUserId == null)
                 {
-                    LoggingRepository.WriteLog(WikiSeverity.Warning, $"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
+                    logger.LogWarning($"Admin user with ID {adminUserId} was not found in the identity database. A new admin user will be created.");
 
                     //We couldn't find an admin user, so we will create a new one with a random password.
                     var user = new IdentityUser()
@@ -203,7 +203,7 @@ namespace TightWiki.Repository
                         var result = await userManager.CreateAsync(user, PasswordGenerator.Generate(32));
                         if (result.Succeeded)
                         {
-                            LoggingRepository.WriteLog(WikiSeverity.Information, "Database upgrade user created a new account with password.");
+                            logger.LogInformation("Database upgrade user created a new account with password.");
 
                             adminUserId = Guid.Parse(await userManager.GetUserIdAsync(user));
 
@@ -218,12 +218,12 @@ namespace TightWiki.Repository
             }
             catch (Exception ex)
             {
-                LoggingRepository.WriteException(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                logger.LogError(ex, "An error occurred while ensuring the existence of an admin user for seeding default wiki pages. Default wiki page seeding will be skipped.");
             }
 
             if (adminUserId == null)
             {
-                LoggingRepository.WriteException("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
+                logger.LogError("Database upgrade could not find or create an admin user, which is required for seeding default wiki pages. Default wiki page seeding will be skipped.");
                 return;
             }
 
@@ -233,6 +233,8 @@ namespace TightWiki.Repository
 
             if (defaultDataTypes.Contains(DefaultDataType.Configurations))
             {
+                logger.LogInformation("Seeding default configurations.");
+
                 try
                 {
                     var defaultConfigurationGroups = ManagedDataStorage.Defaults.Query<DefaultConfiguration>(@"Scripts\Defaults\GetDefaultConfigurationGroups.sql");
@@ -248,7 +250,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    LoggingRepository.WriteException(ex, "An error occurred while seeding default configuration groups.");
+                    logger.LogError(ex, "An error occurred while seeding default configuration groups.");
                 }
 
                 try
@@ -271,7 +273,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    LoggingRepository.WriteException(ex, "An error occurred while seeding default configuration entries.");
+                    logger.LogError(ex, "An error occurred while seeding default configuration entries.");
                 }
             }
 
@@ -281,6 +283,7 @@ namespace TightWiki.Repository
 
             if (defaultDataTypes.Contains(DefaultDataType.Themes))
             {
+                logger.LogInformation("Seeding default themes.");
                 try
                 {
                     var defaultThemes = ManagedDataStorage.Defaults.Query<DefaultTheme>(@"Scripts\Defaults\GetDefaultThemes.sql");
@@ -301,7 +304,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    LoggingRepository.WriteException(ex, "An error occurred while seeding default themes.");
+                    logger.LogError(ex, "An error occurred while seeding default themes.");
                 }
             }
 
@@ -313,6 +316,8 @@ namespace TightWiki.Repository
                 || defaultDataTypes.Contains(DefaultDataType.WikiIncludePages)
                 || defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
             {
+                logger.LogInformation("Seeding default wiki pages.");
+
                 try
                 {
                     var dummySessionState = new DummySessionState();
@@ -362,7 +367,7 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    LoggingRepository.WriteException(ex, "An error occurred while seeding default wiki help pages.");
+                    logger.LogError(ex, "An error occurred while seeding default wiki help pages.");
                 }
             }
 
@@ -390,16 +395,16 @@ namespace TightWiki.Repository
                 }
                 catch (Exception ex)
                 {
-                    LoggingRepository.WriteException(ex, "An error occurred while seeding default feature templates.");
+                    logger.LogError(ex, "An error occurred while seeding default feature templates.");
                 }
             }
 
             #endregion
         }
 
-        private static void ProcessInitializationScript(Assembly assembly, string fullUpdateScriptPath, string scriptName)
+        private static void ProcessInitializationScript(ILogger logger, Assembly assembly, string fullUpdateScriptPath, string scriptName)
         {
-            LoggingRepository.WriteLog(WikiSeverity.Information, $"Executing initialization script: \"{fullUpdateScriptPath}\"");
+            logger.LogInformation($"Executing initialization script: \"{fullUpdateScriptPath}\"");
 
             //Get the script text.
             using var stream = assembly.GetManifestResourceStream(fullUpdateScriptPath);

@@ -39,11 +39,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IStringLocalizer<EmailModel> _localizer;
 
         public EmailModel(
+            ILogger<EmailModel> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IWikiEmailSender emailSender,
             IStringLocalizer<EmailModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

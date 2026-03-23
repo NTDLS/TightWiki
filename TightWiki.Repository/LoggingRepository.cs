@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using TightWiki.Models;
+﻿using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using static TightWiki.Library.Constants;
 
@@ -30,7 +29,7 @@ namespace TightWiki.Repository
 
         public static void WriteLog(WikiSeverity severity, string? text = null, string? exceptionText = null, string? stackTrace = null)
         {
-            if(severity == WikiSeverity.Error)
+            if (severity == WikiSeverity.Error)
             {
                 Console.WriteLine($"{text} {exceptionText} {stackTrace}");
             }
@@ -47,6 +46,7 @@ namespace TightWiki.Repository
             ManagedDataStorage.Logging.Execute("InsertLog.sql", param);
         }
 
+        /*
         public static void WriteException(Exception ex)
         {
             var stackTrace = new StackTrace();
@@ -59,6 +59,7 @@ namespace TightWiki.Repository
         {
             WriteLog(WikiSeverity.Error, text, ex.Message, ex.StackTrace);
         }
+        */
 
         public static int GetExceptionCount()
         {

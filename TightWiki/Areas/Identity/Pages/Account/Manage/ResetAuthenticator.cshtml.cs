@@ -21,7 +21,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             SignInManager<IdentityUser> signInManager,
             ILogger<ResetAuthenticatorModel> logger,
             IStringLocalizer<ResetAuthenticatorModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
 
         {
             _userManager = userManager;

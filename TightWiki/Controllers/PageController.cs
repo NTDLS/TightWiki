@@ -27,8 +27,9 @@ namespace TightWiki.Controllers
 {
     [Route("")]
     public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IStringLocalizer<PageController> localizer, ISideBySideDiffBuilder diffBuilder)
-        : WikiControllerBase<PageController>(signInManager, userManager, localizer)
+        UserManager<IdentityUser> userManager, IStringLocalizer<PageController> localizer,
+        ISideBySideDiffBuilder diffBuilder, ILogger<PageController> logger)
+        : WikiControllerBase<PageController>(logger, signInManager, userManager, localizer)
     {
         [AllowAnonymous]
         [Route("/robots.txt")]

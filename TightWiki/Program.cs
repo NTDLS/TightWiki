@@ -38,13 +38,19 @@ namespace TightWiki
             var builder = WebApplication.CreateBuilder(args);
 
             ManagedDataStorage.Config.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("ConfigConnection", "config.db"));
+            ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
+
+            builder.Logging.ClearProviders();
+            builder.Logging.AddProvider(new DatabaseLoggerProvider());
+
             ManagedDataStorage.Pages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("PagesConnection", "pages.db"));
             ManagedDataStorage.DeletedPages.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPagesConnection", "deletedpages.db"));
             ManagedDataStorage.DeletedPageRevisions.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("DeletedPageRevisionsConnection", "deletedpagerevisions.db"));
             ManagedDataStorage.Statistics.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("StatisticsConnection", "statistics.db"));
             ManagedDataStorage.Emoji.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("EmojiConnection", "emoji.db"));
-            ManagedDataStorage.Logging.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("LoggingConnection", "logging.db"));
             ManagedDataStorage.Users.SetConnectionString(builder.Configuration.GetDatabaseConnectionString("UsersConnection", "users.db"));
+
+            var independentLogger = new DatabaseLogger("");
 
             var userConnectionString = ManagedDataStorage.Users.Ephemeral(o => o.NativeConnection.ConnectionString);
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(userConnectionString));
@@ -56,9 +62,9 @@ namespace TightWiki
             //
             // Default data is seeded further down after the injection of ILogger, UserManager, and ITightEngine,
             //  via a call to DatabaseUpgrade.ApplyAllSeedData()
-            var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts();
+            var wasDatabaseUpgraded = DatabaseUpgrade.ApplyDatabaseUpgradeScripts(independentLogger);
 
-            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(builder.Configuration, wasDatabaseUpgraded);
+            var defaultsDatabasePath = DatabaseUpgrade.CreateDefaultsDatabase(independentLogger, builder.Configuration, wasDatabaseUpgraded);
             if (defaultsDatabasePath != null)
             {
                 ManagedDataStorage.Defaults.SetConnectionString(defaultsDatabasePath);
@@ -393,7 +399,7 @@ namespace TightWiki
                     }
                     catch (Exception ex)
                     {
-                        LoggingRepository.WriteException(ex, "An error occurred while applying seed data after database upgrade.");
+                        logger.LogError(ex, "An error occurred while applying seed data after database upgrade.");
                     }
                 }
 
@@ -403,7 +409,7 @@ namespace TightWiki
                 }
                 catch (Exception ex)
                 {
-                    LoggingRepository.WriteException(ex, "An error occurred while validating encryption or creating the admin user.");
+                    logger.LogError(ex, "An error occurred while validating encryption or creating the admin user.");
                 }
             }
 

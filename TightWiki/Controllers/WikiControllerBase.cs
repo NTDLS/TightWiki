@@ -7,7 +7,7 @@ using TightWiki.Models;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase<T>(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
+    public class WikiControllerBase<T>(ILogger<T> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
         : Controller
     {
         public SessionState SessionState { get; private set; } = new();
@@ -17,7 +17,7 @@ namespace TightWiki.Controllers
 
         [NonAction]
         public override void OnActionExecuting(ActionExecutingContext filterContext)
-            => ViewData["SessionState"] = SessionState.Hydrate(SignInManager, this);
+            => ViewData["SessionState"] = SessionState.Hydrate(logger, SignInManager, this);
 
         [NonAction]
         public override RedirectResult Redirect(string? url)

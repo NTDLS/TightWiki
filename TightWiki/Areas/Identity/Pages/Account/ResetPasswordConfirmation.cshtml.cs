@@ -22,8 +22,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
 
-        public ResetPasswordConfirmationModel(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public ResetPasswordConfirmationModel(ILogger<ResetPasswordConfirmationModel> logger, SignInManager<IdentityUser> signInManager)
+            : base(logger, signInManager)
         {
 
         }

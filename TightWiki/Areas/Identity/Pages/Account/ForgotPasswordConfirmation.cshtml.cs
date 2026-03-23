@@ -21,8 +21,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public ForgotPasswordConfirmation(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public ForgotPasswordConfirmation(ILogger<ForgotPasswordConfirmation> logger, SignInManager<IdentityUser> signInManager)
+            : base(logger, signInManager)
         {
 
         }

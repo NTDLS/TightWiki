@@ -19,7 +19,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             UserManager<IdentityUser> userManager,
             ILogger<GenerateRecoveryCodesModel> logger,
             IStringLocalizer<GenerateRecoveryCodesModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _userManager = userManager;
             _logger = logger;

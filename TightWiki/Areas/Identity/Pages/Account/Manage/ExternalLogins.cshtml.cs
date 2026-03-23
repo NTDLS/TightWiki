@@ -17,11 +17,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IStringLocalizer<ExternalLoginsModel> _localizer;
 
         public ExternalLoginsModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IUserStore<IdentityUser> userStore,
-            IStringLocalizer<ExternalLoginsModel> localizer)
-                        : base(signInManager)
+                ILogger<ExternalLoginsModel> logger,
+                UserManager<IdentityUser> userManager,
+                SignInManager<IdentityUser> signInManager,
+                IUserStore<IdentityUser> userStore,
+                IStringLocalizer<ExternalLoginsModel> localizer)
+                        : base(logger, signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

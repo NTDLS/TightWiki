@@ -37,7 +37,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             ILogger<ExternalLoginModel> logger,
             IWikiEmailSender emailSender,
             IStringLocalizer<ExternalLoginModel> localizer)
-                        : base(signInManager)
+                        : base(logger, signInManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -101,7 +101,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }
@@ -153,7 +152,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }
@@ -240,7 +238,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             catch (Exception ex)
             {
                 _logger.LogError("Exception: {Message}", ex.Message);
-                LoggingRepository.InsertException(ex);
             }
             return Page();
         }

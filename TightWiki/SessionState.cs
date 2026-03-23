@@ -24,6 +24,7 @@ namespace TightWiki
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
 
         public IQueryCollection? QueryString { get; set; }
+        public ILogger? Logger { get; private set; }
 
         #region Authentication.
 
@@ -54,16 +55,19 @@ namespace TightWiki
 
         #endregion
 
-        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public SessionState Hydrate(ILogger logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
+            Logger = logger;
             QueryString = pageModel.Request.Query;
 
             HydrateSecurityContext(pageModel.HttpContext, signInManager, pageModel.User);
             return this;
         }
 
-        public SessionState Hydrate(SignInManager<IdentityUser> signInManager, Controller controller)
+        public SessionState Hydrate(ILogger logger, SignInManager<IdentityUser> signInManager, Controller controller)
         {
+            Logger = logger;
+
             QueryString = controller.Request.Query;
             PageNavigation = RouteValue("givenCanonical", "Home");
             PageNavigationEscaped = Uri.EscapeDataString(PageNavigation);
@@ -122,7 +126,7 @@ namespace TightWiki
                         httpContext.SignOutAsync(user.Identity.AuthenticationType);
                     }
 
-                    LoggingRepository.WriteException(ex);
+                    Logger?.LogError(ex, "An error occurred while hydrating the security context.");
                 }
             }
 

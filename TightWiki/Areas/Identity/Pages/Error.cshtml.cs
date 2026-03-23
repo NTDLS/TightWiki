@@ -38,8 +38,8 @@ namespace TightWiki.Areas.Identity.Pages
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
         }
 
-        public ErrorModel(SignInManager<IdentityUser> signInManager)
-            : base(signInManager)
+        public ErrorModel(ILogger<ErrorModel> logger, SignInManager<IdentityUser> signInManager)
+            : base(logger, signInManager)
         {
 
         }
