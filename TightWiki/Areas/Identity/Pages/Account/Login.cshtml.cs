@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Extensions;
 using TightWiki.Library;
 using TightWiki.Models;
@@ -34,10 +35,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
 
-        public LoginModel(ILogger<LoginModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<ConfirmEmailModel> localizer)
+        public LoginModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<ConfirmEmailModel> localizer)
                         : base(logger, signInManager)
         {
             _localizer = localizer;

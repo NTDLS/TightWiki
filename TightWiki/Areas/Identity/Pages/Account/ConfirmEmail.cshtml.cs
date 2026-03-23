@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Localization;
 using System.Text;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -15,10 +16,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
-        private readonly ILogger<ConfirmEmailModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public ConfirmEmailModel(
-            ILogger<ConfirmEmailModel> logger,
+            ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IStringLocalizer<ConfirmEmailModel> localizer)

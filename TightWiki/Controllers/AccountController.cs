@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Net;
 using System.Security.Claims;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.ViewModels;
 using TightWiki.Repository;
@@ -19,7 +20,7 @@ namespace TightWiki.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
 
         public AccountController(
-            Logger<AccountController> logger,
+            Logger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,

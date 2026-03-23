@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki
@@ -16,9 +17,9 @@ namespace TightWiki
         public string WarningMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
-        private readonly ILogger _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
-        public PageModelBase(ILogger logger, SignInManager<IdentityUser> signInManager)
+        public PageModelBase(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager)
         {
             _logger = logger;
             SignInManager = signInManager;

@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -12,13 +13,13 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<TwoFactorAuthenticationModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly IStringLocalizer<TwoFactorAuthenticationModel> _localizer;
 
         public TwoFactorAuthenticationModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<TwoFactorAuthenticationModel> logger,
+            ILogger<ITightEngine> logger,
             IStringLocalizer<TwoFactorAuthenticationModel> localizer)
             : base(logger, signInManager)
         {

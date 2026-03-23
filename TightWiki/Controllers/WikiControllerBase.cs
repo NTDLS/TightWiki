@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Controllers
 {
-    public class WikiControllerBase<T>(ILogger<T> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
+    public class WikiControllerBase<T>(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, IStringLocalizer<T> localizer)
         : Controller
     {
         public SessionState SessionState { get; private set; } = new();

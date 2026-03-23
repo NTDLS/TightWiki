@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -43,7 +44,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IStringLocalizer<SetPasswordModel> _localizer;
 
         public SetPasswordModel(
-            ILogger<SetPasswordModel> logger,
+            ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IStringLocalizer<SetPasswordModel> localizer)

@@ -9,6 +9,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
@@ -73,7 +74,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly IWikiEmailSender _emailSender;
         private readonly IStringLocalizer<RegisterModel> _localizer;
 
@@ -81,7 +82,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<ITightEngine> logger,
             IWikiEmailSender emailSender,
             IStringLocalizer<RegisterModel> localizer)
                         : base(logger, signInManager)

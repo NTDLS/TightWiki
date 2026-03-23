@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Exceptions;
 using TightWiki.Extensions;
 using TightWiki.Library;
@@ -24,7 +25,7 @@ namespace TightWiki
         private readonly string _allowString = WikiPermissionDisposition.Allow.ToString();
 
         public IQueryCollection? QueryString { get; set; }
-        public ILogger? Logger { get; private set; }
+        public ILogger<ITightEngine>? Logger { get; private set; }
 
         #region Authentication.
 
@@ -55,7 +56,7 @@ namespace TightWiki
 
         #endregion
 
-        public SessionState Hydrate(ILogger logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
+        public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, PageModel pageModel)
         {
             Logger = logger;
             QueryString = pageModel.Request.Query;
@@ -64,7 +65,7 @@ namespace TightWiki
             return this;
         }
 
-        public SessionState Hydrate(ILogger logger, SignInManager<IdentityUser> signInManager, Controller controller)
+        public SessionState Hydrate(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, Controller controller)
         {
             Logger = logger;
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
@@ -20,10 +21,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
-        private readonly ILogger<ForgotPasswordModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public ForgotPasswordModel(
-            ILogger<ForgotPasswordModel> logger, UserManager<IdentityUser> userManager,
+            ILogger<ITightEngine> logger, UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager, IWikiEmailSender emailSender)
             : base(logger, signInManager)
         {

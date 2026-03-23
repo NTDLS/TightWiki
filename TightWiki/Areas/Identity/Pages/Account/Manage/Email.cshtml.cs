@@ -9,6 +9,7 @@ using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Repository;
@@ -39,7 +40,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IStringLocalizer<EmailModel> _localizer;
 
         public EmailModel(
-            ILogger<EmailModel> logger,
+            ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IWikiEmailSender emailSender,

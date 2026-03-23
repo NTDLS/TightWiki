@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account
@@ -58,9 +59,9 @@ namespace TightWiki.Areas.Identity.Pages.Account
     public class ResetPasswordModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<ResetPasswordModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
-        public ResetPasswordModel(ILogger<ResetPasswordModel> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+        public ResetPasswordModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
                         : base(logger, signInManager)
         {
             _logger = logger;

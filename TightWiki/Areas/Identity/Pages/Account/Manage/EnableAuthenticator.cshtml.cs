@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -33,7 +34,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class EnableAuthenticatorModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<EnableAuthenticatorModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly IStringLocalizer<EnableAuthenticatorModel> _localizer;
 
@@ -41,7 +42,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
         public EnableAuthenticatorModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<EnableAuthenticatorModel> logger,
+            ILogger<ITightEngine> logger,
             UrlEncoder urlEncoder,
             IStringLocalizer<EnableAuthenticatorModel> localizer)
                         : base(logger, signInManager)

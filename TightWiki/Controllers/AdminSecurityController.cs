@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
@@ -19,7 +20,7 @@ namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class AdminSecurityController(ILogger<AdminSecurityController> logger, SignInManager<IdentityUser> signInManager,
+    public class AdminSecurityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
         UserManager<IdentityUser> userManager, IStringLocalizer<AdminSecurityController> localizer)
         : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer)
     {

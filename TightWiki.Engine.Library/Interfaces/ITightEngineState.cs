@@ -21,7 +21,7 @@ namespace TightWiki.Engine.Library.Interfaces
 
         #endregion
 
-        public ILogger Logger { get; }
+        public ILogger<ITightEngine> Logger { get; }
 
         #region State.
 

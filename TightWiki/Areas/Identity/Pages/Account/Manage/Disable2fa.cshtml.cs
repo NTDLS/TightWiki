@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -12,12 +13,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     public class Disable2faModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<Disable2faModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly IStringLocalizer<Disable2faModel> _localizer;
 
         public Disable2faModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            ILogger<Disable2faModel> logger,
+            ILogger<ITightEngine> logger,
             IStringLocalizer<Disable2faModel> localizer)
                         : base(logger, signInManager)
         {

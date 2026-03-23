@@ -29,10 +29,10 @@ namespace TightWiki.Controllers
         private readonly ITightEngine _tightEngine;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<AdminController> _localizer;
-        private readonly ILogger<AdminController> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer, ILogger<AdminController> logger)
+            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer, ILogger<ITightEngine> logger)
             : base(logger, signInManager, userManager, localizer)
         {
             _tightEngine = tightEngine;

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
@@ -23,10 +24,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IWikiEmailSender _emailSender;
         private readonly IStringLocalizer<ResendEmailConfirmationModel> _localizer;
-        private readonly ILogger<ResendEmailConfirmationModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public ResendEmailConfirmationModel(
-            ILogger<ResendEmailConfirmationModel> logger,
+            ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IWikiEmailSender emailSender,

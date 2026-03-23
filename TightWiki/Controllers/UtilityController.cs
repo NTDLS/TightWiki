@@ -3,13 +3,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models.ViewModels.Utility;
 
 namespace TightWiki.Controllers
 {
     [Authorize]
     [Route("[controller]")]
-    public class UtilityController(ILogger<UtilityController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<UtilityController> localizer)
+    public class UtilityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IStringLocalizer<UtilityController> localizer)
         : WikiControllerBase<UtilityController>(logger, signInManager, userManager, localizer)
     {
         [AllowAnonymous]

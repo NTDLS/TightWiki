@@ -54,7 +54,7 @@ namespace TightWiki.Engine
         public ISessionState? Session { get; }
         public HashSet<WikiMatchType> OmitMatches { get; private set; } = new();
         public int NestDepth { get; private set; } //Used for recursion.
-        public ILogger Logger { get; private set; }
+        public ILogger<ITightEngine> Logger { get; private set; }
 
         #endregion
 
@@ -106,7 +106,7 @@ namespace TightWiki.Engine
         /// <param name="revision">The revision of the page that is being processed.</param>
         /// <param name="omitMatches">The type of matches that we want to omit from processing.</param>
         /// <param name="nestDepth">The current depth of recursion.</param>
-        internal TightEngineState(ILogger logger, ITightEngine engine, ISessionState? session,
+        internal TightEngineState(ILogger<ITightEngine> logger, ITightEngine engine, ISessionState? session,
             IPage page, int? revision = null, WikiMatchType[]? omitMatches = null, int nestDepth = 0)
         {
             Logger = logger;

@@ -9,6 +9,7 @@ using System.Security.Claims;
 using TightWiki.Caching;
 using TightWiki.Engine;
 using TightWiki.Engine.Implementation.Utility;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
@@ -20,7 +21,7 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(ILogger<ProfileController> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
+    public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
         IWebHostEnvironment environment, IStringLocalizer<ProfileController> localizer)
         : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer)
     {

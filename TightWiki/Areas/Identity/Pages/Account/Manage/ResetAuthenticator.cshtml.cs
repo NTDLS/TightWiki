@@ -5,6 +5,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
@@ -13,13 +14,13 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<ResetAuthenticatorModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
         private readonly IStringLocalizer<ResetAuthenticatorModel> _localizer;
 
         public ResetAuthenticatorModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ResetAuthenticatorModel> logger,
+            ILogger<ITightEngine> logger,
             IStringLocalizer<ResetAuthenticatorModel> localizer)
                         : base(logger, signInManager)
 

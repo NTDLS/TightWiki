@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -21,7 +22,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public void OnGet()
         {
         }
-        public ForgotPasswordConfirmation(ILogger<ForgotPasswordConfirmation> logger, SignInManager<IdentityUser> signInManager)
+        public ForgotPasswordConfirmation(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager)
             : base(logger, signInManager)
         {
 

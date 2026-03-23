@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -17,7 +18,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly IStringLocalizer<ExternalLoginsModel> _localizer;
 
         public ExternalLoginsModel(
-                ILogger<ExternalLoginsModel> logger,
+                ILogger<ITightEngine> logger,
                 UserManager<IdentityUser> userManager,
                 SignInManager<IdentityUser> signInManager,
                 IUserStore<IdentityUser> userStore,

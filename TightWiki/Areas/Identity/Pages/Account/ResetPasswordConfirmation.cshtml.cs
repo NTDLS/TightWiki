@@ -4,6 +4,7 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using TightWiki.Engine.Library.Interfaces;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -22,7 +23,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
         {
         }
 
-        public ResetPasswordConfirmationModel(ILogger<ResetPasswordConfirmationModel> logger, SignInManager<IdentityUser> signInManager)
+        public ResetPasswordConfirmationModel(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager)
             : base(logger, signInManager)
         {
 

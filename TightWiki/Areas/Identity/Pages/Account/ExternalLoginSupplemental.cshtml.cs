@@ -5,6 +5,7 @@ using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Security.Claims;
+using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
@@ -49,10 +50,10 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
         private UserManager<IdentityUser> _userManager;
         private readonly IStringLocalizer<ExternalLoginSupplementalModel> _localizer;
-        private readonly ILogger<ExternalLoginSupplementalModel> _logger;
+        private readonly ILogger<ITightEngine> _logger;
 
         public ExternalLoginSupplementalModel(
-            ILogger<ExternalLoginSupplementalModel> logger,
+            ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
