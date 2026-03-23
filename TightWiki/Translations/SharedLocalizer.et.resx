@@ -2171,63 +2171,63 @@
     <value>Konto on juba määratud rolli liikmeks.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Resursitüüp</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Lisa</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Oled sa kindel, et soovid selle kontoga seotud õiguse eemaldada?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Eemaldamine nurjus</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Oled sa kindel, et soovid sellest kontost rolli eemaldada?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Vali asend</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Vali õigus</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Vali leht</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Vali nimeraamat</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Sa pead valima õiguse asendi.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Te peate valima loa.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Te peate valima lehekülje.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Te peate valima nimiruumi.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Te peate valima kas lehekülje või nimiruumi.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Kontol on juba määratud see luba.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Olete kindel, et soovite sellest rollist loa eemaldada?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Olete kindel, et soovite liikme sellest rollist eemaldada?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Rollil on juba see luba.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Valige konto</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Te peate valima konto.</value>
   </data>
 </root>

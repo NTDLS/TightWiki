@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {

@@ -2171,63 +2171,63 @@
     <value>ანგარიში უკვე არის მითითებულ როლში წევრი.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>რესურსის ტიპი</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>დამატება</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>დარწმუნებული ხართ, რომ გსურთ ამ ანგარიშთნიდან დაშვების შეცვლა?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>მორგვა ვერ მოხერხდა</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>დარწმუნებული ხართ, რომ გსურთ ამ ანგარიშიდან როლის ამოღება?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>აირჩიეთ განლაგება</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>აირჩიეთ დაშვება</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>აირჩიეთ გვერდი</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>აირჩიეთ ნიჭი</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>უნდა აირჩიოთ დაშვების განლაგება.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>თქვენ უნდა გაარჩიოთ დაშვება.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>თქვენ უნდა აირჩიოთ გვერდი.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>თქვენ უნდა აარჩევდეთ სახელப்பட்டო სივრცე.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>მიზეზი უნდა იყოს ან გვერდი, ან სახელობის სივრცე.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>ანგარიშზე უკვე აქვს მითითებული დაშვება.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>დარწმუნებული ხართ, რომ გსურთ ამ როლიდან დაშვების გასუფთავება?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>დარწმუნებული ხართ, რომ გსურთ ამ წევრის ამოღება ამ როლიდან?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>როლზე უკვე აქვს მითითებული დაშვება.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>აირჩიეთ ანგარიში</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>თქვენ უნდა აირჩიოთ ანგარიში.</value>
   </data>
 </root>

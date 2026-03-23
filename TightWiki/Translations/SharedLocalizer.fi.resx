@@ -2171,63 +2171,63 @@
     <value>Tilillä on jo kyseinen rooli jäsenenä.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Resurssityyppi</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Lisää</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Oletko varma, että haluat poistaa oikeuden tästä tilistä?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Poistaminen epäonnistui</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Oletko varma, että haluat poistaa roolin tästä tilistä?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Valitse määräys</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Valitse oikeus</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Valitse sivu</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Valitse nimiavaruus</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Sinun on valittava oikeuden määräys.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Sinun on valittava lupa.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Sinun on valittava sivu.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Sinun on valittava nimiavaruus.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Sinun on valittava joko sivu tai nimiavaruus.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Tiliin on jo määritelty kyseinen lupa.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Oletko varma, että haluat poistaa oikeuden tästä roolista?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Oletko varma, että haluat poistaa jäsenen tästä roolista?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Roolilla on jo kyseinen lupa.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Valitse tili</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Sinun on valittava tili.</value>
   </data>
 </root>

@@ -2171,63 +2171,63 @@
     <value>Az fiók már tagja a megadott szerepnek.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Erőforrás típus</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Hozzáadás</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Biztos benne, hogy el akarja távolítani az engedélyt ebből a fiókból?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Eltávolítás sikertelen</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Biztos benne, hogy el akarja távolítani a szerepkört ebből a fiókból?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Válasszon elhelyezést</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Válasszon engedélyt</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Válasszon oldalt</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Válasszon névteret</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>El kell választania egy engedély elrendezést.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Ki kell választania egy jogosultságot.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Ki kell választania egy oldalt.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Ki kell választania egy névteret.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Vagy oldalt, vagy névteret kell választania.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>A fiók már rendelkezik a megadott jogosultsággal.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Biztos benne, hogy el szeretné távolítani ezt a jogosultságot ebből a szerepkörből?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Biztos benne, hogy el szeretné távolítani a tagot ebből a szerepkörből?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>A szerepkör már rendelkezik a megadott jogosultsággal.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Válasszon egy fiókot</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Ki kell választania egy fiókot.</value>
   </data>
 </root>

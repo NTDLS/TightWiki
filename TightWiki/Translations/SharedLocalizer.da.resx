@@ -2171,63 +2171,63 @@
     <value>Kontoen er allerede medlem af den angivne rolle.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Resourcetype</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Tilføj</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Er du sikker på, at du vil fjerne tilladelsen fra denne konto?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Fjernelse mislykkedes</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Er du sikker på, at du vil fjerne rollen fra denne konto?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Vælg en disposition</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Vælg en tilladelse</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Vælg en side</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Vælg et navnerum</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Du skal vælge en tilladelsesdisposition.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Du skal vælge en tilladelse.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Du skal vælge en side.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Du skal vælge et namespace.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Du skal vælge enten side eller namespace.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Kontoen har allerede den angivne tilladelse.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Er du sikker på, at du vil fjerne tilladelsen fra denne rolle?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Er du sikker på, at du vil fjerne medlemmet fra denne rolle?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Rollen har allerede den angivne tilladelse.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Vælg en konto</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Du skal vælge en konto.</value>
   </data>
 </root>

@@ -2171,63 +2171,63 @@
     <value>Reikningurinn er þegar meðlimur í tilteknu hlutverki.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Auðlindategund</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Bæta við</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Ertu viss um að þú viljir fjarlægja heimildina frá þessari reikning?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Eyðublöð misheppnaðist</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Ertu viss um að þú viljir fjarlægja hlutverk frá þessari reikning?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Veldu ástand</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Veldu heimild</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Veldu síðu</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Veldu nafnrými</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Þú verður að velja heimildarástand.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Þú verður að velja leyfi.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Þú verður að velja síðu.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Þú verður að velja nafnssvæði.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Þú verður að velja annað hvort síðu eða nafnssvæði.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Reikningurinn hefur þegar tiltekið leyfi.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Ertu viss um að þú viljir fjarlægja leyfið frá þessu hlutverki?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Ertu viss um að þú viljir fjarlægja félaga frá þessu hlutverki?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Hlutverkið hefur þegar tiltekið leyfi.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Veldu reikning</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Þú verður að velja reikning.</value>
   </data>
 </root>

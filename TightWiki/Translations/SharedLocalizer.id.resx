@@ -2171,63 +2171,63 @@
     <value>Akun sudah menjadi anggota peran yang ditentukan.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Jenis sumber daya</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Tambah</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Apakah Anda yakin ingin menghapus izin dari akun ini?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Pembuangan gagal</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Apakah Anda yakin ingin menghapus peran dari akun ini?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Pilih disposisi</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Pilih izin</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Pilih halaman</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Pilih namespace</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Anda harus memilih disposisi izin.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Anda harus memilih izin.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Anda harus memilih halaman.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Anda harus memilih namespace.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Anda harus memilih halaman atau namespace.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Akun sudah memiliki izin yang ditentukan.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Apakah Anda yakin ingin menghapus izin dari peran ini?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Apakah Anda yakin ingin menghapus anggota dari peran ini?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Peran sudah memiliki izin yang ditentukan.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Pilih sebuah akun</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Anda harus memilih sebuah akun.</value>
   </data>
 </root>

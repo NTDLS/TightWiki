@@ -72,7 +72,7 @@ namespace LocalizerScan
                                 UNION SELECT Description FROM ConfigurationGroup WHERE Description != ''";
 
                 var configKeys = configDb.Query<string>(query);
-                foreach(var configKey in configKeys)
+                foreach (var configKey in configKeys)
                 {
                     keysToTranslate.Add(configKey);
                 }
@@ -108,7 +108,7 @@ namespace LocalizerScan
 
                 foreach (var culture in list)
                 {
-                    if(culture.Code == "en")
+                    if (culture.Code == "en")
                     {
                         //We skip English because the keys themselves are the English phrases, so there is no need to add them to the resource file.
                         continue;

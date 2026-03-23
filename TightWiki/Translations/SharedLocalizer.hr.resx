@@ -2171,63 +2171,63 @@
     <value>Račun je već član određene uloge.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Vrsta resursa</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Dodaj</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Jeste li sigurni da želite ukloniti dopuštenje s ovog računa?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Uklanjanje nije uspjelo</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Jeste li sigurni da želite ukloniti ulogu s ovog računa?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Odaberite odredbu</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Odaberite dopuštenje</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Odaberite stranicu</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Odaberite prostor imena</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Morate odabrati odredbu dopuštenja.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Morate odabrati dopuštenje.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Morate odabrati stranicu.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Morate odabrati imenski prostor.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Morate odabrati ili stranicu ili imenski prostor.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Račun već ima navedeno dopuštenje.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Jeste li sigurni da želite ukloniti dopuštenje s ove uloge?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Jeste li sigurni da želite ukloniti člana iz ove uloge?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Uloga već ima navedeno dopuštenje.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Odaberite račun</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Morate odabrati račun.</value>
   </data>
 </root>

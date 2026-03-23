@@ -2171,63 +2171,63 @@
     <value>खाता पहले ही निर्दिष्ट भूमिका का सदस्य है।</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>संसाधन प्रकार</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>जोड़ें</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>क्या आप सुनिश्चित हैं कि आप इस खाते से अनुमति हटाना चाहते हैं?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>हटाना विफल रहा</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>क्या आप सुनिश्चित हैं कि आप इस खाते से भूमिका हटाना चाहते हैं?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>एक स्थिति चुनें</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>एक अनुमति चुनें</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>एक पृष्ठ चुनें</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>एक नामस्थान चुनें</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>आपको अनुमति स्थिति चुननी होगी।</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>आपको अनुमति चुननी होगी।</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>आपको एक पृष्ठ चुनना होगा।</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>आपको एक नामस्थान चुनना होगा।</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>आपको या तो पृष्ठ या नामस्थान चुनना होगा।</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>खाते में पहले ही निर्दिष्ट अनुमति है।</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>क्या आप सुनिश्चित हैं कि आप इस भूमिका से अनुमति हटा देना चाहते हैं?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>क्या आप सुनिश्चित हैं कि आप इस सदस्य को इस भूमिका से हटा देना चाहते हैं?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>भूमिका में पहले ही निर्दिष्ट अनुमति है।</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>एक खाता चुनें</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>आपको एक खाता चुनना होगा।</value>
   </data>
 </root>

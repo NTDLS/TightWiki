@@ -2171,63 +2171,63 @@
     <value>L'account è già membro del ruolo specificato.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Tipo di risorsa</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Aggiungi</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Sei sicuro di voler rimuovere l'autorizzazione da questo account?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Interruzione fallita</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Sei sicuro di voler rimuovere il ruolo da questo account?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Seleziona una disposizione</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Seleziona un permesso</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Seleziona una pagina</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Seleziona uno namespace</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Devi selezionare una disposizione di autorizzazione.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Devi selezionare un permesso.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Devi selezionare una pagina.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Devi selezionare uno spazio dei nomi.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Devi selezionare una pagina o uno spazio dei nomi.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>L'account ha già il permesso specificato.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Sei sicuro di voler rimuovere il permesso da questo ruolo?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Sei sicuro di voler rimuovere il membro da questo ruolo?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Il ruolo ha già il permesso specificato.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Seleziona un account</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Devi selezionare un account.</value>
   </data>
 </root>

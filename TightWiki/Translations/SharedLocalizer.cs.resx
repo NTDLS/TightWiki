@@ -2171,63 +2171,63 @@
     <value>Účet je již členem dané role.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Typ zdroje</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Přidat</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jistý, že chcete odebrat oprávnění z tohoto účtu?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Odebrání se nezdařilo</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jistý, že chcete odebrat roli z tohoto účtu?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Zvolte postoj</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Zvolte oprávnění</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Zvolte stránku</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Zvolte jmenný prostor</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Musíte vybrat postoj oprávnění.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Musíte vybrat oprávnění.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Musíte vybrat stránku.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Musíte vybrat jmenný prostor.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Musíte vybrat buď stránku, nebo jmenný prostor.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Účet již má uvedené oprávnění.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jistý, že chcete toto oprávnění odebrat z této role?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jistý, že chcete odebrat člena z této role?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Role již má uvedené oprávnění.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Zvolte účet</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Musíte vybrat účet.</value>
   </data>
 </root>

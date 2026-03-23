@@ -2171,63 +2171,63 @@
     <value>Το λογαριασμό είναι ήδη μέλος του καθορισμένου ρόλου.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Τύπος πόρου</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Προσθήκη</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Είστε σίγουροι ότι θέλετε να αφαιρέσετε την άδεια από αυτόν τον λογαριασμό;</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Αποτυχία διαγραφής</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Είστε σίγουροι ότι θέλετε να αφαιρέσετε τον ρόλο από αυτόν τον λογαριασμό;</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε μια διάθεση</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε μια άδεια</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε μια σελίδα</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε ένα namespace</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Πρέπει να επιλέξετε μια διάθεση άδειας.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Πρέπει να επιλέξετε μια άδεια.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Πρέπει να επιλέξετε μια σελίδα.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Πρέπει να επιλέξετε έναν χώρο ονομάτων.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Πρέπει να επιλέξετε είτε σελίδα είτε χώρο ονομάτων.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Ο λογαριασμός ήδη έχει την καθορισμένη άδεια.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Είστε σίγουροι ότι θέλετε να αφαιρέσετε την άδεια από αυτόν τον ρόλο;</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Είστε σίγουροι ότι θέλετε να αφαιρέσετε το μέλος από αυτόν τον ρόλο;</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Ο ρόλος ήδη έχει την καθορισμένη άδεια.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε έναν λογαριασμό</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Πρέπει να επιλέξετε έναν λογαριασμό.</value>
   </data>
 </root>

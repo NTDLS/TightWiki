@@ -2171,63 +2171,63 @@
     <value>החשבון כבר חבר בתפקיד המפורש.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>סוג המשאב</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>הוסף</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>האם אתה בטוח שברצונך להסיר את ההרשאה מחשבון זה?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>הסרה נכשלה</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>האם אתה בטוח שברצונך להסיר את התפקיד מחשבון זה?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>בחר מצב-Disposition</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>בחר הרשאה</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>בחר עמוד</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>בחר מרחב שמות</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>עליך לבחור מצב הרשאה.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>עליך לבחור הרשאה.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>עליך לבחור דף.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>עליך לבחור מבן ייחוס.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>עליך לבחור או דף או מבן ייחוס.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>החשבון כבר מוגדר עם ההרשאה שנבחרה.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>אתה בטוח שברצונך להסיר את ההרשאה מהתפקיד הזה?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>אתה בטוח שברצונך להסיר את החבר מהתפקיד הזה?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>התפקיד כבר כולל את ההרשאה שנבחרה.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>בחר חשבון</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>עליך לבחור חשבון.</value>
   </data>
 </root>

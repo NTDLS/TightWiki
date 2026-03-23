@@ -2171,63 +2171,63 @@
     <value>حساب کاربری هم اکنون عضو نقش مشخص شده است.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>نوع منبع</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>اضافه کردن</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>آیا مطمئن هستید که می‌خواهید مجوز را از این حساب حذف کنید؟</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>حذف ناموفق بود</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>آیا مطمئن هستید که می‌خواهید نقش را از این حساب حذف کنید؟</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>یک وضعیت را انتخاب کنید</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>یک مجوز را انتخاب کنید</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>یک صفحه را انتخاب کنید</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>یک فضای نام را انتخاب کنید</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>شما باید یک وضعیت مجوز انتخاب کنید.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>باید مجوزی را انتخاب کنید.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>باید یک صفحه را انتخاب کنید.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>باید یک فضای نام را انتخاب کنید.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>اگر صفحه یا فضای نام را انتخاب کنید.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>حساب کاربری در حال حاضر دارای مجوز مشخص شده است.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>آیا مطمئن هستید که می‌خواهید مجوز را از این نقش حذف کنید؟</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>آیا مطمئن هستید که می‌خواهید عضو را از این نقش حذف کنید؟</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>نقش قبلا مجوز مشخص شده را دارد.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>یک حساب کاربری را انتخاب کنید</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>باید یک حساب کاربری را انتخاب کنید.</value>
   </data>
 </root>
