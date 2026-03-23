@@ -23,7 +23,6 @@ using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
 using TightWiki.Translations;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
@@ -78,7 +77,7 @@ namespace TightWiki
             builder.Services.AddScoped<ISideBySideDiffBuilder>(sp =>
                 new SideBySideDiffBuilder(sp.GetRequiredService<IDiffer>()));
 
-            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
             var requireConfirmedAccount = membershipConfig.Value<bool>("Require Email Verification");
 
             // Add services to the container.
@@ -129,9 +128,9 @@ namespace TightWiki
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            var externalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.ExternalAuthentication);
-            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
-            var cookiesConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Cookies);
+            var externalAuthenticationConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.ExternalAuthentication);
+            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
+            var cookiesConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Cookies);
 
             var authentication = builder.Services.AddAuthentication()
                 .AddCookie("CookieAuth", options =>
@@ -380,10 +379,10 @@ namespace TightWiki
                     try
                     {
                         await DatabaseUpgrade.ApplyAllSeedData(logger, userManager, tightEngine,
-                            [DefaultDataType.Themes,
-                            DefaultDataType.Configurations,
-                            DefaultDataType.FeatureTemplates,
-                            DefaultDataType.WikiHelpPages]);
+                            [WikiDefaultDataType.Themes,
+                            WikiDefaultDataType.Configurations,
+                            WikiDefaultDataType.FeatureTemplates,
+                            WikiDefaultDataType.WikiHelpPages]);
                     }
                     catch (Exception ex)
                     {

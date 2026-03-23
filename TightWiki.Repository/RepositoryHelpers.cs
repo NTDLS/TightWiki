@@ -83,7 +83,7 @@ namespace TightWiki.Repository
 
         internal static List<WeightedSearchToken> ComputeParsedPageTokens(string content, double weightMultiplier)
         {
-            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);
+            var searchConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Membership);
 
             var exclusionWords = searchConfig?.Value<string>("Word Exclusions")?
                 .Split([',', ';'], StringSplitOptions.RemoveEmptyEntries).Distinct() ?? new List<string>();

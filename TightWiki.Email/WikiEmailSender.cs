@@ -22,7 +22,7 @@ namespace TightWiki.Email
         {
             try
             {
-                var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Email);
+                var values = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Email);
                 var smtpPassword = values.Value<string>("Password");
                 var smtpUsername = values.Value<string>("Username");
                 var smtpAddress = values.Value<string>("Address");

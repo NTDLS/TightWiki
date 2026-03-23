@@ -11,7 +11,6 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Models.ViewModels.File;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 using static TightWiki.Library.Images;
 
 namespace TightWiki.Controllers

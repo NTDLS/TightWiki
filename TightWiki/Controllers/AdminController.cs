@@ -86,7 +86,7 @@ namespace TightWiki.Controllers
         [HttpPost("Database/restore/{defaultData}")]
         public async Task<ActionResult> Database(ConfirmActionViewModel model, string defaultData)
         {
-            var defaultDataType = Enum.Parse<DefaultDataType>(defaultData);
+            var defaultDataType = Enum.Parse<WikiDefaultDataType>(defaultData);
 
             try
             {
@@ -1616,7 +1616,7 @@ namespace TightWiki.Controllers
         [HttpPost("TestLdap")]
         public async Task<IActionResult> TestLdap([FromBody] LdapTestRequest req)
         {
-            var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.LDAPAuthentication);
+            var ldapAuthenticationConfiguration = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.LDAPAuthentication);
 
             try
             {

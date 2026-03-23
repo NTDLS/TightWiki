@@ -1,6 +1,6 @@
-﻿@using TightWiki.Models
+﻿@using TightWiki.Library
+@using TightWiki.Models
 @using static TightWiki.Library.Constants
-@using TightWiki.Library
 @inject ISharedLocalizationText Localizer
 
 @model TightWiki.Models.ViewModels.Admin.DatabaseViewModel
@@ -103,7 +103,7 @@
                                             GlobalConfiguration.BasePath,
                                             Localizer["This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?"].Value,
                                             Localizer["Configuration"].Value,
-                                            $"/Admin/Database/Restore/{DefaultDataType.Configurations}",
+                                            $"/Admin/Database/Restore/{WikiDefaultDataType.Configurations}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
@@ -111,7 +111,7 @@
                                             GlobalConfiguration.BasePath,
                                             Localizer["This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"].Value,
                                             Localizer["Themes"].Value,
-                                            $"/Admin/Database/Restore/{DefaultDataType.Themes}",
+                                            $"/Admin/Database/Restore/{WikiDefaultDataType.Themes}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
                                     }
@@ -121,7 +121,7 @@
                                             GlobalConfiguration.BasePath,
                                             Localizer["This will restore all Wiki Help namespace pages. Continue?"].Value,
                                             Localizer["Wiki Help Pages"].Value,
-                                            $"/Admin/Database/Restore/{DefaultDataType.WikiHelpPages}",
+                                            $"/Admin/Database/Restore/{WikiDefaultDataType.WikiHelpPages}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
@@ -129,7 +129,7 @@
                                             GlobalConfiguration.BasePath,
                                             Localizer["This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?"].Value,
                                             Localizer["Built-in Pages"].Value,
-                                            $"/Admin/Database/Restore/{DefaultDataType.WikiBuiltinPages}",
+                                            $"/Admin/Database/Restore/{WikiDefaultDataType.WikiBuiltinPages}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
@@ -137,7 +137,7 @@
                                             GlobalConfiguration.BasePath,
                                             Localizer["This will restore all Include namespace pages. Continue?"].Value,
                                             Localizer["Include Pages"].Value,
-                                            $"/Admin/Database/Restore/{DefaultDataType.WikiIncludePages}",
+                                            $"/Admin/Database/Restore/{WikiDefaultDataType.WikiIncludePages}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
 
@@ -145,7 +145,7 @@
                                             GlobalConfiguration.BasePath,
                                             Localizer["This will restore all Feature Templates, overwriting any customizations you may have made. Continue?"].Value,
                                             Localizer["Feature Templates"].Value,
-                                            $"/Admin/Database/Restore/{DefaultDataType.FeatureTemplates}",
+                                            $"/Admin/Database/Restore/{WikiDefaultDataType.FeatureTemplates}",
                                             Context.Request.Path.Value,
                                             @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
                                     }

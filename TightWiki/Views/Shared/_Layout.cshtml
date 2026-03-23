@@ -1,11 +1,11 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.Extensions.Options
-@using System.Globalization
+﻿@using System.Globalization
 @using System.Text.Encodings.Web
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
 @using TightWiki
+@using TightWiki.Library
 @using TightWiki.Models
 @using static TightWiki.Library.Constants
-@using TightWiki.Library
 @inject ISharedLocalizationText Localizer
 
 @{
@@ -323,7 +323,7 @@
         <main role="main" class="pb-3">
             @Html.Raw(TightWiki.Models.GlobalConfiguration.HTMLPreBody)
 
-            @if (TightWiki.Repository.UsersRepository.AdminPasswordStatus() != TightWiki.Library.Constants.AdminPasswordChangeState.HasBeenChanged)
+            @if (TightWiki.Repository.UsersRepository.AdminPasswordStatus() != WikiAdminPasswordChangeState.HasBeenChanged)
             {
                 <div class="card shadow-sm border-warning mb-3">
                     <div class="card-header bg-warning-subtle border-warning">

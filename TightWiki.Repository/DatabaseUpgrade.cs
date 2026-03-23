@@ -7,7 +7,6 @@ using System.Security.Claims;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.DataModels.Defaults;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {
@@ -172,7 +171,7 @@ namespace TightWiki.Repository
             return null;
         }
 
-        public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, DefaultDataType[] defaultDataTypes)
+        public static async Task ApplyAllSeedData(ILogger logger, UserManager<IdentityUser> userManager, ITightEngine tightEngine, WikiDefaultDataType[] defaultDataTypes)
         {
             #region Seed: AdminUser.
 
@@ -230,7 +229,7 @@ namespace TightWiki.Repository
 
             #region Seed: Configurations.
 
-            if (defaultDataTypes.Contains(DefaultDataType.Configurations))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.Configurations))
             {
                 logger.LogInformation("Seeding default configurations.");
 
@@ -280,7 +279,7 @@ namespace TightWiki.Repository
 
             #region Seed: Themes.
 
-            if (defaultDataTypes.Contains(DefaultDataType.Themes))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.Themes))
             {
                 logger.LogInformation("Seeding default themes.");
                 try
@@ -311,9 +310,9 @@ namespace TightWiki.Repository
 
             #region Seed: WikiPages.
 
-            if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages)
-                || defaultDataTypes.Contains(DefaultDataType.WikiIncludePages)
-                || defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.WikiHelpPages)
+                || defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages)
+                || defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
             {
                 logger.LogInformation("Seeding default wiki pages.");
 
@@ -323,17 +322,17 @@ namespace TightWiki.Repository
 
                     List<DefaultWikiPage> defaultWikiPages = new();
 
-                    if (defaultDataTypes.Contains(DefaultDataType.WikiHelpPages))
+                    if (defaultDataTypes.Contains(WikiDefaultDataType.WikiHelpPages))
                     {
                         defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Wiki Help" }));
                     }
-                    if (defaultDataTypes.Contains(DefaultDataType.WikiIncludePages))
+                    if (defaultDataTypes.Contains(WikiDefaultDataType.WikiIncludePages))
                     {
                         defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Include" }));
                     }
-                    if (defaultDataTypes.Contains(DefaultDataType.WikiBuiltinPages))
+                    if (defaultDataTypes.Contains(WikiDefaultDataType.WikiBuiltinPages))
                     {
                         defaultWikiPages.AddRange(ManagedDataStorage.Defaults.Query<DefaultWikiPage>(@"Scripts\Defaults\GetDefaultWikiPages.sql",
                             new { Namespace = "Builtin" }));
@@ -374,7 +373,7 @@ namespace TightWiki.Repository
 
             #region Seed: FeatureTemplates.
 
-            if (defaultDataTypes.Contains(DefaultDataType.FeatureTemplates))
+            if (defaultDataTypes.Contains(WikiDefaultDataType.FeatureTemplates))
             {
                 try
                 {

@@ -7,7 +7,6 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models.ViewModels.Page;
 using TightWiki.Repository;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
 {

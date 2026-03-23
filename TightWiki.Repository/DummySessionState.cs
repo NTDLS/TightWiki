@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki.Repository
 {

@@ -193,8 +193,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                 values: new { area = "Identity", userId = userId, code = encodedCode },
                                 protocol: Request.Scheme);
 
-                            var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.ConfigurationGroup.Membership, "Template: Account Verification Email"));
-                            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Basic);
+                            var emailTemplate = new StringBuilder(ConfigurationRepository.Get<string>(Constants.WikiConfigurationGroup.Membership, "Template: Account Verification Email"));
+                            var basicConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.WikiConfigurationGroup.Basic);
                             var siteName = basicConfig.Value<string>("Name");
                             var address = basicConfig.Value<string>("Address");
                             var profile = UsersRepository.GetAccountProfileByUserId(Guid.Parse(userId));

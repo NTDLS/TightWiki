@@ -7,62 +7,6 @@
         public const string DEFAULTACCOUNT = "admin";
         public const string DEFAULTPASSWORD = "2Tight2Wiki@";
 
-        public enum DefaultDataType
-        {
-            Configurations,
-            Themes,
-            WikiHelpPages,
-            WikiBuiltinPages,
-            WikiIncludePages,
-            FeatureTemplates = 5
-        }
-
-        public enum WikiPermissionDisposition
-        {
-            Allow,
-            Deny
-        }
-
-        public enum WikiRoles
-        {
-            Administrator,
-            Member,
-            Contributor,
-            Moderator,
-            Anonymous
-        }
-
-        public enum WikiPermission
-        {
-            Read,
-            Edit,
-            Delete,
-            Moderate,
-            Create
-        }
-
-        public enum WikiTheme
-        {
-            Light,
-            Dark
-        }
-
-        public enum AdminPasswordChangeState
-        {
-            /// <summary>
-            /// The password has not been changed, display a big warning.
-            /// </summary>
-            IsDefault,
-            /// <summary>
-            /// All is well!
-            /// </summary>
-            HasBeenChanged,
-            /// <summary>
-            /// The default password status does not exist and the password needs to be set to default.
-            /// </summary>
-            NeedsToBeSet
-        }
-
         public static class WikiInstruction
         {
             public static string Deprecate { get; } = "Deprecate";
@@ -76,7 +20,7 @@
             public static string HideFooterLastModified { get; } = "HideFooterLastModified";
         }
 
-        public static class ConfigurationGroup
+        public static class WikiConfigurationGroup
         {
             public const string Basic = "Basic";
             public const string Cookies = "Cookies";
@@ -91,5 +35,61 @@
             public const string LDAPAuthentication = "LDAP Authentication";
             public const string FilesAndAttachments = "Files and Attachments";
         }
+    }
+
+    public enum WikiDefaultDataType
+    {
+        Configurations,
+        Themes,
+        WikiHelpPages,
+        WikiBuiltinPages,
+        WikiIncludePages,
+        FeatureTemplates = 5
+    }
+
+    public enum WikiPermissionDisposition
+    {
+        Allow,
+        Deny
+    }
+
+    public enum WikiRoles
+    {
+        Administrator,
+        Member,
+        Contributor,
+        Moderator,
+        Anonymous
+    }
+
+    public enum WikiPermission
+    {
+        Read,
+        Edit,
+        Delete,
+        Moderate,
+        Create
+    }
+
+    public enum WikiTheme
+    {
+        Light,
+        Dark
+    }
+
+    public enum WikiAdminPasswordChangeState
+    {
+        /// <summary>
+        /// The password has not been changed, display a big warning.
+        /// </summary>
+        IsDefault,
+        /// <summary>
+        /// All is well!
+        /// </summary>
+        HasBeenChanged,
+        /// <summary>
+        /// The default password status does not exist and the password needs to be set to default.
+        /// </summary>
+        NeedsToBeSet
     }
 }

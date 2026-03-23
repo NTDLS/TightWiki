@@ -14,7 +14,6 @@ using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
 using TightWiki.Translations;
-using static TightWiki.Library.Constants;
 
 namespace TightWiki
 {
