@@ -2009,225 +2009,225 @@
     <value>Saplūst ar lielo burtu automašīnam</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>Veidne: Konta apstiprinājuma e-pasts</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>Veidne: Parola atiestatīšanas e-pasts</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Konts, kas jāizmanto visās e-pasta komunikācijās.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Pamattemats, ko izmantot visā vietnes stila veidošanā.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Vējšbrosa zīmola attēls, tas tiek rādīts virs katras vējšbrosa lapas.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Vējšbrosa autortiesības, tas tiek rādīts lapu apakšā.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Valsts, kas jāizmanto vietnes kultūrai viesiem.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Standarta valsts, ko izmantot jaunajiem kontiem.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>Standarta domains, ko izmantot, ja lietotājs nav norādījis UPN vai pilnu kvalificētu domēnu\\Lietotājvārdu pieteikšanās brīdī.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Standarta augstums, uz ko skalēt emojis. Platums tiks skalēts uz tādu pašu attiecību. Pēc noklusējuma: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Noklusējuma valoda jauniem kontiem.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Noklusējuma loma, kas piešķirama kontiem, kad tie reģistrējas. Noklusējums: Kurators.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Noklusējuma laika josla jauniem kontiem.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Rādāmā vārda nosaukums visām e-pasta komunikācijām.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Vikis kājenes daļa, kas parādās virsū visām lapām.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>Pilnīgs kvalificēts domēna nosaukums, ko izmanto LDAP autentifikācijā.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Jūsu vika interneta adrese.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Valoda, ko izmantot vietnes kultūrai viesiem.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Atmiņas limits (megabaitos) kešatmiņai. Vecākie elementi tiks izslēgti, kad tiks sasniegts limits. Noklusējums: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>Vikas lapas nosaukums, kas tiek parādīts, ja pieprasa neeksistējošu lapu.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>Nosaukums vāka lapai, ko rādīt, kad tiek pieprasīta neeksistējoša lapas versija.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>Vāka lapas nosaukums, ko izmantot kā noklusējuma saturu, veidojot jaunus vāka lapas.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Vāka lapas nosaukums, kas tiek rādīts visur.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Vienību skaits, ko atgriezt, ja tiek izmantota pārslēgšana lapās. Noklusējums: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>Noklusējuma skaits nesen modificēto lapu, kas tiek rādīts lietotāju publiskajos profilieros. Noklusējums: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Sekundes, ko kešot lapas atmiņā (0 = izslēgts). Noklusējums: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>SMTP parole, kas jālieto sūtot e-pastu.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>SMTP ports, ko izmantot, sūtot e-pastu. Noklusējums: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>SMTP servera IP/host, ko izmantot, sūtot e-pastu.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Laika josla, ko lietot vietnes kultūrā viesiem.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>Izmantot SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>Vērtība no 0,0 līdz 1,0, kas nosaka, cik stipram meklējumam ir jābūt, lai tā tiktu rādīta meklēšanas rezultātos. Noklusējums: 0,6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>Izmantojot meklēšanas indeksu, šos vārdus tiks izslēgts no indeksēšanas. (Atdalīti ar komatu)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Kad komentāri ir iespējoti, šī opcija ļauj parādīt komentārus apakšā katrai lapai. Noklusējums: Iespējots.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai meklēšanas lodziņš tiks parādīts navigācijas joslā. Noklusējums: Iespējots.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai ir iespējots OpenID Connect.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>Vai ir nepieciešams veikt lēnu iepriekšēju ielādi visiem animētajiem emocijzīmēm sākumā.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>Vai ir nepieciešams autentificēt caur LDAP, mēģinot pieteikties lietotājiem.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>Vai ir nepieciešams izmantot drošu savienojumu ar LDAP. Tas ne vienmēr ir atbalstīts domēnos.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai lapas komentāri tiks aktivizēti. Autentifikācija ir nepieciešama komentāriem, bet lasīt var visi. Noklusējums: Iespējots.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>Vai SMTP būtu jāpiesaista, izmantojot SSL vai nē.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai lapas apraksts būtu jāiekļauj HTML galvenes meta tagā. Pēc noklusējuma: ieslēgts.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Vai augšējā izvēlne jāturpina vietā, kad tiek ritināts vertikāli.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai lapas saistītās wiki tagi būtu jāiekļauj HTML galvenes meta atslēgvārtos. Pēc noklusējuma: ieslēgts.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai būtu jāatļauj nesasniedzamas meklēšanas, meklējot. Pēc noklusējuma: ieslēgts.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Vai būtu jāpieraksta lapas wiki ierakstu kompilācijas metri datu bāzē. To var izmantot veiktspējas pārbaudei, bet tas var arī izraisīt lēnākumu. Pēc noklusējuma: atslēgts.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai būtu jāparāda pēdējā lietotāja un datuma kad lapa tika mainīta ar saiti uz publisko lietotāja profilu. Pēc noklusējuma: ieslēgts.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>Vai būtu jāparāda teksta lodziņš, lai lietotājs varētu ievadīt izmaiņu kopsavilkumu, rediģējot lapas.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai būtu jāšķeļ CamelCasedStrings, parsējot lapas meklēšanas žetonos. Tas var būt noderīgi, kad lapās ir daudz programmēšanas/koda satura. Pēc noklusējuma: ieslēgts.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Vai lietotājiem būtu jāievada izmaiņu kopsavilkums, rediģējot lapas. Ņemiet vērā, ka "Rādīt izmaiņu kopsavilkumu rediģēšanas laikā" arī jāiespējo.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Vai apmeklētāji var apskatīt dalībniekus un viņu publiskos profilus.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Vārdu izslēgšanas</value>
   </data>
   <data name="You must select a role." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas loma.</value>
   </data>
   <data name="The account is already a member of the specified role." xml:space="preserve">
-    <value></value>
+    <value>Konts jau ir šīs lomas dalībnieks.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Resursa tips</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Pievienot</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Vai jūs esat pārliecināts, ka vēlaties noņemt atļauju no šī konta?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Nenozaudēts</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Vai jūs esat pārliecināts, ka vēlaties noņemt lomu no šī konta?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Izvēlieties novietojumu</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Izdzēsiet atļauju</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Izdzēsiet lapu</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Izdzēsiet telpisko nosaukumu</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas atļaujas novietojums.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas atļauja.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas lapa.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas telpiskais nosaukums.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas vai nu lapa vai telpiskais nosaukums.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Kontam jau ir norādītā atļauja.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Vai tiešām vēlaties no šīs lomas noņemt atļauju?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Vai esat pārliecināts, ka vēlaties noņemt dalībnieku no šī loma?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Šī loma jau ir ar norādīto atļauju.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Izvēlieties kontu</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Jums jāizvēlas konts.</value>
   </data>
 </root>

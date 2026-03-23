@@ -59,964 +59,964 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- of -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Geen beschrijving)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Geen link)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Geen tekst)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Ga nu door{1} of wordt omgeleid in {2} seconden.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>2fa is uitgeschakeld. Je kunt 2fa weer inschakelen wanneer je een authenticatie-app installeert</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Toegang geweigerd.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>Account</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Account Verwijderd!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Account Editor</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Verificatie e-mailaccount</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Accountbeheer</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Accountrechten</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Accountroltoewijzing</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Accountrollen en -rechten voor een enkel account.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Accountrollen en -rechten voor: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Accounts</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Actie</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Account toevoegen</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Authenticator-app toevoegen</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Voeg Emoji toe</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Voeg Lid Toe Aan Rol</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Nieuw account toevoegen</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Nieuwe Emoji Toevoegen</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Nieuw item toevoegen</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Permissie Toevoegen Aan Account</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Permissie Toevoegen Aan Rol</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Rol Toevoegen</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Rol Toevoegen Aan Account</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Beheerder</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>ALLE</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Alle wijzigingen die zijn aangebracht aan het bijgevoegde bestand.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Alle wijzigingen die zijn aangebracht op de pagina.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Alle opmerkingen gemaakt op de gegeven pagina.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Alle namenruimtes die in de wiki voorkomen.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Alle pagina's die in de naamruimte liggen.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Alle pagina's die in de wiki voorkomen.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Al lid?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>Er is een fout opgetreden bij het verwerken van uw verzoek.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Analyse</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Ben je zeker dat je deze verwijdering wilt voortzetten?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Weet je zeker dat je door wilt gaan?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Weet je zeker dat je deze reactie wilt verwijderen?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Weet je zeker dat je los wilt koppelen</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Weet je zeker dat je uit de applicatie wilt uitloggen?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Ben je zeker?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Verbind je jouw {0} account.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Geassocieerde Pagina's</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Geassocieerde Tags</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Bestanden toevoegen door ze hier te droppen of door ze handmatig hieronder te selecteren:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Bijlagen</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Authenticator-app</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Beschikbare talen</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Avatar</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Verbinding mislukt.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Verbinding geslaagd.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Biografie</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Vet</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Blader door pagina's gemarkeerd met verschillende verwerkingsinstructies om te zien wat in concept is, in afwachting van verwijdering, beschermd, enz.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Ingebouwde pagina's</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Cache</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Annuleren</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Categorieën</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Verander Avatar</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Verander e-mail</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Verander afbeelding</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Verander wachtwoord</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Verander Samenvatting</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Wijzig je accountinstellingen</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Kies een pagina</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Kies afbeelding</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Kies sjabloon</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Kies je voorkeurstaal voor de interface.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Sluiten</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Categorieën gescheiden door komma's</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Opmerkingen</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statistieken van de compilatie</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Compilaties</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Volledig aanmelden</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Configuratie</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Configuratie voor een emoji.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Configuratie voor gebruikersaccount.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Configuratie om een emoji toe te voegen.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Authenticator-app configureren</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Bevestig e-mail wijziging</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Uitloggen bevestigen</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Wachtwoord bevestigen</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Bevestig je e-mailadres.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Bevestigingslink om e-mail te wijzigen verzonden. Controleer je e-mail.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Bevestigd</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Inhoud</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Doorgaan</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Kopieer Tag</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>Land</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Maak een nieuw account aan</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Maak nieuwe pagina aan</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Maak een nieuwe rol aan.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Maak een nieuw gebruikersaccount aan.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Maak je account aan en configureer je basisprofielgegevens.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Datum gemaakt</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Inloggegevens</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Huidige beheerder inloggen</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Database</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Database Hulpmiddelen</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Datum/Tijd</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>Standaard wachtwoord is niet gewijzigd</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Account Verwijderen</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Verwijder pagina '{0}'?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Verwijder Rol</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Deze pagina verwijderen</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Verwijderd door</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Verwijderdatum</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Inhoud van verwijderde pagina</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Wachtrij verwijderde pagina's</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisies van verwijderde pagina</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Verwijderde pagina's</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Inhoud van verwijderde revisie</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Verwijderde revisies</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Het verwijderen van '{0}' verplaatst de pagina, alle {1} revisies en bijbehorende bestandsbijlagen naar de verwijderwachtrij. Deze actie kan alleen worden teruggedraaid door een administrator of moderator. Doorgaan?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>Verwijderen '{0}' verplaatst de pagina, met alle {1} revisies en {2} bestandbijlagen, naar de verwijderwachtrij.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen '{0}' verwijdert het account permanent. Alle pagina's die door deze gebruiker zijn gemaakt of gewijzigd, worden gekoppeld aan een vervangingsaccount en je kunt deze actie niet ongedaan maken. Doorgaan?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen '{0}' verwijdert het account permanent. Alle pagina's die door deze gebruiker zijn gemaakt of gewijzigd, worden gekoppeld aan een vervangingsaccount. Doorgaan?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen '{0}' verwijdert permanent het menu-item en je kunt deze actie niet ongedaan maken. Doorgaan?</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen revisie {0} van "{1}" verplaatst de pagina-revisie naar de verwijderwachtrij. Dit kan alleen worden teruggedraaid door een beheerder of moderator. Doorgaan?</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen van de emoji '{0}' verwijdert de afbeelding permanent en alle verwijzingen ernaar worden orphaned. Je kunt deze verwijdering niet ongedaan maken. Doorgaan?</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen van de rol '{0}' ontnemen alle permissies die aan die rol zijn toegekend of geweigerd. Doorgaan?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>Omschrijving</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>Lossen</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Details</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>Ontwikkelingsmodus</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>Verschillen</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>Schakel 2FA uit</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Schakel twee-factor authenticatie (2FA) uit</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Het uitschakelen van 2FA verandert de sleutels die in authenticatie-apps worden gebruikt niet.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>Discussie voor deze pagina.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>Weergavenaam</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>Verhouding</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>Onderscheidende naam:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>Heb je geen toegang tot je authenticatietoestel?</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Download een authenticatie-app voor twee factoren zoals Microsoft Authenticator voor {0} en {1} of Google Authenticator voor {2} en {3}.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>Drop bestandsbijlagen hier of klik om handmatig te uploaden.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>Drop hier bestanden...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>Duur</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>Bewerk</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>Editor Grootte</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Of de wachtrij met verwijderde pagina's is leeg of je zoekcriteria hebben geen resultaten opgeleverd.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Of er zijn geen accounts geconfigureerd of je zoekcriteria hebben geen resultaten opgeleverd.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Of er zijn geen emojis geconfigureerd of je zoekcriteria hebben geen resultaten opgeleverd.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Of er zijn geen pagina's of je zoekcriteria hebben geen resultaten opgeleverd.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>E-mail</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>E-mailadres</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>E-mail Bevestigd?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emoji</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>Emoji Editor</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>Emoji Beheer</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>Emojis</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>Voer een URL in.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>Voer een interne pad of externe URL in.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>Voer je e-mail in.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>Omgeving</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>Fout</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>Fout bij kopiëren van tekst</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>Fouten</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>Gebeurtenislogboek</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>Inschrijving in gebeurtenislogboek</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>Uitzondering</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>Uitzonderingen</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>Exporteren</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>Externe aanmeldingen</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>Externe URL</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>Extra Large</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>Zeer Klein</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>Voorvertoning laden mislukt.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>Functietemplates</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>Bestand</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>Filter</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>Voornaam</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Het leegmaken van de geheugencache zal alle gecachte items verwijderen en database-aanroepen vereisen terwijl pagina's worden aangevraagd. Doorgaan?</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>Vergeet deze browser</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Bevestiging van wachtwoord vergeten</value>
   </data>
   <data name="Forgot your password?" xml:space="preserve">
-    <value></value>
+    <value>Ben je je wachtwoord vergeten?</value>
   </data>
   <data name="Framework Version" xml:space="preserve">
-    <value></value>
+    <value>Framework Versie</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value></value>
+    <value>Algemeen</value>
   </data>
   <data name="Generate Recovery Codes" xml:space="preserve">
-    <value></value>
+    <value>Genereer Herstelsleutels</value>
   </data>
   <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Genereer herstelsleutels voor two-factor authenticatie (2FA)</value>
   </data>
   <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Het genereren van nieuwe herstelsleutels verandert de sleutels die in authenticatie-apps worden gebruikt niet.</value>
   </data>
   <data name="Gets" xml:space="preserve">
-    <value></value>
+    <value>Krijgt</value>
   </data>
   <data name="Global configuration for Emojis." xml:space="preserve">
-    <value></value>
+    <value>Globale configuratie voor Emoji's.</value>
   </data>
   <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value></value>
+    <value>Globale configuratie voor beveiligingsrollen en lidmaatschap.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value></value>
+    <value>Wereldwijde configuratie voor het site menu-item.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
-    <value></value>
+    <value>Wereldwijde configuratie voor het site menu.</value>
   </data>
   <data name="Global configuration for user accounts." xml:space="preserve">
-    <value></value>
+    <value>Globale configuratie voor gebruikersaccounts.</value>
   </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value></value>
+    <value>Globale configuratiewaarden voor de wiki, de functionaliteit, het gedrag, de opmaak en de branding.</value>
   </data>
   <data name="Hello {0}!" xml:space="preserve">
-    <value></value>
+    <value>Hallo {0}!</value>
   </data>
   <data name="Highlight" xml:space="preserve">
-    <value></value>
+    <value>Accentueer</value>
   </data>
   <data name="Hits" xml:space="preserve">
-    <value></value>
+    <value>Hits</value>
   </data>
   <data name="Huge" xml:space="preserve">
-    <value></value>
+    <value>Groot</value>
   </data>
   <data name="Hyperlink" xml:space="preserve">
-    <value></value>
+    <value>Hyperlink</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value></value>
+    <value>Id</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value></value>
+    <value>Als het hier is, zou je het moeten kunnen vinden.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Als je je apparaat verliest en de herstelcodes niet hebt, verlies je toegang tot je account.</value>
   </data>
   <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value></value>
+    <value>Als je je authenticatorsleutel reset, werkt je authenticatie-app niet totdat je deze opnieuw configureert.</value>
   </data>
   <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value></value>
+    <value>Als je de sleutel wilt wijzigen die in een authenticatie-app wordt gebruikt, moet je je authenticatorsleutels resetten.</value>
   </data>
   <data name="Image" xml:space="preserve">
-    <value></value>
+    <value>Afbeelding</value>
   </data>
   <data name="Include Pages" xml:space="preserve">
-    <value></value>
+    <value>Pagina's opnemen</value>
   </data>
   <data name="Info1" xml:space="preserve">
-    <value></value>
+    <value>Info1</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value></value>
+    <value>Info2</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value></value>
+    <value>Invoeren</value>
   </data>
   <data name="Insert Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emoji invoegen</value>
   </data>
   <data name="Inter-Page Links" xml:space="preserve">
-    <value></value>
+    <value>Inter-Pagina Links</value>
   </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value></value>
+    <value>Het kan leiden tot het tonen van gevoelige informatie uit uitzonderingen aan eindgebruikers.</value>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value></value>
+    <value>Italic</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value></value>
+    <value>Items</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value></value>
+    <value>Taal</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value></value>
+    <value>Talen</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value></value>
+    <value>Groot</value>
   </data>
   <data name="Last modified by" xml:space="preserve">
-    <value></value>
+    <value>Laatst gewijzigd door</value>
   </data>
   <data name="Last Name" xml:space="preserve">
-    <value></value>
+    <value>Achternaam</value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
-    <value></value>
+    <value>Laat een reactie achter</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value></value>
+    <value>Limiet (MB)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
-    <value></value>
+    <value>Linktekst (Optioneel)</value>
   </data>
   <data name="Link Type" xml:space="preserve">
-    <value></value>
+    <value>Linktype</value>
   </data>
   <data name="Links" xml:space="preserve">
-    <value></value>
+    <value>Links</value>
   </data>
   <data name="Loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Voorbeeld bekijken wordt geladen...</value>
   </data>
   <data name="Locked out" xml:space="preserve">
-    <value></value>
+    <value>Toegang geweigerd</value>
   </data>
   <data name="Log Entries" xml:space="preserve">
-    <value></value>
+    <value>Logboekvermeldingen</value>
   </data>
   <data name="Log Entry Details" xml:space="preserve">
-    <value></value>
+    <value>Details van logboekvermelding</value>
   </data>
   <data name="Log in" xml:space="preserve">
-    <value></value>
+    <value>Inloggen</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value></value>
+    <value>Log in met je {0} account</value>
   </data>
   <data name="Logged out" xml:space="preserve">
-    <value></value>
+    <value>Uitgelogd</value>
   </data>
   <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value></value>
+    <value>Uitloggen zorgt ervoor dat anderen deze sessie niet kunnen gebruiken om wijzigingen aan de wiki aan te brengen. Je moet opnieuw inloggen voordat je wijzigingen kunt aanbrengen.</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value></value>
+    <value>Inloggen</value>
   </data>
   <data name="Login to leave a comment" xml:space="preserve">
-    <value></value>
+    <value>Log in om een reactie achter te laten</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value></value>
+    <value>Uitloggen</value>
   </data>
   <data name="Lower numbers appear first." xml:space="preserve">
-    <value></value>
+    <value>Lagere nummers verschijnen eerst.</value>
   </data>
   <data name="Manage Email" xml:space="preserve">
-    <value></value>
+    <value>Beheer E-mail</value>
   </data>
   <data name="Manage your account" xml:space="preserve">
-    <value></value>
+    <value>Beheer je account</value>
   </data>
   <data name="Manage your external logins" xml:space="preserve">
-    <value></value>
+    <value>Beheer je externe inloggegevens</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value></value>
+    <value>Matches</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value></value>
+    <value>Middel</value>
   </data>
   <data name="Menu Configuration" xml:space="preserve">
-    <value></value>
+    <value>Menuconfiguratie</value>
   </data>
   <data name="Menu Item Editor" xml:space="preserve">
-    <value></value>
+    <value>Menu-itembewerker</value>
   </data>
   <data name="Metrics" xml:space="preserve">
-    <value></value>
+    <value>Metrics</value>
   </data>
   <data name="Misses" xml:space="preserve">
-    <value></value>
+    <value>Missers</value>
   </data>
   <data name="Missing Pages" xml:space="preserve">
-    <value></value>
+    <value>Ontbrekende pagina's</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value></value>
+    <value>Gemiddeld</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value></value>
+    <value>Aangepast</value>
   </data>
   <data name="Modified By" xml:space="preserve">
-    <value></value>
+    <value>Aangepast door</value>
   </data>
   <data name="Modified Date" xml:space="preserve">
-    <value></value>
+    <value>Aangepaste datum</value>
   </data>
   <data name="My" xml:space="preserve">
-    <value></value>
+    <value>Mijn</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value></value>
+    <value>Naam</value>
   </data>
   <data name="Namespace" xml:space="preserve">
-    <value></value>
+    <value>Namespace</value>
   </data>
   <data name="Namespaces" xml:space="preserve">
-    <value></value>
+    <value>Namespaces</value>
   </data>
   <data name="New Account" xml:space="preserve">
-    <value></value>
+    <value>Nieuw account</value>
   </data>
   <data name="New Emoji" xml:space="preserve">
-    <value></value>
+    <value>Nieuwe emoji</value>
   </data>
   <data name="New Role" xml:space="preserve">
-    <value></value>
+    <value>Nieuwe rol</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value></value>
+    <value>Volgende</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value></value>
+    <value>Nee</value>
   </data>
   <data name="No avatar uploaded." xml:space="preserve">
-    <value></value>
+    <value>Geen avatar geüpload.</value>
   </data>
   <data name="No database information is available." xml:space="preserve">
-    <value></value>
+    <value>Er is geen database-informatie beschikbaar.</value>
   </data>
   <data name="No image selected." xml:space="preserve">
-    <value></value>
+    <value>Geen afbeelding geselecteerd.</value>
   </data>
   <data name="No image uploaded." xml:space="preserve">
-    <value></value>
+    <value>Geen afbeelding geüpload.</value>
   </data>
   <data name="Not a member?" xml:space="preserve">
-    <value></value>
+    <value>Geen lid?</value>
   </data>
   <data name="not required" xml:space="preserve">
-    <value></value>
+    <value>niet verplicht</value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value></value>
+    <value>Zodra je de QR-code hebt gescand of de bovenstaande code hebt ingevoerd, zal je twee-factor-authenticatie-app een unieke code genereren. Voer de code in het onderstaande bevestigingsvak in.</value>
   </data>
   <data name="Operating System" xml:space="preserve">
-    <value></value>
+    <value>Besturingssysteem</value>
   </data>
   <data name="Optimize" xml:space="preserve">
-    <value></value>
+    <value>Optimaliseren</value>
   </data>
   <data name="Optional" xml:space="preserve">
-    <value></value>
+    <value>Optioneel</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value></value>
+    <value>Ordinaal</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Verwaiste Bijlagen</value>
   </data>
   <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Verwaiste Pagina Bijlagen</value>
   </data>
   <data name="OS Architecture" xml:space="preserve">
-    <value></value>
+    <value>OS Architectuur</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value></value>
+    <value>Pagina</value>
   </data>
   <data name="Page Administration" xml:space="preserve">
-    <value></value>
+    <value>Pagina Beheer</value>
   </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisies van Pagina Bijlagen</value>
   </data>
   <data name="Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Pagina Bijlagen</value>
   </data>
   <data name="Page File Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisies van Pagina Bestanden</value>
   </data>
   <data name="Page Moderate" xml:space="preserve">
-    <value></value>
+    <value>Pagina Moderatie</value>
   </data>
   <data name="Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Pagina Revisies</value>
   </data>
   <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Verwijderde paginarevisies voor de gegeven pagina. Deze kunnen worden verwijderd of hersteld.</value>
   </data>
   <data name="Page Search" xml:space="preserve">
-    <value></value>
+    <value>Pagina zoeken</value>
   </data>
   <data name="Page Search Tokens" xml:space="preserve">
-    <value></value>
+    <value>Pagina Zoektokens</value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
+    <value>Pagina Tags</value>
   </data>
   <data name="Pages" xml:space="preserve">
-    <value></value>
+    <value>Pagina's</value>
   </data>
   <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Pagina's die verwijderd zijn. Kan worden verwijderd of hersteld.</value>
   </data>
   <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value></value>
+    <value>Pagina's die gelinkt zijn, maar niet bestaan.</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value></value>
+    <value>Wachtwoord</value>
   </data>
   <data name="Permission" xml:space="preserve">
-    <value></value>
+    <value>Toestemming</value>
   </data>
   <data name="Permissions and Roles" xml:space="preserve">
-    <value></value>
+    <value>Permissies en Rollen</value>
   </data>
   <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value></value>
+    <value>Controleer uw e-mail om uw account te bevestigen.</value>
   </data>
   <data name="Please check your email to reset your password." xml:space="preserve">
-    <value></value>
+    <value>Controleer uw e-mail om uw wachtwoord te resetten.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value></value>
+    <value>Klik hier om in te loggen</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value></value>
+    <value>Bevestig uw nieuwe wachtwoord.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value></value>
+    <value>Bevestig uw wachtwoord.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value></value>
+    <value>Voer zowel gebruikersnaam als wachtwoord in.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
-    <value></value>
+    <value>Voer een nieuw e-mailadres in.</value>
   </data>
   <data name="Please enter the code." xml:space="preserve">
-    <value></value>
+    <value>Voer de code in.</value>
   </data>
   <data name="Please enter your email." xml:space="preserve">
-    <value></value>
+    <value>Voer uw e-mail in.</value>
   </data>
   <data name="Please enter your new password." xml:space="preserve">
-    <value></value>
+    <value>Voer uw nieuwe wachtwoord in.</value>
   </data>
   <data name="Please enter your old password." xml:space="preserve">
-    <value></value>
+    <value>Voer je oude wachtwoord in.</value>
   </data>
   <data name="Please enter your password." xml:space="preserve">
-    <value></value>
+    <value>Voer je wachtwoord in.</value>
   </data>
   <data name="Please wait, loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Even wachten, preview wordt geladen...</value>
   </data>
   <data name="Post" xml:space="preserve">
-    <value></value>
+    <value>Bericht</value>
   </data>
   <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value></value>
+    <value>Alle pagina's vooraf cachen</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value></value>
+    <value>Voorvertoning</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value></value>
+    <value>Vorige</value>
   </data>
   <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value></value>
+    <value>Privacy- en cookiebeleid zijn niet geaccepteerd.</value>
   </data>
   <data name="Process Architecture" xml:space="preserve">
-    <value></value>
+    <value>Procesarchitectuur</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value></value>
+    <value>Profiel</value>
   </data>
   <data name="Profile Details" xml:space="preserve">
-    <value></value>
+    <value>Profielgegevens</value>
   </data>
   <data name="Profile Settings" xml:space="preserve">
-    <value></value>
+    <value>Profielinstellingen</value>
   </data>
   <data name="Profiles" xml:space="preserve">
-    <value></value>
+    <value>Profielen</value>
   </data>
   <data name="Public profile information." xml:space="preserve">
-    <value></value>
+    <value>Openbare profielinformatie.</value>
   </data>
   <data name="Purge" xml:space="preserve">
-    <value></value>
+    <value>Verwijderen</value>
   </data>
   <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statistieken over het verwijderen van compilaties</value>
   </data>
   <data name="Purge Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Verwijder verwijderde pagina's</value>
   </data>
   <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Verwijder verwijderde revisies</value>
   </data>
   <data name="Purge Event Log" xml:space="preserve">
-    <value></value>
+    <value>Logboek verwijderingen</value>
   </data>
   <data name="Purge Memory Cache" xml:space="preserve">
-    <value></value>
+    <value>Verwijder geheugencache</value>
   </data>
   <data name="Purge Orphaned Attachments" xml:space="preserve">
     <value></value>
