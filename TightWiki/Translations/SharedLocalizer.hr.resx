@@ -2230,4 +2230,148 @@
   <data name="You must select an account." xml:space="preserve">
     <value>Morate odabrati račun.</value>
   </data>
+  <data name="the address of your wiki." xml:space="preserve">
+    <value>adresa vaše wiki stranice.</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Engleski</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>Arapski</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Azerbejdžanski</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>Bjeloruski</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>Bugarski</value>
+  </data>
+  <data name="Czech" xml:space="preserve">
+    <value>Češki</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>Danski</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>Njemački</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>Grčki</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>Španjolski</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>Estonski</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>Perzijski</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>Finski</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>Francuski</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>Hebrejski</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>Hrvatski</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>Mađarski</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>Indonezijski</value>
+  </data>
+  <data name="Icelandic" xml:space="preserve">
+    <value>Islandski</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>Talijanski</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>Japanski</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>Gruzijiski</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>Kazaški</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>Korejski</value>
+  </data>
+  <data name="Lithuanian" xml:space="preserve">
+    <value>Litavski</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>Latvijski</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>Malaijanski</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>Nizozemski</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>Norsk</value>
+  </data>
+  <data name="Bokmål" xml:space="preserve">
+    <value>Bokmål</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>Poljski</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>Portugalski</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>Rumunjski</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>Ruski</value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value>Slovak</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>Slovenski</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>Srpski</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>Švedski</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>Tajlandski</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>Turski</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>Ukrajinski</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vijetnamski</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>Pokrajinski kineski</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>Taiwanski kineski</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>Bengalski</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>Hindski</value>
+  </data>
+  <data name="Urdu" xml:space="preserve">
+    <value>Urdu</value>
+  </data>
 </root>

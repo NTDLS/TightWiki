@@ -59,1954 +59,1954 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- sau -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Fără descriere)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Fără link)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Fără text)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Continuă acum{1} sau vei fi redirecționat în {2} secunde.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>2fa a fost dezactivat. Poți reactiva 2fa când configurezi o aplicație de autentificare</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Acces refuzat.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>Cont</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Cont șters!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Editor de Cont</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Verificarea Email-ului Contului</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Gestionarea Contului</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Permisiuni ale Contului</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Membri ai Rolului Contului</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Rolurile și permisiunile contului pentru un singur cont.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Rolurile și Permisiunile Contului pentru: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Conturi</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Acțiune</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Adaugă Cont</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Adaugă aplicație de autentificare</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Adaugă Emoji</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Adaugă Membru la Rol</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Adaugă cont nou</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Adaugă emoji nou</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Adaugă element nou</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Adaugă permisiune la cont</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Adaugă permisiune la rol</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Adaugă rol</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Adaugă rol la cont</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Administrator</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>TOT</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Toate modificările făcute în fișierul prezent</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Toate modificările făcute pe pagină</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Toate comentariile făcute pe pagina respectivă</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Toate namespace-urile conținute în wiki</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Toate paginile din namespace</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Toate paginile din wiki</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Deja membru?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>A apărut o eroare în procesarea solicitării dvs.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Analiză</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Sigur doriți să continuați cu această ștergere?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Sigur doriți să continuați?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Sigur doriți să ștergeți acest comentariu?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Sigur doriți să detașați</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Sigur doriți să vă deconectați din aplicație?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Sunteți sigur?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Asociați contul dvs. {0}.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Paginile asociate</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Etichetele asociate</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Atașați fișierele trăgându-le aici sau selectându-le manual mai jos:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Anișate</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Aplicatie de autentificare</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Limbi disponibile</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Avatar</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Eșec la bind</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Bind reușit</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Biografie</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Îndrăzneț</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Răsfoiește paginile marcate cu diferite instrucțiuni de procesare pentru a vedea ce este în versiune draft, în așteptare de ștergere, protejate etc.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Pagini încorporate</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Cache</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Anulează</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Categorii</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Schimbă avatarul</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Schimbă email-ul</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Schimbă imaginea</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Schimbă parola</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Rezumatul modificărilor</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Schimbă setările contului tău</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Alege o pagină</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Alege imaginea</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Alege șablonul</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Alege limba preferată pentru interfață.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Închide</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Categorii separate prin virgulă</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Comentarii</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statistici de compilare</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Compilări</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Înregistrare completă</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Configurare</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Configurare pentru un emoji.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Configurare pentru contul de utilizator.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Configurare pentru adăugarea unui emoji.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Configurează aplicația de autentificare</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Confirmă schimbarea emailului</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Confirmă deconectarea</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Confirmă parola</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Confirmă adresa ta de email.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Link de confirmare pentru schimbarea emailului trimis. Te rugăm să verifici emailul.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Confirmat</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Conținut</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Continuă</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Copie etichetă</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>Țară</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Crează un cont nou</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Crează o pagină nouă</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Crează un nou rol.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Crează un nou cont de utilizator.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Crează-ți contul și configurează detaliile de bază ale profilului.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Data creării</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Credențiale</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Autentificare administrator curent</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Bază de date</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Utilitare baze de date</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Data/Ora</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>Parola implicită nu a fost schimbată</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Șterge</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Șterge contul</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Șterge pagina '{0}'?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Șterge rolul</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Șterge această pagină</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Șters de</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Data ștergerii</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Conținutul paginii șterse</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Coada paginilor șterse</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisii ale paginii șterse</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Paginile șterse</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Conținutul revisionii șterse</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisii șterse</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea lui '{0}' va muta pagina, toate cele {1} revisii și atașamentele de fișiere asociate în coada de ștergere. Această acțiune poate fi anulată doar de un administrator sau moderator. Continuare?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>Ștergerea lui '{0}' va muta pagina, toate cele {1} revisii și {2} atașamente de fișiere în coada de ștergere.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea lui '{0}' va elimina permanent contul. Toate paginile create sau modificate de acest utilizator vor fi atribuite unui cont substituibil și nu vei putea anula această acțiune. Continuare?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea lui '{0}' va elimina permanent contul. Toate paginile create sau modificate de acest utilizator vor fi atribuite unui cont substituibil. Continuare?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea elementului de meniu '{0}' va elimina permanent acest element și nu vei putea reveni asupra acestei acțiuni. Continuare?</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Revisia {0} a "{1}" va muta revizia paginii în coada de ștergere. Această acțiune poate fi anulată doar de un administrator sau moderator. Continuare?</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea emoji-ului '{0}' va elimina permanent imaginea și orice referințe la aceasta vor fi orphaned. Nu vei putea reveni asupra acestei ștergeri. Continuă?</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea rolului '{0}' va revoca orice permisiune acordată sau refuzată de acel rol. Continuă?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>Descriere</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>Dezlipire</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Detalii</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>Mod de Dezvoltare</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>Diferente</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>Dezactivează 2FA</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Dezactivează autentificarea în doi pași (2FA)</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Dezactivarea 2FA nu schimbă cheile utilizate în aplicațiile de autentificare.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>Discuție pentru această pagină.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>Nume afișat</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>Disposition</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>Nume distingând:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>Nu ai acces la dispozitivul tău de autentificare?</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Descarcă o aplicație de autentificare în doi pași, precum Microsoft Authenticator pentru {0} și {1} sau Google Authenticator pentru {2} și {3}.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>Lasă atașamentele aici sau fă clic pentru a încărca manual.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>Lasă fișierele aici...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>Durată</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>Editare</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>Mărimea editorului</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Fila paginilor șterse este goală sau criteriile tale de căutare nu au returnat rezultate.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Nu există conturi configurate sau criteriile tale de căutare nu au returnat rezultate.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Nu există emoji-uri configurate sau criteriile tale de căutare nu au returnat rezultate.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Nu există pagini sau criteriile tale de căutare nu au returnat rezultate.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>Email</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>Adresa de email</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>Confirmat emailul?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emoji</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>Editor de Emoji</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>Managementul Emoji-urilor</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>Emoji-uri</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>Introduceți un URL.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>Introduceți o cale internă sau un URL extern.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>Introduceți emailul dvs.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>Mediu</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>Eroare</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>Eroare la copierea textului</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>Erori</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>Jurnalul evenimentelor</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>Intrare în jurnalul evenimentelor</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>Excepție</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>Excepții</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>Export</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>Conectări externe</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>URL extern</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>Extra Mare</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>Extra Mic</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>Nu s-a reușit încărcarea previzualizării.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>Șabloane de caracteristici</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>Fișier</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>Filtru</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>Nume</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Goliți memoria cache va duce la eliminarea oricăror obiecte cache-ate și va necesita accesări la bază de date pe măsură ce sunt solicitate paginile. Continuare?</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>Uitare acest browser</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Confirmare uitare parolă</value>
   </data>
   <data name="Forgot your password?" xml:space="preserve">
-    <value></value>
+    <value>Ai uitat parola?</value>
   </data>
   <data name="Framework Version" xml:space="preserve">
-    <value></value>
+    <value>Versiune Framework</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value></value>
+    <value>General</value>
   </data>
   <data name="Generate Recovery Codes" xml:space="preserve">
-    <value></value>
+    <value>Generează Coduri de Recuperare</value>
   </data>
   <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Generează coduri de recuperare pentru autentificare în doi pași (2FA)</value>
   </data>
   <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Generarea noilor coduri de recuperare nu modifică cheile utilizate în aplicațiile de autentificare.</value>
   </data>
   <data name="Gets" xml:space="preserve">
-    <value></value>
+    <value>Obține</value>
   </data>
   <data name="Global configuration for Emojis." xml:space="preserve">
-    <value></value>
+    <value>Configurare globală pentru Emoji.</value>
   </data>
   <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value></value>
+    <value>Configurare globală pentru rolurile de securitate și membreție.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value></value>
+    <value>Configurare globală pentru elementul de meniu al site-ului.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
-    <value></value>
+    <value>Configurare globală pentru meniul site-ului.</value>
   </data>
   <data name="Global configuration for user accounts." xml:space="preserve">
-    <value></value>
+    <value>Configurare globală pentru conturile utilizatorilor.</value>
   </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value></value>
+    <value>Valori de configurare globală pentru wiki, funcționalitatea, comportamentul, formatarea și branding-ul acestuia.</value>
   </data>
   <data name="Hello {0}!" xml:space="preserve">
-    <value></value>
+    <value>Salut {0}!</value>
   </data>
   <data name="Highlight" xml:space="preserve">
-    <value></value>
+    <value>Evidenție</value>
   </data>
   <data name="Hits" xml:space="preserve">
-    <value></value>
+    <value>Accesări</value>
   </data>
   <data name="Huge" xml:space="preserve">
-    <value></value>
+    <value>Imens</value>
   </data>
   <data name="Hyperlink" xml:space="preserve">
-    <value></value>
+    <value>Legătură</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value></value>
+    <value>ID</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value></value>
+    <value>Dacă este aici, ar trebui să-l poți găsi.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Dacă pierzi dispozitivul și nu ai codurile de recuperare, vei pierde accesul la contul tău.</value>
   </data>
   <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value></value>
+    <value>Dacă resetezi cheia autentificatorului, aplicația ta de autentificare nu va funcționa până când nu o vei reconfigura.</value>
   </data>
   <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value></value>
+    <value>Dacă dorești să schimbi cheia folosită într-o aplicație de autentificare, ar trebui să resetezi cheile autentificatorului.</value>
   </data>
   <data name="Image" xml:space="preserve">
-    <value></value>
+    <value>Imagine</value>
   </data>
   <data name="Include Pages" xml:space="preserve">
-    <value></value>
+    <value>Include pagini</value>
   </data>
   <data name="Info1" xml:space="preserve">
-    <value></value>
+    <value>Informație1</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value></value>
+    <value>Informație2</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value></value>
+    <value>Inserează</value>
   </data>
   <data name="Insert Emoji" xml:space="preserve">
-    <value></value>
+    <value>Inserează Emoji</value>
   </data>
   <data name="Inter-Page Links" xml:space="preserve">
-    <value></value>
+    <value>Linkuri între pagini</value>
   </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value></value>
+    <value>Poate duce la afișarea de informații sensibile din excepții către utilizatorii finali.</value>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value></value>
+    <value>Italic</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value></value>
+    <value>Articole</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value></value>
+    <value>Limba</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value></value>
+    <value>Limbi</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value></value>
+    <value>Large</value>
   </data>
   <data name="Last modified by" xml:space="preserve">
-    <value></value>
+    <value>Ultimul modificator</value>
   </data>
   <data name="Last Name" xml:space="preserve">
-    <value></value>
+    <value>Numele de familie</value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
-    <value></value>
+    <value>Lasă un comentariu</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value></value>
+    <value>Limită(MB)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
-    <value></value>
+    <value>Text link (Opțional)</value>
   </data>
   <data name="Link Type" xml:space="preserve">
-    <value></value>
+    <value>Tip link</value>
   </data>
   <data name="Links" xml:space="preserve">
-    <value></value>
+    <value>Linkuri</value>
   </data>
   <data name="Loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Se încarcă previzualizarea...</value>
   </data>
   <data name="Locked out" xml:space="preserve">
-    <value></value>
+    <value>Blocată</value>
   </data>
   <data name="Log Entries" xml:space="preserve">
-    <value></value>
+    <value>Intrări în jurnal</value>
   </data>
   <data name="Log Entry Details" xml:space="preserve">
-    <value></value>
+    <value>Detalii intrare în jurnal</value>
   </data>
   <data name="Log in" xml:space="preserve">
-    <value></value>
+    <value>Autentificare</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value></value>
+    <value>Autentificare folosind contul tău {{0}}</value>
   </data>
   <data name="Logged out" xml:space="preserve">
-    <value></value>
+    <value>Deconectat</value>
   </data>
   <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value></value>
+    <value>Deconectarea va asigura că alții nu pot folosi această sesiune pentru a face modificări pe wiki. Va trebui să te conectezi din nou înainte de a face modificări.</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value></value>
+    <value>Autentificare</value>
   </data>
   <data name="Login to leave a comment" xml:space="preserve">
-    <value></value>
+    <value>Autentifică-te pentru a lăsa un comentariu</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value></value>
+    <value>Deconectare</value>
   </data>
   <data name="Lower numbers appear first." xml:space="preserve">
-    <value></value>
+    <value>Numeralele mai mici apar prima.</value>
   </data>
   <data name="Manage Email" xml:space="preserve">
-    <value></value>
+    <value>Gestionare Email</value>
   </data>
   <data name="Manage your account" xml:space="preserve">
-    <value></value>
+    <value>Gestionează-ți contul</value>
   </data>
   <data name="Manage your external logins" xml:space="preserve">
-    <value></value>
+    <value>Gestionează-ți autentificările externe</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value></value>
+    <value>Potriviri</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value></value>
+    <value>Mediu</value>
   </data>
   <data name="Menu Configuration" xml:space="preserve">
-    <value></value>
+    <value>Configurare meniu</value>
   </data>
   <data name="Menu Item Editor" xml:space="preserve">
-    <value></value>
+    <value>Editor element de meniu</value>
   </data>
   <data name="Metrics" xml:space="preserve">
-    <value></value>
+    <value>Metrice</value>
   </data>
   <data name="Misses" xml:space="preserve">
-    <value></value>
+    <value>Greșeli</value>
   </data>
   <data name="Missing Pages" xml:space="preserve">
-    <value></value>
+    <value>Pagini lipsă</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value></value>
+    <value>Moderată</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value></value>
+    <value>Modificat</value>
   </data>
   <data name="Modified By" xml:space="preserve">
-    <value></value>
+    <value>Modificat de</value>
   </data>
   <data name="Modified Date" xml:space="preserve">
-    <value></value>
+    <value>Data modificării</value>
   </data>
   <data name="My" xml:space="preserve">
-    <value></value>
+    <value>Al meu</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value></value>
+    <value>Nume</value>
   </data>
   <data name="Namespace" xml:space="preserve">
-    <value></value>
+    <value>Namespace</value>
   </data>
   <data name="Namespaces" xml:space="preserve">
-    <value></value>
+    <value>Namespace-uri</value>
   </data>
   <data name="New Account" xml:space="preserve">
-    <value></value>
+    <value>Cont Nou</value>
   </data>
   <data name="New Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emoție Nouă</value>
   </data>
   <data name="New Role" xml:space="preserve">
-    <value></value>
+    <value>Rol Nou</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value></value>
+    <value>Următor</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value></value>
+    <value>Nu</value>
   </data>
   <data name="No avatar uploaded." xml:space="preserve">
-    <value></value>
+    <value>Nu a fost încărcat niciun avatar.</value>
   </data>
   <data name="No database information is available." xml:space="preserve">
-    <value></value>
+    <value>Informațiile despre baza de date nu sunt disponibile.</value>
   </data>
   <data name="No image selected." xml:space="preserve">
-    <value></value>
+    <value>Imagine nealeasă.</value>
   </data>
   <data name="No image uploaded." xml:space="preserve">
-    <value></value>
+    <value>Imagine încărcată.</value>
   </data>
   <data name="Not a member?" xml:space="preserve">
-    <value></value>
+    <value>Nu sunteți membru?</value>
   </data>
   <data name="not required" xml:space="preserve">
-    <value></value>
+    <value>nu este necesar</value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value></value>
+    <value>După ce ați scanat codul QR sau ați introdus cheia de mai sus, aplicația dvs. de autentificare cu doi factori vă va oferi un cod unic. Introduceți codul în caseta de confirmare de mai jos.</value>
   </data>
   <data name="Operating System" xml:space="preserve">
-    <value></value>
+    <value>Sistem de Operare</value>
   </data>
   <data name="Optimize" xml:space="preserve">
-    <value></value>
+    <value>Optimizează</value>
   </data>
   <data name="Optional" xml:space="preserve">
-    <value></value>
+    <value>Opțional</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value></value>
+    <value>Ordinal</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Anexări Orfane</value>
   </data>
   <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Anexări ale Paginii Orfane</value>
   </data>
   <data name="OS Architecture" xml:space="preserve">
-    <value></value>
+    <value>Arhitectura OS</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value></value>
+    <value>Pagină</value>
   </data>
   <data name="Page Administration" xml:space="preserve">
-    <value></value>
+    <value>Administrare Pagină</value>
   </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revizii Atașament Pagină</value>
   </data>
   <data name="Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Atașamente Pagină</value>
   </data>
   <data name="Page File Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revizii Fișier Pagină</value>
   </data>
   <data name="Page Moderate" xml:space="preserve">
-    <value></value>
+    <value>Moderează Pagină</value>
   </data>
   <data name="Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revizii Pagină</value>
   </data>
   <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Reviziile paginii care au fost șterse pentru pagina dată. Acestea pot fi șterse definitiv sau restaurate.</value>
   </data>
   <data name="Page Search" xml:space="preserve">
-    <value></value>
+    <value>Căutare Pagină</value>
   </data>
   <data name="Page Search Tokens" xml:space="preserve">
-    <value></value>
+    <value>Tokenuri de Căutare Pagină</value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
+    <value>Etichete Pagină</value>
   </data>
   <data name="Pages" xml:space="preserve">
-    <value></value>
+    <value>Pagini</value>
   </data>
   <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Pagini care au fost șterse. Pot fi șterse definitiv sau restaurate.</value>
   </data>
   <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value></value>
+    <value>Pagini care au fost legate, dar nu există.</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value></value>
+    <value>Parolă</value>
   </data>
   <data name="Permission" xml:space="preserve">
-    <value></value>
+    <value>Permisiune</value>
   </data>
   <data name="Permissions and Roles" xml:space="preserve">
-    <value></value>
+    <value>Permisiuni și Roluri</value>
   </data>
   <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să verificați email-ul pentru a vă confirma contul.</value>
   </data>
   <data name="Please check your email to reset your password." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să verificați email-ul pentru a vă reseta parola.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să dați clic aici pentru autentificare</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să confirmați noua parolă.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să confirmați parola.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să introduceți atât numele de utilizator, cât și parola.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să introduceți email-ul nou.</value>
   </data>
   <data name="Please enter the code." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să introduceți codul.</value>
   </data>
   <data name="Please enter your email." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să introduceți email-ul dumneavoastră.</value>
   </data>
   <data name="Please enter your new password." xml:space="preserve">
-    <value></value>
+    <value>Vă rugăm să introduceți noua parolă.</value>
   </data>
   <data name="Please enter your old password." xml:space="preserve">
-    <value></value>
+    <value>Te rugăm să introduci parola veche.</value>
   </data>
   <data name="Please enter your password." xml:space="preserve">
-    <value></value>
+    <value>Te rugăm să introduci parola.</value>
   </data>
   <data name="Please wait, loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Te rugăm să aștepți, se încarcă previzualizarea...</value>
   </data>
   <data name="Post" xml:space="preserve">
-    <value></value>
+    <value>Postare</value>
   </data>
   <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value></value>
+    <value>Pre-Cachează Toate Paginile</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value></value>
+    <value>Previzualizare</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value></value>
+    <value>Anterior</value>
   </data>
   <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value></value>
+    <value>Politica de confidențialitate și cookie-urile nu au fost acceptate.</value>
   </data>
   <data name="Process Architecture" xml:space="preserve">
-    <value></value>
+    <value>Arhitectura Procesului</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value></value>
+    <value>Profil</value>
   </data>
   <data name="Profile Details" xml:space="preserve">
-    <value></value>
+    <value>Detalii Profil</value>
   </data>
   <data name="Profile Settings" xml:space="preserve">
-    <value></value>
+    <value>Setări Profil</value>
   </data>
   <data name="Profiles" xml:space="preserve">
-    <value></value>
+    <value>Profiluri</value>
   </data>
   <data name="Public profile information." xml:space="preserve">
-    <value></value>
+    <value>Informații publice ale profilului.</value>
   </data>
   <data name="Purge" xml:space="preserve">
-    <value></value>
+    <value>Șterge</value>
   </data>
   <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Șterge Statistici de Compilare</value>
   </data>
   <data name="Purge Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Șterge Paginile Șterse</value>
   </data>
   <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Șterge Versiunile Șterse</value>
   </data>
   <data name="Purge Event Log" xml:space="preserve">
-    <value></value>
+    <value>Șterge Jurnalul Evenimentelor</value>
   </data>
   <data name="Purge Memory Cache" xml:space="preserve">
-    <value></value>
+    <value>Șterge Cache-ul Memoriei</value>
   </data>
   <data name="Purge Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Șterge Atașamentele Orfane</value>
   </data>
   <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ștergerea statisticilor de compilare a paginii va șterge toate statisticile de compilare stocate pentru toate paginile. Continuă?</value>
   </data>
   <data name="Put these codes in a safe place." xml:space="preserve">
-    <value></value>
+    <value>Pune aceste coduri într-un loc sigur.</value>
   </data>
   <data name="Puts" xml:space="preserve">
-    <value></value>
+    <value>Unități</value>
   </data>
   <data name="Raw Size" xml:space="preserve">
-    <value></value>
+    <value>Dimensiune Brută</value>
   </data>
   <data name="Rebuild All Pages" xml:space="preserve">
-    <value></value>
+    <value>Reconstruiți toate paginile</value>
   </data>
   <data name="Recently Modified" xml:space="preserve">
-    <value></value>
+    <value>Recent modificate</value>
   </data>
   <data name="Recovery code" xml:space="preserve">
-    <value></value>
+    <value>Cod de recuperare</value>
   </data>
   <data name="Recovery code verification" xml:space="preserve">
-    <value></value>
+    <value>Verificare cod de recuperare</value>
   </data>
   <data name="Recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Coduri de recuperare</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value></value>
+    <value>Reîmprospătează</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value></value>
+    <value>Înregistrează-te</value>
   </data>
   <data name="Register as a new user" xml:space="preserve">
-    <value></value>
+    <value>Înregistrează-te ca un nou utilizator</value>
   </data>
   <data name="Register confirmation" xml:space="preserve">
-    <value></value>
+    <value>Confirmare înregistrare</value>
   </data>
   <data name="Registered Logins" xml:space="preserve">
-    <value></value>
+    <value>Logări înregistrate</value>
   </data>
   <data name="Registration is not allowed" xml:space="preserve">
-    <value></value>
+    <value>Înregistrarea nu este permisă</value>
   </data>
   <data name="Registration is not allowed." xml:space="preserve">
-    <value></value>
+    <value>Înregistrarea nu este permisă.</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value></value>
+    <value>Șterge</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value></value>
+    <value>Șterge această autentificare {{0}} din contul tău</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
-    <value></value>
+    <value>Cererea a eșuat:</value>
   </data>
   <data name="Request ID" xml:space="preserve">
-    <value></value>
+    <value>ID-ul cererii</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value></value>
+    <value>Necesar</value>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value></value>
+    <value>Retrimite</value>
   </data>
   <data name="Resend email confirmation" xml:space="preserve">
-    <value></value>
+    <value>Retrimite confirmarea email-ului</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value></value>
+    <value>Resetează</value>
   </data>
   <data name="Reset authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Resetează aplicația de autentificare</value>
   </data>
   <data name="Reset authenticator key" xml:space="preserve">
-    <value></value>
+    <value>Resetează cheia autentificatorului</value>
   </data>
   <data name="Reset it" xml:space="preserve">
-    <value></value>
+    <value>Resetează-l</value>
   </data>
   <data name="Reset Password" xml:space="preserve">
-    <value></value>
+    <value>Resetează parola</value>
   </data>
   <data name="Reset password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Confirmare resetare parolă</value>
   </data>
   <data name="Reset recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Resetare coduri de recuperare</value>
   </data>
   <data name="Reset your password." xml:space="preserve">
-    <value></value>
+    <value>Resetează parola ta.</value>
   </data>
   <data name="Resource" xml:space="preserve">
-    <value></value>
+    <value>Resursă</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value></value>
+    <value>Restaurează</value>
   </data>
   <data name="Restore This Page" xml:space="preserve">
-    <value></value>
+    <value>Restaurează această pagină</value>
   </data>
   <data name="Restore This Revision" xml:space="preserve">
-    <value></value>
+    <value>Restaurează această versiune</value>
   </data>
   <data name="Revert" xml:space="preserve">
-    <value></value>
+    <value>Revocă</value>
   </data>
   <data name="Revert to revision" xml:space="preserve">
-    <value></value>
+    <value>Revină la versiunea</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value></value>
+    <value>Revină la versiunea {0}?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value></value>
+    <value>Revenirea din "{0}" din versiunea {1} la {2} va anula {3} modificări.</value>
   </data>
   <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value></value>
+    <value>Revenirea din {0} din versiunea {1} la {2} va anula {3} modificări.&lt;br /&gt;Revenirea nu înseamnă că modificările vor fi pierdute, însă procesul de revert va crea o nouă versiune cu modificările reverted.&lt;br /&gt;&lt;br /&gt;Ești sigur că vrei să continui?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
-    <value></value>
+    <value>Revenirea nu înseamnă că modificările vor fi pierdute, însă procesul de revert va crea o nouă versiune cu modificările reverted.</value>
   </data>
   <data name="Review the differences between revisions of this page." xml:space="preserve">
-    <value></value>
+    <value>Revizuiește diferențele dintre versiunile acestei pagini.</value>
   </data>
   <data name="Revision" xml:space="preserve">
-    <value></value>
+    <value>Versiune</value>
   </data>
   <data name="Revision Comparison" xml:space="preserve">
-    <value></value>
+    <value>Compararea versiunilor</value>
   </data>
   <data name="Revision not found" xml:space="preserve">
-    <value></value>
+    <value>Versiunea nu a fost găsită</value>
   </data>
   <data name="revisions" xml:space="preserve">
-    <value></value>
+    <value>versiuni</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value></value>
+    <value>Rol</value>
   </data>
   <data name="Role Members" xml:space="preserve">
-    <value></value>
+    <value>Membri ai rolului</value>
   </data>
   <data name="Role membership and permissions." xml:space="preserve">
-    <value></value>
+    <value>Membri ai rolului și permisiuni.</value>
   </data>
   <data name="Role Permissions" xml:space="preserve">
-    <value></value>
+    <value>Permisiuni ale rolului</value>
   </data>
   <data name="Role: {0}" xml:space="preserve">
-    <value></value>
+    <value>Rol: {0}</value>
   </data>
   <data name="Roles" xml:space="preserve">
-    <value></value>
+    <value>Roluri</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value></value>
+    <value>Salvează</value>
   </data>
   <data name="Save the page before uploading files." xml:space="preserve">
-    <value></value>
+    <value>Salvează pagina înainte de încărcarea fișierelor.</value>
   </data>
   <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
-    <value></value>
+    <value>Scanează codul QR sau introdu această cheie &lt;kbd&gt;{0}&lt;/kbd&gt; în aplicația ta de autentificare în doi pași. Spațiile și majusculele nu contează.</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value></value>
+    <value>Căutare</value>
   </data>
   <data name="Search accounts..." xml:space="preserve">
-    <value></value>
+    <value>Căutați conturi...</value>
   </data>
   <data name="Search deleted pages..." xml:space="preserve">
-    <value></value>
+    <value>Căutați pagini șterse...</value>
   </data>
   <data name="Search emojis..." xml:space="preserve">
-    <value></value>
+    <value>Căutați emoji...</value>
   </data>
   <data name="Search for more emojis." xml:space="preserve">
-    <value></value>
+    <value>Căutați mai multe emoji.</value>
   </data>
   <data name="Search pages..." xml:space="preserve">
-    <value></value>
+    <value>Căutați pagini...</value>
   </data>
   <data name="Search text" xml:space="preserve">
-    <value></value>
+    <value>Căutați text</value>
   </data>
   <data name="Security Roles" xml:space="preserve">
-    <value></value>
+    <value>Roluri de securitate</value>
   </data>
   <data name="Select a country" xml:space="preserve">
-    <value></value>
+    <value>Alegeți o țară</value>
   </data>
   <data name="Select a language" xml:space="preserve">
-    <value></value>
+    <value>Alegeți o limbă</value>
   </data>
   <data name="Select a role" xml:space="preserve">
-    <value></value>
+    <value>Alegeți un rol</value>
   </data>
   <data name="Select a theme" xml:space="preserve">
-    <value></value>
+    <value>Alegeți o temă</value>
   </data>
   <data name="Select a time-zone" xml:space="preserve">
-    <value></value>
+    <value>Alegeți un fus orar</value>
   </data>
   <data name="Select a wiki page." xml:space="preserve">
-    <value></value>
+    <value>Alegeți o pagină wiki.</value>
   </data>
   <data name="Select an instruction" xml:space="preserve">
-    <value></value>
+    <value>Alegeți o instrucțiune</value>
   </data>
   <data name="Send verification email" xml:space="preserve">
-    <value></value>
+    <value>Trimiteți email pentru verificare</value>
   </data>
   <data name="Server and page event logs" xml:space="preserve">
-    <value></value>
+    <value>Jurnale de evenimente ale serverului și paginii</value>
   </data>
   <data name="Set password" xml:space="preserve">
-    <value></value>
+    <value>Setați parola</value>
   </data>
   <data name="Set up authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Configurați aplicația de autentificare</value>
   </data>
   <data name="Set your password" xml:space="preserve">
-    <value></value>
+    <value>Setați parola</value>
   </data>
   <data name="Severity" xml:space="preserve">
-    <value></value>
+    <value>Severitate</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value></value>
+    <value>Scurtătură</value>
   </data>
   <data name="Sign in with {0}" xml:space="preserve">
-    <value></value>
+    <value>Autentificare cu {0}</value>
   </data>
   <data name="Signup" xml:space="preserve">
-    <value></value>
+    <value>Înregistrare</value>
   </data>
   <data name="Signup. Almost there..." xml:space="preserve">
-    <value></value>
+    <value>Înscriere. Aproape gata...</value>
   </data>
   <data name="Site Menu" xml:space="preserve">
-    <value></value>
+    <value>Meniu Site</value>
   </data>
   <data name="Site Menu Item" xml:space="preserve">
-    <value></value>
+    <value>Element de meniu site</value>
   </data>
   <data name="Site Menu Items" xml:space="preserve">
-    <value></value>
+    <value>Elemente de meniu site</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value></value>
+    <value>Dimensiune</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value></value>
+    <value>Mic</value>
   </data>
   <data name="Source Page" xml:space="preserve">
-    <value></value>
+    <value>Pagină Sursă</value>
   </data>
   <data name="Stack Trace" xml:space="preserve">
-    <value></value>
+    <value>Urmații ale execuției</value>
   </data>
   <data name="Strikethrough" xml:space="preserve">
-    <value></value>
+    <value>Line-through</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value></value>
+    <value>Rezumat</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value></value>
+    <value>Comutarea în mediul &lt;strong&gt;Dezvoltare&lt;/strong&gt; afișează informații detaliate despre eroarea care a avut loc.</value>
   </data>
   <data name="System Default" xml:space="preserve">
-    <value></value>
+    <value>Implicit al sistemului</value>
   </data>
   <data name="System Metrics" xml:space="preserve">
-    <value></value>
+    <value>Metrice ale sistemului</value>
   </data>
   <data name="Tag Copied" xml:space="preserve">
-    <value></value>
+    <value>Eticheta copiată</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value></value>
+    <value>Etichete</value>
   </data>
   <data name="Target Page" xml:space="preserve">
-    <value></value>
+    <value>Pagina țintă</value>
   </data>
   <data name="Test" xml:space="preserve">
-    <value></value>
+    <value>Test</value>
   </data>
   <data name="Test LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Testează autentificarea LDAP</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value></value>
+    <value>Text</value>
   </data>
   <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
-    <value></value>
+    <value>Contul a fost șters iar tot conținutul creat sau modificat de acest cont a fost atribuit unui profil anonim.</value>
   </data>
   <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
-    <value></value>
+    <value>Statistici de compilare pentru toate operațiunile paginii wiki.</value>
   </data>
   <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
-    <value></value>
+    <value>Browserul curent a fost uitat. Când te vei conecta din nou din acest browser, vei fi solicitat să introduci codul tău 2fa.</value>
   </data>
   <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
-    <value></value>
+    <value>Medii de dezvoltare nu trebuie activate pentru aplicațiile implementate.</value>
   </data>
   <data name="The event log is empty." xml:space="preserve">
-    <value></value>
+    <value>Jurnalul de evenimente este gol.</value>
   </data>
   <data name="The external login was added." xml:space="preserve">
-    <value></value>
+    <value>Autentificarea externă a fost adăugată.</value>
   </data>
   <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
-    <value></value>
+    <value>Autentificarea externă nu a fost adăugată. Autentificările externe pot fi asociate doar cu un singur cont.</value>
   </data>
   <data name="The external login was not removed." xml:space="preserve">
-    <value></value>
+    <value>Autentificarea externă nu a fost eliminată.</value>
   </data>
   <data name="The external login was removed." xml:space="preserve">
-    <value></value>
+    <value>Autentificarea externă a fost eliminată.</value>
   </data>
   <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
-    <value></value>
+    <value>Pagina nu are comentarii, de ce nu adaugi unul?</value>
   </data>
   <data name="The requested page or revision does not exist." xml:space="preserve">
-    <value></value>
+    <value>Pagina solicitată sau revizia nu există.</value>
   </data>
   <data name="The selected page does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Pagina selectată nu are nicio revizie.</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value></value>
+    <value>Tema</value>
   </data>
   <data name="Themes" xml:space="preserve">
-    <value></value>
+    <value>Themes</value>
   </data>
   <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
-    <value></value>
+    <value>În prezent, nu există pagini lipsă fiind referențiate de alte pagini wiki.</value>
   </data>
   <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
-    <value></value>
+    <value>În prezent, nu există pagini care să existe în cadrul spațiilor de nume.</value>
   </data>
   <data name="There are no compilation statistics available." xml:space="preserve">
-    <value></value>
+    <value>Nu există statistici de compilare disponibile.</value>
   </data>
   <data name="There are no deleted revisions for this page." xml:space="preserve">
-    <value></value>
+    <value>Nu există revizii șterse pentru această pagină.</value>
   </data>
   <data name="There are no menu items configured." xml:space="preserve">
-    <value></value>
+    <value>Nu există articole de meniu configurate.</value>
   </data>
   <data name="There are no orphaned page attachments." xml:space="preserve">
-    <value></value>
+    <value>Nu există atașamente de pagină orphaned.</value>
   </data>
   <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
-    <value></value>
+    <value>Nu există pagini care conțin instrucțiunea de procesare selectată.</value>
   </data>
   <data name="There are no security roles configured." xml:space="preserve">
-    <value></value>
+    <value>Nu există roluri de securitate configurate.</value>
   </data>
   <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
-    <value></value>
+    <value>Acestea sunt toate atașamentele de pagină care nu mai sunt atașate niciunei revizii de pagină.</value>
   </data>
   <data name="This account has been locked out, please try again later." xml:space="preserve">
-    <value></value>
+    <value>Contul tau a fost blocat, te rugăm încearcă din nou mai târziu.</value>
   </data>
   <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
-    <value></value>
+    <value>Această acțiune poate fi anulată doar de un moderator sau administrator.</value>
   </data>
   <data name="This action only disables 2FA." xml:space="preserve">
-    <value></value>
+    <value>Această acțiune dezactivează doar 2FA.</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value></value>
+    <value>Numele afișat va fi vizibil public.</value>
   </data>
   <data name="This file does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Această fișier nu are nicio revizie.</value>
   </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
-    <value></value>
+    <value>Aceasta este profilul tău, fă ce vrei cu el.</value>
   </data>
   <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Acest proces dezactivează 2FA până când îți verifici aplicația de autentificare. Dacă nu finalizezi configurarea aplicației, poți pierde accesul la contul tău.</value>
   </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Se va verifica integritatea bazei de date și se vor valida toate cheile externe. Vrei să continui?</value>
   </data>
   <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va compila toate paginile din wiki și le va stoca în cache. Poate dura puțin timp! Continui?</value>
   </data>
   <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va combina toate configurațiile implicite, dar nu va suprascrie niciuna dintre setările tale actuale. Continui?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va optimiza indexurile și structura bazei de date. Continui?</value>
   </data>
   <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va șterge definitiv atașamentul specificat. Continui?</value>
   </data>
   <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va șterge permanent versiunea ștersă specificată. Continui?</value>
   </data>
   <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va șterge permanent pagina specificată, toate versiunile și atașamentele. Continui?</value>
   </data>
   <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va curăța permanent toate versiunile șterse ale paginilor pentru "{0}". Continui?</value>
   </data>
   <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va curăța permanent toate paginile șterse. Continui?</value>
   </data>
   <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va curăța permanent toate jurnalele de evenimente. Continui?</value>
   </data>
   <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va curăța permanent toate atașamentele orfane ale paginii. Continui?</value>
   </data>
   <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va reconstrui toate paginile din wiki. Poate dura puțin timp! Continui?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va elimina spațiul gol din baza de date, ceea ce poate elibera spațiu dacă au fost șterse multe date. Continui?</value>
   </data>
   <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura toate paginile namespace-urilor încorporate, suprascriind orice personalizare pe care ai făcut-o. Continui?</value>
   </data>
   <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura toate temele implicite, suprascriind orice personalizare făcută în baza de date. Continui?</value>
   </data>
   <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura toate Șabloanele de Caracteristici, suprascriind orice personalizare făcută. Continui?</value>
   </data>
   <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura toate paginile namespace-ului Include. Continui?</value>
   </data>
   <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura toate paginile namespace-ului Ajutor Wiki. Continui?</value>
   </data>
   <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura pagina ștersă și întregul său istoric. Continui?</value>
   </data>
   <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Aceasta va restaura versiunea ștersă. Continui?</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
-    <value></value>
+    <value>Fus orar</value>
   </data>
   <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
-    <value></value>
+    <value>Pentru a folosi o aplicație de autentificare, urmați pașii următori:</value>
   </data>
   <data name="Truncate Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Ștergeți versiuni ale paginii</value>
   </data>
   <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Trunchierea versiunilor paginii va șterge întregul istoric al reviziilor pentru toate paginile și atașamentele. Aceasta va rămâne doar cu cea mai recentă versiune a fiecărui obiect. În general, este considerat important! Continui?</value>
   </data>
   <data name="Two-factor authentication" xml:space="preserve">
-    <value></value>
+    <value>Autentificare în doi pași</value>
   </data>
   <data name="Two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Autentificarea în doi pași (2FA)</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value></value>
+    <value>Tip</value>
   </data>
   <data name="Type comment..." xml:space="preserve">
-    <value></value>
+    <value>Comentează...</value>
   </data>
   <data name="Unable to delete page" xml:space="preserve">
-    <value></value>
+    <value>Imposibil de șters pagina</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
-    <value></value>
+    <value>Nemărit</value>
   </data>
   <data name="Unconfirmed" xml:space="preserve">
-    <value></value>
+    <value>Necorect</value>
   </data>
   <data name="Underline" xml:space="preserve">
-    <value></value>
+    <value>Subliniază</value>
   </data>
   <data name="Unexpected Error" xml:space="preserve">
-    <value></value>
+    <value>Eroare neașteptată</value>
   </data>
   <data name="Unexpected error:" xml:space="preserve">
-    <value></value>
+    <value>Eroare neașteptată:</value>
   </data>
   <data name="Update password" xml:space="preserve">
-    <value></value>
+    <value>Actualizează parola</value>
   </data>
   <data name="Upload successful" xml:space="preserve">
-    <value></value>
+    <value>Încărcare reușită</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value></value>
+    <value>URL-ul trebuie să înceapă cu</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
-    <value></value>
+    <value>Utilizați alt serviciu pentru a vă înregistra</value>
   </data>
   <data name="Use commas to separate categories." xml:space="preserve">
-    <value></value>
+    <value>Folosiți virgule pentru a separa categoriile.</value>
   </data>
   <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
-    <value></value>
+    <value>Utilizați namespace-ul Templates pentru a adăuga o pagină în lista de șabloane, de ex. Templates :: Primul meu șablon.</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value></value>
+    <value>Nume de utilizator</value>
   </data>
   <data name="Users" xml:space="preserve">
-    <value></value>
+    <value>Utilizatori</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
-    <value></value>
+    <value>Aspirator</value>
   </data>
   <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
-    <value></value>
+    <value>Utilitare diverse pentru a ajuta în gestionarea bazei de date SQLite.</value>
   </data>
   <data name="Verification Code" xml:space="preserve">
-    <value></value>
+    <value>Cod de verificare</value>
   </data>
   <data name="Verification code is invalid." xml:space="preserve">
-    <value></value>
+    <value>Codul de verificare este invalid.</value>
   </data>
   <data name="Verification email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Email de verificare trimis. Vă rugăm să verificați emailul.</value>
   </data>
   <data name="Verify" xml:space="preserve">
-    <value></value>
+    <value>Verifică</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value></value>
+    <value>Versiune</value>
   </data>
   <data name="View" xml:space="preserve">
-    <value></value>
+    <value>Vizualizare</value>
   </data>
   <data name="View all comments" xml:space="preserve">
-    <value></value>
+    <value>Vezi toate comentariile</value>
   </data>
   <data name="View all revisions" xml:space="preserve">
-    <value></value>
+    <value>Vezi toate revizuirile</value>
   </data>
   <data name="View latest revision" xml:space="preserve">
-    <value></value>
+    <value>Vezi cea mai recentă revizuire</value>
   </data>
   <data name="Viewing a deleted page" xml:space="preserve">
-    <value></value>
+    <value>Vizualizezi o pagină ștearsă</value>
   </data>
   <data name="Viewing a deleted page revision" xml:space="preserve">
-    <value></value>
+    <value>Vizualizezi o revizuire a unei pagini șterse</value>
   </data>
   <data name="Viewing a historical version" xml:space="preserve">
-    <value></value>
+    <value>Vizualizezi o versiune istorică</value>
   </data>
   <data name="What did you change and why?" xml:space="preserve">
-    <value></value>
+    <value>Ce ai schimbat și de ce?</value>
   </data>
   <data name="Wiki Help Pages" xml:space="preserve">
-    <value></value>
+    <value>Pagini de Ajutor Wiki</value>
   </data>
   <data name="Wiki Page" xml:space="preserve">
-    <value></value>
+    <value>Pagini Wiki</value>
   </data>
   <data name="Wikified Size" xml:space="preserve">
-    <value></value>
+    <value>Mărime Wikificat</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value></value>
+    <value>Da</value>
   </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value></value>
+    <value>Vizionezi o revizie a unei pagini care a fost ștersă pe {0} de {1}.</value>
   </data>
   <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value></value>
+    <value>Vizionezi o pagină care a fost ștersă pe {0} de {1}.</value>
   </data>
   <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
-    <value></value>
+    <value>Vizionezi revizia {0} a lui "{1}" modificată de {2} pe {3}.</value>
   </data>
   <data name="You can generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Poți genera un nou set de coduri de recuperare.</value>
   </data>
   <data name="You can log in with a recovery code" xml:space="preserve">
-    <value></value>
+    <value>Poți să te autentifici cu un cod de recuperare</value>
   </data>
   <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
-    <value></value>
+    <value>Nu ai un nume de utilizator/parolă local pentru acest site. Adaugă un cont local astfel încât să te poți autentifica fără o autentificare externă.</value>
   </data>
   <data name="You do not have access to this resource." xml:space="preserve">
-    <value></value>
+    <value>Nu ai acces la această resursă.</value>
   </data>
   <data name="You have {0} recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>Îți mai rămân {0} coduri de recuperare.</value>
   </data>
   <data name="You have 1 recovery code left." xml:space="preserve">
-    <value></value>
+    <value>Îți mai rămâne 1 cod de recuperare.</value>
   </data>
   <data name="You have generated new recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Ai generat noi coduri de recuperare.</value>
   </data>
   <data name="You have no recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>Nu-ți mai rămân coduri de recuperare.</value>
   </data>
   <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
-    <value></value>
+    <value>Ai solicitat autentificarea cu un cod de recuperare. Această autentificare nu va fi reținută până când vei introduce un cod din aplicația de autentificare sau vei Dezactiva 2FA și te vei autentifica din nou.</value>
   </data>
   <data name="You have successfully logged out of the application." xml:space="preserve">
-    <value></value>
+    <value>Te-ai deconectat cu succes de la aplicație.</value>
   </data>
   <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>Te-ai autentificat cu succes prin LDAP dar încă avem nevoie de câteva informații.</value>
   </data>
   <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>Te-ai autentificat cu succes prin furnizorul extern, dar încă avem nevoie de câteva informații.</value>
   </data>
   <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să accepți politica înainte de a activa autentificarea în doi pași.</value>
   </data>
   <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să generezi un nou set de coduri de recuperare înainte de a te putea conecta cu un cod de recuperare.</value>
   </data>
   <data name="You should generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Ar trebui să generezi un nou set de coduri de recuperare.</value>
   </data>
   <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
-    <value></value>
+    <value>Te-ai autentificat cu succes cu {0}. Introdu adresa de email pentru acest site mai jos și apasă butonul Înregistrează-te pentru a finaliza conectarea.</value>
   </data>
   <data name="Your authenticator app has been verified." xml:space="preserve">
-    <value></value>
+    <value>Aplicația ta de autentificare a fost verificată.</value>
   </data>
   <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value></value>
+    <value>Cheia aplicației tale de autentificare a fost resetată, va trebui să configurezi aplicația ta de autentificare folosind noua cheie.</value>
   </data>
   <data name="Your email is unchanged." xml:space="preserve">
-    <value></value>
+    <value>Adresa ta de email nu s-a schimbat.</value>
   </data>
   <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
-    <value></value>
+    <value>Conectarea ta este protejată cu o aplicație de autentificare. Introdu codul tău de autentificare mai jos.</value>
   </data>
   <data name="Your password has been changed." xml:space="preserve">
-    <value></value>
+    <value>Parola ta a fost schimbată.</value>
   </data>
   <data name="Your password has been reset." xml:space="preserve">
-    <value></value>
+    <value>Parola ta a fost resetată.</value>
   </data>
   <data name="Your password has been set." xml:space="preserve">
-    <value></value>
+    <value>Parola ta a fost setată.</value>
   </data>
   <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
-    <value></value>
+    <value>Criteriile tale de căutare nu au produs niciun rezultat, simplifică textul de căutare.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
-    <value></value>
+    <value>A apărut o eroare la preluarea informațiilor despre utilizator de la furnizorul extern.</value>
   </data>
   <data name="An error occurred while adding the login." xml:space="preserve">
-    <value></value>
+    <value>A apărut o eroare în timpul adăugării conectării.</value>
   </data>
   <data name="An error occurred while creating the user." xml:space="preserve">
-    <value></value>
+    <value>A apărut o eroare în crearea utilizatorului.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value></value>
+    <value>Numele afișat este deja în uz.</value>
   </data>
   <data name="Display Name is required." xml:space="preserve">
-    <value></value>
+    <value>Numele afișat este obligatoriu.</value>
   </data>
   <data name="Error changing email." xml:space="preserve">
-    <value></value>
+    <value>Eroare la schimbarea email-ului.</value>
   </data>
   <data name="Error changing user name." xml:space="preserve">
-    <value></value>
+    <value>Eroare la schimbarea numelui de utilizator.</value>
   </data>
   <data name="Error confirming your email." xml:space="preserve">
-    <value></value>
+    <value>Eroare la confirmarea email-ului.</value>
   </data>
   <data name="Error from external provider: {0}" xml:space="preserve">
-    <value></value>
+    <value>Eroare de la furnizorul extern: {0}</value>
   </data>
   <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value></value>
+    <value>A apărut o eroare la încărcarea informațiilor despre conectarea externă în timpul confirmării.</value>
   </data>
   <data name="Error loading external login information." xml:space="preserve">
-    <value></value>
+    <value>A apărut o eroare la încărcarea informațiilor despre conectarea externă.</value>
   </data>
   <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value></value>
+    <value>Nu s-a putut adăuga informația de conectare pentru contul LDAP stub: {0}.</value>
   </data>
   <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value></value>
+    <value>Nu s-a putut crea contul stub pentru credentialul LDAP: {0}.</value>
   </data>
   <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
-    <value></value>
+    <value>Nu s-a putut localiza contul utilizatorului pentru credențialele LDAP.</value>
   </data>
   <data name="Invalid login attempt." xml:space="preserve">
-    <value></value>
+    <value>Încercare de autentificare invalidă.</value>
   </data>
   <data name="Thank you for confirming your email change." xml:space="preserve">
-    <value></value>
+    <value>Vă mulțumim că ați confirmat schimbarea adresei de email.</value>
   </data>
   <data name="Thank you for confirming your email." xml:space="preserve">
-    <value></value>
+    <value>Vă mulțumim că ați confirmat email-ul.</value>
   </data>
   <data name="The email address was not supplied by the external provider." xml:space="preserve">
-    <value></value>
+    <value>Adresa de email nu a fost furnizată de furnizorul extern.</value>
   </data>
   <data name="The specified user could not be found." xml:space="preserve">
-    <value></value>
+    <value>Utilizatorul specificat nu a putut fi găsit.</value>
   </data>
   <data name="User created a new account with LDAP." xml:space="preserve">
-    <value></value>
+    <value>Utilizatorul a creat un cont nou cu LDAP.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>Adresă</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>Permite Potrivirea Fuzzy</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>Permite Înscrierea</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>Autentificare și Cookies.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>Bază</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>Setări wiki de bază, cum ar fi formatarea.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>Imagine de Brand (Mică)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>Limită Memorie Cache MB</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>Configurație pentru autentificarea în Active Directory utilizând LDAP</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>Configurație legată de căutare și indexare.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>Cookies</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>Drepturi de autor</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>Personalizare</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>Țara Implicită</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>Înălțimea Emoji Implicită</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>Limba Implicită</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>Numărul Implicit de Profiluri Recent Modificate</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>Rolul Implicit pentru Înregistrare</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>Fus orar implicit</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>Setări EMail și SMTP.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>Activează Comentariile pe Pagină</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>Activează Profilurile Publice</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>Ore de Expirație</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>Autentificare Externă</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>Proved provideri de autentificare externă</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>Setări fișier și atașamente.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>Fișiere și Atașamente</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>Localizarea sistemului de fișiere unde sunt stocate cookie-urile persistente pentru sesiunile salvate de autentificare.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>Poziția Fixă a Meniului Antet</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>Subsol</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>SubsolText</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>De la Numele afișat</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>Funcționalitate</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>Funcționalitate generală wiki.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientId</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : Secretul Clientului</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : Folosește Autentificarea Google</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>Antet</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>Șablon email HTML pentru verificarea noului cont</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>Șablon email HTML de utilizat când trimiteți o e-mail de resetare a parolei.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>Aspect HTML</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>Așezare HTML.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>HTML plasat în interiorul etichetei body, dar direct după conținutul celorlalte body.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML plasat în interiorul etichetei body, dar chiar înainte de conținutul celorlalte pagini.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML plasat în secțiunea de footer a paginii.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML plasat în secțiunea de header a HTML-ului. Un loc util pentru a plasa scripturi și CSS.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Dacă este activat, utilizatorii nu se pot autentifica până nu își verifică adresele de email. Dacă se modifică, site-ul va trebui repornit. Implicit: Activat.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Dacă este activat, utilizatorii vor putea să se înscrie și să își creeze propriul cont. Implicit: Activat.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>Include Search pe Bara de Navigare</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>Include Descriere Wiki în Meta</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>Include Tag-uri Wiki în Meta</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Domeniu implicit de autentificare</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Activează Autentificarea LDAP</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Domeniu complet calificat</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Utilizează Secure Socket Layer</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Autentificare LDAP</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>Personalizări Look &amp; Feel.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>Dimensiunea maximă a fișierului atașamentului</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>Dimensiunea maximă a fișierului avatar</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>Dimensiunea maximă a fișierului emoji</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>Mărimea maximă în bytes pentru orice atașament de pagină al utilizatorului.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>Mărimea maximă în bytes pentru o imagine de avatar a utilizatorului.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>Mărimea maximă în bytes pentru o imagine emoji.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>Afilieri</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>Setări de membru, precum valorile implicite pentru noii membri și permisiunile.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientId</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientSecret</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Utilizează Autentificare Microsoft</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>Scorul minim de potrivire</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>Șablon de pagină nouă</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>Numărul de ore înainte ca cookies-urile să expire.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Autoritate</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : IdClient</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : SecretClient</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Folosește Autentificarea OIDC</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>Timp de cache al paginii (secunde)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Pagina inexistentă</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>Mărimea paginării</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>Performanță</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>Setări legate de performanță.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>Calea cheilor persistente</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>Port</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>Corpul postării</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>Pre-cadru</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>Pre-încărcare emojis animate</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>Colectarea metricilor de compilare a înregistrărilor</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Necesară rezumatul schimbărilor la editare</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Necesară verificarea email-ului</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Pagina de revizie inexistentă</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Arată rezumatul schimbărilor la editare</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Arată comentariile în subsolul paginii</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Arată ultima modificare în subsolul paginii</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>Împarte textul Camel Case</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
     <value></value>
@@ -2228,6 +2228,150 @@
     <value></value>
   </data>
   <data name="You must select an account." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="the address of your wiki." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Czech" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Icelandic" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Lithuanian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Bokmål" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Urdu" xml:space="preserve">
     <value></value>
   </data>
 </root>

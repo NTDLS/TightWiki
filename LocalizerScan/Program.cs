@@ -71,10 +71,17 @@ namespace LocalizerScan
                                 UNION SELECT Name FROM ConfigurationGroup WHERE Name != ''
                                 UNION SELECT Description FROM ConfigurationGroup WHERE Description != ''";
 
+                //Add configuration groups and entries to the list of keys to translate since these are also user-facing strings that need to be localized.
                 var configKeys = configDb.Query<string>(query);
                 foreach (var configKey in configKeys)
                 {
                     keysToTranslate.Add(configKey);
+                }
+
+                //Add the culture names to the list of keys to translate since these are also user-facing strings that need to be localized.
+                foreach (var culture in _supportedCultures.Collection)
+                {
+                    keysToTranslate.Add(culture.Name);
                 }
 
                 foreach (var sourceCodeFile in sourceCodeFiles)
@@ -104,7 +111,7 @@ namespace LocalizerScan
                 Console.WriteLine($"Found {keysToTranslate.Count} unique localization keys.");
 
                 var list = _supportedCultures.Collection.ToList();
-                list.Add(new CultureInfoSettings("", ""));
+                list.Add(new CultureInfoSettings("", "")); //Neutral culture does not have a culture code in the file name.
 
                 foreach (var culture in list)
                 {
@@ -246,7 +253,7 @@ namespace LocalizerScan
                 {
                     bool somethingWentWrong = false;
 
-                    var batch = phrases.Where(o => o.Value == null).Take(10).ToDictionary(o => o.Key, o => o.Value);
+                    var batch = phrases.Where(o => o.Value == null).Take(25).ToDictionary(o => o.Key, o => o.Value);
 
                     Console.WriteLine($"Processing batch of {batch.Count:n0} elements -> {targetLanguage.Name}");
 

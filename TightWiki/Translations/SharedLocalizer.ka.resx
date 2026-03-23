@@ -2230,4 +2230,148 @@
   <data name="You must select an account." xml:space="preserve">
     <value>თქვენ უნდა აირჩიოთ ანგარიში.</value>
   </data>
+  <data name="the address of your wiki." xml:space="preserve">
+    <value>თქვენი ვიკიის მისამართი.</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>ინგლისური</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>(arabic translation)</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>Azerbaijani</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>ბელორუსული</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>Bulgarian</value>
+  </data>
+  <data name="Czech" xml:space="preserve">
+    <value>ჩეხური</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>დანიელი</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>გერმანული</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>ბერძნული</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>ესპანური</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>ესტონური</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>პერსიანური</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>ფინური</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>ფრანგული</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>ჰეიბრაული</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>ხრავატული</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>უნგრული</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>ინდონეზიური</value>
+  </data>
+  <data name="Icelandic" xml:space="preserve">
+    <value>ისკანდინავიური</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>იტალიური</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>სამხრეთკორეული</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>ქართული</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>ქაზახური</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>კორეულური</value>
+  </data>
+  <data name="Lithuanian" xml:space="preserve">
+    <value>ლიტვური</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>ლატვური</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>მალაიზური</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>ჰოლანდიური</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>ნორვეგიულური</value>
+  </data>
+  <data name="Bokmål" xml:space="preserve">
+    <value>ბოკმალი</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>პოლონური</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>პორტუგალია</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>რუმინული</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>რუსული</value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value>სლობაკური</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>სლოვანი</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>სერბული</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>შვედური</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>ថაინური</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>თურქული</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>უკრაინული</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>ვიეტნამური</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>ჩინური გამარტივებული</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>ჩინური ტრადიციული</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>ბენგალური</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>ჰინდი</value>
+  </data>
+  <data name="Urdu" xml:space="preserve">
+    <value>ურდუუ</value>
+  </data>
 </root>

@@ -2230,4 +2230,148 @@
   <data name="You must select an account." xml:space="preserve">
     <value>계정을 선택해야 합니다.</value>
   </data>
+  <data name="the address of your wiki." xml:space="preserve">
+    <value>당신의 위키 주소입니다.</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>영어</value>
+  </data>
+  <data name="Arabic" xml:space="preserve">
+    <value>아랍어</value>
+  </data>
+  <data name="Azerbaijani" xml:space="preserve">
+    <value>아제르바이잔어</value>
+  </data>
+  <data name="Belarusian" xml:space="preserve">
+    <value>벨라루스어</value>
+  </data>
+  <data name="Bulgarian" xml:space="preserve">
+    <value>불가리아어</value>
+  </data>
+  <data name="Czech" xml:space="preserve">
+    <value>체코어</value>
+  </data>
+  <data name="Danish" xml:space="preserve">
+    <value>덴마크어</value>
+  </data>
+  <data name="German" xml:space="preserve">
+    <value>독일어</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>그리스어</value>
+  </data>
+  <data name="Spanish" xml:space="preserve">
+    <value>스페인어</value>
+  </data>
+  <data name="Estonian" xml:space="preserve">
+    <value>에스토니아어</value>
+  </data>
+  <data name="Persian" xml:space="preserve">
+    <value>페르시아어</value>
+  </data>
+  <data name="Finnish" xml:space="preserve">
+    <value>핀란드어</value>
+  </data>
+  <data name="French" xml:space="preserve">
+    <value>프랑스어</value>
+  </data>
+  <data name="Hebrew" xml:space="preserve">
+    <value>히브리어</value>
+  </data>
+  <data name="Croatian" xml:space="preserve">
+    <value>크로아티아어</value>
+  </data>
+  <data name="Hungarian" xml:space="preserve">
+    <value>헝가리어</value>
+  </data>
+  <data name="Indonesian" xml:space="preserve">
+    <value>인도네시아어</value>
+  </data>
+  <data name="Icelandic" xml:space="preserve">
+    <value>아이슬란드어</value>
+  </data>
+  <data name="Italian" xml:space="preserve">
+    <value>이탈리아어</value>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>일본어</value>
+  </data>
+  <data name="Georgian" xml:space="preserve">
+    <value>조지아어</value>
+  </data>
+  <data name="Kazakh" xml:space="preserve">
+    <value>카자흐어</value>
+  </data>
+  <data name="Korean" xml:space="preserve">
+    <value>한국어</value>
+  </data>
+  <data name="Lithuanian" xml:space="preserve">
+    <value>리투아니아어</value>
+  </data>
+  <data name="Latvian" xml:space="preserve">
+    <value>라트비아어</value>
+  </data>
+  <data name="Malay" xml:space="preserve">
+    <value>말레이어</value>
+  </data>
+  <data name="Dutch" xml:space="preserve">
+    <value>네덜란드어</value>
+  </data>
+  <data name="Norwegian" xml:space="preserve">
+    <value>노르웨이어</value>
+  </data>
+  <data name="Bokmål" xml:space="preserve">
+    <value>북유럽어</value>
+  </data>
+  <data name="Polish" xml:space="preserve">
+    <value>폴란드어</value>
+  </data>
+  <data name="Portuguese" xml:space="preserve">
+    <value>포르투갈어</value>
+  </data>
+  <data name="Romanian" xml:space="preserve">
+    <value>루마니아어</value>
+  </data>
+  <data name="Russian" xml:space="preserve">
+    <value>러시아어</value>
+  </data>
+  <data name="Slovak" xml:space="preserve">
+    <value>슬로바키아어</value>
+  </data>
+  <data name="Slovenian" xml:space="preserve">
+    <value>슬로베니아어</value>
+  </data>
+  <data name="Serbian" xml:space="preserve">
+    <value>세르비아어</value>
+  </data>
+  <data name="Swedish" xml:space="preserve">
+    <value>스웨덴어</value>
+  </data>
+  <data name="Thai" xml:space="preserve">
+    <value>태국어</value>
+  </data>
+  <data name="Turkish" xml:space="preserve">
+    <value>터키어</value>
+  </data>
+  <data name="Ukrainian" xml:space="preserve">
+    <value>우크라이나어</value>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>베트남어</value>
+  </data>
+  <data name="Chinese simplified" xml:space="preserve">
+    <value>중국어 간체</value>
+  </data>
+  <data name="Chinese traditional" xml:space="preserve">
+    <value>중국어 번체</value>
+  </data>
+  <data name="Bengali" xml:space="preserve">
+    <value>벵골어</value>
+  </data>
+  <data name="Hindi" xml:space="preserve">
+    <value>힌디어</value>
+  </data>
+  <data name="Urdu" xml:space="preserve">
+    <value>우르두어</value>
+  </data>
 </root>
