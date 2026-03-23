@@ -116,3 +116,7 @@ Data/defaults.db
 LocalizerScan/bin/
 
 LocalizerScan/obj/
+
+LocalizerScan/Properties/launchSettings.json
+
+TightWiki/Properties/launchSettings.json

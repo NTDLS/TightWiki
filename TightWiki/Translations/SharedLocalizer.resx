@@ -1729,4 +1729,439 @@
   <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
     <value>Your search criteria resulted in no pages, simplify your search text.</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Allow Fuzzy Matching" xml:space="preserve">
+    <value>Allow Fuzzy Matching</value>
+  </data>
+  <data name="Allow Signup" xml:space="preserve">
+    <value>Allow Signup</value>
+  </data>
+  <data name="Authentication and Cookies." xml:space="preserve">
+    <value>Authentication and Cookies.</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="Basic wiki settings such as formatting." xml:space="preserve">
+    <value>Basic wiki settings such as formatting.</value>
+  </data>
+  <data name="Brand Image (Small)" xml:space="preserve">
+    <value>Brand Image (Small)</value>
+  </data>
+  <data name="Cache Memory Limit MB" xml:space="preserve">
+    <value>Cache Memory Limit MB</value>
+  </data>
+  <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
+    <value>Configuration for Active Directory authentication using LDAP</value>
+  </data>
+  <data name="Configuration related to searching and indexing." xml:space="preserve">
+    <value>Configuration related to searching and indexing.</value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>Cookies</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>Customization</value>
+  </data>
+  <data name="Default Country" xml:space="preserve">
+    <value>Default Country</value>
+  </data>
+  <data name="Default Emoji Height" xml:space="preserve">
+    <value>Default Emoji Height</value>
+  </data>
+  <data name="Default Language" xml:space="preserve">
+    <value>Default Language</value>
+  </data>
+  <data name="Default Profile Recently Modified Count" xml:space="preserve">
+    <value>Default Profile Recently Modified Count</value>
+  </data>
+  <data name="Default Signup Role" xml:space="preserve">
+    <value>Default Signup Role</value>
+  </data>
+  <data name="Default TimeZone" xml:space="preserve">
+    <value>Default TimeZone</value>
+  </data>
+  <data name="EMail and SMTP setting." xml:space="preserve">
+    <value>EMail and SMTP setting.</value>
+  </data>
+  <data name="Enable Page Comments" xml:space="preserve">
+    <value>Enable Page Comments</value>
+  </data>
+  <data name="Enable Public Profiles" xml:space="preserve">
+    <value>Enable Public Profiles</value>
+  </data>
+  <data name="Expiraion Hours" xml:space="preserve">
+    <value>Expiraion Hours</value>
+  </data>
+  <data name="External Authentication" xml:space="preserve">
+    <value>External Authentication</value>
+  </data>
+  <data name="External Authentication Providers" xml:space="preserve">
+    <value>External Authentication Providers</value>
+  </data>
+  <data name="File and Attachment settings." xml:space="preserve">
+    <value>File and Attachment settings.</value>
+  </data>
+  <data name="Files and Attachments" xml:space="preserve">
+    <value>Files and Attachments</value>
+  </data>
+  <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
+    <value>Filesystem location where persistent cookies are stored for saved session logins.</value>
+  </data>
+  <data name="Fixed Header Menu Position" xml:space="preserve">
+    <value>Fixed Header Menu Position</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>Footer</value>
+  </data>
+  <data name="FooterBlurb" xml:space="preserve">
+    <value>FooterBlurb</value>
+  </data>
+  <data name="From Display Name" xml:space="preserve">
+    <value>From Display Name</value>
+  </data>
+  <data name="Functionality" xml:space="preserve">
+    <value>Functionality</value>
+  </data>
+  <data name="General wiki functionality." xml:space="preserve">
+    <value>General wiki functionality.</value>
+  </data>
+  <data name="Google : ClientId" xml:space="preserve">
+    <value>Google : ClientId</value>
+  </data>
+  <data name="Google : ClientSecret" xml:space="preserve">
+    <value>Google : ClientSecret</value>
+  </data>
+  <data name="Google : Use Google Authentication" xml:space="preserve">
+    <value>Google : Use Google Authentication</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>Header</value>
+  </data>
+  <data name="HTML email template for new account verification" xml:space="preserve">
+    <value>HTML email template for new account verification</value>
+  </data>
+  <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
+    <value>HTML email template to use when sending a password reset email.</value>
+  </data>
+  <data name="HTML Layout" xml:space="preserve">
+    <value>HTML Layout</value>
+  </data>
+  <data name="HTML layout." xml:space="preserve">
+    <value>HTML layout.</value>
+  </data>
+  <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
+    <value>HTML placed inside the body tag but directly after the other body content.</value>
+  </data>
+  <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
+    <value>HTML placed inside the body tag but just before the other content of the page.</value>
+  </data>
+  <data name="HTML placed into the footer section of the page." xml:space="preserve">
+    <value>HTML placed into the footer section of the page.</value>
+  </data>
+  <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
+    <value>HTML placed into the header section of the HTML. A useful place to put scripts and CSS.</value>
+  </data>
+  <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
+    <value>If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled.</value>
+  </data>
+  <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
+    <value>If set, users will be allowed to sing up and create their own account. Default: Enabled.</value>
+  </data>
+  <data name="Include Search on Navbar" xml:space="preserve">
+    <value>Include Search on Navbar</value>
+  </data>
+  <data name="Include wiki Description in Meta" xml:space="preserve">
+    <value>Include wiki Description in Meta</value>
+  </data>
+  <data name="Include wiki Tags in Meta" xml:space="preserve">
+    <value>Include wiki Tags in Meta</value>
+  </data>
+  <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
+    <value>LDAP : Default Sign-in Domain</value>
+  </data>
+  <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
+    <value>LDAP : Enable LDAP Authentication</value>
+  </data>
+  <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
+    <value>LDAP : Fully-Qualified Domain</value>
+  </data>
+  <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
+    <value>LDAP : Use Secure Socket Layer</value>
+  </data>
+  <data name="LDAP Authentication" xml:space="preserve">
+    <value>LDAP Authentication</value>
+  </data>
+  <data name="Look &amp; Feel customizations." xml:space="preserve">
+    <value>Look &amp; Feel customizations.</value>
+  </data>
+  <data name="Max Attachment File Size" xml:space="preserve">
+    <value>Max Attachment File Size</value>
+  </data>
+  <data name="Max Avatar File Size" xml:space="preserve">
+    <value>Max Avatar File Size</value>
+  </data>
+  <data name="Max Emoji File Size" xml:space="preserve">
+    <value>Max Emoji File Size</value>
+  </data>
+  <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
+    <value>Maximum size in bytes for a user any page attachment.</value>
+  </data>
+  <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
+    <value>Maximum size in bytes for a user avatar image.</value>
+  </data>
+  <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
+    <value>Maximum size in bytes for an emoji image.</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>Membership</value>
+  </data>
+  <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
+    <value>Membership settings such as defaults for new members and permissions.</value>
+  </data>
+  <data name="Microsoft : ClientId" xml:space="preserve">
+    <value>Microsoft : ClientId</value>
+  </data>
+  <data name="Microsoft : ClientSecret" xml:space="preserve">
+    <value>Microsoft : ClientSecret</value>
+  </data>
+  <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
+    <value>Microsoft : Use Microsoft Authentication</value>
+  </data>
+  <data name="Minimum Match Score" xml:space="preserve">
+    <value>Minimum Match Score</value>
+  </data>
+  <data name="New Page Template" xml:space="preserve">
+    <value>New Page Template</value>
+  </data>
+  <data name="Number of hours before cookies expire." xml:space="preserve">
+    <value>Number of hours before cookies expire.</value>
+  </data>
+  <data name="OIDC : Authority" xml:space="preserve">
+    <value>OIDC : Authority</value>
+  </data>
+  <data name="OIDC : ClientId" xml:space="preserve">
+    <value>OIDC : ClientId</value>
+  </data>
+  <data name="OIDC : ClientSecret" xml:space="preserve">
+    <value>OIDC : ClientSecret</value>
+  </data>
+  <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
+    <value>OIDC : Use OIDC Authentication</value>
+  </data>
+  <data name="Page Cache Time (Seconds)" xml:space="preserve">
+    <value>Page Cache Time (Seconds)</value>
+  </data>
+  <data name="Page Not Exists Page" xml:space="preserve">
+    <value>Page Not Exists Page</value>
+  </data>
+  <data name="Pagination Size" xml:space="preserve">
+    <value>Pagination Size</value>
+  </data>
+  <data name="Performance" xml:space="preserve">
+    <value>Performance</value>
+  </data>
+  <data name="Performance related settings." xml:space="preserve">
+    <value>Performance related settings.</value>
+  </data>
+  <data name="Persist Keys Path" xml:space="preserve">
+    <value>Persist Keys Path</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>Port</value>
+  </data>
+  <data name="Post-Body" xml:space="preserve">
+    <value>Post-Body</value>
+  </data>
+  <data name="Pre-Body" xml:space="preserve">
+    <value>Pre-Body</value>
+  </data>
+  <data name="Pre-Load Animated Emojis" xml:space="preserve">
+    <value>Pre-Load Animated Emojis</value>
+  </data>
+  <data name="Record Compilation Metrics" xml:space="preserve">
+    <value>Record Compilation Metrics</value>
+  </data>
+  <data name="Require Change Summary when Editing" xml:space="preserve">
+    <value>Require Change Summary when Editing</value>
+  </data>
+  <data name="Require Email Verification" xml:space="preserve">
+    <value>Require Email Verification</value>
+  </data>
+  <data name="Revision Does Not Exists Page" xml:space="preserve">
+    <value>Revision Does Not Exists Page</value>
+  </data>
+  <data name="Show Change Summary when Editing" xml:space="preserve">
+    <value>Show Change Summary when Editing</value>
+  </data>
+  <data name="Show Comments on Page Footer" xml:space="preserve">
+    <value>Show Comments on Page Footer</value>
+  </data>
+  <data name="Show Last Modified on Page Footer" xml:space="preserve">
+    <value>Show Last Modified on Page Footer</value>
+  </data>
+  <data name="Split Camel Case" xml:space="preserve">
+    <value>Split Camel Case</value>
+  </data>
+  <data name="Template: Account Verification Email" xml:space="preserve">
+    <value>Template: Account Verification Email</value>
+  </data>
+  <data name="Template: Reset Password Email" xml:space="preserve">
+    <value>Template: Reset Password Email</value>
+  </data>
+  <data name="The account name to use for all email communications." xml:space="preserve">
+    <value>The account name to use for all email communications.</value>
+  </data>
+  <data name="The base theme to use for all site styling." xml:space="preserve">
+    <value>The base theme to use for all site styling.</value>
+  </data>
+  <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
+    <value>The brand image of the wiki, this is displayed on the top of all wiki pages.</value>
+  </data>
+  <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>The copyright of the wiki, this is shown at the bottom of all pages.</value>
+  </data>
+  <data name="The country to use for the site culture for guests." xml:space="preserve">
+    <value>The country to use for the site culture for guests.</value>
+  </data>
+  <data name="The default country to use for new accounts." xml:space="preserve">
+    <value>The default country to use for new accounts.</value>
+  </data>
+  <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
+    <value>The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in.</value>
+  </data>
+  <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
+    <value>The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24.</value>
+  </data>
+  <data name="The default language to use for new accounts." xml:space="preserve">
+    <value>The default language to use for new accounts.</value>
+  </data>
+  <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
+    <value>The default role to assign accounts when they sing up. Default: Contributor.</value>
+  </data>
+  <data name="The default time zone to use for new accounts." xml:space="preserve">
+    <value>The default time zone to use for new accounts.</value>
+  </data>
+  <data name="The display name to show for all email communications." xml:space="preserve">
+    <value>The display name to show for all email communications.</value>
+  </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>The footer of the wiki, this is shown at the bottom of all pages.</value>
+  </data>
+  <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
+    <value>The fully qualified domain name to use when performing LDAP authentication.</value>
+  </data>
+  <data name="The internet address of your wiki." xml:space="preserve">
+    <value>The internet address of your wiki.</value>
+  </data>
+  <data name="The language to use for the site culture for guests." xml:space="preserve">
+    <value>The language to use for the site culture for guests.</value>
+  </data>
+  <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
+    <value>The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024.</value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
+    <value>The name of the wiki page to display when a non existing page is requested.</value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
+    <value>The name of the wiki page to display when a non existing page revision is requested.</value>
+  </data>
+  <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
+    <value>The name of the wiki page to use as the default content when new wiki pages are created.</value>
+  </data>
+  <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
+    <value>The name of the wiki, this is displayed everywhere.</value>
+  </data>
+  <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
+    <value>The number of items to return when pagination is used. Default: 20.</value>
+  </data>
+  <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
+    <value>The number of recently modified pages to show on users public profiles. Default: 10.</value>
+  </data>
+  <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
+    <value>The number of seconds to cache pages in memory (0 = disabled). Default: 300.</value>
+  </data>
+  <data name="The SMTP password to use when sending email." xml:space="preserve">
+    <value>The SMTP password to use when sending email.</value>
+  </data>
+  <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
+    <value>The SMTP port to use when sending email. Default: 587.</value>
+  </data>
+  <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
+    <value>The SMTP server ip/host to use when sending email.</value>
+  </data>
+  <data name="The time zone to use for the site culture for guests." xml:space="preserve">
+    <value>The time zone to use for the site culture for guests.</value>
+  </data>
+  <data name="Use SSL" xml:space="preserve">
+    <value>Use SSL</value>
+  </data>
+  <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
+    <value>Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6.</value>
+  </data>
+  <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
+    <value>When building a search index, these words will be excluded from indexing. (Comma separated)</value>
+  </data>
+  <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
+    <value>When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled.</value>
+  </data>
+  <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
+    <value>Whether a search box will be shown on the navigation bar. Default: Enabled.</value>
+  </data>
+  <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
+    <value>Whether or not OpenID Connect is enabled.</value>
+  </data>
+  <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
+    <value>Whether or not the engine should perform a lazy pre-load of all animated emojis on startup.</value>
+  </data>
+  <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
+    <value>Whether or not to authenticate with LDAP when attempting to login users.</value>
+  </data>
+  <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
+    <value>Whether or not to use a secure connection to LDAP. This is not always supported by domains.</value>
+  </data>
+  <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
+    <value>Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled.</value>
+  </data>
+  <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
+    <value>Whether SMTP should connect using SSL or not.</value>
+  </data>
+  <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
+    <value>Whether the description of the page should be included in the HTML head meta. Default: Enabled.</value>
+  </data>
+  <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
+    <value>Whether the top menu should stay in place when scrolling vertically.</value>
+  </data>
+  <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
+    <value>Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled.</value>
+  </data>
+  <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
+    <value>Whether to allow non-exact matches when searching. Default: Enabled.</value>
+  </data>
+  <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
+    <value>Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled.</value>
+  </data>
+  <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
+    <value>Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled.</value>
+  </data>
+  <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
+    <value>Whether to show the textbox to allow the user to enter a change summary when editing pages.</value>
+  </data>
+  <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
+    <value>Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled.</value>
+  </data>
+  <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
+    <value>Whether users are required to enter a change summary when editing pages. Note that "Show Change Summary when Editing" must also be enabled.</value>
+  </data>
+  <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
+    <value>Whether visitors can view members and their public profiles.</value>
+  </data>
+  <data name="Word Exclusions" xml:space="preserve">
+    <value>Word Exclusions</value>
+  </data>
 </root>

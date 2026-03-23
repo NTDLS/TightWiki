@@ -1729,4 +1729,439 @@
   <data name="User created a new account with LDAP." xml:space="preserve">
     <value>أنشأ المستخدم حسابًا جديدًا باستخدام LDAP.</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="Allow Fuzzy Matching" xml:space="preserve">
+    <value>السماح بالمطابقة الغامضة</value>
+  </data>
+  <data name="Allow Signup" xml:space="preserve">
+    <value>السماح بالتسجيل</value>
+  </data>
+  <data name="Authentication and Cookies." xml:space="preserve">
+    <value>المصادقة والكوكيز.</value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value>أساسي</value>
+  </data>
+  <data name="Basic wiki settings such as formatting." xml:space="preserve">
+    <value>إعدادات الويكي الأساسية مثل التنسيق.</value>
+  </data>
+  <data name="Brand Image (Small)" xml:space="preserve">
+    <value>صورة العلامة التجارية (صغيرة)</value>
+  </data>
+  <data name="Cache Memory Limit MB" xml:space="preserve">
+    <value>حد ذاكرة التخزين المؤقت ميجابايت</value>
+  </data>
+  <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
+    <value>إعدادات للمصادقة باستخدام دليل النشاط النشط (Active Directory) باستخدام LDAP</value>
+  </data>
+  <data name="Configuration related to searching and indexing." xml:space="preserve">
+    <value>إعدادات تتعلق بالبحث والفهرسة.</value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value>ملفات تعريف الارتباط</value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value>حقوق النشر</value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value>التخصيص</value>
+  </data>
+  <data name="Default Country" xml:space="preserve">
+    <value>البلد الافتراضي</value>
+  </data>
+  <data name="Default Emoji Height" xml:space="preserve">
+    <value>ارتفاع الرموز التعبيرية الافتراضي</value>
+  </data>
+  <data name="Default Language" xml:space="preserve">
+    <value>اللغة الافتراضية</value>
+  </data>
+  <data name="Default Profile Recently Modified Count" xml:space="preserve">
+    <value>عدد التعديلات الأخيرة للملف الشخصي الافتراضي</value>
+  </data>
+  <data name="Default Signup Role" xml:space="preserve">
+    <value>دور التسجيل الافتراضي</value>
+  </data>
+  <data name="Default TimeZone" xml:space="preserve">
+    <value>المنطقة الزمنية الافتراضية</value>
+  </data>
+  <data name="EMail and SMTP setting." xml:space="preserve">
+    <value>إعدادات البريد الإلكتروني و SMTP.</value>
+  </data>
+  <data name="Enable Page Comments" xml:space="preserve">
+    <value>تمكين تعليقات الصفحة</value>
+  </data>
+  <data name="Enable Public Profiles" xml:space="preserve">
+    <value>تمكين ملفات التعريف العامة</value>
+  </data>
+  <data name="Expiraion Hours" xml:space="preserve">
+    <value>ساعات الانتهاء</value>
+  </data>
+  <data name="External Authentication" xml:space="preserve">
+    <value>المصادقة الخارجية</value>
+  </data>
+  <data name="External Authentication Providers" xml:space="preserve">
+    <value>مزودو المصادقة الخارجية</value>
+  </data>
+  <data name="File and Attachment settings." xml:space="preserve">
+    <value>إعدادات الملفات والمرفقات.</value>
+  </data>
+  <data name="Files and Attachments" xml:space="preserve">
+    <value>الملفات والمرفقات</value>
+  </data>
+  <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
+    <value>موقع نظام الملفات حيث يتم تخزين ملفات تعريف الارتباط الدائمة لتسجيل الدخول للجلسة المحفوظة.</value>
+  </data>
+  <data name="Fixed Header Menu Position" xml:space="preserve">
+    <value>موضع قائمة الرأس الثابتة</value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value>تذييل الصفحة</value>
+  </data>
+  <data name="FooterBlurb" xml:space="preserve">
+    <value>نبذة عن التذييل</value>
+  </data>
+  <data name="From Display Name" xml:space="preserve">
+    <value>من اسم العرض</value>
+  </data>
+  <data name="Functionality" xml:space="preserve">
+    <value>الوظائف</value>
+  </data>
+  <data name="General wiki functionality." xml:space="preserve">
+    <value>الوظائف العامة للويكي.</value>
+  </data>
+  <data name="Google : ClientId" xml:space="preserve">
+    <value>جوجل : معرف العميل</value>
+  </data>
+  <data name="Google : ClientSecret" xml:space="preserve">
+    <value>جوجل : سر العميل</value>
+  </data>
+  <data name="Google : Use Google Authentication" xml:space="preserve">
+    <value>جوجل : استخدام مصادقة جوجل</value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value>رأس الصفحة</value>
+  </data>
+  <data name="HTML email template for new account verification" xml:space="preserve">
+    <value>نموذج بريد إلكتروني بصيغة HTML للتحقق من الحساب الجديد</value>
+  </data>
+  <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
+    <value>نموذج بريد إلكتروني بصيغة HTML لاستخدامه عند إرسال بريد إعادة تعيين كلمة المرور.</value>
+  </data>
+  <data name="HTML Layout" xml:space="preserve">
+    <value>تخطيط HTML</value>
+  </data>
+  <data name="HTML layout." xml:space="preserve">
+    <value>تخطيط HTML.</value>
+  </data>
+  <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
+    <value>HTML موضوع داخل علامة الجسم ولكنه مباشرة بعد محتوى الجسم الآخر.</value>
+  </data>
+  <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
+    <value>HTML موضوع داخل علامة الجسم ولكن قبل المحتوى الآخر للصفحة.</value>
+  </data>
+  <data name="HTML placed into the footer section of the page." xml:space="preserve">
+    <value>HTML موضوع في قسم التذييل للصفحة.</value>
+  </data>
+  <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
+    <value>HTML موضوع في قسم رأس الصفحة. مكان مفيد لوضع النصوص البرمجية وCSS.</value>
+  </data>
+  <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
+    <value>إذا تم تفعيلها، لا يمكن للمستخدمين تسجيل الدخول حتى يتم التحقق من عناوين بريدهم الإلكتروني. إذا تم تغييرها، ستحتاج إلى إعادة تشغيل الموقع. الافتراضي: مفعّل.</value>
+  </data>
+  <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
+    <value>إذا تم تفعيلها، سيسمح للمستخدمين بالتسجيل وإنشاء حساب خاص بهم. الافتراضي: مفعّل.</value>
+  </data>
+  <data name="Include Search on Navbar" xml:space="preserve">
+    <value>تضمين البحث في شريط التنقل</value>
+  </data>
+  <data name="Include wiki Description in Meta" xml:space="preserve">
+    <value>تضمين وصف ويكيبيديا في الميتا</value>
+  </data>
+  <data name="Include wiki Tags in Meta" xml:space="preserve">
+    <value>تضمين علامات ويكي في الميتا</value>
+  </data>
+  <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
+    <value>LDAP : نطاق تسجيل الدخول الافتراضي</value>
+  </data>
+  <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
+    <value>LDAP : تمكين مصادقة LDAP</value>
+  </data>
+  <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
+    <value>LDAP : النطاق المؤهل بالكامل</value>
+  </data>
+  <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
+    <value>LDAP : استخدام طبقة المقبس الآمن</value>
+  </data>
+  <data name="LDAP Authentication" xml:space="preserve">
+    <value>مصادقة LDAP</value>
+  </data>
+  <data name="Look &amp; Feel customizations." xml:space="preserve">
+    <value>تخصيصات المظهر والشعور.</value>
+  </data>
+  <data name="Max Attachment File Size" xml:space="preserve">
+    <value>أقصى حجم لملف المرفقات</value>
+  </data>
+  <data name="Max Avatar File Size" xml:space="preserve">
+    <value>أقصى حجم لملف الصورة الرمزية</value>
+  </data>
+  <data name="Max Emoji File Size" xml:space="preserve">
+    <value>أقصى حجم لملف الرموز التعبيرية</value>
+  </data>
+  <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
+    <value>الحجم الأقصى بالبايتات لمرفق صفحة لأي مستخدم.</value>
+  </data>
+  <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
+    <value>الحجم الأقصى بالبايتات لصورة الصورة الرمزية للمستخدم.</value>
+  </data>
+  <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
+    <value>الحجم الأقصى بالبايتات لصورة الرموز التعبيرية.</value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value>العضوية</value>
+  </data>
+  <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
+    <value>إعدادات العضوية مثل الافتراضات للأعضاء الجدد والأذونات.</value>
+  </data>
+  <data name="Microsoft : ClientId" xml:space="preserve">
+    <value>مايكروسوفت : معرف العميل</value>
+  </data>
+  <data name="Microsoft : ClientSecret" xml:space="preserve">
+    <value>مايكروسوفت : سر العميل</value>
+  </data>
+  <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
+    <value>مايكروسوفت : استخدام مصادقة مايكروسوفت</value>
+  </data>
+  <data name="Minimum Match Score" xml:space="preserve">
+    <value>أدنى درجة مطابقة</value>
+  </data>
+  <data name="New Page Template" xml:space="preserve">
+    <value>نموذج صفحة جديد</value>
+  </data>
+  <data name="Number of hours before cookies expire." xml:space="preserve">
+    <value>عدد الساعات قبل انتهاء صلاحية الكوكيز.</value>
+  </data>
+  <data name="OIDC : Authority" xml:space="preserve">
+    <value>OIDC : السلطة</value>
+  </data>
+  <data name="OIDC : ClientId" xml:space="preserve">
+    <value>OIDC : معرف العميل</value>
+  </data>
+  <data name="OIDC : ClientSecret" xml:space="preserve">
+    <value>OIDC : سر العميل</value>
+  </data>
+  <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
+    <value>OIDC : استخدام مصادقة OIDC</value>
+  </data>
+  <data name="Page Cache Time (Seconds)" xml:space="preserve">
+    <value>وقت تخزين الصفحة في الذاكرة المؤقتة (بالثواني)</value>
+  </data>
+  <data name="Page Not Exists Page" xml:space="preserve">
+    <value>الصفحة غير موجودة</value>
+  </data>
+  <data name="Pagination Size" xml:space="preserve">
+    <value>حجم التصفح المتكرر</value>
+  </data>
+  <data name="Performance" xml:space="preserve">
+    <value>الأداء</value>
+  </data>
+  <data name="Performance related settings." xml:space="preserve">
+    <value>إعدادات تتعلق بالأداء.</value>
+  </data>
+  <data name="Persist Keys Path" xml:space="preserve">
+    <value>مسار مفاتيح الاستمرارية</value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value>المنفذ</value>
+  </data>
+  <data name="Post-Body" xml:space="preserve">
+    <value>نص بعد الجسم</value>
+  </data>
+  <data name="Pre-Body" xml:space="preserve">
+    <value>نص قبل الجسم</value>
+  </data>
+  <data name="Pre-Load Animated Emojis" xml:space="preserve">
+    <value>رموز تعبيرية متحركة قبل التحميل</value>
+  </data>
+  <data name="Record Compilation Metrics" xml:space="preserve">
+    <value>تسجيل مقاييس التجميع</value>
+  </data>
+  <data name="Require Change Summary when Editing" xml:space="preserve">
+    <value>طلب ملخص التغييرات عند التحرير</value>
+  </data>
+  <data name="Require Email Verification" xml:space="preserve">
+    <value>طلب التحقق من البريد الإلكتروني</value>
+  </data>
+  <data name="Revision Does Not Exists Page" xml:space="preserve">
+    <value>صفحة عدم وجود مراجعة</value>
+  </data>
+  <data name="Show Change Summary when Editing" xml:space="preserve">
+    <value>عرض ملخص التغييرات عند التحرير</value>
+  </data>
+  <data name="Show Comments on Page Footer" xml:space="preserve">
+    <value>عرض التعليقات في تذييل الصفحة</value>
+  </data>
+  <data name="Show Last Modified on Page Footer" xml:space="preserve">
+    <value>عرض آخر تعديل في تذييل الصفحة</value>
+  </data>
+  <data name="Split Camel Case" xml:space="preserve">
+    <value>قسم الحالة الكاميل</value>
+  </data>
+  <data name="Template: Account Verification Email" xml:space="preserve">
+    <value>القالب: بريد التحقق من الحساب</value>
+  </data>
+  <data name="Template: Reset Password Email" xml:space="preserve">
+    <value>القالب: بريد إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="The account name to use for all email communications." xml:space="preserve">
+    <value>اسم الحساب المستخدم في جميع الاتصالات عبر البريد الإلكتروني.</value>
+  </data>
+  <data name="The base theme to use for all site styling." xml:space="preserve">
+    <value>السمة الأساسية لاستخدامها في جميع تنسيقات الموقع.</value>
+  </data>
+  <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
+    <value>صورة العلامة التجارية للويكي، تُعرض في أعلى جميع صفحات الويكي.</value>
+  </data>
+  <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>حقوق النشر للويكي، تُعرض في أسفل جميع الصفحات.</value>
+  </data>
+  <data name="The country to use for the site culture for guests." xml:space="preserve">
+    <value>البلد المستخدم لثقافة الموقع للضيوف.</value>
+  </data>
+  <data name="The default country to use for new accounts." xml:space="preserve">
+    <value>البلد الافتراضي المستخدم للحسابات الجديدة.</value>
+  </data>
+  <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
+    <value>النطاق الافتراضي الذي يُستخدم عندما لا يحدد المستخدم اسم تسجيل الدخول الموحد أو نطاق مؤهل بالكامل عند تسجيل الدخول.</value>
+  </data>
+  <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
+    <value>الارتفاع الافتراضي لقياس الرموز التعبيرية. سيتم تعديل العرض بنفس النسبة. الافتراضي: 24.</value>
+  </data>
+  <data name="The default language to use for new accounts." xml:space="preserve">
+    <value>اللغة الافتراضية المستخدمة للحسابات الجديدة.</value>
+  </data>
+  <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
+    <value>الدور الافتراضي الذي يُعيّن للحسابات عند الاشتراك. الافتراضي: مساهم.</value>
+  </data>
+  <data name="The default time zone to use for new accounts." xml:space="preserve">
+    <value>المنطقة الزمنية الافتراضية المستخدمة للحسابات الجديدة.</value>
+  </data>
+  <data name="The display name to show for all email communications." xml:space="preserve">
+    <value>اسم العرض الذي يُظهر لجميع الاتصالات البريدية.</value>
+  </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value>تذييل الويكي، يظهر في أسفل جميع الصفحات.</value>
+  </data>
+  <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
+    <value>اسم النطاق المؤهل بالكامل الذي يُستخدم عند أداء مصادقة LDAP.</value>
+  </data>
+  <data name="The internet address of your wiki." xml:space="preserve">
+    <value>عنوان الإنترنت للويكي الخاص بك.</value>
+  </data>
+  <data name="The language to use for the site culture for guests." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The SMTP password to use when sending email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The time zone to use for the site culture for guests." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Use SSL" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Word Exclusions" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

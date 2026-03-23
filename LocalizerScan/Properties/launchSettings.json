@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "LocalizerScan": {
-      "commandName": "Project",
-      "commandLineArgs": "\"..\" \"C:\\NTDLS\\TightWiki\\TightWiki\\Translations\""
-    }
-  }
-}

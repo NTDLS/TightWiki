@@ -1,4 +1,6 @@
-﻿using OpenAI;
+﻿using Dapper;
+using Microsoft.Data.Sqlite;
+using OpenAI;
 using OpenAI.Chat;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -59,7 +61,21 @@ namespace LocalizerScan
                     .Where(o => !o.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}", StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                var keysFoundInCode = new SortedDictionary<string, List<string>>(StringComparer.InvariantCultureIgnoreCase);
+                var keysToTranslate = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+
+                using var configDb = new SqliteConnection(@$"Data Source={rootPath}\data\config.db");
+                configDb.Open();
+
+                var query = @"SELECT Name FROM ConfigurationEntry WHERE Name != ''
+                                UNION SELECT Description FROM ConfigurationEntry WHERE Description != ''
+                                UNION SELECT Name FROM ConfigurationGroup WHERE Name != ''
+                                UNION SELECT Description FROM ConfigurationGroup WHERE Description != ''";
+
+                var configKeys = configDb.Query<string>(query);
+                foreach(var configKey in configKeys)
+                {
+                    keysToTranslate.Add(configKey);
+                }
 
                 foreach (var sourceCodeFile in sourceCodeFiles)
                 {
@@ -77,16 +93,7 @@ namespace LocalizerScan
                                 if (string.IsNullOrWhiteSpace(key))
                                     continue;
 
-                                if (!keysFoundInCode.TryGetValue(key, out var locations))
-                                {
-                                    locations = [];
-                                    keysFoundInCode[key] = locations;
-                                }
-
-                                if (locations.Count < 5)
-                                {
-                                    locations.Add(sourceCodeFile);
-                                }
+                                keysToTranslate.Add(key);
                             }
                         }
                     }
@@ -94,7 +101,7 @@ namespace LocalizerScan
 
                 var templateXml = EmbeddedResourceReader.LoadText(@"EmbeddedText\TemplateResourceXml.txt");
 
-                Console.WriteLine($"Found {keysFoundInCode.Count} unique localization keys.");
+                Console.WriteLine($"Found {keysToTranslate.Count} unique localization keys.");
 
                 var list = _supportedCultures.Collection.ToList();
                 list.Add(new CultureInfoSettings("", ""));
@@ -124,11 +131,11 @@ namespace LocalizerScan
 
                     int added = 0;
 
-                    foreach (var keyMapping in keysFoundInCode)
+                    foreach (var keyMapping in keysToTranslate)
                     {
-                        if (!existingKeys.Contains(keyMapping.Key))
+                        if (!existingKeys.Contains(keyMapping))
                         {
-                            Console.WriteLine($"Added {keyMapping.Key} to {culture.Code} resource.");
+                            Console.WriteLine($"Added {keyMapping} to {culture.Code} resource.");
 
                             if (string.IsNullOrEmpty(culture.Code))
                             {
@@ -136,9 +143,9 @@ namespace LocalizerScan
                                 //  translate from, so we set the value to the key which is the English phrase.
                                 doc.Root!.Add(
                                     new XElement("data",
-                                        new XAttribute("name", keyMapping.Key),
+                                        new XAttribute("name", keyMapping),
                                         new XAttribute(XNamespace.Xml + "space", "preserve"),
-                                        new XElement("value", keyMapping.Key)
+                                        new XElement("value", keyMapping)
                                     )
                                 );
                             }
@@ -146,7 +153,7 @@ namespace LocalizerScan
                             {
                                 doc.Root!.Add(
                                     new XElement("data",
-                                        new XAttribute("name", keyMapping.Key),
+                                        new XAttribute("name", keyMapping),
                                         new XAttribute(XNamespace.Xml + "space", "preserve"),
                                         new XElement("value", string.Empty)
                                     )

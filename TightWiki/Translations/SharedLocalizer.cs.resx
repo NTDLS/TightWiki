@@ -59,1474 +59,1474 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- nebo -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Žádný popis)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Žádný odkaz)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Žádný text)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Pokračovat nyní{1} nebo budete přesměrováni za {2} sekund.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>2fa byla deaktivována. Můžete ji znovu aktivovat při nastavení autentikátoru</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Přístup zamítnut.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>Účet</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Účet smazán!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Editace účtu</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Ověření e-mailu účtu</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Správa účtu</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Oprávnění účtu</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Členství v rolích účtu</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Role a oprávnění účtu pro jediný účet.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Role a oprávnění účtu pro: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Účty</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Akce</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Přidat účet</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Přidat autentifikační aplikaci</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Přidat emotikon</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Přidat člena do role</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Přidat nový účet</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Přidat nový emotikon</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Přidat novou položku</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Přidat oprávnění k účtu</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Přidat oprávnění ke roli</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Přidat roli</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Přidat roli k účtu</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Admin</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>VŠE</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Všechny změny, které byly provedeny v přiloženém souboru.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Všechny změny, které byly provedeny na stránce.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Všechny komentáře k dané stránce.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Všechny názvové prostory obsažené ve wikipedii.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Všechny stránky obsazené v názvovém prostoru.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Všechny stránky obsažené ve wikipedii.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Již jste členem?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>Došlo k chybě při zpracování vašeho požadavku.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Analýza</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jisti, že chcete pokračovat s tímto mazáním?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jisti, že chcete pokračovat?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jisti, že chcete smazat tento komentář?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Jste si jisti, že chcete odpojit</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jisti, že se chcete odhlásit z aplikace?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Jste si jisti?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Propojte svůj účet {0}.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Související stránky</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Související značky</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Přílohy přetáhněte sem nebo je vyberte níže ručně:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Přílohy</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Ověřovací aplikace</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Dostupné jazyky</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Vizuál</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Nelze navázat spojení.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Spojení navázáno úspěšně.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Biografie</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Tučně</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Procházejte stránky označené různými pokyny ke zpracování a zjistěte, co je ve konceptu, čeká na smazání, je chráněno atd.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Vestavěné stránky</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Mezipaměť</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Zrušit</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Kategorie</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Změnit avatar</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Změnit e-mail</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Změnit obrázek</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Změnit heslo</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Změnit shrnutí</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Změnit nastavení vašeho účtu</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Zvolte stránku</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Vybrat obrázek</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Vybrat šablonu</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Vyberte preferovaný jazyk rozhraní.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Zavřít</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Kategorie oddělené čárkou</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Komentáře</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statistiky kompilace</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Kompilace</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Dokončit registraci</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Konfigurace</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Konfigurace pro emotikonu.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Konfigurace uživatelského účtu.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Konfigurace pro přidání emotikony.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Nastavit autentifikační aplikaci</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Potvrďte změnu e-mailu</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Potvrďte odhlášení</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Potvrďte heslo</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Potvrďte svoji e-mailovou adresu.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Odkaz na potvrzení změny e-mailu byl odeslán. Zkontrolujte svůj e-mail.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Potvrzeno</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Obsah</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Pokračovat</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Kopírovat značku</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>Země</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Vytvořit nový účet</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Vytvořit novou stránku</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Vytvořit novou roli.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Vytvořit nový uživatelský účet.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Vytvořte svůj účet a nakonfigurujte základní údaje svého profilu.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Datum vytvoření</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Přihlašovací údaje</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Současné přihlášení správce</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Databáze</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Nástroje databáze</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Datum / Čas</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>Výchozí heslo nebylo změněno</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Smazat</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Smazat účet</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Odebrat stránku '{0}'?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Odebrat roli</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Smazat tuto stránku</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Smazal/a</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Datum smazání</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Obsah smazané stránky</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Fronta smazaných stránek</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Reverze smazané stránky</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Smazané stránky</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Obsah revize smazané stránky</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Reverze</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazání '{0}' přesune stránku, všechny {1} revize a přidružené soubory do fronty mazání. Tato akce může být vrácena pouze správcem nebo moderátorem. Chcete pokračovat?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>Smazání „{0}“ přesune stránku se všemi {1} revizemi a {2} přílohami souborů do fronty ke smazání.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazáním „{0}“ trvale odstraníte účet. Všechny stránky vytvořené nebo upravené tímto uživatelem budou přiřazeny k náhradnímu účtu a nebudete moci tento krok vrátit. Pokračovat?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazáním „{0}“ trvale odstraníte účet. Všechny stránky vytvořené nebo upravené tímto uživatelem budou přiřazeny k náhradnímu účtu. Pokračovat?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazáním „{0}“ trvale odstraníte položku menu a nebudete moci tento krok vrátit. Pokračovat?</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazání revize {0} "{1}" přesune revizi stránky do fronty ke smazání. Tento krok může být vrácen pouze správcem nebo moderátorem. Pokračovat?</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazání emotikonu „{0}“ trvale odstraní obrázek a všechny na něj odkazující odkazy budou odpojeny. Toto smazání nelze vrátit. Pokračovat?</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Smazání role „{0}“ odvolá všechna oprávnění, která byla touto rolí udělena nebo zamítnuta. Pokračovat?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>Popis</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>Odpojit</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Podrobnosti</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>Režim vývoje</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>Rozdíly</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>Zakázat 2FA</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Zakázat dvoufázové ověření (2FA)</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Zakázání 2FA nezmění klíče používané v autentifikátorech.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>Diskuze k této stránce.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>Zobrazované jméno</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>Disposition</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>Rozlišující jméno:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>Nemáte přístup ke svému zařízení pro autentifikaci?</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Stáhněte si aplikaci pro dvoufázové ověření, například Microsoft Authenticator pro {0} a {1} nebo Google Authenticator pro {2} a {3}.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>Přetáhněte přílohy zde nebo klikněte pro ruční nahrání.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>Přetáhněte soubory sem...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>Trvání</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>Upravit</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>Velikost editoru</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Fronta smazaných stránek je prázdná nebo vaše kritéria hledání nevrátila žádné výsledky.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Buď nejsou nakonfigurované žádné účty, nebo vaše kritéria hledání nevrátila žádné výsledky.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Buď nejsou nakonfigurované žádné emodži, nebo vaše kritéria hledání nevrátila žádné výsledky.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Buď nejsou žádné stránky, nebo vaše kritéria hledání nevrátila žádné výsledky.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>E-mail</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>Adresa e-mailu</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>Potvrzeno e-mailem?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emotikon</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>Editor emotikon</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>Správa emotikon</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>Emotikony</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>Zadejte URL.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>Zadejte interní cestu nebo externí URL.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>Zadejte svůj e-mail.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>Životní prostředí</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>Chyba</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>Chyba při kopírování textu</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>Chyby</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>Záznam události</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>Záznam události</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>Výjimka</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>Výjimky</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>Exportovat</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>Vnější přihlášení</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>Externí URL</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>Obrovské</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>Velmi malé</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>Nepodařilo se načíst náhled.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>Šablony funkcí</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>Soubor</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>Filtr</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>Jméno</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Vyprázdnění vyrovnávací paměti může způsobit, že budou odstraněny všechny uložené položky a bude nutné načítat data z databáze, když jsou stránky požadovány. Pokračovat?</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>Zapomenout tento prohlížeč</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Potvrzení zapomenutého hesla</value>
   </data>
   <data name="Forgot your password?" xml:space="preserve">
-    <value></value>
+    <value>Zapomněli jste heslo?</value>
   </data>
   <data name="Framework Version" xml:space="preserve">
-    <value></value>
+    <value>Verze rámce</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value></value>
+    <value>Obecné</value>
   </data>
   <data name="Generate Recovery Codes" xml:space="preserve">
-    <value></value>
+    <value>Vytvořit kódy pro obnovení</value>
   </data>
   <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Vytvořit kódy pro obnovení dvoufázového ověření (2FA)</value>
   </data>
   <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Generování nových kódů pro obnovení nezmění klíče používané v autentifikačních aplikacích.</value>
   </data>
   <data name="Gets" xml:space="preserve">
-    <value></value>
+    <value>Získá</value>
   </data>
   <data name="Global configuration for Emojis." xml:space="preserve">
-    <value></value>
+    <value>Celková konfigurace pro emodži.</value>
   </data>
   <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value></value>
+    <value>Celková konfigurace bezpečnostních rolí a členství.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value></value>
+    <value>Globální konfigurace položky nabídky webu.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
-    <value></value>
+    <value>Globální konfigurace nabídky webu.</value>
   </data>
   <data name="Global configuration for user accounts." xml:space="preserve">
-    <value></value>
+    <value>Globální konfigurace uživatelských účtů.</value>
   </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value></value>
+    <value>Globální konfigurační hodnoty pro wiki, její funkce, chování, formátování a branding.</value>
   </data>
   <data name="Hello {0}!" xml:space="preserve">
-    <value></value>
+    <value>Ahoj {0}!</value>
   </data>
   <data name="Highlight" xml:space="preserve">
-    <value></value>
+    <value>Zvýraznění</value>
   </data>
   <data name="Hits" xml:space="preserve">
-    <value></value>
+    <value>Zásahy</value>
   </data>
   <data name="Huge" xml:space="preserve">
-    <value></value>
+    <value>Obrovský</value>
   </data>
   <data name="Hyperlink" xml:space="preserve">
-    <value></value>
+    <value>Hypertextový odkaz</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value></value>
+    <value>ID</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value></value>
+    <value>Pokud je to tady, měli byste ji být schopni najít.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Pokud ztratíte svůj zařízení a nemáte kódy pro obnovení, ztratíte přístup ke svému účtu.</value>
   </data>
   <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value></value>
+    <value>Resetováním klíče autentifikátoru vaše aplikace autentifikátoru nebude fungovat, dokud ho znovu nenastavíte.</value>
   </data>
   <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value></value>
+    <value>Pokud si přejete změnit klíč používaný v aplikaci autentifikátoru, měli byste resetovat své klíče autentifikátoru.</value>
   </data>
   <data name="Image" xml:space="preserve">
-    <value></value>
+    <value>Obrázek</value>
   </data>
   <data name="Include Pages" xml:space="preserve">
-    <value></value>
+    <value>Zahrnout stránky</value>
   </data>
   <data name="Info1" xml:space="preserve">
-    <value></value>
+    <value>Info1</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value></value>
+    <value>Info2</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value></value>
+    <value>Vložit</value>
   </data>
   <data name="Insert Emoji" xml:space="preserve">
-    <value></value>
+    <value>Vložit emoji</value>
   </data>
   <data name="Inter-Page Links" xml:space="preserve">
-    <value></value>
+    <value>Odkazy mezi stránkami</value>
   </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value></value>
+    <value>To může vést k zobrazení citlivých informací z výjimek uživatelům.</value>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value></value>
+    <value>Kurzíva</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value></value>
+    <value>Položky</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value></value>
+    <value>Jazyk</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value></value>
+    <value>Jazyky</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value></value>
+    <value>Velké</value>
   </data>
   <data name="Last modified by" xml:space="preserve">
-    <value></value>
+    <value>Poslední úprava od</value>
   </data>
   <data name="Last Name" xml:space="preserve">
-    <value></value>
+    <value>Příjmení</value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
-    <value></value>
+    <value>Zanechte komentář</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value></value>
+    <value>Limit (MB)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
-    <value></value>
+    <value>Text odkazu (volitelné)</value>
   </data>
   <data name="Link Type" xml:space="preserve">
-    <value></value>
+    <value>Typ odkazu</value>
   </data>
   <data name="Links" xml:space="preserve">
-    <value></value>
+    <value>Odkazy</value>
   </data>
   <data name="Loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Nahrávám náhled...</value>
   </data>
   <data name="Locked out" xml:space="preserve">
-    <value></value>
+    <value>Uzamčeno</value>
   </data>
   <data name="Log Entries" xml:space="preserve">
-    <value></value>
+    <value>Záznamy v protokolu</value>
   </data>
   <data name="Log Entry Details" xml:space="preserve">
-    <value></value>
+    <value>Podrobnosti záznamu v protokolu</value>
   </data>
   <data name="Log in" xml:space="preserve">
-    <value></value>
+    <value>Přihlásit se</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value></value>
+    <value>Přihlaste se pomocí svého účtu {0}</value>
   </data>
   <data name="Logged out" xml:space="preserve">
-    <value></value>
+    <value>Odhlášeno</value>
   </data>
   <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value></value>
+    <value>Odhlášení zajistí, že ostatní nemohou tuto relaci použít k provádění změn na wiki. Před provedením změn se znovu přihlaste.</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value></value>
+    <value>Přihlásit se</value>
   </data>
   <data name="Login to leave a comment" xml:space="preserve">
-    <value></value>
+    <value>Přihlaste se pro napsání komentáře</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value></value>
+    <value>Odhlásit se</value>
   </data>
   <data name="Lower numbers appear first." xml:space="preserve">
-    <value></value>
+    <value>Nižší čísla se zobrazují první.</value>
   </data>
   <data name="Manage Email" xml:space="preserve">
-    <value></value>
+    <value>Správa e-mailu</value>
   </data>
   <data name="Manage your account" xml:space="preserve">
-    <value></value>
+    <value>Spravujte svůj účet</value>
   </data>
   <data name="Manage your external logins" xml:space="preserve">
-    <value></value>
+    <value>Spravovat externí přihlášení</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value></value>
+    <value>Shody</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value></value>
+    <value>Střední</value>
   </data>
   <data name="Menu Configuration" xml:space="preserve">
-    <value></value>
+    <value>Konfigurace nabídky</value>
   </data>
   <data name="Menu Item Editor" xml:space="preserve">
-    <value></value>
+    <value>Editor položky nabídky</value>
   </data>
   <data name="Metrics" xml:space="preserve">
-    <value></value>
+    <value>Ukazatele</value>
   </data>
   <data name="Misses" xml:space="preserve">
-    <value></value>
+    <value>Chybí</value>
   </data>
   <data name="Missing Pages" xml:space="preserve">
-    <value></value>
+    <value>Chybějící stránky</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value></value>
+    <value>Střední</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value></value>
+    <value>Upraveno</value>
   </data>
   <data name="Modified By" xml:space="preserve">
-    <value></value>
+    <value>Upravil</value>
   </data>
   <data name="Modified Date" xml:space="preserve">
-    <value></value>
+    <value>Datum změny</value>
   </data>
   <data name="My" xml:space="preserve">
-    <value></value>
+    <value>Moje</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value></value>
+    <value>Jméno</value>
   </data>
   <data name="Namespace" xml:space="preserve">
-    <value></value>
+    <value>Prostor názvů</value>
   </data>
   <data name="Namespaces" xml:space="preserve">
-    <value></value>
+    <value>Prostory názvů</value>
   </data>
   <data name="New Account" xml:space="preserve">
-    <value></value>
+    <value>Nový účet</value>
   </data>
   <data name="New Emoji" xml:space="preserve">
-    <value></value>
+    <value>Nová emoji</value>
   </data>
   <data name="New Role" xml:space="preserve">
-    <value></value>
+    <value>Nová role</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value></value>
+    <value>Další</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value></value>
+    <value>Ne</value>
   </data>
   <data name="No avatar uploaded." xml:space="preserve">
-    <value></value>
+    <value>Avatar nebyl nahrán.</value>
   </data>
   <data name="No database information is available." xml:space="preserve">
-    <value></value>
+    <value>Žádné informace v databázi nejsou k dispozici.</value>
   </data>
   <data name="No image selected." xml:space="preserve">
-    <value></value>
+    <value>Nevybrán žádný obrázek.</value>
   </data>
   <data name="No image uploaded." xml:space="preserve">
-    <value></value>
+    <value>Obrázek byl nahrán.</value>
   </data>
   <data name="Not a member?" xml:space="preserve">
-    <value></value>
+    <value>Nejste členem?</value>
   </data>
   <data name="not required" xml:space="preserve">
-    <value></value>
+    <value>nevyžadováno</value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value></value>
+    <value>Po naskenování QR kódu nebo zadání klíče výše vám vaše aplikace pro dvoufaktorovou autentizaci poskytne jedinečný kód. Zadejte kód do potvrzovacího pole níže.</value>
   </data>
   <data name="Operating System" xml:space="preserve">
-    <value></value>
+    <value>Operační systém</value>
   </data>
   <data name="Optimize" xml:space="preserve">
-    <value></value>
+    <value>Optimalizovat</value>
   </data>
   <data name="Optional" xml:space="preserve">
-    <value></value>
+    <value>Volitelné</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value></value>
+    <value>Pořadové</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Připojení opuštěných příloh</value>
   </data>
   <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Opuštěné přílohy stránky</value>
   </data>
   <data name="OS Architecture" xml:space="preserve">
-    <value></value>
+    <value>Architektura OS</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value></value>
+    <value>Stránka</value>
   </data>
   <data name="Page Administration" xml:space="preserve">
-    <value></value>
+    <value>Správa stránky</value>
   </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revize příloh stránky</value>
   </data>
   <data name="Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Přílohy stránky</value>
   </data>
   <data name="Page File Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revize souborů stránky</value>
   </data>
   <data name="Page Moderate" xml:space="preserve">
-    <value></value>
+    <value>Moderování stránky</value>
   </data>
   <data name="Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revize stránky</value>
   </data>
   <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Revíze stránek, které byly smazány pro danou stránku. Tyto lze odstranit nebo obnovit.</value>
   </data>
   <data name="Page Search" xml:space="preserve">
-    <value></value>
+    <value>Vyhledávání na stránkách</value>
   </data>
   <data name="Page Search Tokens" xml:space="preserve">
-    <value></value>
+    <value>Indikátory vyhledávání na stránkách</value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
+    <value>Tagy stránek</value>
   </data>
   <data name="Pages" xml:space="preserve">
-    <value></value>
+    <value>Stránky</value>
   </data>
   <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Stránky, které byly smazány. Lze je odstranit nebo obnovit.</value>
   </data>
   <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value></value>
+    <value>Stránky, které jsou spojeny, ale neexistují.</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value></value>
+    <value>Heslo</value>
   </data>
   <data name="Permission" xml:space="preserve">
-    <value></value>
+    <value>Oprávnění</value>
   </data>
   <data name="Permissions and Roles" xml:space="preserve">
-    <value></value>
+    <value>Oprávnění a role</value>
   </data>
   <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value></value>
+    <value>Prosím, zkontrolujte svůj e-mail a potvrďte svůj účet.</value>
   </data>
   <data name="Please check your email to reset your password." xml:space="preserve">
-    <value></value>
+    <value>Prosím, zkontrolujte svůj e-mail a obnovte své heslo.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value></value>
+    <value>Prosím, klikněte zde pro přihlášení</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value></value>
+    <value>Prosím, potvrďte své nové heslo.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value></value>
+    <value>Prosím, potvrďte své heslo.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value></value>
+    <value>Prosím, zadejte jak uživatelské jméno, tak heslo.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
-    <value></value>
+    <value>Prosím, zadejte nový email.</value>
   </data>
   <data name="Please enter the code." xml:space="preserve">
-    <value></value>
+    <value>Zadejte prosím kód.</value>
   </data>
   <data name="Please enter your email." xml:space="preserve">
-    <value></value>
+    <value>Zadejte svůj email.</value>
   </data>
   <data name="Please enter your new password." xml:space="preserve">
-    <value></value>
+    <value>Zadejte své nové heslo.</value>
   </data>
   <data name="Please enter your old password." xml:space="preserve">
-    <value></value>
+    <value>Zadejte své staré heslo.</value>
   </data>
   <data name="Please enter your password." xml:space="preserve">
-    <value></value>
+    <value>Zadejte své heslo.</value>
   </data>
   <data name="Please wait, loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Prosím počkejte, načítání náhledu...</value>
   </data>
   <data name="Post" xml:space="preserve">
-    <value></value>
+    <value>Příspěvek</value>
   </data>
   <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value></value>
+    <value>Předběžné načtení všech stránek</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value></value>
+    <value>Náhled</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value></value>
+    <value>Předchozí</value>
   </data>
   <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value></value>
+    <value>Ochrana soukromí a politika cookies nebyla přijata.</value>
   </data>
   <data name="Process Architecture" xml:space="preserve">
-    <value></value>
+    <value>Procesní architektura</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value></value>
+    <value>Profil</value>
   </data>
   <data name="Profile Details" xml:space="preserve">
-    <value></value>
+    <value>Podrobnosti profilu</value>
   </data>
   <data name="Profile Settings" xml:space="preserve">
-    <value></value>
+    <value>Nastavení profilu</value>
   </data>
   <data name="Profiles" xml:space="preserve">
-    <value></value>
+    <value>Profily</value>
   </data>
   <data name="Public profile information." xml:space="preserve">
-    <value></value>
+    <value>Veřejné informace o profilu.</value>
   </data>
   <data name="Purge" xml:space="preserve">
-    <value></value>
+    <value>Vymazat</value>
   </data>
   <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Statistiky sbírky vymazání</value>
   </data>
   <data name="Purge Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Vymazat smazané stránky</value>
   </data>
   <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Vymazat smazané revize</value>
   </data>
   <data name="Purge Event Log" xml:space="preserve">
-    <value></value>
+    <value>Záznam událostí čištění</value>
   </data>
   <data name="Purge Memory Cache" xml:space="preserve">
-    <value></value>
+    <value>Vymazat paměťovou cache</value>
   </data>
   <data name="Purge Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Vymazat opuštěné přílohy</value>
   </data>
   <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Vymazání statistik sestavování stránky odstraní veškeré uložené statistiky sestavení pro všechny stránky. Pokračovat?</value>
   </data>
   <data name="Put these codes in a safe place." xml:space="preserve">
-    <value></value>
+    <value>Uložte tyto kódy na bezpečné místo.</value>
   </data>
   <data name="Puts" xml:space="preserve">
-    <value></value>
+    <value>Vložky</value>
   </data>
   <data name="Raw Size" xml:space="preserve">
-    <value></value>
+    <value>Suřské velikosti</value>
   </data>
   <data name="Rebuild All Pages" xml:space="preserve">
-    <value></value>
+    <value>Obnovit všechny stránky</value>
   </data>
   <data name="Recently Modified" xml:space="preserve">
-    <value></value>
+    <value>Nedávno upravené</value>
   </data>
   <data name="Recovery code" xml:space="preserve">
-    <value></value>
+    <value>Kód zotavení</value>
   </data>
   <data name="Recovery code verification" xml:space="preserve">
-    <value></value>
+    <value>Ověření kódu zotavení</value>
   </data>
   <data name="Recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Kódy zotavení</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value></value>
+    <value>Obnovit</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value></value>
+    <value>Zaregistrovat se</value>
   </data>
   <data name="Register as a new user" xml:space="preserve">
-    <value></value>
+    <value>Zaregistrovat se jako nový uživatel</value>
   </data>
   <data name="Register confirmation" xml:space="preserve">
-    <value></value>
+    <value>Potvrzení registrace</value>
   </data>
   <data name="Registered Logins" xml:space="preserve">
-    <value></value>
+    <value>Přihlášení zaregistrovaní</value>
   </data>
   <data name="Registration is not allowed" xml:space="preserve">
-    <value></value>
+    <value>Registrace není povolena</value>
   </data>
   <data name="Registration is not allowed." xml:space="preserve">
-    <value></value>
+    <value>Registrace není povolena.</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value></value>
+    <value>Odstranit</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value></value>
+    <value>Odstraňte tento přihlašovací údaj {0} ze svého účtu</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
-    <value></value>
+    <value>Žádost selhala:</value>
   </data>
   <data name="Request ID" xml:space="preserve">
-    <value></value>
+    <value>ID žádosti</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value></value>
+    <value>Povinné</value>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value></value>
+    <value>Znovu odeslat</value>
   </data>
   <data name="Resend email confirmation" xml:space="preserve">
-    <value></value>
+    <value>Znovu odeslat potvrzení e-mailem</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value></value>
+    <value>Obnovit</value>
   </data>
   <data name="Reset authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Obnovit aplikaci authenticator</value>
   </data>
   <data name="Reset authenticator key" xml:space="preserve">
-    <value></value>
+    <value>Obnovit klíč authenticatora</value>
   </data>
   <data name="Reset it" xml:space="preserve">
-    <value></value>
+    <value>Obnovit to</value>
   </data>
   <data name="Reset Password" xml:space="preserve">
-    <value></value>
+    <value>Obnova hesla</value>
   </data>
   <data name="Reset password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Potvrzení o obnově hesla</value>
   </data>
   <data name="Reset recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Obnovit kódy pro obnovení</value>
   </data>
   <data name="Reset your password." xml:space="preserve">
-    <value></value>
+    <value>Obnovit heslo.</value>
   </data>
   <data name="Resource" xml:space="preserve">
-    <value></value>
+    <value>Zdroj</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value></value>
+    <value>Obnovit</value>
   </data>
   <data name="Restore This Page" xml:space="preserve">
-    <value></value>
+    <value>Obnovit tuto stránku</value>
   </data>
   <data name="Restore This Revision" xml:space="preserve">
-    <value></value>
+    <value>Obnovit tuto verzi</value>
   </data>
   <data name="Revert" xml:space="preserve">
-    <value></value>
+    <value>Vrátit zpět</value>
   </data>
   <data name="Revert to revision" xml:space="preserve">
-    <value></value>
+    <value>Vrátit zpět na verzi</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value></value>
+    <value>Chcete vrátit zpět na verzi {0}?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value></value>
+    <value>Vrácení "{0}" z verze {1} na {2} odstraní {3} změn.</value>
   </data>
   <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value></value>
+    <value>Obnovení {0} z revize {1} na {2} vrátí zpět změny {3}.&lt;br /&gt;Obnovení neznamená, že změny budou ztraceny, proces obnovení vytvoří novou revizi s vrácenými změnami.&lt;br /&gt;&lt;br /&gt;Opravdu chcete pokračovat?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
-    <value></value>
+    <value>Obnovení neznamená, že změny budou ztraceny, proces obnovení vytvoří novou revizi s vrácenými změnami.</value>
   </data>
   <data name="Review the differences between revisions of this page." xml:space="preserve">
-    <value></value>
+    <value>Prohlédněte si rozdíly mezi revizemi této stránky.</value>
   </data>
   <data name="Revision" xml:space="preserve">
-    <value></value>
+    <value>Revidovat</value>
   </data>
   <data name="Revision Comparison" xml:space="preserve">
-    <value></value>
+    <value>Srovnání revizí</value>
   </data>
   <data name="Revision not found" xml:space="preserve">
-    <value></value>
+    <value>Nenalezena žádná revize</value>
   </data>
   <data name="revisions" xml:space="preserve">
-    <value></value>
+    <value>revize</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value></value>
+    <value>Role</value>
   </data>
   <data name="Role Members" xml:space="preserve">
-    <value></value>
+    <value>Členové role</value>
   </data>
   <data name="Role membership and permissions." xml:space="preserve">
-    <value></value>
+    <value>Členství a oprávnění role.</value>
   </data>
   <data name="Role Permissions" xml:space="preserve">
-    <value></value>
+    <value>Oprávnění rolí</value>
   </data>
   <data name="Role: {0}" xml:space="preserve">
-    <value></value>
+    <value>Role: {0}</value>
   </data>
   <data name="Roles" xml:space="preserve">
-    <value></value>
+    <value>Role</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value></value>
+    <value>Uložit</value>
   </data>
   <data name="Save the page before uploading files." xml:space="preserve">
-    <value></value>
+    <value>Uložte stránku před nahráním souborů.</value>
   </data>
   <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
-    <value></value>
+    <value>Naskenujte QR kód nebo zadejte tento klíč &lt;kbd&gt;{0}&lt;/kbd&gt; do své two-factor autentifikační aplikace. Mezery a velikost písmen nevadí.</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value></value>
+    <value>Hledat</value>
   </data>
   <data name="Search accounts..." xml:space="preserve">
-    <value></value>
+    <value>Hledat účty...</value>
   </data>
   <data name="Search deleted pages..." xml:space="preserve">
-    <value></value>
+    <value>Hledat smazané stránky...</value>
   </data>
   <data name="Search emojis..." xml:space="preserve">
-    <value></value>
+    <value>Hledat emoji...</value>
   </data>
   <data name="Search for more emojis." xml:space="preserve">
-    <value></value>
+    <value>Hledat více emoji.</value>
   </data>
   <data name="Search pages..." xml:space="preserve">
-    <value></value>
+    <value>Hledat stránky...</value>
   </data>
   <data name="Search text" xml:space="preserve">
-    <value></value>
+    <value>Hledat text</value>
   </data>
   <data name="Security Roles" xml:space="preserve">
-    <value></value>
+    <value>Bezpečnostní role</value>
   </data>
   <data name="Select a country" xml:space="preserve">
-    <value></value>
+    <value>Vyberte zemi</value>
   </data>
   <data name="Select a language" xml:space="preserve">
-    <value></value>
+    <value>Vyberte jazyk</value>
   </data>
   <data name="Select a role" xml:space="preserve">
-    <value></value>
+    <value>Vyberte roli</value>
   </data>
   <data name="Select a theme" xml:space="preserve">
-    <value></value>
+    <value>Vyberte téma</value>
   </data>
   <data name="Select a time-zone" xml:space="preserve">
-    <value></value>
+    <value>Vyberte časové pásmo</value>
   </data>
   <data name="Select a wiki page." xml:space="preserve">
-    <value></value>
+    <value>Vyberte wiki stránku.</value>
   </data>
   <data name="Select an instruction" xml:space="preserve">
-    <value></value>
+    <value>Zvolte pokyn</value>
   </data>
   <data name="Send verification email" xml:space="preserve">
-    <value></value>
+    <value>Odeslat ověřovací e-mail</value>
   </data>
   <data name="Server and page event logs" xml:space="preserve">
-    <value></value>
+    <value>Logy serveru a událostí stránky</value>
   </data>
   <data name="Set password" xml:space="preserve">
-    <value></value>
+    <value>Nastavit heslo</value>
   </data>
   <data name="Set up authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Vytvořit autentifikátorovou aplikaci</value>
   </data>
   <data name="Set your password" xml:space="preserve">
-    <value></value>
+    <value>Nastavte své heslo</value>
   </data>
   <data name="Severity" xml:space="preserve">
-    <value></value>
+    <value>Závažnost</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value></value>
+    <value>Zkratka</value>
   </data>
   <data name="Sign in with {0}" xml:space="preserve">
-    <value></value>
+    <value>Přihlásit se pomocí {0}</value>
   </data>
   <data name="Signup" xml:space="preserve">
-    <value></value>
+    <value>Registrace</value>
   </data>
   <data name="Signup. Almost there..." xml:space="preserve">
-    <value></value>
+    <value>Registrace. Už jen krůček...</value>
   </data>
   <data name="Site Menu" xml:space="preserve">
-    <value></value>
+    <value>Menu stránky</value>
   </data>
   <data name="Site Menu Item" xml:space="preserve">
-    <value></value>
+    <value>Položka menu stránky</value>
   </data>
   <data name="Site Menu Items" xml:space="preserve">
-    <value></value>
+    <value>položky menu stránky</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value></value>
+    <value>Velikost</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value></value>
+    <value>Malé</value>
   </data>
   <data name="Source Page" xml:space="preserve">
-    <value></value>
+    <value>Zdrojová stránka</value>
   </data>
   <data name="Stack Trace" xml:space="preserve">
-    <value></value>
+    <value>Stopa zásobníku</value>
   </data>
   <data name="Strikethrough" xml:space="preserve">
-    <value></value>
+    <value>Zvýraznění přeškrtnutím</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value></value>
+    <value>Souhrn</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value></value>
+    <value>Přepnutím do prostředí &lt;strong&gt;vývoje&lt;/strong&gt; se zobrazí podrobné informace o nastalé chybě.</value>
   </data>
   <data name="System Default" xml:space="preserve">
-    <value></value>
+    <value>Výchozí systém</value>
   </data>
   <data name="System Metrics" xml:space="preserve">
-    <value></value>
+    <value>Systémové ukazatele</value>
   </data>
   <data name="Tag Copied" xml:space="preserve">
-    <value></value>
+    <value>Tag zkopírován</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value></value>
+    <value>Tagy</value>
   </data>
   <data name="Target Page" xml:space="preserve">
-    <value></value>
+    <value>Cílová stránka</value>
   </data>
   <data name="Test" xml:space="preserve">
-    <value></value>
+    <value>Test</value>
   </data>
   <data name="Test LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Testovat LDAP autentizaci</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value></value>
+    <value>Text</value>
   </data>
   <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
-    <value></value>
+    <value>Účet byl smazán a veškerý obsah, který byl tímto účtem vytvořen nebo upraven, byl přiřazen anonymizovanému profilu.</value>
   </data>
   <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
-    <value></value>
+    <value>Statistiky kompilace všech operací na wiki stránkách.</value>
   </data>
   <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
-    <value></value>
+    <value>Současný prohlížeč byl zapomenut. Při dalším přihlášení z tohoto prohlížeče budete požádáni o váš 2fa kód.</value>
   </data>
   <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
-    <value></value>
+    <value>Vývojové prostředí by nemělo být povoleno pro nasazené aplikace.</value>
   </data>
   <data name="The event log is empty." xml:space="preserve">
-    <value></value>
+    <value>Protokol událostí je prázdný.</value>
   </data>
   <data name="The external login was added." xml:space="preserve">
-    <value></value>
+    <value>Externí přihlášení bylo přidáno.</value>
   </data>
   <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
-    <value></value>
+    <value>Externí přihlášení nebylo přidáno. Externí přihlášení lze propojit pouze s jedním účtem.</value>
   </data>
   <data name="The external login was not removed." xml:space="preserve">
-    <value></value>
+    <value>Externí přihlášení nebylo odstraněno.</value>
   </data>
   <data name="The external login was removed." xml:space="preserve">
-    <value></value>
+    <value>Externí přihlášení bylo odstraněno.</value>
   </data>
   <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
-    <value></value>
+    <value>Stránka nemá žádné komentáře, proč nějaký nepřidáte?</value>
   </data>
   <data name="The requested page or revision does not exist." xml:space="preserve">
-    <value></value>
+    <value>Požadovaná stránka nebo revize neexistuje.</value>
   </data>
   <data name="The selected page does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Vybraná stránka nemá žádné revize.</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value></value>
+    <value>Vzhled</value>
   </data>
   <data name="Themes" xml:space="preserve">
-    <value></value>
+    <value>Vzhledy</value>
   </data>
   <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
-    <value></value>
+    <value>V současné době neexistují žádné chybějící stránky, které by byly odkazovány jinými wiki stránkami.</value>
   </data>
   <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
-    <value></value>
+    <value>V současné době neexistují žádné stránky v rámci jmenných prostorů.</value>
   </data>
   <data name="There are no compilation statistics available." xml:space="preserve">
-    <value></value>
+    <value>Nejsou k dispozici žádné statistiky kompilace.</value>
   </data>
   <data name="There are no deleted revisions for this page." xml:space="preserve">
-    <value></value>
+    <value>Nejsou zde žádné smazané revize této stránky.</value>
   </data>
   <data name="There are no menu items configured." xml:space="preserve">
-    <value></value>
+    <value>Nejsou nakonfigurovány žádné položky menu.</value>
   </data>
   <data name="There are no orphaned page attachments." xml:space="preserve">
-    <value></value>
+    <value>Neexistují žádné osamělé přílohy stránky.</value>
   </data>
   <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
-    <value></value>
+    <value>Neexistují žádné stránky obsahující zvolené instrukce ke zpracování.</value>
   </data>
   <data name="There are no security roles configured." xml:space="preserve">
-    <value></value>
+    <value>Ne jsou nakonfigurované žádné bezpečnostní role.</value>
   </data>
   <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
-    <value></value>
+    <value>Jedná se o všechny přílohy stránky, které již nejsou připojeny ke žádné revizi stránky.</value>
   </data>
   <data name="This account has been locked out, please try again later." xml:space="preserve">
-    <value></value>
+    <value>Tento účet byl zablokován, zkuste to prosím později.</value>
   </data>
   <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
-    <value></value>
+    <value>Tuto akci může vrátit pouze moderátor nebo administrátor.</value>
   </data>
   <data name="This action only disables 2FA." xml:space="preserve">
-    <value></value>
+    <value>Tato akce pouze deaktivuje 2FA.</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value></value>
+    <value>Toto zobrazované jméno bude veřejně viditelné.</value>
   </data>
   <data name="This file does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Tento soubor nemá žádné revize.</value>
   </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
-    <value></value>
+    <value>Toto je váš profil, zacházejte s ním, jak chcete.</value>
   </data>
   <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Tento proces deaktivuje 2FA, dokud neověříte svou autentizační aplikaci. Pokud nedokončíte konfiguraci autentizační aplikace, můžete ztratit přístup ke svému účtu.</value>
   </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto zkontroluje integritu databáze a ověří všechny cizí klíče. Pokračovat?</value>
   </data>
   <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto zobrazí všechny stránky v wiki a uloží je do mezipaměti. To může chvíli trvat! Pokračovat?</value>
   </data>
   <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto sloučí všechny výchozí konfigurace, ale nepřepíše žádné vaše aktuálně nastavené možnosti. Pokračovat?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto optimalizuje indexy databáze a strukturu. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní přiložený soubor. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní выдаденou revizi. Pokračovat?</value>
   </data>
   <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní danou stránku, všechny revize a přílohy. Pokračovat?</value>
   </data>
   <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní všechny smazané revize stránky "{0}". Pokračovat?</value>
   </data>
   <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní všechny smazané stránky. Pokračovat?</value>
   </data>
   <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní všechny protokoly událostí. Pokračovat?</value>
   </data>
   <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto trvale odstraní všechny osamělé přílohy stránek. Pokračovat?</value>
   </data>
   <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto znovu sestaví všechny stránky ve wiki. To může chvíli trvat! Pokračovat?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto odstraní prázdný prostor z databáze, což může uvolnit místo, pokud bylo smazáno hodně dat. Pokračovat?</value>
   </data>
   <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví všechny vestavěné stránky jmenného prostoru, přepíše veškeré vaše vlastní úpravy. Pokračovat?</value>
   </data>
   <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví všechny výchozí motivy, přepíše jakékoli vaše vlastní úpravy uložené v databázi. Pokračovat?</value>
   </data>
   <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví všechny Šablony funkcí, přepíše jakékoli vaše vlastní úpravy. Pokračovat?</value>
   </data>
   <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví všechny stránky jmenného prostoru Inclusion. Pokračovat?</value>
   </data>
   <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví všechny stránky jmenného prostoru Nápověda wiki. Pokračovat?</value>
   </data>
   <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví smazanou stránku a veškerou její historii. Pokračovat?</value>
   </data>
   <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Toto obnoví smazanou revizi. Pokračovat?</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
-    <value></value>
+    <value>Časové pásmo</value>
   </data>
   <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
-    <value></value>
+    <value>Chcete-li použít autentifikační aplikaci, postupujte podle následujících kroků:</value>
   </data>
   <data name="Truncate Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Ořezat revize stránky</value>
   </data>
   <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ořezání revizí stránky odstraní veškerou historii revizí všech stránek a příloh. Zůstanou pouze nejnovější revize všech objektů. Obvykle se to považuje za velký zásah! Chcete pokračovat?</value>
   </data>
   <data name="Two-factor authentication" xml:space="preserve">
-    <value></value>
+    <value>Ověření dvěma faktory</value>
   </data>
   <data name="Two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Ověření dvěma faktory (2FA)</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value></value>
+    <value>Typ</value>
   </data>
   <data name="Type comment..." xml:space="preserve">
-    <value></value>
+    <value>Zadejte komentář...</value>
   </data>
   <data name="Unable to delete page" xml:space="preserve">
-    <value></value>
+    <value>Nevymazat stránku</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
-    <value></value>
+    <value>Neoprávněný přístup</value>
   </data>
   <data name="Unconfirmed" xml:space="preserve">
-    <value></value>
+    <value>Čeká na potvrzení</value>
   </data>
   <data name="Underline" xml:space="preserve">
-    <value></value>
+    <value>podtrhnout</value>
   </data>
   <data name="Unexpected Error" xml:space="preserve">
-    <value></value>
+    <value>Neočekávaná chyba</value>
   </data>
   <data name="Unexpected error:" xml:space="preserve">
-    <value></value>
+    <value>Neočekávaná chyba:</value>
   </data>
   <data name="Update password" xml:space="preserve">
-    <value></value>
+    <value>Aktualizovat heslo</value>
   </data>
   <data name="Upload successful" xml:space="preserve">
-    <value></value>
+    <value>Nahrávání bylo úspěšné</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value></value>
+    <value>URL musí začínat</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
-    <value></value>
+    <value>Použijte jinou službu k registraci</value>
   </data>
   <data name="Use commas to separate categories." xml:space="preserve">
-    <value></value>
+    <value>Použijte čárky k oddělení kategorií.</value>
   </data>
   <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
-    <value></value>
+    <value>Pro přidání stránky do seznamu šablon použijte jmenný prostor Šablony, např. Šablony :: Má první šablona.</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value></value>
+    <value>Uživatelské jméno</value>
   </data>
   <data name="Users" xml:space="preserve">
     <value></value>
@@ -1727,6 +1727,441 @@
     <value></value>
   </data>
   <data name="User created a new account with LDAP." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Allow Fuzzy Matching" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Allow Signup" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Authentication and Cookies." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Basic" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Basic wiki settings such as formatting." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Brand Image (Small)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Cache Memory Limit MB" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Configuration related to searching and indexing." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Cookies" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Copyright" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Customization" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default Country" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default Emoji Height" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default Language" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default Profile Recently Modified Count" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default Signup Role" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Default TimeZone" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="EMail and SMTP setting." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Enable Page Comments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Enable Public Profiles" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Expiraion Hours" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="External Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="External Authentication Providers" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="File and Attachment settings." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Files and Attachments" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Fixed Header Menu Position" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Footer" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="FooterBlurb" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="From Display Name" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Functionality" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="General wiki functionality." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Google : ClientId" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Google : ClientSecret" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Google : Use Google Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Header" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML email template for new account verification" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML Layout" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML layout." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML placed into the footer section of the page." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Include Search on Navbar" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Include wiki Description in Meta" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Include wiki Tags in Meta" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="LDAP Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Look &amp; Feel customizations." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Max Attachment File Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Max Avatar File Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Max Emoji File Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Membership" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Microsoft : ClientId" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Microsoft : ClientSecret" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Minimum Match Score" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="New Page Template" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Number of hours before cookies expire." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="OIDC : Authority" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="OIDC : ClientId" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="OIDC : ClientSecret" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Cache Time (Seconds)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Page Not Exists Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pagination Size" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Performance" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Performance related settings." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Persist Keys Path" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Port" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Post-Body" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pre-Body" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Pre-Load Animated Emojis" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Record Compilation Metrics" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Require Change Summary when Editing" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Require Email Verification" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Revision Does Not Exists Page" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Show Change Summary when Editing" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Show Comments on Page Footer" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Show Last Modified on Page Footer" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Split Camel Case" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Template: Account Verification Email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Template: Reset Password Email" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The account name to use for all email communications." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The base theme to use for all site styling." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The country to use for the site culture for guests." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The default country to use for new accounts." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The default language to use for new accounts." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The default time zone to use for new accounts." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The display name to show for all email communications." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The internet address of your wiki." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The language to use for the site culture for guests." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The SMTP password to use when sending email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="The time zone to use for the site culture for guests." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Use SSL" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
+    <value></value>
+  </data>
+  <data name="Word Exclusions" xml:space="preserve">
     <value></value>
   </data>
 </root>
