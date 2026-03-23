@@ -1730,438 +1730,438 @@
     <value>İstifadəçi LDAP ilə yeni hesab yaratdı.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>Ünvan</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>Açıq Fuzzy Uyğunluğa İcazə Ver</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>Qeydiyyata İcazə Ver</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>Təsdiqləmə və Cookies.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>Əsas</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>Formatlaşdırma kimi əsas viki parametrləri.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>Brend Şəkli (Kiçik)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>Keş yaddaş limiti MB</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>LDAP istifadə edərək Aktiv Dizayner autentifikasiyası üçün konfiqurasiya</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>Axtarış və indeksləşdirmə ilə əlaqəli konfiqurasiya.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>Kürəkələr</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>Müəllif hüquqları</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>Fərdiləşdirmə</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>Öntəyin Edilən Ölkə</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>Öntəyin Edilən Emojinin Hündürlüyü</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>Öntəyin Edilən Dil</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>Öntəyin Edilən Profil Son Dəyişiklik Sayi</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>Öntəyin Edilən Qeydiyyat Rolu</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>Öntəyin Edilən Saat Qrupu</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>EMail və SMTP qurğuları.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>Səhifə şərhlərini aktivləşdir</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>İctimai Profilləri aktivləşdir</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>İmza Saatları</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>Xarici Avtorizasiya</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>Xarici Avtorizasiya Provayderləri</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>Fayl və əlavə parametrləri.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>Fayllar və Əlavələr</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>Sabit cookie'lərin saxlanıldığı Filesystem yerleşimi, saxlanmış sessiya girişləri üçün.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>Sabit Başlıq Menyu Mövqeyi</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>Footer</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>FooterBlurb</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>Görünüş Adından</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>İşlevsellik</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>Ümumi viki funksionallığı.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : MüştəriId</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : MüştəriSirri</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : Google Doğrulamasından istifadə et</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>Başlıq</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>Yeni hesab təsdiqi üçün HTML e-poçt şablonu</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>Şifrə sıfırlama e-poçtu göndərilərkən istifadə ediləcək HTML e-poçt şablonu.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>HTML Düzeni</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>HTML düzəni.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>HTML digər bədən məzmunundan dərhal sonra bədən etiketinin içində yerləşdirilir.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML digər məzmunundan əvvəlki bədəndə yerləşdirilir.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML səhifənin ayaq hissəsinə yerləşdirilir.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML başlıq bölməsinə yerləşdirilir. Skriptlər və CSS üçün yararlı yerdir.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Əgər təyin olunubsa, istifadəçilər e-poçt ünvanları təsdiqlənənədək daxil ola bilməzlər. Dəyişdirilsə, saytın yenidən başlatılması lazım olacaq. Əsas: Aktivdir.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Əgər parametr təyin olunubsa, istifadəçilər qeydiyyatdan keçə və öz hesablarını yarada bilərlər. Əsas: Aktivdir.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>Navbar-ə Axtarış əlavə et</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>Meta daxilində wiki təsvirini daxil et</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>Meta daxilində viki Etiketlərini daxil edin</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Əsas Giriş Domeni</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : LDAP Doğrulamasını Aktivləşdir</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Tam Boylu Domen</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Təhlükəsiz Soket Layer-dən istifadə edin</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP Doğrulaması</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>Bizim və Görünüş özəlləşdirmələri.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>Maksimal Əlavə Fayl Ölçüsü</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>Maksimal Avatar Fayl Ölçüsü</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>Maksimal Emojiyə Fayl Ölçüsü</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>İstifadəçi hər hansı bir səhifəyə əlavə üçün maksimum ölçü bayt ilə.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>İstifadəçi avatar şəkli üçün maksimum ölçü bayt ilə.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>Emoji şəkli üçün maksimum ölçü bayt ilə.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>Üzvlük</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>Yeni üzvlər üçün standartlar və icazələr kimi üzvlük ayarları.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Müştəri İD</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Müştəri Sirri</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Microsoft Doğrulamasından istifadə et</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>Ən az Uyğunluq Balı</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>Yeni Səhifə Şablonu</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>Çərəzlərin bitməmişdən əvvəlki saatların sayı.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Authority</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientId</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : OIDC Avtorizasiyasını istifadə et</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>Sayfa Keş Zamanı (Saniyə)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Yoxdur Səhifəsi</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>Səhifələmə Ölçüsü</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>Performans</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>Performans ilə əlaqəli tənzimləmələr.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>Əsas Parol Yolu</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>Port</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>Post-Body</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>Pre-Body</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>Yükləmə əvvəlində Animasiya Edilmiş Emojilər</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>Qeyd Yazma Göstəricilərini Yığma</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Redaktə Edəndə Dəyişiklik Xülasəsini tələb edin</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Elektron Poçt Doğrulamasını Tələb Edin</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Yenidən Baxış Yoxdur Səhifəsi</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Redaktə Edəndə Dəyişiklik Xülasəsini Göstərin</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Səhifə Altbilgisində Şərhləri Göstər</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Səhifədə Son Dəyişiklikləri Göstər</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>Kamelləri Ayır</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>Fərman: Hesab Doğrulama E-poçtu</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>Fərman: Şifrəni Yenidən Təyin Et E-poçtu</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Bizə bütün e-poçt ünsiyyətləri üçün istifadə ediləcək hesab adı.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Sayt tərzini bütün sayt üslubunda istifadə etmək üçün əsas mövzudur.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Vikinin marka görüntüsü, bu bütün viki səhifələrinin yuxarısında göstərilir.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Vikinin müəllif hüququ, bu bütün səhifələrin aşağısında göstərilir.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Qonaqlar üçün sayt mədəniyyəti istifadə olunacaq ölkə.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Yeni hesablar üçün istifadə ediləcək standart ölkə.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>İstifadəçi daxil olurken UPN və ya tam təchiz olunmuş domen\\İstifadəçi adı göstərmədikdə istifadə ediləcək standart domen.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Emosiyaların ölçüsünü dəyişmək üçün standart hündürlük. En düzgün nisbətlə ölçüləcək. Standart: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Yeni hesablar üçün istifadə ediləcək standart dil.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Yeni hesablar qeydiyyatdan keçərkən təyin ediləcək standart rol. Standart: Töhfəçi.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Yeni hesablar üçün istifadə ediləcək standart saat qurşağı.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Bütün email əlaqələri üçün göstəriləcək göstərici ad.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Vikin aşağıdakı alt hissəsi, bu bütün səhifələrdə göstərilir.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>LDAP autentifikasiyasını həyata keçirərkən istifadə ediləcək tam təchiz olunmuş domen adı.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Sizin vikin internet ünvanı.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Qonaqlar üçün sayt mədəniyyəti üçün istifadə olunan dil.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Keş üçün yaddaş limiti (megabayt cinsindən). Limita çatanda ən köhnə elementlər çıxarılacaq. Standart: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>İstənilən olmayan səhifə vəqiqəsində göstəriləcək səhifənin adı.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>İstənilən olmayan səhifə revizyonu vəqiqəsində göstəriləcək səhifənin adı.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>Yeni vəqiqə səhifələri yaradıldıqda istifadə olunan standart məzmun kimi istifadə olunan vəqiqə səhifəsinin adı.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Viki adı, bu hər yerdə göstərilir.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Səhifələrdə səhifə bölmələri istifadə olunarkən qaytarılacaq elementlərin sayı. Standart: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>İstifadəçilərin ictimai profillərində göstəriləcək son dəyişdirilmiş səhifələrin sayı. Standart: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Səhifələri yaddaşda keşikdə saxlayacaq saniyə sayı (0 = deaktiv edilmişdir). Standart: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Elektron poçt göndərərkən istifadə olunan SMTP şifrəsi.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>Smtp portu email göndərilərkən istifadə ediləcək. Standart: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Email göndərilərkən istifadə ediləcək smtp server ip/host.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Qonaqlar üçün sayt mədəniyyəti zamanı istifadə olunacaq saat qurşağı.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>SSL istifadə et</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>İstifadə edilən dəyər 0.0 və 1.0 arasında, səhifə axtarışına nə qədər güclü uyğunlaşma lazım olduğunu müəyyən edir. Standart: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>Axtarış indeksi qurularkən, bu sözlər indekslənmədən çıxarılacaq. (Vergüllə ayrılmış)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Şərhlər aktivdirsə, bu seçim hər bir səhifənin aşağısında şərhlərin göstərilməsinə səbəb olur. Standart: Aktiv.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Naviqasiya panelində axtarış qutusu göstəriləcəkmi. Standart: Aktiv.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>OpenID Connect aktiv olub-olmadığını.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>İşə başlamadan əvvəl bütün animasiya edilmiş emojilərin tədricən yüklənməsini engine həyata keçirməlidirmi.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>İstifadəçilərə daxil olmaq cəhdində LDAP ilə identifikasiya etmək və etməmək.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>LDAP-ə təhlükəsiz əlaqənin istifadə olunub-olunmaması. Bu, hər zaman domenlər tərəfindən dəstəklənmir.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Sayt şərhlərinin aktiv olub-olmayacağı. Daxil olmaq şərtdir, amma hamı oxuya bilər. Əsas: Aktivdir.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>SMTP- nin SSL istifadə edərək bağlanıb-bağlanmaması.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Saytın təsvirinin HTML başlıq meta daxil edilməli olub-olmaması. Əsas: Aktivdir.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Yuxarı menyunun şaquli şəkildə aşağıya sürüklənərkən yerində qalmalı olub-olmaması.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Sayta əlavə olunan wiki etiketlərinin HTML başlıq meta açar sözlərinə daxil olub-olmayacağı. Əsas: Aktivdir.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Axtarış zamanı dəqiq olmayan uyğunluqlara icazə verib-verməmək. Əsas: Aktivdir.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Sayt wiki qeydlərinin qeydiyyatını bazaya daxil etmə. Bu, performans üçün istifadə edilə bilər, amma özü də yavaşlamaya səbəb ola bilər. Əsas: Deaktivdir.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Saytın son dəyişiklik edən istifadəçi və tarixini və ictimai istifadəçi profilinə bağlantı ilə göstərmək. Əsas: Aktivdir.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>İstifadəçiyə səhifələri redaktə edərkən dəyişiklik xülasəsini daxil etməyə imkan verən mətn qutusunu göstərməyi seçin.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Səhifələri axtarış etiketləri üçün parça-parça ayırarkən CamelCasedStrings-i bölməyinizi seçin. Bu, səhifələr çox proqramlaşdırma/kod məzmunu ehtiva etdikdə faydalı ola bilər. Əsas: Aktivdir.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Səhifələri redaktə edərkən istifadəçilərdən dəyişiklik xülasəsini daxil etmələri tələb olunursa, bunu seçin. Qeyd edin ki, "Redaktə zamanı Dəyişiklik Xülasəsini Göstər" də aktiv olmalıdır.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Ziyarətçilərin üzvləri və onların ictimai profil görünüşlərini görə bilməsinə imkan verirmi.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Kəlmə İstisnaları</value>
   </data>
 </root>

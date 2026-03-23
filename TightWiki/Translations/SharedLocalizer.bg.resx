@@ -1730,438 +1730,438 @@
     <value>Потребителят създаде нов акаунт с LDAP.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>Адрес</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>Разрешаване на неясно съвпадение</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>Разрешаване на регистрация</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>Аутентикация и бисквитки.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>Базов</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>Основни настройки на уики като форматиране.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>Облик на бранда (малък)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>Лимит за кеш памет МБ</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>Конфигурация за аутентикация с Active Directory чрез LDAP</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>Конфигурация, свързана с търсене и индексиране.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>Бисквитки</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>Авторски права</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>Персонализиране</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>Държава по подразбиране</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>Височина на емотиконата по подразбиране</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>Език по подразбиране</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>Брой на последните модификации на профила по подразбиране</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>Роля при регистрация по подразбиране</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>Часов пояс по подразбиране</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>Настройки за EMail и SMTP.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>Включване на коментари към страницата</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>Активиране на публични профили</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>Часове на изтичане</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>Външна автентикация</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>Доставчици на външна автентикация</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>Настройки за файлове и прикачени файлове.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>Файлове и прикачени файлове</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>Местоположение на файловата система, където са съхранявани постоянни бисквитки за запазени входове в сесията.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>Позиция на фиксираното меню в хедъра</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>Дънен колонтитул</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>Футър Бълбър</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>От Името на показване</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>Функционалност</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>Обща функционалност на уикито.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientId</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientSecret</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : Използване на Google аутентификация</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>Заглавие</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>HTML шаблон за имейл за потвърждение на нов акаунт</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>HTML шаблон за имейл за възстановяване на парола, когато се изпраща такова съобщение.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>HTML оформление</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>HTML оформление.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>HTML, поставен вътре в тагът body, но директно след другия съдържанието на body.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML, поставен вътре в тагът body, но точно преди останалото съдържание на страницата.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML, поставен в секцията footer на страницата.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML, поставен в секцията header на HTML. Полезно място за поставяне на скриптове и CSS.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ако е активирано, потребителите не могат да влязат в системата, докато съответните им имейл адреси не бъдат потвърдени. Ако се променя, сайтът ще трябва да се рестартира. По подразбиране: Включено.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ако е активирано, потребителите ще могат да се регистрират и създадат собствен акаунт. По подразбиране: Включено.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>Включване на Търсене в навигационната лента</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>Включване описание на Уики в Meta</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>Включване на wiki тагове в метаданните</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Действие на домейна по подразбиране за вход</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Включване на LDAP удостоверяване</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Напълно квалифициран домейн</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Използване на защитен сокет слой</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP удостоверяване</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>Персонализация на външния вид и усещане.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>Максимален размер на файла за прикачване</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>Максимален размер на файла за аватар</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>Максимален размер на файла за емоции</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>Максимален размер в байтове за прикачване на страница от потребител.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>Максимален размер в байтове за изображение на потребителски аватар.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>Максимален размер в байтове за изображение на емоджи.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>Членство</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>Настройки на членството като по подразбиране за новите членове и разрешенията.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientId</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientSecret</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Използване на Microsoft Authentication</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>Минимален резултат за съвпадение</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>Шаблон за нова страница</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>Брой часове преди изтичане на бисквитките.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Орган</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientId</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Използване на OIDC удостоверяване</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>Време за кеширане на страницата (в секунди)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Страница, която не съществува</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>Размер на странициране</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>Производителност</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>Настройки свързани с производителността.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>Път към Persist Keys</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>Порт</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>След Тялото</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>Преди Тялото</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>Анимации с Емоджита Преди Зареждане</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>Събиране на Метрики за Запис</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Изисква Обобщение на Промените при Редактиране</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Изисква Валидиране на Имейл</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Страница, Която Не Съществува за Ревизия</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Показване на Обобщение на Промените при Редактиране</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Показване на коментари в дъното на страницата</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Показване на последната модификация в дъното на страницата</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>Разделяне на Камел Кейс</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>Шаблон: Имейл за верификация на акаунта</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>Шаблон: Имейл за нулиране на паролата</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Името на акаунта, използвано за всички имейл комуникации.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Базовата тема за стилизиране на сайта.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Имиджът на марката на уикито, това се показва в горната част на всички страници на уикито.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Авторските права на уикито, това се показва в долната част на всички страници.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Страната, която да се използва за културата на сайта за гостите.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Страната по подразбиране за използване за новите акаунти.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>Домейнът по подразбиране за използване, когато потребителят не посочи UPN или напълно квалифициран домейн\\Потребителско име при влизане.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Стойността по подразбиране за височината на емоджитата. Ширината ще се мащабира до същото съотношение. По подразбиране: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Езикът по подразбиране за използване за новите акаунти.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Ролята по подразбиране за прикачване на акаунтите при регистрация. По подразбиране: Съсътрудник.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Часовият пояс по подразбиране за използване за новите акаунти.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Показваното име, което да се показва за всички електронни съобщения.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Долният колонтитул на уикито, който се показва в долната част на всички страници.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>Напълно квалифицираното имение на домейна за използване при LDAP удостоверяване.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Интернет адресът на вашето уики.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Езикът, който ще се използва за културата на сайта за гостите.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Ограничението на паметта (в мегабайти) за кеша. Най-старите елементи ще бъдат изхвърлени, когато достигне лимитът. По подразбиране: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>Името на страницата във въвикито, която ще се показва при заявка за несъществуваща страница.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>Името на страницата във въвикито, която ще се показва при заявка за несъществуваща ревизия на страница.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>Името на страницата във въвикито, която да се използва като стандартно съдържание при създаване на нови страници.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Името на въвикито, което се показва навсякъде.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Брой на елементите за връщане при използване на странициране. По подразбиране: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>Брой на наскоро редактираните страници, които да се показват в публичните профили на потребителите. По подразбиране: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Брой секунди за кеширане на страниците в паметта (0 = деактивирано). По подразбиране: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Паролата за SMTP, която да се използва при изпращане на имейл.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>Портът SMTP, който да използвате при изпращане на имейл. По подразбиране: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>IP/хост на SMTP сървъра за изпращане на имейл.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Часовият пояс, който да се използва за културата на сайта за гости.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>Използвайте SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>Стойност между 0.0 и 1.0, която определя колко силна трябва да бъде съвпадението за търсене на страница, преди да бъде върната в резултатите от търсенето. По подразбиране: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>При създаване на индекс за търсене, тези думи ще бъдат изключени от индексирането. (Разделени със запетая)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Когато коментарите са активирани, тази опция кара коментарите да се показват в долната част на всяка страница. По подразбиране: Включено.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Дали ще бъде показана търсачка на навигационната лента. По подразбиране: Включено.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>Дали OpenID Connect е активиран или не.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>Дали движението трябва да изпълнява бавно предварително зареждане на всички анимирани емоджита при старт.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>Да се аутентифицират ли потребителите чрез LDAP при опит за вход.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>Да се използва ли защитена връзка към LDAP. Това не е винаги подкрепяно от домейните.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ще бъдат ли активирани коментари на страница. За аутентикация е необходим. Всички могат да четат. По подразбиране: Включено.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>Трябва ли SMTP да се свърже чрез SSL или не.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Дали описанието на страницата трябва да бъде включено в HTML мета таговете в главата. По подразбиране: Включено.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Трябва ли горното меню да остане на мястото си при вертикално превъртане.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Трябва ли таговете на вики страницата, свързани с нея, да бъдат включени в ключовите думи на HTML мета в главата. По подразбиране: Включено.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Да се разрешат ли несъвпадения при търсене. По подразбиране: Включено.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Да се записват ли метриките за съставяне на записи във вики страницата в базата данни. Може да се използва за оптимизация на скоростта, но може и да причини забавяне. По подразбиране: Изключено.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Да се показват ли последният потребител и датата на последната промяна на страницата с линк към публичния му профил. По подразбиране: Включено.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>Да се покаже текстовото поле, което да позволява на потребителя да въведе резюме на промените при редактиране на страници.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Да се разделят CamelCasedStrings при парсиране на страници за търсещи токени. Това може да бъде полезно, когато страниците съдържат много програмен/кодови материали. По подразбиране: включено.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Дали потребителите трябва да въвеждат резюме на промените при редактиране на страници. Имайте предвид, че "Показване на резюме на промените при редактиране" също трябва да е включено.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Дали посетителите могат да разглеждат участниците и техните публични профили.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Изключения за думи</value>
   </data>
 </root>

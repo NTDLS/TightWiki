@@ -1730,438 +1730,438 @@
     <value>ব্যবহারকারী LDAP-এর মাধ্যমে একটি নতুন অ্যাকাউন্ট তৈরি করেছেন।</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>ঠিকানা</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>মৌলিক মিল অনুমোদন করুন</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>নিবন্ধন করতে দিন</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>অথেন্টিকেশন এবং কুকিজ।</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>মৌলিক</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>বেসিক উইকি সেটিংস যেমন ফর্ম্যাটিং।</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>ব্র্যান্ড ইমেজ (ছোট)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>ক্যাশ মেমরি সীমা এমবি</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>LDAP ব্যবহার করে অ্যাকটিভ ডিরেক্টরি অথেন্টিকেশনের জন্য কনফিগারেশন</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>অনুসন্ধান এবং সূচকীকরণের সাথে সম্পর্কিত কনফিগারেশন।</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>কুকিজ</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>কপিরাইট</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>কাস্টমাইজেশন</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>ডিফল্ট দেশ</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>ডিফল্ট ইমোজি উচ্চতা</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>ডিফল্ট ভাষা</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>ডিফল্ট প্রোফাইল সাম্প্রতিক পরিবর্তনের গণনা</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>ডিফল্ট সাইন আপ ভূমিকা</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>ডিফল্ট টাইমজোন</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>ইমেল এবং এসএমটিপি সেটিং।</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>페이지 মন্তব্য সক্ষম করুন</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>পাবলিক প্রোফাইল সক্ষম করুন</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>মেয়াদ সময়</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>বাহ্যিক প্রমাণীকরণ</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>বাহ্যিক প্রমাণীকরণ সরবরাহকারী</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>ফাইল এবং সংযুক্তি সেটিংস।</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>ফাইল এবং সংযুক্তি</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>স্থায়ী কুকিজ সংরক্ষিত হয় যেখানে ফাইল সিস্টেমের অবস্থান।</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>ফিক্সড হেডার মেনু পজিশন</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>ফুটার</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>ফুটার ব্লার্ব</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>প্রদর্শন নাম থেকে</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>কার্যক্ষমতা</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>সাধারণ উইকি কার্যকারিতা।</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>গুগল : ক্লায়েন্টআইডি</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>গুগল : ক্লায়েন্টসিক্রেট</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>গুগল : গুগল প্রমাণীকরণ ব্যবহার করুন</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>হেডার</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>নতুন অ্যাকাউন্ট যাচাইকরণের জন্য HTML ইমেল টেমপ্লেট</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>পাসওয়ার্ড রিসেট ইমেল পাঠানোর সময় ব্যবহারের জন্য HTML ইমেল টেমপ্লেট।</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>ওয়েব পৃষ্ঠা ডিজাইন</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>ওয়েব পৃষ্ঠা রূপরেখা।</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>বডি ট্যাগের ভিতরে HTML স্থাপন করা হয়েছে কিন্তু অন্য বডি বিষয়বস্তুর সরাসরি পরে।</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>বডি ট্যাগের ভিতরে HTML স্থাপন করা হয়েছে তবে পেজের অন্য বিষয়বস্তুর ঠিক আগে।</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>পেজের ফুটার বিভাগে HTML স্থাপন করা হয়েছে।</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML হেডার বিভাগে স্থাপন করা হয়েছে। স্ক্রিপ্ট এবং CSS রাখার জন্য এটি একটি উপযোগী স্থান।</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>אם সেট করা হয়, ব্যবহারকারীরা তাদের ইমেইল ঠিকানা নিশ্চিত না হওয়া পর্যন্ত লগইন করতে পারবে না। পরিবর্তন করলে, ওয়েবসাইটটি পুনরায় চালু করতে হবে। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>אם সেট করা হয়, ব্যবহারকারীরা স্বাক্ষর করতে পারবে এবং তাদের নিজস্ব অ্যাকাউন্ট তৈরি করতে পারবে। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>নেভবারে সার্চ অন্তর্ভুক্ত করুন</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>মেটাতে উইকি বিবরণ অন্তর্ভুক্ত করুন</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>মেটাতে উইকি ট্যাগ যোগ করুন</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : ডিফল্ট সাইন-ইন ডোমেন</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : LDAP প্রমাণীকরণ সক্ষম করুন</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : ফুল কুয়ালিফায়েড ডোমেন</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : সুরক্ষিত সকেট লেয়ার ব্যবহার করুন</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP প্রমাণীকরণ</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>দেখা &amp; অনুভূতির কাস্টমাইজেশন।</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>সর্বোচ্চ সংযুক্তি ফাইলের আকার</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>সর্বোচ্চ অবতার ফাইলের আকার</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>সর্বোচ্চ ইমোজি ফাইলের আকার</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>একজন ব্যবহারকারীর জন্য কোনও পৃষ্ঠার যুক্তির জন্য সর্বোচ্চ আকার বাইটে।</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>একজন ব্যবহারকারীর অ্যাভাটার চিত্রের জন্য সর্বোচ্চ আকার বাইটে।</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>একটি ইমোজি চিত্রের জন্য সর্বোচ্চ আকার বাইটে।</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>সদস্যতা</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>নতুন সদস্যদের জন্য ডিফল্টস এবং অনুমতিসহ সদস্যতা সেটিংস।</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientId</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientSecret</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Microsoft Authentication ব্যবহার করুন</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>ন্যূনতম মিল স্কোর</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>নতুন পৃষ্ঠা টেমপ্লেট</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>কুকিজের মেয়াদ শেষ হওয়ার আগে ঘণ্টার সংখ্যা।</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : কর্তৃপক্ষ</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ক্লায়েন্টআইডি</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ক্লায়েন্ট সিক্রেট</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : OIDC প্রমাণীকরণ ব্যবহার করুন</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠা ক্যাশের সময় (সেকেন্ড)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>অস্তিত্বহীন পৃষ্ঠা</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠার আকার</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>মূল্যাঙ্কন</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>সম্পর্কিত পারফরম্যান্স সেটিংস।</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>পersistence কী পাথ</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>পোর্ট</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>পোস্ট-শরীর</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>পূর্ব-শরীর</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>প্রি-লোড অ্যানিমেটেড ইমোজি</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>রেকর্ড কম্পাইলের পরিমাপ</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>সম্পাদনার সময় পরিবর্তনের সংক্ষিপ্ত সারাংশ প্রয়োজন</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>ইমেল ভেরিফিকেশন প্রয়োজন</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>সংশোধন না থাকা পৃষ্ঠা</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>সম্পাদনার সময় পরিবর্তনের সংক্ষিপ্ত সারাংশ দেখান</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>পেজের ফুটারে মন্তব্য দেখান</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>পেজের নিচে সর্বশেষ পরিবর্তন দেখান</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>ক্যামেল কেস বিভাজন করুন</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>টেমপ্লেট: অ্যাকাউন্ট যাচাইকরণ ইমেল</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>টেমপ্লেট: রিসেট পাসওয়ার্ড ইমেল</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>সমস্ত ইমেল যোগাযোগের জন্য ব্যবহার করার জন্য অ্যাকাউন্টের নাম।</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>সমস্ত সাইট শৈলীর জন্য ব্যবহার করার জন্য বেস থিম।</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>উইকির ব্র্যান্ড ছবি, এটি সমস্ত উইকির পৃষ্ঠার উপরে প্রদর্শিত হয়।</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>উইকির কপিরাইট, এটি সমস্ত পৃষ্ঠার নিচে দেখানো হয়।</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>অতিথির জন্য সাইট সংস্কৃতির জন্য ব্যবহারের দেশ।</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>নতুন অ্যাকাউন্টের জন্য ডিফল্ট দেশ।</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>যখন ব্যবহারকারী একটি UPN বা সম্পূর্ণ যোগ্য ডোমেন\\Username উল্লেখ করেন না, তখন ব্যবহারের জন্য ডিফল্ট ডোমেন।</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>ইমোজিগুলির স্কেল করার জন্য ডিফল্ট উচ্চতা। প্রস্থটি একই অনুপাতে স্কেল করা হবে। ডিফল্ট: ২৪।</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>নতুন অ্যাকাউন্টের জন্য ব্যবহারের জন্য ডিফল্ট ভাষা।</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>অ্যাকাউন্টগুলি সাইন আপ করার সময় নির্ধারণ করার জন্য ডিফল্ট ভূমিকা। ডিফল্ট: অংশীদার।</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>নতুন অ্যাকাউন্টের জন্য ব্যবহারের জন্য ডিফল্ট টাইম জোন।</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>সামগ্রী ই-মেইলের জন্য প্রদর্শন নাম।</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>উইকি এর ফুটার, এটি সকল পৃষ্ঠার নিচে দেখানো হয়।</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>LDAP প্রমাণীকরণের জন্য ব্যবহারযোগ্য সম্পূর্ণ যোগ্য ডোমেন নাম।</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>আপনার উইকি এর ইন্টারনেট ঠিকানা।</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>অতিথিদের জন্য সাইট সংস্কৃতির জন্য ব্যবহার করার ভাষা।</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>ক্যাশের জন্য স্মৃতি সীমা (মেগাবাইটে)। সীমা পৌঁছালে পুরোনো আইটেমগুলি সরানো হবে। ডিফল্ট: 1024।</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>যখন কোনও অস্থিতিশীল পৃষ্ঠা অনুরোধ করা হয় তখন প্রদর্শনের জন্য উইকি পৃষ্ঠার নাম।</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>যখন কোনও অস্থিতিশীল পৃষ্ঠা সংশোধন অনুরোধ করা হয় তখন প্রদর্শনের জন্য উইকি পৃষ্ঠার নাম।</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>যখন নতুন উইকি পৃষ্ঠা তৈরি করা হয় তখন ডিফল্ট কন্টেন্ট হিসেবে ব্যবহারের জন্য উইকি পৃষ্ঠার নাম।</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>উইকি এর নাম, এটি সর্বত্র প্রদর্শিত হয়।</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>পেজিনেশন ব্যবহারের সময় ফেরত দেওয়ার আইটেমের সংখ্যা। ডিফল্ট: 20।</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>ব্যবহারকারীর পাবলিক প্রোফাইলে দেখানোর জন্য সাম্প্রতিক সংশোধিত পেজের সংখ্যা। ডিফল্ট: 10।</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>মেমোরিতে পেজগুলো ক্যাশ করার জন্য অতিবাহিত সেকেন্ড সংখ্যা (0 = অক্ষম)। ডিফল্ট: 300।</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>ইমেল পাঠানোর সময় ব্যবহারের জন্য SMTP পাসওয়ার্ড।</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>ইমেল পাঠানোর সময় ব্যবহার করার SMTP পোর্ট। ডিফল্ট: 587।</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>ইমেল পাঠানোর জন্য ব্যবহার করার SMTP সার্ভার আইপি/হোস্ট।</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>অতিথিদের জন্য সাইট সংস্কৃতির জন্য ব্যবহার করার সময় অঞ্চল।</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>SSL ব্যবহার করুন</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>0.0 থেকে 1.0 এর মধ্যে মান যা নির্ধারণ করে কতটা শক্তিশালী মিল স্বয়ংক্রিয়ভাবে ফলাফলগুলিতে ফিরে আসার আগে একটি পৃষ্ঠা অনুসন্ধান করতে হবে। ডিফল্ট: 0.6।</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>খুঁজাপত্র তালিকা তৈরি করার সময়, এই শব্দগুলো ইনডেক্সিং থেকে বহিস্কার করা হবে। (কমা দিয়ে আলাদা)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>মন্তব্য সক্রিয় থাকলে, এই অপশনটি প্রতিটি পেজের নিচে মন্তব্য দেখাবে। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>নেভিগেশন বারতে একটি অনুসন্ধান বাক্স দেখানো হবে কি না। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>OpenID Connect সক্রিয় কি না।</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>অথবা না, অক্ষম থাকলে, কি ইঞ্জিন শুরুতেই সব এনিমেটেড ইমোজিগুলোর লেজি প্রি-লোড করবে।</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>প্রয়াসের সময় LDAP দিয়ে প্রমাণীকরণ করাই বা না করাই।</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>LDAP এর জন্য একটি সুরক্ষিত সংযোগ ব্যবহার করাই বা না করাই। এটি সব ডোমেইনে সমর্থিত নয়।</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠা মন্তব্য সক্ষম হবে কি না। মন্তব্যের জন্য প্রমাণীকরণ প্রয়োজন, তবে সবাই পড়তে পারে। ডিফল্ট: সক্ষম।</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>SMTP কি SSL দিয়ে সংযোগ করবে নাকি না।</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>HTML হেড মেটাতে পৃষ্ঠার বিবরণ অন্তর্ভুক্ত করা উচিত কি না। ডিফল্ট: সক্ষম।</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>উপরের মেনু কি সোজা অবস্থানে থাকবেন যখন স্ক্রোল করে।</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠার সাথে সংযুক্ত উইকি ট্যাগগুলো HTML হেড মেটা কিওয়ার্ডে অন্তর্ভুক্ত করা উচিত কি না। ডিফল্ট: সক্ষম।</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>অনুপ্রবেশের সময় বিশেষ মিলের অনুমতি দেওয়া উচিত কি না। ডিফল্ট: সক্ষম।</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠা উইকি রেকর্ড সংগ্রহের পরিসংখ্যান ডাটাবেসে রেকর্ড করা উচিত কি না। এটি পারফরম্যান্সের জন্য ব্যবহার করা যেতে পারে, কিন্তু নিজেই ধীরতা সৃষ্টি করতে পারে। ডিফল্ট: অক্ষম।</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠাটি শেষবার কোন ব্যবহারকারী সংশোধন করেছে এবং তার তারিখ দেখানোর জন্য একটি লিঙ্ক সহ জনসাধারণের ব্যবহারকারী প্রোফাইলে দেখানো উচিত কি না। ডিফল্ট: সক্ষম।</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠাগুলি সম্পাদনা করার সময় ব্যবহারকারীকে পরিবর্তন সারাংশ প্রবেশ করানোর জন্য টেক্সট বাক্স দেখানো হবে কি না।</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠাগুলি পার্সিং করার সময় ক্যামেলকেস স্ট্রিং বিভাজন হবে কি না যখন সার্চ টোকেনগুলি। এটি তখন সহায়ক হতে পারে যখন পৃষ্ঠাগুলিতে অনেক প্রোগ্রামিং/কোড সামগ্রী থাকে। ডিফল্ট: সক্রিয়।</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>পৃষ্ঠাগুলি সম্পাদনা করার সময় ব্যবহারকারীদের কি পরিবর্তন সারাংশ প্রবেশ করানো প্রয়োজন। লক্ষ্য করুন যে "সম্পাদনা করার সময় পরিবর্তন সারাংশ দেখান" অবশ্যই চালু থাকতে হবে।</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>অতিথিরা কি সদস্যদের এবং তাদের সাধারণ প্রোফাইল দেখতে পারবেন।</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>শব্দ বর্জ্য</value>
   </data>
 </root>

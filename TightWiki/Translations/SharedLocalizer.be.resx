@@ -1730,438 +1730,438 @@
     <value>Карыстальнік стварыў новы ўліковы запіс з LDAP.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>Адрас</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>Дазволіць неўпростае супадзенне</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>Дазволіць рэгістрацыю</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>Аўтэнтыфікацыя і Cookies.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>Асноўны</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>Асноўныя наладкі вікі, такія як фарматаванне.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>Вобраз брэнда (Маленькі)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>Ліміт кэша памяці МБ</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>Канфігурацыя для аўтэнтыфікацыі Active Directory з выкарыстаннем LDAP</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>Канфігурацыя, звязаная з пошукам і індэксаваннем.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>Карысць</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>Аўтарскія правы</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>Наладка</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>Па змаўчанні краіна</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>Па змаўчанні вышыня эмабі</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>Па змаўчанні мова</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>Колькасць апошніх змен у профілі па змаўчанні</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>Роля для рэгістрацыі па змаўчанні</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>Часовы пояс па змаўчанні</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>Настройкі EMail і SMTP.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>Уключыць каментаары на старонцы</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>Уключыць публічны профіль</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>Гадзіны чыгункі</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>Знешняя аўтэнтыфікацыя</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>Праваёры знешняй аўтэнтыфікацыі</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>Налады файлаў і прыкладаў.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>Файлы і прыклады</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>Месцазнаходжанне файла сістэмы, дзе захоўваюцца пастаянныя кукі для захаваных сеансаў уваходу.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>Фіксаванае размяшчэнне меню загалоўка</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>Ніжні калонка</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>Калантытула</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>З адзнакай паказальніка</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>Функцыянальнасць</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>Агульная функцыянальнасць вікі.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : ID кліента</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : Сакрэт кліента</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : Выкарыстоўваць аўтэнтыфікацыю Google</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>Загаловак</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>HTML- шаблон электроннай пошты для праверкі новага акаўнта</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>HTML-шаблон электроннай пошты для адпраўкі электроннай пошты для ўзнаўлення пароля.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>Макет HTML</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>Макет HTML.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>HTML размешчаны ўнутры тега body, але непасрэдна пасля іншай зместу тега body.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML размешчаны ўнутры тега body, але перад іншым зместам старонкі.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML размешчаны ў раздзеле ніжняга колеру старонкі.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML размешчаны ў раздзеле загалоўка HTML. Гэта карыснае месца для размяшчэння скрыптаў і CSS.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Калі ўстаноўлена, карыстальнікі не зможуць увайсці ў сістэму, пакуль іх электронная пошта не будзе праверана. Калі змяніць, сайт патрэбна перазапускаць. Па змаўчанні: уключана.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Калі ўстаноўлена, карыстальнікі змогуць рэгістравацца і ствараць уласны рахунак. Па змаўчанні: уключана.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>Дадаць пошук у навігацыйную панэль</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>Дадаць апісанне ў Meta для Вікі</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>Уключыць тэгі вікі ў мета</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Па змаўчанні дамен ўваходу</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Уключыць аўтэнтыфікацыю LDAP</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Дамент з поўнай кваліфікацыяй</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Выкарыстоўваць бяспечны прагал SSL</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Аўтэнтыфікацыя LDAP</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>Настройкі выгляду і адчування.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>Максімальны памер файла прыкладання</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>Максімальны памер файла аватара</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>Максімальны памер файла смайліка</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>Максімальны памер у байтах для файла ўтрымання карыстальніка любой старонкі.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>Максімальны памер у байтах для выявы аватара карыстальніка.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>Максімальны памер у байтах для выявы смайліка.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>Членства</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>Настройкі членства, такія як умовы па змаўчанні для новых учаснікаў і дазволы.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientId</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : ClientSecret</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Выкарыстоўваць аўтэнтыфікацыю Microsoft</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>Мінімальны бал адпаведнасці</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>Шаблон новай старонкі</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>Колькасць гадзін да заканчэння тэрміну дзеяння cookies.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : В Authority</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientId</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : ClientSecret</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Выкарыстоўваць аўтэнтыфікацыю OIDC</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>Час кэшавання старонкі (секунды)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Старонка не існуе</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>Памер старонкі</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>Хуткасць</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>Налады, звязаныя з прадукцыйнасцю.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>Шлях ключоў Persist</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>Парт</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>Пасля-цела</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>Перад-цела</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>Перад загрузкай анімаваныя эмодзі</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>Запісваць метрыкі кампіляцыі запісаў</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Патрабуецца кароткае апісанне змяненняў пры рэдагаванні</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Патрабуецца пацверджанне электроннай пошты</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Старонка, дзе няма версіі</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Паказваць кароткае апісанне змяненняў пры рэдагаванні</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Паказаць каментары ў паўзунке старонкі</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Паказаць апошнія змены ў паўзунке старонкі</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>Раздзяліць Camel Case</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>Шаблон: Электронная пошта для пацверджання ўліковага запісу</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>Шаблон: Электронная пошта для скідання пароля</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Імя ўліковага запісу, якое выкарыстоўваецца ва ўсіх камунікацыях па электроннай пошце.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Базавая тэма для ўсей стылістыкі сайта.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Брэнд-імідж вікі, гэты тэкст выводзіцца ў верхняй частцы ўсіх старонак вікі.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Аўтарскае права вікі, гэта паказваецца ўнізе ўсіх старонак.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Краіна для выкарыстання для культурных асаблівасцяў сайта для гасцей.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Па freewareа, які выкарыстоўваецца па змаўчанні для новых уліковых запісаў.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>Дамен па змаўчанні, які выкарыстоўваецца, калі карыстальнік не ўказвае UPN або поўназагружаны дамен\\Імя карыстальніка пры ўходзе.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Павелічэнне вышыні эмаджы, каб маштабаваць іх. Шырыня будзе маштабавацца тых жа адносінах. Па змаўчанні: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Мова па змаўчанні для новых уліковых запісаў.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Роля па змаўчанні, якую прызначаць уліковым запісам пры рэгістрацыі. Па змаўчанні: Укладальнік.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Часовая зона па змаўчанні для новых уліковых запісаў.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Назва, якая паказваецца для ўсіх электронных камунікацый.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Карыстальніцкі Footer вікі, які паказваецца ў нізе ўсіх старонак.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>Поўнасфармаваная DNS-іта для выкарыстання пры аўтэнтыфікацыі LDAP.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Інтэрнэт-адрас вашай вікі.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Мова, якая павінна выкарыстоўвацца для культурнага зместу сайта для гасцей.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Абмежаванне памяці (у мегабайтах) для кэша. Самыя старыя items будуць выгнаныя, калі дасягнецца ліміт. Па змаўчанні: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>Назва старонкі вікі, якая будзе паказвацца пры запыце неіснуючай старонкі.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>Назва старонкі вікі, якая будзе паказвацца пры запыце неіснуючай рэвізіі старонкі.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>Назва старонкі вікі, якая будзе выкарыстоўвацца ў якасці зместу па змаўчанні пры стварэнні новых старонак вікі.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Назва вікі, якая паказваецца паўсюль.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Колькасць элементаў, якія трэба вярнуць пры выкарыстанні пагінацыі. Па змаўчанні: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>Колькасць нядаўна змяніўшыхся старонак, якія адлюстроўваюцца на публічных профілях карыстальнікаў. Па змаўчанні: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Колькі секунд кэшаваць старонкі ў памяці (0 = адключана). Па змаўчанні: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Пароль SMTP, які выкарыстоўваецца пры адпраўцы пошты.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>Парт SMTP для адпраўкі электроннай пошты. Звычайна: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>IP/хост серверу SMTP для адпраўкі электроннай пошты.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Часовы пояс для культуры сайта для гасцей.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>Выкарыстоўваць SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>Значэнне паміж 0.0 і 1.0, якое вызначае, наколькі моцна павінна супадаць пошукавае запыт пры пошуку старонкі, каб яна была вяртана ў вынікі пошуку. Звычайна: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>Пры стварэнні пошукавага індэкса гэтыя словы будуць выключаны з індэксацыі. (Камы separating words)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Калі каментарыі ўключаны, гэтая опцыя паказвае каментарыі ў ніжняй частцы кожнай старонкі. Звычайна: Уключана.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці будзе паказана пошукавае акенца ў навігацыйнай панэлі. Звычайна: Уключана.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці ўключаны OpenID Connect.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>Ці павінен рухавік выконваць адкладзенае прадварнае загрузка ўсіх аніміраваных эмодзі пры запуску.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>Ці варта аўтэнтыфікавацца праз LDAP пры спробе ўвайсці карыстальнікам.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>Ці варта выкарыстоўваць бяспечнае злучэнне з LDAP. Гэта не заўсёды падтрымліваецца даменамі.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці будуць уключаны каментары на старонцы. Для каментара патрабуецца аўтэнтыфікацыя, але ўсе могуць чытаць. Параметр па змаўчанні: уключана.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>Ці павінна SMTP злучацца ільві з SSL ці не.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці павінна ўключаць апісанне старонкі ў мета-тэг у галаве HTML. Параметр па змаўчанні: уключана.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Ці павінна верхняе меню заставацца на месцы пры пракрутцы ўверх.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці павінны ўключацца тэгі вікі, якія дадаюцца да старонкі, у ключавыя словы мета-тэгаў у галаве HTML. Параметр па змаўчанні: уключана.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці дазваляць няцотныя супадзенні пры пошуку. Параметр па змаўчанні: уключана.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Ці вядзецца ўлік метрык збору запісаў вікі старонкі ў базу даных. Гэта можа выкарыстоўвацца для паляпшэння прадукцыйнасці, але можа выклікаць затрымкі. Параметр па змаўчанні: выключана.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці паказваць апошняга карыстальніка і дату змянення старонкі з спасылкай на публічны профіль карыстальніка. Параметр па змаўчанні: уключана.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>Ці паказваць тэкставую скрынку, каб дазволіць карыстальніку ўводзіць апісанне зменаў пры рэдагаванні старонак.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці дзяліць CamelCasedStrings пры разбіранні старонак для пошукавых токенаў. Гэта можа быць карысна, калі старонкі змяшчаюць шмат праграмнага або кодавага зместу. Па змаўчанні: уключана.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Ці павінны карыстальнікі ўводзіць апісанне зменаў пры рэдагаванні старонак. Звярніце ўвагу, што "Паказваць Апісанне Зменаў пры Рэдагаванні" таксама павінна быць уключана.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Ці могуць наведвальнікі праглядаць удзельнікаў і іх публічныя профілі.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Вылучэнні словаў</value>
   </data>
 </root>
