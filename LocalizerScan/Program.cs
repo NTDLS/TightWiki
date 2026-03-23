@@ -108,6 +108,12 @@ namespace LocalizerScan
 
                 foreach (var culture in list)
                 {
+                    if(culture.Code == "en")
+                    {
+                        //We skip English because the keys themselves are the English phrases, so there is no need to add them to the resource file.
+                        continue;
+                    }
+
                     var resourceFileName = Path.Combine(resourcePath, $"SharedLocalizer.{culture.Code}.resx");
 
                     if (string.IsNullOrEmpty(culture.Code))
