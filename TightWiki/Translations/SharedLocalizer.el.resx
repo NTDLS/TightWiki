@@ -59,544 +59,544 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- ή -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Δεν υπάρχει περιγραφή)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Χωρίς σύνδεσμο)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Χρώμα κειμένου)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Συνέχιστε τώρα{1} ή θα ανακατευθυνθείτε σε {2} δευτερόλεπτα.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Η 2fa απενεργοποιήθηκε. Μπορείτε να ενεργοποιήσετε ξανά την 2fa όταν ρυθμίσετε μια εφαρμογή αυθεντικοποίησης</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Η πρόσβαση απορρίφθηκε.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>Λογαριασμός</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Ο λογαριασμός διαγράφηκε!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Επεξεργαστής Λογαριασμού</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Επαλήθευση Email Λογαριασμού</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Διοίκηση Λογαριασμού</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Δικαιώματα Λογαριασμού</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Μέλη Ρόλων Λογαριασμού</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Ρόλοι και δικαιώματα λογαριασμού για έναν μόνο λογαριασμό.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Ρόλοι και Δικαιώματα Λογαριασμού για: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Λογαριασμοί</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Ενέργεια</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Προσθήκη λογαριασμού</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Προσθήκη εφαρμογής αυθεντικοποίησης</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε Emoji</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε Μέλος σε Ρόλο</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε νέο λογαριασμό</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε νέο emoji</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε νέο αντικείμενο</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε Δικαιωμάτων στον Λογαριασμό</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε Δικαιωμάτων σε Ρόλο</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε Ρόλο</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Πρόσθεσε Ρόλο στον Λογαριασμό</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Διαχειριστής</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>ΌΛΑ</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Όλες οι αλλαγές που έγιναν στο συνημμένο αρχείο.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Όλες οι αλλαγές που έγιναν στη σελίδα.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Όλα τα σχόλια που έγιναν στη συγκεκριμένη σελίδα.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Όλοι οι χώρου ονομάτων που περιέχονται στο wiki.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Όλες οι σελίδες που περιέχονται στο χώρο ονομάτων.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Όλες οι σελίδες που περιέχονται στο wiki.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Έχετε ήδη λογαριασμό;</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>Παρουσιάστηκε σφάλμα κατά την επεξεργασία του αιτήματός σας.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Ανάλυση</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Είστε βέβαιοι ότι θέλετε να συνεχίσετε αυτή τη διαγραφή;</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Είστε βέβαιοι ότι θέλετε να συνεχίσετε;</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το σχόλιο;</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Είστε βέβαιοι ότι θέλετε να αποσυνδέσετε</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Είστε βέβαιοι ότι θέλετε να αποσυνδεθείτε από την εφαρμογή;</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Είστε βέβαιοι;</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Συνδέστε τον λογαριασμό σας {0}.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Συνδεδεμένες Σελίδες</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Συνδεδεμένες Ετικέτες</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Προσθέστε αρχεία σύροντάς τα εδώ ή χειροκίνητα επιλέγοντάς τα παρακάτω:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Συννημένα</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Εφαρμογή εµφάνισης πιστοποίησης</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Διαθέσιμες Γλώσσες</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Άβαταρ</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Η σύνδεση απέτυχε.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Η σύνδεση succeeded.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Βιογραφία</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Έντονα</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Περιηγηθείτε στις σελίδες με διαφορετικές οδηγίες επεξεργασίας για να δείτε τι είναι σε πρόχειρο, αναμονή διαγραφής, προστατευμένο κ.λπ.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Ενσωματωμένες Σελίδες</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Μνήμη Cache</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Ακύρωση</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Κατηγορίες</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Αλλάξτε το avatar</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Αλλάξτε το email</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Αλλάξτε την εικόνα</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Αλλάξτε τον κωδικό πρόσβασης</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Αλλάξτε την περίληψη</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Αλλάξτε τις ρυθμίσεις του λογαριασμού σας</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε μια σελίδα</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Επιλογή εικόνας</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Επιλογή προτύπου</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Επιλέξτε την προτιμώμενη γλώσσα για το περιβάλλον εργασίας.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Κλείσιμο</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Κατηγορίες διαχωρισμένες με κόμμα</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Σχολιασμοί</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Στατιστικά Συλλογής</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Συστάσεις</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Ολοκλήρωση Εγγραφής</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Διαμόρφωση</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Ρύθμιση για ένα emoji.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Ρύθμιση για λογαριασμό χρήστη.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Ρύθμιση για προσθήκη emoji.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Ρύθμιση εφαρμογής πιστοποίησης</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Επιβεβαίωση αλλαγής email</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Επιβεβαίωση αποσύνδεσης</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Επιβεβαίωση κωδικού πρόσβασης</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Επιβεβαιώστε τη διεύθυνση email σας.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Σύνδεσμος επιβεβαίωσης για αλλαγή email αποστάλθηκε. Παρακαλούμε ελέγξτε το email σας.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Επιβεβαιώθηκε</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Περιεχόμενο</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Συνέχεια</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Αντιγραφή ετικέτας</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>Χώρα</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Δημιουργία νέου λογαριασμού</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Δημιουργία νέας σελίδας</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Δημιουργία νέου ρόλου.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Δημιουργία νέου λογαριασμού χρήστη.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Δημιουργήστε το λογαριασμό σας και διαμορφώστε τα βασικά στοιχεία του προφίλ σας.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Ημερομηνία δημιουργίας</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Πιστοποιητικά</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Τρέχων διαχειριστής σύνδεσης</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Βάση δεδομένων</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Εργαλεία βάσης δεδομένων</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Ημερομηνία/Ώρα</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>Η προεπιλεγμένη κωδική πρόσβαση δεν έχει αλλάξει</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Διαγραφή</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Διαγραφή λογαριασμού</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Θέλετε διαγραφή της σελίδας '{0}';</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Διαγραφή ρόλου</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Διαγραφή αυτής της σελίδας</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Διαγράφηκε από</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Ημερομηνία διαγραφής</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Περιεχόμενο διαγραμμένης σελίδας</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Ουρά διαγραμμένης σελίδας</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Αναθεωρήσεις διαγραμμένης σελίδας</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Διαγραμμένες σελίδες</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Περιεχόμενο αναθεώρησης διαγραμμένης</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Διαγραμμένες αναθεωρήσεις</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή του '{0}' θα μετακινήσει τη σελίδα, όλες τις {1} αναθεωρήσεις και τις συσχετισμένες συνημμένες αρχεία στην ουρά διαγραφής. Αυτή η ενέργεια μπορεί να αναιρεθεί μόνο από διαχειριστή ή συντονιστή. Συνέχεια;</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή '{0}' θα μεταφέρει τη σελίδα, με όλες τις αναθεωρήσεις {1} και τα συνημμένα αρχεία {2} στη λίστα διαγραφής.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή '{0}' θα αφαιρέσει οριστικά τον λογαριασμό. Όλες οι σελίδες που δημιουργήθηκαν ή τροποποιήθηκαν από αυτόν τον χρήστη θα αποδοθούν σε έναν λογαριασμό αντιγράφου και δεν θα μπορείτε να αναιρέσετε αυτήν την ενέργεια. Συνεχίζετε;</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή '{0}' θα αφαιρέσει οριστικά τον λογαριασμό. Όλες οι σελίδες που δημιουργήθηκαν ή τροποποιήθηκαν από αυτόν τον χρήστη θα αποδοθούν σε έναν λογαριασμό αντιγράφου. Συνεχίζετε;</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή '{0}' θα αφαιρέσει οριστικά το στοιχείο μενού και δεν θα μπορείτε να αναιρέσετε αυτήν την ενέργεια. Συνεχίζετε;</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή αναθεώρησης {0} της "{1}" θα μεταφέρει την αναθεώρηση της σελίδας στη λίστα διαγραφής. Αυτή η ενέργεια μπορεί να αναιρεθεί μόνο από διαχειριστή ή επόπτη. Συνεχίζετε;</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή του emoji '{0}' θα αφαιρέσει οριστικά τη εικόνα και οποιεσδήποτε αναφορές σε αυτό θα αποκόπτονται. Δεν θα μπορείτε να αναιρέσετε αυτή τη διαγραφή. Συνεχίζετε;</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Η διαγραφή του ρόλου '{0}' θα ακυρώσει τυχόν δικαιώματα που έχουν χορηγηθεί ή αρνηθεί από αυτόν τον ρόλο. Συνεχίζετε;</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>Περιγραφή</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>Αποσύνδεση</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Λεπτομέρειες</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>Λειτουργία Ανάπτυξης</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>Διαφορές</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>Απενεργοποίηση 2FA</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Απενεργοποίηση διπλής ταυτοποίησης (2FA)</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Η απενεργοποίηση του 2FA δεν αλλάζει τα κλειδιά που χρησιμοποιούνται στις εφαρμογές αυθεντικοποίησης.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>Συζήτηση για αυτή τη σελίδα.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>Όνομα εμφάνισης</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>Διάθεση</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>Διευθύνων Όνομα:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>Δεν έχετε πρόσβαση στη συσκευή αυθεντικοποίησής σας;</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Κατεβάστε μια εφαρμογή ελέγχου ταυτότητας δύο παραγόντων, όπως το Microsoft Authenticator για {0} και {1} ή το Google Authenticator για {2} και {3}.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>Ρίξτε τα αρχεία συνημμένων εδώ ή κάντε κλικ για χειροκίνητη φόρτωση.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>Ρίξτε αρχεία εδώ...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>Διάρκεια</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>Επεξεργασία</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>Μέγεθος Επεξεργαστή</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Είτε η ουρά διαγραφέντων σελίδων είναι κενή είτε τα κριτήρια αναζήτησής σας δεν έδωσαν αποτελέσματα.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Είτε δεν υπάρχουν διαμορφωμένοι λογαριασμοί είτε τα κριτήρια αναζήτησής σας δεν έδωσαν αποτελέσματα.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Είτε δεν υπάρχουν διαμορφωμένα emoji είτε τα κριτήρια αναζήτησής σας δεν έδωσαν αποτελέσματα.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Είτε δεν υπάρχουν σελίδες είτε τα κριτήρια αναζήτησής σας δεν έδωσαν αποτελέσματα.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>Ηλεκτρ</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>Διεύθυνση Email</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>Επιβεβαιώθηκε το Email;</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emoji</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>Επεξεργαστής Emojis</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>Διαχείριση Emojis</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>Emojis</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>Εισάγετε μια διεύθυνση URL.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>Εισάγετε μια εσωτερική διαδρομή ή εξωτερική URL.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>Εισάγετε το email σας.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>Περιβάλλον</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>Σφάλμα</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>Σφάλμα αντιγραφής κειμένου</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>Σφάλματα</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>Καταγραφή συμβάντων</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>Καταγραφή εισόδου συμβάντος</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>Εξαίρεση</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>Εξαιρέσεις</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>Εξαγωγή</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>Εξωτερικοί σύνδεσμοι</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>Εξωτερική διεύθυνση URL</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>Μεγάλο</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>Πολύ μικρό</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>Αποτυχία φόρτωσης προεπισκόπησης.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>Πρότυπα λειτουργιών</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>Αρχείο</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>Φίλτρο</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>Όνομα</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Ο καθαρισμός της προσωρινής μνήμης θα καταργήσει όλα τα αποθηκευμένα αντικείμενα και θα χρειαστεί να γίνουν ερωτήματα στη βάση δεδομένων καθώς ζητούνται οι σελίδες. Συνεχίζετε;</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>Ξεχάστε αυτό το πρόγραμμα περιήγησης</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
     <value></value>
