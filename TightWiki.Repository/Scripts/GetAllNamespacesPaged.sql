@@ -5,7 +5,7 @@ SELECT
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			Count(DISTINCT P.[Namespace]) / (@PageSize + 0.0)
+			(Count(DISTINCT P.[Namespace]) + (@PageSize - 1)) / @PageSize
 		FROM
 			[Page] as P
 	) as PaginationPageCount

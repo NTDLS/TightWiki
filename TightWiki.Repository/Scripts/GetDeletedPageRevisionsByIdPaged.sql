@@ -9,7 +9,7 @@ SELECT
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			Count(0) / (@PageSize + 0.0)
+			(Count(0) + (@PageSize - 1)) / @PageSize
 		FROM
 			[PageRevision] as PR
 		WHERE
