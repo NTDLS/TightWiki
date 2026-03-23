@@ -2039,195 +2039,195 @@
     <value>이모지를 조정할 기본 높이입니다. 너비는 같은 비율로 조정됩니다. 기본값: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>새 계정에 사용할 기본 언어입니다.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>가입할 때 계정에 기본으로 할당할 역할입니다. 기본값: Contributor.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>새 계정에 사용할 기본 시간대입니다.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>모든 이메일 통신에 표시할 이름입니다.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>위키의 바닥글이며, 모든 페이지 하단에 표시됩니다.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>LDAP 인증을 수행할 때 사용할 완전한 도메인 이름입니다.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>당신의 위키의 인터넷 주소입니다.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>방문객을 위한 사이트 문화에 사용할 언어입니다.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>캐시의 메모리 제한(메가바이트 단위)입니다. 제한에 도달하면 오래된 항목이 제거됩니다. 기본값: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>존재하지 않는 페이지 요청 시 표시되는 위키 페이지 이름입니다.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>존재하지 않는 페이지 버전이 요청될 때 표시할 위키 페이지 이름</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>새 위키 페이지를 생성할 때 기본 콘텐츠로 사용할 위키 페이지 이름</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>이곳에 표시되는 위키 이름, 이 이름은 모든 곳에서 보여집니다.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>페이지네이션이 사용될 때 반환할 항목 수. 기본값: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>사용자의 공개 프로필에 최근 수정된 페이지를 보여주는 개수. 기본값: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>페이지를 캐시에 저장하는 시간(초). (0 = 비활성화). 기본값: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>이메일을 보낼 때 사용할 SMTP 비밀번호.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>이메일을 보낼 때 사용할 SMTP 포트. 기본값: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>이메일을 보낼 때 사용할 SMTP 서버 IP/호스트.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>손님을 위한 사이트 문화의 타임존입니다.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>SSL 사용</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>검색 결과에 반환되기 전에 페이지 검색이 얼마나 강력한 일치를 필요로 하는지 결정하는 0.0에서 1.0 사이의 값. 기본값: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>검색 색인을 생성할 때, 이 단어들은 색인에서 제외됩니다. (쉼표로 구분)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>댓글이 활성화되어 있을 때, 이 옵션은 각 페이지 하단에 댓글을 표시하게 합니다. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>네비게이션 바에 검색 상자를 표시할지 여부. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>OpenID Connect가 활성화되어 있는지 여부.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>시작 시 엔진이 모든 애니메이션 이모지를 느리게 미리 로드하도록 할지 여부.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>사용자 로그인 시 LDAP 인증을 수행할지 여부.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>LDAP에 보안을 위해 연결할지 여부. 이 기능은 도메인에 따라 지원되지 않을 수 있습니다.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>페이지 댓글이 활성화될지 여부. 댓글에는 인증이 필요하지만 모두 읽을 수 있음. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>SMTP가 SSL을 사용하여 연결해야 하는지 여부.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>페이지 설명이 HTML 헤드 메타에 포함되어야 하는지 여부. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>스크롤할 때 상단 메뉴가 제자리에 유지되어야 하는지 여부.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>페이지에 첨부된 위키 태그가 HTML 헤드 메타 키워드에 포함되어야 하는지 여부. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>검색 시 정확한 일치가 아니어도 허용할지 여부. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>페이지 위키 기록 컴파일 메트릭을 데이터베이스에 기록할지 여부. 성능 향상에 사용할 수 있지만, 느려질 수도 있습니다. 기본값: 비활성화됨.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>페이지 마지막 수정자와 수정 시간을 표시하고, 공개 사용자 프로필에 대한 링크를 보여줄지 여부. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>페이지 편집 시 변경 요약을 입력할 수 있는 텍스트박스를 표시할지 여부.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>페이지를 검색 토큰으로 파싱할 때 CamelCase 문자열을 분할할지 여부. 페이지에 많은 프로그래밍/코드 내용이 포함된 경우 도움이 될 수 있습니다. 기본값: 활성화됨.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>페이지 편집 시 사용자가 변경 요약을 입력해야 하는지 여부. "편집 시 변경 요약 표시"도 활성화되어 있어야 합니다.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>방문자가 회원 및 공개 프로필을 볼 수 있는지 여부입니다.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>단어 제외</value>
   </data>
   <data name="You must select a role." xml:space="preserve">
-    <value></value>
+    <value>역할을 선택해야 합니다.</value>
   </data>
   <data name="The account is already a member of the specified role." xml:space="preserve">
-    <value></value>
+    <value>이 계정은 이미 지정된 역할의 회원입니다.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>리소스 유형</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>추가</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>이 계정에서 권한을 제거하시겠습니까?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>제거 실패</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>이 계정에서 역할을 제거하시겠습니까?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>처분 방식을 선택하세요</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>권한을 선택하세요</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>페이지를 선택하세요</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>네임스페이스를 선택하세요</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>권한 배치 방식을 선택해야 합니다.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>권한을 선택해야 합니다.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>페이지를 선택해야 합니다.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>네임스페이스를 선택해야 합니다.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>페이지 또는 네임스페이스 중 하나를 선택해야 합니다.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>계정에는 이미 지정된 권한이 있습니다.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>이 역할에서 권한을 제거하시겠습니까?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>이 역할에서 구성원을 제거하시겠습니까?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>이 역할은 이미 지정된 권한을 가지고 있습니다.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>계정을 선택하세요</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>계정을 선택해야 합니다.</value>
   </data>
 </root>
