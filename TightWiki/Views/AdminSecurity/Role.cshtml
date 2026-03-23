@@ -1,4 +1,4 @@
-﻿@using TightWiki.Library
+@using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
 @inject ISharedLocalizationText Localizer
@@ -132,7 +132,7 @@
 
                             <td class="text-nowrap">
                                 <button type="button"
-                                        class="btn btn-outline-warning btn-sm"
+                                        class="btn btn-warning btn-sm"
                                         onclick="removePermission(this, '@permission.Id')">
                                     <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
                                 </button>
@@ -202,7 +202,7 @@
                             <td>@member.LastName</td>
                             <td class="text-nowrap">
                                 <button type="button"
-                                        class="btn btn-outline-warning btn-sm"
+                                        class="btn btn-warning btn-sm"
                                         onclick="removeMember(this, '@member.UserId')">
                                     <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
                                 </button>
@@ -532,7 +532,7 @@
 
             <td class="text-nowrap">
                 <button type="button"
-                        class="btn btn-outline-warning btn-sm"
+                        class="btn btn-warning btn-sm"
                         onclick="removePermission(this, '${result.permission.id}')">
                     <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
                 </button>
@@ -665,7 +665,7 @@
 
             <td class="text-nowrap">
                 <button type="button"
-                        class="btn btn-outline-warning btn-sm"
+                        class="btn btn-warning btn-sm"
                         onclick="removeMember(this, '${result.membership.userId}')">
                     <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
                 </button>

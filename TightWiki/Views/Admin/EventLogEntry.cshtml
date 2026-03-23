@@ -1,4 +1,4 @@
-﻿@using TightWiki.Models
+@using TightWiki.Models
 @using TightWiki.Library
 @inject ISharedLocalizationText Localizer
 
@@ -32,39 +32,39 @@
                         @{
                             string severity = Model.LogEntry.Severity ?? "";
                             string icon = "bi-circle";
-                            string badge = "border-secondary text-secondary bg-light";
+                            string badge = "text-secondary";
 
                             if (severity.Equals("Trace", StringComparison.OrdinalIgnoreCase)
                                 || severity.Equals("Debug", StringComparison.OrdinalIgnoreCase)
                                 || severity.Equals("None", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-terminal";
-                                badge = "border-secondary text-secondary bg-light";
+                                badge = "text-secondary";
                             }
                             else if (severity.Equals("Information", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-info-circle-fill";
-                                badge = "border-info text-info bg-light";
+                                badge = "text-info";
                             }
                             else if (severity.Equals("Warning", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-exclamation-triangle-fill";
-                                badge = "border-warning text-warning bg-light";
+                                badge = "text-warning";
                             }
                             else if (severity.Equals("Error", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-x-circle-fill";
-                                badge = "border-danger text-danger bg-light";
+                                badge = "text-danger";
                             }
                             else if (severity.Equals("Critical", StringComparison.OrdinalIgnoreCase))
                             {
                                 icon = "bi-fire";
-                                badge = "border-dark text-dark bg-light";
+                                badge = "text-dark";
                             }
                         }
 
-                        <span class="badge border @badge">
-                            <i class="bi @icon me-1"></i>
+                        <span>
+                            <i class="bi @icon @badge me-1"></i>
                             @severity
                         </span>
                     </td>

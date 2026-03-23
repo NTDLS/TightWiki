@@ -32,7 +32,7 @@
                 Localizer["Rebuild All Pages"].Value,
                 "/Admin/RebuildAllPages",
                 Context.Request.Path.Value,
-                @class: "btn btn-outline-warning btn-sm d-inline-flex align-items-center")
+                @class: "btn btn-warning btn-sm d-inline-flex align-items-center")
 
             @ConfirmActionHelper.GenerateWarnButton(
                 GlobalConfiguration.BasePath,
@@ -40,7 +40,7 @@
                 Localizer["Pre-Cache All Pages"].Value,
                 "/Admin/PreCacheAllPages",
                 Context.Request.Path.Value,
-                @class: "btn btn-outline-primary btn-sm d-inline-flex align-items-center")
+                @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
             @ConfirmActionHelper.GenerateDangerButton(
                 GlobalConfiguration.BasePath,
@@ -48,7 +48,7 @@
                 Localizer["Truncate Page Revisions"].Value,
                 "/Admin/TruncatePageRevisions",
                 Context.Request.Path.Value,
-                @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
+                @class: "btn btn-danger btn-sm d-inline-flex align-items-center")
         </div>
     </div>
 
@@ -166,7 +166,7 @@
                                         Localizer["Delete"].Value,
                                         "/Admin/DeletePage/" + p.Id,
                                         Context.Request.Path.Value,
-                                        @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
+                                        @class: "btn btn-danger btn-sm d-inline-flex align-items-center")
                                 </div>
                             </td>
                         </tr>

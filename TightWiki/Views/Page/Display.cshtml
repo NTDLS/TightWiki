@@ -91,31 +91,24 @@
     <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
         <div>
             <h2 class="h4 mb-1">@Localizer["Comments"]</h2>
-            <div class="text-muted small">
-                @Localizer["Discussion for this page."]
-            </div>
         </div>
     </div>
 
     @if (sessionState.IsAuthenticated == true)
     {
         <form method="post" action="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">
-            <div class="card shadow-sm mb-3">
-                <div class="card-body">
-                    <div class="row g-2 align-items-center">
-                        <div class="col-12 col-md">
-                            <input type="text"
-                                   name="Comment"
-                                   id="Comment"
-                                   class="form-control"
-                                   placeholder="@Localizer["Type comment..."]" />
-                        </div>
-                        <div class="col-12 col-md-auto">
-                            <button type="submit" value="Post" class="btn btn-primary w-100">
-                                <i class="bi bi-send me-1"></i>@Localizer["Post"]
-                            </button>
-                        </div>
-                    </div>
+            <div class="row g-2 align-items-center mb-3">
+                <div class="col-12 col-md">
+                    <input type="text"
+                           name="Comment"
+                           id="Comment"
+                           class="form-control"
+                           placeholder="@Localizer["Type comment..."]" />
+                </div>
+                <div class="col-12 col-md-auto">
+                    <button type="submit" value="Post" class="btn btn-primary w-100">
+                        <i class="bi bi-send me-1"></i>@Localizer["Post"]
+                    </button>
                 </div>
             </div>
         </form>
