@@ -8,138 +8,144 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-    @Localizer["Metrics"]
-</h3>
-
-<p>
-    <a href="http://NetworkDLS.com/">NetworkDLS</a> <a href="http://TightWiki.com/">TightWiki</a> @Localizer["version"] @Model.ApplicationVersion
-</p>
-
-<div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        @*Left-aligned "toolbar" controls*@
-        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(GlobalConfiguration.BasePath,
-        Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
-                Localizer["Purge Memory Cache"].Value, "/Admin/PurgeMemoryCache", Context.Request.Path.Value))
-    </div>
-
-    <div>
-        @*Right-aligned "toolbar" controls*@
+        <h3 class="mb-1">
+            @Localizer["Metrics"]
+        </h3>
+        <div class="text-muted">
+            <a href="http://NetworkDLS.com/" class="text-decoration-none">NetworkDLS</a>
+            <a href="http://TightWiki.com/" class="text-decoration-none">TightWiki</a>
+            @Localizer["version"] @Model.ApplicationVersion
+        </div>
     </div>
 </div>
 
-<div class="card shadow-lg">
-    <div class="card-header">
-        <h4>@Localizer["Environment"]</h4>
+<div class="card shadow-sm mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <span class="fw-semibold">
+            <i class="bi bi-speedometer2 me-2"></i>@Localizer["System Metrics"]
+        </span>
+
+        @Html.Raw(TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+            GlobalConfiguration.BasePath,
+            Localizer["Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?"].Value,
+            Localizer["Purge Memory Cache"].Value,
+            "/Admin/PurgeMemoryCache",
+            Context.Request.Path.Value))
     </div>
-    <div class="card-body">
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <td><strong>@Localizer["Operating System"]</strong></td>
-                <td><strong>@Localizer["OS Architecture"]</strong></td>
-                <td><strong>@Localizer["Process Architecture"]</strong></td>
-                <td><strong>@Localizer["Framework Version"]</strong></td>
-            </tr>
+</div>
 
-            <tr>
-                <td>@RuntimeInformation.OSDescription</td>
-                <td>@RuntimeInformation.OSArchitecture</td>
-                <td>@RuntimeInformation.ProcessArchitecture</td>
-                <td>@RuntimeInformation.FrameworkDescription</td>
-            </tr>
-
-            <tr>
-                <td><strong>Culture</strong></td>
-                <td><strong>UI Culture</strong></td>
-                <td><strong>&nbsp;</strong></td>
-                <td><strong>&nbsp;</strong></td>
-            </tr>
-
-            <tr>
-                <td>@CultureInfo.CurrentCulture</td>
-                <td>@CultureInfo.CurrentUICulture</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-
+<div class="card shadow-sm mb-3">
+    <div class="card-header">
+        <span class="fw-semibold">
+            <i class="bi bi-pc-display me-2"></i>@Localizer["Environment"]
+        </span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">@Localizer["Operating System"]</th>
+                    <td>@RuntimeInformation.OSDescription</td>
+                    <th scope="row">@Localizer["OS Architecture"]</th>
+                    <td>@RuntimeInformation.OSArchitecture</td>
+                </tr>
+                <tr>
+                    <th scope="row">@Localizer["Process Architecture"]</th>
+                    <td>@RuntimeInformation.ProcessArchitecture</td>
+                    <th scope="row">@Localizer["Framework Version"]</th>
+                    <td>@RuntimeInformation.FrameworkDescription</td>
+                </tr>
+                <tr>
+                    <th scope="row">Culture</th>
+                    <td>@CultureInfo.CurrentCulture</td>
+                    <th scope="row">UI Culture</th>
+                    <td>@CultureInfo.CurrentUICulture</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
 
-<div class="card shadow-lg mt-2">
+<div class="card shadow-sm mb-3">
     <div class="card-header">
-        <h4>@Localizer["General"]</h4>
+        <span class="fw-semibold">
+            <i class="bi bi-graph-up me-2"></i>@Localizer["General"]
+        </span>
     </div>
-    <div class="card-body">
-        <table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <td><strong>@Localizer["Pages"]</strong></td>
-                <td><strong>@Localizer["Page Revisions"]</strong></td>
-                <td><strong>@Localizer["Page Attachments"]</strong></td>
-                <td><strong>@Localizer["Inter-Page Links"]</strong></td>
-            </tr>
-
-            <tr>
-                <td><a href="@GlobalConfiguration.BasePath/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
-                <td>@Model.Metrics.PageRevisions.ToString("N0")</td>
-                <td>@Model.Metrics.PageAttachments.ToString("N0")</td>
-                <td>@Model.Metrics.IntraLinks.ToString("N0")</td>
-            </tr>
-
-            <tr>
-                <td><strong>@Localizer["Page Tags"]</strong></td>
-                <td><strong>@Localizer["Page Attachment Revisions"]</strong></td>
-                <td><strong>@Localizer["Page Search Tokens"]</strong></td>
-                <td><strong>@Localizer["Namespaces"]</strong></td>
-            </tr>
-
-            <tr>
-                <td>@Model.Metrics.PageTags.ToString("N0")</td>
-                <td>@Model.Metrics.PageAttachmentRevisions.ToString("N0")</td>
-                <td><a href="@GlobalConfiguration.BasePath/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
-                <td><a href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
-            </tr>
-
-            <tr>
-                <td><strong>@Localizer["Users"]</strong></td>
-                <td><strong>@Localizer["Profiles"]</strong></td>
-                <td><strong>@Localizer["Exceptions"]</strong></td>
-                <td><strong>&nbsp;</strong></td>
-            </tr>
-
-            <tr>
-                <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
-                <td><a href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
-                <td><a href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
-                <td>&nbsp;</td>
-            </tr>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">@Localizer["Pages"]</th>
+                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Pages">@Model.Metrics.Pages.ToString("N0")</a></td>
+                    <th scope="row">@Localizer["Page Revisions"]</th>
+                    <td>@Model.Metrics.PageRevisions.ToString("N0")</td>
+                </tr>
+                <tr>
+                    <th scope="row">@Localizer["Page Attachments"]</th>
+                    <td>@Model.Metrics.PageAttachments.ToString("N0")</td>
+                    <th scope="row">@Localizer["Inter-Page Links"]</th>
+                    <td>@Model.Metrics.IntraLinks.ToString("N0")</td>
+                </tr>
+                <tr>
+                    <th scope="row">@Localizer["Page Tags"]</th>
+                    <td>@Model.Metrics.PageTags.ToString("N0")</td>
+                    <th scope="row">@Localizer["Page Attachment Revisions"]</th>
+                    <td>@Model.Metrics.PageAttachmentRevisions.ToString("N0")</td>
+                </tr>
+                <tr>
+                    <th scope="row">@Localizer["Page Search Tokens"]</th>
+                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Page/Search">@Model.Metrics.PageSearchTokens.ToString("N0")</a></td>
+                    <th scope="row">@Localizer["Namespaces"]</th>
+                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Namespaces">@Model.Metrics.Namespaces.ToString("N0")</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">@Localizer["Users"]</th>
+                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Users.ToString("N0")</a></td>
+                    <th scope="row">@Localizer["Profiles"]</th>
+                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/AdminSecurity/Accounts">@Model.Metrics.Profiles.ToString("N0")</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">@Localizer["Exceptions"]</th>
+                    <td><a class="text-decoration-none" href="@GlobalConfiguration.BasePath/Admin/Exceptions">@Model.Metrics.Exceptions.ToString("N0")</a></td>
+                    <th scope="row">&nbsp;</th>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
 
-<div class="card shadow-lg mt-2">
+<div class="card shadow-sm">
     <div class="card-header">
-        <h4>@Localizer["Cache"]</h4>
+        <span class="fw-semibold">
+            <i class="bi bi-memory me-2"></i>@Localizer["Cache"]
+        </span>
     </div>
-    <div class="card-body">
-        <table class="table fixedTable100 table-striped mt-2" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-                <td><strong>@Localizer["Items"]</strong></td>
-                <td><strong>@Localizer["Puts"]</strong></td>
-                <td><strong>@Localizer["Gets"]</strong></td>
-                <td><strong>@Localizer["Hits"]</strong></td>
-                <td><strong>@Localizer["Misses"]</strong></td>
-                <td><strong>@Localizer["Limit(MB)"]</strong></td>
-            </tr>
-            <tr>
-                <td>@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>
-                <td>@TightWiki.Caching.WikiCache.CachePuts.ToString("N0")</td>
-                <td>@TightWiki.Caching.WikiCache.CacheGets.ToString("N0")</td>
-                <td>@TightWiki.Caching.WikiCache.CacheHits.ToString("N0")</td>
-                <td>@TightWiki.Caching.WikiCache.CacheMisses.ToString("N0")</td>
-                <td>@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Caching.WikiCache.CacheMemoryLimit)</td>
-            </tr>
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" class="text-end">@Localizer["Items"]</th>
+                    <th scope="col" class="text-end">@Localizer["Puts"]</th>
+                    <th scope="col" class="text-end">@Localizer["Gets"]</th>
+                    <th scope="col" class="text-end">@Localizer["Hits"]</th>
+                    <th scope="col" class="text-end">@Localizer["Misses"]</th>
+                    <th scope="col" class="text-end">@Localizer["Limit(MB)"]</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheItemCount.ToString("N0")</td>
+                    <td class="text-end">@TightWiki.Caching.WikiCache.CachePuts.ToString("N0")</td>
+                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheGets.ToString("N0")</td>
+                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheHits.ToString("N0")</td>
+                    <td class="text-end">@TightWiki.Caching.WikiCache.CacheMisses.ToString("N0")</td>
+                    <td class="text-end">@NTDLS.Helpers.Formatters.FileSize((long)TightWiki.Caching.WikiCache.CacheMemoryLimit)</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>

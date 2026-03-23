@@ -5,24 +5,60 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>@Localizer["Logout"]</h3>
-
-<p>
-    @Localizer["Logging out will make sure that others cant use this session to make changes to the wiki. You'll need to log back in before making changes."]
-</p>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">@Localizer["Logout"]</h3>
+        <div class="text-muted">
+            @Localizer["Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes."]
+        </div>
+    </div>
+</div>
 
 @if (User.Identity?.IsAuthenticated ?? false)
 {
-    <form class="form-inline"
-          asp-area="Identity"
-          asp-page="/Account/Logout"
-          asp-route-returnUrl="@($"{TightWiki.Models.GlobalConfiguration.BasePath}/")"
-          method="post">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-primary">@Localizer["Logout"]</button>
-    </form>
+    <div class="card shadow-sm border-warning">
+        <div class="card-header bg-warning-subtle border-warning">
+            <div class="fw-semibold text-dark">
+                <i class="bi bi-box-arrow-right me-2"></i>@Localizer["Confirm logout"]
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="mb-4">
+                @Localizer["Are you sure you want to log out of the application?"]
+            </div>
+
+            <form asp-area="Identity"
+                  asp-page="/Account/Logout"
+                  asp-route-returnUrl="@($"{TightWiki.Models.GlobalConfiguration.BasePath}/")"
+                  method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-box-arrow-right me-1"></i>@Localizer["Logout"]
+                    </button>
+
+                    <a href="@TightWiki.Models.GlobalConfiguration.BasePath/"
+                           class="btn btn-success">
+                        <i class="bi bi-x-circle me-1"></i>@Localizer["Cancel"]
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 }
 else
 {
-    <p>@Localizer["You have successfully logged out of the application."]</p>
+    <div class="card shadow-sm border-success">
+        <div class="card-header bg-success-subtle border-success">
+            <div class="fw-semibold text-success">
+                <i class="bi bi-check-circle-fill me-2"></i>@Localizer["Logged out"]
+            </div>
+        </div>
+
+        <div class="card-body text-muted">
+            @Localizer["You have successfully logged out of the application."]
+        </div>
+    </div>
 }

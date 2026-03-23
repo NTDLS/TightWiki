@@ -6,18 +6,51 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<div class="card shadow-lg border-warning mb-3">
-    <div class="card-header bg-warning">
-        <strong>@Localizer.Format("Revert to revision {0}?", sessionState.Page.Revision)</strong>
+<div class="card shadow-sm border-warning mb-3">
+    <div class="card-header bg-warning-subtle border-warning">
+        <div class="fw-semibold text-dark">
+            <i class="bi bi-arrow-counterclockwise me-2"></i>
+            @Localizer.Format("Revert to revision {0}?", sessionState.Page.Revision)
+        </div>
     </div>
+
     <div class="card-body">
-        @Localizer.Format("Reverting \"{0}\" from revision {1} to {2} will rollback {3} changes.", Model.PageName, sessionState.Page.MostCurrentRevision, sessionState.Page.Revision, Model.HigherRevisionCount)<br /><br />
-        @Localizer["Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes."]<br /><br />
-        @Localizer["Are you sure you want to continue?"]<br /><br />
+        <div class="mb-3">
+            @Localizer.Format(
+                "Reverting \"{0}\" from revision {1} to {2} will rollback {3} changes.",
+                Model.PageName,
+                sessionState.Page.MostCurrentRevision,
+                sessionState.Page.Revision,
+                Model.HigherRevisionCount)
+        </div>
+
+        <div class="mb-3 text-muted">
+            @Localizer["Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes."]
+        </div>
+
+        <div class="mb-4 fw-semibold">
+            @Localizer["Are you sure you want to continue?"]
+        </div>
 
         @using (Html.BeginForm(FormMethod.Post))
         {
-            <div class="form-group"><button type="submit" class="btn btn-warning" name="IsActionConfirmed" value="true">@Localizer["Yes"]</button>&nbsp;&nbsp;<button type="submit" class="btn btn-success" name="IsActionConfirmed" value="false">@Localizer["No"]</button></div>
+            @Html.AntiForgeryToken()
+
+            <div class="d-flex flex-wrap gap-2">
+                <button type="submit"
+                        class="btn btn-warning"
+                        name="IsActionConfirmed"
+                        value="true">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i>@Localizer["Yes"]
+                </button>
+
+                <button type="submit"
+                        class="btn btn-success"
+                        name="IsActionConfirmed"
+                        value="false">
+                    <i class="bi bi-x-circle me-1"></i>@Localizer["No"]
+                </button>
+            </div>
         }
     </div>
 </div>

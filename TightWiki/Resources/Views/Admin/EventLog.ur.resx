@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>شناخت</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>لاگ اندراج کی تفصیلات</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>ایونٹ لاگ کو ختم کریں</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>سرور اور پیج ایونٹ لاگ۔</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>سرور اور صفحہ کے واقعہ کے لاگ</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>شدت</value>

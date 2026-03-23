@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>ID</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Podrobnosti o záznamu událostí</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>Vymazat protokol událostí</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>Protokoly událostí serveru a stránky.</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Servery a záznamy událostí stránek</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>Závažnost</value>

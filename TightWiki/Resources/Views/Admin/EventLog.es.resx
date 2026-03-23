@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Detalles del registro de entrada</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>Eliminar Registro de Eventos</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>Registros de eventos del servidor y la página.</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Registros de eventos del servidor y de la página</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>Severidad</value>

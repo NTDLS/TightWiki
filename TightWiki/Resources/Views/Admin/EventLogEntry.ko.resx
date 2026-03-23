@@ -62,8 +62,8 @@
   <data name="Date/Time" xml:space="preserve">
     <value>날짜/시간</value>
   </data>
-  <data name="Event Log Entry." xml:space="preserve">
-    <value>이벤트 로그 항목.</value>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>이벤트 로그 항목</value>
   </data>
   <data name="Exception" xml:space="preserve">
     <value>예외</value>

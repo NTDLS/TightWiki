@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>Ідентифікатор</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Деталі запису журналу</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>Очистити журнал подій</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>Журнали подій сервера та сторінки.</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Журнали подій сервера та сторінки</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>Серйозність</value>

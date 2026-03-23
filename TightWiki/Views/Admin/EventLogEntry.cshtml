@@ -7,29 +7,98 @@
 }
 
 <h3>
-    @Localizer["Event Log Entry."]
+    @Localizer["Event Log Entry"]
 </h3>
 
-<table class="table fixedTable100 table-striped" border="0" cellspacing="0" cellpadding="0">
-    <tr><td><strong>@Localizer["Id"]</strong></td></tr>
-    <tr><td>@Model.LogEntry.Id</td></tr>
-    <tr><td><strong>@Localizer["Severity"]</strong></td></tr>
-    <tr><td>@Model.LogEntry.Severity</td></tr>
-    <tr><td><strong>@Localizer["Date/Time"]</strong></td></tr>
-    <tr><td>@Model.LogEntry.CreatedDate</td></tr>
-    @if (string.IsNullOrEmpty(Model.LogEntry.Text) == false)
-    {
-        <tr><td><strong>@Localizer["Text"]</strong></td></tr>
-        <tr><td>@Model.LogEntry.Text</td></tr>
-    }
-    @if (string.IsNullOrEmpty(Model.LogEntry.ExceptionText) == false)
-    {
-        <tr><td><strong>@Localizer["Exception"]</strong></td></tr>
-        <tr><td>@Model.LogEntry.ExceptionText</td></tr>
-    }
-    @if (string.IsNullOrEmpty(Model.LogEntry.StackTrace) == false)
-    {
-        <tr><td><strong>@Localizer["Stack Trace"]</strong></td></tr>
-        <tr><td>@Model.LogEntry.StackTrace</td></tr>
-    }
-</table>
+<div class="card shadow-sm">
+    <div class="card-header fw-semibold">
+        @Localizer["Log Entry Details"]
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped mb-0 align-middle">
+            <tbody>
+
+                <tr>
+                    <th class="w-25">@Localizer["Id"]</th>
+                    <td>@Model.LogEntry.Id</td>
+                </tr>
+
+                <tr>
+                    <th>@Localizer["Severity"]</th>
+                    <td>
+                        @{
+                            string severity = Model.LogEntry.Severity ?? "";
+                            string icon = "bi-circle";
+                            string badge = "border-secondary text-secondary bg-light";
+
+                            if (severity.Equals("Verbose", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-terminal";
+                                badge = "border-secondary text-secondary bg-light";
+                            }
+                            else if (severity.Equals("Information", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-info-circle-fill";
+                                badge = "border-info text-info bg-info-light";
+                            }
+                            else if (severity.Equals("Warning", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-exclamation-triangle-fill";
+                                badge = "border-warning text-warning bg-light";
+                            }
+                            else if (severity.Equals("Error", StringComparison.OrdinalIgnoreCase))
+                            {
+                                icon = "bi-x-circle-fill";
+                                badge = "border-danger text-danger bg-light";
+                            }
+                        }
+
+                        <span class="badge border @badge">
+                            <i class="bi @icon me-1"></i>
+                            @severity
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>@Localizer["Date/Time"]</th>
+                    <td>@Model.LogEntry.CreatedDate</td>
+                </tr>
+
+                @if (!string.IsNullOrEmpty(Model.LogEntry.Text))
+                {
+                    <tr>
+                        <th>@Localizer["Text"]</th>
+                        <td class="text-break">@Model.LogEntry.Text</td>
+                    </tr>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.LogEntry.ExceptionText))
+                {
+                    <tr>
+                        <th>@Localizer["Exception"]</th>
+                        <td class="text-danger text-break">
+                            @Model.LogEntry.ExceptionText
+                        </td>
+                    </tr>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.LogEntry.StackTrace))
+                {
+                    <tr>
+                        <th>@Localizer["Stack Trace"]</th>
+                        <td>
+                            <pre class="mb-0 small bg-light p-2 rounded border"
+                                 style="white-space: pre-wrap; max-height: 300px; overflow-y: auto;">
+                                @Model.LogEntry.StackTrace
+                            </pre>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

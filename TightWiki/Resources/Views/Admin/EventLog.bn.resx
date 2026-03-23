@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>আইডি</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>লগ এন্ট্রি বিস্তারিত</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>ইভেন্ট লগ মুছে ফেলা</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>সার্ভার এবং পাতা ইভেন্ট লগ।</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>সার্ভার এবং পৃষ্ঠা ইভেন্ট লগ</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>গুরুত্বপূর্ণতা</value>

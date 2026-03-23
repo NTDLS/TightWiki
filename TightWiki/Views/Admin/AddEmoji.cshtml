@@ -6,69 +6,151 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<script type="text/javascript">
-    window.addEventListener('DOMContentLoaded', (event) => {
+<script>
+    window.addEventListener("DOMContentLoaded", function () {
+        const imageData = document.getElementById("ImageData");
+        const categories = document.getElementById("Categories");
+        const name = document.getElementById("Name");
 
-        const imageData = document.getElementById('ImageData');
-        const categories = document.getElementById('Categories');
-        const name = document.getElementById('Name');
+        if (imageData) {
+            imageData.addEventListener("change", function (event) {
+                const selectedFile = event.target.files && event.target.files[0];
+                if (!selectedFile) return;
 
-        imageData.addEventListener('change', (event) => {
-            const selectedFile = event.target.files[0];
-            name.value = selectedFile.name.substr(0, selectedFile.name.lastIndexOf('.')).replace(/ /g, '-').replace(/_/g, '-');
-            categories.value = name.value.replace(/-/g, ',');
-        });
+                const fileName = selectedFile.name;
+                const lastDot = fileName.lastIndexOf(".");
+                const baseName = (lastDot > 0 ? fileName.substring(0, lastDot) : fileName)
+                    .replace(/ /g, "-")
+                    .replace(/_/g, "-");
+
+                if (name && !name.value) {
+                    name.value = baseName;
+                }
+
+                if (categories && !categories.value) {
+                    categories.value = baseName.replace(/-/g, ",");
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const preview = document.getElementById("emoji-preview");
+                    const container = document.getElementById("emoji-preview-container");
+
+                    if (preview) {
+                        preview.src = e.target.result;
+                    }
+                    else if (container) {
+                        container.innerHTML = `
+                            <img id="emoji-preview"
+                                 src="${e.target.result}"
+                                 alt="Emoji Preview"
+                                 class="img-thumbnail"
+                                 style="max-width: 160px; max-height: 160px;" />
+                        `;
+                    }
+                };
+
+                reader.readAsDataURL(selectedFile);
+            });
+        }
     });
 </script>
 
-<h3>
-    @Localizer["Add Emoji"]
-</h3>
-
-<p>
-    @Localizer["Configuration to add an emoji."]
-</p>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">@Localizer["Add Emoji"]</h3>
+        <div class="text-muted">@Localizer["Configuration to add an emoji."]</div>
+    </div>
+</div>
 
 @using (Html.BeginForm(null, null, null, FormMethod.Post, true, new { action = $"{GlobalConfiguration.BasePath}{Context.Request.Path}", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div id="toolbar" class="d-flex justify-content-between align-items-center mb-3 p-2 border rounded bg-light shadow-sm">
-        <div>
-            @*Left-aligned "toolbar" controls*@
-            <button type="submit" class="btn btn-success">@Localizer["Save"]</button>
-        </div>
-
-        <div>
-            @*Right-aligned "toolbar" controls*@
-        </div>
-    </div>
-
     @Html.HiddenFor(model => model.OriginalName)
     @Html.HiddenFor(model => model.Id)
 
-    <form>
-        <div class="form-group row mb-1">
-            <label for="ImageData" class="col-sm-2 col-form-label"><strong>@Localizer["Image"]</strong></label>
-            <div class="col-sm-10">
-                <input type="file" id="ImageData" name="ImageData" class="form-control-file" onchange="fileCheck(this);" accept="image/png, image/jpeg, image/gif" />
-            </div>
+    <div class="card shadow-sm">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fw-semibold">
+                <i class="bi bi-emoji-smile me-2"></i>@Localizer["New Emoji"]
+            </span>
+
+            <button type="submit" class="btn btn-success">
+                <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+            </button>
         </div>
 
-        <div class="form-group row mb-1">
-            <label for="Name" class="col-sm-2 col-form-label"><strong>@Localizer["Name"]</strong></label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "required" })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Name)</div>
-            </div>
-        </div>
+        <div class="card-body">
+            <div class="row g-4">
+                <div class="col-12 col-lg-4">
+                    <div class="card h-100 border">
+                        <div class="card-header fw-semibold">
+                            <i class="bi bi-image me-2"></i>@Localizer["Image"]
+                        </div>
+                        <div class="card-body text-center">
+                            <div id="emoji-preview-container">
+                                <div class="text-muted small">
+                                    @Localizer["No image selected."]
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer text-center">
+                            <label for="ImageData" class="btn btn-outline-primary mb-0">
+                                <i class="bi bi-upload me-1"></i>@Localizer["Choose Image"]
+                            </label>
+                            <input type="file"
+                                   id="ImageData"
+                                   name="ImageData"
+                                   class="d-none"
+                                   onchange="fileCheck(this);"
+                                   accept="image/png, image/jpeg, image/gif" />
+                        </div>
+                    </div>
+                </div>
 
-        <div class="form-group row mb-1">
-            <label for="Categories" class="col-sm-2 col-form-label"><strong>@Localizer["Image"]</strong><br /><small class="text-muted">@Localizer["(comma separated)"]</small></label>
-            <div class="col-sm-10">
-                @Html.TextBoxFor(m => m.Categories, new { @class = "form-control" })
-                <div class="text-danger">@Html.ValidationMessageFor(m => m.Categories)</div>
+                <div class="col-12 col-lg-8">
+                    <div class="card h-100 border">
+                        <div class="card-header fw-semibold">
+                            <i class="bi bi-sliders me-2"></i>@Localizer["Details"]
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="Name" class="form-label fw-semibold">
+                                        @Localizer["Name"]
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Name, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = Localizer["Required"].Value
+                                    })
+                                    <div class="text-danger small">
+                                        @Html.ValidationMessageFor(m => m.Name)
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="Categories" class="form-label fw-semibold">
+                                        @Localizer["Categories"]
+                                    </label>
+                                    @Html.TextBoxFor(m => m.Categories, new
+                                    {
+                                        @class = "form-control",
+                                        placeholder = Localizer["Comma-separated categories"].Value
+                                    })
+                                    <div class="form-text">
+                                        @Localizer["Use commas to separate categories."]
+                                    </div>
+                                    <div class="text-danger small">
+                                        @Html.ValidationMessageFor(m => m.Categories)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </form>
+    </div>
 }

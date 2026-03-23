@@ -8,7 +8,7 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-@if (@sessionState.UserTheme.EditorTheme == "dark")
+@if (sessionState.UserTheme.EditorTheme == "dark")
 {
     <link rel="stylesheet" href="@GlobalConfiguration.BasePath/css/diffPlexDark.css" />
 }
@@ -49,102 +49,140 @@ else
     }
 }
 
-<h3>
-    @Localizer.Format("Page revisions for {0}.",
-    $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}\">{@sessionState.Page.Name}</a>")
-</h3>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Page Revisions"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Review the differences between revisions of this page."]
+        </div>
+        <div class="mt-1">
+            <span class="text-muted">@Localizer["Page"]:</span>
+            <a class="text-decoration-none fw-semibold"
+               href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation">
+                @sessionState.Page.Name
+            </a>
+        </div>
+    </div>
+</div>
 
 @if (Model.ThisRevision == null || Model.DiffModel == null)
 {
-    <div class="card shadow-lg border-warning mt-3">
-        <div class="card-header bg-warning text-dark">
-            <strong>@Localizer["Revision not found"]</strong>
+    <div class="card shadow-sm border-warning">
+        <div class="card-header bg-warning-subtle border-warning">
+            <div class="fw-semibold text-dark">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Revision not found"]
+            </div>
         </div>
         <div class="card-body">
-            <strong>
-                @Localizer["The requested page or revision does not exist."]
-            </strong>
+            @Localizer["The requested page or revision does not exist."]
         </div>
     </div>
 }
 else
 {
-    <p>
-        <div class="d-flex justify-content-between align-items-center mt-3 mb-3" id="toolbar">
-            <div>
-                @{
-                    string disablePrev = (Model.PreviousRevision ?? 0) == 0 ? "disabled" : "";
-                    string disableNext = Model.MostCurrentRevision == Model.ThisRevision ? "disabled" : "";
-                }
-                @*Left-aligned "toolbar" controls*@
-                <a class="btn btn-success me-2" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">@Localizer["View all revisions"]</a>
-                <a class="btn btn-success @disablePrev" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@(Model.PreviousRevision ?? 0)">
-                    <i class="bi bi-arrow-left"></i>
-                    @Localizer["Previous"]
-                </a>
-                <a class="btn btn-success @disableNext" href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@((Model.ThisRevision ?? 0) + 1)">
-                    @Localizer["Next"]
-                    <i class="bi bi-arrow-right"></i>
-                </a>
-            </div>
+    string disablePrev = (Model.PreviousRevision ?? 0) == 0 ? "disabled" : "";
+    string disableNext = Model.MostCurrentRevision == Model.ThisRevision ? "disabled" : "";
 
-            <div>
-                @*Right-aligned "toolbar" controls*@
+    <div class="card shadow-sm mb-3">
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <span class="fw-semibold">
+                <i class="bi bi-arrow-left-right me-2"></i>@Localizer["Revision Comparison"]
+            </span>
+
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-outline-primary btn-sm"
+                   href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Revisions">
+                    <i class="bi bi-clock-history me-1"></i>@Localizer["View all revisions"]
+                </a>
+
+                <a class="btn btn-outline-success btn-sm @disablePrev"
+                   href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare/@(Model.PreviousRevision ?? 0)"
+                   aria-disabled="@(disablePrev == "disabled" ? "true" : "false")">
+                    <i class="bi bi-arrow-left me-1"></i>@Localizer["Previous"]
+                </a>
+
+                <a class="btn btn-outline-success btn-sm @disableNext"
+                   href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Compare@("/")@((Model.ThisRevision ?? 0) + 1)"
+                   aria-disabled="@(disableNext == "disabled" ? "true" : "false")">
+                    @Localizer["Next"]<i class="bi bi-arrow-right ms-1"></i>
+                </a>
             </div>
         </div>
-    </p>
 
-    <h6>
-        @Localizer.Format("Changes made to this page for revision {0} by {1} on {2}.",
-        $"<a href=\"{@GlobalConfiguration.BasePath}/{@sessionState.PageNavigation}/{Model.ThisRevision}\">{(Model.ThisRevision ?? 0)}</a>",
-        $"<a href=\"{@GlobalConfiguration.BasePath}/Profile/{Model.ModifiedByUserName}/Public\">{Model.ModifiedByUserName}</a>",
-        Model.ModifiedDate)
-</h6>
+        <div class="card-body">
+            <div class="text-muted">
+                @Localizer["Revision"]:
+                <a class="text-decoration-none fw-semibold"
+                   href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/@Model.ThisRevision">
+                    @(Model.ThisRevision ?? 0)
+                </a>
+                <span class="mx-1">•</span>
+                @Localizer["Modified by"]:
+                <a class="text-decoration-none"
+                   href="@GlobalConfiguration.BasePath/Profile/@Model.ModifiedByUserName/Public">
+                    @Model.ModifiedByUserName
+                </a>
+                <span class="mx-1">•</span>
+                @Localizer["Modified date"]: @Model.ModifiedDate
+            </div>
+        </div>
+    </div>
 
-@if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))
+    @if (GlobalConfiguration.ShowChangeSummaryWhenEditing && !string.IsNullOrEmpty(Model.ChangeSummary))
     {
         <div class="alert alert-secondary py-2 mb-3">
-            <strong>@Localizer["Summary"]:</strong> "@Model.ChangeSummary"
+            <strong>@Localizer["Summary"]:</strong> @Model.ChangeSummary
         </div>
     }
 
-    <div class="diff-wrap">
-        <table class="diff-table">
-            <thead class="diff-head">
-                <tr>
-                    <th class="ln">Old</th>
-                    <th class="gutter"></th>
-                    <th class="code">Text</th>
-                    <th class="ln">New</th>
-                    <th class="gutter"></th>
-                    <th class="code">Text</th>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    var oldLines = Model.DiffModel.OldText.Lines;
-                    var newLines = Model.DiffModel.NewText.Lines;
-
-                    var count = Math.Max(oldLines.Count, newLines.Count);
-                    for (int i = 0; i < count; i++)
-                    {
-                        var o = i < oldLines.Count ? oldLines[i] : null;
-
-                        var n = i < newLines.Count ? newLines[i] : null;
-                        var lcO = RowClass(o?.Type ?? ChangeType.Imaginary);
-                        var lcN = RowClass(n?.Type ?? ChangeType.Imaginary);
-
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <span class="fw-semibold">
+                <i class="bi bi-file-diff me-2"></i>@Localizer["Differences"]
+            </span>
+        </div>
+        <div class="card-body p-0">
+            <div class="diff-wrap">
+                <table class="diff-table">
+                    <thead class="diff-head">
                         <tr>
-                            <td class="ln">@o?.Position</td>
-                            <td class="gutter"><div class="bar"></div></td>
-                            <td class="@lcO">@RenderLine(o)</td>
-                            <td class="ln">@n?.Position</td>
-                            <td class="gutter"><div class="bar"></div></td>
-                            <td class="@lcN">@RenderLine(n)</td>
+                            <th class="ln">Old</th>
+                            <th class="gutter"></th>
+                            <th class="code">Text</th>
+                            <th class="ln">New</th>
+                            <th class="gutter"></th>
+                            <th class="code">Text</th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>
+                        @{
+                            var oldLines = Model.DiffModel.OldText.Lines;
+                            var newLines = Model.DiffModel.NewText.Lines;
+
+                            var count = Math.Max(oldLines.Count, newLines.Count);
+                            for (int i = 0; i < count; i++)
+                            {
+                                var o = i < oldLines.Count ? oldLines[i] : null;
+                                var n = i < newLines.Count ? newLines[i] : null;
+
+                                var lcO = RowClass(o?.Type ?? ChangeType.Imaginary);
+                                var lcN = RowClass(n?.Type ?? ChangeType.Imaginary);
+
+                                <tr>
+                                    <td class="ln">@o?.Position</td>
+                                    <td class="gutter"><div class="bar"></div></td>
+                                    <td class="@lcO">@RenderLine(o)</td>
+                                    <td class="ln">@n?.Position</td>
+                                    <td class="gutter"><div class="bar"></div></td>
+                                    <td class="@lcN">@RenderLine(n)</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 }

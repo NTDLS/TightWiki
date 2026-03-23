@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>Kimlik</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Kayıt Girişi Ayrıntıları</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>Olay Günlüğünü Temizle</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>Sunucu ve sayfa olay günlükleri.</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Sunucu ve sayfa olay günlükleri</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>Önem Derecesi</value>

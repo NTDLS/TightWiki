@@ -9,17 +9,38 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-  @Localizer["Languages"]
-</h3>
-
-<div class="d-flex align-content-start flex-wrap">
-    @for (int i = 0; i < Model.Languages.Count(); i++)
-    {
-        <div class="p-2">
-            <a rel="nofollow" class="btn @(CultureInfo.CurrentCulture.Name == Model.Languages[i].Name ? "btn-primary" : "btn-link")" href="@GlobalConfiguration.BasePath/Page/SetLocalization?culture=@Model.Languages[i].Name&returnUrl=@ViewBag.ReturnUrl">
-                <span>@Localizer[Model.Languages[i].EnglishName] (@Model.Languages[i].Name.ToUpper())</span>
-            </a>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Languages"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Choose your preferred language for the interface."]
         </div>
-    }
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header">
+        <span class="fw-semibold">
+            <i class="bi bi-translate me-2"></i>@Localizer["Available Languages"]
+        </span>
+    </div>
+
+    <div class="card-body">
+        <div class="d-flex flex-wrap gap-2">
+            @for (int i = 0; i < Model.Languages.Count(); i++)
+            {
+                var language = Model.Languages[i];
+                var isCurrent = CultureInfo.CurrentCulture.Name == language.Name;
+
+                <a rel="nofollow"
+                       class="btn @(isCurrent ? "btn-primary" : "btn-outline-secondary")"
+                       href="@GlobalConfiguration.BasePath/Page/SetLocalization?culture=@language.Name&returnUrl=@ViewBag.ReturnUrl"
+                       aria-current="@(isCurrent ? "true" : "false")">
+                    <span>@Localizer[language.EnglishName] (@language.Name.ToUpper())</span>
+                </a>
+            }
+        </div>
+    </div>
 </div>

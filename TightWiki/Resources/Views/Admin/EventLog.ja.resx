@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>識別子</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>ログエントリの詳細</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>イベントログの消去</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>サーバーおよびページのイベントログ。</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>サーバーおよびページのイベントログ</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>重要度</value>

@@ -62,8 +62,8 @@
   <data name="Date/Time" xml:space="preserve">
     <value>তারিখ/সময়</value>
   </data>
-  <data name="Event Log Entry." xml:space="preserve">
-    <value>ঘটনার লগ এন্ট্রি।</value>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>ইভেন্ট লগ এন্ট্রি</value>
   </data>
   <data name="Exception" xml:space="preserve">
     <value>ব্যতিক্রম</value>

@@ -62,8 +62,8 @@
   <data name="Date/Time" xml:space="preserve">
     <value>تاریخ/وقت</value>
   </data>
-  <data name="Event Log Entry." xml:space="preserve">
-    <value>ایونٹ لاگ اندراج۔</value>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>ایونٹ لاگ اندراج</value>
   </data>
   <data name="Exception" xml:space="preserve">
     <value>استثنا</value>

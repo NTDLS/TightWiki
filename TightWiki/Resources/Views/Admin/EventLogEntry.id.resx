@@ -62,8 +62,8 @@
   <data name="Date/Time" xml:space="preserve">
     <value>Tanggal/Waktu</value>
   </data>
-  <data name="Event Log Entry." xml:space="preserve">
-    <value>Entri Jurnal Acara.</value>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Entri Log Acara</value>
   </data>
   <data name="Exception" xml:space="preserve">
     <value>Pengecualian</value>

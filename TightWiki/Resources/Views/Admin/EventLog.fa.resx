@@ -68,11 +68,14 @@
   <data name="Id" xml:space="preserve">
     <value>شناسه</value>
   </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>جزئیات ورودی ثبت</value>
+  </data>
   <data name="Purge Event Log" xml:space="preserve">
     <value>حذف گزارش رویداد</value>
   </data>
-  <data name="Server and page event logs." xml:space="preserve">
-    <value>گزارش‌های رویداد سرور و صفحه.</value>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>لاگ‌های رویداد سرور و صفحه</value>
   </data>
   <data name="Severity" xml:space="preserve">
     <value>شدت</value>

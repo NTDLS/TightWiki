@@ -62,8 +62,8 @@
   <data name="Date/Time" xml:space="preserve">
     <value>Dátum/Čas</value>
   </data>
-  <data name="Event Log Entry." xml:space="preserve">
-    <value>Záznam udalosti.</value>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Záznam udalosti</value>
   </data>
   <data name="Exception" xml:space="preserve">
     <value>Výnimka</value>

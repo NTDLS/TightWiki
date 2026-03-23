@@ -11,98 +11,174 @@
 <script src="@Url.Content("~/syntax/highlight.min.js")"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        hljs.highlightAll();
+    hljs.highlightAll();
     });
 </script>
 <!-- Syntax Highlighter:End -->
 @if (Model.Revision < Model.MostCurrentRevision)
 {
-    <div class="card shadow-lg border-info mb-3">
-        <div class="card-header bg-info">
-            <strong>@Localizer["Viewing a historical version"]</strong>
+    <div class="card shadow-sm border-info mb-4">
+        <div class="card-header bg-info-subtle border-info">
+            <div class="fw-semibold text-dark">
+                <i class="bi bi-clock-history me-2"></i>@Localizer["Viewing a historical version"]
+            </div>
         </div>
         <div class="card-body">
-            <p class="card-text">
-                @Localizer.Format("You are viewing revision {0} of \"{1}\" modified by {2} on {3}.", Model.Revision, Model.Name, Model.ModifiedByUserName, Model.ModifiedDate)<br />
+            <div class="mb-3">
+                @Localizer.Format(
+                    "You are viewing revision {0} of \"{1}\" modified by {2} on {3}.",
+                    Model.Revision,
+                    Model.Name,
+                    Model.ModifiedByUserName,
+                    Model.ModifiedDate)
+            </div>
 
-                <a class="btn btn-success btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation">@Localizer["View latest revision"]</a>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-primary btn-sm"
+                       href="@GlobalConfiguration.BasePath/@Model.Navigation">
+                    <i class="bi bi-arrow-clockwise me-1"></i>@Localizer["View latest revision"]
+                </a>
+
                 @if (sessionState.HoldsPermission(WikiPermission.Moderate))
                 {
-                    <a class="btn btn-warning btn-thin" href="@GlobalConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">@Localizer["Revert to revision"] @Model.Revision</a>
+                    <a class="btn btn-warning btn-sm"
+                           href="@GlobalConfiguration.BasePath/@Model.Navigation/revert/@Model.Revision">
+                        <i class="bi bi-arrow-counterclockwise me-1"></i>@Localizer["Revert to revision"] @Model.Revision
+                    </a>
                 }
-            </p>
+            </div>
         </div>
     </div>
 }
 
-@Html.Raw(Model.Body)
+<div class="wiki-page-body">
+    @Html.Raw(Model.Body)
+</div>
 
-@if (TightWiki.Models.GlobalConfiguration.ShowLastModifiedOnPageFooter && string.IsNullOrWhiteSpace(@Model.ModifiedByUserName) == false && Model.HideFooterLastModified != true)
+@if (TightWiki.Models.GlobalConfiguration.ShowLastModifiedOnPageFooter
+    && string.IsNullOrWhiteSpace(Model.ModifiedByUserName) == false
+    && Model.HideFooterLastModified != true)
 {
-    <br />
-    if (TightWiki.Models.GlobalConfiguration.EnablePublicProfiles)
-    {
-        <small><cite title="Modified By">@Localizer["Last modified by"] <a href="@GlobalConfiguration.BasePath/Profile/@Model.ModifiedByUserName/Public">@Model.ModifiedByUserName</a> @@ @Model.ModifiedDate</cite></small>
-    }
-    else
-    {
-        <small><cite title="Modified By">@Localizer["Last modified by"] @Model.ModifiedByUserName @@ @Model.ModifiedDate</cite></small>
-    }
-    <br />
-}
-
-@if (Model.HideFooterComments == false)
-{
-    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
-    {
-        <hr class="mt-5 mb-5">
-        <h2>@Localizer["Comments"]</h2>
-    }
-    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
-    {
-        if (@sessionState.IsAuthenticated == true)
+    <div class="mt-4 text-muted small">
+        @if (TightWiki.Models.GlobalConfiguration.EnablePublicProfiles)
         {
-            <form method="post" action="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">
-                <div class="container">
-                    <div class="d-flex justify-content-end mb-4">
-                        <div class="flex-grow-1 me-2">
-                            <input type="text" name="Comment" id="Comment" class="form-control" placeholder="@Localizer["Type comment..."]" />
-                        </div>
-                        <button type="submit" value="Post" class="btn btn-primary">@Localizer["Post"]</button>
-                    </div>
-                </div>
-            </form>
+            <cite title="Modified By">
+                @Localizer["Last modified by"]
+                <a class="text-decoration-none"
+                       href="@GlobalConfiguration.BasePath/Profile/@Model.ModifiedByUserName/Public">
+                    @Model.ModifiedByUserName
+                </a>
+                <span class="mx-1">•</span>@Model.ModifiedDate
+            </cite>
         }
         else
         {
-            @:<a href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">@Localizer["Login to leave a comment"]</a>.
-            <br />
+            <cite title="Modified By">
+                @Localizer["Last modified by"] @Model.ModifiedByUserName
+                <span class="mx-1">•</span>@Model.ModifiedDate
+            </cite>
         }
-    }
-    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter && Model.Comments != null && Model.Comments.Count > 0)
+    </div>
+}
+
+@if (Model.HideFooterComments == false
+    && TightWiki.Models.GlobalConfiguration.EnablePageComments
+    && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
+{
+    <hr class="mt-5 mb-4" />
+
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+        <div>
+            <h2 class="h4 mb-1">@Localizer["Comments"]</h2>
+            <div class="text-muted small">
+                @Localizer["Discussion for this page."]
+            </div>
+        </div>
+    </div>
+
+    @if (sessionState.IsAuthenticated == true)
     {
-        <div class="container mt-4">
+        <form method="post" action="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <div class="row g-2 align-items-center">
+                        <div class="col-12 col-md">
+                            <input type="text"
+                                   name="Comment"
+                                   id="Comment"
+                                   class="form-control"
+                                   placeholder="@Localizer["Type comment..."]" />
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <button type="submit" value="Post" class="btn btn-primary w-100">
+                                <i class="bi bi-send me-1"></i>@Localizer["Post"]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <a class="text-decoration-none"
+                       href="@GlobalConfiguration.BasePath/Identity/Account/Login?returnUrl=@Context.Request.Path.Value">
+                    @Localizer["Login to leave a comment"]
+                </a>
+            </div>
+        </div>
+    }
+
+    @if (Model.Comments != null && Model.Comments.Count > 0)
+    {
+        <div class="d-flex flex-column gap-3 mb-3">
             @foreach (var h in Model.Comments)
             {
-                <div class="border rounded mb-2 p-2">
-                    <p class="mb-1">@Html.Raw(h.Body)</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center small text-muted mb-0">
-                            <img src="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Avatar?Exact=16" class="rounded-circle me-2" alt="Avatar" />
-                            <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public" class="small text-decoration-none mb-0">@Html.DisplayTextFor(x => h.UserName)</a>
-                            &nbsp;&nbsp;<p class="small text-decoration-none text-muted mb-0">@Html.DisplayTextFor(x => h.CreatedDate)</p>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            @Html.Raw(h.Body)
                         </div>
-                        @if (sessionState.HoldsPermission(WikiPermission.Moderate) == true || h.UserId == sessionState.Profile?.UserId)
-                        {
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id" class="small text-danger text-decoration-none" onclick="return confirm('@Localizer["Are you sure you want to delete this comment?"]')">@Localizer["Delete"]</a>
-                        }
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div class="d-flex align-items-center flex-wrap gap-2 small text-muted">
+                                <img src="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Avatar?Exact=24"
+                                     class="rounded-circle"
+                                     alt="Avatar"
+                                     width="24"
+                                     height="24" />
+
+                                <a href="@GlobalConfiguration.BasePath/Profile/@h.UserNavigation/Public"
+                                       class="text-decoration-none">
+                                    @Html.DisplayTextFor(x => h.UserName)
+                                </a>
+
+                                <span>•</span>
+
+                                <span>@Html.DisplayTextFor(x => h.CreatedDate)</span>
+                            </div>
+
+                            @if (sessionState.HoldsPermission(WikiPermission.Moderate) == true || h.UserId == sessionState.Profile?.UserId)
+                            {
+                                <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments?Delete=@h.Id"
+                                       class="small text-danger text-decoration-none"
+                                       onclick="return confirm('@Localizer["Are you sure you want to delete this comment?"]')">
+                                    @Localizer["Delete"]
+                                </a>
+                            }
+                        </div>
                     </div>
                 </div>
             }
         </div>
     }
-    @if (TightWiki.Models.GlobalConfiguration.EnablePageComments && TightWiki.Models.GlobalConfiguration.ShowCommentsOnPageFooter)
-    {
-        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">@Localizer["View all comments"]</a>
-    }
+
+    <div class="mt-2">
+        <a class="text-decoration-none"
+               href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Comments">
+            @Localizer["View all comments"]
+        </a>
+    </div>
 }

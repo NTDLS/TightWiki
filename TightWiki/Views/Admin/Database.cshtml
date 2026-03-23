@@ -7,74 +7,159 @@
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
-<h3>
-    @Localizer["Database"]
-</h3>
+<div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+    <div>
+        <h3 class="mb-1">
+            @Localizer["Database"]
+        </h3>
+        <div class="text-muted">
+            @Localizer["Various utilities to assist in management of the SQLite database."]
+        </div>
+    </div>
+</div>
 
-<p>
-    @Localizer["Various utilities to assist in management of the SQLite database."]
-</p>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <span class="fw-semibold">
+            <i class="bi bi-database me-2"></i>@Localizer["Database Utilities"]
+        </span>
+    </div>
 
-
-<table class="table fixedTable100 table-striped" border="0" width="100%" cellspacing="0" cellpadding="0">
-    <thead>
-        <tr>
-            <td><strong>@Localizer["Name"]</strong></td>
-            <td><strong>@Localizer["Version"]</strong></td>
-            <td><strong>@Localizer["Size"]</strong></td>
-            <td><strong>@Localizer["Action"]</strong></td>
-        </tr>
-    </thead>
-
-    @foreach (var info in Model.Info)
+    @if (Model.Info.Count > 0)
     {
-        <tr>
-            <td>@info.Name</td>
-            <td>@info.Version</td>
-            <td>@NTDLS.Helpers.Formatters.FileSize((long)info.DatabaseSize)</td>
-            <td>
-                @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                    Localizer["This will optimize the database indexes and structure. Continue?"].Value,
-                    Localizer["Optimize"].Value, $"/Admin/Database/Optimize/{info.Name}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">
+                            @Localizer["Name"]
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            @Localizer["Version"]
+                        </th>
+                        <th scope="col" class="text-nowrap">
+                            @Localizer["Size"]
+                        </th>
+                        <th scope="col">
+                            @Localizer["Action"]
+                        </th>
+                        <th scope="col">
+                            @Localizer["Restore"]
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var info in Model.Info)
+                    {
+                        <tr>
+                            <td class="fw-semibold">
+                                @info.Name
+                            </td>
 
-                @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                    Localizer["This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"].Value,
-                    Localizer["Vacuum"].Value, $"/Admin/Database/Vacuum/{info.Name}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
+                            <td class="text-nowrap text-muted">
+                                @info.Version
+                            </td>
 
-                @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                    Localizer["This will check the database integrity and validate all foreign keys. Continue?"].Value,
-                    Localizer["Verify"].Value, $"/Admin/Database/Verify/{info.Name}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
-   
-                @if (info.Name == "Config")
-                {
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?"].Value,
-                        Localizer["Restore Configuration"].Value, $"/Admin/Database/Restore/{DefaultDataType.Configurations}", Context.Request.Path.Value, @class: "btn-thin rounded-0 me-2")
+                            <td class="text-nowrap">
+                                @NTDLS.Helpers.Formatters.FileSize((long)info.DatabaseSize)
+                            </td>
 
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"].Value,
-                        Localizer["Themes"].Value, $"/Admin/Database/Restore/{DefaultDataType.Themes}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
-                }
-                else if (info.Name == "Pages")
-                {
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will restore all Wiki Help namespace pages. Continue?"].Value,
-                        Localizer["Wiki Help Pages"].Value, $"/Admin/Database/Restore/{DefaultDataType.WikiHelpPages}", Context.Request.Path.Value, @class: "btn-thin rounded-0 me-2")
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                        GlobalConfiguration.BasePath,
+                                        Localizer["This will optimize the database indexes and structure. Continue?"].Value,
+                                        Localizer["Optimize"].Value,
+                                        $"/Admin/Database/Optimize/{info.Name}",
+                                        Context.Request.Path.Value,
+                                        @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?"].Value,
-                        Localizer["Built-in Pages"].Value, $"/Admin/Database/Restore/{DefaultDataType.WikiBuiltinPages}", Context.Request.Path.Value, @class: "btn-thin rounded-0 me-2")
+                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                        GlobalConfiguration.BasePath,
+                                        Localizer["This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?"].Value,
+                                        Localizer["Vacuum"].Value,
+                                        $"/Admin/Database/Vacuum/{info.Name}",
+                                        Context.Request.Path.Value,
+                                        @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
 
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will restore all Include namespace pages. Continue?"].Value,
-                        Localizer["Include Pages"].Value, $"/Admin/Database/Restore/{DefaultDataType.WikiIncludePages}", Context.Request.Path.Value, @class: "btn-thin rounded-0 me-2")
+                                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(
+                                        GlobalConfiguration.BasePath,
+                                        Localizer["This will check the database integrity and validate all foreign keys. Continue?"].Value,
+                                        Localizer["Verify"].Value,
+                                        $"/Admin/Database/Verify/{info.Name}",
+                                        Context.Request.Path.Value,
+                                        @class: "btn btn-primary btn-sm d-inline-flex align-items-center")
+                                </div>
+                            </td>
 
-                    @TightWiki.Library.ConfirmActionHelper.GenerateSafeButton(GlobalConfiguration.BasePath,
-                        Localizer["This will restore all Feature Templates, overwriting any customizations you may have made. Continue?"].Value,
-                        Localizer["Feature Templates"].Value, $"/Admin/Database/Restore/{DefaultDataType.FeatureTemplates}", Context.Request.Path.Value, @class: "btn-thin rounded-0")
-                    
-                }
-            </td>
-        </tr>
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+
+                                    @if (info.Name == "Config")
+                                    {
+                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                            GlobalConfiguration.BasePath,
+                                            Localizer["This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?"].Value,
+                                            Localizer["Restore Configuration"].Value,
+                                            $"/Admin/Database/Restore/{DefaultDataType.Configurations}",
+                                            Context.Request.Path.Value,
+                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
+
+                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                            GlobalConfiguration.BasePath,
+                                            Localizer["This will restore all default themes, overwriting any customizations you may have made in the database. Continue?"].Value,
+                                            Localizer["Themes"].Value,
+                                            $"/Admin/Database/Restore/{DefaultDataType.Themes}",
+                                            Context.Request.Path.Value,
+                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
+                                    }
+                                    else if (info.Name == "Pages")
+                                    {
+                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                            GlobalConfiguration.BasePath,
+                                            Localizer["This will restore all Wiki Help namespace pages. Continue?"].Value,
+                                            Localizer["Wiki Help Pages"].Value,
+                                            $"/Admin/Database/Restore/{DefaultDataType.WikiHelpPages}",
+                                            Context.Request.Path.Value,
+                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
+
+                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                            GlobalConfiguration.BasePath,
+                                            Localizer["This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?"].Value,
+                                            Localizer["Built-in Pages"].Value,
+                                            $"/Admin/Database/Restore/{DefaultDataType.WikiBuiltinPages}",
+                                            Context.Request.Path.Value,
+                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
+
+                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                            GlobalConfiguration.BasePath,
+                                            Localizer["This will restore all Include namespace pages. Continue?"].Value,
+                                            Localizer["Include Pages"].Value,
+                                            $"/Admin/Database/Restore/{DefaultDataType.WikiIncludePages}",
+                                            Context.Request.Path.Value,
+                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
+
+                                        @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
+                                            GlobalConfiguration.BasePath,
+                                            Localizer["This will restore all Feature Templates, overwriting any customizations you may have made. Continue?"].Value,
+                                            Localizer["Feature Templates"].Value,
+                                            $"/Admin/Database/Restore/{DefaultDataType.FeatureTemplates}",
+                                            Context.Request.Path.Value,
+                                            @class: "btn btn-warning text-dark btn-sm d-inline-flex align-items-center")
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     }
-</table>
+    else
+    {
+        <div class="card-body text-muted">
+            <i class="bi bi-database-x me-2"></i>
+            @Localizer["No database information is available."]
+        </div>
+    }
+</div>
