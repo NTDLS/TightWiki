@@ -20,7 +20,7 @@ namespace TightWiki.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
 
         public AccountController(
-            Logger<ITightEngine> logger,
+            ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
