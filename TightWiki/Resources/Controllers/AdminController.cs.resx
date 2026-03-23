@@ -290,4 +290,10 @@
   <data name="All event logs have been purged." xml:space="preserve">
     <value>Všechny záznamy událostí byly vymazány.</value>
   </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Záznam události</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Deník událostí</value>
+  </data>
 </root>

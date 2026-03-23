@@ -290,4 +290,10 @@
   <data name="All event logs have been purged." xml:space="preserve">
     <value>Semua log acara telah dihapus.</value>
   </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Entri Log Acara</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Log Acara</value>
+  </data>
 </root>

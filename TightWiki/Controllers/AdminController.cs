@@ -1537,11 +1537,11 @@ namespace TightWiki.Controllers
 
         #endregion
 
-        #region Exceptions.
+        #region EventLog.
 
         [Authorize]
-        [HttpGet("Exceptions")]
-        public ActionResult Exceptions()
+        [HttpGet("EventLog")]
+        public ActionResult EventLog()
         {
             try
             {
@@ -1551,7 +1551,7 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            SessionState.Page.Name = Localize("Exceptions");
+            SessionState.Page.Name = Localize("Event Log");
 
             var pageNumber = GetQueryValue("page", 1);
             var orderBy = GetQueryValue<string>("OrderBy");
@@ -1568,8 +1568,8 @@ namespace TightWiki.Controllers
         }
 
         [Authorize]
-        [HttpGet("Exception/{id}")]
-        public ActionResult Exception(int id)
+        [HttpGet("EventLogEntry/{id}")]
+        public ActionResult EventLogEntry(int id)
         {
             try
             {
@@ -1579,7 +1579,7 @@ namespace TightWiki.Controllers
             {
                 return NotifyOfError(ex.GetBaseException().Message, "/");
             }
-            SessionState.Page.Name = Localize("Exception");
+            SessionState.Page.Name = Localize("Event Log Entry");
 
             var model = new EventLogEntryViewModel()
             {

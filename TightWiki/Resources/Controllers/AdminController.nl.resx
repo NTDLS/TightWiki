@@ -290,4 +290,10 @@
   <data name="All event logs have been purged." xml:space="preserve">
     <value>Alle evenementlogs zijn gewist.</value>
   </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Evenementenlogboekvermelding</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Evenementenlogboek</value>
+  </data>
 </root>

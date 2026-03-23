@@ -290,4 +290,10 @@
   <data name="All event logs have been purged." xml:space="preserve">
     <value>모든 이벤트 로그가 삭제되었습니다.</value>
   </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>이벤트 로그 항목</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>이벤트 로그</value>
+  </data>
 </root>

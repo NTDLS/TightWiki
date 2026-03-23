@@ -290,4 +290,10 @@
   <data name="All event logs have been purged." xml:space="preserve">
     <value>Tüm etkinlik kayıtları silinmiştir.</value>
   </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Olay Günlüğü Girişi</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Olay Günlüğü</value>
+  </data>
 </root>

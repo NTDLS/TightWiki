@@ -290,4 +290,10 @@
   <data name="All event logs have been purged." xml:space="preserve">
     <value>Tất cả nhật ký sự kiện đã được xóa.</value>
   </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Nhật ký sự kiện</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Nhật ký sự kiện</value>
+  </data>
 </root>
