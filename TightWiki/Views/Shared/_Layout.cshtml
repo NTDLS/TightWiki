@@ -162,8 +162,8 @@
                         }
 
                         @if (sessionState.HoldsPermission(WikiPermission.Create)
-                                                    || (sessionState.ShouldCreatePage && sessionState.HoldsPermission(WikiPermission.Create))
-                                                    || (sessionState.Page.Exists && sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
+                                                                            || (sessionState.ShouldCreatePage && sessionState.HoldsPermission(WikiPermission.Create))
+                                                                            || (sessionState.Page.Exists && sessionState.HoldsPermission([WikiPermission.Edit, WikiPermission.Moderate, WikiPermission.Delete])))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-dark" href="#" id="pageMenuDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -332,13 +332,9 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="mb-3">@Localizer["Info1"]</div>
-                        <div class="mb-3">@Localizer["Info2"]</div>
-                        <div>
-                            <strong>@Localizer["Current admin login"]:</strong><br />
-                            <span class="ms-3"><strong>@Localizer["Username"]:</strong> "admin@tightwiki.com"</span><br />
-                            <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TightWiki.Library.Constants.DEFAULTPASSWORD"</span>
-                        </div>
+                        <strong>@Localizer["Current admin login"]:</strong><br />
+                        <span class="ms-3"><strong>@Localizer["Username"]:</strong> "admin@tightwiki.com"</span><br />
+                        <span class="ms-3"><strong>@Localizer["Password"]:</strong> "@TightWiki.Library.Constants.DEFAULTPASSWORD"</span>
                     </div>
                 </div>
             }
