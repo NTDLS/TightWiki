@@ -287,4 +287,7 @@
   <data name="Restore" xml:space="preserve">
     <value>Obnoviť</value>
   </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Všetky záznamy udalostí boli vymazané.</value>
+  </data>
 </root>

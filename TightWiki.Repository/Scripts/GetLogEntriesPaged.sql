@@ -25,7 +25,7 @@ CreatedDate=[CreatedDate]
 */
 --::CONFIG
 ORDER BY
-	Id
+	L.Id
 --::CUSTOM_ORDER_BEGIN
 LIMIT @PageSize
 OFFSET (@PageNumber - 1) * @PageSize

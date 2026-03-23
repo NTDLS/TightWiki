@@ -287,4 +287,7 @@
   <data name="Restore" xml:space="preserve">
     <value>Przywróć</value>
   </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Wszystkie dzienniki zdarzeń zostały usunięte.</value>
+  </data>
 </root>

@@ -287,4 +287,7 @@
   <data name="Restore" xml:space="preserve">
     <value>복원</value>
   </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>모든 이벤트 로그가 삭제되었습니다.</value>
+  </data>
 </root>
