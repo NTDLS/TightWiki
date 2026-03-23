@@ -281,7 +281,15 @@ namespace LocalizerScan
 
                     if (splitPhrases.Length != batch.Count)
                     {
-                        throw new Exception("The count of translation responses do not match the number of inputs.");
+                        somethingWentWrong = true;
+
+                        Console.WriteLine("The count of translation responses do not match the number of inputs. Retrying..");
+                        //Clear the translations so that they are retried.
+                        foreach (var resetPhrase in batch)
+                        {
+                            phrases[resetPhrase.Key] = null;
+                        }
+                        continue;
                     }
 
                     //Parse the translated block and update the dictionary with the translated phrases.
