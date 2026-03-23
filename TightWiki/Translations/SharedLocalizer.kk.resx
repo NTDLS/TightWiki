@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Урду</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>сыртқы жеткізушіден ақпарат алу сәтсіз болды</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Қалпына келтіру толық жасалды.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Жинақтау статистикасы өшірілді.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Жады кэштері тазаланды.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Жинақтау Статистикасы</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Бет Модерациясы</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Сіз ағымдағы бет нұсқасына қайтып орала алмайсыз.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Бет қайта жасалды.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Анықталған бет табылмады.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Бет табылмады.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Беттің жалғыз нұсқасын жойа алмайсыз, орнына бүкіл бетті жою керек.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Бет нұсқасы жою кезегіне өткізілді.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Барлық беттер қайта құрылды.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Барлық беттер кэштелді.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Барлық бет нұсқалары қысқартылды.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Бетті жою кезегі тазаланды.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Бет нұсқасы жою кезегінен өшірілді.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Бет қалпына келтірілді.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Бет жою кезегінен өшірілді.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Бет жою кезегіне өткізілді.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Бет қалпына келтірілді.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Барлық жалғаусыз бет қосымшалары өшірілді.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Жалғаусыз беттердің қосымшалары өшірілді.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Мәзір элементі</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Мәзір элементі жасалды.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Мәзір элементі сақталды.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Көрсетілген мәзір элементі жойылды.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Параметр сәтті сақталды!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Эмодзи атауы бұрыннан пайдаланылады.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Қоса қойылған суретті сақтау мүмкін болған жоқ, тым үлкен.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Қоса қойылған суретті сақтау мүмкін болған жоқ.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Эмодзи сәтті сақталды!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Эмодзи сақталды.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Эмодзи жасалды.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Көрсетілген эмодзи жойылды.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Барлық оқиға журналдары тазартылды.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP куәлігі жоқ.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP шақыру сәтті өтті, бірақ қолданушыда objectGUID қасиеті жоқ.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP шақыру сәтті өтті (бос аккаунт).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP шақыру сәтті өтті (толығымен қамтамасыз етілген аккаунт).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP шақыру сәтті өтті (жартылай қамтамасыз етілген аккаунт).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP шақыру сәтсіз аяқталды.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Көрсетілген рөл жойылды.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Рөл атауы қажет.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Рөл атауы бұрыннан пайдаланылады.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Аккаунт атауы бұрыннан пайдаланылады.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Электрондық пошта мекенжайы бұрыннан пайдаланылады.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Қоса қойылған суретті сақтау мүмкін болған жоқ, түрі көрсетілмеген.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Профиль сәтті сақталды!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Аккаунт атауы қажет.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Есептік жазба жасалды.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Пайдаланушы табылмады.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Сіздің есептік жазбаңыз өшірілді.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Есептік жазба өшірілді.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Қосымша файлды сақтай алмады, тым үлкен</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Құттықтаймын</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Қате</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Бет қорғалған және өшірілмейді. Мәліметті қорғауды алып тастау үшін модератор немесе әкімші болуы керек.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Бет өшірілді.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Бет қорғаулы және оны өзгертуде модератор немесе әкімші ғана өзгерте алады, егер қорғау алынып тасталса.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Бет жаңартуларына өзгеріс көлемі қажет.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>«::» кейіпкерлері кеңістік аты көрсету үшін пайдаланылады. Бет атауы бұдан көп «::» жинағын қамти алмайды.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Сіз енгізген бет атауы бұрыннан бар.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Бет жасалды.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Бет сақталды.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Қоғамдық профиль</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Қоғамдық профильдер өшірілген.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Көрсетілген пайдаланушы табылмады.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Менің профилім</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Сіздің профиліңіз сақталды.</value>
+  </data>
 </root>

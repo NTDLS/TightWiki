@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>烏爾都語</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>無法從外部提供者獲取資訊</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>還原完成。</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>編譯統計資料已清除。</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>記憶體快取已清除。</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>編譯統計資料</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>頁面審核</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>你無法還原到當前的頁面修訂版本。</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>頁面已被還原。</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>找不到指定的頁面。</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>找不到該頁面。</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>你無法刪除頁面唯一的修訂版本，建議刪除整個頁面。</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>頁面修訂已移動到刪除隊列。</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>所有頁面已重建。</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>所有頁面已建立快取。</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>所有頁面修訂已裁剪。</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>頁面刪除隊列已清空。</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>頁面修訂已從刪除隊列中清除。</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>頁面已恢復。</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>頁面已從刪除隊列中清除。</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>頁面已移至刪除隊列。</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>頁面已還原。</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>所有孤立的頁面附件已清除。</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>孤立的頁面附件已清除。</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>菜單項目</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>菜單項目已建立。</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>菜單項已被儲存。</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>指定的菜單項已被刪除。</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>配置已成功保存！</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>表情符號名稱已被使用。</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>無法儲存附件圖片，檔案過大。</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>無法儲存附件圖片。</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>表情符號已成功保存！</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>表情符號已保存。</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>表情符號已建立。</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>指定的表情符號已被刪除。</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>所有事件日誌已被清除。</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>未啟用 LDAP 認證。</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP 挑戰成功，但用戶沒有 objectGUID 屬性。</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰成功（未提供服務帳戶）。</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰成功（完全提供服務的帳戶）。</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP 挑戰成功（部分提供服務的帳戶）。</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP 挑戰失敗。</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>指定的角色已被刪除。</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>需要角色名稱。</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>角色名稱已被使用。</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>帳戶名稱已被使用。</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>電子郵件地址已被使用。</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>無法儲存附件圖片，類型不允許。</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>個人資料已成功儲存！</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>需要帳戶名稱。</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>帳戶已建立。</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>找不到用戶。</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>您的帳戶已被刪除。</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>帳戶已被刪除。</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>無法保存附件，檔案過大</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>該頁受到保護，無法刪除。在刪除前，版主或管理員必須移除保護。</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>該頁已被刪除。</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>該頁受到保護，除非移除保護，否則版主或管理員不能修改。</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>編輯頁面時須提供更改摘要。</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>「::」字符用來表示命名空間名稱。頁面名稱不能包含超過一組此字符。</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>您輸入的頁面名稱已存在。</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>頁面已建立。</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>頁面已保存。</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>公共個人資料</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>公共個人資料已被禁用。</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>未找到指定的用戶。</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>我的個人資料</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>您的個人資料已被保存。</value>
+  </data>
 </root>

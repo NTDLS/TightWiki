@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>אורדו</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>נכשלה קבלת מידע מספק חיצוני</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>השחזור הושלם.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>סטטיסטיקות ההרכבה נמחקו.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>מטמון הזיכרון נמחק.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>סטטיסטיקות הרכבות</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>מודרציה של דף</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>אינך יכול לשוב לגרסה הנוכחית של הדף.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>הדף שוחזר.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>הדף המצוין לא נמצא.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>לא ניתן למצוא את הדף.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>אתה לא יכול למחוק את הגרסה היחידה קיימת של דף, במקום זאת עליך למחוק את כל הדף.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>גרסת הדף הועברה לתור מחיקה.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>כל הדפים נבנו מחדש.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>כל הדפים נשמרו במטמון.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>כל גרסאות הדף קוצצו.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>תור מחיקת הדפים נמחק.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>גרסת הדף נמחקה מתור המחיקה.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>גרסת הדף שוחזרה.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>הדף נמחק מתור המחיקה.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>הדף הועבר לתור מחיקה.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>הדף שוחזר.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>כל הקבצים שהתפתלו בדף נטשו נמחקו.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>הקבצים התפתלו של הדפים שהתייתמו נמחקו.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>פריט בתפריט</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>פריט התפריט נוצר.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>פריט התפריט נשמר.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>פריט התפריט שהוגדר נמחק.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>ההגדרות נשמרו בהצלחה!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>שם האיומיומי נמצא בשימוש כבר.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>לא הצלחנו לשמור את התמונה המצורפת, גדולה מדי.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>לא הצלחנו לשמור את התמונה המצורפת.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>האיומיומי נשמר בהצלחה!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>האיומיומי נשמר.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>האיומיומי נוצר.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>האיומיומי שהוגדר נמחק.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>כל יומני האירועים נמחקו.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>אימות LDAP אינו מופעל.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>אתגר LDAP הצליח, אך למשתמש אין תכונת objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>אתגר LDAP הצליח (חשבון לא פרוס).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>אתגר LDAP הצליח (חשבון שהוגדר כולו).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>אתגר LDAP הצליח (חשבון חלקי).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>אתגר LDAP נכשלה.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>התפקיד שהוגדר נמחק.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>נדרש שם תפקיד.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>שם התפקיד נמצא בשימוש כבר.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>שם החשבון כבר בשימוש.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>כתובת האימייל כבר בשימוש.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>לא הצלחנו לשמור את התמונה המצורפת, סוג הקובץ אינו מותר.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>הפרופיל נשמר בהצלחה!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>נדרש שם החשבון.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>החשבון נוצר.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>לא נמצא משתמש.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>החשבון שלך נמחק.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>החשבון נמחק.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>לא ניתן לשמור את הקובץ המצורף, גדול מדי</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>בהצלחה</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>כישלון</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>הדף מוגן ולא ניתן למחוק. על מודר או מנהל להסיר את ההגנה לפני המחיקה.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>הדף נמחק.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>הדף מוגן ולא ניתן לשנות אותו אלא על ידי מודר או מנהל אלא אם כן הוסר ההגנה.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>נדרשת תמצית שינויים לעריכת הדף.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>האותיות '::' משמשות לציון שם מרחב. שם הדף לא יכול להכיל יותר משני זוגות של אותיות אלו.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>שם הדף שהזנת כבר קיים.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>הדף נוצר.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>הדף נשמר.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>פרופיל ציבורי</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>פרופילים ציבוריים מושבתים.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>לא נמצא המשתמש המיועד.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>הפרופיל שלי</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>הפרופיל שלך נשמר.</value>
+  </data>
 </root>

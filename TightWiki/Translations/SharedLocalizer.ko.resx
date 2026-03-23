@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>우르두어</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>외부 공급자로부터 정보를 가져오지 못했습니다</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>복구 완료.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>컴파일 통계가 삭제되었습니다.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>메모리 캐시가 삭제되었습니다.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>컴파일 통계</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>페이지 검토</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>현재 페이지 버전으로 되돌릴 수 없습니다.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>페이지가 되돌려졌습니다.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>지정된 페이지를 찾을 수 없습니다.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>페이지를 찾을 수 없습니다.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>페이지의 유일한 버전을 삭제할 수 없으며, 전체 페이지를 삭제해야 합니다.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>페이지 버전이 삭제 대기열로 이동되었습니다.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>모든 페이지가 다시 생성되었습니다.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>모든 페이지가 캐시되었습니다.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>모든 페이지 버전이 잘라내졌습니다.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>페이지 삭제 대기열이 비워졌습니다.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>페이지 버전이 삭제 대기열에서 삭제되었습니다.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>페이지 버전이 복구되었습니다.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>페이지가 삭제 대기열에서 삭제되었습니다.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>페이지가 삭제 대기열로 이동했습니다.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>페이지가 복원되었습니다.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>모든 고아 페이지 첨부파일이 삭제되었습니다.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>페이지의 고아 첨부파일이 삭제되었습니다.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>메뉴 항목</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>메뉴 항목이 생성되었습니다.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>메뉴 항목이 저장되었습니다.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>지정된 메뉴 항목이 삭제되었습니다.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>구성이 성공적으로 저장되었습니다!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>이모지 이름이 이미 사용 중입니다.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>첨부된 이미지를 저장하지 못했습니다. 너무 큽니다.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>첨부된 이미지를 저장하지 못했습니다.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>이모지가 성공적으로 저장되었습니다!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>이모지가 저장되었습니다.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>이모지가 생성되었습니다.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>지정된 이모지가 삭제되었습니다.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>모든 이벤트 로그가 삭제되었습니다.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP 인증이 활성화되어 있지 않습니다.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP 챌린지에 성공했지만 사용자가 objectGUID 속성을 가지고 있지 않습니다.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지 성공 (비프로비저닝 계정).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지 성공 (완전 프로비저닝 계정).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP 챌린지 성공 (부분 프로비저닝 계정).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP 챌린지 실패.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>지정된 역할이 삭제되었습니다.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>역할 이름이 필요합니다.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>역할 이름이 이미 사용 중입니다.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>계정 이름이 이미 사용 중입니다.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>이메일 주소가 이미 사용 중입니다.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>첨부된 이미지를 저장하지 못했습니다. 허용되지 않는 유형입니다.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>프로필이 성공적으로 저장되었습니다!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>계정 이름이 필요합니다.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>계정이 생성되었습니다.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>사용자를 찾을 수 없습니다.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>귀하의 계정이 삭제되었습니다.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>계정이 삭제되었습니다.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>첨부 파일을 저장할 수 없습니다, 너무 큼</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>성공</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>실패</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>페이지가 보호되어 삭제할 수 없습니다. 삭제 전에 중재자 또는 관리자가 보호를 해제해야 합니다.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>페이지가 삭제되었습니다.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>페이지는 보호되어 있으며, 보호가 해제되지 않는 한 중재자 또는 관리자가 아니면 수정할 수 없습니다.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>페이지 수정에는 변경 요약이 필요합니다.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>'::' 문자는 네임스페이스 이름을 표시하는 데 사용됩니다. 페이지 이름에는 이 문자가 두 번 이상 들어갈 수 없습니다.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>입력하신 페이지 이름이 이미 존재합니다.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>페이지가 생성되었습니다.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>페이지가 저장되었습니다.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>공개 프로필</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>공개 프로필이 비활성화되어 있습니다.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>지정된 사용자를 찾을 수 없습니다.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>내 프로필</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>프로필이 저장되었습니다.</value>
+  </data>
 </root>

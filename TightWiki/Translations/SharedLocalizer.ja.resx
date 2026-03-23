@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>ウルドゥー語</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>外部プロバイダーからの情報取得に失敗しました</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>復元完了。</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>コンパイル統計情報が削除されました。</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>メモリキャッシュがクリアされました。</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>コンパイル統計</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>ページモデレーション</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>現在のページのリビジョンに戻すことはできません。</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>ページが復元されました。</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>指定されたページが見つかりませんでした。</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>ページが見つかりませんでした。</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>ページの唯一のリビジョンを削除することはできません。代わりにページ全体を削除する必要があります。</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>ページリビジョンは削除キューに移動されました。</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>すべてのページが再構築されました。</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>すべてのページがキャッシュされました。</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>すべてのページリビジョンが切り捨てられました。</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>ページ削除キューはクリアされました。</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>ページリビジョンは削除キューから削除されました。</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>ページリビジョンは復元されました。</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>ページは削除キューからクリアされました。</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>ページは削除キューに移動されました。</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>ページは復元されました。</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>孤立しているページ添付ファイルはすべて削除されました。</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>孤立しているページの添付ファイルは削除されました。</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>メニュー項目</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>メニュー項目が作成されました。</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>メニュー項目が保存されました。</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>指定されたメニュー項目は削除されました。</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>設定が正常に保存されました！</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>絵文字の名前は既に使用されています。</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>添付画像を保存できませんでした。画像が大きすぎます。</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>添付画像を保存できませんでした。</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>絵文字は正常に保存されました！</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>絵文字が保存されました。</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>絵文字が作成されました。</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>指定された絵文字は削除されました。</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>すべてのイベントログが削除されました。</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP認証は有効になっていません。</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAPチャレンジは成功しましたが、ユーザーにはobjectGUID属性がありません。</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAPチャレンジは成功しました（非プロビジョニングアカウント）。</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAPチャレンジは成功しました（完全にプロビジョニングされたアカウント）。</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAPチャレンジは成功しました（一部プロビジョニングされたアカウント）。</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAPチャレンジは失敗しました。</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>指定された役割は削除されました。</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>役割名は必須です。</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>役割名は既に使用されています。</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>アカウント名は既に使用されています。</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>メールアドレスは既に使用されています。</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>添付画像を保存できませんでした。タイプが許可されていません。</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>プロフィールは正常に保存されました！</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>アカウント名は必須です。</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>アカウントが作成されました。</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>ユーザーが見つかりません。</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>あなたのアカウントは削除されました。</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>アカウントが削除されました。</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>添付ファイルを保存できませんでした。サイズが大きすぎます。</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>失敗</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>ページは保護されており、削除できません。保護を解除するには、モデレーターまたは管理者の操作が必要です。</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>ページは削除されました。</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>ページは保護されており、保護を解除しない限りモデレーターまたは管理者以外は変更できません。</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>ページ編集には変更概要の入力が必要です。</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>「::」という文字は名前空間名を示すために使用されます。ページ名にはこれらの文字が一組以上含まれることはできません。</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>入力したページ名は既に存在します。</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>ページが作成されました。</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>ページは保存されました。</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>公開プロフィール</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>公開プロフィールは無効になっています。</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>指定されたユーザーが見つかりませんでした。</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>マイプロフィール</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>あなたのプロフィールは保存されました。</value>
+  </data>
 </root>

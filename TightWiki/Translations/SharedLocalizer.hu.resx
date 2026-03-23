@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Nem sikerült információt szerezni külső szolgáltatótól</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Visszaállítás kész.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Összeállítási statisztikák törölve.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Memória gyorsítótár törölve.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Összeállítási statisztikák</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Szerkesztői oldal</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Nem lehet visszaállni a jelenlegi oldalverzióra.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>A oldal vissza lett állítva.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>A megadott oldal nem található.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Az oldal nem található.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Nem lehet törölni az oldal egyetlen meglévő verzióját, helyette az egész oldalt kell törölni.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>A oldalverzió átkerült a törlési sorba.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Minden oldal újraépült.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Minden oldal gyorsítótárba került.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Minden oldalverziót rövidre vágtak.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>A törlési sor törölve lett.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>A oldalverzió törölve lett a törlési sorból.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>A oldalverzió vissza lett állítva.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>A oldal törölve lett a törlési sorból.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>A oldal átkerült a törlési sorba.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>A oldal vissza lett állítva.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Minden elhagyott oldalcsatolmány törölve lett.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Az elhagyott oldalcsatolmányok törölve lettek.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menüpont</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>A menüpont létre lett hozva.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Az menüelem el lett mentve.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>A megadott menü elem törölve lett.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>A konfiguráció sikeresen el lett mentve!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>A hangulatjelek neve már használatban van.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Nem sikerült menteni a csatolt képet, túl nagy.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Nem sikerült menteni a csatolt képet.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>A hangulatjel sikeresen mentve lett!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>A hangulatjel mentve lett.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>A hangulatjel létrehozva.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>A megadott hangulatjel törölve lett.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Minden eseménynapló törölve lett.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>Az LDAP hitelesítés nincs engedélyezve.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>Az LDAP kihívás sikeres volt, de a felhasználónak nincs objectGUID attribútuma.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP kihívás sikeres volt (nem ellátott fiók).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP kihívás sikeres volt (teljesen ellátott fiók).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP kihívás sikeres volt (részben ellátott fiók).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP kihívás megbukott.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>A megadott szerepkör törölve lett.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>A szerepkör neve szükséges.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>A szerepkör neve már használatban van.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>A fióknév már használatban van.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Email cím már használatban van.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Nem sikerült menteni a csatolt képet, a típus nem megengedett.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>A profil sikeresen elmentve!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>A fióknév szükséges.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Az fiók létrejött.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Felhasználó nem található.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>A fiókod törölve lett.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Az oldal törölve lett.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Nem sikerült menteni a csatolt fájlt, túl nagy</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sikeres</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Hiba</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Az oldal védett, és nem törölhető. A moderátornak vagy az adminisztrátornak el kell távolítania a védelmet a törlés előtt.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Az oldal törölve lett.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Az oldal védett, és nem módosítható, kivéve, ha moderátor vagy adminisztrátor eltávolítja a védelmet.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Változtatási összefoglaló szükséges az oldal módosításaihoz.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>A '::' karakterek a névterület nevének megjelölésére szolgálnak. Egy oldal neve nem tartalmazhat több ilyen karakterpárt.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>A megadott oldalnév már létezik.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Az oldal létrehozva.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Az oldal mentve lett.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Nyilvános profil</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Nyilvános profilok le vannak tiltva.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>A megadott felhasználót nem találtuk.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Saját profilom</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>A profilod mentve lett.</value>
+  </data>
 </root>

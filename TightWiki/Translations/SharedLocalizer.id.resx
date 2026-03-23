@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Gagal mendapatkan informasi dari penyedia eksternal</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Pulihkan selesai.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Statistik kompilasi dihapus.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Cache memori dihapus.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Statistik Kompilasi</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Moderasi Halaman</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Anda tidak dapat mengembalikan ke revisi halaman saat ini.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Halaman telah dikembalikan.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Halaman yang ditentukan tidak dapat ditemukan.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Halaman tidak dapat ditemukan.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Anda tidak dapat menghapus satu-satunya revisi yang ada dari sebuah halaman, melainkan Anda harus menghapus seluruh halaman.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Revisi halaman telah dipindahkan ke antrean penghapusan.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Semua halaman telah dibangun kembali.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Semua halaman telah di-cache.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Semua revisi halaman telah dipangkas.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Antrian penghapusan halaman telah dibersihkan.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Revisi halaman telah dihapus dari antrean penghapusan.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Revisi halaman telah dikembalikan.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Halaman telah dihapus dari antrean penghapusan.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Halaman telah dipindahkan ke antrean penghapusan.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Halaman telah dipulihkan.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Semua lampiran halaman yang tidak terpakai telah dihapus.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Lampiran halaman yang tidak terpakai telah dihapus.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Item Menu</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Item menu telah dibuat.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Item menu telah disimpan.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Item menu yang ditentukan telah dihapus.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfigurasi telah disimpan dengan sukses!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Nama emoji sudah digunakan.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Tidak bisa menyimpan gambar yang dilampirkan, terlalu besar.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Tidak bisa menyimpan gambar yang dilampirkan.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji telah disimpan dengan sukses!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji telah disimpan.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji telah dibuat.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Emoji yang ditentukan telah dihapus.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Semua catatan acara telah dibersihkan.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>Otentikasi LDAP tidak diaktifkan.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>Tantangan LDAP berhasil, tetapi pengguna tidak memiliki atribut objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Tantangan LDAP berhasil (akun tidak diprovisi).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>Tantangan LDAP berhasil (akun sepenuhnya diprovisi).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>Tantangan LDAP berhasil (akun sebagian diprovisi).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>Tantangan LDAP gagal.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Peran yang ditentukan telah dihapus.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Nama peran diperlukan.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Nama peran sudah digunakan.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Nama akun sudah digunakan.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Alamat email sudah digunakan.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Tidak bisa menyimpan gambar yang dilampirkan, tipe tidak diperbolehkan.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profil telah disimpan dengan sukses!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Nama akun diperlukan.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Akun telah dibuat.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Pengguna tidak ditemukan.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Akun Anda telah dihapus.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Halaman telah dihapus.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Tidak dapat menyimpan file terlampir, terlalu besar</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sukses</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Gagal</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Halaman dilindungi dan tidak dapat dihapus. Seorang moderator atau administrator harus menghapus perlindungan sebelum penghapusan.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Halaman telah dihapus.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Halaman dilindungi dan tidak dapat diubah kecuali oleh moderator atau administrator kecuali perlindungan dihapus.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Ringkasan perubahan diperlukan untuk penyuntingan halaman.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Karakter '::' digunakan untuk menunjukkan nama ruang nama. Nama halaman tidak boleh mengandung lebih dari satu pasangan karakter ini.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Nama halaman yang Anda masukkan sudah ada.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Halaman telah dibuat.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Halaman disimpan.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Profil Publik</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Profil publik dinonaktifkan.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Pengguna yang ditentukan tidak ditemukan.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Profil Saya</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Profil Anda telah disimpan.</value>
+  </data>
 </root>

@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Ne uspešno pridobivanje informacij od zunanjega ponudnika</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Obnova je končana.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Statistika kompajlacij izbrisana.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Predpomnilnik pomnilnika izbrisan.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Statistika kompajlacij</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Urejanje strani</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Ni mogoče vrniti na trenutno različico strani.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Stran je bila vrnjena.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Navedena stran ni bila najdena.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Stran ni bila najdena.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Ni mogoče izbrisati edine obstoječe različice strani, namesto tega morate izbrisati celotno stran.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Različica strani je bila premaknjena v čakalno vrsto za brisanje.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Vse strani so bile ponovno zgrajene.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Vse strani so bile shranjene v predpomnilnik.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Vse različice strani so bile skrajšane.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Čakalna vrsta za brisanje strani je bila izbrana.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Različica strani je bila izbrisana iz čakalne vrste za brisanje.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Različica strani je bila obnovljena.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Stran je bila izbrisana iz čakalne vrste za brisanje.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Stran je bila premaknjena v čakalno vrsto za brisanje.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Stran je bila obnovljena.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Vse priponke osirotele strane so bile izbrisane.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Osirotele priponke strani so bile izbrisane.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Izziv menija</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Element menija je bil ustvarjen.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Postavka menija je bila shranjena.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Izbrana postavka menija je bila izbrisana.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfiguracija je bila uspešno shranjena!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Ime emojija je že v uporabi.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Slike, priložene, ni bilo mogoče shraniti, prevelika je.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Slike, priložene, ni bilo mogoče shraniti.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji je bil uspešno shranjen!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji je bil shranjen.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji je bil ustvarjen.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Izbrani emoji je bil izbrisan.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Vsi dogodki v dnevniku so bili izbrisani.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP avtentikacija ni omogočena.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP iziv je bil uspešen, vendar uporabnik nima atributa objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP iziv je bil uspešen (nerealiziran račun).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP iziv je bil uspešen (popolnoma realiziran račun).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP iziv je bil uspešen (delno realiziran račun).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP iziv ni uspešen.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Izbrana vloga je bila izbrisana.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Ime vloge je obvezno.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Ime vloge je že v uporabi.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Ime računa je že v uporabi.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Elektronski naslov je že v uporabi.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Slike, priložene, ni bilo mogoče shraniti, vrsta ni dovoljena.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profil je bil uspešno shranjen!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Ime računa je obvezno.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Račun je bil ustvarjen.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Uporabnik ni najden.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Vaš račun je bil izbrisan.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Račun je bil izbrisan.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Ni bilo mogoče shraniti pripete datoteke, prevelika je</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Uspešno</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Napaka</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Stran je zaščitena in je ni mogoče izbrisati. Moderator ali administrator morata odstraniti zaščito preden bo mogoče izbrisati.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Stran je bila izbrisana.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Stran je zaščitena in je ni mogoče spreminjati razen če jo odobri moderator ali administrator, razen če se zaščita odstraniti.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Za urejanje strani je potrebno povzetek sprememb.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Če se uporabi '::' predstavlja ime prostora. Ime strani ne sme vsebovati več kot enega niza teh znakov.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Ime strani, ki ste ga vnesli, že obstaja.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Stran je bila ustvarjena.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Stran je bila shranjena.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Javni profil</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Javni profili so onemogočeni.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Določeni uporabnik ni najden.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Moj profil</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Vaš profil je bil shranjen.</value>
+  </data>
 </root>

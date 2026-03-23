@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Misslyckades med att hämta information från extern leverantör</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Återställning klar.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Sammanställningsstatistik raderas.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Minnescache raderas.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Sammanställningsstatistik</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Sidmoderering</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Du kan inte ångra den nuvarande sidversionen.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Sidan har återställts.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Den angivna sidan kunde inte hittas.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Sidan kunde inte hittas.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Du kan inte ta bort den enda befintliga versionen av en sida, istället måste du ta bort hela sidan.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Sidversionen har flyttats till raderingskön.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Alla sidor har byggts om.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Alla sidor har cachats.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Alla sidversioner har förkortats.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Raderingskön för sidan har rensats.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Sidversionen har rensats från raderingskön.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Sidversionen har återställts.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Sidan har rensats från raderingskön.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Sidan har flyttats till raderingskön.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Sidan har återställts.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Alla föräldralösa bilagor till sidan har rensats.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>De föräldralösa bilagorna till sidorna har rensats.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menyalternativ</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Menyalternativet har skapats.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Menyalternativet har sparats.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Den angivna menyalternativet har raderats.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfigurationen har sparats framgångsrikt!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emoji-namnet är redan i bruk.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Det gick inte att spara den bifogade bilden, den är för stor.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Det gick inte att spara den bifogade bilden.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emojin har sparats framgångsrikt!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emojin har sparats.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emojin har skapats.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Den angivna emojin har raderats.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Alla händelselogg har rensats.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP-autentisering är inte aktiverad.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP-utmaningen lyckades, men användaren har inte ett objectGUID-attribut.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP-utmaningen lyckades (in-provisionerat konto).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP-utmaningen lyckades (fullt provisionerat konto).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP-utmaningen lyckades (delvis provisionerat konto).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP-utmaningen misslyckades.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Den angivna rollen har raderats.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Rollnamn krävs.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Rollnamnet är redan i bruk.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Kontonamnet är redan i bruk.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-postadressen är redan i bruk.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Det gick inte att spara den bifogade bilden, typ ej tillåten.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profilen har sparats framgångsrikt!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Kontonamn krävs.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Kontot har skapats.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Användaren hittades inte.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Ditt konto har raderats.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Kontot har raderats.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Det gick inte att spara den bifogade filen, den är för stor</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Lyckat</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Misslyckande</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Sidan är skyddad och kan inte raderas. En moderator eller administratör måste ta bort skyddet innan radering.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Sidan har raderats.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Sidan är skyddad och kan inte ändras förutom av en moderator eller administratör, såvida inte skyddet tas bort.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>En ändringssammanfattning krävs för sidredigeringar.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Tecknen '::' används för att ange ett namespace-namn. Ett sidnamn kan inte innehålla mer än en uppsättning av dessa tecken.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Det sidnamn du angav finns redan.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Sidan har skapats.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Sidan sparades.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Offentlig profil</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Offentliga profiler är inaktiverade.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Den angivna användaren hittades inte.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Min profil</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Din profil har sparats.</value>
+  </data>
 </root>

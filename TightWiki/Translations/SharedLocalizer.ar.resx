@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>الأردية</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>فشل في الحصول على المعلومات من المزوّد الخارجي</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>تمت الاستعادة بالكامل.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>تم حذف إحصائيات الترجمة.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>تم مسح ذاكرة التخزين المؤقتة.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>إحصائيات الترجمة</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>إشراف الصفحة</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>لا يمكنك الرجوع إلى إصدار الصفحة الحالي.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>تمت استعادة الصفحة.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>تعذر العثور على الصفحة المحددة.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>تعذر العثور على الصفحة.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>لا يمكنك حذف الإصدار الوحيد الموجود من الصفحة، بدلاً من ذلك ستحتاج إلى حذف الصفحة بأكملها.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>تم نقل إصدار الصفحة إلى قائمة الحذف.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>تم إعادة بناء جميع الصفحات.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>تم تخزين كافة الصفحات في ذاكرة التخزين المؤقت.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>تم تقصير جميع إصدارات الصفحة.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>تم تنظيف قائمة حذف الصفحة.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>تم حذف إصدار الصفحة من قائمة الحذف.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>تم استعادة إصدار الصفحة.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>تم مسح الصفحة من قائمة الحذف.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>تم نقل الصفحة إلى قائمة الحذف.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>تمت استعادة الصفحة.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>تم إزالة جميع مرفقات الصفحة المهجورة.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>تم مسح المرفقات المهجورة للصفحات.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>عنصر القائمة</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>تم إنشاء عنصر القائمة.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>تم حفظ عنصر القائمة.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>تم حذف عنصر القائمة المحدد.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>تم حفظ الإعداد بنجاح!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>اسم الرمزة التعبيرية مستخدم بالفعل.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>لم يتمكن من حفظ الصورة المرفقة، كبيرة جدًا.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>لم يتمكن من حفظ الصورة المرفقة.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>تم حفظ الرمزة التعبيرية بنجاح!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>تم حفظ الرمزة التعبيرية.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>تم إنشاء الرمزة التعبيرية.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>تم حذف الرمزة التعبيرية المحددة.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>تم حذف جميع سجلات الأحداث.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>لم يتم تمكين مصادقة LDAP.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>نجح تحدي LDAP، لكن المستخدم لا يملك خاصية objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>نجح تحدي LDAP (حساب غير مُخصص).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>نجح تحدي LDAP (حساب مُخصص تمامًا).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>نجح تحدي LDAP (حساب مُخصص جزئيًا).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>فشل تحدي LDAP.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>تم حذف الدور المحدد.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>اسم الدور مطلوب.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>اسم الدور مستخدم بالفعل.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>اسم الحساب مستخدم بالفعل.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>عنوان البريد الإلكتروني مستخدم بالفعل.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>لم يتمكن من حفظ الصورة المرفقة، النوع غير مسموح به.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>تم حفظ الملف الشخصي بنجاح!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>اسم الحساب مطلوب.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>تم إنشاء الحساب.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>لم يتم العثور على المستخدم.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>تم حذف حسابك.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>تم حذف الصفحة.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>تعذر حفظ الملف المرفق، حجمه كبير جدًا</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>نجاح</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>فشل</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>الصفحة محمية ولا يمكن حذفها. يجب على المشرف أو المسؤول إزالة الحماية قبل الحذف.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>تم حذف الصفحة.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>الصفحة محمية ولا يمكن تعديلها إلا بواسطة مشرف أو مسؤول إلا في حالة إزالة الحماية.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>يتطلب تحرير الصفحة ملخصاً للتغيير.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>يستخدم رمزا '::' للدلالة على اسم مساحة الاسم. لا يمكن لاسم الصفحة أن يحتوي على أكثر من مجموعة واحدة من هذه الرموز.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>اسم الصفحة الذي أدخلته موجود بالفعل.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>تم إنشاء الصفحة.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>تم حفظ الصفحة.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>الملف الشخصي العام</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>تم تعطيل الملفات الشخصية العامة.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>لم يتم العثور على المستخدم المحدد.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>ملفي الشخصي</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>تم حفظ ملفك الشخصي.</value>
+  </data>
 </root>

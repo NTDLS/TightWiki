@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>ურდუუ</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>უცხო მიმწოდებლიდან ინფორმაციის მიღება ვერ მოხერხდა</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>აღდგა სრული.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>კომპილაციის სტატისტიკა წაშლილია.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>დამახსოვრებული საპასუხო მეხსიერება წაშლილია.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>კომპილაციის სტატისტიკები</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>გვერდის მოდერაცია</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>თქვენ ვერ შეძლებთ არსებული გვერდის რევიზის დაბრუნებას.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>გვერდი დაბრუნებულია.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>ონკომაუდო გვერდი ვერ მოიძებნა.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>გვერდი ვერ მოიძებნა.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>თქვენ არ შეგიძლიათ გამოთიშოთ მხოლოდ ერთი არსებული რევიზია გვერდზე, რადგან უნდა წაშალოთ მთელი გვერდი.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>გვერდის რევიზია მიცემულია წაშლის რიგში.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>ყველა გვერდი განახლდა.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>ყველა გვერდი განახლდა საპასუხო მეხსიერებაში.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>ყველა გვერდის რევიზია მოკლებულია.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>გვერდის წაშლის რიგი გაუქმებულია.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>გვერდის რევიზია გაუქმებულია წაშლის რიგიდან.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>გვერდი დაბრუნებულია.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>გვერდი გაუქმებულია წაშლის რიგიდან.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>გვერდი გადაიყვანილია წაშლის რიგში.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>გვერდი აღდგა.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>ყველა ორგვენი გვერდის მიბმული ფაილი გაუქმებულია.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>გვერდის ორგვენი ფაილები გაუქმებულია.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>მენიუ-ის განუვითარებელი</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>მენიუ-ის ნაჩვენები გაკეთდა.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>მენიუს ელემენტი დათვლილია.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>აღნიშნული მენიუს ელემენტი წაიშალა.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>კონფიგურაცია წარმატებით არის დაცული!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>ემოჩენის სახელი უკვე გამოიყენება.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>ზედმეტად დიდია მიმაგრებული სურათი, ვერ დავიცავი.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>ზედმეტად დიდი სურათი, ვერ დავიცავი.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>ემოჩენი წარმატებით არის დაცული!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>ემოჩენი დაიცვა.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>ემოჩენი შექმნილია.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>აღნიშნული ემოჩენი წაიშალა.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>ყველა მოვლენის ჩანაწერი წაშალა.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP ამოწმება არ არის ჩართული.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP გამოწვევა წარმატებით დასრულდა, მაგრამ მომხმარებელს არ აქვს objectGUID ატრიბუტი.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP გამოწვევა წარმატებულია (არ-გახსნილი ანგარიში).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP გამოწვევა წარმატებულია (შესრულებული ანგარიში).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP გამოწვევა સફળია (ნაწილობრივ დაკომპლექტებული ანგარიში).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP გამოწვევა ვერ დასრულდა.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>არჩევილი როლი წაიშალა.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>როლის სახელი აუცილებელია.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>როლის სახელი უკვე გამოიყენება.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>ანგარიშის სახელი უკვე გამოიყენება.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>ელექტრონული ფოსტის მისამართი უკვე გამოიყენება.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>ზედმეტად დიდი სურათი, ტიპი არ დადასტურებულია.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>პროფილი წარმატებით არის დაცული!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>ანგარიშის სახელი აუცილებელია.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>ანგარიში შეიქმნა.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>მომხმარებელი ვერ მოიძებნა.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>თქვენი ანგარიში წაიშალა.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>ანგარიში გაწყდა.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>უკავშირში დასმული ფაილი ვერ გაიხსნა, ძალიან ბევრი იყო</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>წარმატება</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>შეცდომა</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>გვერდი დაცულია და ვერ მოიცილება. დაცვის მოხსნისთვის საჭიროა მოდერატორ ან ადმინისტრატორის განიარაღება.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>გვერდი წაიშალა.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>გვერდი დაცულია და მიუწვდომელია მოდერატორის ან ადმინსტრატორის გარეშე, თუ დაცვა არ მოიხსნა.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>გვერდის რედაქტირებისთვის საჭიროა ცვლილების მიმოხილვა.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>'::' სიმბოლოები გამოიყენება ნეიტრალობის სახელწოდების გამოსაწვევად. გვერდის სახელში არ შეიძლება იყოს მეტი ერთი ეს სიმბოლოს ნაკრები.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>თქვენი გაწერილი გვერდის სახელი უკვე არსებობს.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>გვერდი შექმნილია.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>გვერდი გამოინახა.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>პაბლიკური პროფილი</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>პაბლიკური პროფილები გამორთულია.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>მივლინებული მომხმარებელი ვერ მოიძებნა.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>ჩემი პროფილი</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>თქვენი პროფილი შეინახა.</value>
+  </data>
 </root>

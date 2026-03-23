@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>урду</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Не ўдалося атрымаць інфармацыю з знешняга пастаўшчыка</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Восстанаўленне завершана.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Статыстыка кампіляцый выдалена.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Кэш памяці выдалены.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Статыстыка кампіляцый</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Мадэрацыя старонкі</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Вы не можаце вярнуць да бягучай рэдакцыі старонкі.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Старонка была ўрэгулявана.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Указаная старонка не знойдзена.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Старонка не знойдзена.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Вы не можаце выдаліць адзіную існуючую рэдакцыю старонкі, замест гэтага вам трэба выдаліць усю старонку.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Рэдакцыя старонкі перамешчана ў чаргу на выдаленне.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Усе старонкі былі перабудаваныя.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Усе старонкі былі закэшаваныя.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Усе рэдакцыі старонкі скарочаны.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Чарга на выдаленне старонкі вычышчана.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Рэдакцыя старонкі выдалена з чаргі на выдаленне.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Рэдакцыя старонкі адновлена.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Старонка выдалена з чаргі на выдаленне.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Старонка перамешчана ў чаргу на выдаленне.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Старонка адноўлена.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Усе чужыя файлы прыкладзеньняў старонкі выдалены.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Чужыя файлы прыкладзеньняў старонак былі выдалены.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Пунктаў меню</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Пункт меню створаны.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Мصدر меню быў захаваны.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Вызначаны пункт меню быў выдалены.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Канфігурацыя была паспяхова захавана!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Назва эмодзі ўжо выкарыстоўваецца.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Немагчыма захаваць прыкладзенае малюнак, занадта вялікі.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Немагчыма захаваць прыкладзенае малюнак.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Эмодзі быў паспяхова зэканомлены!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Эмодзі быў захаваны.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Эмодзі створана.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Вызначанае эмодзі было выдалена.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Усе журналы падзей былі ачышчаны.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>Аўтэнтыфікацыя LDAP не ўключана.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>Выклік LDAP удалы, але ў карыстальніка няма атрыбута objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Выклік LDAP удалы (не праівязаны акаўнт).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>Выклік LDAP удалы (поўнасцю праівязаны акаўнт).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>Выклік LDAP удалы (часткова праівязаны акаўнт).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>Выклік LDAP праваліўся.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Вызначаны ролі быў выдалены.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Назва ролі абавязкова.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Назва ролі ўжо выкарыстоўваецца.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Назва акаўнта ўжо выкарыстоўваецца.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Электронная пошта ўжо ў выкарыстанні.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Немагчыма захаваць прыкладзенае малюнак, тып не дазволены.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Профіль быў паспяхова захаваны!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Назва акаўнта неабходна.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Распіса быў створаны.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Карыстальнік не знойдзены.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Ваш распіса быў выдалены.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Распіса быў выдалены.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Немагчыма захаваць прыкладзены файл, ён занадта вялікі</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Паспяхова</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Няўдача</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Старонка захавана і не можа быць выдалена. Мадэратар або адміністратар павінен зняць абарону перад выдаленнем.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Старонка была выдалена.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Старонка абаронена і не можа быць зменена, акрамя як мадэратарам або адміністратарам, калі абарона не знятая.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Трэба ўказаць звесткі пра змены для рэдагавання старонак.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Сімвалы '::' выкарыстоўваюцца для абазначэння імя прасторы імёнаў. Назва старонкі не можа ўтрымліваць больш за адзін набор гэтых сімвалаў.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Назва старонкі, якую вы ўвялі, ужо існуе.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Старонка была створана.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Старонка была захавана.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Публічны профіль</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Публічныя профілі адключаны.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Зазначаны карыстальнік не быў знойдзены.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Мой профіль</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Ваш профіль быў захаваны.</value>
+  </data>
 </root>

@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Falha ao obter informações do provedor externo</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Restauração concluída.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Estatísticas de compilação apagadas.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Cache de memória apagado.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Estatísticas de Compilações</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Moderação da Página</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Você não pode reverter para a revisão atual da página.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>A página foi revertida.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>A página especificada não pode ser encontrada.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>A página não pode ser encontrada.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Você não pode excluir a única revisão existente de uma página, em vez disso, você precisaria excluir toda a página.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>A revisão da página foi movida para a fila de exclusão.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Todas as páginas foram reconstruídas.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Todas as páginas foram armazenadas em cache.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Todas as revisões da página foram truncadas.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>A fila de exclusão de páginas foi purgada.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>A revisão da página foi purgada da fila de exclusão.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>A revisão da página foi restaurada.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>A página foi purgada da fila de exclusão.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>A página foi movida para a fila de exclusão.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>A página foi restaurada.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Todos os anexos órfãos de páginas foram apagados.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Os anexos órfãos das páginas foram apagados.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Item do Menu</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>O item do menu foi criado.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>O item do menu foi salvo.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>O item do menu especificado foi excluído.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>A configuração foi salva com sucesso!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>O nome do emoji já está em uso.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Não foi possível salvar a imagem anexada, demasiado grande.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Não foi possível salvar a imagem anexada.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>O emoji foi salvo com sucesso!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>O emoji foi salvo.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>O emoji foi criado.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>O emoji especificado foi excluído.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Todos os registros de eventos foram apagados.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>A autenticação LDAP não está ativada.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>A autenticação LDAP foi bem-sucedida, mas o usuário não possui o atributo objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>A autenticação LDAP foi bem-sucedida (conta não provisionada).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>A autenticação LDAP foi bem-sucedida (conta totalmente provisionada).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>A autenticação LDAP foi bem-sucedida (conta parcialmente provisionada).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>A autenticação LDAP falhou.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>O papel especificado foi excluído.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>O nome do papel é obrigatório.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>O nome do papel já está em uso.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>O nome da conta já está em uso.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>O endereço de email já está em uso.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Não foi possível salvar a imagem anexada, tipo não permitido.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>O perfil foi salvo com sucesso!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>O nome da conta é obrigatório.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>A conta foi criada.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Usuário não encontrado.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Sua conta foi excluída.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>A conta foi excluída.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Não foi possível salvar o arquivo anexado, muito grande</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sucesso</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Falha</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>A página está protegida e não pode ser excluída. Um moderador ou administrador deve remover a proteção antes da exclusão.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>A página foi excluída.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>A página está protegida e não pode ser modificada, exceto por um moderador ou administrador, a menos que a proteção seja removida.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>É necessário um resumo das alterações para editar a página.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Os caracteres '::' são usados para denotar um nome de namespace. Um nome de página não pode conter mais de um conjunto desses caracteres.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>O nome da página que você inseriu já existe.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>A página foi criada.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>A página foi salva.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Perfil Público</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Perfis públicos estão desativados.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>O usuário especificado não foi encontrado.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Meu Perfil</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Seu perfil foi salvo.</value>
+  </data>
 </root>

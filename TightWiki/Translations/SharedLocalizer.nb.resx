@@ -2365,4 +2365,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Kunne ikke hente informasjon fra ekstern leverandør</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Gjenoppretting fullført.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Kompatibilitetsstatistikk ryddet.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Hukommelsesbuffer ryddet.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Kompatibilitetsstatistikk</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Sidemoderering</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Du kan ikke angre på den nåværende siderevisjonen.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Siden har blitt tilbakestilt.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Den spesifiserte siden kunne ikke finnes.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Siden kunne ikke finnes.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Du kan ikke slette den eneste eksisterende revisjonen av en side, i stedet må du slette hele siden.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Side-revisjonen har blitt flyttet til slettingskøen.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Alle sider har blitt gjenoppbygd.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Alle sider har blitt bufret.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Alle siderevisjoner har blitt forkortet.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Slettingskøen for siden har blitt ryddet.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Side-revisjonen har blitt ryddet fra slettingskøen.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Side-revisjonen har blitt gjenopprettet.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Siden har blitt ryddet fra slettingskøen.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Siden har blitt flyttet til slettingskøen.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Siden er gjenopprettet.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Alle foreldreløse vedlegg til sider har blitt ryddet.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>De foreldreløse vedleggene til sidene har blitt ryddet.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menyartikkel</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Menyposten har blitt opprettet.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Menypunktet er lagret.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Det angitte menypunktet er slettet.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfigurasjonen er lagret vellykket!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emoji-navnet er allerede i bruk.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Kunne ikke lagre det vedlagte bildet, for stort.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Kunne ikke lagre det vedlagte bildet.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji har blitt lagret vellykket!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji har blitt lagret.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emojien er opprettet.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Den angitte emojien er slettet.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Alle hendelseslogger er slettet.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP-autentisering er ikke aktivert.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP-utfordringen var vellykket, men brukeren har ikke et objectGUID-attributt.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP-utfordringen lyktes (ikke-provisionert konto).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP-utfordringen lyktes (fullt provisionert konto).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP-utfordringen lyktes (delvis provisionert konto).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP-utfordringen mislyktes.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Den angitterollen er slettet.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Rollegenavn er påkrevd.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Rollenavn er allerede i bruk.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Kontonavn er allerede i bruk.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-postadressen er allerede i bruk.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Kunne ikke lagre det vedlagte bildet, type tillates ikke.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profilen er lagret vellykket!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Kontonavn er påkrevd.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Kontoen er opprettet.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Bruker finnes ikke.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Kontoen din er slettet.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Kontoen har blitt slettet.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Kunne ikke lagre vedlegget, det er for stort</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Vellykket</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Feil</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Siden er beskyttet og kan ikke slettes. En moderator eller administrator må fjerne beskyttelsen før sletting.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Siden er slettet.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Siden er beskyttet og kan ikke endres uten at en moderator eller administrator fjerner beskyttelsen.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>En endringsbeskrivelse er påkrevd for redigeringer av siden.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Tecknet '::' brukes for å angi et navnerom. En sidetittel kan ikke inneholde mer enn ett sett med disse tegnene.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Sidetittelen du skrev inn eksisterer allerede.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Siden er opprettet.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Siden ble lagret.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Offentlig profil</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Offentlige profiler er deaktivert.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Den angitte brukeren ble ikke funnet.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Min profil</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Profilen din er lagret.</value>
+  </data>
 </root>

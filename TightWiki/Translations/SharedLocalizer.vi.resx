@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>tiếng Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Không lấy được thông tin từ nhà cung cấp bên ngoài</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Khôi phục hoàn tất.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Thống kê biên dịch đã bị xóa.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>bộ nhớ cache đã bị xóa.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Thống kê Biên dịch</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Quản lý Trang</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Bạn không thể hoàn nguyên về phiên bản hiện tại của trang.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Trang đã được hoàn nguyên.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Không thể tìm thấy trang đã chỉ định.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Không tìm thấy trang.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Bạn không thể xóa phiên bản duy nhất của một trang, thay vào đó bạn cần xóa toàn bộ trang.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Phiên bản của trang đã được chuyển đến hàng đợi xóa.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Tất cả các trang đã được xây dựng lại.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Tất cả các trang đã được lưu bộ nhớ đệm.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Tất cả các phiên bản của trang đã bị cắt ngắn.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Hàng đợi xóa trang đã bị xóa.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Phiên bản của trang đã bị xóa khỏi hàng đợi xóa.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Phiên bản của trang đã được khôi phục.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Trang đã bị xóa khỏi hàng đợi xóa.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Trang đã được chuyển đến hàng đợi xóa.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Trang đã được khôi phục.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Tất cả các tệp đính kèm trang bị bỏ rơi đã bị xóa.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Các tệp đính kèm bị bỏ rơi của trang đã bị xóa.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Mục Menu</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Mục menu đã được tạo.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Thực đơn đã được lưu.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Thực đơn đã được xóa.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Cấu hình đã được lưu thành công!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Tên biểu tượng cảm xúc đã tồn tại.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Không thể lưu hình ảnh đính kèm, quá lớn.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Không thể lưu hình ảnh đính kèm.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Biểu tượng cảm xúc đã được lưu thành công!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Biểu tượng cảm xúc đã được lưu.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Biểu tượng cảm xúc đã được tạo.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Biểu tượng cảm xúc đã bị xóa.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Tất cả nhật ký sự kiện đã được xóa.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>Xác thực LDAP không được bật.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>Xác thực LDAP thành công, nhưng người dùng không có thuộc tính objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Xác thực LDAP thành công (tài khoản chưa đăng ký).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>Xác thực LDAP thành công (tài khoản đã đầy đủ đăng ký).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>Xác thực LDAP thành công (tài khoản đã đăng ký một phần).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>Xác thực LDAP thất bại.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Vai trò đã được xóa.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Tên vai trò là bắt buộc.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Tên vai trò đã tồn tại.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Tên tài khoản đã tồn tại.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Địa chỉ email đã tồn tại.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Không thể lưu hình ảnh đính kèm, loại không được phép.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Hồ sơ đã được lưu thành công!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Tên tài khoản là bắt buộc.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Tài khoản đã được tạo.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Không tìm thấy người dùng.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Tài khoản của bạn đã bị xóa.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Tài khoản đã bị xóa.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Không thể lưu tệp đính kèm, quá lớn</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Thành công</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Thất bại</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Trang này được bảo vệ và không thể bị xóa. Một người kiểm duyệt hoặc quản trị viên phải loại bỏ bảo vệ trước khi xóa.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Trang đã bị xóa.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Trang này được bảo vệ và không thể chỉnh sửa trừ khi bởi một người kiểm duyệt hoặc quản trị viên trừ khi bảo vệ bị loại bỏ.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Cần có mô tả thay đổi để chỉnh sửa trang.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Các ký tự '::' được dùng để biểu thị tên không gian. Tên trang không thể chứa nhiều hơn một bộ ký tự này.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Tên trang bạn nhập đã tồn tại.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Trang đã được tạo.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Trang đã được lưu.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Hồ sơ công khai</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Hồ sơ công khai đã bị vô hiệu hóa.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Người dùng được chỉ định không tìm thấy.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Hồ sơ của tôi</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Hồ sơ của bạn đã được lưu.</value>
+  </data>
 </root>

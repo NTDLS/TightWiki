@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Nepavyko gauti informacijos iš išorinio tiekėjo</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Atstatymas baigtas.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Sudarymo statistika ištrinta.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Atminties talpykla ištrinta.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Sudarytų statistika</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Weberlio moderatorius</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Nepavyksta grįžti prie dabartinio puslapio versijos.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Puslapis buvo sugrąžintas.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Negalima rasti nurodyto puslapio.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Puslapio rasti nepavyko.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Negalite ištrinti vienintelės puslapio versijos, reikėtų ištrinti visą puslapį.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Puslapio versija buvo perkelta į ištrinti laukiančiųjų eilę.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Visi puslapiai buvo atnaujinti.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Visi puslapiai buvo sugeneruoti į talpyklą.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Visos puslapio versijos buvo sutrumpintos.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Puslapio ištrynimo eilė buvo išvalyta.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Puslapio versija buvo ištrinta iš ištrynimo eilės.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Puslapio versija buvo sugrąžinta.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Puslapis buvo ištrintas iš ištrynimo eilės.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Puslapis buvo perkeltas į ištrinti eilę.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Puslapis buvo atstatytas.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Visos našlaičių priedai prie puslapio buvo ištrinti.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Našlaičių priedai prie puslapių buvo ištrinti.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Meniu punktas</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Meniu punktas buvo sukurtas.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Meniu elementas išsaugotas.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Nurodytas meniu elementas ištrintas.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Nustatymai sėkmingai išsaugoti!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emoji pavadinimas jau naudojamas.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Nepavyko išsaugoti pridedamos nuotraukos, ji pernelyg didelė.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Nepavyko išsaugoti pridedamos nuotraukos.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji sėkmingai išsaugotas!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji išsaugotas.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji sukurtas.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Nurodytas emoji ištrintas.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Visi įvykio žurnalai išvalyti.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP autentifikacija įjungta nebuvo.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP iššūkis sėkmingas, tačiau vartotojas neturi objektGUID atributo.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP iššūkis sėkmingas (neužtikrintas paskyra).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP iššūkis sėkmingas (visiškai užtikrinta paskyra).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP iššūkis sėkmingas (iš dalies užtikrinta paskyra).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP iššūkis nepavyko.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Nurodyta rolė ištrinta.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Reikalingas rolės pavadinimas.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Role pavadinimas jau naudojamas.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Paskyros pavadinimas jau naudojamas.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>El. pašto adresas jau naudojamas.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Nepavyko išsaugoti pridedamos nuotraukos, tipas neleidžiamas.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profilis sėkmingai išsaugotas!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Reikalingas paskyros pavadinimas.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Paskyra sukurta.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Vartotojas nerastas.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Jūsų paskyra ištrinta.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Paskyra ištrinta.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Nepavyko išsaugoti pridėto failo, jis per didelis</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sėkmė</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Klaida</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Puslapis yra apsaugotas ir negali būti ištrintas. Apsaugą turi pašalinti moderatorius ar administratorius prieš trinant.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Puslapis ištrintas.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Puslapis yra apsaugotas ir negali būti keičiamas, išskyrus atvejus, kai jį keičia moderatorius ar administratorius, nebent apsauga būtų pašalinta.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Puslapio redagavimui būtina įvesti keitimo aprašymą.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Simboliai '::' naudojami nurodyti namespace pavadinimą. Puslapio pavadinimas negali būti sudarytas iš daugiau nei vieno šių simbolių rinkinio.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Įvestas puslapio pavadinimas jau egzistuoja.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Puslapis sukurtas.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Puslapis išsaugotas.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Viešasis profilis</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Viešieji profiliai išjungti.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Nurodytas vartotojas nerastas.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Mano profilis</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Jūsų profilis išsaugotas.</value>
+  </data>
 </root>

@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Nepodařilo se získat informace od externího poskytovatele</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Obnova byla dokončena.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Statistiky kompilací byly vyčištěny.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Vyčištěna paměťová vyrovnávací paměť.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Statistiky kompilací</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Moderování stránky</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Nemůžete vrátit zpět na aktuální revizi stránky.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Stránka byla vrácena zpět.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Nelze najít zadanou stránku.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Stránku nelze najít.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Nemůžete smazat jedinou existující revizi stránky, místo toho byste museli smazat celou stránku.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Revize stránky byla přesunuta do fronty na smazání.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Všechny stránky byly přestavěny.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Všechny stránky byly uloženy do cache.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Všechny revize stránek byly zkráceny.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Fronta na smazání stránek byla vyčištěna.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Revize stránky byla vymazána z fronty na smazání.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Revize stránky byla obnovena.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Stránka byla vymazána z fronty na smazání.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Stránka byla přesunuta do fronty na smazání.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Stránka byla obnovena.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Všechny nepřipojené přílohy stránek byly vymazány.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Nepřipojené přílohy stránek byly vymazány.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Položka menu</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Položka menu byla vytvořena.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Jídlo v nabídce bylo uloženo.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Specifikované jídlo v nabídce bylo smazáno.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfigurace byla úspěšně uložena!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Název emotikonu je již používán.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Nepodařilo se uložit připojený obrázek, je příliš velký.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Nepodařilo se uložit připojený obrázek.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emotikon byl úspěšně uložen!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emotikon byl uložen.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emotikon byl vytvořen.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Specifikovaný emotikon byl smazán.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Všichni protokoly událostí byly vymazány.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>Autentizace LDAP není povolena.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>Výzva LDAP byla úspěšná, ale uživatel nemá atribut objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Výzva LDAP byla úspěšná (neprovisionovaný účet).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>Výzva LDAP byla úspěšná (plně provizovaný účet).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>Výzva LDAP byla úspěšná (částečně provizovaný účet).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>Výzva LDAP selhala.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Specifikovaná role byla smazána.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Jméno role je vyžadováno.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Jméno role je již používáno.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Jméno účtu je již používáno.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-mailová adresa je již používána.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Nepodařilo se uložit připojený obrázek, typ není povolen.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profil byl úspěšně uložen!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Jméno účtu je vyžadováno.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Účet byl vytvořen.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Uživatel nenalezen.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Váš účet byl smazán.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Účet byl smazán.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Nebylo možné uložit připojený soubor, příliš velký</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Úspěch</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Selhání</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Stránka je chráněna a nelze ji smazat. Moderátor nebo administrátor musí odstranit ochranu před smazáním.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Stránka byla smazána.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Stránka je chráněna a nelze ji upravit, kromě případů, kdy je ochrana odstraněna moderátorem nebo administrátorem.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Pro úpravy stránky je vyžadován shrnutí změn.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Znaky '::' slouží k označení názvu prostoru jmen. Název stránky nesmí obsahovat více než jeden soubor těchto znaků.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Zadaný název stránky již existuje.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Stránka byla vytvořena.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Stránka byla uložena.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Veřejný profil</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Veřejné profily jsou vypnuté.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Zadaného uživatele se nenašlo.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Můj profil</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Váš profil byl uložen.</value>
+  </data>
 </root>

@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Neizdevās iegūt informāciju no ārējā pakalpojumu sniedzēja</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Atjaunošana pabeigta.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Komplektēšanas statistika izdzēsta.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Atmiņas kešatmiņa izdzēsta.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Komplektēšanas statistika</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Lapas moderācija</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Jūs nevarat atjaunot pašreizējo lapas versiju.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Lapa ir atjaunota.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Norādītā lapa nevar atrast.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Lapa nevar atrast.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Jūs nevarat dzēst vienīgo esošo lapas versiju, jums būtu jādzēš visa lapa.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Lapas versija ir pārslēgta uz dzēšanas rindkopu.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Visas lapas ir pārbūvētas.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Visas lapas ir kešatmiņā.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Visas lapas versijas ir sagrieztas.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Lapas dzēšanas rinda ir izdzēsta.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Lapas versija ir izdzēsta no dzēšanas rindas.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Lapa ir atjaunota.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Lapa ir izdzēsta no dzēšanas rindas.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Lapa ir pārvietota uz dzēšanas rindu.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Lapa ir atjaunota.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Visas orfas lapu pielikums ir izdzēsts.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Orfas lapas pielikumi ir izdzēsti.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Izvēlne prece</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Izveidota izvēlnes prece.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Izvēlnes vienums ir saglabāts.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Norādītais izvēlnes vienums ir dzēsts.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Konfigurācija ir veiksmīgi saglabāta!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Ēmojuma nosaukums jau ir izmantots.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Neizdevās saglabāt pievienoto attēlu, tas ir pārāk liels.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Neizdevās saglabāt pievienoto attēlu.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Ēmojums ir veiksmīgi saglabāts!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Ēmojums ir saglabāts.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Ēmojums ir radīts.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Norādītais ēmojums ir dzēsts.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Visi notikumu žurnāli ir izdzēsti.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP autentifikācija nav aktivizēta.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP izaicinājums veiksmīgs, bet lietotājam nav objektaGUID atribūta.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP izaicinājums veiksmīgs (neprovisijas konts).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP izaicinājums veiksmīgs (pilnībā provisijots konts).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP izaicinājums veiksmīgs (daļēji provisijots konts).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP izaicinājums neizdevās.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Norādītā loma ir dzēsta.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Lomas nosaukums ir obligāts.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Loma jau ir izmantota.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Konta nosaukums jau ir izmantots.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Epasta adrese jau ir izmantota.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Neizdevās saglabāt pievienoto attēlu, tipu nav atļauts.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profils ir veiksmīgi saglabāts!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Konta nosaukums ir obligāts.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>konts ir izveidots.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Lietotājs nav atrasts.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Jūsu konts ir dzēsts.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Konts ir dzēsts.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Neizdevās saglabāt pievienoto failu, tas ir pārāk liels</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Veiksme</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Neveiksme</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Skats ir aizsargāts un to nevar dzēst. Pirms dzēšanas aizsardzību jānoņem moderatoram vai administratoram.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Skats ir dzēsts.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Skats ir aizsargāts un to drīkst modificēt tikai moderaators vai administrators, ja aizsardzība netika noņemta.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Ir nepieciešams veikt izmaiņu kopsavilkumu lapas rediģēšanai.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Simbols '::' tiek izmantots kā atbilde uz telpas nosaukumu. Lapas nosaukumā nevar būt vairāk nekā viena šī simbola kopija.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Jūsu ievadītais lapas nosaukums jau pastāv.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Lapa ir izveidota.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Lapa tika saglabāta.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Publiskā profila</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Publiskie profili ir atslēgti.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Norādītais lietotājs nav atrasts.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Manas profils</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Jūsu profils ir saglabāts.</value>
+  </data>
 </root>

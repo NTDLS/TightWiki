@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>उर्दू</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>बाह्य प्रदाता से जानकारी प्राप्त करने में विफल</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>पुनर्स्थापना पूरी हुई।</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>संघटक आंकड़े साफ किए गए।</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>मेमोरी कैश साफ किया गया।</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>संघटक आंकड़े</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>पृष्ठ संचालन</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>आप वर्तमान पृष्ठ संशोधन पर वापस नहीं आ सकते।</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>पृष्ठ वापस कर दिया गया है।</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>निर्दिष्ट पृष्ठ नहीं मिल सका।</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>पृष्ठ नहीं मिल सका।</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>आप एकमात्र मौजूदा पृष्ठ संशोधन को नहीं हटा सकते, इसके बजाय आपको संपूर्ण पृष्ठ को हटाना होगा।</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>पृष्ठ संशोधन को हटाने की प्रतीक्षा सूची में स्थानांतरित कर दिया गया है।</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>सभी पृष्ठ पुनर्निर्मित कर दिए गए हैं।</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>सभी पृष्ठ कैश किए गए हैं।</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>सभी पृष्ठ संशोधन काट दिए गए हैं।</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>पृष्ठ हटाने की प्रतीक्षा सूची साफ कर दी गई है।</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>पृष्ठ संशोधन को हटाने की प्रतीक्षा सूची से हटा दिया गया है।</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>पृष्ठ संशोधन बहाल कर दिया गया है।</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>पृष्ठ हटाने की प्रतीक्षा सूची से हटा दिया गया है।</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>पृष्ठ को हटाने की प्रतीक्षा सूची में स्थानांतरित कर दिया गया है।</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>पृष्ठ पुनर्स्थापित हो चुका है।</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>सभी अनाथ पृष्ठ संलग्नक साफ कर दिए गए हैं।</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>पृष्ठों के अनाथ संलग्नक साफ किए गए हैं।</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>मेनू आइटम</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>मेनू आइटम बनाया गया है।</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>मेन्यू आइटम सेव हो गया है।</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>निर्दिष्ट मेन्यू आइटम हटा दिया गया है।</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>कॉन्फ़िगरेशन सफलतापूर्वक सेव हो गया है!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>इमोजी का नाम पहले से ही उपयोग में है।</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>संलग्न छवि को सहेजा नहीं गया, बहुत बड़ी है।</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>संलग्न छवि को सहेजा नहीं गया।</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>इमोजी सफलतापूर्वक सेव हो गई है!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>इमोजी सहेज लिया गया है।</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>इमोजी बनाई गई है।</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>निर्दिष्ट इमोजी हटा दी गई है।</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>सभी घटना लॉग मिटा दी गई हैं।</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>एलडैप प्रमाणीकरण सक्षम नहीं है।</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>एलडैप चुनौती सफल रही, लेकिन उपयोगकर्ता के पास एक ऑब्जेक्टGUID विशेषता नहीं है।</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>एलडैप चुनौती सफल रही (बिना प्रोvisioned खाता)।</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>एलडैप चुनौती सफल रही (पूर्ण रूप से प्रोvisioned खाता)।</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>एलडैप चुनौती सफल रही (आंशिक प्रोvisioned खाता)।</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>एलडैप चुनौती विफल रही।</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>निर्दिष्ट भूमिका हटा दी गई है।</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>भूमिका का नाम आवश्यक है।</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>भूमिका का नाम पहले से ही उपयोग में है।</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>खाते का नाम पहले से ही उपयोग में है।</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>ईमेल पता पहले से ही उपयोग में है।</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>संलग्न छवि को सहेजा नहीं गया, प्रकार अनुमत नहीं है।</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>प्रोफ़ाइल सफलतापूर्वक सहेजी गई है!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>खाते का नाम आवश्यक है।</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>खाता बनाया गया है।</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>उपयोगकर्ता नहीं मिला।</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>आपका खाता हटा दिया गया है।</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>खाता हटा दिया गया है।</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>संलग्न फ़ाइल को सहेजा नहीं जा सका, बहुत बड़ी है</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>सफलता</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>असफलता</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>पृष्ठ सुरक्षित है और हटा नहीं सकता। हटाने से पहले एक मॉडरेटर या व्यवस्थापक को सुरक्षा हटानी होगी।</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>पृष्ठ हटा दिया गया है।</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>पृष्ठ सुरक्षित है और इसे बिना सुरक्षा हटाए मॉडरेटर या व्यवस्थापक के अलावा संशोधित नहीं किया जा सकता।</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>पृष्ठ संपादन के लिए परिवर्तन सारांश आवश्यक है।</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>'~::' वर्ण का उपयोग नामस्थान नाम को दर्शाने के लिए किया जाता है। एक पृष्ठ नाम में इन वर्णों का एक से अधिक सेट नहीं हो सकता।</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>जिस पृष्ठ का आपने नाम दर्ज किया है वह पहले से मौजूद है।</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>पृष्ठ बनाया गया है।</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>पृष्ठ सहेजा गया।</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>सार्वजनिक प्रोफ़ाइल</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>सार्वजनिक प्रोफ़ाइल निष्क्रिय हैं।</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>निर्दिष्ट उपयोगकर्ता नहीं मिला।</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>मेरा प्रोफ़ाइल</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>आपकी प्रोफ़ाइल सहेजी गई है।</value>
+  </data>
 </root>

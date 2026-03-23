@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Urdu dili</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Xarici təminatçıdan məlumat alınmadı</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Yeniləmə tamamlandı.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>İşlənmiş statistika silindi.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Yaddaş yaddaşı təmizləndi.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>İşləmələrin Statistikası</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Səhifə Moderasiyası</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Hazırkı səhifə reviziyasına geri qayıda bilməzsiniz.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Səhifə geri alındı.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Göstərilən səhifə tapılmadı.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Səhifə tapılmadı.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Sadece mövcud reviziyanı silmək mümkün deyil, bütün səhifəni silməyiniz lazım olacaq.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Səhifə reviziyası silinmə kuşəsinə keçirildi.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Bütün səhifələr yenidən quruldu.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Bütün səhifələr keşa alındı.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Bütün səhifə reviziyaları kəsildi.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Səhifə silinmə kuşəsi təmizləndi.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Səhifə reviziyası silinmə kuşəsindən təmizləndi.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Səhifə geri alındı.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Səhifə silinmə kuşəsindən təmizləndi.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Səhifə silinmə kuşəsinə keçirildi.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Səhifə bərpa edildi.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Bütün yetimsiz səhifə əlavələri silindi.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Yetimsiz səhifə əlavələri silindi.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Menu Elementi</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Menu elementi yaradıldı.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Menyunun elementi yadda saxlanılıb.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Qeyd olunan menyu elementi silinib.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Təyin olunan konfiqurasiya uğurla yadda saxlanılıb!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Emojinin adı artıq istifadə olunur.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Qoşulmuş şəkli yadda saxlamaq mümkün olmadı, çox böyükdür.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Qoşulmuş şəkli yadda saxlamaq mümkün olmadı.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emojinin yadda saxlanılması uğurla tamamlandı!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji yadda saxlanıldı.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji yaradıldı.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Qeyd olunan emoji silindi.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Bütün hadisə qeydləri silinib.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP doğrulaması aktiv deyil.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP çağırışı uğurlu oldu, lakin istifadəçinin objectGUID atributu yoxdur.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP çağırışı uğurlu oldu (provision edilməmiş hesab).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP çağırışı uğurlu oldu (tam provision olunmuş hesab).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP çağırışı uğurlu oldu (qismən provision olunmuş hesab).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP çağırışı uğursuz oldu.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Təyin olunan rol silindi.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Rolu adını daxil etmək vacibdir.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Rol adı artıq istifadə olunur.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Hesab adı artıq istifadə olunur.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>E-poçt ünvanı artıq istifadə olunur.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Qoşulmuş şəkli yadda saxlamaq mümkün olmadı, növü icazə verilmir.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Profil uğurla yadda saxlanıldı!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Hesab adı daxil etmək vacibdir.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Hesab yaradılıb.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>İstifadəçi tapılmadı.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Sizin hesabınız silinib.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Hesab silinib.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Birlikdə göndərilən fayl saxlanıla bilmədi, çox böyükdür</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Uğurlu</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Uğursuz</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Səhifə qorunduğu üçün silinə bilməz. Silmədən əvvəl bir moderator və ya administrator qorunmanı kaldırmalıdır.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Səhifə silindi.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Səhifə qorunduğu üçün dəyişdirilə bilməz, qoruma kaldırılana qədər moderator və ya administrator xaricində heç kim dəyişiklik edə bilməz.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Səhifə redaktələri üçün dəyişiklik xülasəsi tələb olunur.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>'::' işarələri ad boşluğunu göstərmək üçün istifadə olunur. Bir səhifə adı bu işarələrin bir topaqdan çoxunu içərə bilməz.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Əldə etdiyiniz səhifə adı artıq mövcuddur.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Səhifə yaradıldı.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Səhifə saxlanıldı.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>İctimai Profil</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>İctimai profillər deaktiv olunub.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Göstərilən istifadəçi tapılmadı.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Mənim Profilim</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Sizin profiliniz saxlanıldı.</value>
+  </data>
 </root>

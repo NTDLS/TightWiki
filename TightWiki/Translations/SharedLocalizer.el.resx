@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Ουρντού</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Αποτυχία λήψης πληροφοριών από εξωτερικό πάροχο</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Η αποκατάσταση ολοκληρώθηκε.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Στατιστικά σύνταξης διαγράφηκαν.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Η μνήμη cache διαγράφηκε.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Στατιστικά Συνθέσεων</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Διαχείριση Σελίδας</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Δεν μπορείτε να επαναφέρετε την τρέχουσα έκδοση της σελίδας.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Η σελίδα έχει επανέλθει.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Η καθορισμένη σελίδα δεν βρέθηκε.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Η σελίδα δεν βρέθηκε.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Δεν μπορείτε να διαγράψετε την μόνη υπάρχουσα έκδοση μιας σελίδας, αντίθετα θα πρέπει να διαγράψετε ολόκληρη τη σελίδα.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Η έκδοση της σελίδας έχει μετακινηθεί στην ουρά διαγραφής.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Όλες οι σελίδες έχουν ανακατασκευαστεί.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Όλες οι σελίδες έχουν cache.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Όλες οι εκδόσεις σελίδων έχουν περικοπεί.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Η ουρά διαγραφής σελίδας έχει καθαριστεί.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Η έκδοση της σελίδας έχει διαγραφεί από την ουρά διαγραφής.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Η έκδοση της σελίδας έχει αποκατασταθεί.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Η σελίδα έχει διαγραφεί από την ουρά διαγραφής.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Η σελίδα έχει μετακινηθεί στην ουρά διαγραφής.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Η σελίδα έχει αποκατασταθεί.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Όλες οι ελλιπείς συνημμένες σελίδες έχουν διαγραφεί.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Τα ελλιπή συνημμένα των σελίδων έχουν διαγραφεί.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Είδος Μενού</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Το είδος μενού έχει δημιουργηθεί.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Το στοιχείο μενού αποθηκεύτηκε.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Το συγκεκριμένο στοιχείο μενού διαγράφηκε.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Η διαμόρφωση αποθηκεύτηκε με επιτυχία!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Το όνομα emoji χρησιμοποιείται ήδη.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αποθήκευση της επισυναπτόμενης εικόνας, πολύ μεγάλο μέγεθος.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αποθήκευση της επισυναπτόμενης εικόνας.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Το emoji αποθηκεύτηκε με επιτυχία!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Το emoji αποθηκεύτηκε.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Το emoji δημιουργήθηκε.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Το συγκεκριμένο emoji διαγράφηκε.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Όλα τα αρχεία καταγραφής γεγονότων έχουν διαγραφεί.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>Ο έλεγχος ταυτότητας LDAP δεν είναι ενεργοποιημένος.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>Ο έλεγχος LDAP πέτυχε, αλλά ο χρήστης δεν έχει το χαρακτηριστικό objectGUID.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>Ο έλεγχος LDAP πέτυχε (λογαριασμός χωρίς παροχή).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>Ο έλεγχος LDAP πέτυχε (εντελώς παροχετευμένος λογαριασμός).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>Ο έλεγχος LDAP πέτυχε (μερικώς παροχετευμένος λογαριασμός).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>Ο έλεγχος LDAP απέτυχε.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Ο συγκεκριμένος ρόλος διαγράφηκε.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>Το όνομα ρόλου απαιτείται.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>Το όνομα ρόλου χρησιμοποιείται ήδη.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Το όνομα λογαριασμού χρησιμοποιείται ήδη.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Η διεύθυνση email χρησιμοποιείται ήδη.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Δεν ήταν δυνατή η αποθήκευση της επισυναπτόμενης εικόνας, ο τύπος δεν επιτρέπεται.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Το προφίλ αποθηκεύτηκε με επιτυχία!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Το όνομα λογαριασμού απαιτείται.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Ο λογαριασμός έχει δημιουργηθεί.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Ο χρήστης δεν βρέθηκε.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Ο λογαριασμός σας διαγράφηκε.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Ο λογαριασμός έχει διαγραφεί.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Αδυναμία αποθήκευσης του συνημμένου αρχείου, πολύ μεγάλο</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Επιτυχία</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Αποτυχία</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Η σελίδα είναι προστατευμένη και δεν μπορεί να διαγραφεί. Ένας διαχειριστής ή ένας διαμεσολαβητής πρέπει να αφαιρέσει την προστασία πριν από τη διαγραφή.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Η σελίδα έχει διαγραφεί.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Η σελίδα είναι προστατευμένη και δεν μπορεί να τροποποιηθεί εκτός αν αφαιρεθεί η προστασία από διαχειριστή ή διαμεσολαβητή.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Απαιτείται περίληψη αλλαγών για επεξεργασία σελίδας.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Οι χαρακτήρες '::' χρησιμοποιούνται για να δηλώσουν το όνομα χώρου. Ένα όνομα σελίδας δεν μπορεί να περιέχει περισσότερες από μία σειρές αυτών των χαρακτήρων.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Το όνομα της σελίδας που εισάγατε ήδη υπάρχει.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Η σελίδα έχει δημιουργηθεί.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Η σελίδα αποθηκεύτηκε.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Δημόσιο Προφίλ</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Τα δημόσια προφίλ είναι απενεργοποιημένα.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Ο συγκεκριμένος χρήστης δεν βρέθηκε.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Το Προφίλ μου</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Το προφίλ σας έχει αποθηκευτεί.</value>
+  </data>
 </root>

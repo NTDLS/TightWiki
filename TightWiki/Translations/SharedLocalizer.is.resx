@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>Úrdú</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>Mistókist að fá upplýsingar frá ytri þjónustu</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>Endurheimt lokið.</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>Tölfræði samsetninga er eytt.</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>Minni klefi er eytt.</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>Staðreyndir um samsetningar</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>Rýming á síðunni</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>Þú getur ekki snúið aftur til núverandi útgáfu síðunnar.</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>Síðan hefur verið afturkölluð.</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>Tilgreinda síðuna fannst ekki.</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>Síðuna fannst ekki.</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>Þú mátt ekki eyða aðeins tilvistarmynd síðunnar, heldur þarftu að eyða öllu síðunni.</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>Útgáfa síðunnar hefur verið færð yfir í eyðingarröð.</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>Öll síður hafa verið endurbyggðar.</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>Allar síður hafa verið skráðar í cache.</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>Allar útgáfur síðunnar hafa verið skorna.</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>Eyðingarröð síðunnar hefur verið hreinsuð.</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>Útgáfa síðunnar hefur verið hreinsuð úr eyðingarröðinni.</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>Útgáfa síðunnar hefur verið endurheimt.</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>Síðan hefur verið hreinsuð úr eyðingarröðinni.</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>Síðan hefur verið færð í eyðingarröð.</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>Síðan hefur verið endurheimt.</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>Allar skilaboð utan síðunnar hafa verið hreinsaðar.</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>Skilaboð síðunnar utan síðunnar hafa verið hreinsaðar.</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>Mælikerfi</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>Mælikerfið hefur verið stofnað.</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>Matseðlinum hefur verið vistað.</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>Tilgreindu matseðlinn hefur verið eytt.</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>Stillingin hefur verið vistuð árangurslaust!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>Nafn emoji er þegar í notkun.</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>Gat ekki vistað meðfylgjandi mynd, of stór.</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>Gat ekki vistað meðfylgjandi mynd.</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>Emoji hefur verið vistað árangurslaust!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>Emoji hefur verið vistað.</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>Emoji hefur verið búið til.</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>Tilgreinda emoji hefur verið eytt.</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>Öll atburðaskrá hefur verið hreinsað.</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>LDAP auðkenning er ekki virkt.</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>LDAP áskorun tókst, en notandann hefur ekki objectGUID eiginleikann.</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>LDAP áskorun tókst (ónýtur reikningur).</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>LDAP áskorun tókst (fullbúinn reikningur).</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>LDAP áskorun tókst (hlutbundinn reikningur).</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>LDAP áskorun mistókst.</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>Tilgreindur hlutverk hefur verið eytt.</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>NaFn hlutverks er nauðsynlegt.</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>NaFn hlutverks er þegar í notkun.</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>Reikningsnafn er þegar í notkun.</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>Netfang er þegar í notkun.</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>Gat ekki vistað meðfylgjandi mynd, tegund er ekki leyfð.</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>Prófíll hefur verið vistað árangurslaust!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>Reikningsnöfnið er nauðsynlegt.</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>Reikningurinn hefur verið stofnaður.</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>Notandi fannst ekki.</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>Reikningurinn þinn hefur verið eytt.</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>Reikningurinn hefur verið eytt.</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>Tókst ekki að vista viðhengið, of stórt</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Sigur</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>Mistök</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>Síðan er varin og hægt er ekki að eyða henni. Stjórnandi eða stjórnandi þarf að fjarlægja verndina áður en eyðing fer fram.</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>Síðan hefur verið eytt.</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>Síðan er varin og hægt er ekki að breyta henni nema stjórnandi eða stjórnandi geri það, nema verndin sé fjarlægð.</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>Útdráttur breytinga er krafist fyrir síðuuppfærslur.</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>Stafirnir '::' eru notaðir til að tákna nafnabelti. Nafn síðunnar má ekki innihalda fleiri en einn þessara stafa.</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>Nafn síðunnar sem þú sögðist vera með er þegar til.</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>Síðan hefur verið stofnuð.</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>Síðan var vistað.</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>Almannareikningur</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>Almannareikningar eru óvirkir.</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>Tilgreindi notandi fannst ekki.</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>Mín persónuleiki</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>Persónuuppfærslan þín hefur verið vistað.</value>
+  </data>
 </root>

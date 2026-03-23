@@ -2374,4 +2374,214 @@
   <data name="Urdu" xml:space="preserve">
     <value>ภาษายูร์ดู</value>
   </data>
+  <data name="Failed to get information from external provider" xml:space="preserve">
+    <value>ไม่สามารถดึงข้อมูลจากผู้ให้บริการภายนอกได้</value>
+  </data>
+  <data name="Restore complete." xml:space="preserve">
+    <value>การกู้คืนเสร็จสมบูรณ์</value>
+  </data>
+  <data name="Compilation statistics purged." xml:space="preserve">
+    <value>สถิติการคอมไพล์ถูกลบออกแล้ว</value>
+  </data>
+  <data name="Memory cache purged." xml:space="preserve">
+    <value>แคชหน่วยความจำถูกลบออกแล้ว</value>
+  </data>
+  <data name="Compilations Statistics" xml:space="preserve">
+    <value>สถิติการคอมไพล์</value>
+  </data>
+  <data name="Page Moderation" xml:space="preserve">
+    <value>การกลั่นกรองหน้าเพจ</value>
+  </data>
+  <data name="You cannot revert to the current page revision." xml:space="preserve">
+    <value>คุณไม่สามารถย้อนกลับไปยังเวอร์ชันของหน้าปัจจุบัน</value>
+  </data>
+  <data name="The page has been reverted." xml:space="preserve">
+    <value>หน้าถูกย้อนกลับแล้ว</value>
+  </data>
+  <data name="The specified page could not be found." xml:space="preserve">
+    <value>ไม่พบหน้าที่ระบุ</value>
+  </data>
+  <data name="The page could not be found." xml:space="preserve">
+    <value>ไม่พบหน้าที่ระบุ</value>
+  </data>
+  <data name="You cannot delete the only existing revision of a page, instead you would need to delete the entire page." xml:space="preserve">
+    <value>คุณไม่สามารถลบเวอร์ชันเดียวของหน้าได้, คุณจะต้องลบหน้าทั้งหมดแทน</value>
+  </data>
+  <data name="Page revision has been moved to the deletion queue." xml:space="preserve">
+    <value>เวอร์ชันของหน้าถูกย้ายไปยังคิวการลบแล้ว</value>
+  </data>
+  <data name="All pages have been rebuilt." xml:space="preserve">
+    <value>หน้าเพจทั้งหมดได้รับการสร้างใหม่</value>
+  </data>
+  <data name="All pages have been cached." xml:space="preserve">
+    <value>หน้าทั้งหมดถูกเก็บแคชไว้แล้ว</value>
+  </data>
+  <data name="All page revisions have been truncated." xml:space="preserve">
+    <value>เวอร์ชันของหน้าทั้งหมดถูกตัดออกแล้ว</value>
+  </data>
+  <data name="The page deletion queue has been purged." xml:space="preserve">
+    <value>คิวการลบหน้าถูกล้างแล้ว</value>
+  </data>
+  <data name="The page revision has been purged from the deletion queue." xml:space="preserve">
+    <value>เวอร์ชันของหน้าถูกล้างออกจากคิวการลบแล้ว</value>
+  </data>
+  <data name="The page revision has been restored." xml:space="preserve">
+    <value>เวอร์ชันของหน้าถูกกู้คืนแล้ว</value>
+  </data>
+  <data name="The page has been purged from the deletion queue." xml:space="preserve">
+    <value>หน้าถูกล้างออกจากคิวการลบแล้ว</value>
+  </data>
+  <data name="The page has been moved to the deletion queue." xml:space="preserve">
+    <value>หน้าถูกย้ายไปยังคิวการลบแล้ว</value>
+  </data>
+  <data name="The page has restored." xml:space="preserve">
+    <value>หน้าถูกกู้คืนแล้ว</value>
+  </data>
+  <data name="All orphaned page attachments have been purged." xml:space="preserve">
+    <value>ไฟแนตเทนต์ที่โดนปล่อยทิ้งไว้ทั้งหมดถูกลบออกแล้ว</value>
+  </data>
+  <data name="The pages orphaned attachments have been purged." xml:space="preserve">
+    <value>ไฟแนตเทนต์ที่โดนปล่อยทิ้งไว้ในหน้าถูกลบออกแล้ว</value>
+  </data>
+  <data name="Menu Item" xml:space="preserve">
+    <value>รายการเมนู</value>
+  </data>
+  <data name="The menu item has been created." xml:space="preserve">
+    <value>รายการเมนูถูกสร้างขึ้นแล้ว</value>
+  </data>
+  <data name="The menu item has been saved." xml:space="preserve">
+    <value>รายการเมนูได้ถูกบันทึกแล้ว</value>
+  </data>
+  <data name="The specified menu item has been deleted." xml:space="preserve">
+    <value>รายการเมนูที่ระบุได้ถูกลบแล้ว</value>
+  </data>
+  <data name="The configuration has been saved successfully!" xml:space="preserve">
+    <value>การตั้งค่าได้รับการบันทึกเรียบร้อยแล้ว!</value>
+  </data>
+  <data name="Emoji name is already in use." xml:space="preserve">
+    <value>ชื่ออีโมจิถูกใช้ไปแล้ว</value>
+  </data>
+  <data name="Could not save the attached image, too large." xml:space="preserve">
+    <value>ไม่สามารถบันทึกรูปภาพที่แนบมานี้ได้ ขนาดใหญ่เกินไป</value>
+  </data>
+  <data name="Could not save the attached image." xml:space="preserve">
+    <value>ไม่สามารถบันทึกรูปภาพที่แนบมานี้ได้</value>
+  </data>
+  <data name="The emoji has been saved successfully!" xml:space="preserve">
+    <value>อีโมจิได้ถูกบันทึกเรียบร้อยแล้ว!</value>
+  </data>
+  <data name="The emoji has been saved." xml:space="preserve">
+    <value>อีโมจิได้ถูกบันทึกแล้ว</value>
+  </data>
+  <data name="The emoji has been created." xml:space="preserve">
+    <value>ได้สร้างอีโมจิแล้ว</value>
+  </data>
+  <data name="The specified emoji has been deleted." xml:space="preserve">
+    <value>ได้ลบอีโมจิที่ระบุแล้ว</value>
+  </data>
+  <data name="All event logs have been purged." xml:space="preserve">
+    <value>บันทึกบันทึกเหตุการณ์ทั้งหมดแล้ว</value>
+  </data>
+  <data name="LDAP authentication is not enabled." xml:space="preserve">
+    <value>การยืนยันตัวตน LDAP ยังไม่ได้เปิดใช้งาน</value>
+  </data>
+  <data name="LDAP challenge succeeded, but the user does not have an objectGUID attribute." xml:space="preserve">
+    <value>ท้าทาย LDAP สำเร็จ แต่ผู้ใช้ไม่มีคุณสมบัติ objectGUID</value>
+  </data>
+  <data name="LDAP challenge succeeded (un-provisioned account)." xml:space="preserve">
+    <value>ท้าทาย LDAP สำเร็จ (บัญชีที่ไม่ได้รับการจัดเตรียม)</value>
+  </data>
+  <data name="LDAP challenge succeeded (fully provisioned account)." xml:space="preserve">
+    <value>ท้าทาย LDAP สำเร็จ (บัญชีที่ได้รับการจัดเตรียมเต็มรูปแบบ)</value>
+  </data>
+  <data name="LDAP challenge succeeded (partially provisioned account)." xml:space="preserve">
+    <value>ท้าทาย LDAP สำเร็จ (บัญชีที่ได้รับการจัดเตรียมบางส่วน)</value>
+  </data>
+  <data name="LDAP challenge failed." xml:space="preserve">
+    <value>การท้าทาย LDAP ล้มเหลว</value>
+  </data>
+  <data name="The specified role has been deleted." xml:space="preserve">
+    <value>บทบาทที่ระบุได้ถูกลบแล้ว</value>
+  </data>
+  <data name="Role name is required." xml:space="preserve">
+    <value>ต้องระบุชื่อบทบาท</value>
+  </data>
+  <data name="Role name is already in use." xml:space="preserve">
+    <value>ชื่อบทบาทได้ถูกใช้ไปแล้ว</value>
+  </data>
+  <data name="Account name is already in use." xml:space="preserve">
+    <value>ชื่อบัญชีได้ถูกใช้ไปแล้ว</value>
+  </data>
+  <data name="Email address is already in use." xml:space="preserve">
+    <value>ที่อยู่อีเมลได้ถูกใช้ไปแล้ว</value>
+  </data>
+  <data name="Could not save the attached image, type not allowed." xml:space="preserve">
+    <value>ไม่สามารถบันทึกภาพที่แนบมานี้ได้ ประเภทไม่อนุญาต</value>
+  </data>
+  <data name="The profile has been saved successfully!" xml:space="preserve">
+    <value>โปรไฟล์ได้รับการบันทึกเรียบร้อยแล้ว!</value>
+  </data>
+  <data name="Account name is required." xml:space="preserve">
+    <value>ต้องระบุชื่อบัญชี</value>
+  </data>
+  <data name="The account has been created." xml:space="preserve">
+    <value>บัญชีได้ถูกสร้างขึ้นแล้ว</value>
+  </data>
+  <data name="User not found." xml:space="preserve">
+    <value>ไม่พบผู้ใช้</value>
+  </data>
+  <data name="Your account has been deleted." xml:space="preserve">
+    <value>บัญชีของคุณถูกลบแล้ว</value>
+  </data>
+  <data name="The account has been deleted." xml:space="preserve">
+    <value>บัญชีได้ถูกลบแล้ว</value>
+  </data>
+  <data name="Could not save the attached file, too large" xml:space="preserve">
+    <value>ไม่สามารถบันทึกไฟล์ที่แนบมาได้ เนื่องจากมีขนาดใหญ่มาก</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>สำเร็จ</value>
+  </data>
+  <data name="Failure" xml:space="preserve">
+    <value>ล้มเหลว</value>
+  </data>
+  <data name="The page is protected and cannot be deleted. A moderator or an administrator must remove the protection before deletion." xml:space="preserve">
+    <value>หน้าที่ถูกป้องกันและไม่สามารถลบได้ ต้องให้ผู้ดูแลหรือเจ้าหน้าที่ดูแลลบการป้องกันก่อน</value>
+  </data>
+  <data name="The page has been deleted." xml:space="preserve">
+    <value>หน้าถูกลบแล้ว</value>
+  </data>
+  <data name="The page is protected and cannot be modified except by a moderator or an administrator unless the protection is removed." xml:space="preserve">
+    <value>หน้าถูกป้องกันและไม่สามารถแก้ไขได้ นอกจากจะเป็นผู้ดูแลหรือเจ้าหน้าที่ดูแล จนกว่าจะเอาการป้องกันออก</value>
+  </data>
+  <data name="A change summary is required for page edits." xml:space="preserve">
+    <value>ต้องมีสรุปการเปลี่ยนแปลงสำหรับการแก้ไขหน้า</value>
+  </data>
+  <data name="The characters '::' are used to denote a namespace name. A page name cannot contain more than one set of these characters." xml:space="preserve">
+    <value>ตัวอักษร '::' ใช้เพื่อแสดงชื่อสเปซเนม ส์ ไมสามารถมีชื่อหน้ามากกว่าหนึ่งชุดของตัวอักษรนี้ได้</value>
+  </data>
+  <data name="The page name you entered already exists." xml:space="preserve">
+    <value>ชื่อหน้าที่คุณป้อนอยู่แล้ว</value>
+  </data>
+  <data name="The page has been created." xml:space="preserve">
+    <value>หน้าถูกสร้างแล้ว</value>
+  </data>
+  <data name="The page was saved." xml:space="preserve">
+    <value>บันทึกหน้าสำเร็จ</value>
+  </data>
+  <data name="Public Profile" xml:space="preserve">
+    <value>โปรไฟล์สาธารณะ</value>
+  </data>
+  <data name="Public profiles are disabled." xml:space="preserve">
+    <value>โปรไฟล์สาธารณะถูกปิดใช้งาน</value>
+  </data>
+  <data name="The specified user was not found." xml:space="preserve">
+    <value>ไม่พบผู้ใช้ที่ระบุไว้</value>
+  </data>
+  <data name="My Profile" xml:space="preserve">
+    <value>โปรไฟล์ของฉัน</value>
+  </data>
+  <data name="Your profile has been saved." xml:space="preserve">
+    <value>โปรไฟล์ของคุณได้รับการบันทึกแล้ว</value>
+  </data>
 </root>
