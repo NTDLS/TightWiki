@@ -372,7 +372,7 @@ namespace TightWiki.Engine
 
             while (true)
             {
-                startPos = content.LastIndexOf("{{", startPos);
+                startPos = content.LastIndexOf("{{", startPos, StringComparison.InvariantCultureIgnoreCase);
                 if (startPos < 0)
                 {
                     break;
@@ -383,9 +383,9 @@ namespace TightWiki.Engine
 
                 do
                 {
-                    int endPos = content.IndexOf("}}", endScopeSearchIndex);
+                    int endPos = content.IndexOf("}}", endScopeSearchIndex, StringComparison.InvariantCultureIgnoreCase);
 
-                    if (endPos < 0 || endPos < startPos)
+                    if (endPos < 0 || endPos <= startPos)
                     {
                         var exception = new StringBuilder();
                         exception.AppendLine($"<strong>A parsing error occurred after position {startPos}:<br /></strong> Unable to locate closing tag.<br /><br />");
@@ -394,7 +394,7 @@ namespace TightWiki.Engine
                             exception.AppendLine($"<strong>The last successfully parsed block was:</strong><br /> {rawBlock}");
                         }
                         exception.AppendLine($"<strong>The problem occurred after:</strong><br /> {pageContent.ToString().Substring(startPos)}<br /><br />");
-                        exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {pageContent}<br /><br />");
+                        exception.AppendLine($"<strong>The content the parser was working on is:</strong><br /> {content}<br /><br />");
 
                         throw new Exception(exception.ToString());
                     }
