@@ -259,8 +259,8 @@ namespace LocalizerScan
                             foreach (var resetPhrase in batch)
                             {
                                 phrases[resetPhrase.Key] = null;
-                                break;
                             }
+                            break;
                         }
 
                         var translatedPhrase = translatedBlock.Substring(startIndex, endIndex - startIndex).Trim();
