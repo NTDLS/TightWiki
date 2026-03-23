@@ -1,16 +1,18 @@
 ﻿@page
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model RegisterConfirmationModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    @Localizer["Register confirmation"]
+    @SharedLocalizer.Static["Register confirmation"]
 </h3>
 
 <p>
-    @Localizer["Please check your email to confirm your account."]
+    @SharedLocalizer.Static["Please check your email to confirm your account."]
 </p>
 
 

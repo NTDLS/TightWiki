@@ -13,7 +13,7 @@ using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Models.DataModels;
 using TightWiki.Repository;
-using TightWiki.Static;
+using TightWiki.Translations;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki
@@ -298,7 +298,7 @@ namespace TightWiki
         {
             if (!IsAuthenticated)
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You are not authorized"]);
+                throw new UnauthorizedException(SharedLocalizer.Static["You are not authorized"]);
             }
         }
 
@@ -309,8 +309,8 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permissions))
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(string.Join(", ", permissions.Select(o => StaticLocalizer.Localizer[o.ToString()]))));
+                throw new UnauthorizedException(SharedLocalizer.Static["You do not have permission to perform the action: {0}"]
+                    .Format(string.Join(", ", permissions.Select(o => SharedLocalizer.Static[o.ToString()]))));
             }
         }
 
@@ -321,8 +321,8 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permission))
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(StaticLocalizer.Localizer[permission.ToString()]));
+                throw new UnauthorizedException(SharedLocalizer.Static["You do not have permission to perform the action: {0}"]
+                    .Format(SharedLocalizer.Static[permission.ToString()]));
             }
         }
 
@@ -333,8 +333,8 @@ namespace TightWiki
         {
             if (!IsAdministrator)
             {
-                throw new UnauthorizedException(StaticLocalizer.Localizer["You do not have permission to perform the action: {0}"]
-                    .Format(StaticLocalizer.Localizer["Administration"].Value));
+                throw new UnauthorizedException(SharedLocalizer.Static["You do not have permission to perform the action: {0}"]
+                    .Format(SharedLocalizer.Static["Administration"].Value));
             }
         }
 

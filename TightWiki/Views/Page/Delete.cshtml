@@ -1,5 +1,7 @@
 ﻿@using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Page.PageDeleteViewModel
 @{
     Layout = "_Layout";
@@ -12,25 +14,24 @@
         <div class="card-header bg-danger-subtle border-danger">
             <div class="fw-semibold text-danger">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                @Localizer.Format("Delete page '{0}'?", Model.PageName)
+                @SharedLocalizer.Static.Format("Delete page '{0}'?", Model.PageName)
             </div>
         </div>
 
         <div class="card-body">
             <div class="mb-3">
-                @Localizer.Format(
-                    "Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue.",
+                @SharedLocalizer.Static.Format("Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue.",
                     Model.PageName,
                     Model.PageRevision,
                     Model.CountOfAttachments)
             </div>
 
             <div class="mb-3 text-danger">
-                @Localizer["This action can only be undone by a moderator or administrator."]
+                @SharedLocalizer.Static["This action can only be undone by a moderator or administrator."]
             </div>
 
             <div class="mb-4 fw-semibold">
-                @Localizer["Are you sure you want to continue with this deletion?"]
+                @SharedLocalizer.Static["Are you sure you want to continue with this deletion?"]
             </div>
 
             @using (Html.BeginForm(FormMethod.Post))
@@ -42,14 +43,14 @@
                             class="btn btn-danger"
                             name="IsActionConfirmed"
                             value="true">
-                        <i class="bi bi-trash me-1"></i>@Localizer["Yes"]
+                        <i class="bi bi-trash me-1"></i>@SharedLocalizer.Static["Yes"]
                     </button>
 
                     <button type="submit"
                             class="btn btn-success"
                             name="IsActionConfirmed"
                             value="false">
-                        <i class="bi bi-x-circle me-1"></i>@Localizer["No"]
+                        <i class="bi bi-x-circle me-1"></i>@SharedLocalizer.Static["No"]
                     </button>
                 </div>
             }
@@ -61,7 +62,7 @@ else
     <div class="card shadow-sm border-warning">
         <div class="card-header bg-warning-subtle border-warning">
             <div class="fw-semibold text-dark">
-                <i class="bi bi-exclamation-circle me-2"></i>@Localizer["Unable to delete page"]
+                <i class="bi bi-exclamation-circle me-2"></i>@SharedLocalizer.Static["Unable to delete page"]
             </div>
         </div>
         <div class="card-body text-muted">

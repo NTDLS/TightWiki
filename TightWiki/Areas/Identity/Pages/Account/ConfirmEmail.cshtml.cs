@@ -5,29 +5,26 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModelBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IStringLocalizer<ConfirmEmailModel> _localizer;
         private readonly ILogger<ITightEngine> _logger;
 
         public ConfirmEmailModel(
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            IStringLocalizer<ConfirmEmailModel> localizer)
+            UserManager<IdentityUser> userManager)
             : base(logger, signInManager)
         {
             _logger = logger;
             _userManager = userManager;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -53,7 +50,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
                 var result = await _userManager.ConfirmEmailAsync(user, code);
-                StatusMessage = result.Succeeded ? _localizer["Thank you for confirming your email."] : _localizer["Error confirming your email."];
+                StatusMessage = result.Succeeded ? SharedLocalizer.Static["Thank you for confirming your email."] : SharedLocalizer.Static["Error confirming your email."];
 
             }
             catch (Exception ex)

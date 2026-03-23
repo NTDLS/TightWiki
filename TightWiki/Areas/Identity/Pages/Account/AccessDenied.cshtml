@@ -1,12 +1,14 @@
 ﻿@page
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model AccessDeniedModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    @Localizer["Access denied."]
+    @SharedLocalizer.Static["Access denied."]
 </h3>
 
-<p class="text-danger">@Localizer["You do not have access to this resource."]</p>
+<p class="text-danger">@SharedLocalizer.Static["You do not have access to this resource."]</p>

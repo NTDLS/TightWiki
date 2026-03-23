@@ -4,12 +4,12 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -53,19 +53,16 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ITightEngine> _logger;
-        private readonly IStringLocalizer<ChangePasswordModel> _localizer;
 
         public ChangePasswordModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITightEngine> logger,
-            IStringLocalizer<ChangePasswordModel> localizer)
+            ILogger<ITightEngine> logger)
                         : base(logger, signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -135,7 +132,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = _localizer["Your password has been changed."];
+            StatusMessage = SharedLocalizer.Static["Your password has been changed."];
 
             return RedirectToPage();
         }

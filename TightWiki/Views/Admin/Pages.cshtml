@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.PagesViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -10,10 +12,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Pages"]
+            @SharedLocalizer.Static["Pages"]
         </h3>
         <div class="text-muted">
-            @Localizer["All pages contained in the wiki."]
+            @SharedLocalizer.Static["All pages contained in the wiki."]
         </div>
     </div>
 </div>
@@ -21,30 +23,30 @@
 <div class="card shadow-sm mb-3">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-file-earmark-text me-2"></i>@Localizer["Page Administration"]
+            <i class="bi bi-file-earmark-text me-2"></i>@SharedLocalizer.Static["Page Administration"]
         </span>
 
         <div class="d-flex flex-wrap gap-2">
             @ConfirmActionHelper.GenerateWarnButton(
                 GlobalConfiguration.BasePath,
-                Localizer["This will rebuild all pages in the wiki. This could take some time! Continue?"].Value,
-                Localizer["Rebuild All Pages"].Value,
+                SharedLocalizer.Static["This will rebuild all pages in the wiki. This could take some time! Continue?"].Value,
+                SharedLocalizer.Static["Rebuild All Pages"].Value,
                 "/Admin/RebuildAllPages",
                 Context.Request.Path.Value,
                 @class: "btn btn-outline-warning btn-sm d-inline-flex align-items-center")
 
             @ConfirmActionHelper.GenerateWarnButton(
                 GlobalConfiguration.BasePath,
-                Localizer["This will compile all pages in the wiki and store them in cache. This could take some time! Continue?"].Value,
-                Localizer["Pre-Cache All Pages"].Value,
+                SharedLocalizer.Static["This will compile all pages in the wiki and store them in cache. This could take some time! Continue?"].Value,
+                SharedLocalizer.Static["Pre-Cache All Pages"].Value,
                 "/Admin/PreCacheAllPages",
                 Context.Request.Path.Value,
                 @class: "btn btn-outline-primary btn-sm d-inline-flex align-items-center")
 
             @ConfirmActionHelper.GenerateDangerButton(
                 GlobalConfiguration.BasePath,
-                Localizer["Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?"].Value,
-                Localizer["Truncate Page Revisions"].Value,
+                SharedLocalizer.Static["Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?"].Value,
+                SharedLocalizer.Static["Truncate Page Revisions"].Value,
                 "/Admin/TruncatePageRevisions",
                 Context.Request.Path.Value,
                 @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
@@ -59,12 +61,12 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Search pages..."].Value
+                        placeholder= SharedLocalizer.Static["Search pages..."].Value
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
+                        <i class="bi bi-search me-1"></i>@SharedLocalizer.Static["Search"]
                     </button>
                 </div>
             </div>
@@ -86,32 +88,32 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
-                                @Localizer["Name"]
+                                @SharedLocalizer.Static["Name"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">
-                                @Localizer["Revision"]
+                                @SharedLocalizer.Static["Revision"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap text-center" style="width: 1%;">
-                            @Localizer["Deleted Revisions"]
+                            @SharedLocalizer.Static["Deleted Revisions"]
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
-                                @Localizer["Modified By"]
+                                @SharedLocalizer.Static["Modified By"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
-                                @Localizer["Modified Date"]
+                                @SharedLocalizer.Static["Modified Date"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
-                            @Localizer["Action"]
+                            @SharedLocalizer.Static["Action"]
                         </th>
                     </tr>
                 </thead>
@@ -161,8 +163,8 @@
                                 <div class="d-flex flex-wrap gap-2">
                                     @ConfirmActionHelper.GenerateDangerButton(
                                         GlobalConfiguration.BasePath,
-                                        Localizer["Deleting \"{0}\" will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"].Format(p.Name, p.Revision),
-                                        Localizer["Delete"].Value,
+                                        SharedLocalizer.Static["Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?"].Format(p.Name, p.Revision),
+                                        SharedLocalizer.Static["Delete"].Value,
                                         "/Admin/DeletePage/" + p.Id,
                                         Context.Request.Path.Value,
                                         @class: "btn btn-outline-danger btn-sm d-inline-flex align-items-center")
@@ -184,7 +186,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-inbox me-2"></i>
-            @Localizer["Either there are no pages or your search criteria returned no results."]
+            @SharedLocalizer.Static["Either there are no pages or your search criteria returned no results."]
         </div>
     </div>
 }

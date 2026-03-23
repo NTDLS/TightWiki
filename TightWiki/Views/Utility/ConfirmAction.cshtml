@@ -1,4 +1,6 @@
-﻿@inject IViewLocalizer Localizer
+﻿
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Utility.ConfirmActionViewModel
 @{
     Layout = "_Layout";
@@ -35,7 +37,7 @@
 <div class="@cardClass">
     <div class="@headerClass">
         <div class="@headerTextClass">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>@Localizer["Are you sure?"]
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@SharedLocalizer.Static["Are you sure?"]
         </div>
     </div>
 
@@ -56,14 +58,14 @@
                         class="@yesButtonClass"
                         name="UserSelection"
                         value="true">
-                    @Localizer["Yes"]
+                    @SharedLocalizer.Static["Yes"]
                 </button>
 
                 <button type="submit"
                         class="btn btn-success"
                         name="UserSelection"
                         value="false">
-                    @Localizer["No"]
+                    @SharedLocalizer.Static["No"]
                 </button>
             </div>
         </form>

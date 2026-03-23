@@ -4,13 +4,13 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 using System.Text.Encodings.Web;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -36,21 +36,18 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<ITightEngine> _logger;
         private readonly UrlEncoder _urlEncoder;
-        private readonly IStringLocalizer<EnableAuthenticatorModel> _localizer;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public EnableAuthenticatorModel(SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             ILogger<ITightEngine> logger,
-            UrlEncoder urlEncoder,
-            IStringLocalizer<EnableAuthenticatorModel> localizer)
+            UrlEncoder urlEncoder)
                         : base(logger, signInManager)
         {
             _userManager = userManager;
             _logger = logger;
             _urlEncoder = urlEncoder;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -122,7 +119,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
 
             if (!is2faTokenValid)
             {
-                ModelState.AddModelError("Input.Code", _localizer["Verification code is invalid."]);
+                ModelState.AddModelError("Input.Code", SharedLocalizer.Static["Verification code is invalid."]);
                 await LoadSharedKeyAndQrCodeUriAsync(user);
                 return Page();
             }
@@ -131,7 +128,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", userId);
 
-            StatusMessage = _localizer["Your authenticator app has been verified."];
+            StatusMessage = SharedLocalizer.Static["Your authenticator app has been verified."];
 
             if (await _userManager.CountRecoveryCodesAsync(user) == 0)
             {

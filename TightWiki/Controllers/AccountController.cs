@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Net;
 using System.Security.Claims;
@@ -23,9 +22,8 @@ namespace TightWiki.Controllers
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            IStringLocalizer<AccountController> localizer)
-            : base(logger, signInManager, userManager, localizer)
+            IUserStore<IdentityUser> userStore)
+            : base(logger, signInManager, userManager)
         {
             _userStore = userStore;
             _emailStore = (IUserEmailStore<IdentityUser>)_userStore;

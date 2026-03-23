@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Web;
@@ -24,16 +23,13 @@ namespace TightWiki.Controllers
         private readonly ILogger<ITightEngine> _logger;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IStringLocalizer<FileController> _localizer;
 
-        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IStringLocalizer<FileController> localizer)
-            : base(logger, signInManager, userManager, localizer)
+        public FileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+            : base(logger, signInManager, userManager)
         {
             _logger = logger;
             _signInManager = signInManager;
             _userManager = userManager;
-            _localizer = localizer;
         }
 
         /// <summary>

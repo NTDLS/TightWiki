@@ -1,7 +1,9 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model AccountProfileViewModel
 @{
     Layout = "_Layout";
@@ -10,8 +12,8 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Account"]</h3>
-        <div class="text-muted">@Localizer["Configuration for user account."]</div>
+        <h3 class="mb-1">@SharedLocalizer.Static["Account"]</h3>
+        <div class="text-muted">@SharedLocalizer.Static["Configuration for user account."]</div>
     </div>
 </div>
 
@@ -22,23 +24,23 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-person-gear me-2"></i>@Localizer["Account Editor"]
+                <i class="bi bi-person-gear me-2"></i>@SharedLocalizer.Static["Account Editor"]
             </span>
 
             <div class="d-flex flex-wrap gap-2">
                 <button type="submit" class="btn btn-success">
-                    <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                    <i class="bi bi-floppy me-1"></i>@SharedLocalizer.Static["Save"]
                 </button>
 
                 <a class="btn btn-primary"
                        href="@GlobalConfiguration.BasePath/AdminSecurity/AccountRoles/@Model.AccountProfile.Navigation">
-                    <i class="bi bi-shield-lock me-1"></i>@Localizer["Permissions and Roles"]
+                    <i class="bi bi-shield-lock me-1"></i>@SharedLocalizer.Static["Permissions and Roles"]
                 </a>
 
                 @ConfirmActionHelper.GenerateDangerButton(
                     GlobalConfiguration.BasePath,
-                    Localizer["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?"].Format(Model.AccountProfile.AccountName),
-                    Localizer["Delete"].Value,
+                    SharedLocalizer.Static["Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?"].Format(Model.AccountProfile.AccountName),
+                    SharedLocalizer.Static["Delete"].Value,
                     $"/AdminSecurity/DeleteAccount/{Model.AccountProfile.Navigation}",
                     $"{GlobalConfiguration.BasePath}/AdminSecurity/Accounts",
                     Context.Request.Path.Value)
@@ -53,7 +55,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="card h-100 border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-image me-2"></i>@Localizer["Avatar"]
+                            <i class="bi bi-image me-2"></i>@SharedLocalizer.Static["Avatar"]
                         </div>
                         <div class="card-body text-center">
                             <div id="avatar-preview-container">
@@ -68,14 +70,14 @@
                                 else
                                 {
                                     <div class="text-muted small">
-                                        @Localizer["No avatar uploaded."]
+                                        @SharedLocalizer.Static["No avatar uploaded."]
                                     </div>
                                 }
                             </div>
                         </div>
                         <div class="card-footer text-center">
                             <label for="avatar" class="btn btn-outline-primary mb-0">
-                                <i class="bi bi-upload me-1"></i>@Localizer["Change Avatar"]
+                                <i class="bi bi-upload me-1"></i>@SharedLocalizer.Static["Change Avatar"]
                             </label>
                             <input type="file" id="avatar" name="Avatar" accept="image/*" class="d-none">
                         </div>
@@ -85,13 +87,13 @@
                 <div class="col-12 col-lg-8">
                     <div class="card h-100 border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-person-lines-fill me-2"></i>@Localizer["Profile"]
+                            <i class="bi bi-person-lines-fill me-2"></i>@SharedLocalizer.Static["Profile"]
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label for="AccountProfile_EmailAddress" class="form-label fw-semibold">
-                                        @Localizer["Email Address"]
+                                        @SharedLocalizer.Static["Email Address"]
                                     </label>
                                     @Html.TextBoxFor(m => m.AccountProfile.EmailAddress, new { @class = "form-control" })
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.AccountProfile.EmailAddress)</div>
@@ -101,14 +103,14 @@
                                     <div class="form-check form-switch">
                                         @Html.CheckBoxFor(m => m.AccountProfile.EmailConfirmed, new { @class = "form-check-input" })
                                         <label class="form-check-label fw-semibold" for="AccountProfile_EmailConfirmed">
-                                            @Localizer["Email Confirmed?"]
+                                            @SharedLocalizer.Static["Email Confirmed?"]
                                         </label>
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="AccountProfile_AccountName" class="form-label fw-semibold">
-                                        @Localizer["Display Name"]
+                                        @SharedLocalizer.Static["Display Name"]
                                     </label>
                                     @Html.TextBoxFor(m => m.AccountProfile.AccountName, new { @class = "form-control" })
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.AccountProfile.AccountName)</div>
@@ -116,7 +118,7 @@
 
                                 <div class="col-12 col-md-6">
                                     <label for="AccountProfile_FirstName" class="form-label fw-semibold">
-                                        @Localizer["First Name"]
+                                        @SharedLocalizer.Static["First Name"]
                                     </label>
                                     @Html.TextBoxFor(m => m.AccountProfile.FirstName, new { @class = "form-control" })
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.AccountProfile.FirstName)</div>
@@ -124,7 +126,7 @@
 
                                 <div class="col-12 col-md-6">
                                     <label for="AccountProfile_LastName" class="form-label fw-semibold">
-                                        @Localizer["Last Name"]
+                                        @SharedLocalizer.Static["Last Name"]
                                     </label>
                                     @Html.TextBoxFor(m => m.AccountProfile.LastName, new { @class = "form-control" })
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.AccountProfile.LastName)</div>
@@ -132,10 +134,10 @@
 
                                 <div class="col-12 col-md-4">
                                     <label for="AccountProfile.Theme" class="form-label fw-semibold">
-                                        @Localizer["Theme"]
+                                        @SharedLocalizer.Static["Theme"]
                                     </label>
                                     <select name="AccountProfile.Theme" id="AccountProfile.Theme" class="form-select">
-                                        <option value="">@Localizer["System Default"]</option>
+                                        <option value="">@SharedLocalizer.Static["System Default"]</option>
                                         @foreach (var item in Model.Themes)
                                         {
                                             <option value="@item.Name" selected="@(Model.AccountProfile.Theme == item.Name ? "selected" : null)">
@@ -148,10 +150,10 @@
 
                                 <div class="col-12 col-md-4">
                                     <label for="AccountProfile.Country" class="form-label fw-semibold">
-                                        @Localizer["Country"]
+                                        @SharedLocalizer.Static["Country"]
                                     </label>
                                     <select name="AccountProfile.Country" id="AccountProfile.Country" class="form-select">
-                                        <option value="">@Localizer["Select a country"]</option>
+                                        <option value="">@SharedLocalizer.Static["Select a country"]</option>
                                         @foreach (var item in Model.Countries)
                                         {
                                             <option value="@item.Value" selected="@(Model.AccountProfile.Country == item.Value ? "selected" : null)">
@@ -164,10 +166,10 @@
 
                                 <div class="col-12 col-md-4">
                                     <label for="AccountProfile.Language" class="form-label fw-semibold">
-                                        @Localizer["Language"]
+                                        @SharedLocalizer.Static["Language"]
                                     </label>
                                     <select name="AccountProfile.Language" id="AccountProfile.Language" class="form-select">
-                                        <option value="">@Localizer["Select a language"]</option>
+                                        <option value="">@SharedLocalizer.Static["Select a language"]</option>
                                         @foreach (var item in Model.Languages)
                                         {
                                             <option value="@item.Value" selected="@(Model.AccountProfile.Language == item.Value ? "selected" : null)">
@@ -180,10 +182,10 @@
 
                                 <div class="col-12">
                                     <label for="AccountProfile.TimeZone" class="form-label fw-semibold">
-                                        @Localizer["Time Zone"]
+                                        @SharedLocalizer.Static["Time Zone"]
                                     </label>
                                     <select name="AccountProfile.TimeZone" id="AccountProfile.TimeZone" class="form-select">
-                                        <option value="">@Localizer["Select a time-zone"]</option>
+                                        <option value="">@SharedLocalizer.Static["Select a time-zone"]</option>
                                         @foreach (var item in Model.TimeZones)
                                         {
                                             <option value="@item.Value" selected="@(Model.AccountProfile.TimeZone == item.Value ? "selected" : null)">
@@ -201,13 +203,13 @@
                 <div class="col-12">
                     <div class="card border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-key me-2"></i>@Localizer["Credentials"]
+                            <i class="bi bi-key me-2"></i>@SharedLocalizer.Static["Credentials"]
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-12 col-md-6">
                                     <label for="Credential_Password" class="form-label fw-semibold">
-                                        @Localizer["Password"]
+                                        @SharedLocalizer.Static["Password"]
                                     </label>
                                     @Html.PasswordFor(m => m.Credential.Password, new { @class = "form-control", value = Model.Credential.Password })
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.Credential.Password)</div>
@@ -215,7 +217,7 @@
 
                                 <div class="col-12 col-md-6">
                                     <label for="Credential_ComparePassword" class="form-label fw-semibold">
-                                        @Localizer["Confirm Password"]
+                                        @SharedLocalizer.Static["Confirm Password"]
                                     </label>
                                     @Html.PasswordFor(m => m.Credential.ComparePassword, new { @class = "form-control", value = Model.Credential.Password })
                                     <div class="text-danger small">@Html.ValidationMessageFor(m => m.Credential.ComparePassword)</div>
@@ -228,11 +230,11 @@
                 <div class="col-12">
                     <div class="card border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-card-text me-2"></i>@Localizer["Biography"]
+                            <i class="bi bi-card-text me-2"></i>@SharedLocalizer.Static["Biography"]
                         </div>
                         <div class="card-body">
                             <label for="Biography" class="form-label fw-semibold">
-                                @Localizer["Biography"]
+                                @SharedLocalizer.Static["Biography"]
                             </label>
                             @Html.TextAreaFor(m => m.AccountProfile.Biography, new { @class = "form-control", style = "min-height: 220px", Name = "Biography" })
                             <div class="text-danger small">@Html.ValidationMessageFor(m => m.AccountProfile.Biography)</div>

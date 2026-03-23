@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -14,6 +13,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -76,15 +76,13 @@ namespace TightWiki.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<ITightEngine> _logger;
         private readonly IWikiEmailSender _emailSender;
-        private readonly IStringLocalizer<RegisterModel> _localizer;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<ITightEngine> logger,
-            IWikiEmailSender emailSender,
-            IStringLocalizer<RegisterModel> localizer)
+            IWikiEmailSender emailSender)
                         : base(logger, signInManager)
         {
             _userManager = userManager;
@@ -93,7 +91,6 @@ namespace TightWiki.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _localizer = localizer;
         }
 
         [BindProperty]
@@ -163,12 +160,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (string.IsNullOrWhiteSpace(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    ModelState.AddModelError("Input.AccountName", SharedLocalizer.Static["Display Name is required."]);
                     return Page();
                 }
                 else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    ModelState.AddModelError("Input.AccountName", SharedLocalizer.Static["Display Name is already in use."]);
                     return Page();
                 }
 

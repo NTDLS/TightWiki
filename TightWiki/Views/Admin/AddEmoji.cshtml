@@ -1,5 +1,7 @@
 ﻿@using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Admin.AddEmojiViewModel
 @{
     Layout = "_Layout";
@@ -58,8 +60,8 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Add Emoji"]</h3>
-        <div class="text-muted">@Localizer["Configuration to add an emoji."]</div>
+        <h3 class="mb-1">@SharedLocalizer.Static["Add Emoji"]</h3>
+        <div class="text-muted">@SharedLocalizer.Static["Configuration to add an emoji."]</div>
     </div>
 </div>
 
@@ -73,11 +75,11 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-emoji-smile me-2"></i>@Localizer["New Emoji"]
+                <i class="bi bi-emoji-smile me-2"></i>@SharedLocalizer.Static["New Emoji"]
             </span>
 
             <button type="submit" class="btn btn-success">
-                <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                <i class="bi bi-floppy me-1"></i>@SharedLocalizer.Static["Save"]
             </button>
         </div>
 
@@ -86,18 +88,18 @@
                 <div class="col-12 col-lg-4">
                     <div class="card h-100 border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-image me-2"></i>@Localizer["Image"]
+                            <i class="bi bi-image me-2"></i>@SharedLocalizer.Static["Image"]
                         </div>
                         <div class="card-body text-center">
                             <div id="emoji-preview-container">
                                 <div class="text-muted small">
-                                    @Localizer["No image selected."]
+                                    @SharedLocalizer.Static["No image selected."]
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer text-center">
                             <label for="ImageData" class="btn btn-outline-primary mb-0">
-                                <i class="bi bi-upload me-1"></i>@Localizer["Choose Image"]
+                                <i class="bi bi-upload me-1"></i>@SharedLocalizer.Static["Choose Image"]
                             </label>
                             <input type="file"
                                    id="ImageData"
@@ -112,18 +114,18 @@
                 <div class="col-12 col-lg-8">
                     <div class="card h-100 border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-sliders me-2"></i>@Localizer["Details"]
+                            <i class="bi bi-sliders me-2"></i>@SharedLocalizer.Static["Details"]
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label for="Name" class="form-label fw-semibold">
-                                        @Localizer["Name"]
+                                        @SharedLocalizer.Static["Name"]
                                     </label>
                                     @Html.TextBoxFor(m => m.Name, new
                                     {
                                         @class = "form-control",
-                                        placeholder = Localizer["Required"].Value
+                                        placeholder= SharedLocalizer.Static["Required"].Value
                                     })
                                     <div class="text-danger small">
                                         @Html.ValidationMessageFor(m => m.Name)
@@ -132,15 +134,15 @@
 
                                 <div class="col-12">
                                     <label for="Categories" class="form-label fw-semibold">
-                                        @Localizer["Categories"]
+                                        @SharedLocalizer.Static["Categories"]
                                     </label>
                                     @Html.TextBoxFor(m => m.Categories, new
                                     {
                                         @class = "form-control",
-                                        placeholder = Localizer["Comma-separated categories"].Value
+                                        placeholder= SharedLocalizer.Static["Comma-separated categories"].Value
                                     })
                                     <div class="form-text">
-                                        @Localizer["Use commas to separate categories."]
+                                        @SharedLocalizer.Static["Use commas to separate categories."]
                                     </div>
                                     <div class="text-danger small">
                                         @Html.ValidationMessageFor(m => m.Categories)

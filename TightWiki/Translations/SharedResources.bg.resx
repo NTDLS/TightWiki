@@ -1,0 +1,1759 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="(No description)" xml:space="preserve">
+    <value>(Няма описание)</value>
+  </data>
+  <data name="(No link)" xml:space="preserve">
+    <value>(Няма връзка)</value>
+  </data>
+  <data name="(No text)" xml:space="preserve">
+    <value>(Няма текст)</value>
+  </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- или -</value>
+  </data>
+  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
+    <value>2fa е деактивиран. Можете да го активирате отново, когато настроите приложение за удостоверяване</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>ВСИЧКИ</value>
+  </data>
+  <data name="Access denied." xml:space="preserve">
+    <value>Достъпът е отказан.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>Акаунт</value>
+  </data>
+  <data name="Account Deleted!" xml:space="preserve">
+    <value>Акаунтът е изтрит!</value>
+  </data>
+  <data name="Account Editor" xml:space="preserve">
+    <value>Редактор на акаунти</value>
+  </data>
+  <data name="Account Email Verification" xml:space="preserve">
+    <value>Потвърждение на имейл акаунта</value>
+  </data>
+  <data name="Account Management" xml:space="preserve">
+    <value>Управление на акаунта</value>
+  </data>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>Права на акаунта</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>Членство в ролята на акаунта</value>
+  </data>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value>Роли и права на акаунта за: {0}</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>Роли и права на акаунта за един акаунт.</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>Акаунти</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Действие</value>
+  </data>
+  <data name="Add Account" xml:space="preserve">
+    <value>Добавяне на акаунт</value>
+  </data>
+  <data name="Add Emoji" xml:space="preserve">
+    <value>Добавяне на емоджи</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>Добавяне на член към роля</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>Добавяне на разрешение към акаунт</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>Добавяне на разрешение към роля</value>
+  </data>
+  <data name="Add Role" xml:space="preserve">
+    <value>Добавяне на роля</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>Добавяне на роля към акаунт</value>
+  </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value>Добавяне на автентикатор приложение</value>
+  </data>
+  <data name="Add new account" xml:space="preserve">
+    <value>Добавяне на нов акаунт</value>
+  </data>
+  <data name="Add new emoji" xml:space="preserve">
+    <value>Добавяне на нов емотикон</value>
+  </data>
+  <data name="Add new item" xml:space="preserve">
+    <value>Добавяне на нов елемент</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Администрация</value>
+  </data>
+  <data name="All changes that have been made to the attached file." xml:space="preserve">
+    <value>Всички промени, направени по прикачения файл.</value>
+  </data>
+  <data name="All changes that have been made to the page." xml:space="preserve">
+    <value>Всички промени, направени на страницата.</value>
+  </data>
+  <data name="All comments made on the given page." xml:space="preserve">
+    <value>Всички коментари, направени на дадената страница.</value>
+  </data>
+  <data name="All namespaces contained in the wiki." xml:space="preserve">
+    <value>Всички пространства за имена, съдържащи се в уикито.</value>
+  </data>
+  <data name="All pages contained in the namespace." xml:space="preserve">
+    <value>Всички страници, съдържащи се в пространството за имена.</value>
+  </data>
+  <data name="All pages contained in the wiki." xml:space="preserve">
+    <value>Всички страници, съдържащи се в уикито.</value>
+  </data>
+  <data name="Already a member?" xml:space="preserve">
+    <value>Вече сте член?</value>
+  </data>
+  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
+    <value>Възникна грешка при извличането на информация за потребителя от външния доставчик.</value>
+  </data>
+  <data name="An error occurred while adding the login." xml:space="preserve">
+    <value>Възникна грешка при добавянето на влизането.</value>
+  </data>
+  <data name="An error occurred while creating the user." xml:space="preserve">
+    <value>Възникна грешка при създаването на потребителя.</value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>Възникна грешка при обработката на заявката ви.</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>Анализ</value>
+  </data>
+  <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
+    <value>Наистина ли искате да продължите с това изтриване?</value>
+  </data>
+  <data name="Are you sure you want to continue?" xml:space="preserve">
+    <value>Наистина ли искате да продължите?</value>
+  </data>
+  <data name="Are you sure you want to delete this comment?" xml:space="preserve">
+    <value>Наистина ли искате да изтриете този коментар?</value>
+  </data>
+  <data name="Are you sure you want to detach" xml:space="preserve">
+    <value>Наистина ли искате да отделите</value>
+  </data>
+  <data name="Are you sure you want to log out of the application?" xml:space="preserve">
+    <value>Наистина ли искате да излезете от приложението?</value>
+  </data>
+  <data name="Are you sure?" xml:space="preserve">
+    <value>Наистина ли?</value>
+  </data>
+  <data name="Associate your {0} account." xml:space="preserve">
+    <value>Свържете своя акаунт {0}.</value>
+  </data>
+  <data name="Associated Pages" xml:space="preserve">
+    <value>Свързани страници</value>
+  </data>
+  <data name="Associated Tags" xml:space="preserve">
+    <value>Свързани етикети</value>
+  </data>
+  <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
+    <value>Прикачете файлове, като ги плъзнете тук или ги изберете ръчно по-долу:</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Прикачени файлове</value>
+  </data>
+  <data name="Authenticator app" xml:space="preserve">
+    <value>Приложение за удостоверяване</value>
+  </data>
+  <data name="Available Languages" xml:space="preserve">
+    <value>Налични езици</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>Аватар</value>
+  </data>
+  <data name="Bind failed." xml:space="preserve">
+    <value>Неуспешно свързване.</value>
+  </data>
+  <data name="Bind succeeded." xml:space="preserve">
+    <value>Успешно свързване.</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Биография</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>Bold</value>
+  </data>
+  <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
+    <value>Преглежда страници, маркирани с различни указания за обработка, за да видите какво е в чернова, чакащо изтриване, защитено и т.н.</value>
+  </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>Вградени страници</value>
+  </data>
+  <data name="Cache" xml:space="preserve">
+    <value>Кеш</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отказ</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Категории</value>
+  </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>Промени аватара</value>
+  </data>
+  <data name="Change Image" xml:space="preserve">
+    <value>Промени изображението</value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value>Обобщение на промените</value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value>Промени имейл</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>Промяна на паролата</value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value>Променете настройките на акаунта си</value>
+  </data>
+  <data name="Choose Image" xml:space="preserve">
+    <value>Избери изображение</value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value>Избери страница</value>
+  </data>
+  <data name="Choose template" xml:space="preserve">
+    <value>Избери шаблон</value>
+  </data>
+  <data name="Choose your preferred language for the interface." xml:space="preserve">
+    <value>Избери предпочитания език за интерфейса.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Затвори</value>
+  </data>
+  <data name="Comma-separated categories" xml:space="preserve">
+    <value>Категории, разделени с запетая</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>Коментари</value>
+  </data>
+  <data name="Compilation Statistics" xml:space="preserve">
+    <value>Статистика за компилацията</value>
+  </data>
+  <data name="Compilations" xml:space="preserve">
+    <value>Компилации</value>
+  </data>
+  <data name="Complete Signup" xml:space="preserve">
+    <value>Пълна регистрация</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>Конфигурация</value>
+  </data>
+  <data name="Configuration for an emoji." xml:space="preserve">
+    <value>Конфигурация за емоджи.</value>
+  </data>
+  <data name="Configuration for user account." xml:space="preserve">
+    <value>Конфигурация за потребителски акаунт.</value>
+  </data>
+  <data name="Configuration to add an emoji." xml:space="preserve">
+    <value>Конфигурация за добавяне на емоджи.</value>
+  </data>
+  <data name="Configure authenticator app" xml:space="preserve">
+    <value>Настройка на приложението за удостоверяване</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>Потвърдете паролата</value>
+  </data>
+  <data name="Confirm email change" xml:space="preserve">
+    <value>Потвърдете промяната на имейла</value>
+  </data>
+  <data name="Confirm logout" xml:space="preserve">
+    <value>Потвърдете изхода</value>
+  </data>
+  <data name="Confirm your email address." xml:space="preserve">
+    <value>Потвърдете своя имейл адрес.</value>
+  </data>
+  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
+    <value>Изпратена е връзка за потвърждение за смяна на имейла. Моля, проверете имейла си.</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>Потвърдено</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>Съдържание</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Продължете</value>
+  </data>
+  <data name="Copy Tag" xml:space="preserve">
+    <value>Копирай таг</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>Държава</value>
+  </data>
+  <data name="Create a new account" xml:space="preserve">
+    <value>Създайте нов акаунт</value>
+  </data>
+  <data name="Create new page" xml:space="preserve">
+    <value>Създайте нова страница</value>
+  </data>
+  <data name="Create new role." xml:space="preserve">
+    <value>Създайте нова роля.</value>
+  </data>
+  <data name="Create new user account." xml:space="preserve">
+    <value>Създайте нов акаунт за потребител.</value>
+  </data>
+  <data name="Create your account and configure your basic profile details." xml:space="preserve">
+    <value>Създайте своя акаунт и конфигурирайте основните данни във вашия профил.</value>
+  </data>
+  <data name="Created Date" xml:space="preserve">
+    <value>Дата на създаване</value>
+  </data>
+  <data name="Credentials" xml:space="preserve">
+    <value>Учители</value>
+  </data>
+  <data name="Current admin login" xml:space="preserve">
+    <value>Текущ вход на администратор</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>База данни</value>
+  </data>
+  <data name="Database Utilities" xml:space="preserve">
+    <value>Инструменти за управление на базата данни</value>
+  </data>
+  <data name="Date/Time" xml:space="preserve">
+    <value>Дата/час</value>
+  </data>
+  <data name="Default password has not been changed" xml:space="preserve">
+    <value>Стандартната парола не е била променена</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Изтриване</value>
+  </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value>Изтриване на акаунт</value>
+  </data>
+  <data name="Delete Role" xml:space="preserve">
+    <value>Изтриване на роля</value>
+  </data>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>Да се изтрие страницата '{0}'?</value>
+  </data>
+  <data name="Delete this page" xml:space="preserve">
+    <value>Изтрий тази страница</value>
+  </data>
+  <data name="Deleted By" xml:space="preserve">
+    <value>Изтрито от</value>
+  </data>
+  <data name="Deleted Date" xml:space="preserve">
+    <value>Дата на изтриване</value>
+  </data>
+  <data name="Deleted Page Content" xml:space="preserve">
+    <value>Съдържанието на изтритата страница</value>
+  </data>
+  <data name="Deleted Page Queue" xml:space="preserve">
+    <value>Опашка за изтрити страници</value>
+  </data>
+  <data name="Deleted Page Revisions" xml:space="preserve">
+    <value>Ревизии на изтритата страница</value>
+  </data>
+  <data name="Deleted Pages" xml:space="preserve">
+    <value>Изтрити страници</value>
+  </data>
+  <data name="Deleted Revision Content" xml:space="preserve">
+    <value>Изтрито съдържание на ревизията</value>
+  </data>
+  <data name="Deleted Revisions" xml:space="preserve">
+    <value>Изтрити ревизии</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>Изтриването на '{0}' ще премести страницата, всички {1} ревизии и свързаните файлови прикачвания в опашката за изтриване. Това действие може да бъде отменено само от администратор или модератор. Продължително?</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>Изтриването на '{0}' ще премести страницата, заедно с всички {1} ревизии и {2} файлови прикачвания в опашката за изтриване.</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Изтриването на '{0}' ще премахне акаунта постоянно. Всички страници, създадени или модифицирани от този потребител, ще бъдат приписани на заместителен акаунт и вие няма да можете да отмените това действие. Продължително?</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
+    <value>Изтриването на '{0}' ще премахне акаунта постоянно. Всички страници, създадени или модифицирани от този потребител, ще бъдат приписани на заместителен акаунт. Продължително?</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>Изтриването на '{0}' ще премахне менюто постоянно и вие няма да можете да отмените това действие. Продължително?</value>
+  </data>
+  <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>Изтриването на ревизия {0} на "{1}" ще премести ревизията на страницата в опашката за изтриване. Това действие може да бъде отменено само от администратор или модератор. Продължително?</value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value>Изтриването на емоджито '{0}' ще премахне изображението постоянно и всякакви референции към него ще се преместят в окаян статус. Няма да можете да отмените това изтриване. Продължително?</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>Изтриването на ролята '{0}' ще отмени всички разрешения, дадени или отказани от тази роля. Продължително?</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Описание</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>Откачване</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Детайли</value>
+  </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value>Режим на разработка</value>
+  </data>
+  <data name="Differences" xml:space="preserve">
+    <value>Разлики</value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>Забранете 2FA</value>
+  </data>
+  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
+    <value>Забранете двуфакторната автентикация (2FA)</value>
+  </data>
+  <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>Деактивирането на 2FA не променя ключовете, използвани в приложението за автентикация.</value>
+  </data>
+  <data name="Discussion for this page." xml:space="preserve">
+    <value>Обсъждане за тази страница.</value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>Показвано име</value>
+  </data>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value>Името за показване вече се използва.</value>
+  </data>
+  <data name="Display Name is required." xml:space="preserve">
+    <value>Името за показване е задължително.</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>Разпределение</value>
+  </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>Разпознаваемо име:</value>
+  </data>
+  <data name="Don't have access to your authenticator device?" xml:space="preserve">
+    <value>Нямате достъп до вашето устройство за удостоверяване?</value>
+  </data>
+  <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
+    <value>Изтеглете двуфакторно приложение за удостоверяване като Microsoft Authenticator за {0} и {1} или Google Authenticator за {2} и {3}.</value>
+  </data>
+  <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
+    <value>Пуснете прикачени файлове тук или щракнете, за да качите ръчно.</value>
+  </data>
+  <data name="Drop files here..." xml:space="preserve">
+    <value>Пуснете файлове тук...</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Продължителност</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редактиране</value>
+  </data>
+  <data name="Editor Size" xml:space="preserve">
+    <value>Размер на редактора</value>
+  </data>
+  <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
+    <value>Или списъкът с изтрити страници е празен, или критериите за търсене не дадоха резултати.</value>
+  </data>
+  <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
+    <value>Или няма конфигурирани акаунти, или критериите за търсене не донесоха резултати.</value>
+  </data>
+  <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
+    <value>Или няма конфигурирани емоджита, или критериите за търсене не донесоха резултати.</value>
+  </data>
+  <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
+    <value>Или няма страници, или критериите за търсене не донесоха резултати.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Имейл</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>Имейл адрес</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>Потвърден имейл?</value>
+  </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>Емоджи</value>
+  </data>
+  <data name="Emoji Editor" xml:space="preserve">
+    <value>Редактор на емоджита</value>
+  </data>
+  <data name="Emoji Management" xml:space="preserve">
+    <value>Управление на емоджита</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>Емоджита</value>
+  </data>
+  <data name="Enter a URL." xml:space="preserve">
+    <value>Въведете URL.</value>
+  </data>
+  <data name="Enter an internal path or external URL." xml:space="preserve">
+    <value>Въведете вътрешен път или външен URL.</value>
+  </data>
+  <data name="Enter your email." xml:space="preserve">
+    <value>Въведете вашия имейл.</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>Околна среда</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Грешка</value>
+  </data>
+  <data name="Error changing email." xml:space="preserve">
+    <value>Грешка при промяна на имейла</value>
+  </data>
+  <data name="Error changing user name." xml:space="preserve">
+    <value>Грешка при промяна на потребителското име</value>
+  </data>
+  <data name="Error confirming your email." xml:space="preserve">
+    <value>Грешка при потвърждаване на имейла ви</value>
+  </data>
+  <data name="Error copying text" xml:space="preserve">
+    <value>Грешка при копиране на текст</value>
+  </data>
+  <data name="Error from external provider: {0}" xml:space="preserve">
+    <value>Грешка от външен доставчик: {0}</value>
+  </data>
+  <data name="Error loading external login information during confirmation." xml:space="preserve">
+    <value>Грешка при зареждане на информация за външно влизане по време на потвърждаване.</value>
+  </data>
+  <data name="Error loading external login information." xml:space="preserve">
+    <value>Грешка при зареждане на информация за външно влизане.</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>Грешки</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>Дневник на събитията</value>
+  </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>Запис в дневника на събитията</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>Изключение</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>Изключения</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Експортиране</value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>Външен URL</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>Външни входове</value>
+  </data>
+  <data name="Extra Large" xml:space="preserve">
+    <value>Много голям</value>
+  </data>
+  <data name="Extra Small" xml:space="preserve">
+    <value>Много малък</value>
+  </data>
+  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
+    <value>Не успя да добави информация за вход към LDAP кода за акаунт: {0}.</value>
+  </data>
+  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
+    <value>Не успя да създаде код за акаунт за LDAP учасие: {0}.</value>
+  </data>
+  <data name="Failed to load preview." xml:space="preserve">
+    <value>Неуспешно зареждане на преглед.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>Не успя да открие потребителския акаунт за LDAP учасие.</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>Шаблони за функции</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Филтър</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
+    <value>Изпразването на кеш паметта ще доведе до изхвърляне на всички кеширани елементи и ще изисква достъп до базата данни при заявяване на страници. Продължете ли?</value>
+  </data>
+  <data name="Forget this browser" xml:space="preserve">
+    <value>Забравете този браузър</value>
+  </data>
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value>Потвърждение за забравена парола</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>Забравена парола?</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>Версия на рамката</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Общи</value>
+  </data>
+  <data name="Generate Recovery Codes" xml:space="preserve">
+    <value>Генериране на кодове за възстановяване</value>
+  </data>
+  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
+    <value>Генериране на кодове за възстановяване на двуфакторната автентикация (2FA)</value>
+  </data>
+  <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>Генерирането на нови кодове за възстановяване не променя ключовете, използвани в приложенията за удостоверяване.</value>
+  </data>
+  <data name="Gets" xml:space="preserve">
+    <value>Получава</value>
+  </data>
+  <data name="Global configuration for Emojis." xml:space="preserve">
+    <value>Глобална конфигурация за emojis.</value>
+  </data>
+  <data name="Global configuration for security roles and membership." xml:space="preserve">
+    <value>Глобална конфигурация за роли за сигурност и членство.</value>
+  </data>
+  <data name="Global configuration for the site menu item." xml:space="preserve">
+    <value>Глобална конфигурация за елемента от менюто на сайта.</value>
+  </data>
+  <data name="Global configuration for the site menu." xml:space="preserve">
+    <value>Глобална конфигурация за менюто на сайта.</value>
+  </data>
+  <data name="Global configuration for user accounts." xml:space="preserve">
+    <value>Глобална конфигурация за потребителски акаунти.</value>
+  </data>
+  <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
+    <value>Глобални стойности за конфигурация за уики, неговата функционалност, поведение, форматиране и брандинг.</value>
+  </data>
+  <data name="Hello {0}!" xml:space="preserve">
+    <value>Здравейте {0}!</value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>Подчертаване</value>
+  </data>
+  <data name="Hits" xml:space="preserve">
+    <value>Хитове</value>
+  </data>
+  <data name="Huge" xml:space="preserve">
+    <value>Голям</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>Хипервръзка</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Идентификатор</value>
+  </data>
+  <data name="If it's here, you should be able to find it." xml:space="preserve">
+    <value>Ако го има тук, трябва да можете да го намерите.</value>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value>Ако загубите устройството си и нямате кодовете за възстановяване, няма да имате достъп до акаунта си.</value>
+  </data>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value>Ако нулирате ключа на аутентификатора, приложението за аутентикации няма да работи, докато отново го конфигурирате.</value>
+  </data>
+  <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
+    <value>Ако желаете да промените ключа, използван в приложението за аутентикации, трябва да нулирате ключовете на аутентификатора си.</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>Картинка</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>Включете страници</value>
+  </data>
+  <data name="Info1" xml:space="preserve">
+    <value>Информация1</value>
+  </data>
+  <data name="Info2" xml:space="preserve">
+    <value>Информация2</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>Вмъкване</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>Вмъкни Емоджи</value>
+  </data>
+  <data name="Inter-Page Links" xml:space="preserve">
+    <value>Межстранициални връзки</value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value>Невалидна опит за вход.</value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value>Може да доведе до показване на чувствителна информация от изключения към крайните потребители.</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>Курсив</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Предмети</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Език</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Езици</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>Голям</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Фамилно име</value>
+  </data>
+  <data name="Last modified by" xml:space="preserve">
+    <value>Последна промяна от</value>
+  </data>
+  <data name="Leave a Comment" xml:space="preserve">
+    <value>Оставете коментар</value>
+  </data>
+  <data name="Limit(MB)" xml:space="preserve">
+    <value>Ограничение (MB)</value>
+  </data>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value>Текст на връзката (по желание)</value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value>Тип връзка</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>Връзки</value>
+  </data>
+  <data name="Loading preview..." xml:space="preserve">
+    <value>Зареждане на предварителен преглед...</value>
+  </data>
+  <data name="Locked out" xml:space="preserve">
+    <value>Затворено</value>
+  </data>
+  <data name="Log Entries" xml:space="preserve">
+    <value>Вписвания в дневника</value>
+  </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>Детайли за вписване в дневника</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value>Влезте с вашия акаунт {0}</value>
+  </data>
+  <data name="Logged out" xml:space="preserve">
+    <value>Изход</value>
+  </data>
+  <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
+    <value>Излизането ще гарантира, че други не могат да използват тази сесия за да правят промени във вики-то. Преди да правите промени, ще трябва да се впишете отново.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Login to leave a comment" xml:space="preserve">
+    <value>Влезте, за да оставите коментар</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Изход</value>
+  </data>
+  <data name="Lower numbers appear first." xml:space="preserve">
+    <value>По-ниските числа се появяват първи.</value>
+  </data>
+  <data name="Manage Email" xml:space="preserve">
+    <value>Управление на имейл</value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value>Управление на вашия акаунт</value>
+  </data>
+  <data name="Manage your external logins" xml:space="preserve">
+    <value>Управлявайте външните си входове</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>Срещи</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>Среден</value>
+  </data>
+  <data name="Menu Configuration" xml:space="preserve">
+    <value>Конфигурация на менюто</value>
+  </data>
+  <data name="Menu Item Editor" xml:space="preserve">
+    <value>Редактор на елементите на менюто</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>Метрики</value>
+  </data>
+  <data name="Misses" xml:space="preserve">
+    <value>Грешки</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>Липсващи страници</value>
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Умерено</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>Модифицирано</value>
+  </data>
+  <data name="Modified By" xml:space="preserve">
+    <value>Модифицирано от</value>
+  </data>
+  <data name="Modified Date" xml:space="preserve">
+    <value>Дата на модификация</value>
+  </data>
+  <data name="Modified by" xml:space="preserve">
+    <value>Модифицирано от</value>
+  </data>
+  <data name="Modified date" xml:space="preserve">
+    <value>Дата на модификация</value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value>Моето</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Име</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>Пространство от имена</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>Именовани пространства</value>
+  </data>
+  <data name="New Account" xml:space="preserve">
+    <value>Нов акаунт</value>
+  </data>
+  <data name="New Emoji" xml:space="preserve">
+    <value>Нов емоji</value>
+  </data>
+  <data name="New Role" xml:space="preserve">
+    <value>Нова роля</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Следващ</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Не</value>
+  </data>
+  <data name="No avatar uploaded." xml:space="preserve">
+    <value>Не е качен аватар.</value>
+  </data>
+  <data name="No database information is available." xml:space="preserve">
+    <value>Няма налична информация за базата данни.</value>
+  </data>
+  <data name="No image selected." xml:space="preserve">
+    <value>Не е избрана изображение.</value>
+  </data>
+  <data name="No image uploaded." xml:space="preserve">
+    <value>Не е качена изображение.</value>
+  </data>
+  <data name="Not a member?" xml:space="preserve">
+    <value>Не член ли сте?</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>Архитектура на ОС</value>
+  </data>
+  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
+    <value>След като сканирате QR кода или въведете ключа по-горе, вашето приложение за двуфакторна автентикация ще ви предостави уникален код. Въведете кода в полето за потвърждение по-долу.</value>
+  </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>Операционна система</value>
+  </data>
+  <data name="Optimize" xml:space="preserve">
+    <value>Оптимизиране</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>По избор</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>Последователен</value>
+  </data>
+  <data name="Orphaned Attachments" xml:space="preserve">
+    <value>Прикачени файлове на длъжници</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>Прикачени страници на длъжници</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>Страница</value>
+  </data>
+  <data name="Page Administration" xml:space="preserve">
+    <value>Администрация на страницата</value>
+  </data>
+  <data name="Page Attachment Revisions" xml:space="preserve">
+    <value>Ревизии на прикачени файлове</value>
+  </data>
+  <data name="Page Attachments" xml:space="preserve">
+    <value>Прикачени файлове към страницата</value>
+  </data>
+  <data name="Page File Revisions" xml:space="preserve">
+    <value>Ревизии на файлове към страницата</value>
+  </data>
+  <data name="Page Moderate" xml:space="preserve">
+    <value>Модериране на страницата</value>
+  </data>
+  <data name="Page Revisions" xml:space="preserve">
+    <value>Ревизии на страницата</value>
+  </data>
+  <data name="Page Search" xml:space="preserve">
+    <value>Търсене на страница</value>
+  </data>
+  <data name="Page Search Tokens" xml:space="preserve">
+    <value>Токени за търсене на страница</value>
+  </data>
+  <data name="Page Tags" xml:space="preserve">
+    <value>Тагове на страницата</value>
+  </data>
+  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
+    <value>Ревизии на страницата, които са били изтрити за дадената страница. Те могат да бъдат изтрити окончателно или възстановени.</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>Страници</value>
+  </data>
+  <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
+    <value>Изтрити страници. Могат да бъдат изтрити или възстановени.</value>
+  </data>
+  <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
+    <value>Страници, към които има връзка, но не съществуват.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Парола</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>Разрешение</value>
+  </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>Разрешения и роли</value>
+  </data>
+  <data name="Please check your email to confirm your account." xml:space="preserve">
+    <value>Моля, проверете имейла си, за да потвърдите акаунта си.</value>
+  </data>
+  <data name="Please check your email to reset your password." xml:space="preserve">
+    <value>Моля, проверете имейла си, за да нулирате паролата си.</value>
+  </data>
+  <data name="Please click here to log in" xml:space="preserve">
+    <value>Моля, кликнете тук, за да влезете</value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value>Моля, потвърдете новата си парола.</value>
+  </data>
+  <data name="Please confirm your password." xml:space="preserve">
+    <value>Моля, потвърдете вашата парола.</value>
+  </data>
+  <data name="Please enter both username and password." xml:space="preserve">
+    <value>Моля, въведете както потребителското име, така и паролата.</value>
+  </data>
+  <data name="Please enter new email." xml:space="preserve">
+    <value>Моля, въведете новия имейл.</value>
+  </data>
+  <data name="Please enter the code." xml:space="preserve">
+    <value>Моля, въведете кода.</value>
+  </data>
+  <data name="Please enter your email." xml:space="preserve">
+    <value>Моля, въведете вашия имейл.</value>
+  </data>
+  <data name="Please enter your new password." xml:space="preserve">
+    <value>Моля, въведете новата си парола.</value>
+  </data>
+  <data name="Please enter your old password." xml:space="preserve">
+    <value>Моля, въведете старата си парола.</value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value>Моля, въведете паролата си.</value>
+  </data>
+  <data name="Please wait, loading preview..." xml:space="preserve">
+    <value>Моля, изчакайте, зареждане на прегледа...</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>Публикувай</value>
+  </data>
+  <data name="Pre-Cache All Pages" xml:space="preserve">
+    <value>Преди кеширане на всички страници</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>Преглед</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Предишен</value>
+  </data>
+  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
+    <value>Политиката за поверителност и бисквитките не са приети.</value>
+  </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>Архитектура на процеса</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профил</value>
+  </data>
+  <data name="Profile Details" xml:space="preserve">
+    <value>Детайли за профила</value>
+  </data>
+  <data name="Profile Settings" xml:space="preserve">
+    <value>Настройки на профила</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>Профили</value>
+  </data>
+  <data name="Public profile information." xml:space="preserve">
+    <value>Информация за публичния профил.</value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value>Почистване</value>
+  </data>
+  <data name="Purge Compilation Statistics" xml:space="preserve">
+    <value>Статистика за компилациите на почистване</value>
+  </data>
+  <data name="Purge Deleted Pages" xml:space="preserve">
+    <value>Изтриване на страниците</value>
+  </data>
+  <data name="Purge Deleted Revisions" xml:space="preserve">
+    <value>Изтриване на редакциите</value>
+  </data>
+  <data name="Purge Event Log" xml:space="preserve">
+    <value>Журнал на събитията при почистване</value>
+  </data>
+  <data name="Purge Memory Cache" xml:space="preserve">
+    <value>Почистване на кеш паметта</value>
+  </data>
+  <data name="Purge Orphaned Attachments" xml:space="preserve">
+    <value>Почистване на сирачи прикачени файлове</value>
+  </data>
+  <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
+    <value>Почистването на статистиките за компилациите ще изтрие всички съхранени статистики за всички страници. Продължете?</value>
+  </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value>Поставете тези кодове на безопасно място.</value>
+  </data>
+  <data name="Puts" xml:space="preserve">
+    <value>Поставки</value>
+  </data>
+  <data name="Raw Size" xml:space="preserve">
+    <value>Мащаб по подразбиране</value>
+  </data>
+  <data name="Rebuild All Pages" xml:space="preserve">
+    <value>Пренапиши всички страници</value>
+  </data>
+  <data name="Recently Modified" xml:space="preserve">
+    <value>Наскоро модифицирани</value>
+  </data>
+  <data name="Recovery code" xml:space="preserve">
+    <value>Код за възстановяване</value>
+  </data>
+  <data name="Recovery code verification" xml:space="preserve">
+    <value>Потвърждение на код за възстановяване</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>Кодовете за възстановяване</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>Обновяване</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрирай се</value>
+  </data>
+  <data name="Register as a new user" xml:space="preserve">
+    <value>Регистрация като нов потребител</value>
+  </data>
+  <data name="Register confirmation" xml:space="preserve">
+    <value>Потвърждение на регистрация</value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value>Регистрирани входове</value>
+  </data>
+  <data name="Registration is not allowed" xml:space="preserve">
+    <value>Регистрацията не е позволена</value>
+  </data>
+  <data name="Registration is not allowed." xml:space="preserve">
+    <value>Регистрацията не е позволена.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Премахване</value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value>Премахнете този {0} вход от вашия акаунт</value>
+  </data>
+  <data name="Request ID" xml:space="preserve">
+    <value>ID на заявката</value>
+  </data>
+  <data name="Request failed:" xml:space="preserve">
+    <value>Заявката не бе успешна:</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>Задължително</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>Изпрати отново</value>
+  </data>
+  <data name="Resend email confirmation" xml:space="preserve">
+    <value>Изпрати отново потвърждението по имейл</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Нулирай</value>
+  </data>
+  <data name="Reset Password" xml:space="preserve">
+    <value>Задай нова парола</value>
+  </data>
+  <data name="Reset authenticator app" xml:space="preserve">
+    <value>Нулирай приложението за удостоверяване</value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>Нулирай ключа за удостоверяване</value>
+  </data>
+  <data name="Reset it" xml:space="preserve">
+    <value>Нулирай го</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>Нулирай паролата</value>
+  </data>
+  <data name="Reset password confirmation" xml:space="preserve">
+    <value>Потвърждение за нулиране на паролата</value>
+  </data>
+  <data name="Reset recovery codes" xml:space="preserve">
+    <value>Нулирай кодовете за възстановяване</value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value>Нулирай паролата си.</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>Ресурс</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Възстановяване</value>
+  </data>
+  <data name="Restore This Page" xml:space="preserve">
+    <value>Възстановяване на тази страница</value>
+  </data>
+  <data name="Restore This Revision" xml:space="preserve">
+    <value>Възстановяване на тази версия</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>Връщане назад</value>
+  </data>
+  <data name="Revert to revision" xml:space="preserve">
+    <value>Връщане към версия</value>
+  </data>
+  <data name="Revert to revision {0}?" xml:space="preserve">
+    <value>Връщане към версия {0}?</value>
+  </data>
+  <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
+    <value>Връщането "{0}" от версия {1} към {2} ще върне назад {3} промени.</value>
+  </data>
+  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
+    <value>Връщането назад не означава, че промените ще бъдат загубени, но процесът на връщане ще създаде нова версия с върнатите промени.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
+    <value>Връщането {0} от версия {1} към {2} ще върне назад {3} промени.&lt;br /&gt;Връщането назад не означава, че промените ще бъдат загубени, но процесът на връщане ще създаде нова версия с върнатите промени.&lt;br /&gt;&lt;br /&gt;Сигурни ли сте, че искате да продължите?&lt;br /&gt;&lt;br /&gt;</value>
+  </data>
+  <data name="Review the differences between revisions of this page." xml:space="preserve">
+    <value>Прегледайте разликите между версиите на тази страница.</value>
+  </data>
+  <data name="Revision" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Revision Comparison" xml:space="preserve">
+    <value>Сравнение на версиите</value>
+  </data>
+  <data name="Revision not found" xml:space="preserve">
+    <value>Не е намерена версия</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>Версии</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Роля</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>Членове на ролята</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>Разрешения за ролята</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>Членство и разрешения на ролята.</value>
+  </data>
+  <data name="Role: {0}" xml:space="preserve">
+    <value>Роля: {0}</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Роли</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Запази</value>
+  </data>
+  <data name="Save the page before uploading files." xml:space="preserve">
+    <value>Запазете страницата преди да качите файлове.</value>
+  </data>
+  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
+    <value>Скенерирайте QR кода или въведете този ключ &lt;kbd&gt;{0}&lt;/kbd&gt; във вашето приложение за двуфакторна автентикация. Разстояния и големина на буквите не са важни.</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Търсене</value>
+  </data>
+  <data name="Search accounts..." xml:space="preserve">
+    <value>Търсене на акаунти...</value>
+  </data>
+  <data name="Search deleted pages..." xml:space="preserve">
+    <value>Търсене на изтрити страници...</value>
+  </data>
+  <data name="Search emojis..." xml:space="preserve">
+    <value>Търсене на емоджита...</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>Търсете още емоджита.</value>
+  </data>
+  <data name="Search pages..." xml:space="preserve">
+    <value>Търсене на страници...</value>
+  </data>
+  <data name="Search text" xml:space="preserve">
+    <value>Търсене на текст</value>
+  </data>
+  <data name="Security Roles" xml:space="preserve">
+    <value>Роли за сигурност</value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value>Изберете държава</value>
+  </data>
+  <data name="Select a language" xml:space="preserve">
+    <value>Изберете език</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>Изберете роля</value>
+  </data>
+  <data name="Select a theme" xml:space="preserve">
+    <value>Изберете тема</value>
+  </data>
+  <data name="Select a time-zone" xml:space="preserve">
+    <value>Изберете часови пояс</value>
+  </data>
+  <data name="Select a wiki page." xml:space="preserve">
+    <value>Изберете страница във вики-то</value>
+  </data>
+  <data name="Select an instruction" xml:space="preserve">
+    <value>Изберете инструкция</value>
+  </data>
+  <data name="Send verification email" xml:space="preserve">
+    <value>Изпрати проверка по имейл</value>
+  </data>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>Логове за сървърни и странични събития</value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value>Задайте парола</value>
+  </data>
+  <data name="Set up authenticator app" xml:space="preserve">
+    <value>Настройте приложението за удостоверяване</value>
+  </data>
+  <data name="Set your password" xml:space="preserve">
+    <value>Задайте вашата парола</value>
+  </data>
+  <data name="Severity" xml:space="preserve">
+    <value>Степен на сериозност</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>Кратка команда</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>Влезте с {0}</value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Signup. Almost there..." xml:space="preserve">
+    <value>Регистрация. Почти сте там...</value>
+  </data>
+  <data name="Site Menu" xml:space="preserve">
+    <value>Меню за сайта</value>
+  </data>
+  <data name="Site Menu Item" xml:space="preserve">
+    <value>Елемент от менюто за сайта</value>
+  </data>
+  <data name="Site Menu Items" xml:space="preserve">
+    <value>Елементи от менюто на сайта</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>Малък</value>
+  </data>
+  <data name="Source Page" xml:space="preserve">
+    <value>Страница източник</value>
+  </data>
+  <data name="Stack Trace" xml:space="preserve">
+    <value>Трасе на стека</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>Теглене с линия</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Обобщение</value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value>Превключването към &lt;strong&gt;развойна&lt;/strong&gt; среда показва подробна информация за възникналата грешка.</value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value>По подразбиране на системата</value>
+  </data>
+  <data name="System Metrics" xml:space="preserve">
+    <value>Метрики на системата</value>
+  </data>
+  <data name="Tag Copied" xml:space="preserve">
+    <value>Тагът е копиран</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Тагове</value>
+  </data>
+  <data name="Target Page" xml:space="preserve">
+    <value>Целева страница</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>Тест на LDAP удостоверяване</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>Текст</value>
+  </data>
+  <data name="Thank you for confirming your email change." xml:space="preserve">
+    <value>Благодарим ви, че потвърдихте промяната на имейла си.</value>
+  </data>
+  <data name="Thank you for confirming your email." xml:space="preserve">
+    <value>Благодарим ви, че потвърдихте имейла си.</value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value>Развойната среда не трябва да е активирана за внедрени приложения.</value>
+  </data>
+  <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
+    <value>Акаунтът е изтрит и цялото съдържание, създадено или променено от този акаунт, е приписано на анонимен профил.</value>
+  </data>
+  <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
+    <value>Статистика за компилациите за всички операции с уики страниците.</value>
+  </data>
+  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
+    <value>ТекAudiencetheЗамянаUser-ка браузърът бе забравен. Когато влезете отново от този браузър, ще бъдете подканени да въведете вашия 2fa код.</value>
+  </data>
+  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+    <value>Електронната поща не беше предоставена от външния доставчик.</value>
+  </data>
+  <data name="The event log is empty." xml:space="preserve">
+    <value>Регистърът на събитията е празен.</value>
+  </data>
+  <data name="The external login was added." xml:space="preserve">
+    <value>Външният вход беше добавен.</value>
+  </data>
+  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
+    <value>Външният вход не беше добавен. Външните входове могат да бъдат свързани само с една акаунт.</value>
+  </data>
+  <data name="The external login was not removed." xml:space="preserve">
+    <value>Външният вход не беше премахнат.</value>
+  </data>
+  <data name="The external login was removed." xml:space="preserve">
+    <value>Външният вход беше премахнат.</value>
+  </data>
+  <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
+    <value>Страницата няма коментари, защо не добавите един?</value>
+  </data>
+  <data name="The requested page or revision does not exist." xml:space="preserve">
+    <value>Заявената страница или ревизия не съществува.</value>
+  </data>
+  <data name="The selected page does not have any revisions." xml:space="preserve">
+    <value>Избраната страница няма редакции.</value>
+  </data>
+  <data name="The specified user could not be found." xml:space="preserve">
+    <value>Посоченият потребител не беше намерен.</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>Теми</value>
+  </data>
+  <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
+    <value>В момента няма липсващи страници, които да се препращат от други страници във уикито.</value>
+  </data>
+  <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
+    <value>В момента няма съществуващи страници в дадени пространства за имена.</value>
+  </data>
+  <data name="There are no compilation statistics available." xml:space="preserve">
+    <value>Нямат налични статистики за компилиране.</value>
+  </data>
+  <data name="There are no deleted revisions for this page." xml:space="preserve">
+    <value>За тази страница няма изтрити версии.</value>
+  </data>
+  <data name="There are no menu items configured." xml:space="preserve">
+    <value>Няма конфигурирани елементи в менюто.</value>
+  </data>
+  <data name="There are no orphaned page attachments." xml:space="preserve">
+    <value>Няма прикачени към страници орфанни приложения.</value>
+  </data>
+  <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
+    <value>Няма страници, съдържащи избраната инструкция за обработка.</value>
+  </data>
+  <data name="There are no security roles configured." xml:space="preserve">
+    <value>Няма конфигурирани роли за сигурност.</value>
+  </data>
+  <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
+    <value>Това са всички прикачени файлове към страница, които вече не са прикрепени към нито една ревизия на страница.</value>
+  </data>
+  <data name="This account has been locked out, please try again later." xml:space="preserve">
+    <value>Тази сметка е блокирана, моля опитайте по-късно.</value>
+  </data>
+  <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
+    <value>Това действие може да бъде отменено само от модератор или администратор.</value>
+  </data>
+  <data name="This action only disables 2FA." xml:space="preserve">
+    <value>Това действие само деактивира 2FA.</value>
+  </data>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>Това показвано име ще бъде видно публично.</value>
+  </data>
+  <data name="This file does not have any revisions." xml:space="preserve">
+    <value>Този файл няма нито една ревизия.</value>
+  </data>
+  <data name="This is your profile, do with it what you may." xml:space="preserve">
+    <value>Това е вашият профил, с който може да правите каквото пожелаете.</value>
+  </data>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value>Този процес деактивира 2FA, докато потвърдите вашето приложение за удостоверяване. Ако не завършите конфигурацията на приложението за удостоверяване, може да загубите достъп до вашия акаунт.</value>
+  </data>
+  <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
+    <value>Това ще провери цялостта на базата данни и ще валидира всички външни ключове. Продължити?</value>
+  </data>
+  <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
+    <value>Това ще компилира всички страници във викито и ще ги съхрани в кеша. Това може да отнеме известно време! Продължити?</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>Това ще обедини всички стандартирани конфигурации, но няма да презапише текущите ви настройки. Продължити?</value>
+  </data>
+  <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
+    <value>Това ще оптимизира индексите и структурата на базата данни. Продължити?</value>
+  </data>
+  <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
+    <value>Това ще изтрие трайно прикачения файл. Продължити?</value>
+  </data>
+  <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
+    <value>Това ще изтрие трайно посочената изтрита ревизия. Продължити?</value>
+  </data>
+  <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
+    <value>Това ще изтрие трайно посочената страница, всички ревизии и прикачени файлове. Продължити?</value>
+  </data>
+  <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
+    <value>Това ще изтрие трайно всички изтрити ревизии на страницата за "{0}". Продължити?</value>
+  </data>
+  <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
+    <value>Това ще изтрие трайно всички изтрити страници. Продължити?</value>
+  </data>
+  <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
+    <value>Това ще изтрие трайно всички дневници на събития. Продължити?</value>
+  </data>
+  <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
+    <value>Това ще изчисти трайно всички омертвели прикачени файлове към страници. Продължи ли?</value>
+  </data>
+  <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
+    <value>Това ще възстанови всички страници в Уикито. Това може да отнеме известно време! Продължи ли?</value>
+  </data>
+  <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
+    <value>Това ще премахне празното пространство от базата данни, което може да освободи място, ако са изтрити много данни. Продължи ли?</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Това ще възстанови всички шаблони за функции, като ще презапише всички персонализации, които може да сте направили. Продължи ли?</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>Това ще възстанови всички страници от пространството за имена Include. Продължи ли?</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>Това ще възстанови всички страници от пространството за имена Помощ за Уики. Продължи ли?</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>Това ще възстанови всички вградени страници за пространство за имена, като ще презапише всички персонализации, които може да сте направили. Продължи ли?</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>Това ще възстанови всички стандартни теми, като ще презапише всички персонализации, направени в базата данни. Продължи ли?</value>
+  </data>
+  <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
+    <value>Това ще възстанови изтритата страница и цялата й история. Продължител ли?</value>
+  </data>
+  <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
+    <value>Това ще възстанови изтритата ревизия. Продължи ли?</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>Часова зона</value>
+  </data>
+  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
+    <value>За да използвате приложение за удостоверяване, следвайте следните стъпки:</value>
+  </data>
+  <data name="Truncate Page Revisions" xml:space="preserve">
+    <value>Обтинаване на прегледите на страницата</value>
+  </data>
+  <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
+    <value>Обтикането на прегледите на страницата ще изтрие цялата история на преглежданията за всички страници и прикачени файлове. Това ще остави само най-новата версия на всички обекти. Обикновено това се счита за сериозен удар! Продължавате ли?</value>
+  </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value>Двуфакторна автентикация</value>
+  </data>
+  <data name="Two-factor authentication (2FA)" xml:space="preserve">
+    <value>Двуфакторна автентикация (2FA)</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Type comment..." xml:space="preserve">
+    <value>Напишете коментар...</value>
+  </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value>URL трябва да започва с</value>
+  </data>
+  <data name="Unable to delete page" xml:space="preserve">
+    <value>Не може да се изтрие страницата</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Неоторизиран</value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value>Потвърждаването е неуспешно</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>Подчертаване</value>
+  </data>
+  <data name="Unexpected Error" xml:space="preserve">
+    <value>Непредвидена грешка</value>
+  </data>
+  <data name="Unexpected error:" xml:space="preserve">
+    <value>Непредвидена грешка:</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>Актуализирай паролата</value>
+  </data>
+  <data name="Upload successful" xml:space="preserve">
+    <value>Качването е успешно</value>
+  </data>
+  <data name="Use another service to register" xml:space="preserve">
+    <value>Използвайте друг услуга за регистрация</value>
+  </data>
+  <data name="Use commas to separate categories." xml:space="preserve">
+    <value>Използвайте запетаи за разделяне на категориите.</value>
+  </data>
+  <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
+    <value>Използвайте пространството имена Templates, за да добавите страница към списъка с шаблони, напр. Templates :: Моят първи шаблон.</value>
+  </data>
+  <data name="User created a new account with LDAP." xml:space="preserve">
+    <value>Потребителят създаде нов акаунт с LDAP.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Потребителско име</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Потребители</value>
+  </data>
+  <data name="Vacuum" xml:space="preserve">
+    <value>Прахосмукачка</value>
+  </data>
+  <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
+    <value>Различни инструменти за подпомагане на управлението на базата данни SQLite.</value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value>Код за потвърждение</value>
+  </data>
+  <data name="Verification code is invalid." xml:space="preserve">
+    <value>Кодът за потвърждение е невалиден.</value>
+  </data>
+  <data name="Verification email sent. Please check your email." xml:space="preserve">
+    <value>Имейл за потвърждение изпратен. Моля, проверете вашия имейл.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Потвърдете</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Преглед</value>
+  </data>
+  <data name="View all comments" xml:space="preserve">
+    <value>Преглед на всички коментари</value>
+  </data>
+  <data name="View all revisions" xml:space="preserve">
+    <value>Преглед на всички версии</value>
+  </data>
+  <data name="View latest revision" xml:space="preserve">
+    <value>Преглед на последната версия</value>
+  </data>
+  <data name="Viewing a deleted page" xml:space="preserve">
+    <value>Преглеждане на изтрита страница</value>
+  </data>
+  <data name="Viewing a deleted page revision" xml:space="preserve">
+    <value>Преглед на версията на изтритата страница</value>
+  </data>
+  <data name="Viewing a historical version" xml:space="preserve">
+    <value>Преглед на историческа версия</value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value>Какво променихте и защо?</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>Страници за помощ в Уики</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>Уики страница</value>
+  </data>
+  <data name="Wikified Size" xml:space="preserve">
+    <value>Размер, основан на Уики</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>Нямате разрешение</value>
+  </data>
+  <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
+    <value>Виждате версия на страницата, която беше изтрита на {0} от {1}.</value>
+  </data>
+  <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
+    <value>Виждате страница, която беше изтрита на {0} от {1}.</value>
+  </data>
+  <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
+    <value>Виждате версия {0} на "{1}", променена от {2} на {3}.</value>
+  </data>
+  <data name="You can generate a new set of recovery codes." xml:space="preserve">
+    <value>Можете да създадете нов набор от възстановителни кодове.</value>
+  </data>
+  <data name="You can log in with a recovery code" xml:space="preserve">
+    <value>Можете да влезете с възстановителен код</value>
+  </data>
+  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
+    <value>Нямате локално потребителско име/парола за този сайт. Добавете локален акаунт, за да влезете без външен вход.</value>
+  </data>
+  <data name="You do not have access to this resource." xml:space="preserve">
+    <value>Нямате достъп до този ресурс.</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>Нямате права да изпълните действията: {0}</value>
+  </data>
+  <data name="You have 1 recovery code left." xml:space="preserve">
+    <value>Остават ви 1 код за възстановяване.</value>
+  </data>
+  <data name="You have generated new recovery codes." xml:space="preserve">
+    <value>Генерирали сте нови кодове за възстановяване.</value>
+  </data>
+  <data name="You have no recovery codes left." xml:space="preserve">
+    <value>Нямате оставащи кодове за възстановяване.</value>
+  </data>
+  <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
+    <value>Заявалите сте се да влезете със код за възстановяване. Този вход няма да бъде запомнен, докато не въведете код от приложението за аутентикация при влизане или не деактивирате 2FA и влезете отново.</value>
+  </data>
+  <data name="You have successfully logged out of the application." xml:space="preserve">
+    <value>Успешно излезнахте от приложението.</value>
+  </data>
+  <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
+    <value>Успешно влезнахте с LDAP, но все още имаме нужда от малко повече информация.</value>
+  </data>
+  <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
+    <value>Успешно влезнахте с външния доставчик, но все още имаме нужда от малко повече информация.</value>
+  </data>
+  <data name="You have {0} recovery codes left." xml:space="preserve">
+    <value>Остава ви {0} кодове за възстановяване.</value>
+  </data>
+  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
+    <value>Трябва да приемете политиката, преди да активирате двуфакторната идентификация.</value>
+  </data>
+  <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
+    <value>Трябва да генерирате нов набор от кодове за възстановяване, преди да можете да влезете с код за възстановяване.</value>
+  </data>
+  <data name="You should generate a new set of recovery codes." xml:space="preserve">
+    <value>Трябва да генерирате нов набор от кодове за възстановяване.</value>
+  </data>
+  <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
+    <value>Успешно сте се идентифицирали с {0}. Моля, въведете имейл адрес за този сайт по-долу и щракнете върху бутона Регистриране, за да завършите входа си.</value>
+  </data>
+  <data name="Your authenticator app has been verified." xml:space="preserve">
+    <value>Вашето приложение за удостоверяване е било потвърдено.</value>
+  </data>
+  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
+    <value>Ключът на вашето приложение за удостоверяване е бил нулиран, ще трябва да конфигурирате вашето приложение за удостоверяване с новия ключ.</value>
+  </data>
+  <data name="Your email is unchanged." xml:space="preserve">
+    <value>Вашият имейл остава непроменен.</value>
+  </data>
+  <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
+    <value>Входът ви е защитен с приложение за удостоверяване. Въведете кода си за удостоверяване по-долу.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>Паролата ви е била променена.</value>
+  </data>
+  <data name="Your password has been reset." xml:space="preserve">
+    <value>Паролата ви е била нулирана.</value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value>Паролата ви е била зададена.</value>
+  </data>
+  <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
+    <value>Вашите критерии за търсене не доведоха до никакви страници, опростете текста за търсене.</value>
+  </data>
+  <data name="not required" xml:space="preserve">
+    <value>не е необходимо</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>задължително</value>
+  </data>
+  <data name="revisions" xml:space="preserve">
+    <value>промени</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>версия</value>
+  </data>
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+    <value>{0}Продължете сега{1} или ще бъдете пренасочени след {2} секунди.</value>
+  </data>
+</root>

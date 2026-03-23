@@ -1,7 +1,9 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model RoleViewModel
 @{
     Layout = "_Layout";
@@ -11,10 +13,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer.Format("Role: {0}", Model.Name)
+            @SharedLocalizer.Static.Format("Role: {0}", Model.Name)
         </h3>
         <div class="text-muted">
-            @Localizer["Role membership and permissions."]
+            @SharedLocalizer.Static["Role membership and permissions."]
         </div>
     </div>
 </div>
@@ -30,7 +32,7 @@
                     class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#addPermissionToRoleModal">
-                <i class="bi bi-shield-plus me-1"></i>@Localizer["Add Permission to Role"]
+                <i class="bi bi-shield-plus me-1"></i>@SharedLocalizer.Static["Add Permission to Role"]
             </button>
 
             <button type="button"
@@ -38,7 +40,7 @@
                     class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#addMemberToRoleModal">
-                <i class="bi bi-person-plus me-1"></i>@Localizer["Add Member to Role"]
+                <i class="bi bi-person-plus me-1"></i>@SharedLocalizer.Static["Add Member to Role"]
             </button>
         </div>
 
@@ -46,8 +48,8 @@
         {
             @ConfirmActionHelper.GenerateDangerButton(
                 GlobalConfiguration.BasePath,
-                Localizer["Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?"].Format(Model.Name),
-                Localizer["Delete Role"].Value,
+                SharedLocalizer.Static["Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?"].Format(Model.Name),
+                SharedLocalizer.Static["Delete Role"].Value,
                 $"/AdminSecurity/DeleteRole/{Model.Id}",
                 $"{GlobalConfiguration.BasePath}/AdminSecurity/Roles",
                 Context.Request.Path.Value)
@@ -57,7 +59,7 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-shield-lock me-2"></i>@Localizer["Role Permissions"]
+                <i class="bi bi-shield-lock me-2"></i>@SharedLocalizer.Static["Role Permissions"]
             </span>
             <div>
                 @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Permissions, "Page_Permissions")
@@ -71,23 +73,23 @@
                         <th scope="col" style="width: 18%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Disposition", "Permissions")">
-                                @Localizer["Disposition"]
+                                @SharedLocalizer.Static["Disposition"]
                             </a>
                         </th>
                         <th scope="col" style="width: 20%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Permission", "Permissions")">
-                                @Localizer["Permission"]
+                                @SharedLocalizer.Static["Permission"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Resource", "Permissions")">
-                                @Localizer["Resource"]
+                                @SharedLocalizer.Static["Resource"]
                             </a>
                         </th>
                         <th scope="col" style="width: 1%;" class="text-nowrap">
-                            @Localizer["Action"]
+                            @SharedLocalizer.Static["Action"]
                         </th>
                     </tr>
                 </thead>
@@ -116,15 +118,15 @@
                                 @if (permission.Namespace != null)
                                 {
                                     <span>
-                                        <span class="text-muted">@Localizer["Namespace"]:</span>
-                                        @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)
+                                        <span class="text-muted">@SharedLocalizer.Static["Namespace"]:</span>
+                                        @(permission.ResourceName == "*" ? SharedLocalizer.Static["ALL"] : permission.ResourceName)
                                     </span>
                                 }
                                 else if (permission.PageId != null)
                                 {
                                     <span>
-                                        <span class="text-muted">@Localizer["Page"]:</span>
-                                        @(permission.ResourceName == "*" ? Localizer["ALL"] : permission.ResourceName)
+                                        <span class="text-muted">@SharedLocalizer.Static["Page"]:</span>
+                                        @(permission.ResourceName == "*" ? SharedLocalizer.Static["ALL"] : permission.ResourceName)
                                     </span>
                                 }
                             </td>
@@ -133,7 +135,7 @@
                                 <button type="button"
                                         class="btn btn-outline-warning btn-sm"
                                         onclick="removePermission(this, '@permission.Id')">
-                                    <i class="bi bi-trash me-1"></i>@Localizer["Remove"]
+                                    <i class="bi bi-trash me-1"></i>@SharedLocalizer.Static["Remove"]
                                 </button>
                             </td>
                         </tr>
@@ -146,7 +148,7 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-people me-2"></i>@Localizer["Role Members"]
+                <i class="bi bi-people me-2"></i>@SharedLocalizer.Static["Role Members"]
             </span>
             <div>
                 @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount_Members, "Page_Members")
@@ -160,29 +162,29 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "AccountName", "Members")">
-                                @Localizer["Display Name"]
+                                @SharedLocalizer.Static["Display Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress", "Members")">
-                                @Localizer["Email Address"]
+                                @SharedLocalizer.Static["Email Address"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName", "Members")">
-                                @Localizer["First Name"]
+                                @SharedLocalizer.Static["First Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastName", "Members")">
-                                @Localizer["Last Name"]
+                                @SharedLocalizer.Static["Last Name"]
                             </a>
                         </th>
                         <th scope="col" style="width: 1%;" class="text-nowrap">
-                            @Localizer["Action"]
+                            @SharedLocalizer.Static["Action"]
                         </th>
                     </tr>
                 </thead>
@@ -203,7 +205,7 @@
                                 <button type="button"
                                         class="btn btn-outline-warning btn-sm"
                                         onclick="removeMember(this, '@member.UserId')">
-                                    <i class="bi bi-person-dash me-1"></i>@Localizer["Remove"]
+                                    <i class="bi bi-person-dash me-1"></i>@SharedLocalizer.Static["Remove"]
                                 </button>
                             </td>
                         </tr>

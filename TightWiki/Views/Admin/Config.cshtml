@@ -1,5 +1,7 @@
 ﻿@using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Admin.ConfigurationViewModel
 @{
     Layout = "_Layout";
@@ -7,18 +9,18 @@
 }
 
 <h3>
-    @Localizer["Configuration"]
+    @SharedLocalizer.Static["Configuration"]
 </h3>
 
 <p>
-    @Localizer["Global configuration values for the wiki, its functionality, behavior, formatting and branding."]
+    @SharedLocalizer.Static["Global configuration values for the wiki, its functionality, behavior, formatting and branding."]
 </p>
 
 @using (Html.BeginForm(FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-group"><button type="submit" class="btn btn-primary mb-4">@Localizer["Save"]</button></div>
+    <div class="form-group"><button type="submit" class="btn btn-primary mb-4">@SharedLocalizer.Static["Save"]</button></div>
 
     @foreach (var group in Model.Nest)
     {
@@ -41,7 +43,7 @@
                                     @if ($"{group.Name}:{entry.Name}" == "Customization:Theme")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a Theme"]</option>
+                                            <option value="" style="color:#ccc !important;">@SharedLocalizer.Static["Select a theme"]</option>
                                             @foreach (var item in Model.Themes)
                                             {
                                                 <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
@@ -51,7 +53,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Signup Role")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a role"]</option>
+                                            <option value="" style="color:#ccc !important;">@SharedLocalizer.Static["Select a role"]</option>
                                             @foreach (var item in Model.Roles)
                                             {
                                                 <option value="@item.Name" selected=@(entry.Value == item.Name ? "selected" : null)>@item.Name</option>
@@ -61,7 +63,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default TimeZone" || $"{group.Name}:{entry.Name}" == "Customization:Default TimeZone")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a time-zone"]</option>
+                                            <option value="" style="color:#ccc !important;">@SharedLocalizer.Static["Select a time-zone"]</option>
                                             @foreach (var item in Model.TimeZones)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -71,7 +73,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Language" || $"{group.Name}:{entry.Name}" == "Customization:Default Language")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a language"]</option>
+                                            <option value="" style="color:#ccc !important;">@SharedLocalizer.Static["Select a language"]</option>
                                             @foreach (var item in Model.Languages)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -81,7 +83,7 @@
                                     else if ($"{group.Name}:{entry.Name}" == "Membership:Default Country" || $"{group.Name}:{entry.Name}" == "Customization:Default Country")
                                     {
                                         <select name="@entry.ConfigurationGroupId:@entry.Id" id="@entry.ConfigurationGroupId:@entry.Id" class="form-control">
-                                            <option value="" style="color:#ccc !important;">@Localizer["Select a country"]</option>
+                                            <option value="" style="color:#ccc !important;">@SharedLocalizer.Static["Select a country"]</option>
                                             @foreach (var item in Model.Countries)
                                             {
                                                 <option value="@item.Value" selected=@(entry.Value == item.Value ? "selected" : null)>@item.Text</option>
@@ -126,20 +128,20 @@
                         {
                             <hr class="my-4" />
                             <div class="border rounded p-3 bg-light">
-                                <h5 class="mb-3">@Localizer["Test LDAP Authentication"]</h5>
+                                <h5 class="mb-3">@SharedLocalizer.Static["Test LDAP Authentication"]</h5>
 
                                 <div class="row g-3 align-items-end" id="ldapTestForm">
                                     <div class="col-sm-4">
-                                        <label for="ldapTestUsername" class="form-label"><strong>@Localizer["Username"]</strong></label>
+                                        <label for="ldapTestUsername" class="form-label"><strong>@SharedLocalizer.Static["Username"]</strong></label>
                                         <input type="text" id="ldapTestUsername" class="form-control" autocomplete="off">
                                     </div>
                                     <div class="col-sm-4">
-                                        <label for="ldapTestPassword" class="form-label"><strong>@Localizer["Password"]</strong></label>
+                                        <label for="ldapTestPassword" class="form-label"><strong>@SharedLocalizer.Static["Password"]</strong></label>
                                         <input type="password" id="ldapTestPassword" class="form-control" autocomplete="new-password">
                                     </div>
                                     <div class="col-sm-4">
                                         <button type="button" id="btnLdapTest" class="btn btn-outline-primary">
-                                            @Localizer["Test"]
+                                            @SharedLocalizer.Static["Test"]
                                         </button>
                                         <div id="ldapTestSpinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status"></div>
                                     </div>
@@ -154,7 +156,7 @@
         </div>
     }
 
-    <div class="form-group"><button type="submit" class="btn btn-primary mt-2">@Localizer["Save"]</button></div>
+    <div class="form-group"><button type="submit" class="btn btn-primary mt-2">@SharedLocalizer.Static["Save"]</button></div>
 }
 
 <script>
@@ -194,7 +196,7 @@
             const password = passInput.value;
 
             if (!username || !password) {
-                setResult('@Localizer["Please enter both username and password."]', false);
+                setResult('@SharedLocalizer.Static["Please enter both username and password."]', false);
                 return;
             }
 
@@ -213,21 +215,21 @@
                 });
 
                 if (!resp.ok) {
-                    setResult('@Localizer["Request failed:"] ' + resp.status + ' ' + resp.statusText, false);
+                    setResult('@SharedLocalizer.Static["Request failed:"] ' + resp.status + ' ' + resp.statusText, false);
                     return;
                 }
 
                 const data = await resp.json();
                 if (data.ok) {
-                    const safeMsg = data.message ?? '@Localizer["Bind succeeded."]';
-                    const dn = data.distinguishedName ? `<div><strong>@Localizer["Distinguished Name:"]</strong> ${data.distinguishedName}</div>` : '';
+                    const safeMsg = data.message ?? '@SharedLocalizer.Static["Bind succeeded."]';
+                    const dn = data.distinguishedName ? `<div><strong>@SharedLocalizer.Static["Distinguished Name:"]</strong> ${data.distinguishedName}</div>` : '';
                     setResult(`${safeMsg}${dn}`, true);
                 } else {
-                    const err = data.error ?? '@Localizer["Bind failed."]';
+                    const err = data.error ?? '@SharedLocalizer.Static["Bind failed."]';
                     setResult(err, false);
                 }
             } catch (e) {
-                setResult('@Localizer["Unexpected error:"] ' + (e?.message || e), false);
+                setResult('@SharedLocalizer.Static["Unexpected error:"] ' + (e?.message || e), false);
             } finally {
                 btn.disabled = false;
                 spn.classList.add('d-none');

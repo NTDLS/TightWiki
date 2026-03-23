@@ -1,6 +1,8 @@
 ﻿@using TightWiki.Models
 @using static TightWiki.Library.Constants
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Page.PageEditViewModel
 @{
     Layout = "_Layout";
@@ -120,7 +122,7 @@
          } catch (err) {
            const uploadStatus = document.getElementById('uploadStatus');
            if (uploadStatus) {
-             uploadStatus.innerHTML = `<p>@Localizer["Unexpected Error"]: ${err.message}</p>`;
+             uploadStatus.innerHTML = `<p>@SharedLocalizer.Static["Unexpected Error"]: ${err.message}</p>`;
            }
            console.error(err);
          }
@@ -220,7 +222,7 @@
         }
         $('#insertLinkModalLinkPage').select2({
             dropdownParent: $('#insertLinkModal'),
-            placeholder: "@Localizer["Search"]...",
+            placeholder: "@SharedLocalizer.Static["Search"]...",
             minimumInputLength: 0,
             ajax: {
                 url: '@GlobalConfiguration.BasePath/Page/AutoCompletePage',
@@ -267,7 +269,7 @@
         if (linkMode === 'page') {
             const selected = $('#insertLinkModalLinkPage').select2('data')[0];
             if (!selected) {
-                alert("@Localizer["Select a wiki page."]");
+                alert("@SharedLocalizer.Static["Select a wiki page."]");
                 isValid = false;
             } else {
 
@@ -282,10 +284,10 @@
         } else if (linkMode === 'url') {
             const url = document.getElementById('insertLinkModalLinkURL').value.trim();
             if (!url) {
-                alert("@Localizer["Enter a URL."]");
+                alert("@SharedLocalizer.Static["Enter a URL."]");
                 isValid = false;
             } else if (!/^https?:\/\//i.test(url)) {
-                alert("@Localizer["URL must start with"] http:// or https://");
+                alert("@SharedLocalizer.Static["URL must start with"] http:// or https://");
                 isValid = false;
             } else {
 
@@ -334,10 +336,10 @@
                 layout: "fitDataStretch",
                 columns: [
                         {
-                            title: "@Localizer["Insert"]",
+                            title: "@SharedLocalizer.Static["Insert"]",
                             headerSort: false,
                             hozAlign: "center",
-                            formatter: () => "<a class=\"btn btn-success btn-thin rounded-0\">@Localizer["Insert"]</a>",
+                            formatter: () => "<a class=\"btn btn-success btn-thin rounded-0\">@SharedLocalizer.Static["Insert"]</a>",
                             cellClick: (e, cell) => {
                                 const row = cell.getRow().getData();
                                 const value = row.templateText.replace(/\r\n/g, "\n");
@@ -362,7 +364,7 @@
                             }
                         },
                         {
-                            title: "@Localizer["Name"]",
+                            title: "@SharedLocalizer.Static["Name"]",
                             field: "name",
                             formatter: function (cell) {
                                 const data = cell.getRow().getData();
@@ -372,10 +374,10 @@
                                 return `<a href="@GlobalConfiguration.BasePath/${url}" target="_blank" rel="noopener noreferrer">${label}</a>`;
                             }
                         },
-                        { title: "@Localizer["Type"]", field: "type" },
+                        { title: "@SharedLocalizer.Static["Type"]", field: "type" },
                         { field: "templateText", visible: false },
                         { field: "helpPageNavigation", visible: false },
-                        { title: "@Localizer["Description"]", field: "description" }
+                        { title: "@SharedLocalizer.Static["Description"]", field: "description" }
                     ],
                 });
 
@@ -451,20 +453,20 @@
             dropSection.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 dropSection.classList.add('dragover');
-                dropSection.textContent = "@Localizer["Drop files here..."]";
+                dropSection.textContent = "@SharedLocalizer.Static["Drop files here..."]";
             });
 
             // Handle dragleave event
             dropSection.addEventListener('dragleave', () => {
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = "@Localizer["Attach files by dropping them here or by manually selecting them below:"]";
+                dropSection.textContent = "@SharedLocalizer.Static["Attach files by dropping them here or by manually selecting them below:"]";
             });
 
             // Handle drop event
             dropSection.addEventListener('drop', (e) => {
                 e.preventDefault();
                 dropSection.classList.remove('dragover');
-                dropSection.textContent = "@Localizer["Attach files by dropping them here or by manually selecting them below:"]";
+                dropSection.textContent = "@SharedLocalizer.Static["Attach files by dropping them here or by manually selecting them below:"]";
                 const files = e.dataTransfer.files;
                 handleFileUpload(files);
             });
@@ -520,14 +522,14 @@
                 .then(response => response.json())  // Read the response as JSON
                 .then(result => {
                     if (result.success) {
-                        uploadStatus.innerHTML = `<p>@Localizer["Upload successful"] - ${result.message}</p>`;
+                        uploadStatus.innerHTML = `<p>@SharedLocalizer.Static["Upload successful"] - ${result.message}</p>`;
                     } else {
-                        uploadStatus.innerHTML = `<p>@Localizer["Error"] - ${result.message}</p>`;
+                        uploadStatus.innerHTML = `<p>@SharedLocalizer.Static["Error"] - ${result.message}</p>`;
                     }
                     $("#uploadedFiles").load("@GlobalConfiguration.BasePath/File/PageAttachments/@sessionState.PageNavigationEscaped");
                 })
                 .catch(error => {
-                    uploadStatus.innerHTML = `<p>@Localizer["Unexpected Error"]: ${error.message}</p>`;
+                    uploadStatus.innerHTML = `<p>@SharedLocalizer.Static["Unexpected Error"]: ${error.message}</p>`;
                 });
         }
 
@@ -555,7 +557,7 @@
 
         const imagesTable = new Tabulator("#emojiResultsTable", {
             layout: "fitColumns",
-            placeholder: '@Localizer["Search for more emojis."]',
+            placeholder: '@SharedLocalizer.Static["Search for more emojis."]',
             ajaxLoader: true,
             ajaxContentType: "json",
             ajaxResponse: function(url, params, resp) { return resp; },
@@ -700,11 +702,11 @@
             if (result.success) {
                 previewContent.innerHTML = result.html;
             } else {
-                previewError.textContent = result.message || '@Localizer["Failed to load preview."]';
+                previewError.textContent = result.message || '@SharedLocalizer.Static["Failed to load preview."]';
                 previewError.classList.remove('d-none');
             }
         } catch (err) {
-            previewError.textContent = '@Localizer["Unexpected Error"]' + ': ' + err.message;
+            previewError.textContent = '@SharedLocalizer.Static["Unexpected Error"]' + ': ' + err.message;
             previewError.classList.remove('d-none');
         } finally {
             previewLoading.classList.add('d-none');
@@ -715,32 +717,32 @@
 
 <div class="bodyDiv">
     <div class="card shadow-lg">
-        <div class="card-header"><h3>@Localizer["Content"]</h3></div>
+        <div class="card-header"><h3>@SharedLocalizer.Static["Content"]</h3></div>
         <div class="card-body">
             @using (Html.BeginForm(FormMethod.Post, new { id = "pageEditForm" }))
             {
                 @Html.HiddenFor(x => x.Id)
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button type="submit" class="btn btn-primary">@SharedLocalizer.Static["Save"]</button>
                     @if (sessionState.HoldsPermission(WikiPermission.Read))
                     {
                         if (Model?.Id > 0)
                         {
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
-                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@SharedLocalizer.Static["View"]</a>
+                            <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@SharedLocalizer.Static["Export"]</a>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#templatesModal">@Localizer["Choose template"]</button>
+                            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#templatesModal">@SharedLocalizer.Static["Choose template"]</button>
                         }
                     }
-                    <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
+                    <span class="badge text-bg-danger invisible">@SharedLocalizer.Static["Unauthorized"]</span>
                 </div>
                 <br />
 
                 <div class="mb-3">
-                    <label asp-for="Name" class="form-label fw-semibold">@Localizer["Name"]</label>
+                    <label asp-for="Name" class="form-label fw-semibold">@SharedLocalizer.Static["Name"]</label>
                     @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Name)
@@ -748,7 +750,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Description" class="form-label fw-semibold">@Localizer["Description"]</label>
+                    <label asp-for="Description" class="form-label fw-semibold">@SharedLocalizer.Static["Description"]</label>
                     @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Description)
@@ -758,12 +760,12 @@
                 @if (GlobalConfiguration.ShowChangeSummaryWhenEditing)
                 {
                     <div class="mb-3">
-                        <label asp-for="ChangeSummary" class="form-label fw-semibold">@Localizer["Change Summary"]</label>
+                        <label asp-for="ChangeSummary" class="form-label fw-semibold">@SharedLocalizer.Static["Change Summary"]</label>
                         @Html.TextAreaFor(x => x.ChangeSummary, new
                         {
                             @class = "form-control",
                             rows = 3,
-                            placeholder = @Localizer["What did you change and why?"].Value
+                            placeholder = @SharedLocalizer.Static["What did you change and why?"].Value
                         })
                         <div class="text-danger small">
                             @Html.ValidationMessageFor(m => m.ChangeSummary)
@@ -783,7 +785,7 @@
                                     role="tab"
                                     aria-controls="edit-tab-pane"
                                     aria-selected="true">
-                                @Localizer["Edit"]
+                                @SharedLocalizer.Static["Edit"]
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
@@ -795,20 +797,20 @@
                                     role="tab"
                                     aria-controls="preview-tab-pane"
                                     aria-selected="false">
-                                @Localizer["Preview"]
+                                @SharedLocalizer.Static["Preview"]
                             </button>
                         </li>
                     </ul>
 
                     <div class="d-flex align-items-center gap-2">
-                        <label asp-for="editorHeightSelect" class="form-label fw-semibold">@Localizer["Editor Size"]</label>
+                        <label asp-for="editorHeightSelect" class="form-label fw-semibold">@SharedLocalizer.Static["Editor Size"]</label>
                         <select id="editorHeightSelect" class="form-select form-select-sm" style="width:auto;">
-                            <option value="10em">@Localizer["Extra Small"]</option>
-                            <option value="20em">@Localizer["Small"]</option>
-                            <option value="30em" selected>@Localizer["Medium"]</option>
-                            <option value="40em">@Localizer["Large"]</option>
-                            <option value="50em">@Localizer["Extra Large"]</option>
-                            <option value="80em">@Localizer["Huge"]</option>
+                            <option value="10em">@SharedLocalizer.Static["Extra Small"]</option>
+                            <option value="20em">@SharedLocalizer.Static["Small"]</option>
+                            <option value="30em" selected>@SharedLocalizer.Static["Medium"]</option>
+                            <option value="40em">@SharedLocalizer.Static["Large"]</option>
+                            <option value="50em">@SharedLocalizer.Static["Extra Large"]</option>
+                            <option value="80em">@SharedLocalizer.Static["Huge"]</option>
                         </select>
                     </div>
                 </div>
@@ -826,31 +828,31 @@
                         {
                             <div class="d-flex gap-2 mb-2">
                                 <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('**','**')">
-                                    <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
+                                    <img src="/images/toolbar/toolbar_Dark_Bold.png" width="16" height="16" alt="@SharedLocalizer.Static["Bold"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('//','//')">
-                                    <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
+                                    <img src="/images/toolbar/toolbar_Dark_Italic.png" width="16" height="16" alt="@SharedLocalizer.Static["Italic"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('__','__')">
-                                    <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
+                                    <img src="/images/toolbar/toolbar_Dark_Underline.png" width="16" height="16" alt="@SharedLocalizer.Static["Underline"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('~~','~~')">
-                                    <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
+                                    <img src="/images/toolbar/toolbar_Dark_Strike.png" width="16" height="16" alt="@SharedLocalizer.Static["Strikethrough"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-dark p-1" onclick="surroundSelectionWith('!!','!!')">
-                                    <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
+                                    <img src="/images/toolbar/toolbar_Dark_Highlight.png" width="16" height="16" alt="@SharedLocalizer.Static["Highlight"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
-                                    <img src="/images/toolbar/toolbar_Dark_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
+                                    <img src="/images/toolbar/toolbar_Dark_Link.png" width="16" height="16" alt="@SharedLocalizer.Static["Hyperlink"]...">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
-                                    <img src="/images/toolbar/toolbar_Dark_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
+                                    <img src="/images/toolbar/toolbar_Dark_Emoji.png" width="16" height="16" alt="@SharedLocalizer.Static["Emoji"]...">
                                 </button>
 
                                 <div style="width:1px; height:24px; background-color:#ccc;"></div>
 
                                 <button type="button" class="btn btn-sm btn-dark d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
-                                    @Localizer["Insert"] <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
+                                    @SharedLocalizer.Static["Insert"] <img src="/images/toolbar/toolbar_Dark_Insert.png" width="16" height="16" alt="@SharedLocalizer.Static["Insert"]...">
                                 </button>
                             </div>
                         }
@@ -858,31 +860,31 @@
                         {
                             <div class="d-flex gap-2 mb-2">
                                 <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('**','**')">
-                                    <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="@Localizer["Bold"]">
+                                    <img src="/images/toolbar/toolbar_Light_Bold.png" width="16" height="16" alt="@SharedLocalizer.Static["Bold"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('//','//')">
-                                    <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="@Localizer["Italic"]">
+                                    <img src="/images/toolbar/toolbar_Light_Italic.png" width="16" height="16" alt="@SharedLocalizer.Static["Italic"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('__','__')">
-                                    <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="@Localizer["Underline"]">
+                                    <img src="/images/toolbar/toolbar_Light_Underline.png" width="16" height="16" alt="@SharedLocalizer.Static["Underline"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('~~','~~')">
-                                    <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="@Localizer["Strikethrough"]">
+                                    <img src="/images/toolbar/toolbar_Light_Strike.png" width="16" height="16" alt="@SharedLocalizer.Static["Strikethrough"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-light p-1" onclick="surroundSelectionWith('!!','!!')">
-                                    <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="@Localizer["Highlight"]">
+                                    <img src="/images/toolbar/toolbar_Light_Highlight.png" width="16" height="16" alt="@SharedLocalizer.Static["Highlight"]">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertLinkModal">
-                                    <img src="/images/toolbar/toolbar_Light_Link.png" width="16" height="16" alt="@Localizer["Hyperlink"]...">
+                                    <img src="/images/toolbar/toolbar_Light_Link.png" width="16" height="16" alt="@SharedLocalizer.Static["Hyperlink"]...">
                                 </button>
                                 <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#insertEmojiModal">
-                                    <img src="/images/toolbar/toolbar_Light_Emoji.png" width="16" height="16" alt="@Localizer["Emoji"]...">
+                                    <img src="/images/toolbar/toolbar_Light_Emoji.png" width="16" height="16" alt="@SharedLocalizer.Static["Emoji"]...">
                                 </button>
 
                                 <div style="width:1px; height:24px; background-color:#222;"></div>
 
                                 <button type="button" class="btn btn-sm btn-light d-flex align-items-center gap-1 px-2" data-bs-toggle="modal" data-bs-target="#featureInsertModal">
-                                    @Localizer["Insert"] <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="@Localizer["Insert"]...">
+                                    @SharedLocalizer.Static["Insert"] <img src="/images/toolbar/toolbar_Light_Insert.png" width="16" height="16" alt="@SharedLocalizer.Static["Insert"]...">
                                 </button>
                             </div>
                         }
@@ -898,13 +900,13 @@
 
                         <div id="previewLoading" class="py-3 d-none">
                             <div class="spinner-border spinner-border-sm me-2" role="status"></div>
-                            @Localizer["Loading preview..."]
+                            @SharedLocalizer.Static["Loading preview..."]
                         </div>
 
                         <div id="previewError" class="alert alert-danger d-none mt-3"></div>
 
                         <div id="previewContent" class="border rounded p-3 mt-3 bg-body">
-                            <em>@Localizer["Please wait, loading preview..."]</em>
+                            <em>@SharedLocalizer.Static["Please wait, loading preview..."]</em>
                         </div>
                     </div>
                 </div>
@@ -913,13 +915,13 @@
                 <br />
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                    <button type="submit" class="btn btn-primary">@SharedLocalizer.Static["Save"]</button>
                     @if (Model?.Id > 0 && sessionState.HoldsPermission(WikiPermission.Read))
                     {
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@Localizer["View"]</a>
-                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@Localizer["Export"]</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation" target="_blank" rel="noopener" class="btn btn-success" role="button">@SharedLocalizer.Static["View"]</a>
+                        <a href="@GlobalConfiguration.BasePath/@sessionState.PageNavigation/Export" target="_blank" rel="noopener" class="btn btn-secondary" role="button">@SharedLocalizer.Static["Export"]</a>
                     }
-                    <span class="badge text-bg-danger invisible">@Localizer["Unauthorized"]</span>
+                    <span class="badge text-bg-danger invisible">@SharedLocalizer.Static["Unauthorized"]</span>
                 </div>
             }
         </div>
@@ -927,12 +929,12 @@
     <br />
 
     <div class="card shadow-lg">
-        <div class="card-header"><h3>@Localizer["Attachments"]</h3></div>
+        <div class="card-header"><h3>@SharedLocalizer.Static["Attachments"]</h3></div>
         <div class="card-body">
             @if (Model?.Id > 0 && sessionState.HoldsPermission(WikiPermission.Create))
             {
                 <div id="dropSection" class="dropSection">
-                    <span class="d-inline-block">@Localizer["Drop file attachments here or click to upload manually."]</span>
+                    <span class="d-inline-block">@SharedLocalizer.Static["Drop file attachments here or click to upload manually."]</span>
                 </div>
                 <input type="file" id="fileInput" style="display:none" multiple>
                 <div id="uploadStatus"></div>
@@ -940,7 +942,7 @@
             }
             else
             {
-                <div>@Localizer["Save the page before uploading files."]</div>
+                <div>@SharedLocalizer.Static["Save the page before uploading files."]</div>
             }
         </div>
     </div>
@@ -950,7 +952,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="templatesModalLabel">@Localizer["Choose template"]</h5>
+                <h5 class="modal-title" id="templatesModalLabel">@SharedLocalizer.Static["Choose template"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -972,8 +974,8 @@
 
             <div class="modal-footer">
                 <div class="container-fluid">
-                    <em class="small">* - @Localizer["Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template."]</em>
-                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                    <em class="small">* - @SharedLocalizer.Static["Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template."]</em>
+                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@SharedLocalizer.Static["Close"]</button>
                 </div>
             </div>
         </div>
@@ -984,8 +986,8 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="featureInsertModalLabel">@Localizer["Insert"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="featureInsertModalLabel">@SharedLocalizer.Static["Insert"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedLocalizer.Static["Close"]"></button>
             </div>
 
             <div class="modal-body p-0">
@@ -993,7 +995,7 @@
                 <div class="p-3 border-bottom position-sticky top-0" style="z-index:1">
                     <div class="input-group input-group-sm">
                         <span class="input-group-text" id="featureInsertSearchLabel">🔎</span>
-                        <input id="featureInsertModalSearch" type="text" class="form-control" placeholder="@Localizer["Search"]..." aria-labelledby="featureInsertSearchLabel">
+                        <input id="featureInsertModalSearch" type="text" class="form-control" placeholder="@SharedLocalizer.Static["Search"]..." aria-labelledby="featureInsertSearchLabel">
                     </div>
                 </div>
                 @* Table *@
@@ -1005,7 +1007,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@Localizer["Close"]</button>
+                    <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">@SharedLocalizer.Static["Close"]</button>
                 </div>
             </div>
         </div>
@@ -1016,35 +1018,35 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="insertLinkModalLabel">@Localizer["Hyperlink"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="insertLinkModalLabel">@SharedLocalizer.Static["Hyperlink"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedLocalizer.Static["Close"]"></button>
             </div>
 
             <div class="modal-body p-3">
                 <div class="mb-3">
-                    <label class="form-label fw-bold">@Localizer["Link Type"]</label><br />
+                    <label class="form-label fw-bold">@SharedLocalizer.Static["Link Type"]</label><br />
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="linkMode" id="linkModePage" value="page" checked>
-                        <label class="form-check-label" for="linkModePage">@Localizer["Wiki Page"]</label>
+                        <label class="form-check-label" for="linkModePage">@SharedLocalizer.Static["Wiki Page"]</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="linkMode" id="linkModeUrl" value="url">
-                        <label class="form-check-label" for="linkModeUrl">@Localizer["External URL"]</label>
+                        <label class="form-check-label" for="linkModeUrl">@SharedLocalizer.Static["External URL"]</label>
                     </div>
                 </div>
 
                 <div>
-                    <label for="insertLinkModalLinkTitle" class="form-label fw-bold">@Localizer["Link Text (Optional)"]</label>
-                    <input id="insertLinkModalLinkTitle" type="url" class="form-control" placeholder="@Localizer["Link Text (Optional)"]" />
+                    <label for="insertLinkModalLinkTitle" class="form-label fw-bold">@SharedLocalizer.Static["Link Text (Optional)"]</label>
+                    <input id="insertLinkModalLinkTitle" type="url" class="form-control" placeholder="@SharedLocalizer.Static["Link Text (Optional)"]" />
                 </div>
 
                 <div id="linkInternalDiv">
-                    <label for="insertLinkModalLinkPage" class="form-label fw-bold">@Localizer["Choose a page"]</label>
+                    <label for="insertLinkModalLinkPage" class="form-label fw-bold">@SharedLocalizer.Static["Choose a page"]</label>
                     <select id="insertLinkModalLinkPage" style="width: 100%"></select>
                 </div>
 
                 <div id="linkExternalDiv" style="display: none;">
-                    <label for="insertLinkModalLinkURL" class="form-label fw-bold">@Localizer["External URL"]</label>
+                    <label for="insertLinkModalLinkURL" class="form-label fw-bold">@SharedLocalizer.Static["External URL"]</label>
                     <input id="insertLinkModalLinkURL" type="url" class="form-control" placeholder="https://example.com" />
                 </div>
             </div>
@@ -1052,7 +1054,7 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <em class="small"></em>
-                    <button type="button" class="btn btn-success float-end" id="insertLinkModalInsertButton">@Localizer["Insert"]</button>
+                    <button type="button" class="btn btn-success float-end" id="insertLinkModalInsertButton">@SharedLocalizer.Static["Insert"]</button>
                 </div>
             </div>
         </div>
@@ -1063,8 +1065,8 @@
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="insertEmojiModalLabel">@Localizer["Insert Emoji"]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@Localizer["Close"]"></button>
+                <h5 class="modal-title" id="insertEmojiModalLabel">@SharedLocalizer.Static["Insert Emoji"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="@SharedLocalizer.Static["Close"]"></button>
             </div>
 
             <div class="modal-body p-3">

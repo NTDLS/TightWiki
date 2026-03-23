@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.NamespaceViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -10,10 +12,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Namespace"]
+            @SharedLocalizer.Static["Namespace"]
         </h3>
         <div class="text-muted">
-            @Localizer["All pages contained in the namespace."]
+            @SharedLocalizer.Static["All pages contained in the namespace."]
         </div>
     </div>
 </div>
@@ -30,25 +32,25 @@
                     <th scope="col">
                         <a class="link-dark text-decoration-none"
                                href="?@QueryStringConverter.OrderHelper(sessionState, "Name")">
-                            @Localizer["Name"]
+                            @SharedLocalizer.Static["Name"]
                         </a>
                     </th>
                     <th scope="col" class="text-nowrap">
                         <a class="link-dark text-decoration-none"
                                href="?@QueryStringConverter.OrderHelper(sessionState, "Revision")">
-                            @Localizer["Revision"]
+                            @SharedLocalizer.Static["Revision"]
                         </a>
                     </th>
                     <th scope="col">
                         <a class="link-dark text-decoration-none"
                                href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedBy")">
-                            @Localizer["Modified By"]
+                            @SharedLocalizer.Static["Modified By"]
                         </a>
                     </th>
                     <th scope="col" class="text-nowrap">
                         <a class="link-dark text-decoration-none"
                                href="?@QueryStringConverter.OrderHelper(sessionState, "ModifiedDate")">
-                            @Localizer["Modified Date"]
+                            @SharedLocalizer.Static["Modified Date"]
                         </a>
                     </th>
                 </tr>

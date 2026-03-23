@@ -1,0 +1,1759 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="(No description)" xml:space="preserve">
+    <value>(لا يوجد وصف)</value>
+  </data>
+  <data name="(No link)" xml:space="preserve">
+    <value>(لا يوجد رابط)</value>
+  </data>
+  <data name="(No text)" xml:space="preserve">
+    <value>(لا يوجد نص)</value>
+  </data>
+  <data name="- or -" xml:space="preserve">
+    <value>- أو -</value>
+  </data>
+  <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
+    <value>تم تعطيل المصادقة الثنائية. يمكنك إعادة تفعيل المصادقة الثنائية عندما تقوم بإعداد تطبيق المصادقة</value>
+  </data>
+  <data name="ALL" xml:space="preserve">
+    <value>الجميع</value>
+  </data>
+  <data name="Access denied." xml:space="preserve">
+    <value>تم رفض الوصول.</value>
+  </data>
+  <data name="Account" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Account Deleted!" xml:space="preserve">
+    <value>تم حذف الحساب!</value>
+  </data>
+  <data name="Account Editor" xml:space="preserve">
+    <value>محرر الحساب</value>
+  </data>
+  <data name="Account Email Verification" xml:space="preserve">
+    <value>تأكيد بريد الحساب</value>
+  </data>
+  <data name="Account Management" xml:space="preserve">
+    <value>إدارة الحساب</value>
+  </data>
+  <data name="Account Permissions" xml:space="preserve">
+    <value>أذونات الحساب</value>
+  </data>
+  <data name="Account Role Membership" xml:space="preserve">
+    <value>عضوية دور الحساب</value>
+  </data>
+  <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
+    <value>الأدوار والأذونات للحساب: {0}</value>
+  </data>
+  <data name="Account roles and permissions for a single account." xml:space="preserve">
+    <value>الأدوار والأذونات لحساب واحد.</value>
+  </data>
+  <data name="Accounts" xml:space="preserve">
+    <value>الحسابات</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>إجراء</value>
+  </data>
+  <data name="Add Account" xml:space="preserve">
+    <value>إضافة حساب</value>
+  </data>
+  <data name="Add Emoji" xml:space="preserve">
+    <value>إضافة إيموجي</value>
+  </data>
+  <data name="Add Member to Role" xml:space="preserve">
+    <value>إضافة عضو إلى الدور</value>
+  </data>
+  <data name="Add Permission to Account" xml:space="preserve">
+    <value>إضافة إذن إلى الحساب</value>
+  </data>
+  <data name="Add Permission to Role" xml:space="preserve">
+    <value>إضافة إذن إلى الدور</value>
+  </data>
+  <data name="Add Role" xml:space="preserve">
+    <value>إضافة دور</value>
+  </data>
+  <data name="Add Role to Account" xml:space="preserve">
+    <value>إضافة دور إلى الحساب</value>
+  </data>
+  <data name="Add authenticator app" xml:space="preserve">
+    <value>إضافة تطبيق المصادقة</value>
+  </data>
+  <data name="Add new account" xml:space="preserve">
+    <value>إضافة حساب جديد</value>
+  </data>
+  <data name="Add new emoji" xml:space="preserve">
+    <value>إضافة رموز تعبيرية جديدة</value>
+  </data>
+  <data name="Add new item" xml:space="preserve">
+    <value>إضافة عنصر جديد</value>
+  </data>
+  <data name="Admin" xml:space="preserve">
+    <value>مشرف</value>
+  </data>
+  <data name="Administration" xml:space="preserve">
+    <value>الإدارة</value>
+  </data>
+  <data name="All changes that have been made to the attached file." xml:space="preserve">
+    <value>جميع التغييرات التي تم إجراؤها على الملف المرفق.</value>
+  </data>
+  <data name="All changes that have been made to the page." xml:space="preserve">
+    <value>جميع التغييرات التي تم إجراؤها على الصفحة.</value>
+  </data>
+  <data name="All comments made on the given page." xml:space="preserve">
+    <value>جميع التعليقات التي تم إبداؤها على الصفحة المعطاة.</value>
+  </data>
+  <data name="All namespaces contained in the wiki." xml:space="preserve">
+    <value>جميع المساحات الاسم الخاصة بالويكي.</value>
+  </data>
+  <data name="All pages contained in the namespace." xml:space="preserve">
+    <value>جميع الصفحات الموجودة في مساحة الاسم.</value>
+  </data>
+  <data name="All pages contained in the wiki." xml:space="preserve">
+    <value>جميع صفحات الويكي.</value>
+  </data>
+  <data name="Already a member?" xml:space="preserve">
+    <value>هل أنت عضو بالفعل؟</value>
+  </data>
+  <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
+    <value>حدث خطأ أثناء استرجاع معلومات المستخدم من المزود الخارجي.</value>
+  </data>
+  <data name="An error occurred while adding the login." xml:space="preserve">
+    <value>حدث خطأ أثناء إضافة تسجيل الدخول.</value>
+  </data>
+  <data name="An error occurred while creating the user." xml:space="preserve">
+    <value>حدث خطأ أثناء إنشاء المستخدم.</value>
+  </data>
+  <data name="An error occurred while processing your request." xml:space="preserve">
+    <value>حدث خطأ أثناء معالجة طلبك.</value>
+  </data>
+  <data name="Analysis" xml:space="preserve">
+    <value>تحليل</value>
+  </data>
+  <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
+    <value>هل أنت متأكد من رغبتك في المتابعة مع هذا الحذف؟</value>
+  </data>
+  <data name="Are you sure you want to continue?" xml:space="preserve">
+    <value>هل أنت متأكد من رغبتك في المتابعة؟</value>
+  </data>
+  <data name="Are you sure you want to delete this comment?" xml:space="preserve">
+    <value>هل أنت متأكد من رغبتك في حذف هذا التعليق؟</value>
+  </data>
+  <data name="Are you sure you want to detach" xml:space="preserve">
+    <value>هل أنت متأكد من رغبتك في فصل</value>
+  </data>
+  <data name="Are you sure you want to log out of the application?" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد تسجيل الخروج من التطبيق؟</value>
+  </data>
+  <data name="Are you sure?" xml:space="preserve">
+    <value>هل أنت متأكد؟</value>
+  </data>
+  <data name="Associate your {0} account." xml:space="preserve">
+    <value>ربط حسابك {{0}}.</value>
+  </data>
+  <data name="Associated Pages" xml:space="preserve">
+    <value>الصفحات المرتبطة</value>
+  </data>
+  <data name="Associated Tags" xml:space="preserve">
+    <value>العلامات المرتبطة</value>
+  </data>
+  <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
+    <value>قم برفع الملفات عن طريق إسقاطها هنا أو اختيارها يدويًا أدناه:</value>
+  </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>المرفقات</value>
+  </data>
+  <data name="Authenticator app" xml:space="preserve">
+    <value>تطبيق المصادقة</value>
+  </data>
+  <data name="Available Languages" xml:space="preserve">
+    <value>اللغات المتاحة</value>
+  </data>
+  <data name="Avatar" xml:space="preserve">
+    <value>الصورة الرمزية</value>
+  </data>
+  <data name="Bind failed." xml:space="preserve">
+    <value>فشل الربط.</value>
+  </data>
+  <data name="Bind succeeded." xml:space="preserve">
+    <value>تم النجاح في الربط.</value>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>السيرة الذاتية</value>
+  </data>
+  <data name="Bold" xml:space="preserve">
+    <value>غامق</value>
+  </data>
+  <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
+    <value>تصفح الصفحات التي تحمل تعليمات معالجة مختلفة لرؤية المحتوى في المسودة أو قيد الحذف أو محمية، إلخ.</value>
+  </data>
+  <data name="Built-in Pages" xml:space="preserve">
+    <value>صفحات مدمجة</value>
+  </data>
+  <data name="Cache" xml:space="preserve">
+    <value>ذاكرة التخزين المؤقت</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>الفئات</value>
+  </data>
+  <data name="Change Avatar" xml:space="preserve">
+    <value>تغيير الصورة الرمزية</value>
+  </data>
+  <data name="Change Image" xml:space="preserve">
+    <value>تغيير الصورة</value>
+  </data>
+  <data name="Change Summary" xml:space="preserve">
+    <value>ملخص التغييرات</value>
+  </data>
+  <data name="Change email" xml:space="preserve">
+    <value>تغيير البريد الإلكتروني</value>
+  </data>
+  <data name="Change password" xml:space="preserve">
+    <value>تغيير كلمة المرور</value>
+  </data>
+  <data name="Change your account settings" xml:space="preserve">
+    <value>قم بتغيير إعدادات حسابك</value>
+  </data>
+  <data name="Choose Image" xml:space="preserve">
+    <value>اختر صورة</value>
+  </data>
+  <data name="Choose a page" xml:space="preserve">
+    <value>اختر صفحة</value>
+  </data>
+  <data name="Choose template" xml:space="preserve">
+    <value>اختر النموذج</value>
+  </data>
+  <data name="Choose your preferred language for the interface." xml:space="preserve">
+    <value>اختر لغتك المفضلة للواجهة.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>إغلاق</value>
+  </data>
+  <data name="Comma-separated categories" xml:space="preserve">
+    <value>فئات مفصولة بفواصل</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>التعليقات</value>
+  </data>
+  <data name="Compilation Statistics" xml:space="preserve">
+    <value>إحصائيات التجميع</value>
+  </data>
+  <data name="Compilations" xml:space="preserve">
+    <value>التجميعات</value>
+  </data>
+  <data name="Complete Signup" xml:space="preserve">
+    <value>إكمال التسجيل</value>
+  </data>
+  <data name="Configuration" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Configuration for an emoji." xml:space="preserve">
+    <value>إعداد لرمز تعبيري.</value>
+  </data>
+  <data name="Configuration for user account." xml:space="preserve">
+    <value>إعداد لحساب المستخدم.</value>
+  </data>
+  <data name="Configuration to add an emoji." xml:space="preserve">
+    <value>إعداد لإضافة رمز تعبيري.</value>
+  </data>
+  <data name="Configure authenticator app" xml:space="preserve">
+    <value>تكوين تطبيق المصادقة</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>تأكيد كلمة المرور</value>
+  </data>
+  <data name="Confirm email change" xml:space="preserve">
+    <value>تأكيد تغيير البريد الإلكتروني</value>
+  </data>
+  <data name="Confirm logout" xml:space="preserve">
+    <value>تأكيد تسجيل الخروج</value>
+  </data>
+  <data name="Confirm your email address." xml:space="preserve">
+    <value>أكد عنوان بريدك الإلكتروني.</value>
+  </data>
+  <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
+    <value>تم إرسال رابط التأكيد لتغيير البريد الإلكتروني. يرجى فحص بريدك الإلكتروني.</value>
+  </data>
+  <data name="Confirmed" xml:space="preserve">
+    <value>تم التأكيد</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>المحتوى</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>استمرار</value>
+  </data>
+  <data name="Copy Tag" xml:space="preserve">
+    <value>نسخ الوسم</value>
+  </data>
+  <data name="Country" xml:space="preserve">
+    <value>البلد</value>
+  </data>
+  <data name="Create a new account" xml:space="preserve">
+    <value>إنشاء حساب جديد</value>
+  </data>
+  <data name="Create new page" xml:space="preserve">
+    <value>إنشاء صفحة جديدة</value>
+  </data>
+  <data name="Create new role." xml:space="preserve">
+    <value>إنشاء دور جديد.</value>
+  </data>
+  <data name="Create new user account." xml:space="preserve">
+    <value>إنشاء حساب مستخدم جديد.</value>
+  </data>
+  <data name="Create your account and configure your basic profile details." xml:space="preserve">
+    <value>أنشئ حسابك وقم بتكوين تفاصيل ملفك الشخصي الأساسية.</value>
+  </data>
+  <data name="Created Date" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="Credentials" xml:space="preserve">
+    <value>بيانات الاعتماد</value>
+  </data>
+  <data name="Current admin login" xml:space="preserve">
+    <value>تسجيل دخول المدير الحالي</value>
+  </data>
+  <data name="Database" xml:space="preserve">
+    <value>قاعدة البيانات</value>
+  </data>
+  <data name="Database Utilities" xml:space="preserve">
+    <value>أدوات قاعدة البيانات</value>
+  </data>
+  <data name="Date/Time" xml:space="preserve">
+    <value>التاريخ/الوقت</value>
+  </data>
+  <data name="Default password has not been changed" xml:space="preserve">
+    <value>لم يتم تغيير كلمة المرور الافتراضية</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Delete Account" xml:space="preserve">
+    <value>حذف الحساب</value>
+  </data>
+  <data name="Delete Role" xml:space="preserve">
+    <value>حذف الدور</value>
+  </data>
+  <data name="Delete page '{0}'?" xml:space="preserve">
+    <value>هل تريد حذف الصفحة '{0}'؟</value>
+  </data>
+  <data name="Delete this page" xml:space="preserve">
+    <value>حذف هذه الصفحة</value>
+  </data>
+  <data name="Deleted By" xml:space="preserve">
+    <value>تم الحذف بواسطة</value>
+  </data>
+  <data name="Deleted Date" xml:space="preserve">
+    <value>تاريخ الحذف</value>
+  </data>
+  <data name="Deleted Page Content" xml:space="preserve">
+    <value>محتوى الصفحة المحذوفة</value>
+  </data>
+  <data name="Deleted Page Queue" xml:space="preserve">
+    <value>صف انتظار الصفحة المحذوفة</value>
+  </data>
+  <data name="Deleted Page Revisions" xml:space="preserve">
+    <value>تعديلات الصفحة المحذوفة</value>
+  </data>
+  <data name="Deleted Pages" xml:space="preserve">
+    <value>الصفحات المحذوفة</value>
+  </data>
+  <data name="Deleted Revision Content" xml:space="preserve">
+    <value>تم حذف محتوى المراجعة</value>
+  </data>
+  <data name="Deleted Revisions" xml:space="preserve">
+    <value>تم حذف المراجعات</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>حذف '{0}' سينقل الصفحة، وكل مراجعات {1} والمرفقات ذات الصلة إلى قائمة الحذف. لا يمكن التراجع عن هذا الإجراء إلا بواسطة مسؤول أو مشرف. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
+    <value>حذف '{0}' سينقل الصفحة، مع كل مراجعات {1} وملفات المرفقات {2} إلى قائمة الحذف.</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>حذف '{0}' سيؤدي إلى إزالة الحساب نهائيًا. ستنسب جميع الصفحات التي أنشأها أو عدلها هذا المستخدم إلى حساب مؤقت ولن تتمكن من التراجع عن هذا الإجراء. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
+    <value>حذف '{0}' سيؤدي إلى إزالة الحساب بشكل دائم. ستنسب جميع الصفحات التي أنشأها أو عدلها هذا المستخدم إلى حساب مؤقت. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
+    <value>حذف '{0}' سيؤدي إلى إزالة عنصر القائمة بشكل دائم ولن تتمكن من التراجع عن هذا الإجراء. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
+    <value>حذف الإصدار {0} من "{1}" سينقل إصدار الصفحة إلى قائمة الحذف. لا يمكن التراجع عن هذا الإجراء إلا بواسطة مسؤول أو مشرف. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
+    <value>حذف الرموز التعبيرية '{0}' سيؤدي إلى إزالة الصورة بشكل دائم وأي إشارات إليها ستصبح يتيمة. لن تتمكن من استرجاع هذا الحذف. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
+    <value>حذف الدور '{0}' سيلغي جميع الأذونات الممنوحة أو المرفوضة بواسطة ذلك الدور. هل تريد الاستمرار؟</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Detach" xml:space="preserve">
+    <value>فصل</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="Development Mode" xml:space="preserve">
+    <value>وضع التطوير</value>
+  </data>
+  <data name="Differences" xml:space="preserve">
+    <value>الفروق</value>
+  </data>
+  <data name="Disable 2FA" xml:space="preserve">
+    <value>تعطيل التحقق بخطوتين</value>
+  </data>
+  <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
+    <value>تعطيل المصادقة الثنائية (2FA)</value>
+  </data>
+  <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>تعطيل 2FA لا يغير المفاتيح المستخدمة في تطبيقات المصادقة.</value>
+  </data>
+  <data name="Discussion for this page." xml:space="preserve">
+    <value>مناقشة لهذه الصفحة.</value>
+  </data>
+  <data name="Display Name" xml:space="preserve">
+    <value>اسم العرض</value>
+  </data>
+  <data name="Display Name is already in use." xml:space="preserve">
+    <value>اسم العرض مستخدم بالفعل.</value>
+  </data>
+  <data name="Display Name is required." xml:space="preserve">
+    <value>اسم العرض مطلوب.</value>
+  </data>
+  <data name="Disposition" xml:space="preserve">
+    <value>التصرف</value>
+  </data>
+  <data name="Distinguished Name:" xml:space="preserve">
+    <value>الاسم المميز:</value>
+  </data>
+  <data name="Don't have access to your authenticator device?" xml:space="preserve">
+    <value>هل لا تمتلك جهاز المصادقة الخاص بك؟</value>
+  </data>
+  <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
+    <value>قم بتنزيل تطبيق مصادقة ذو عاملين مثل Microsoft Authenticator لـ {0} و{1} أو Google Authenticator لـ {2} و{3}.</value>
+  </data>
+  <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
+    <value>قم بإسقاط مرفقات الملفات هنا أو انقر للتحميل يدويًا.</value>
+  </data>
+  <data name="Drop files here..." xml:space="preserve">
+    <value>أفلت الملفات هنا...</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>المدة الزمنية</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="Editor Size" xml:space="preserve">
+    <value>حجم المحرر</value>
+  </data>
+  <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
+    <value>إما أن قائمة الصفحات المحذوفة فارغة أو أن معايير البحث الخاصة بك لم تُظهر نتائج.</value>
+  </data>
+  <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
+    <value>إما أنه لا توجد حسابات مُعدة أو أن معايير البحث الخاصة بك لم تُظهر نتائج.</value>
+  </data>
+  <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
+    <value>إما أنه لا توجد رموز تعبيرية مُعدة أو أن معايير البحث الخاصة بك لم تُظهر نتائج.</value>
+  </data>
+  <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
+    <value>إما أنه لا توجد صفحات أو أن معايير البحث الخاصة بك لم تُظهر نتائج.</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>البريد الإلكتروني</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>عنوان البريد الإلكتروني</value>
+  </data>
+  <data name="Email Confirmed?" xml:space="preserve">
+    <value>تم تأكيد البريد الإلكتروني؟</value>
+  </data>
+  <data name="Emoji" xml:space="preserve">
+    <value>رمز تعبيري</value>
+  </data>
+  <data name="Emoji Editor" xml:space="preserve">
+    <value>محرر الرموز التعبيرية</value>
+  </data>
+  <data name="Emoji Management" xml:space="preserve">
+    <value>إدارة الرموز التعبيرية</value>
+  </data>
+  <data name="Emojis" xml:space="preserve">
+    <value>الرموز التعبيرية</value>
+  </data>
+  <data name="Enter a URL." xml:space="preserve">
+    <value>أدخل عنوان URL.</value>
+  </data>
+  <data name="Enter an internal path or external URL." xml:space="preserve">
+    <value>أدخل مسارًا داخليًا أو عنوان URL خارجيًا.</value>
+  </data>
+  <data name="Enter your email." xml:space="preserve">
+    <value>أدخل بريدك الإلكتروني.</value>
+  </data>
+  <data name="Environment" xml:space="preserve">
+    <value>البيئة</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="Error changing email." xml:space="preserve">
+    <value>خطأ في تغيير البريد الإلكتروني.</value>
+  </data>
+  <data name="Error changing user name." xml:space="preserve">
+    <value>خطأ في تغيير اسم المستخدم.</value>
+  </data>
+  <data name="Error confirming your email." xml:space="preserve">
+    <value>خطأ في تأكيد بريدك الإلكتروني.</value>
+  </data>
+  <data name="Error copying text" xml:space="preserve">
+    <value>خطأ في نسخ النص</value>
+  </data>
+  <data name="Error from external provider: {0}" xml:space="preserve">
+    <value>خطأ من مزود خارجي: {0}</value>
+  </data>
+  <data name="Error loading external login information during confirmation." xml:space="preserve">
+    <value>خطأ في تحميل معلومات الدخول الخارجية أثناء التأكيد.</value>
+  </data>
+  <data name="Error loading external login information." xml:space="preserve">
+    <value>خطأ في تحميل معلومات الدخول الخارجية.</value>
+  </data>
+  <data name="Errors" xml:space="preserve">
+    <value>أخطاء</value>
+  </data>
+  <data name="Event Log" xml:space="preserve">
+    <value>سجل الأحداث</value>
+  </data>
+  <data name="Event Log Entry" xml:space="preserve">
+    <value>مدخل سجل الأحداث</value>
+  </data>
+  <data name="Exception" xml:space="preserve">
+    <value>استثناء</value>
+  </data>
+  <data name="Exceptions" xml:space="preserve">
+    <value>استثناءات</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>تصدير</value>
+  </data>
+  <data name="External URL" xml:space="preserve">
+    <value>عنوان URL خارجي</value>
+  </data>
+  <data name="External logins" xml:space="preserve">
+    <value>تسجيل الدخول من الخارج</value>
+  </data>
+  <data name="Extra Large" xml:space="preserve">
+    <value>كبير جدًا</value>
+  </data>
+  <data name="Extra Small" xml:space="preserve">
+    <value>صغير جدًا</value>
+  </data>
+  <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
+    <value>فشل في إضافة بيانات تسجيل الدخول لحساب العينة LDAP: {0}.</value>
+  </data>
+  <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
+    <value>فشل في إنشاء حساب عينة لبيانات اعتماد LDAP: {0}.</value>
+  </data>
+  <data name="Failed to load preview." xml:space="preserve">
+    <value>فشل في تحميل المعاينة.</value>
+  </data>
+  <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
+    <value>فشل في تحديد حساب المستخدم لبيانات اعتماد LDAP.</value>
+  </data>
+  <data name="Feature Templates" xml:space="preserve">
+    <value>قوالب الميزات</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>ملف</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>فلتر</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>الاسم الأول</value>
+  </data>
+  <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
+    <value>سيؤدي مسح ذاكرة التخزين المؤقت إلى إسقاط أي عناصر مخزنة مؤقتًا وتتطلب الوصول إلى قاعدة البيانات عند طلب الصفحات. هل تريد المتابعة؟</value>
+  </data>
+  <data name="Forget this browser" xml:space="preserve">
+    <value>انسى هذا المتصفح</value>
+  </data>
+  <data name="Forgot password confirmation" xml:space="preserve">
+    <value>تأكيد نسيان كلمة المرور</value>
+  </data>
+  <data name="Forgot your password?" xml:space="preserve">
+    <value>هل نسيت كلمة المرور الخاصة بك؟</value>
+  </data>
+  <data name="Framework Version" xml:space="preserve">
+    <value>نسخة الإطار</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="Generate Recovery Codes" xml:space="preserve">
+    <value>إنشاء رموز استرداد</value>
+  </data>
+  <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
+    <value>إنشاء رموز استرداد للمصادقة ذات العاملين (2FA)</value>
+  </data>
+  <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
+    <value>إن توليد رموز استرداد جديدة لا يغير المفاتيح المستخدمة في تطبيقات المصادقة.</value>
+  </data>
+  <data name="Gets" xml:space="preserve">
+    <value>يحصل</value>
+  </data>
+  <data name="Global configuration for Emojis." xml:space="preserve">
+    <value>الإعدادات العامة للرموز التعبيرية.</value>
+  </data>
+  <data name="Global configuration for security roles and membership." xml:space="preserve">
+    <value>الإعدادات العامة للأدوار الأمنية وعضويتها.</value>
+  </data>
+  <data name="Global configuration for the site menu item." xml:space="preserve">
+    <value>الإعدادات العامة لعنصر قائمة الموقع.</value>
+  </data>
+  <data name="Global configuration for the site menu." xml:space="preserve">
+    <value>الإعدادات العامة لقائمة الموقع.</value>
+  </data>
+  <data name="Global configuration for user accounts." xml:space="preserve">
+    <value>الإعدادات العامة لحسابات المستخدمين.</value>
+  </data>
+  <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
+    <value>القيم الإعدادية العامة للويكي ووظائفه وسلوكه وتنسيقه وهوية علامته التجارية.</value>
+  </data>
+  <data name="Hello {0}!" xml:space="preserve">
+    <value>مرحبًا {0}!</value>
+  </data>
+  <data name="Highlight" xml:space="preserve">
+    <value>تمييز</value>
+  </data>
+  <data name="Hits" xml:space="preserve">
+    <value>الضربات</value>
+  </data>
+  <data name="Huge" xml:space="preserve">
+    <value>ضخم</value>
+  </data>
+  <data name="Hyperlink" xml:space="preserve">
+    <value>رابط تشعبي</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>معرف</value>
+  </data>
+  <data name="If it's here, you should be able to find it." xml:space="preserve">
+    <value>إذا كانت موجودة هنا، يجب أن تتمكن من العثور عليها.</value>
+  </data>
+  <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
+    <value>إذا فقدت جهازك ولم تكن تملك رموز الاسترداد، فستفقد الوصول إلى حسابك.</value>
+  </data>
+  <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
+    <value>إذا قمت بإعادة تعيين مفتاح المصادقة الخاص بك، لن يعمل تطبيق المصادقة الخاص بك حتى تقوم بإعادة تكوينه.</value>
+  </data>
+  <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
+    <value>إذا رغبت في تغيير المفتاح المستخدم في تطبيق المصادقة، يجب عليك إعادة تعيين مفاتيح المصادقة الخاصة بك.</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>صورة</value>
+  </data>
+  <data name="Include Pages" xml:space="preserve">
+    <value>تضمين الصفحات</value>
+  </data>
+  <data name="Info1" xml:space="preserve">
+    <value>معلومات 1</value>
+  </data>
+  <data name="Info2" xml:space="preserve">
+    <value>معلومات 2</value>
+  </data>
+  <data name="Insert" xml:space="preserve">
+    <value>إدراج</value>
+  </data>
+  <data name="Insert Emoji" xml:space="preserve">
+    <value>إضافة رمز تعبيري</value>
+  </data>
+  <data name="Inter-Page Links" xml:space="preserve">
+    <value>روابط بين الصفحات</value>
+  </data>
+  <data name="Invalid login attempt." xml:space="preserve">
+    <value>محاولة تسجيل دخول غير صالحة.</value>
+  </data>
+  <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
+    <value>قد يؤدي إلى عرض معلومات حساسة من الاستثنائات للمستخدمين النهائيين.</value>
+  </data>
+  <data name="Italic" xml:space="preserve">
+    <value>مائل</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>عناصر</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>اللغات</value>
+  </data>
+  <data name="Large" xml:space="preserve">
+    <value>كبيرة</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>اسم العائلة</value>
+  </data>
+  <data name="Last modified by" xml:space="preserve">
+    <value>تم التعديل بواسطة</value>
+  </data>
+  <data name="Leave a Comment" xml:space="preserve">
+    <value>اترك تعليقًا</value>
+  </data>
+  <data name="Limit(MB)" xml:space="preserve">
+    <value>الحد الأقصى (MB)</value>
+  </data>
+  <data name="Link Text (Optional)" xml:space="preserve">
+    <value>نص الرابط (اختياري)</value>
+  </data>
+  <data name="Link Type" xml:space="preserve">
+    <value>نوع الرابط</value>
+  </data>
+  <data name="Links" xml:space="preserve">
+    <value>روابط</value>
+  </data>
+  <data name="Loading preview..." xml:space="preserve">
+    <value>جارٍ معاينة التحميل...</value>
+  </data>
+  <data name="Locked out" xml:space="preserve">
+    <value>مغلق من الخارج</value>
+  </data>
+  <data name="Log Entries" xml:space="preserve">
+    <value>سجلات الإدخالات</value>
+  </data>
+  <data name="Log Entry Details" xml:space="preserve">
+    <value>تفاصيل سجل الإدخال</value>
+  </data>
+  <data name="Log in" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Log in using your {0} account" xml:space="preserve">
+    <value>تسجيل الدخول باستخدام حسابك {0}</value>
+  </data>
+  <data name="Logged out" xml:space="preserve">
+    <value>تم تسجيل الخروج</value>
+  </data>
+  <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
+    <value>سيضمن تسجيل الخروج عدم تمكن الآخرين من استخدام هذه الجلسة لإجراء تغييرات على الويكي. ستحتاج إلى تسجيل الدخول مرة أخرى قبل إجراء التغييرات.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Login to leave a comment" xml:space="preserve">
+    <value>سجل دخولك لترك تعليق</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Lower numbers appear first." xml:space="preserve">
+    <value>تظهر الأرقام الأقل أولاً.</value>
+  </data>
+  <data name="Manage Email" xml:space="preserve">
+    <value>إدارة البريد الإلكتروني</value>
+  </data>
+  <data name="Manage your account" xml:space="preserve">
+    <value>إدارة حسابك</value>
+  </data>
+  <data name="Manage your external logins" xml:space="preserve">
+    <value>إدارة تسجيلات الدخول الخارجية الخاصة بك</value>
+  </data>
+  <data name="Matches" xml:space="preserve">
+    <value>مطابقات</value>
+  </data>
+  <data name="Medium" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="Menu Configuration" xml:space="preserve">
+    <value>تكوين القائمة</value>
+  </data>
+  <data name="Menu Item Editor" xml:space="preserve">
+    <value>محرر عنصر القائمة</value>
+  </data>
+  <data name="Metrics" xml:space="preserve">
+    <value>القياسات</value>
+  </data>
+  <data name="Misses" xml:space="preserve">
+    <value>الفواتير</value>
+  </data>
+  <data name="Missing Pages" xml:space="preserve">
+    <value>صفحات مفقودة</value>
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="Modified" xml:space="preserve">
+    <value>تم التعديل</value>
+  </data>
+  <data name="Modified By" xml:space="preserve">
+    <value>تم التعديل بواسطة</value>
+  </data>
+  <data name="Modified Date" xml:space="preserve">
+    <value>تاريخ التعديل</value>
+  </data>
+  <data name="Modified by" xml:space="preserve">
+    <value>تم التعديل بواسطة</value>
+  </data>
+  <data name="Modified date" xml:space="preserve">
+    <value>تاريخ التعديل</value>
+  </data>
+  <data name="My" xml:space="preserve">
+    <value>خاصتي</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Namespace" xml:space="preserve">
+    <value>مساحة الاسم</value>
+  </data>
+  <data name="Namespaces" xml:space="preserve">
+    <value>الفضاءات</value>
+  </data>
+  <data name="New Account" xml:space="preserve">
+    <value>حساب جديد</value>
+  </data>
+  <data name="New Emoji" xml:space="preserve">
+    <value>رمز تعبيري جديد</value>
+  </data>
+  <data name="New Role" xml:space="preserve">
+    <value>دور جديد</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>التالي</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>لا</value>
+  </data>
+  <data name="No avatar uploaded." xml:space="preserve">
+    <value>لم يتم رفع صورة رمزية.</value>
+  </data>
+  <data name="No database information is available." xml:space="preserve">
+    <value>لا تتوفر معلومات قاعدة البيانات.</value>
+  </data>
+  <data name="No image selected." xml:space="preserve">
+    <value>لم يتم اختيار صورة.</value>
+  </data>
+  <data name="No image uploaded." xml:space="preserve">
+    <value>لم يتم رفع صورة.</value>
+  </data>
+  <data name="Not a member?" xml:space="preserve">
+    <value>لست عضوًا؟</value>
+  </data>
+  <data name="OS Architecture" xml:space="preserve">
+    <value>هيكل النظام</value>
+  </data>
+  <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
+    <value>بمجرد مسح رمز الاستجابة السريعة أو إدخال المفتاح أعلاه، ستوفر لك تطبيق المصادقة بخطوتين رمزًا فريدًا. أدخل الرمز في مربع التأكيد أدناه.</value>
+  </data>
+  <data name="Operating System" xml:space="preserve">
+    <value>نظام التشغيل</value>
+  </data>
+  <data name="Optimize" xml:space="preserve">
+    <value>تحسين</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>اختياري</value>
+  </data>
+  <data name="Ordinal" xml:space="preserve">
+    <value>ترتيبي</value>
+  </data>
+  <data name="Orphaned Attachments" xml:space="preserve">
+    <value>مرفقات يتيمة</value>
+  </data>
+  <data name="Orphaned Page Attachments" xml:space="preserve">
+    <value>مرفقات الصفحة اليتيمة</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>صفحة</value>
+  </data>
+  <data name="Page Administration" xml:space="preserve">
+    <value>إدارة الصفحة</value>
+  </data>
+  <data name="Page Attachment Revisions" xml:space="preserve">
+    <value>مراجعات مرفقات الصفحة</value>
+  </data>
+  <data name="Page Attachments" xml:space="preserve">
+    <value>مرفقات الصفحة</value>
+  </data>
+  <data name="Page File Revisions" xml:space="preserve">
+    <value>مراجعات ملفات الصفحة</value>
+  </data>
+  <data name="Page Moderate" xml:space="preserve">
+    <value>تعديل الصفحة</value>
+  </data>
+  <data name="Page Revisions" xml:space="preserve">
+    <value>مراجعات الصفحة</value>
+  </data>
+  <data name="Page Search" xml:space="preserve">
+    <value>بحث الصفحة</value>
+  </data>
+  <data name="Page Search Tokens" xml:space="preserve">
+    <value>رموز بحث الصفحة</value>
+  </data>
+  <data name="Page Tags" xml:space="preserve">
+    <value>علامات الصفحة</value>
+  </data>
+  <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
+    <value>المراجعات التي تم حذفها للصفحة المعطاة. يمكن حذفها نهائيًا أو استعادتها.</value>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>صفحات</value>
+  </data>
+  <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
+    <value>الصفحات التي تم حذفها. يمكن مسحها أو استعادتها.</value>
+  </data>
+  <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
+    <value>الصفحات المرتبطة، ولكنها غير موجودة.</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة المرور</value>
+  </data>
+  <data name="Permission" xml:space="preserve">
+    <value>الصلاحية</value>
+  </data>
+  <data name="Permissions and Roles" xml:space="preserve">
+    <value>الصلاحيات والأدوار</value>
+  </data>
+  <data name="Please check your email to confirm your account." xml:space="preserve">
+    <value>يرجى فحص بريدك الإلكتروني لتأكيد حسابك.</value>
+  </data>
+  <data name="Please check your email to reset your password." xml:space="preserve">
+    <value>يرجى فحص بريدك الإلكتروني لإعادة تعيين كلمة المرور الخاصة بك.</value>
+  </data>
+  <data name="Please click here to log in" xml:space="preserve">
+    <value>يرجى النقر هنا لتسجيل الدخول</value>
+  </data>
+  <data name="Please confirm your new password." xml:space="preserve">
+    <value>يرجى تأكيد كلمة المرور الجديدة الخاصة بك.</value>
+  </data>
+  <data name="Please confirm your password." xml:space="preserve">
+    <value>يرجى تأكيد كلمة المرور الخاصة بك.</value>
+  </data>
+  <data name="Please enter both username and password." xml:space="preserve">
+    <value>يرجى إدخال اسم المستخدم وكلمة المرور.</value>
+  </data>
+  <data name="Please enter new email." xml:space="preserve">
+    <value>يرجى إدخال البريد الإلكتروني الجديد.</value>
+  </data>
+  <data name="Please enter the code." xml:space="preserve">
+    <value>يرجى إدخال الرمز.</value>
+  </data>
+  <data name="Please enter your email." xml:space="preserve">
+    <value>يرجى إدخال بريدك الإلكتروني.</value>
+  </data>
+  <data name="Please enter your new password." xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور الجديدة الخاصة بك.</value>
+  </data>
+  <data name="Please enter your old password." xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور القديمة الخاصة بك.</value>
+  </data>
+  <data name="Please enter your password." xml:space="preserve">
+    <value>يرجى إدخال كلمة المرور الخاصة بك.</value>
+  </data>
+  <data name="Please wait, loading preview..." xml:space="preserve">
+    <value>انتظر، جاري تحميل المعاينة...</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>نشر</value>
+  </data>
+  <data name="Pre-Cache All Pages" xml:space="preserve">
+    <value>تخزين مؤقت مسبق لجميع الصفحات</value>
+  </data>
+  <data name="Preview" xml:space="preserve">
+    <value>معاينة</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>السابق</value>
+  </data>
+  <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
+    <value>لم يتم قبول سياسة الخصوصية وملفات تعريف الارتباط.</value>
+  </data>
+  <data name="Process Architecture" xml:space="preserve">
+    <value>هندسة العملية</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
+  <data name="Profile Details" xml:space="preserve">
+    <value>تفاصيل الملف الشخصي</value>
+  </data>
+  <data name="Profile Settings" xml:space="preserve">
+    <value>إعدادات الملف الشخصي</value>
+  </data>
+  <data name="Profiles" xml:space="preserve">
+    <value>ملفات التعريف</value>
+  </data>
+  <data name="Public profile information." xml:space="preserve">
+    <value>معلومات الملف الشخصي العامة.</value>
+  </data>
+  <data name="Purge" xml:space="preserve">
+    <value>مسح</value>
+  </data>
+  <data name="Purge Compilation Statistics" xml:space="preserve">
+    <value>إحصائيات تجميع المسح</value>
+  </data>
+  <data name="Purge Deleted Pages" xml:space="preserve">
+    <value>مسح الصفحات المحذوفة</value>
+  </data>
+  <data name="Purge Deleted Revisions" xml:space="preserve">
+    <value>مسح التعديلات المحذوفة</value>
+  </data>
+  <data name="Purge Event Log" xml:space="preserve">
+    <value>سجل أحداث المسح</value>
+  </data>
+  <data name="Purge Memory Cache" xml:space="preserve">
+    <value>مسح ذاكرة التخزين المؤقتة</value>
+  </data>
+  <data name="Purge Orphaned Attachments" xml:space="preserve">
+    <value>مسح المرفقات اليتيمة</value>
+  </data>
+  <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
+    <value>سيؤدي مسح إحصائيات تجميع الصفحة إلى حذف جميع إحصائيات التجميع المخزنة لجميع الصفحات. هل ترغب في المتابعة؟</value>
+  </data>
+  <data name="Put these codes in a safe place." xml:space="preserve">
+    <value>ضع هذه الرموز في مكان آمن.</value>
+  </data>
+  <data name="Puts" xml:space="preserve">
+    <value>الوظائف</value>
+  </data>
+  <data name="Raw Size" xml:space="preserve">
+    <value>الحجم الخام</value>
+  </data>
+  <data name="Rebuild All Pages" xml:space="preserve">
+    <value>إعادة بناء جميع الصفحات</value>
+  </data>
+  <data name="Recently Modified" xml:space="preserve">
+    <value>تم التعديل مؤخراً</value>
+  </data>
+  <data name="Recovery code" xml:space="preserve">
+    <value>رمز الاسترداد</value>
+  </data>
+  <data name="Recovery code verification" xml:space="preserve">
+    <value>تحقق من رمز الاسترداد</value>
+  </data>
+  <data name="Recovery codes" xml:space="preserve">
+    <value>رموز الاسترداد</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>تسجيل</value>
+  </data>
+  <data name="Register as a new user" xml:space="preserve">
+    <value>التسجيل كمستخدم جديد</value>
+  </data>
+  <data name="Register confirmation" xml:space="preserve">
+    <value>تأكيد التسجيل</value>
+  </data>
+  <data name="Registered Logins" xml:space="preserve">
+    <value>تسجيل الدخولات المسجلة</value>
+  </data>
+  <data name="Registration is not allowed" xml:space="preserve">
+    <value>غير مسموح بالتسجيل</value>
+  </data>
+  <data name="Registration is not allowed." xml:space="preserve">
+    <value>غير مسموح بالتسجيل.</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Remove this {0} login from your account" xml:space="preserve">
+    <value>إزالة تسجيل الدخول {0} من حسابك</value>
+  </data>
+  <data name="Request ID" xml:space="preserve">
+    <value>معرّف الطلب</value>
+  </data>
+  <data name="Request failed:" xml:space="preserve">
+    <value>فشل الطلب:</value>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>مطلوب</value>
+  </data>
+  <data name="Resend" xml:space="preserve">
+    <value>إعادة الإرسال</value>
+  </data>
+  <data name="Resend email confirmation" xml:space="preserve">
+    <value>إعادة إرسال تأكيد البريد الإلكتروني</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>إعادة التعيين</value>
+  </data>
+  <data name="Reset Password" xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="Reset authenticator app" xml:space="preserve">
+    <value>إعادة تعيين تطبيق المصادقة</value>
+  </data>
+  <data name="Reset authenticator key" xml:space="preserve">
+    <value>إعادة تعيين مفتاح المصادقة</value>
+  </data>
+  <data name="Reset it" xml:space="preserve">
+    <value>قم بإعادته</value>
+  </data>
+  <data name="Reset password" xml:space="preserve">
+    <value>إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="Reset password confirmation" xml:space="preserve">
+    <value>تأكيد إعادة تعيين كلمة المرور</value>
+  </data>
+  <data name="Reset recovery codes" xml:space="preserve">
+    <value>إعادة تعيين رموز الاسترداد</value>
+  </data>
+  <data name="Reset your password." xml:space="preserve">
+    <value>قم بإعادة تعيين كلمة مرورك.</value>
+  </data>
+  <data name="Resource" xml:space="preserve">
+    <value>المورد</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>استعادة</value>
+  </data>
+  <data name="Restore This Page" xml:space="preserve">
+    <value>استعادة هذه الصفحة</value>
+  </data>
+  <data name="Restore This Revision" xml:space="preserve">
+    <value>استعادة هذا التحديث</value>
+  </data>
+  <data name="Revert" xml:space="preserve">
+    <value>التراجع</value>
+  </data>
+  <data name="Revert to revision" xml:space="preserve">
+    <value>الرجوع إلى التحديث</value>
+  </data>
+  <data name="Revert to revision {0}?" xml:space="preserve">
+    <value>الرجوع إلى التحديث {0}؟</value>
+  </data>
+  <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
+    <value>الرجوع عن "{0}" من التحديث {1} إلى {2} سيعيد بعض التغييرات إلى الحالة السابقة.</value>
+  </data>
+  <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
+    <value>الرجوع عن التغيير لا يعني بالضرورة فقدان التغييرات، لكن عملية التراجع ستنشئ تحديثًا جديدًا بالتغييرات المعادة.</value>
+  </data>
+  <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
+    <value>الرجوع عن {0} من التحديث {1} إلى {2} سيعيد بعض التغييرات إلى الحالة السابقة.&lt;br /&gt;الرجوع لا يعني بالضرورة فقدان التغييرات، لكن عملية التراجع ستنشئ تحديثًا جديدًا بالتغييرات المعادة.&lt;br /&gt;&lt;br /&gt;هل أنت متأكد أنك تريد الاستمرار؟&lt;br /&gt;&lt;br /&gt;</value>
+  </data>
+  <data name="Review the differences between revisions of this page." xml:space="preserve">
+    <value>راجع الاختلافات بين إصدارات هذه الصفحة.</value>
+  </data>
+  <data name="Revision" xml:space="preserve">
+    <value>مراجعة</value>
+  </data>
+  <data name="Revision Comparison" xml:space="preserve">
+    <value>مقارنة المراجعات</value>
+  </data>
+  <data name="Revision not found" xml:space="preserve">
+    <value>لم يتم العثور على مراجعة</value>
+  </data>
+  <data name="Revisions" xml:space="preserve">
+    <value>المراجعات</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>الدور</value>
+  </data>
+  <data name="Role Members" xml:space="preserve">
+    <value>أعضاء الدور</value>
+  </data>
+  <data name="Role Permissions" xml:space="preserve">
+    <value>صلاحيات الدور</value>
+  </data>
+  <data name="Role membership and permissions." xml:space="preserve">
+    <value>عضوية الدور وصلاحياته.</value>
+  </data>
+  <data name="Role: {0}" xml:space="preserve">
+    <value>الدور: {0}</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>الأدوار</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="Save the page before uploading files." xml:space="preserve">
+    <value>احفظ الصفحة قبل رفع الملفات.</value>
+  </data>
+  <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
+    <value>امسح رمز الاستجابة السريعة أو أدخل المفتاح &lt;kbd&gt;{0}&lt;/kbd&gt; في تطبيق المصادقة الثنائية الخاص بك. المسافات والأحرف الكبرى لا يهم.</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="Search accounts..." xml:space="preserve">
+    <value>ابحث عن الحسابات...</value>
+  </data>
+  <data name="Search deleted pages..." xml:space="preserve">
+    <value>ابحث عن الصفحات المحذوفة...</value>
+  </data>
+  <data name="Search emojis..." xml:space="preserve">
+    <value>بحث عن الرموز التعبيرية...</value>
+  </data>
+  <data name="Search for more emojis." xml:space="preserve">
+    <value>ابحث عن المزيد من الرموز التعبيرية.</value>
+  </data>
+  <data name="Search pages..." xml:space="preserve">
+    <value>ابحث في الصفحات...</value>
+  </data>
+  <data name="Search text" xml:space="preserve">
+    <value>ابحث عن نص</value>
+  </data>
+  <data name="Security Roles" xml:space="preserve">
+    <value>أدوار الأمان</value>
+  </data>
+  <data name="Select a country" xml:space="preserve">
+    <value>اختر دولة</value>
+  </data>
+  <data name="Select a language" xml:space="preserve">
+    <value>اختر لغة</value>
+  </data>
+  <data name="Select a role" xml:space="preserve">
+    <value>اختر دوراً</value>
+  </data>
+  <data name="Select a theme" xml:space="preserve">
+    <value>اختر سمة</value>
+  </data>
+  <data name="Select a time-zone" xml:space="preserve">
+    <value>اختر المنطقة الزمنية</value>
+  </data>
+  <data name="Select a wiki page." xml:space="preserve">
+    <value>اختر صفحة ويكي.</value>
+  </data>
+  <data name="Select an instruction" xml:space="preserve">
+    <value>اختر التعليمات</value>
+  </data>
+  <data name="Send verification email" xml:space="preserve">
+    <value>إرسال بريد التحقق</value>
+  </data>
+  <data name="Server and page event logs" xml:space="preserve">
+    <value>سجلات أحداث الخادم والصفحة</value>
+  </data>
+  <data name="Set password" xml:space="preserve">
+    <value>تعيين كلمة المرور</value>
+  </data>
+  <data name="Set up authenticator app" xml:space="preserve">
+    <value>إعداد تطبيق المصادق</value>
+  </data>
+  <data name="Set your password" xml:space="preserve">
+    <value>عيّن كلمة مرورك</value>
+  </data>
+  <data name="Severity" xml:space="preserve">
+    <value>الحدة</value>
+  </data>
+  <data name="Shortcut" xml:space="preserve">
+    <value>اختصار</value>
+  </data>
+  <data name="Sign in with {0}" xml:space="preserve">
+    <value>تسجيل الدخول باستخدام {0}</value>
+  </data>
+  <data name="Signup" xml:space="preserve">
+    <value>إنشاء حساب</value>
+  </data>
+  <data name="Signup. Almost there..." xml:space="preserve">
+    <value>إنشاء حساب. أوشكت على الانتهاء...</value>
+  </data>
+  <data name="Site Menu" xml:space="preserve">
+    <value>قائمة الموقع</value>
+  </data>
+  <data name="Site Menu Item" xml:space="preserve">
+    <value>عنصر قائمة الموقع</value>
+  </data>
+  <data name="Site Menu Items" xml:space="preserve">
+    <value>عناصر قائمة الموقع</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>الحجم</value>
+  </data>
+  <data name="Small" xml:space="preserve">
+    <value>صغير</value>
+  </data>
+  <data name="Source Page" xml:space="preserve">
+    <value>صفحة المصدر</value>
+  </data>
+  <data name="Stack Trace" xml:space="preserve">
+    <value>تتبع الكومة</value>
+  </data>
+  <data name="Strikethrough" xml:space="preserve">
+    <value>الخط عبر النص</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>ملخص</value>
+  </data>
+  <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
+    <value>التبديل إلى بيئة &lt;strong&gt;التطوير&lt;/strong&gt; يعرض معلومات تفصيلية حول الخطأ الذي حدث.</value>
+  </data>
+  <data name="System Default" xml:space="preserve">
+    <value>الإعدادات الافتراضية للنظام</value>
+  </data>
+  <data name="System Metrics" xml:space="preserve">
+    <value>مقاييس النظام</value>
+  </data>
+  <data name="Tag Copied" xml:space="preserve">
+    <value>تم نسخ العلامة</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>علامات</value>
+  </data>
+  <data name="Target Page" xml:space="preserve">
+    <value>الصفحة المستهدفة</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>اختبار</value>
+  </data>
+  <data name="Test LDAP Authentication" xml:space="preserve">
+    <value>اختبار مصادقة LDAP</value>
+  </data>
+  <data name="Text" xml:space="preserve">
+    <value>نص</value>
+  </data>
+  <data name="Thank you for confirming your email change." xml:space="preserve">
+    <value>شكرًا لك على تأكيد تغيير بريدك الإلكتروني.</value>
+  </data>
+  <data name="Thank you for confirming your email." xml:space="preserve">
+    <value>شكرًا لك على تأكيد بريدك الإلكتروني.</value>
+  </data>
+  <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
+    <value>يجب عدم تمكين بيئة التطوير للتطبيقات المنشورة.</value>
+  </data>
+  <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
+    <value>تم حذف الحساب وكل المحتوى الذي تم إنشاؤه أو تعديله بواسطة هذا الحساب يُنسب إلى ملف تعريف مجهول.</value>
+  </data>
+  <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
+    <value>إحصائيات التجميع لجميع عمليات صفحات الويكي.</value>
+  </data>
+  <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
+    <value>تم نسيان المتصفح الحالي. عند تسجيل الدخول مرة أخرى من هذا المتصفح، ستتم مطالبتك برمز 2fa الخاص بك.</value>
+  </data>
+  <data name="The email address was not supplied by the external provider." xml:space="preserve">
+    <value>لم يتم تزويد عنوان البريد الإلكتروني من قبل المزود الخارجي.</value>
+  </data>
+  <data name="The event log is empty." xml:space="preserve">
+    <value>سجل الأحداث فارغ.</value>
+  </data>
+  <data name="The external login was added." xml:space="preserve">
+    <value>تمت إضافة تسجيل الدخول الخارجي.</value>
+  </data>
+  <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
+    <value>لم يتم إضافة تسجيل الدخول الخارجي. يمكن ربط تسجيلات الدخول الخارجية بحساب واحد فقط.</value>
+  </data>
+  <data name="The external login was not removed." xml:space="preserve">
+    <value>لم يتم إزالة تسجيل الدخول الخارجي.</value>
+  </data>
+  <data name="The external login was removed." xml:space="preserve">
+    <value>تمت إزالة تسجيل الدخول الخارجي.</value>
+  </data>
+  <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
+    <value>لا توجد تعليقات على الصفحة، لماذا لا تضيف واحدة؟</value>
+  </data>
+  <data name="The requested page or revision does not exist." xml:space="preserve">
+    <value>الصفحة أو الإصدار المطلوب غير موجود.</value>
+  </data>
+  <data name="The selected page does not have any revisions." xml:space="preserve">
+    <value>لا تحتوي الصفحة المختارة على أي تعديلات.</value>
+  </data>
+  <data name="The specified user could not be found." xml:space="preserve">
+    <value>لم يتم العثور على المستخدم المحدد.</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>السمة</value>
+  </data>
+  <data name="Themes" xml:space="preserve">
+    <value>السمات</value>
+  </data>
+  <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
+    <value>لا توجد حالياً صفحات مفقودة يتم الإشارة إليها بواسطة صفحات الويكي الأخرى.</value>
+  </data>
+  <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
+    <value>لا توجد حالياً صفحات موجودة ضمن مساحات الأسماء.</value>
+  </data>
+  <data name="There are no compilation statistics available." xml:space="preserve">
+    <value>لا تتوفر إحصائيات تجميع.</value>
+  </data>
+  <data name="There are no deleted revisions for this page." xml:space="preserve">
+    <value>لا توجد تعديلات محذوفة لهذه الصفحة.</value>
+  </data>
+  <data name="There are no menu items configured." xml:space="preserve">
+    <value>لا توجد عناصر قائمة مُعدة.</value>
+  </data>
+  <data name="There are no orphaned page attachments." xml:space="preserve">
+    <value>لا توجد مرفقات صفحات يتيمة.</value>
+  </data>
+  <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
+    <value>لا توجد صفحات تحتوي على تعليمات المعالجة التي تم اختيارها.</value>
+  </data>
+  <data name="There are no security roles configured." xml:space="preserve">
+    <value>لا توجد أدوار أمان مُعدة.</value>
+  </data>
+  <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
+    <value>هذه جميع مرفقات الصفحة التي لم تعد مرتبطة بأي نسخة من الصفحة.</value>
+  </data>
+  <data name="This account has been locked out, please try again later." xml:space="preserve">
+    <value>تم قفل هذا الحساب، يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
+    <value>لا يمكنك التراجع عن هذا الإجراء إلا بواسطة مشرف أو مسؤول.</value>
+  </data>
+  <data name="This action only disables 2FA." xml:space="preserve">
+    <value>هذا الإجراء يعطل التحقق بخطوتين فقط.</value>
+  </data>
+  <data name="This display name will be visible publicly." xml:space="preserve">
+    <value>سيكون اسم العرض هذا مرئيًا للجمهور.</value>
+  </data>
+  <data name="This file does not have any revisions." xml:space="preserve">
+    <value>لا يحتوي هذا الملف على أي تعديلات.</value>
+  </data>
+  <data name="This is your profile, do with it what you may." xml:space="preserve">
+    <value>هذه هي ملفك الشخصي، افعل به ما تشاء.</value>
+  </data>
+  <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
+    <value>يعطل هذا الإجراء التحقق بخطوتين حتى تؤكد تطبيق المصادقة الخاص بك. إذا لم تكمل إعداد تطبيق المصادقة، قد تفقد الوصول إلى حسابك.</value>
+  </data>
+  <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بفحص سلامة قاعدة البيانات والتحقق من صحة جميع المفاتيح الأجنبية. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
+    <value>سيقوم هذا بترجمة جميع صفحات الويكي وتخزينها في التخزين المؤقت. قد يستغرق هذا بعض الوقت! هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بدمج جميع الإعدادات الافتراضية، لكنه لن يكتب فوق أي من الإعدادات التي قمت بتكوينها حاليًا. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بتحسين فهارس وقاعدة بيانات البنود. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بحذف المرفق المحدد بشكل دائم. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بحذف الإصدار المحدد المحذوف بشكل دائم. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بحذف الصفحة المحددة وجميع النسخ الاحتياطية والمرفقات بشكل دائم. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بحذف جميع النسخ المحذوفة للصفحة "{0}" بشكل دائم. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بحذف جميع الصفحات المحذوفة بشكل دائم. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
+    <value>سيقوم هذا بحذف جميع سجلات الأحداث بشكل دائم. هل تود الاستمرار؟</value>
+  </data>
+  <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
+    <value>سيؤدي ذلك إلى مسح جميع مرفقات الصفحة المهجورة بشكل دائم. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
+    <value>سيقوم هذا بإعادة بناء جميع صفحات الويكي. قد يستغرق ذلك بعض الوقت! هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
+    <value>سيزيل هذا المساحة الفارغة من قاعدة البيانات، مما يمكن أن يوفر مساحة إذا تم حذف الكثير من البيانات. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>سيقوم هذا باستعادة جميع نماذج المميزات، مع كتابة أي تخصيصات قد قمت بها. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
+    <value>سيستعيد هذا جميع صفحات مساحة الأسماء Include. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
+    <value>سيستعيد هذا جميع صفحات مساحة الأسماء مساعدة الويكي. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
+    <value>سيستعيد هذا جميع صفحات مساحة الأسماء المدمجة، مع كتابة أي تخصيصات قد قمت بها. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
+    <value>سيستعيد هذا جميع السُّمات الافتراضية، مع كتابة أي تخصيصات قد قمت بها في قاعدة البيانات. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
+    <value>سيستعيد هذا الصفحة المحذوفة وجميع تاريخها. هل تريد المتابعة؟</value>
+  </data>
+  <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
+    <value>سيستعيد هذا النسخة المحذوفة. هل تريد المتابعة؟</value>
+  </data>
+  <data name="Time Zone" xml:space="preserve">
+    <value>المنطقة الزمنية</value>
+  </data>
+  <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
+    <value>لاستخدام تطبيق المصادقة، اتبع الخطوات التالية:</value>
+  </data>
+  <data name="Truncate Page Revisions" xml:space="preserve">
+    <value>تقليص مراجعات الصفحة</value>
+  </data>
+  <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
+    <value>سيؤدي تقليص مراجعات الصفحة إلى حذف سجل التعديلات لجميع الصفحات وملحقات الصفحة. سيترك هذا فقط النسخة الأحدث من جميع الكائنات. يُعتبر هذا عادة أمرًا هامًا جدًا! هل تواصل؟</value>
+  </data>
+  <data name="Two-factor authentication" xml:space="preserve">
+    <value>المصادقة ذات العاملين</value>
+  </data>
+  <data name="Two-factor authentication (2FA)" xml:space="preserve">
+    <value>المصادقة ذات العاملين (2FA)</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="Type comment..." xml:space="preserve">
+    <value>اكتب التعليق...</value>
+  </data>
+  <data name="URL must start with" xml:space="preserve">
+    <value>يجب أن يبدأ عنوان URL بـ</value>
+  </data>
+  <data name="Unable to delete page" xml:space="preserve">
+    <value>غير قادر على حذف الصفحة</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>غير مصرح به</value>
+  </data>
+  <data name="Unconfirmed" xml:space="preserve">
+    <value>غير مؤكد</value>
+  </data>
+  <data name="Underline" xml:space="preserve">
+    <value>تسطير</value>
+  </data>
+  <data name="Unexpected Error" xml:space="preserve">
+    <value>خطأ غير متوقع</value>
+  </data>
+  <data name="Unexpected error:" xml:space="preserve">
+    <value>خطأ غير متوقع:</value>
+  </data>
+  <data name="Update password" xml:space="preserve">
+    <value>تحديث كلمة المرور</value>
+  </data>
+  <data name="Upload successful" xml:space="preserve">
+    <value>تم التحميل بنجاح</value>
+  </data>
+  <data name="Use another service to register" xml:space="preserve">
+    <value>استخدم خدمة أخرى للتسجيل</value>
+  </data>
+  <data name="Use commas to separate categories." xml:space="preserve">
+    <value>استخدم الفواصل لفصل الفئات.</value>
+  </data>
+  <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
+    <value>استخدم مساحة الأسماء Templates لإضافة صفحة إلى قائمة القوالب، مثلاً Templates :: قوالبي الأولى.</value>
+  </data>
+  <data name="User created a new account with LDAP." xml:space="preserve">
+    <value>أنشأ المستخدم حسابًا جديدًا باستخدام LDAP.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>المستخدمون</value>
+  </data>
+  <data name="Vacuum" xml:space="preserve">
+    <value>مكنسة كهربائية</value>
+  </data>
+  <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
+    <value>مرافق متنوعة للمساعدة في إدارة قاعدة بيانات SQLite.</value>
+  </data>
+  <data name="Verification Code" xml:space="preserve">
+    <value>رمز التحقق</value>
+  </data>
+  <data name="Verification code is invalid." xml:space="preserve">
+    <value>رمز التحقق غير صالح.</value>
+  </data>
+  <data name="Verification email sent. Please check your email." xml:space="preserve">
+    <value>تم إرسال بريد التحقق. يرجى التحقق من بريدك الإلكتروني.</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>تحقق</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>الإصدار</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>عرض</value>
+  </data>
+  <data name="View all comments" xml:space="preserve">
+    <value>عرض جميع التعليقات</value>
+  </data>
+  <data name="View all revisions" xml:space="preserve">
+    <value>عرض جميع المراجعات</value>
+  </data>
+  <data name="View latest revision" xml:space="preserve">
+    <value>عرض أحدث مراجعة</value>
+  </data>
+  <data name="Viewing a deleted page" xml:space="preserve">
+    <value>عرض صفحة محذوفة</value>
+  </data>
+  <data name="Viewing a deleted page revision" xml:space="preserve">
+    <value>عرض نسخة صفحة محذوفة</value>
+  </data>
+  <data name="Viewing a historical version" xml:space="preserve">
+    <value>عرض إصدار تاريخي</value>
+  </data>
+  <data name="What did you change and why?" xml:space="preserve">
+    <value>ماذا غيرت ولماذا؟</value>
+  </data>
+  <data name="Wiki Help Pages" xml:space="preserve">
+    <value>صفحات مساعدة ويكي</value>
+  </data>
+  <data name="Wiki Page" xml:space="preserve">
+    <value>صفحة ويكي</value>
+  </data>
+  <data name="Wikified Size" xml:space="preserve">
+    <value>الحجم المعتمد على ويكي</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>نعم</value>
+  </data>
+  <data name="You are not authorized" xml:space="preserve">
+    <value>غير مسموح لك</value>
+  </data>
+  <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
+    <value>أنت تراجع إصدار صفحة تم حذفه في {0} بواسطة {1}.</value>
+  </data>
+  <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
+    <value>أنت تراجع صفحة تم حذفها في {0} بواسطة {1}.</value>
+  </data>
+  <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
+    <value>أنت تراجع الإصدار {0} من "{1}" الذي عدله {2} في {3}.</value>
+  </data>
+  <data name="You can generate a new set of recovery codes." xml:space="preserve">
+    <value>يمكنك إنشاء مجموعة جديدة من رموز الاسترداد.</value>
+  </data>
+  <data name="You can log in with a recovery code" xml:space="preserve">
+    <value>يمكنك تسجيل الدخول باستخدام رمز الاسترداد</value>
+  </data>
+  <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
+    <value>لا يوجد لديك اسم مستخدم/كلمة مرور محلية لهذا الموقع. أضف حساباً محليًا حتى تتمكن من تسجيل الدخول بدون استخدام تسجيل دخول خارجي.</value>
+  </data>
+  <data name="You do not have access to this resource." xml:space="preserve">
+    <value>ليس لديك حق الوصول إلى هذا المورد.</value>
+  </data>
+  <data name="You do not have permission to perform the action: {0}" xml:space="preserve">
+    <value>ليس لديك إذن لتنفيذ الإجراء: {0}</value>
+  </data>
+  <data name="You have 1 recovery code left." xml:space="preserve">
+    <value>تبقى لديك رمز استرداد واحد.</value>
+  </data>
+  <data name="You have generated new recovery codes." xml:space="preserve">
+    <value>لقد قمت بإنشاء رموز استرداد جديدة.</value>
+  </data>
+  <data name="You have no recovery codes left." xml:space="preserve">
+    <value>لم يتبق لديك أي رموز استرداد.</value>
+  </data>
+  <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
+    <value>لقد طلبت تسجيل الدخول باستخدام رمز استرداد. لن يتم تذكر هذا الدخول حتى تقدم رمز تطبيق المصادقة عند تسجيل الدخول أو تُعطل المصادقة الثنائية وتُسجل الدخول مرة أخرى.</value>
+  </data>
+  <data name="You have successfully logged out of the application." xml:space="preserve">
+    <value>تم تسجيل خروجي من التطبيق بنجاح.</value>
+  </data>
+  <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
+    <value>تم تسجيل الدخول باستخدام LDAP بنجاح ولكننا لا زلنا بحاجة إلى بعض المعلومات.</value>
+  </data>
+  <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
+    <value>تم تسجيل الدخول باستخدام مزود خارجي بنجاح ولكننا لا زلنا بحاجة إلى بعض المعلومات.</value>
+  </data>
+  <data name="You have {0} recovery codes left." xml:space="preserve">
+    <value>تبقى لديك {0} رموز استرداد.</value>
+  </data>
+  <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
+    <value>يجب أن تقبل السياسة قبل أن تتمكن من تفعيل المصادقة ذات العاملين.</value>
+  </data>
+  <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
+    <value>يجب عليك إنشاء مجموعة جديدة من رموز الاسترداد قبل أن تتمكن من تسجيل الدخول باستخدام رمز استرداد.</value>
+  </data>
+  <data name="You should generate a new set of recovery codes." xml:space="preserve">
+    <value>يجب عليك إنشاء مجموعة جديدة من رموز الاسترداد.</value>
+  </data>
+  <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
+    <value>لقد نجحت في التحقق من هويتك باستخدام {0}. الرجاء إدخال عنوان البريد الإلكتروني لهذا الموقع أدناه والنقر على زر التسجيل لإكمال عملية تسجيل الدخول.</value>
+  </data>
+  <data name="Your authenticator app has been verified." xml:space="preserve">
+    <value>تمت عملية التحقق من تطبيق المصادقة الخاص بك بنجاح.</value>
+  </data>
+  <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
+    <value>تم إعادة تعيين مفتاح تطبيق المصادقة الخاص بك، ستحتاج إلى تكوين تطبيق المصادقة الخاص بك باستخدام المفتاح الجديد.</value>
+  </data>
+  <data name="Your email is unchanged." xml:space="preserve">
+    <value>عنوان بريدك الإلكتروني لم يتغير.</value>
+  </data>
+  <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
+    <value>تم حماية تسجيل دخالك باستخدام تطبيق المصادقة. أدخل رمز المصادقة الخاص بك أدناه.</value>
+  </data>
+  <data name="Your password has been changed." xml:space="preserve">
+    <value>تم تغيير كلمة مرورك.</value>
+  </data>
+  <data name="Your password has been reset." xml:space="preserve">
+    <value>تم إعادة تعيين كلمة المرور الخاصة بك.</value>
+  </data>
+  <data name="Your password has been set." xml:space="preserve">
+    <value>تم تعيين كلمة مرورك.</value>
+  </data>
+  <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
+    <value>لم تؤدي معايير البحث الخاصة بك إلى وجود صفحات، بسط نص البحث الخاص بك.</value>
+  </data>
+  <data name="not required" xml:space="preserve">
+    <value>غير مطلوب</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>مطلوب</value>
+  </data>
+  <data name="revisions" xml:space="preserve">
+    <value>التعديلات</value>
+  </data>
+  <data name="version" xml:space="preserve">
+    <value>الإصدار</value>
+  </data>
+  <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
+    <value>{0}استمر الآن{1} أو سيتم تحويلك في {2} ثوانٍ.</value>
+  </data>
+</root>

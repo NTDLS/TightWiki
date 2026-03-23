@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
@@ -27,9 +26,8 @@ namespace TightWiki.Controllers
 {
     [Route("")]
     public class PageController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IStringLocalizer<PageController> localizer,
-        ISideBySideDiffBuilder diffBuilder, ILogger<ITightEngine> logger)
-        : WikiControllerBase<PageController>(logger, signInManager, userManager, localizer)
+        UserManager<IdentityUser> userManager, ISideBySideDiffBuilder diffBuilder, ILogger<ITightEngine> logger)
+        : WikiControllerBase<PageController>(logger, signInManager, userManager)
     {
         [AllowAnonymous]
         [Route("/robots.txt")]

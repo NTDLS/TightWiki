@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
@@ -24,7 +23,7 @@ using TightWiki.Library;
 using TightWiki.Library.Interfaces;
 using TightWiki.Models;
 using TightWiki.Repository;
-using TightWiki.Static;
+using TightWiki.Translations;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki
@@ -83,30 +82,16 @@ namespace TightWiki
             // Add services to the container.
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
-
             // Adds support for controllers and views
             builder.Services.AddControllersWithViews(config =>
                 {
                     config.ModelBinderProviders.Insert(0, new InvariantDecimalModelBinderProvider());
                 })
-                .AddViewLocalization(
-                    LanguageViewLocationExpanderFormat.Suffix,
-                    opts =>
-                    {
-                        opts.ResourcesPath = "Resources";
-                    })
                 .AddDataAnnotationsLocalization()
                 .AddXmlSerializerFormatters()
                 .AddXmlDataContractSerializerFormatters();
 
-            builder.Services.AddRazorPages()
-                .AddViewLocalization(
-                    LanguageViewLocationExpanderFormat.Suffix,
-                    opts =>
-                    {
-                        opts.ResourcesPath = "Resources";
-                    });
+            builder.Services.AddRazorPages();
 
             var supportedCultures = new SupportedCultures();
             builder.Services.AddSingleton(x => supportedCultures);
@@ -128,12 +113,6 @@ namespace TightWiki
                 };
             });
             builder.Services.AddSingleton<RequestLocalizationOptions>();
-
-            //builder.Services.Configure<RouteOptions>(options =>
-            //{
-            //    options.ConstraintMap.Add("lang", typeof(LanguageRouteConstraint));
-            //});
-
 
             builder.Services.AddSingleton<IWikiEmailSender, WikiEmailSender>();
 
@@ -197,6 +176,7 @@ namespace TightWiki
                     });
                 }
             }
+
             if (externalAuthenticationConfig.Value<bool>("Microsoft : Use Microsoft Authentication"))
             {
                 var clientId = externalAuthenticationConfig.Value<string>("Microsoft : ClientId");
@@ -353,10 +333,10 @@ namespace TightWiki
                 });
             }
 
-            //Global localization providers.
-            var localizer = app.Services.GetRequiredService<IStringLocalizer<StaticLocalizer>>();
-            StaticLocalizer.Initialize(localizer);
-            PageSelectorGenerator.Initialize(localizer);
+            //We are just going to use one giant resource file for all the shared strings in the application for simplicity.
+            //This makes it easy to scan the code and add missing source language entries to the resource file, as well as to find and reuse existing entries.
+            var localizer = app.Services.GetRequiredService<IStringLocalizer<SharedLocalizer>>();
+            SharedLocalizer.InitializeStaticLocalizer(localizer);
 
             app.UseRouting();
 

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using SixLabors.ImageSharp;
 using System.Security.Claims;
@@ -21,9 +20,9 @@ using static TightWiki.Library.Images;
 namespace TightWiki.Controllers
 {
     [Route("[controller]")]
-    public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager,
-        IWebHostEnvironment environment, IStringLocalizer<ProfileController> localizer)
-        : WikiControllerBase<ProfileController>(logger, signInManager, userManager, localizer)
+    public class ProfileController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager, IWebHostEnvironment environment)
+        : WikiControllerBase<ProfileController>(logger, signInManager, userManager)
     {
         private readonly IWebHostEnvironment _environment = environment;
 

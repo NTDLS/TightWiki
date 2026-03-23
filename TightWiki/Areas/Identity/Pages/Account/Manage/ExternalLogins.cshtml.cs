@@ -5,8 +5,8 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -15,20 +15,17 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IStringLocalizer<ExternalLoginsModel> _localizer;
 
         public ExternalLoginsModel(
                 ILogger<ITightEngine> logger,
                 UserManager<IdentityUser> userManager,
                 SignInManager<IdentityUser> signInManager,
-                IUserStore<IdentityUser> userStore,
-                IStringLocalizer<ExternalLoginsModel> localizer)
+                IUserStore<IdentityUser> userStore)
                         : base(logger, signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userStore = userStore;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -90,12 +87,12 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.RemoveLoginAsync(user, loginProvider, providerKey);
             if (!result.Succeeded)
             {
-                StatusMessage = _localizer["The external login was not removed."];
+                StatusMessage = SharedLocalizer.Static["The external login was not removed."];
                 return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = _localizer["The external login was removed."];
+            StatusMessage = SharedLocalizer.Static["The external login was removed."];
             return RedirectToPage();
         }
 
@@ -128,14 +125,14 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             var result = await _userManager.AddLoginAsync(user, info);
             if (!result.Succeeded)
             {
-                StatusMessage = _localizer["The external login was not added. External logins can only be associated with one account."];
+                StatusMessage = SharedLocalizer.Static["The external login was not added. External logins can only be associated with one account."];
                 return RedirectToPage();
             }
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            StatusMessage = _localizer["The external login was added."];
+            StatusMessage = SharedLocalizer.Static["The external login was added."];
             return RedirectToPage();
         }
     }

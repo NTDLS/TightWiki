@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.Security.Claims;
 using TightWiki.Caching;
@@ -21,8 +20,8 @@ namespace TightWiki.Controllers
     [Authorize]
     [Route("[controller]")]
     public class AdminSecurityController(ILogger<ITightEngine> logger, SignInManager<IdentityUser> signInManager,
-        UserManager<IdentityUser> userManager, IStringLocalizer<AdminSecurityController> localizer)
-        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager, localizer)
+        UserManager<IdentityUser> userManager)
+        : WikiControllerBase<AdminSecurityController>(logger, signInManager, userManager)
     {
         #region Roles.
 

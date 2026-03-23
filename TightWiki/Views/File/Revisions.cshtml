@@ -1,5 +1,7 @@
 ﻿@using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.File.PageFileRevisionsViewModel
 @{
     Layout = "_Layout";
@@ -9,10 +11,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Page File Revisions"]
+            @SharedLocalizer.Static["Page File Revisions"]
         </h3>
         <div class="text-muted">
-            @Localizer["All changes that have been made to the attached file."]
+            @SharedLocalizer.Static["All changes that have been made to the attached file."]
         </div>
     </div>
 </div>
@@ -29,16 +31,16 @@
                 <thead class="table-light">
                     <tr>
                         <th scope="col" class="text-nowrap">
-                            @Localizer["Revision"]
+                            @SharedLocalizer.Static["Revision"]
                         </th>
                         <th scope="col">
-                            @Localizer["Modified By"]
+                            @SharedLocalizer.Static["Modified By"]
                         </th>
                         <th scope="col" class="text-nowrap">
-                            @Localizer["Modified Date"]
+                            @SharedLocalizer.Static["Modified Date"]
                         </th>
                         <th scope="col" class="text-nowrap">
-                            @Localizer["Size"]
+                            @SharedLocalizer.Static["Size"]
                         </th>
                     </tr>
                 </thead>
@@ -86,7 +88,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-paperclip me-2"></i>
-            @Localizer["This file does not have any revisions."]
+            @SharedLocalizer.Static["This file does not have any revisions."]
         </div>
     </div>
 }

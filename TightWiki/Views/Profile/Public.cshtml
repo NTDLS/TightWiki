@@ -1,5 +1,7 @@
 ﻿@using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Profile.PublicViewModel
 @{
     Layout = "_Layout";
@@ -8,10 +10,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Profile"]
+            @SharedLocalizer.Static["Profile"]
         </h3>
         <div class="text-muted">
-            @Localizer["Public profile information."]
+            @SharedLocalizer.Static["Public profile information."]
         </div>
     </div>
 </div>
@@ -33,23 +35,23 @@
                         <table class="table table-sm align-middle mb-0">
                             <tbody>
                                 <tr>
-                                    <th scope="row" style="width: 180px;">@Localizer["Name"]</th>
+                                    <th scope="row" style="width: 180px;">@SharedLocalizer.Static["Name"]</th>
                                     <td>@Html.DisplayFor(m => m.AccountName)</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">@Localizer["Country"]</th>
+                                    <th scope="row">@SharedLocalizer.Static["Country"]</th>
                                     <td>@Html.DisplayFor(m => m.Country)</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">@Localizer["Language"]</th>
+                                    <th scope="row">@SharedLocalizer.Static["Language"]</th>
                                     <td>@Html.DisplayFor(m => m.Language)</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">@Localizer["Time Zone"]</th>
+                                    <th scope="row">@SharedLocalizer.Static["Time Zone"]</th>
                                     <td>@Html.DisplayFor(m => m.TimeZone)</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">@Localizer["Biography"]</th>
+                                    <th scope="row">@SharedLocalizer.Static["Biography"]</th>
                                     <td>
                                         <div class="text-break">
                                             @Html.Raw(Model.Biography)
@@ -76,7 +78,7 @@
     <div class="card shadow-sm">
         <div class="card-header">
             <span class="fw-semibold">
-                <i class="bi bi-clock-history me-2"></i>@Localizer["Recently Modified"]
+                <i class="bi bi-clock-history me-2"></i>@SharedLocalizer.Static["Recently Modified"]
             </span>
         </div>
 
@@ -84,9 +86,9 @@
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col">@Localizer["Page"]</th>
-                        <th scope="col" class="text-nowrap">@Localizer["Modified"]</th>
-                        <th scope="col">@Localizer["Analysis"]</th>
+                        <th scope="col">@SharedLocalizer.Static["Page"]</th>
+                        <th scope="col" class="text-nowrap">@SharedLocalizer.Static["Modified"]</th>
+                        <th scope="col">@SharedLocalizer.Static["Analysis"]</th>
                     </tr>
                 </thead>
                 <tbody>

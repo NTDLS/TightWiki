@@ -2,7 +2,9 @@
 @using TightWiki.Library
 @using TightWiki.Models
 @using TightWiki.Models.ViewModels.AdminSecurity
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -11,10 +13,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Accounts"]
+            @SharedLocalizer.Static["Accounts"]
         </h3>
         <div class="text-muted">
-            @Localizer["Global configuration for user accounts."]
+            @SharedLocalizer.Static["Global configuration for user accounts."]
         </div>
     </div>
 </div>
@@ -26,12 +28,12 @@
     <div class="card shadow-sm mb-3">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-people me-2"></i>@Localizer["Account Management"]
+                <i class="bi bi-people me-2"></i>@SharedLocalizer.Static["Account Management"]
             </span>
 
             <a class="btn btn-success"
                    href="@GlobalConfiguration.BasePath/AdminSecurity/AddAccount">
-                <i class="bi bi-person-plus me-1"></i>@Localizer["Add new account"]
+                <i class="bi bi-person-plus me-1"></i>@SharedLocalizer.Static["Add new account"]
             </a>
         </div>
 
@@ -41,12 +43,12 @@
                     @Html.TextBoxFor(x => x.SearchString, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Search accounts..."].Value
+                        placeholder= SharedLocalizer.Static["Search accounts..."].Value
                     })
                 </div>
                 <div class="col-12 col-md-auto">
                     <button type="submit" value="Search" class="btn btn-primary w-100">
-                        <i class="bi bi-search me-1"></i>@Localizer["Search"]
+                        <i class="bi bi-search me-1"></i>@SharedLocalizer.Static["Search"]
                     </button>
                 </div>
             </div>
@@ -68,43 +70,43 @@
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Account")">
-                                @Localizer["Display Name"]
+                                @SharedLocalizer.Static["Display Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "FirstName")">
-                                @Localizer["First Name"]
+                                @SharedLocalizer.Static["First Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "LastName")">
-                                @Localizer["Last Name"]
+                                @SharedLocalizer.Static["Last Name"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Country")">
-                                @Localizer["Country"]
+                                @SharedLocalizer.Static["Country"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "TimeZone")">
-                                @Localizer["Time Zone"]
+                                @SharedLocalizer.Static["Time Zone"]
                             </a>
                         </th>
                         <th scope="col">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "EmailAddress")">
-                                @Localizer["Email Address"]
+                                @SharedLocalizer.Static["Email Address"]
                             </a>
                         </th>
                         <th scope="col" class="text-nowrap">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "Created")">
-                                @Localizer["Created Date"]
+                                @SharedLocalizer.Static["Created Date"]
                             </a>
                         </th>
                     </tr>
@@ -135,13 +137,13 @@
                                     @if (user.EmailConfirmed == true)
                                     {
                                         <span class="badge border border-success text-success bg-light rounded-pill">
-                                            <i class="bi bi-check-circle-fill me-1"></i>@Localizer["Confirmed"]
+                                            <i class="bi bi-check-circle-fill me-1"></i>@SharedLocalizer.Static["Confirmed"]
                                         </span>
                                     }
                                     else
                                     {
                                         <span class="badge border border-secondary text-secondary bg-light rounded-pill">
-                                            <i class="bi bi-dash-circle me-1"></i>@Localizer["Unconfirmed"]
+                                            <i class="bi bi-dash-circle me-1"></i>@SharedLocalizer.Static["Unconfirmed"]
                                         </span>
                                     }
                                 </div>
@@ -166,7 +168,7 @@ else
     <div class="card shadow-sm">
         <div class="card-body text-muted">
             <i class="bi bi-person-x me-2"></i>
-            @Localizer["Either there are no accounts configured or your search criteria returned no results."]
+            @SharedLocalizer.Static["Either there are no accounts configured or your search criteria returned no results."]
         </div>
     </div>
 }

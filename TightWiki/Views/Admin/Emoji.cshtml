@@ -1,6 +1,8 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Admin.EmojiViewModel
 @{
     Layout = "_Layout";
@@ -9,8 +11,8 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Emoji"]</h3>
-        <div class="text-muted">@Localizer["Configuration for an emoji."]</div>
+        <h3 class="mb-1">@SharedLocalizer.Static["Emoji"]</h3>
+        <div class="text-muted">@SharedLocalizer.Static["Configuration for an emoji."]</div>
     </div>
 </div>
 
@@ -24,18 +26,18 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-emoji-smile me-2"></i>@Localizer["Emoji Editor"]
+                <i class="bi bi-emoji-smile me-2"></i>@SharedLocalizer.Static["Emoji Editor"]
             </span>
 
             <div class="d-flex flex-wrap gap-2">
                 <button type="submit" class="btn btn-success">
-                    <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                    <i class="bi bi-floppy me-1"></i>@SharedLocalizer.Static["Save"]
                 </button>
 
                 @ConfirmActionHelper.GenerateDangerButton(
                     GlobalConfiguration.BasePath,
-                    Localizer["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
-                    Localizer["Delete"].Value,
+                    SharedLocalizer.Static["Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?"].Format(Model.Emoji.Name),
+                    SharedLocalizer.Static["Delete"].Value,
                     $"/Admin/DeleteEmoji/{Model.Emoji.Name}",
                     $"{GlobalConfiguration.BasePath}/Admin/Emojis",
                     Context.Request.Path.Value)
@@ -47,7 +49,7 @@
                 <div class="col-12 col-lg-4">
                     <div class="card h-100 border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-image me-2"></i>@Localizer["Image"]
+                            <i class="bi bi-image me-2"></i>@SharedLocalizer.Static["Image"]
                         </div>
                         <div class="card-body text-center">
                             <div id="emoji-preview-container">
@@ -62,14 +64,14 @@
                                 else
                                 {
                                     <div class="text-muted small">
-                                        @Localizer["No image uploaded."]
+                                        @SharedLocalizer.Static["No image uploaded."]
                                     </div>
                                 }
                             </div>
                         </div>
                         <div class="card-footer text-center">
                             <label for="ImageData" class="btn btn-outline-primary mb-0">
-                                <i class="bi bi-upload me-1"></i>@Localizer["Change Image"]
+                                <i class="bi bi-upload me-1"></i>@SharedLocalizer.Static["Change Image"]
                             </label>
                             <input type="file"
                                    id="ImageData"
@@ -84,18 +86,18 @@
                 <div class="col-12 col-lg-8">
                     <div class="card h-100 border">
                         <div class="card-header fw-semibold">
-                            <i class="bi bi-sliders me-2"></i>@Localizer["Details"]
+                            <i class="bi bi-sliders me-2"></i>@SharedLocalizer.Static["Details"]
                         </div>
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label for="Emoji_Name" class="form-label fw-semibold">
-                                        @Localizer["Name"]
+                                        @SharedLocalizer.Static["Name"]
                                     </label>
                                     @Html.TextBoxFor(m => m.Emoji.Name, new
                                     {
                                         @class = "form-control",
-                                        placeholder = Localizer["Required"].Value
+                                        placeholder= SharedLocalizer.Static["Required"].Value
                                     })
                                     <div class="text-danger small">
                                         @Html.ValidationMessageFor(m => m.Emoji.Name)
@@ -104,15 +106,15 @@
 
                                 <div class="col-12">
                                     <label for="Categories" class="form-label fw-semibold">
-                                        @Localizer["Categories"]
+                                        @SharedLocalizer.Static["Categories"]
                                     </label>
                                     @Html.TextBoxFor(m => m.Categories, new
                                     {
                                         @class = "form-control",
-                                        placeholder = Localizer["Comma-separated categories"].Value
+                                        placeholder= SharedLocalizer.Static["Comma-separated categories"].Value
                                     })
                                     <div class="form-text">
-                                        @Localizer["Use commas to separate categories."]
+                                        @SharedLocalizer.Static["Use commas to separate categories."]
                                     </div>
                                     <div class="text-danger small">
                                         @Html.ValidationMessageFor(m => m.Categories)

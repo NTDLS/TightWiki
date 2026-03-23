@@ -5,10 +5,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Localization;
 using System.Text;
 using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Models;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -16,19 +16,16 @@ namespace TightWiki.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly IStringLocalizer<ConfirmEmailChangeModel> _localizer;
         private readonly ILogger<ITightEngine> _logger;
         public ConfirmEmailChangeModel(
             ILogger<ITightEngine> logger,
             UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            IStringLocalizer<ConfirmEmailChangeModel> localizer)
+            SignInManager<IdentityUser> signInManager)
             : base(logger, signInManager)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -57,7 +54,7 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var result = await _userManager.ChangeEmailAsync(user, email, code);
                 if (!result.Succeeded)
                 {
-                    StatusMessage = _localizer["Error changing email."];
+                    StatusMessage = SharedLocalizer.Static["Error changing email."];
                     return Page();
                 }
 
@@ -66,12 +63,12 @@ namespace TightWiki.Areas.Identity.Pages.Account
                 var setUserNameResult = await _userManager.SetUserNameAsync(user, email);
                 if (!setUserNameResult.Succeeded)
                 {
-                    StatusMessage = _localizer["Error changing user name."];
+                    StatusMessage = SharedLocalizer.Static["Error changing user name."];
                     return Page();
                 }
 
                 await _signInManager.RefreshSignInAsync(user);
-                StatusMessage = _localizer["Thank you for confirming your email change."];
+                StatusMessage = SharedLocalizer.Static["Thank you for confirming your email change."];
 
             }
             catch (Exception ex)

@@ -14,5 +14,8 @@ namespace TightWiki.Extensions
 
         public static string Format(this LocalizedString localizedString, params object?[] param)
             => string.Format(localizedString.Value, param);
+
+        public static IHtmlContent Format(this IStringLocalizer localizer, string key, params object?[] args)
+            => new HtmlContentBuilder().AppendHtml(string.Format(localizer[key].Value, args));
     }
 }

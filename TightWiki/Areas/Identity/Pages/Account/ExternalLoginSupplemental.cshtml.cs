@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.Helpers;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
@@ -9,6 +8,7 @@ using TightWiki.Engine.Library.Interfaces;
 using TightWiki.Library;
 using TightWiki.Models;
 using TightWiki.Repository;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account
 {
@@ -49,20 +49,17 @@ namespace TightWiki.Areas.Identity.Pages.Account
         public string? ReturnUrl { get; set; }
 
         private UserManager<IdentityUser> _userManager;
-        private readonly IStringLocalizer<ExternalLoginSupplementalModel> _localizer;
         private readonly ILogger<ITightEngine> _logger;
 
         public ExternalLoginSupplementalModel(
             ILogger<ITightEngine> logger,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            IStringLocalizer<ExternalLoginSupplementalModel> localizer)
+            IUserStore<IdentityUser> userStore)
             : base(logger, signInManager)
         {
             _logger = logger;
             _userManager = userManager;
-            _localizer = localizer;
         }
 
         [BindProperty]
@@ -126,38 +123,38 @@ namespace TightWiki.Areas.Identity.Pages.Account
 
                 if (string.IsNullOrWhiteSpace(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is required."]);
+                    ModelState.AddModelError("Input.AccountName", SharedLocalizer.Static["Display Name is required."]);
                     return Page();
                 }
                 else if (UsersRepository.DoesProfileAccountExist(Input.AccountName))
                 {
-                    ModelState.AddModelError("Input.AccountName", _localizer["Display Name is already in use."]);
+                    ModelState.AddModelError("Input.AccountName", SharedLocalizer.Static["Display Name is already in use."]);
                     return Page();
                 }
 
                 var info = await SignInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    return NotifyOfError(_localizer["An error occurred retrieving user information from the external provider."]);
+                    return NotifyOfError(SharedLocalizer.Static["An error occurred retrieving user information from the external provider."]);
                 }
 
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email).EnsureNotNull();
                 if (string.IsNullOrEmpty(email))
                 {
-                    return NotifyOfError(_localizer["The email address was not supplied by the external provider."]);
+                    return NotifyOfError(SharedLocalizer.Static["The email address was not supplied by the external provider."]);
                 }
 
                 var user = new IdentityUser { UserName = email, Email = email };
                 var result = await _userManager.CreateAsync(user);
                 if (!result.Succeeded)
                 {
-                    return NotifyOfError(_localizer["An error occurred while creating the user."]);
+                    return NotifyOfError(SharedLocalizer.Static["An error occurred while creating the user."]);
                 }
 
                 result = await _userManager.AddLoginAsync(user, info);
                 if (!result.Succeeded)
                 {
-                    return NotifyOfError(_localizer["An error occurred while adding the login."]);
+                    return NotifyOfError(SharedLocalizer.Static["An error occurred while adding the login."]);
                 }
 
                 var membershipConfig = ConfigurationRepository.GetConfigurationEntryValuesByGroupName(Constants.ConfigurationGroup.Membership);

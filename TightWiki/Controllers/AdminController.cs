@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using NTDLS.DelegateThreadPooling;
 using NTDLS.Helpers;
 using System.Reflection;
@@ -16,7 +15,7 @@ using TightWiki.Models.ViewModels.Page;
 using TightWiki.Models.ViewModels.Utility;
 using TightWiki.Repository;
 using TightWiki.Security;
-using TightWiki.Static;
+using TightWiki.Translations;
 using static TightWiki.Library.Constants;
 
 namespace TightWiki.Controllers
@@ -28,16 +27,14 @@ namespace TightWiki.Controllers
     {
         private readonly ITightEngine _tightEngine;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IStringLocalizer<AdminController> _localizer;
         private readonly ILogger<ITightEngine> _logger;
 
         public AdminController(ITightEngine tightEngine, SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager, IStringLocalizer<AdminController> localizer, ILogger<ITightEngine> logger)
-            : base(logger, signInManager, userManager, localizer)
+            UserManager<IdentityUser> userManager, ILogger<ITightEngine> logger)
+            : base(logger, signInManager, userManager)
         {
             _tightEngine = tightEngine;
             _userManager = userManager;
-            _localizer = localizer;
             _logger = logger;
         }
 
@@ -1630,7 +1627,7 @@ namespace TightWiki.Controllers
                     return Json(new { ok = false, error = Localize("LDAP authentication is not enabled.") });
                 }
 
-                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, StaticLocalizer.Localizer,
+                if (LDAPUtility.LdapCredentialChallenge(ldapAuthenticationConfiguration, SharedLocalizer.Static,
                     req.Username, req.Password, out var samAccountName, out var objectGuid))
                 {
                     //We successfully authenticated against LDAP.

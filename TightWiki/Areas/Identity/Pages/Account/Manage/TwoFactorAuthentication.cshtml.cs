@@ -4,8 +4,8 @@
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
 using TightWiki.Engine.Library.Interfaces;
+using TightWiki.Translations;
 
 namespace TightWiki.Areas.Identity.Pages.Account.Manage
 {
@@ -14,19 +14,16 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ITightEngine> _logger;
-        private readonly IStringLocalizer<TwoFactorAuthenticationModel> _localizer;
 
         public TwoFactorAuthenticationModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<ITightEngine> logger,
-            IStringLocalizer<TwoFactorAuthenticationModel> localizer)
+            ILogger<ITightEngine> logger)
             : base(logger, signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
-            _localizer = localizer;
         }
 
         /// <summary>
@@ -86,7 +83,7 @@ namespace TightWiki.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.ForgetTwoFactorClientAsync();
-            StatusMessage = _localizer["The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code."];
+            StatusMessage = SharedLocalizer.Static["The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code."];
             return RedirectToPage();
         }
     }

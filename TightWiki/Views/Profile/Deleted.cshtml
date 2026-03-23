@@ -1,5 +1,7 @@
 ﻿@using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Profile.DeletedAccountViewModel
 @{
     Layout = "_Layout";
@@ -7,17 +9,17 @@
 
 <div class="card shadow-lg border-danger mb-3">
     <div class="card-header bg-danger text-white">
-        <strong>@Localizer["Account Deleted!"]</strong>
+        <strong>@SharedLocalizer.Static["Account Deleted!"]</strong>
     </div>
     <div class="card-body">
-        @Localizer["The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile."]
+        @SharedLocalizer.Static["The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile."]
         <br /><br />
 
         @if (TightWiki.Models.GlobalConfiguration.AllowSignup == true)
         {
-            @:@Localizer["Not a member?"] <a href="@GlobalConfiguration.BasePath/Identity/Account/Register">@Localizer["Register as a new user"]</a>.<br />
+            @:@SharedLocalizer.Static["Not a member?"] <a href="@GlobalConfiguration.BasePath/Identity/Account/Register">@SharedLocalizer.Static["Register as a new user"]</a>.<br />
         }
-        @Localizer["Already a member?"] <a href="@GlobalConfiguration.BasePath/Identity/Account/Login">@Localizer["Login"]</a>.<br />
+        @SharedLocalizer.Static["Already a member?"] <a href="@GlobalConfiguration.BasePath/Identity/Account/Login">@SharedLocalizer.Static["Login"]</a>.<br />
 
     </div>
 </div>

@@ -1,7 +1,9 @@
 ﻿@model TightWiki.Models.ViewModels.Admin.EventLogViewModel
 @using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @{
     Layout = "_Layout";
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
@@ -10,10 +12,10 @@
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
         <h3 class="mb-1">
-            @Localizer["Event Log"]
+            @SharedLocalizer.Static["Event Log"]
         </h3>
         <div class="text-muted">
-            @Localizer["Server and page event logs"]
+            @SharedLocalizer.Static["Server and page event logs"]
         </div>
     </div>
 </div>
@@ -21,13 +23,13 @@
 <div class="card shadow-sm">
     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
         <span class="fw-semibold">
-            <i class="bi bi-journal-text me-2"></i>@Localizer["Log Entries"]
+            <i class="bi bi-journal-text me-2"></i>@SharedLocalizer.Static["Log Entries"]
         </span>
 
         @TightWiki.Library.ConfirmActionHelper.GenerateWarnButton(
             GlobalConfiguration.BasePath,
-            @Localizer["This will permanently purge all event logs. Continue?"].Value,
-            @Localizer["Purge Event Log"].Value,
+            @SharedLocalizer.Static["This will permanently purge all event logs. Continue?"].Value,
+            @SharedLocalizer.Static["Purge Event Log"].Value,
             "/Admin/PurgeEventLog",
             Context.Request.Path.Value)
     </div>
@@ -42,12 +44,12 @@
             <table class="table table-striped table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th scope="col" style="width: 1%;">@Localizer["Severity"]</th>
-                        <th scope="col">@Localizer["Text"]</th>
+                        <th scope="col" style="width: 1%;">@SharedLocalizer.Static["Severity"]</th>
+                        <th scope="col">@SharedLocalizer.Static["Text"]</th>
                         <th scope="col" class="text-nowrap" style="width: 1%;">
                             <a class="link-dark text-decoration-none"
                                    href="?@QueryStringConverter.OrderHelper(sessionState, "CreatedDate")">
-                                @Localizer["Date/Time"]
+                                @SharedLocalizer.Static["Date/Time"]
                             </a>
                         </th>
                     </tr>
@@ -95,7 +97,7 @@
                             <td>
                                 <a class="text-decoration-none"
                                        href="@GlobalConfiguration.BasePath/Admin/EventLogEntry/@ex.Id">
-                                    @(string.IsNullOrWhiteSpace(ex.Text) ? Localizer["(No text)"].Value : ex.Text)
+                                    @(string.IsNullOrWhiteSpace(ex.Text) ? SharedLocalizer.Static["(No text)"].Value : ex.Text)
                                 </a>
                             </td>
 
@@ -116,7 +118,7 @@
     {
         <div class="card-body">
             <div class="text-muted">
-                <i class="bi bi-inbox me-2"></i>@Localizer["The event log is empty."]
+                <i class="bi bi-inbox me-2"></i>@SharedLocalizer.Static["The event log is empty."]
             </div>
         </div>
     }

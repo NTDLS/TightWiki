@@ -1,20 +1,23 @@
 ﻿@page
 @using System.Text.Encodings.Web
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model ExternalLoginModel
 @{
     var sessionState = ViewData["SessionState"] as TightWiki.SessionState ?? throw new Exception("Wiki State Context cannot be null.");
 }
 
 <h3>
-    @Localizer["Register"]
+    @SharedLocalizer.Static["Register"]
 </h3>
 
-<p>@String.Format(Localizer["Associate your {0} account."].Value, Model.ProviderDisplayName)</p>
+<p>@String.Format(SharedLocalizer.Static["Associate your {0} account."].Value, Model.ProviderDisplayName)</p>
 <hr />
 
 <p id="external-login-description" class="text-info">
-    @String.Format(Localizer["You've successfully authenticated with <strong>{0}</strong>. Please enter an email address for this site below and click the Register button to finish logging in."].Value, Model.ProviderDisplayName)
+    @String.Format(SharedLocalizer.Static["You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in."].Value,
+        $"<strong>{Model.ProviderDisplayName}</strong>")
 </p>
 
 <div class="row">
@@ -22,11 +25,11 @@
         <form asp-page-handler="Confirmation" asp-route-returnUrl="@UrlEncoder.Default.Encode(Model.ReturnUrl)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.Username" class="form-control" autocomplete="email" placeholder="@Localizer["Please enter your email."].Value"/>
+                <input asp-for="Input.Username" class="form-control" autocomplete="email" placeholder="@SharedLocalizer.Static["Please enter your email."].Value"/>
                 <label asp-for="Input.Username" class="form-label"></label>
                 <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">@Localizer["Register"]</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@SharedLocalizer.Static["Register"]</button>
         </form>
     </div>
 </div>

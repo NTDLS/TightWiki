@@ -1,6 +1,8 @@
 ﻿@using TightWiki.Library
 @using TightWiki.Models
-@inject IViewLocalizer Localizer
+
+@using TightWiki.Resources
+
 @model TightWiki.Models.ViewModels.Admin.MenuItemViewModel
 @{
     Layout = "_Layout";
@@ -9,8 +11,8 @@
 
 <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
     <div>
-        <h3 class="mb-1">@Localizer["Site Menu Item"]</h3>
-        <div class="text-muted">@Localizer["Global configuration for the site menu item."]</div>
+        <h3 class="mb-1">@SharedLocalizer.Static["Site Menu Item"]</h3>
+        <div class="text-muted">@SharedLocalizer.Static["Global configuration for the site menu item."]</div>
     </div>
 </div>
 
@@ -22,18 +24,18 @@
     <div class="card shadow-sm">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <span class="fw-semibold">
-                <i class="bi bi-list-ul me-2"></i>@Localizer["Menu Item Editor"]
+                <i class="bi bi-list-ul me-2"></i>@SharedLocalizer.Static["Menu Item Editor"]
             </span>
 
             <div class="d-flex flex-wrap gap-2">
                 <button type="submit" class="btn btn-success">
-                    <i class="bi bi-floppy me-1"></i>@Localizer["Save"]
+                    <i class="bi bi-floppy me-1"></i>@SharedLocalizer.Static["Save"]
                 </button>
 
                 @ConfirmActionHelper.GenerateDangerButton(
                     GlobalConfiguration.BasePath,
-                    Localizer["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
-                    Localizer["Delete"].Value,
+                    SharedLocalizer.Static["Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?"].Format(Model.Name),
+                    SharedLocalizer.Static["Delete"].Value,
                     $"/Admin/DeleteMenuItem/{Model.Id}",
                     $"{GlobalConfiguration.BasePath}/Admin/MenuItems",
                     Context.Request.Path.Value)
@@ -44,12 +46,12 @@
             <div class="row g-3">
                 <div class="col-12">
                     <label for="Name" class="form-label fw-semibold">
-                        @Localizer["Name"]
+                        @SharedLocalizer.Static["Name"]
                     </label>
                     @Html.TextBoxFor(m => m.Name, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Required"].Value
+                        placeholder= SharedLocalizer.Static["Required"].Value
                     })
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Name)
@@ -58,15 +60,15 @@
 
                 <div class="col-12">
                     <label for="Link" class="form-label fw-semibold">
-                        @Localizer["Hyperlink"]
+                        @SharedLocalizer.Static["Hyperlink"]
                     </label>
                     @Html.TextBoxFor(m => m.Link, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Required"].Value
+                        placeholder= SharedLocalizer.Static["Required"].Value
                     })
                     <div class="form-text">
-                        @Localizer["Enter an internal path or external URL."]
+                        @SharedLocalizer.Static["Enter an internal path or external URL."]
                     </div>
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Link)
@@ -75,17 +77,17 @@
 
                 <div class="col-12 col-md-4">
                     <label for="Ordinal" class="form-label fw-semibold">
-                        @Localizer["Ordinal"]
+                        @SharedLocalizer.Static["Ordinal"]
                     </label>
                     @Html.TextBoxFor(m => m.Ordinal, new
                     {
                         @class = "form-control",
-                        placeholder = Localizer["Required"].Value,
+                        placeholder= SharedLocalizer.Static["Required"].Value,
                         type = "number",
                         min = "0"
                     })
                     <div class="form-text">
-                        @Localizer["Lower numbers appear first."]
+                        @SharedLocalizer.Static["Lower numbers appear first."]
                     </div>
                     <div class="text-danger small">
                         @Html.ValidationMessageFor(m => m.Ordinal)
