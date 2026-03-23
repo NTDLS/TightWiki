@@ -298,7 +298,7 @@ namespace TightWiki
         {
             if (!IsAuthenticated)
             {
-                var localizer = SharedLocalizer.Create();
+                var localizer = LocalizerFactory.Create();
                 throw new UnauthorizedException(localizer["You are not authorized"]);
             }
         }
@@ -310,7 +310,7 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permissions))
             {
-                var localizer = SharedLocalizer.Create();
+                var localizer = LocalizerFactory.Create();
                 throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
                     .Format(string.Join(", ", permissions.Select(o => localizer[o.ToString()]))));
             }
@@ -323,7 +323,7 @@ namespace TightWiki
         {
             if (!HoldsPermission(givenCanonical, permission))
             {
-                var localizer = SharedLocalizer.Create();
+                var localizer = LocalizerFactory.Create();
                 throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
                     .Format(localizer[permission.ToString()]));
             }
@@ -336,7 +336,7 @@ namespace TightWiki
         {
             if (!IsAdministrator)
             {
-                var localizer = SharedLocalizer.Create();
+                var localizer = LocalizerFactory.Create();
                 throw new UnauthorizedException(localizer["You do not have permission to perform the action: {0}"]
                     .Format(localizer["Administration"].Value));
             }

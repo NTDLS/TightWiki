@@ -96,9 +96,18 @@ namespace LocalizerScan
 
                 Console.WriteLine($"Found {keysFoundInCode.Count} unique localization keys.");
 
-                foreach (var culture in _supportedCultures.Collection)
+                var list = _supportedCultures.Collection.ToList();
+                list.Add(new CultureInfoSettings("", ""));
+
+                foreach (var culture in list)
                 {
-                    var resourceFileName = Path.Combine(resourcePath, $"SharedResources.{culture.Code}.resx");
+                    var resourceFileName = Path.Combine(resourcePath, $"SharedLocalizer.{culture.Code}.resx");
+
+                    if (string.IsNullOrEmpty(culture.Code))
+                    {
+                        //Neutral culture does not have a culture code in the file name.
+                        resourceFileName = Path.Combine(resourcePath, $"SharedLocalizer.resx");
+                    }
 
                     if (File.Exists(resourceFileName) == false)
                     {
@@ -121,13 +130,28 @@ namespace LocalizerScan
                         {
                             Console.WriteLine($"Added {keyMapping.Key} to {culture.Code} resource.");
 
-                            doc.Root!.Add(
-                                new XElement("data",
-                                    new XAttribute("name", keyMapping.Key),
-                                    new XAttribute(XNamespace.Xml + "space", "preserve"),
-                                    new XElement("value", string.Empty)
-                                )
-                            );
+                            if (string.IsNullOrEmpty(culture.Code))
+                            {
+                                //Neutral culture needs to have a value, these are the English phrases that we will
+                                //  translate from, so we set the value to the key which is the English phrase.
+                                doc.Root!.Add(
+                                    new XElement("data",
+                                        new XAttribute("name", keyMapping.Key),
+                                        new XAttribute(XNamespace.Xml + "space", "preserve"),
+                                        new XElement("value", keyMapping.Key)
+                                    )
+                                );
+                            }
+                            else
+                            {
+                                doc.Root!.Add(
+                                    new XElement("data",
+                                        new XAttribute("name", keyMapping.Key),
+                                        new XAttribute(XNamespace.Xml + "space", "preserve"),
+                                        new XElement("value", string.Empty)
+                                    )
+                                );
+                            }
                             added++;
                         }
                     }
