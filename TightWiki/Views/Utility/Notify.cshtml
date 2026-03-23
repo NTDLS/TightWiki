@@ -40,7 +40,7 @@
         {
             if (_isFirst)
             {
-                <strong>@message</strong>
+                <strong>@Html.Raw(message)</strong>
                 if (errorMessages.Count() > 1)
                 {
                     <br />
@@ -50,7 +50,7 @@
             }
             else
             {
-                @message
+                @Html.Raw(message)
                 <br />
             }
         }
@@ -71,7 +71,7 @@
         {
             if (_isFirst)
             {
-                <strong>@message</strong>
+                <strong>@Html.Raw(message)</strong>
                 if (errorMessages.Count() > 1)
                 {
                     <br />
@@ -81,7 +81,7 @@
             }
             else
             {
-                @message
+                @Html.Raw(message)
                 <br />
             }
         }
@@ -102,7 +102,7 @@
         {
             if (_isFirst)
             {
-                <strong>@message</strong>
+                <strong>@Html.Raw(message)</strong>
                 if (successMessages.Count() > 1)
                 {
                     <br />
@@ -112,7 +112,7 @@
             }
             else
             {
-                @message
+                @Html.Raw(message)
                 <br />
             }
         }
@@ -120,8 +120,8 @@
         @if (string.IsNullOrEmpty(@Model.RedirectURL) == false && Model.RedirectTimeout > 0)
         {
             <p>
-                @Localizer.Format("{0}Continue now{1} or you will be redirected in {2} seconds.",
-                    $"<a href=\"{Model.RedirectURL}\">", "</a>", $"<span id=\"countdown\">{Model.RedirectTimeout}</span>")
+                @Html.Raw(Localizer.Format("{0}Continue now{1} or you will be redirected in {2} seconds.",
+                    $"<a href=\"{Model.RedirectURL}\">", "</a>", $"<span id=\"countdown\">{Model.RedirectTimeout}</span>"))
             </p>
         }
     </div>
