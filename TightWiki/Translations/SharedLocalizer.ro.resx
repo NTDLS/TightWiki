@@ -2009,369 +2009,369 @@
     <value>Împarte textul Camel Case</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>Șablon: E-mail de verificare a contului</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>Șablon: E-mail de resetare a parolei</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Numele contului utilizat pentru toate comunicările prin e-mail.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Tema de bază utilizată pentru stylizarea întregului site.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Imaginea de brand a wiki-ului, afișată în partea de sus a tuturor paginilor wiki.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Drepturile de autor ale wiki-ului, afișate în partea de jos a tuturor paginilor.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Țara utilizată pentru cultura site-ului pentru vizitatori.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Țara implicită pentru noile conturi.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>Domeniul implicit utilizat atunci când utilizatorul nu specifică un UPN sau un domeniu complet calificat\\Nume de utilizator la autentificare.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Înălțimea implicită pentru scalarea emoji-urilor. Lățimea va fi scalată proporțional. Implicit: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Limba implicită pentru noile conturi.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Rolul implicit atribuit conturilor când se înscriu. Implicit: Contribuitor.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Fusul orar implicit pentru noile conturi.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Numele de afișare pentru toate comunicările prin e-mail.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Subsolul wiki-ului, afișat în partea de jos a tuturor paginilor.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>Numele de domeniu complet calificat utilizat pentru autentificarea LDAP.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Adresa internet a wiki-ului tău.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Limba utilizată pentru cultura site-ului pentru vizitatori.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Limita de memorie (în megabytes) pentru cache. Elementele cele mai vechi vor fi eliminate odată ce limita este atinsă. Implicit: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>Numele paginii wiki afișate când este solicitată o pagină inexistentă.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>Numele paginii wiki afișate când este solicitată o revizie inexistentă a paginii.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>Numele paginii wiki utilizat ca conținut implicit atunci când se creează pagini noi.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Numele wiki-ului, afișat peste tot.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Numărul de elemente returnate atunci când se folosește paginarea. Implicit: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>Numărul de pagini recent modificate afișate pe profilurile publice ale utilizatorilor. Implicit: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Numărul de secunde pentru a memora paginile în cache (0 = dezactivat). Implicit: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Parola SMTP de utilizat la trimiterea emailurilor.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>Portul SMTP de utilizat la trimiterea emailurilor. Implicit: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>Adresa IP/hostul serverului SMTP de utilizat la trimiterea emailurilor.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Fusul orar folosit pentru cultura site-ului pentru vizitatori.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>Utilizează SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>Valoare între 0.0 și 1.0 care determină cât de puternic trebuie să fie un corespondent al căutării unei pagini înainte ca aceasta să fie returnată în rezultate. Implicit: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>Când construiți un index de căutare, aceste cuvinte vor fi excluse din indexare. (Separate prin virgulă)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Când comentariile sunt activate, această opțiune face ca comentariile să fie afișate în partea de jos a fiecărei pagini. Implicit: Activat.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se va afișa sau nu o casetă de căutare în bara de navigare. Implicit: Activat.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>Este activat sau nu OpenID Connect.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>Se va face sau nu o preîncărcare leneșă a tuturor emoji-urilor animate la pornire.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>Se va autentifica sau nu cu LDAP atunci când se încearcă conectarea utilizatorilor.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>Se va folosi sau nu o conexiune sigură la LDAP. Acest lucru nu este întotdeauna suportat de domenii.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se vor activa comentariile din pagină. Autentificarea este necesară pentru comentarii, dar toți pot citi. Implicit: Activat.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>SMTP-ul trebuie să se conecteze folosind SSL sau nu.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se va include sau nu descrierea paginii în meta tag-ul din HTML. Implicit: Activat.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Se menține sau nu meniul superior în poziție atunci când se derulează vertical.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se vor include sau nu etichetele wiki atașate paginii în meta cuvinte cheie din HTML. Implicit: Activat.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se permite sau nu potriviri non-exacte în căutare. Implicit: Activat.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Se vor înregistra sau nu metricile de compilare a înregistrărilor wiki ale paginii în baza de date. Acest lucru poate fi folosit pentru tuning-ul performanței, dar poate cauza și încetinire. Implicit: Dezactivat.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se afișează sau nu ultimul utilizator și data modficării paginii cu un link către profilul public al utilizatorului. Implicit: Activat.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>Se afișează sau nu caseta de text pentru introducerea unui rezumat de modificare la editarea paginilor.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Se va împărți sau nu strings CamelCased la parsarea paginilor pentru tokenii de căutare. Poate fi util atunci când paginile conțin mult conținut de programare/code. Implicit: Activat.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Utilizatorii trebuie sau nu să introducă un rezumat de modificare atunci când editează paginile. Rețineți că „Afișează rezumatul modificărilor când editezi” trebuie, de asemenea, activat.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Indiferent dacă vizitatorii pot vedea membrii și profilele lor publice.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Excluderi de cuvinte</value>
   </data>
   <data name="You must select a role." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectați un rol.</value>
   </data>
   <data name="The account is already a member of the specified role." xml:space="preserve">
-    <value></value>
+    <value>Contul este deja membru al rolului specificat.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Tip de resursă</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Adaugă</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Ești sigur că vrei să revoști permisiunea din acest cont?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Încercarea de a revoa a eșuat</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Ești sigur că vrei să elimini rolul din acest cont?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Selectează o dispoziție</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Selectează o permisiune</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Selectează o pagină</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Selectează un namespace</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectezi o dispoziție a permisiunii.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectezi o permisiune.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectezi o pagină.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectezi un namespace.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectezi fie pagină, fie namespace.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Contul are deja permisiunea specificată.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Ești sigur că vrei să elimini permisiunea din acest rol?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Ești sigur că vrei să elimini membrul din acest rol?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Rolul are deja permisiunea specificată.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Selectează un cont</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Trebuie să selectezi un cont.</value>
   </data>
   <data name="the address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>adresa wiki-ului tău.</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value></value>
+    <value>Engleză</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value></value>
+    <value>Arabă</value>
   </data>
   <data name="Azerbaijani" xml:space="preserve">
-    <value></value>
+    <value>Azerbaijani</value>
   </data>
   <data name="Belarusian" xml:space="preserve">
-    <value></value>
+    <value>Belarusian</value>
   </data>
   <data name="Bulgarian" xml:space="preserve">
-    <value></value>
+    <value>Bulgară</value>
   </data>
   <data name="Czech" xml:space="preserve">
-    <value></value>
+    <value>Ceha</value>
   </data>
   <data name="Danish" xml:space="preserve">
-    <value></value>
+    <value>Daneză</value>
   </data>
   <data name="German" xml:space="preserve">
-    <value></value>
+    <value>Germană</value>
   </data>
   <data name="Greek" xml:space="preserve">
-    <value></value>
+    <value>Greacă</value>
   </data>
   <data name="Spanish" xml:space="preserve">
-    <value></value>
+    <value>Spaniolă</value>
   </data>
   <data name="Estonian" xml:space="preserve">
-    <value></value>
+    <value>Estonă</value>
   </data>
   <data name="Persian" xml:space="preserve">
-    <value></value>
+    <value>Persană</value>
   </data>
   <data name="Finnish" xml:space="preserve">
-    <value></value>
+    <value>Finnishă</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value></value>
+    <value>Franceză</value>
   </data>
   <data name="Hebrew" xml:space="preserve">
-    <value></value>
+    <value>Ebraică</value>
   </data>
   <data name="Croatian" xml:space="preserve">
-    <value></value>
+    <value>Croată</value>
   </data>
   <data name="Hungarian" xml:space="preserve">
-    <value></value>
+    <value>Maghiară</value>
   </data>
   <data name="Indonesian" xml:space="preserve">
-    <value></value>
+    <value>Indoneziană</value>
   </data>
   <data name="Icelandic" xml:space="preserve">
-    <value></value>
+    <value>Islandeză</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value></value>
+    <value>Italiană</value>
   </data>
   <data name="Japanese" xml:space="preserve">
-    <value></value>
+    <value>Japoneză</value>
   </data>
   <data name="Georgian" xml:space="preserve">
-    <value></value>
+    <value>Georgiană</value>
   </data>
   <data name="Kazakh" xml:space="preserve">
-    <value></value>
+    <value>Kazahă</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value></value>
+    <value>Coreeană</value>
   </data>
   <data name="Lithuanian" xml:space="preserve">
-    <value></value>
+    <value>Lituaniană</value>
   </data>
   <data name="Latvian" xml:space="preserve">
-    <value></value>
+    <value>letonă</value>
   </data>
   <data name="Malay" xml:space="preserve">
-    <value></value>
+    <value>malay</value>
   </data>
   <data name="Dutch" xml:space="preserve">
-    <value></value>
+    <value>olandeză</value>
   </data>
   <data name="Norwegian" xml:space="preserve">
-    <value></value>
+    <value>norvegiană</value>
   </data>
   <data name="Bokmål" xml:space="preserve">
-    <value></value>
+    <value>Bokmål</value>
   </data>
   <data name="Polish" xml:space="preserve">
-    <value></value>
+    <value>poloneză</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value></value>
+    <value>portuguheză</value>
   </data>
   <data name="Romanian" xml:space="preserve">
-    <value></value>
+    <value>română</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value></value>
+    <value>rusă</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value></value>
+    <value>slovacă</value>
   </data>
   <data name="Slovenian" xml:space="preserve">
-    <value></value>
+    <value>slovenă</value>
   </data>
   <data name="Serbian" xml:space="preserve">
-    <value></value>
+    <value>sârbă</value>
   </data>
   <data name="Swedish" xml:space="preserve">
-    <value></value>
+    <value>suedeză</value>
   </data>
   <data name="Thai" xml:space="preserve">
-    <value></value>
+    <value>thai</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value></value>
+    <value>turcă</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
-    <value></value>
+    <value>ucraineană</value>
   </data>
   <data name="Vietnamese" xml:space="preserve">
-    <value></value>
+    <value>vietnameză</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value></value>
+    <value>chineză simplificată</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value></value>
+    <value>chineză tradițională</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value></value>
+    <value>bengaleză</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value></value>
+    <value>hindi</value>
   </data>
   <data name="Urdu" xml:space="preserve">
-    <value></value>
+    <value>urdu</value>
   </data>
 </root>

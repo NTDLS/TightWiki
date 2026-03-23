@@ -59,2319 +59,2319 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="- or -" xml:space="preserve">
-    <value></value>
+    <value>- eller -</value>
   </data>
   <data name="(No description)" xml:space="preserve">
-    <value></value>
+    <value>(Ingen beskrivning)</value>
   </data>
   <data name="(No link)" xml:space="preserve">
-    <value></value>
+    <value>(Ingen länk)</value>
   </data>
   <data name="(No text)" xml:space="preserve">
-    <value></value>
+    <value>(Ingen text)</value>
   </data>
   <data name="{0}Continue now{1} or you will be redirected in {2} seconds." xml:space="preserve">
-    <value></value>
+    <value>{0}Fortsätt nu{1} eller omdirigeras du om {2} sekunder.</value>
   </data>
   <data name="2fa has been disabled. You can reenable 2fa when you setup an authenticator app" xml:space="preserve">
-    <value></value>
+    <value>2fa har inaktiverats. Du kan aktivera 2fa igen när du ställer in en autentiseringsapp</value>
   </data>
   <data name="Access denied." xml:space="preserve">
-    <value></value>
+    <value>Åtkomst nekad.</value>
   </data>
   <data name="Account" xml:space="preserve">
-    <value></value>
+    <value>konto</value>
   </data>
   <data name="Account Deleted!" xml:space="preserve">
-    <value></value>
+    <value>Kontot raderades!</value>
   </data>
   <data name="Account Editor" xml:space="preserve">
-    <value></value>
+    <value>Kontopedagog</value>
   </data>
   <data name="Account Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Verifiering av konto-E-post</value>
   </data>
   <data name="Account Management" xml:space="preserve">
-    <value></value>
+    <value>Kontohantering</value>
   </data>
   <data name="Account Permissions" xml:space="preserve">
-    <value></value>
+    <value>Kontoprivilegier</value>
   </data>
   <data name="Account Role Membership" xml:space="preserve">
-    <value></value>
+    <value>Medlemskap i kontorolll</value>
   </data>
   <data name="Account roles and permissions for a single account." xml:space="preserve">
-    <value></value>
+    <value>Kontorolll och behörigheter för ett enskilt konto.</value>
   </data>
   <data name="Account Roles and Permissions for: {0}" xml:space="preserve">
-    <value></value>
+    <value>Kontorolll och behörigheter för: {0}</value>
   </data>
   <data name="Accounts" xml:space="preserve">
-    <value></value>
+    <value>Konton</value>
   </data>
   <data name="Action" xml:space="preserve">
-    <value></value>
+    <value>Handling</value>
   </data>
   <data name="Add Account" xml:space="preserve">
-    <value></value>
+    <value>Lägg till konto</value>
   </data>
   <data name="Add authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Lägg till autentiseringsapp</value>
   </data>
   <data name="Add Emoji" xml:space="preserve">
-    <value></value>
+    <value>Lägg till emoji</value>
   </data>
   <data name="Add Member to Role" xml:space="preserve">
-    <value></value>
+    <value>Lägg till medlem i roll</value>
   </data>
   <data name="Add new account" xml:space="preserve">
-    <value></value>
+    <value>Lägg till nytt konto</value>
   </data>
   <data name="Add new emoji" xml:space="preserve">
-    <value></value>
+    <value>Lägg till ny emoji</value>
   </data>
   <data name="Add new item" xml:space="preserve">
-    <value></value>
+    <value>Lägg till ny post</value>
   </data>
   <data name="Add Permission to Account" xml:space="preserve">
-    <value></value>
+    <value>Lägg till behörighet till konto</value>
   </data>
   <data name="Add Permission to Role" xml:space="preserve">
-    <value></value>
+    <value>Lägg till behörighet till roll</value>
   </data>
   <data name="Add Role" xml:space="preserve">
-    <value></value>
+    <value>Lägg till roll</value>
   </data>
   <data name="Add Role to Account" xml:space="preserve">
-    <value></value>
+    <value>Lägg till roll till konto</value>
   </data>
   <data name="Admin" xml:space="preserve">
-    <value></value>
+    <value>Administratör</value>
   </data>
   <data name="ALL" xml:space="preserve">
-    <value></value>
+    <value>ALLA</value>
   </data>
   <data name="All changes that have been made to the attached file." xml:space="preserve">
-    <value></value>
+    <value>Alla ändringar som har gjorts i bifogad fil.</value>
   </data>
   <data name="All changes that have been made to the page." xml:space="preserve">
-    <value></value>
+    <value>Alla ändringar som har gjorts på sidan.</value>
   </data>
   <data name="All comments made on the given page." xml:space="preserve">
-    <value></value>
+    <value>Alla kommentarer som gjorts på den angivna sidan.</value>
   </data>
   <data name="All namespaces contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Alla namnrymder som finns i wikin.</value>
   </data>
   <data name="All pages contained in the namespace." xml:space="preserve">
-    <value></value>
+    <value>Alla sidor i namnrymden.</value>
   </data>
   <data name="All pages contained in the wiki." xml:space="preserve">
-    <value></value>
+    <value>Alla sidor i wikin.</value>
   </data>
   <data name="Already a member?" xml:space="preserve">
-    <value></value>
+    <value>Redan medlem?</value>
   </data>
   <data name="An error occurred while processing your request." xml:space="preserve">
-    <value></value>
+    <value>Ett fel uppstod vid behandlingen av din begäran.</value>
   </data>
   <data name="Analysis" xml:space="preserve">
-    <value></value>
+    <value>Analyser</value>
   </data>
   <data name="Are you sure you want to continue with this deletion?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill fortsätta med denna radering?</value>
   </data>
   <data name="Are you sure you want to continue?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill fortsätta?</value>
   </data>
   <data name="Are you sure you want to delete this comment?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill radera den här kommentaren?</value>
   </data>
   <data name="Are you sure you want to detach" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill koppla bort</value>
   </data>
   <data name="Are you sure you want to log out of the application?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill logga ut från applikationen?</value>
   </data>
   <data name="Are you sure?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker?</value>
   </data>
   <data name="Associate your {0} account." xml:space="preserve">
-    <value></value>
+    <value>Associatera ditt {0} konto.</value>
   </data>
   <data name="Associated Pages" xml:space="preserve">
-    <value></value>
+    <value>Associerade sidor</value>
   </data>
   <data name="Associated Tags" xml:space="preserve">
-    <value></value>
+    <value>Associerade taggar</value>
   </data>
   <data name="Attach files by dropping them here or by manually selecting them below:" xml:space="preserve">
-    <value></value>
+    <value>Fäst filer genom att dra dem hit eller genom att manuellt välja dem nedan:</value>
   </data>
   <data name="Attachments" xml:space="preserve">
-    <value></value>
+    <value>Bilagor</value>
   </data>
   <data name="Authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Authenticator-appen</value>
   </data>
   <data name="Available Languages" xml:space="preserve">
-    <value></value>
+    <value>Tillgängliga språk</value>
   </data>
   <data name="Avatar" xml:space="preserve">
-    <value></value>
+    <value>Avatar</value>
   </data>
   <data name="Bind failed." xml:space="preserve">
-    <value></value>
+    <value>Bindning misslyckades.</value>
   </data>
   <data name="Bind succeeded." xml:space="preserve">
-    <value></value>
+    <value>Bindning lyckades.</value>
   </data>
   <data name="Biography" xml:space="preserve">
-    <value></value>
+    <value>Biografi</value>
   </data>
   <data name="Bold" xml:space="preserve">
-    <value></value>
+    <value>Fetstil</value>
   </data>
   <data name="Browse pages marked with various processing instructions to see what is in draft, pending deletion, protected, etc." xml:space="preserve">
-    <value></value>
+    <value>Bläddra bland sidor märkta med olika bearbetningsinstruktioner för att se vad som är utkastat, väntar på radering, skyddat, etc.</value>
   </data>
   <data name="Built-in Pages" xml:space="preserve">
-    <value></value>
+    <value>Inbyggda sidor</value>
   </data>
   <data name="Cache" xml:space="preserve">
-    <value></value>
+    <value>Cache</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>Avbryt</value>
   </data>
   <data name="Categories" xml:space="preserve">
-    <value></value>
+    <value>Kategorier</value>
   </data>
   <data name="Change Avatar" xml:space="preserve">
-    <value></value>
+    <value>Ändra avatar</value>
   </data>
   <data name="Change email" xml:space="preserve">
-    <value></value>
+    <value>Ändra e-post</value>
   </data>
   <data name="Change Image" xml:space="preserve">
-    <value></value>
+    <value>Ändra bild</value>
   </data>
   <data name="Change password" xml:space="preserve">
-    <value></value>
+    <value>Ändra lösenord</value>
   </data>
   <data name="Change Summary" xml:space="preserve">
-    <value></value>
+    <value>Ändringssammanfattning</value>
   </data>
   <data name="Change your account settings" xml:space="preserve">
-    <value></value>
+    <value>Ändra dina kontoinställningar</value>
   </data>
   <data name="Choose a page" xml:space="preserve">
-    <value></value>
+    <value>Välj en sida</value>
   </data>
   <data name="Choose Image" xml:space="preserve">
-    <value></value>
+    <value>Välj bild</value>
   </data>
   <data name="Choose template" xml:space="preserve">
-    <value></value>
+    <value>Välj mall</value>
   </data>
   <data name="Choose your preferred language for the interface." xml:space="preserve">
-    <value></value>
+    <value>Välj ditt föredragna språk för gränssnittet.</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value></value>
+    <value>Stäng</value>
   </data>
   <data name="Comma-separated categories" xml:space="preserve">
-    <value></value>
+    <value>Komma-separerade kategorier</value>
   </data>
   <data name="Comments" xml:space="preserve">
-    <value></value>
+    <value>Kommentarer</value>
   </data>
   <data name="Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Sammanställningsstatistik</value>
   </data>
   <data name="Compilations" xml:space="preserve">
-    <value></value>
+    <value>Sammanställningar</value>
   </data>
   <data name="Complete Signup" xml:space="preserve">
-    <value></value>
+    <value>Fullständig registrering</value>
   </data>
   <data name="Configuration" xml:space="preserve">
-    <value></value>
+    <value>Konfiguration</value>
   </data>
   <data name="Configuration for an emoji." xml:space="preserve">
-    <value></value>
+    <value>Konfiguration för en emoji.</value>
   </data>
   <data name="Configuration for user account." xml:space="preserve">
-    <value></value>
+    <value>Konfiguration för användarkonto.</value>
   </data>
   <data name="Configuration to add an emoji." xml:space="preserve">
-    <value></value>
+    <value>Konfiguration för att lägga till en emoji.</value>
   </data>
   <data name="Configure authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Konfigurera autentiseringsapp</value>
   </data>
   <data name="Confirm email change" xml:space="preserve">
-    <value></value>
+    <value>Bekräfta e-poständring</value>
   </data>
   <data name="Confirm logout" xml:space="preserve">
-    <value></value>
+    <value>Bekräfta utloggning</value>
   </data>
   <data name="Confirm Password" xml:space="preserve">
-    <value></value>
+    <value>Bekräfta lösenord</value>
   </data>
   <data name="Confirm your email address." xml:space="preserve">
-    <value></value>
+    <value>Bekräfta din e-postadress.</value>
   </data>
   <data name="Confirmation link to change email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Bekräftelselänk för att ändra e-post skickad. Vänligen kontrollera din e-post.</value>
   </data>
   <data name="Confirmed" xml:space="preserve">
-    <value></value>
+    <value>Bekräftad</value>
   </data>
   <data name="Content" xml:space="preserve">
-    <value></value>
+    <value>Innehåll</value>
   </data>
   <data name="Continue" xml:space="preserve">
-    <value></value>
+    <value>Fortsätt</value>
   </data>
   <data name="Copy Tag" xml:space="preserve">
-    <value></value>
+    <value>Kopiera Tagg</value>
   </data>
   <data name="Country" xml:space="preserve">
-    <value></value>
+    <value>Land</value>
   </data>
   <data name="Create a new account" xml:space="preserve">
-    <value></value>
+    <value>Skapa ett nytt konto</value>
   </data>
   <data name="Create new page" xml:space="preserve">
-    <value></value>
+    <value>Skapa en ny sida</value>
   </data>
   <data name="Create new role." xml:space="preserve">
-    <value></value>
+    <value>Skapa en ny roll.</value>
   </data>
   <data name="Create new user account." xml:space="preserve">
-    <value></value>
+    <value>Skapa ett nytt användarkonto.</value>
   </data>
   <data name="Create your account and configure your basic profile details." xml:space="preserve">
-    <value></value>
+    <value>Skapa ditt konto och konfigurera dina grundläggande profiluppgifter.</value>
   </data>
   <data name="Created Date" xml:space="preserve">
-    <value></value>
+    <value>Skapad datum</value>
   </data>
   <data name="Credentials" xml:space="preserve">
-    <value></value>
+    <value>Behörigheter</value>
   </data>
   <data name="Current admin login" xml:space="preserve">
-    <value></value>
+    <value>Nuvarande administratörsinloggning</value>
   </data>
   <data name="Database" xml:space="preserve">
-    <value></value>
+    <value>Databas</value>
   </data>
   <data name="Database Utilities" xml:space="preserve">
-    <value></value>
+    <value>Databasverktyg</value>
   </data>
   <data name="Date/Time" xml:space="preserve">
-    <value></value>
+    <value>Datum/Tid</value>
   </data>
   <data name="Default password has not been changed" xml:space="preserve">
-    <value></value>
+    <value>Standardslösenordet har inte ändrats</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value></value>
+    <value>Ta bort</value>
   </data>
   <data name="Delete Account" xml:space="preserve">
-    <value></value>
+    <value>Ta bort Konto</value>
   </data>
   <data name="Delete page '{0}'?" xml:space="preserve">
-    <value></value>
+    <value>Ta bort sidan '{0}'?</value>
   </data>
   <data name="Delete Role" xml:space="preserve">
-    <value></value>
+    <value>Ta bort Roll</value>
   </data>
   <data name="Delete this page" xml:space="preserve">
-    <value></value>
+    <value>Ta bort denna sida</value>
   </data>
   <data name="Deleted By" xml:space="preserve">
-    <value></value>
+    <value>Borttagen av</value>
   </data>
   <data name="Deleted Date" xml:space="preserve">
-    <value></value>
+    <value>Borttagningsdatum</value>
   </data>
   <data name="Deleted Page Content" xml:space="preserve">
-    <value></value>
+    <value>Innehåll på borttagen sida</value>
   </data>
   <data name="Deleted Page Queue" xml:space="preserve">
-    <value></value>
+    <value>Borttagningskö för sidor</value>
   </data>
   <data name="Deleted Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Revisionshistorik för borttagen sida</value>
   </data>
   <data name="Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Borttagna sidor</value>
   </data>
   <data name="Deleted Revision Content" xml:space="preserve">
-    <value></value>
+    <value>Innehåll i borttagen revision</value>
   </data>
   <data name="Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Borttagna revisioner</value>
   </data>
   <data name="Deleting '{0}' will move the page, all {1} revisions and associated file attachments to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att ta bort '{0}' kommer att flytta sidan, alla {1} revisioner och tillhörande filbilagor till raderingskön. Denna åtgärd kan endast ångras av en administratör eller moderator. Fortsätt?</value>
   </data>
   <data name="Deleting '{0}' will move the page, with all {1} revisions and {2} file attachments to the deletion queue." xml:space="preserve">
-    <value></value>
+    <value>Att ta bort '{0}' kommer att flytta sidan, med alla {1} revisioner och {2} filbilagor till raderingskön.</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att ta bort '{0}' kommer att permanent radera kontot. Alla sidor som skapats eller ändrats av denna användare kommer att tilldelas ett tillfälligt konto och du kan inte ångra denna åtgärd. Fortsätt?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the account. All pages created or modified by this user will be attributed to a stand-in account. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att ta bort '{0}' kommer att permanent radera kontot. Alla sidor som skapats eller ändrats av denna användare kommer att tilldelas ett tillfälligt konto. Fortsätt?</value>
   </data>
   <data name="Deleting '{0}' will permanently remove the menu item and you will not be able to revert this action. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att ta bort '{0}' kommer att permanent radera menyobjektet och du kan inte ångra denna åtgärd. Fortsätt?</value>
   </data>
   <data name="Deleting revision {0} of &quot;{1}&quot; will move the page revision to the deletion queue. This action can only be undone by an administrator or moderator. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att ta bort revision {0} av "{1}" kommer att flytta sidrevisionen till raderingskön. Denna åtgärd kan endast ångras av en administratör eller moderator. Fortsätt?</value>
   </data>
   <data name="Deleting the emoji '{0}' will permanently remove the image and any references to it will be orphaned. You will not be able to revert this deletion. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att radera emoji '{0}' kommer permanent att ta bort bilden och alla hänvisningar till den kommer att bli föräldralösa. Kan du fortsätta?</value>
   </data>
   <data name="Deleting the role '{0}' will revoke any permissions granted or denied by that role. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att radera rollen '{0}' kommer att återkalla alla behörigheter som tilldelats eller nekats av den rollen. Kan du fortsätta?</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value></value>
+    <value>Beskrivning</value>
   </data>
   <data name="Detach" xml:space="preserve">
-    <value></value>
+    <value>Dela av</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value></value>
+    <value>Detaljer</value>
   </data>
   <data name="Development Mode" xml:space="preserve">
-    <value></value>
+    <value>Utvecklingsläge</value>
   </data>
   <data name="Differences" xml:space="preserve">
-    <value></value>
+    <value>Skillnader</value>
   </data>
   <data name="Disable 2FA" xml:space="preserve">
-    <value></value>
+    <value>Inaktivera 2FA</value>
   </data>
   <data name="Disable two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Inaktivera tvåfaktorautentisering (2FA)</value>
   </data>
   <data name="Disabling 2FA does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Inaktivering av 2FA ändrar inte nycklarna som används i authenticator-appar.</value>
   </data>
   <data name="Discussion for this page." xml:space="preserve">
-    <value></value>
+    <value>Diskussion för denna sida.</value>
   </data>
   <data name="Display Name" xml:space="preserve">
-    <value></value>
+    <value>Visningsnamn</value>
   </data>
   <data name="Disposition" xml:space="preserve">
-    <value></value>
+    <value>Disposition</value>
   </data>
   <data name="Distinguished Name:" xml:space="preserve">
-    <value></value>
+    <value>Främtriktad namn:</value>
   </data>
   <data name="Don't have access to your authenticator device?" xml:space="preserve">
-    <value></value>
+    <value>Har du inte tillgång till din authenticator-enhet?</value>
   </data>
   <data name="Download a two-factor authenticator app like Microsoft Authenticator for {0} and {1} or Google Authenticator for {2} and {3}." xml:space="preserve">
-    <value></value>
+    <value>Ladda ner en tvåfaktor-autentiseringsapp som Microsoft Authenticator för {0} och {1} eller Google Authenticator för {2} och {3}.</value>
   </data>
   <data name="Drop file attachments here or click to upload manually." xml:space="preserve">
-    <value></value>
+    <value>Lägg filer här eller klicka för att ladda upp manuellt.</value>
   </data>
   <data name="Drop files here..." xml:space="preserve">
-    <value></value>
+    <value>Lägg filer här...</value>
   </data>
   <data name="Duration" xml:space="preserve">
-    <value></value>
+    <value>Varaktighet</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value></value>
+    <value>Redigera</value>
   </data>
   <data name="Editor Size" xml:space="preserve">
-    <value></value>
+    <value>Redigerarstorlek</value>
   </data>
   <data name="Either the deleted pages queue is empty or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Antingen är kön för raderade sidor tom eller så gav din sökning inga resultat.</value>
   </data>
   <data name="Either there are no accounts configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Antingen är inga konton konfigurerade eller så gav din sökning inga resultat.</value>
   </data>
   <data name="Either there are no emojis configured or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Antingen är inga emojis konfigurerade eller så gav din sökning inga resultat.</value>
   </data>
   <data name="Either there are no pages or your search criteria returned no results." xml:space="preserve">
-    <value></value>
+    <value>Antingen finns det inga sidor eller så gav din sökning inga resultat.</value>
   </data>
   <data name="Email" xml:space="preserve">
-    <value></value>
+    <value>Email</value>
   </data>
   <data name="Email Address" xml:space="preserve">
-    <value></value>
+    <value>E-postadress</value>
   </data>
   <data name="Email Confirmed?" xml:space="preserve">
-    <value></value>
+    <value>E-postbekräftad?</value>
   </data>
   <data name="Emoji" xml:space="preserve">
-    <value></value>
+    <value>Emoji</value>
   </data>
   <data name="Emoji Editor" xml:space="preserve">
-    <value></value>
+    <value>Emoji-redigerare</value>
   </data>
   <data name="Emoji Management" xml:space="preserve">
-    <value></value>
+    <value>Emoji-hantering</value>
   </data>
   <data name="Emojis" xml:space="preserve">
-    <value></value>
+    <value>Emojis</value>
   </data>
   <data name="Enter a URL." xml:space="preserve">
-    <value></value>
+    <value>Ange en URL.</value>
   </data>
   <data name="Enter an internal path or external URL." xml:space="preserve">
-    <value></value>
+    <value>Ange en intern sökväg eller extern URL.</value>
   </data>
   <data name="Enter your email." xml:space="preserve">
-    <value></value>
+    <value>Ange din e-post.</value>
   </data>
   <data name="Environment" xml:space="preserve">
-    <value></value>
+    <value>Miljö</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value></value>
+    <value>Fel</value>
   </data>
   <data name="Error copying text" xml:space="preserve">
-    <value></value>
+    <value>Fel vid kopiering av text</value>
   </data>
   <data name="Errors" xml:space="preserve">
-    <value></value>
+    <value>Fel</value>
   </data>
   <data name="Event Log" xml:space="preserve">
-    <value></value>
+    <value>Händelselogg</value>
   </data>
   <data name="Event Log Entry" xml:space="preserve">
-    <value></value>
+    <value>Händelseloggpost</value>
   </data>
   <data name="Exception" xml:space="preserve">
-    <value></value>
+    <value>Undantag</value>
   </data>
   <data name="Exceptions" xml:space="preserve">
-    <value></value>
+    <value>Undantag</value>
   </data>
   <data name="Export" xml:space="preserve">
-    <value></value>
+    <value>Exportera</value>
   </data>
   <data name="External logins" xml:space="preserve">
-    <value></value>
+    <value>Extern inloggning</value>
   </data>
   <data name="External URL" xml:space="preserve">
-    <value></value>
+    <value>Extern URL</value>
   </data>
   <data name="Extra Large" xml:space="preserve">
-    <value></value>
+    <value>Extra Stor</value>
   </data>
   <data name="Extra Small" xml:space="preserve">
-    <value></value>
+    <value>Extra Liten</value>
   </data>
   <data name="Failed to load preview." xml:space="preserve">
-    <value></value>
+    <value>Misslyckades med att ladda förhandsgranskning.</value>
   </data>
   <data name="Feature Templates" xml:space="preserve">
-    <value></value>
+    <value>Funktionmallar</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value></value>
+    <value>Fil</value>
   </data>
   <data name="Filter" xml:space="preserve">
-    <value></value>
+    <value>Filtrera</value>
   </data>
   <data name="First Name" xml:space="preserve">
-    <value></value>
+    <value>Förnamn</value>
   </data>
   <data name="Flushing the memory cache will cause any cached items to be dropped and require database hits as pages are requested. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att rensa cacheminnet kommer att orsaka att alla cacheade objekt tas bort och att databasanslutningar krävs när sidor begärs. Vill du fortsätta?</value>
   </data>
   <data name="Forget this browser" xml:space="preserve">
-    <value></value>
+    <value>Glöm den här webbläsaren</value>
   </data>
   <data name="Forgot password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Bekräftelse av glömt lösenord</value>
   </data>
   <data name="Forgot your password?" xml:space="preserve">
-    <value></value>
+    <value>Glömde du ditt lösenord?</value>
   </data>
   <data name="Framework Version" xml:space="preserve">
-    <value></value>
+    <value>Ramverksversion</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value></value>
+    <value>Allmänt</value>
   </data>
   <data name="Generate Recovery Codes" xml:space="preserve">
-    <value></value>
+    <value>Generera återställningskoder</value>
   </data>
   <data name="Generate two-factor authentication (2FA) recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Generera tvåfaktorsautentisering (2FA) återställningskoder</value>
   </data>
   <data name="Generating new recovery codes does not change the keys used in authenticator apps." xml:space="preserve">
-    <value></value>
+    <value>Att generera nya återställningskoder ändrar inte nycklarna som används i autentiseringsappar.</value>
   </data>
   <data name="Gets" xml:space="preserve">
-    <value></value>
+    <value>Hämtar</value>
   </data>
   <data name="Global configuration for Emojis." xml:space="preserve">
-    <value></value>
+    <value>Globala inställningar för emojis.</value>
   </data>
   <data name="Global configuration for security roles and membership." xml:space="preserve">
-    <value></value>
+    <value>Globala inställningar för säkerhetsroller och medlemskap.</value>
   </data>
   <data name="Global configuration for the site menu item." xml:space="preserve">
-    <value></value>
+    <value>Globala inställningar för webbplatsens menyitem.</value>
   </data>
   <data name="Global configuration for the site menu." xml:space="preserve">
-    <value></value>
+    <value>Globala inställningar för webbplatsens meny.</value>
   </data>
   <data name="Global configuration for user accounts." xml:space="preserve">
-    <value></value>
+    <value>Globala inställningar för användarkonton.</value>
   </data>
   <data name="Global configuration values for the wiki, its functionality, behavior, formatting and branding." xml:space="preserve">
-    <value></value>
+    <value>Globala konfigurationsvärden för wiki, dess funktionalitet, beteende, formatering och branding.</value>
   </data>
   <data name="Hello {0}!" xml:space="preserve">
-    <value></value>
+    <value>Hej {0}!</value>
   </data>
   <data name="Highlight" xml:space="preserve">
-    <value></value>
+    <value>Markera</value>
   </data>
   <data name="Hits" xml:space="preserve">
-    <value></value>
+    <value>Besök</value>
   </data>
   <data name="Huge" xml:space="preserve">
-    <value></value>
+    <value>Enorm</value>
   </data>
   <data name="Hyperlink" xml:space="preserve">
-    <value></value>
+    <value>Hyperlänk</value>
   </data>
   <data name="Id" xml:space="preserve">
-    <value></value>
+    <value>Id</value>
   </data>
   <data name="If it's here, you should be able to find it." xml:space="preserve">
-    <value></value>
+    <value>Om det finns här, bör du kunna hitta det.</value>
   </data>
   <data name="If you lose your device and don't have the recovery codes you will lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Om du förlorar din enhet och inte har återställningskoderna kommer du att förlora tillgången till ditt konto.</value>
   </data>
   <data name="If you reset your authenticator key your authenticator app will not work until you reconfigure it." xml:space="preserve">
-    <value></value>
+    <value>Om du återställer din authenticator-nyckel kommer din authenticator-app inte att fungera förrän du konfigurera om den.</value>
   </data>
   <data name="If you wish to change the key used in an authenticator app you should reset your authenticator keys." xml:space="preserve">
-    <value></value>
+    <value>Om du vill byta nyckeln som används i en authenticator-app bör du återställa dina authenticator-nycklar.</value>
   </data>
   <data name="Image" xml:space="preserve">
-    <value></value>
+    <value>Bild</value>
   </data>
   <data name="Include Pages" xml:space="preserve">
-    <value></value>
+    <value>Inkludera Sidor</value>
   </data>
   <data name="Info1" xml:space="preserve">
-    <value></value>
+    <value>Info1</value>
   </data>
   <data name="Info2" xml:space="preserve">
-    <value></value>
+    <value>Info2</value>
   </data>
   <data name="Insert" xml:space="preserve">
-    <value></value>
+    <value>Sätt in</value>
   </data>
   <data name="Insert Emoji" xml:space="preserve">
-    <value></value>
+    <value>Sätt in Emoji</value>
   </data>
   <data name="Inter-Page Links" xml:space="preserve">
-    <value></value>
+    <value>Inter-sid länkar</value>
   </data>
   <data name="It can result in displaying sensitive information from exceptions to end users." xml:space="preserve">
-    <value></value>
+    <value>Det kan resultera i att känslig information visas från undantag till slutanvändare.</value>
   </data>
   <data name="Italic" xml:space="preserve">
-    <value></value>
+    <value>Italic</value>
   </data>
   <data name="Items" xml:space="preserve">
-    <value></value>
+    <value>Objekt</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value></value>
+    <value>Språk</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value></value>
+    <value>Språk</value>
   </data>
   <data name="Large" xml:space="preserve">
-    <value></value>
+    <value>Stor</value>
   </data>
   <data name="Last modified by" xml:space="preserve">
-    <value></value>
+    <value>Sist ändrad av</value>
   </data>
   <data name="Last Name" xml:space="preserve">
-    <value></value>
+    <value>Efternamn</value>
   </data>
   <data name="Leave a Comment" xml:space="preserve">
-    <value></value>
+    <value>Lämna en kommentar</value>
   </data>
   <data name="Limit(MB)" xml:space="preserve">
-    <value></value>
+    <value>Gräns (MB)</value>
   </data>
   <data name="Link Text (Optional)" xml:space="preserve">
-    <value></value>
+    <value>Länktitel (Valfritt)</value>
   </data>
   <data name="Link Type" xml:space="preserve">
-    <value></value>
+    <value>Länktyp</value>
   </data>
   <data name="Links" xml:space="preserve">
-    <value></value>
+    <value>Länkar</value>
   </data>
   <data name="Loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Förhandsgranskning laddas...</value>
   </data>
   <data name="Locked out" xml:space="preserve">
-    <value></value>
+    <value>Inlåst</value>
   </data>
   <data name="Log Entries" xml:space="preserve">
-    <value></value>
+    <value>Loggposter</value>
   </data>
   <data name="Log Entry Details" xml:space="preserve">
-    <value></value>
+    <value>Detaljer för loggpost</value>
   </data>
   <data name="Log in" xml:space="preserve">
-    <value></value>
+    <value>Logga in</value>
   </data>
   <data name="Log in using your {0} account" xml:space="preserve">
-    <value></value>
+    <value>Logga in med ditt {0} konto</value>
   </data>
   <data name="Logged out" xml:space="preserve">
-    <value></value>
+    <value>Loggad ut</value>
   </data>
   <data name="Logging out will make sure that others can't use this session to make changes to the wiki. You'll need to log back in before making changes." xml:space="preserve">
-    <value></value>
+    <value>Logg ut ger andra möjlighet att använda den här sessionen för att göra ändringar i wikin. Du måste logga in igen innan du gör några ändringar.</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value></value>
+    <value>Logga in</value>
   </data>
   <data name="Login to leave a comment" xml:space="preserve">
-    <value></value>
+    <value>Logga in för att lämna en kommentar</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value></value>
+    <value>Logga ut</value>
   </data>
   <data name="Lower numbers appear first." xml:space="preserve">
-    <value></value>
+    <value>Lägre nummer visas först.</value>
   </data>
   <data name="Manage Email" xml:space="preserve">
-    <value></value>
+    <value>Hantera E-post</value>
   </data>
   <data name="Manage your account" xml:space="preserve">
-    <value></value>
+    <value>Hantera ditt konto</value>
   </data>
   <data name="Manage your external logins" xml:space="preserve">
-    <value></value>
+    <value>Hantera dina externa inloggningar</value>
   </data>
   <data name="Matches" xml:space="preserve">
-    <value></value>
+    <value>Matchningar</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value></value>
+    <value>Medel</value>
   </data>
   <data name="Menu Configuration" xml:space="preserve">
-    <value></value>
+    <value>Menykonfiguration</value>
   </data>
   <data name="Menu Item Editor" xml:space="preserve">
-    <value></value>
+    <value>Redigerare för menypunkt</value>
   </data>
   <data name="Metrics" xml:space="preserve">
-    <value></value>
+    <value>Mätvärden</value>
   </data>
   <data name="Misses" xml:space="preserve">
-    <value></value>
+    <value>Missar</value>
   </data>
   <data name="Missing Pages" xml:space="preserve">
-    <value></value>
+    <value>Saknade sidor</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value></value>
+    <value>Moderat</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value></value>
+    <value>Ändrad</value>
   </data>
   <data name="Modified By" xml:space="preserve">
-    <value></value>
+    <value>Ändrad av</value>
   </data>
   <data name="Modified Date" xml:space="preserve">
-    <value></value>
+    <value>Ändringsdatum</value>
   </data>
   <data name="My" xml:space="preserve">
-    <value></value>
+    <value>Mitt</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value></value>
+    <value>Namn</value>
   </data>
   <data name="Namespace" xml:space="preserve">
-    <value></value>
+    <value>Namnsrum</value>
   </data>
   <data name="Namespaces" xml:space="preserve">
-    <value></value>
+    <value>Namnsrum</value>
   </data>
   <data name="New Account" xml:space="preserve">
-    <value></value>
+    <value>Ny Konto</value>
   </data>
   <data name="New Emoji" xml:space="preserve">
-    <value></value>
+    <value>Ny Emoji</value>
   </data>
   <data name="New Role" xml:space="preserve">
-    <value></value>
+    <value>Ny Roll</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value></value>
+    <value>Nästa</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value></value>
+    <value>Nej</value>
   </data>
   <data name="No avatar uploaded." xml:space="preserve">
-    <value></value>
+    <value>Inga avatar uppladdad.</value>
   </data>
   <data name="No database information is available." xml:space="preserve">
-    <value></value>
+    <value>Ingen databasinformation är tillgänglig.</value>
   </data>
   <data name="No image selected." xml:space="preserve">
-    <value></value>
+    <value>Ingen bild vald.</value>
   </data>
   <data name="No image uploaded." xml:space="preserve">
-    <value></value>
+    <value>Ingen bild uppladdad.</value>
   </data>
   <data name="Not a member?" xml:space="preserve">
-    <value></value>
+    <value>Inte medlem?</value>
   </data>
   <data name="not required" xml:space="preserve">
-    <value></value>
+    <value>inte krävs</value>
   </data>
   <data name="Once you have scanned the QR code or input the key above, your two factor authentication app will provide you with a unique code. Enter the code in the confirmation box below." xml:space="preserve">
-    <value></value>
+    <value>När du har skannat QR-koden eller matat in nyckeln ovan, kommer din tvåfaktorsautentiseringsapp att ge dig en unik kod. Ange koden i bekräftelsefältet nedan.</value>
   </data>
   <data name="Operating System" xml:space="preserve">
-    <value></value>
+    <value>Operativsystem</value>
   </data>
   <data name="Optimize" xml:space="preserve">
-    <value></value>
+    <value>Optimera</value>
   </data>
   <data name="Optional" xml:space="preserve">
-    <value></value>
+    <value>Valfri</value>
   </data>
   <data name="Ordinal" xml:space="preserve">
-    <value></value>
+    <value>Ordinal</value>
   </data>
   <data name="Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Föräldralösa bilagor</value>
   </data>
   <data name="Orphaned Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Föräldralösa sidbilagor</value>
   </data>
   <data name="OS Architecture" xml:space="preserve">
-    <value></value>
+    <value>OS-arkitektur</value>
   </data>
   <data name="Page" xml:space="preserve">
-    <value></value>
+    <value>Sida</value>
   </data>
   <data name="Page Administration" xml:space="preserve">
-    <value></value>
+    <value>Sidhantering</value>
   </data>
   <data name="Page Attachment Revisions" xml:space="preserve">
-    <value></value>
+    <value>Redigering av sidbilagor</value>
   </data>
   <data name="Page Attachments" xml:space="preserve">
-    <value></value>
+    <value>Sidbilagor</value>
   </data>
   <data name="Page File Revisions" xml:space="preserve">
-    <value></value>
+    <value>Redigering av sidfil</value>
   </data>
   <data name="Page Moderate" xml:space="preserve">
-    <value></value>
+    <value>Sid Modera</value>
   </data>
   <data name="Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Sidredigeringar</value>
   </data>
   <data name="Page revisions that have been deleted for the given page. These can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Sidredigeringar som har raderats för den aktuella sidan. Dessa kan raderas permanent eller återställas.</value>
   </data>
   <data name="Page Search" xml:space="preserve">
-    <value></value>
+    <value>Sök på sidan</value>
   </data>
   <data name="Page Search Tokens" xml:space="preserve">
-    <value></value>
+    <value>Söknyckelord på sidan</value>
   </data>
   <data name="Page Tags" xml:space="preserve">
-    <value></value>
+    <value>Sidtaggar</value>
   </data>
   <data name="Pages" xml:space="preserve">
-    <value></value>
+    <value>Sidor</value>
   </data>
   <data name="Pages that have been deleted. Can be purged or restored." xml:space="preserve">
-    <value></value>
+    <value>Sidor som har raderats. Kan raderas permanent eller återställas.</value>
   </data>
   <data name="Pages that have been linked to, but do not exist." xml:space="preserve">
-    <value></value>
+    <value>Sidor som har länkat till, men som inte finns.</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value></value>
+    <value>Lösenord</value>
   </data>
   <data name="Permission" xml:space="preserve">
-    <value></value>
+    <value>Tillstånd</value>
   </data>
   <data name="Permissions and Roles" xml:space="preserve">
-    <value></value>
+    <value>Behörigheter och Roller</value>
   </data>
   <data name="Please check your email to confirm your account." xml:space="preserve">
-    <value></value>
+    <value>Vänligen kontrollera din e-post för att bekräfta ditt konto.</value>
   </data>
   <data name="Please check your email to reset your password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen kontrollera din e-post för att återställa ditt lösenord.</value>
   </data>
   <data name="Please click here to log in" xml:space="preserve">
-    <value></value>
+    <value>Vänligen klicka här för att logga in</value>
   </data>
   <data name="Please confirm your new password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen bekräfta ditt nya lösenord.</value>
   </data>
   <data name="Please confirm your password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen bekräfta ditt lösenord.</value>
   </data>
   <data name="Please enter both username and password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen ange både användarnamn och lösenord.</value>
   </data>
   <data name="Please enter new email." xml:space="preserve">
-    <value></value>
+    <value>Vänligen ange ny e-post</value>
   </data>
   <data name="Please enter the code." xml:space="preserve">
-    <value></value>
+    <value>Vänligen ange koden.</value>
   </data>
   <data name="Please enter your email." xml:space="preserve">
-    <value></value>
+    <value>Vänligen skriv in din e-postadress.</value>
   </data>
   <data name="Please enter your new password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen ange ditt nya lösenord.</value>
   </data>
   <data name="Please enter your old password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen ange ditt gamla lösenord.</value>
   </data>
   <data name="Please enter your password." xml:space="preserve">
-    <value></value>
+    <value>Vänligen ange ditt lösenord.</value>
   </data>
   <data name="Please wait, loading preview..." xml:space="preserve">
-    <value></value>
+    <value>Vänligen vänta, laddar förhandsgranskning...</value>
   </data>
   <data name="Post" xml:space="preserve">
-    <value></value>
+    <value>Inlägg</value>
   </data>
   <data name="Pre-Cache All Pages" xml:space="preserve">
-    <value></value>
+    <value>För-cacha alla sidor</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value></value>
+    <value>Förhandsgranskning</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value></value>
+    <value>Föregående</value>
   </data>
   <data name="Privacy and cookie policy have not been accepted." xml:space="preserve">
-    <value></value>
+    <value>Integritets- och cookiepolicy har inte godkänts.</value>
   </data>
   <data name="Process Architecture" xml:space="preserve">
-    <value></value>
+    <value>Processarkitektur</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value></value>
+    <value>Profil</value>
   </data>
   <data name="Profile Details" xml:space="preserve">
-    <value></value>
+    <value>Profiluppgifter</value>
   </data>
   <data name="Profile Settings" xml:space="preserve">
-    <value></value>
+    <value>Profilinställningar</value>
   </data>
   <data name="Profiles" xml:space="preserve">
-    <value></value>
+    <value>Profiler</value>
   </data>
   <data name="Public profile information." xml:space="preserve">
-    <value></value>
+    <value>Offentlig profilinformation.</value>
   </data>
   <data name="Purge" xml:space="preserve">
-    <value></value>
+    <value>Rensa</value>
   </data>
   <data name="Purge Compilation Statistics" xml:space="preserve">
-    <value></value>
+    <value>Rensa sammansättningsstatistik</value>
   </data>
   <data name="Purge Deleted Pages" xml:space="preserve">
-    <value></value>
+    <value>Rensa borttagna sidor</value>
   </data>
   <data name="Purge Deleted Revisions" xml:space="preserve">
-    <value></value>
+    <value>Rensa borttagna revideringar</value>
   </data>
   <data name="Purge Event Log" xml:space="preserve">
-    <value></value>
+    <value>Rensa logg för händelser</value>
   </data>
   <data name="Purge Memory Cache" xml:space="preserve">
-    <value></value>
+    <value>Rensa minnescache</value>
   </data>
   <data name="Purge Orphaned Attachments" xml:space="preserve">
-    <value></value>
+    <value>Rensa föräldralösa bilagor</value>
   </data>
   <data name="Purging the page compilation statistics will delete all of the stored compilation statistics for all pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att rensa sammansättningsstatistiken för sidan kommer att ta bort all lagrad sammanställningsstatistik för alla sidor. Fortsätta?</value>
   </data>
   <data name="Put these codes in a safe place." xml:space="preserve">
-    <value></value>
+    <value>Sätt dessa koder på en säker plats.</value>
   </data>
   <data name="Puts" xml:space="preserve">
-    <value></value>
+    <value>Inlägg</value>
   </data>
   <data name="Raw Size" xml:space="preserve">
-    <value></value>
+    <value>Råa storleken</value>
   </data>
   <data name="Rebuild All Pages" xml:space="preserve">
-    <value></value>
+    <value>Bygg om alla sidor</value>
   </data>
   <data name="Recently Modified" xml:space="preserve">
-    <value></value>
+    <value>Nyligen ändrad</value>
   </data>
   <data name="Recovery code" xml:space="preserve">
-    <value></value>
+    <value>Återställningskod</value>
   </data>
   <data name="Recovery code verification" xml:space="preserve">
-    <value></value>
+    <value>Verifiering av återställningskod</value>
   </data>
   <data name="Recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Återställningskoder</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value></value>
+    <value>Uppdatera</value>
   </data>
   <data name="Register" xml:space="preserve">
-    <value></value>
+    <value>Registrera</value>
   </data>
   <data name="Register as a new user" xml:space="preserve">
-    <value></value>
+    <value>Registrera dig som ny användare</value>
   </data>
   <data name="Register confirmation" xml:space="preserve">
-    <value></value>
+    <value>Registreringsbekräftelse</value>
   </data>
   <data name="Registered Logins" xml:space="preserve">
-    <value></value>
+    <value>Inloggningar som är registrerade</value>
   </data>
   <data name="Registration is not allowed" xml:space="preserve">
-    <value></value>
+    <value>Registrering är inte tillåten</value>
   </data>
   <data name="Registration is not allowed." xml:space="preserve">
-    <value></value>
+    <value>Registrering är inte tillåten.</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value></value>
+    <value>Ta bort</value>
   </data>
   <data name="Remove this {0} login from your account" xml:space="preserve">
-    <value></value>
+    <value>Ta bort denna {0} inloggning från ditt konto</value>
   </data>
   <data name="Request failed:" xml:space="preserve">
-    <value></value>
+    <value>Begäran misslyckades:</value>
   </data>
   <data name="Request ID" xml:space="preserve">
-    <value></value>
+    <value>Begäran ID</value>
   </data>
   <data name="Required" xml:space="preserve">
-    <value></value>
+    <value>Obligatorisk</value>
   </data>
   <data name="Resend" xml:space="preserve">
-    <value></value>
+    <value>Skicka igen</value>
   </data>
   <data name="Resend email confirmation" xml:space="preserve">
-    <value></value>
+    <value>Skicka om e-postbekräftelsen</value>
   </data>
   <data name="Reset" xml:space="preserve">
-    <value></value>
+    <value>Återställ</value>
   </data>
   <data name="Reset authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Återställ autentiseringsappen</value>
   </data>
   <data name="Reset authenticator key" xml:space="preserve">
-    <value></value>
+    <value>Återställ autentiseringsnyckeln</value>
   </data>
   <data name="Reset it" xml:space="preserve">
-    <value></value>
+    <value>Återställ den</value>
   </data>
   <data name="Reset Password" xml:space="preserve">
-    <value></value>
+    <value>Återställ lösenord</value>
   </data>
   <data name="Reset password confirmation" xml:space="preserve">
-    <value></value>
+    <value>Bekräfta lösenordsåterställning</value>
   </data>
   <data name="Reset recovery codes" xml:space="preserve">
-    <value></value>
+    <value>Återställ återställningskoder</value>
   </data>
   <data name="Reset your password." xml:space="preserve">
-    <value></value>
+    <value>Återställ ditt lösenord.</value>
   </data>
   <data name="Resource" xml:space="preserve">
-    <value></value>
+    <value>Resurs</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value></value>
+    <value>Återställ</value>
   </data>
   <data name="Restore This Page" xml:space="preserve">
-    <value></value>
+    <value>Återställ denna sida</value>
   </data>
   <data name="Restore This Revision" xml:space="preserve">
-    <value></value>
+    <value>Återställ denna version</value>
   </data>
   <data name="Revert" xml:space="preserve">
-    <value></value>
+    <value>Återför</value>
   </data>
   <data name="Revert to revision" xml:space="preserve">
-    <value></value>
+    <value>Återgå till version</value>
   </data>
   <data name="Revert to revision {0}?" xml:space="preserve">
-    <value></value>
+    <value>Återgå till version {0}?</value>
   </data>
   <data name="Reverting &quot;{0}&quot; from revision {1} to {2} will rollback {3} changes." xml:space="preserve">
-    <value></value>
+    <value>Återställning av "{0}" från version {1} till {2} kommer att rulla tillbaka {3} ändringar.</value>
   </data>
   <data name="Reverting {0} from revision {1} to {2} will rollback {3} changes.&lt;br /&gt;Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes.&lt;br /&gt;&lt;br /&gt;Are you sure you want to continue?&lt;br /&gt;&lt;br /&gt;" xml:space="preserve">
-    <value></value>
+    <value>Återställning av {0} från version {1} till {2} kommer att rulla tillbaka {3} ändringar.&lt;br /&gt;Återställning betyder inte att ändringarna kommer att förloras, dock kommer återställningsprocessen att skapa en ny version med de återställda ändringarna.&lt;br /&gt;&lt;br /&gt;Är du säker på att du vill fortsätta?&lt;br /&gt;&lt;br /&gt;</value>
   </data>
   <data name="Reverting does not mean that changes will be lost however, the revert process will create a new revision with the reverted changes." xml:space="preserve">
-    <value></value>
+    <value>Återställning innebär inte att ändringarna förloras, men återställningsprocessen kommer att skapa en ny version med de återställda ändringarna.</value>
   </data>
   <data name="Review the differences between revisions of this page." xml:space="preserve">
-    <value></value>
+    <value>Granska skillnaderna mellan versionerna av den här sidan.</value>
   </data>
   <data name="Revision" xml:space="preserve">
-    <value></value>
+    <value>Version</value>
   </data>
   <data name="Revision Comparison" xml:space="preserve">
-    <value></value>
+    <value>Versionjämförelse</value>
   </data>
   <data name="Revision not found" xml:space="preserve">
-    <value></value>
+    <value>Version ej hittad</value>
   </data>
   <data name="revisions" xml:space="preserve">
-    <value></value>
+    <value>versioner</value>
   </data>
   <data name="Role" xml:space="preserve">
-    <value></value>
+    <value>Roll</value>
   </data>
   <data name="Role Members" xml:space="preserve">
-    <value></value>
+    <value>Rollmedlemmar</value>
   </data>
   <data name="Role membership and permissions." xml:space="preserve">
-    <value></value>
+    <value>Rollmedlemskap och behörigheter.</value>
   </data>
   <data name="Role Permissions" xml:space="preserve">
-    <value></value>
+    <value>Rollbehörigheter</value>
   </data>
   <data name="Role: {0}" xml:space="preserve">
-    <value></value>
+    <value>Roll: {0}</value>
   </data>
   <data name="Roles" xml:space="preserve">
-    <value></value>
+    <value>Roller</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value></value>
+    <value>Spara</value>
   </data>
   <data name="Save the page before uploading files." xml:space="preserve">
-    <value></value>
+    <value>Spara sidan innan du laddar upp filer.</value>
   </data>
   <data name="Scan the QR Code or enter this key &lt;kbd&gt;{0}&lt;/kbd&gt; into your two factor authenticator app. Spaces and casing do not matter." xml:space="preserve">
-    <value></value>
+    <value>Skanna QR-koden eller ange denna nyckel &lt;kbd&gt;{0}&lt;/kbd&gt; i din tvåfaktorsautentiseringsapp. Mellanslag och versaler spelar ingen roll.</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value></value>
+    <value>Sök</value>
   </data>
   <data name="Search accounts..." xml:space="preserve">
-    <value></value>
+    <value>Sök efter konton...</value>
   </data>
   <data name="Search deleted pages..." xml:space="preserve">
-    <value></value>
+    <value>Sök efter raderade sidor...</value>
   </data>
   <data name="Search emojis..." xml:space="preserve">
-    <value></value>
+    <value>Sök efter emojis...</value>
   </data>
   <data name="Search for more emojis." xml:space="preserve">
-    <value></value>
+    <value>Sök efter fler emojis.</value>
   </data>
   <data name="Search pages..." xml:space="preserve">
-    <value></value>
+    <value>Sök efter sidor...</value>
   </data>
   <data name="Search text" xml:space="preserve">
-    <value></value>
+    <value>Sök text</value>
   </data>
   <data name="Security Roles" xml:space="preserve">
-    <value></value>
+    <value>Säkerhetsroller</value>
   </data>
   <data name="Select a country" xml:space="preserve">
-    <value></value>
+    <value>Välj ett land</value>
   </data>
   <data name="Select a language" xml:space="preserve">
-    <value></value>
+    <value>Välj ett språk</value>
   </data>
   <data name="Select a role" xml:space="preserve">
-    <value></value>
+    <value>Välj en roll</value>
   </data>
   <data name="Select a theme" xml:space="preserve">
-    <value></value>
+    <value>Välj ett tema</value>
   </data>
   <data name="Select a time-zone" xml:space="preserve">
-    <value></value>
+    <value>Välj en tidszon</value>
   </data>
   <data name="Select a wiki page." xml:space="preserve">
-    <value></value>
+    <value>Välj en wiki-sida.</value>
   </data>
   <data name="Select an instruction" xml:space="preserve">
-    <value></value>
+    <value>Välj en instruktion</value>
   </data>
   <data name="Send verification email" xml:space="preserve">
-    <value></value>
+    <value>Skicka verifieringsmail</value>
   </data>
   <data name="Server and page event logs" xml:space="preserve">
-    <value></value>
+    <value>Server- och sidhändelselogg</value>
   </data>
   <data name="Set password" xml:space="preserve">
-    <value></value>
+    <value>Sätt lösenord</value>
   </data>
   <data name="Set up authenticator app" xml:space="preserve">
-    <value></value>
+    <value>Ställ in autentiseringsappen</value>
   </data>
   <data name="Set your password" xml:space="preserve">
-    <value></value>
+    <value>Ställ in ditt lösenord</value>
   </data>
   <data name="Severity" xml:space="preserve">
-    <value></value>
+    <value>Allvarlighetsgrad</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value></value>
+    <value>Kortkommando</value>
   </data>
   <data name="Sign in with {0}" xml:space="preserve">
-    <value></value>
+    <value>Logga in med {0}</value>
   </data>
   <data name="Signup" xml:space="preserve">
-    <value></value>
+    <value>Registrera dig</value>
   </data>
   <data name="Signup. Almost there..." xml:space="preserve">
-    <value></value>
+    <value>Registrera dig. Nästan där...</value>
   </data>
   <data name="Site Menu" xml:space="preserve">
-    <value></value>
+    <value>Webbplatsmeny</value>
   </data>
   <data name="Site Menu Item" xml:space="preserve">
-    <value></value>
+    <value>Webbplatsmenyalarm</value>
   </data>
   <data name="Site Menu Items" xml:space="preserve">
-    <value></value>
+    <value>Webbplatsmenyalarm</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value></value>
+    <value>Storlek</value>
   </data>
   <data name="Small" xml:space="preserve">
-    <value></value>
+    <value>Liten</value>
   </data>
   <data name="Source Page" xml:space="preserve">
-    <value></value>
+    <value>Källsida</value>
   </data>
   <data name="Stack Trace" xml:space="preserve">
-    <value></value>
+    <value>Stack Spår</value>
   </data>
   <data name="Strikethrough" xml:space="preserve">
-    <value></value>
+    <value>Genomstrukket</value>
   </data>
   <data name="Summary" xml:space="preserve">
-    <value></value>
+    <value>Sammanfattning</value>
   </data>
   <data name="Swapping to the &lt;strong&gt;Development&lt;/strong&gt; environment displays detailed information about the error that occurred." xml:space="preserve">
-    <value></value>
+    <value>Växling till &lt;strong&gt;Utveckling&lt;/strong&gt;-miljön visar detaljerad information om felet som uppstod.</value>
   </data>
   <data name="System Default" xml:space="preserve">
-    <value></value>
+    <value>Systemstandard</value>
   </data>
   <data name="System Metrics" xml:space="preserve">
-    <value></value>
+    <value>Systemmått</value>
   </data>
   <data name="Tag Copied" xml:space="preserve">
-    <value></value>
+    <value>Tagg Kopierad</value>
   </data>
   <data name="Tags" xml:space="preserve">
-    <value></value>
+    <value>Taggar</value>
   </data>
   <data name="Target Page" xml:space="preserve">
-    <value></value>
+    <value>Mål-sida</value>
   </data>
   <data name="Test" xml:space="preserve">
-    <value></value>
+    <value>Test</value>
   </data>
   <data name="Test LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>Testa LDAP-autentisering</value>
   </data>
   <data name="Text" xml:space="preserve">
-    <value></value>
+    <value>Text</value>
   </data>
   <data name="The account has been deleted and all content that was created or modified by this account has been attributed to an anonymized profile." xml:space="preserve">
-    <value></value>
+    <value>Kontot har raderats och allt innehåll som skapades eller modifierades av detta konto har tilldelats en anonymiserad profil.</value>
   </data>
   <data name="The compilation statistics for all wiki page operations." xml:space="preserve">
-    <value></value>
+    <value>Sammanställningsstatistik för alla wiki-sidesoperationer.</value>
   </data>
   <data name="The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code." xml:space="preserve">
-    <value></value>
+    <value>Den aktuella webbläsaren har glömts. När du loggar in igen från denna webbläsare kommer du att bli tillfrågad om din 2fa-kod.</value>
   </data>
   <data name="The Development environment shouldn't be enabled for deployed applications." xml:space="preserve">
-    <value></value>
+    <value>Utvecklingsmiljön bör inte aktiveras för distribuerade applikationer.</value>
   </data>
   <data name="The event log is empty." xml:space="preserve">
-    <value></value>
+    <value>Händelseloggen är tom.</value>
   </data>
   <data name="The external login was added." xml:space="preserve">
-    <value></value>
+    <value>Den externa inloggningen har lagts till.</value>
   </data>
   <data name="The external login was not added. External logins can only be associated with one account." xml:space="preserve">
-    <value></value>
+    <value>Det externa inloggningen tillagdes inte. Externa inloggningar kan endast kopplas till ett konto.</value>
   </data>
   <data name="The external login was not removed." xml:space="preserve">
-    <value></value>
+    <value>Den externa inloggningen togs inte bort.</value>
   </data>
   <data name="The external login was removed." xml:space="preserve">
-    <value></value>
+    <value>Den externa inloggningen togs bort.</value>
   </data>
   <data name="The page does not have any comments, why don't you add one?" xml:space="preserve">
-    <value></value>
+    <value>Sidan har inga kommentarer, varför lägger du inte till en?</value>
   </data>
   <data name="The requested page or revision does not exist." xml:space="preserve">
-    <value></value>
+    <value>Den begärda sidan eller revisionen finns inte.</value>
   </data>
   <data name="The selected page does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Den valda sidan har inga revisioner.</value>
   </data>
   <data name="Theme" xml:space="preserve">
-    <value></value>
+    <value>Thema</value>
   </data>
   <data name="Themes" xml:space="preserve">
-    <value></value>
+    <value>Themer</value>
   </data>
   <data name="There are currently no missing pages being referenced by other wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Det finns för närvarande inga saknade sidor som refereras av andra wiki-sidor.</value>
   </data>
   <data name="There are currently no pages which exist within namespaces." xml:space="preserve">
-    <value></value>
+    <value>Det finns för närvarande inga sidor som finns inom namespace.</value>
   </data>
   <data name="There are no compilation statistics available." xml:space="preserve">
-    <value></value>
+    <value>Det finns inga tillgängliga statistik för sammanställning.</value>
   </data>
   <data name="There are no deleted revisions for this page." xml:space="preserve">
-    <value></value>
+    <value>Det finns inga raderade versioner för den här sidan.</value>
   </data>
   <data name="There are no menu items configured." xml:space="preserve">
-    <value></value>
+    <value>Det finns inga menyobjekt konfigurerade.</value>
   </data>
   <data name="There are no orphaned page attachments." xml:space="preserve">
-    <value></value>
+    <value>Det finns inga föräldralösa sidbilagor.</value>
   </data>
   <data name="There are no pages which contain the selected processing instruction." xml:space="preserve">
-    <value></value>
+    <value>Det finns inga sidor som innehåller den valda bearbetningsinstruktionen.</value>
   </data>
   <data name="There are no security roles configured." xml:space="preserve">
-    <value></value>
+    <value>Det finns inga säkerhetsroller konfigurerade.</value>
   </data>
   <data name="These are all of the page attachments that are no longer attached to any page revision." xml:space="preserve">
-    <value></value>
+    <value>Det här är alla sidbilagor som inte längre är kopplade till någon sidversion.</value>
   </data>
   <data name="This account has been locked out, please try again later." xml:space="preserve">
-    <value></value>
+    <value>Det här kontot har låsts, försök igen senare.</value>
   </data>
   <data name="This action can only be undone by a moderator or administrator." xml:space="preserve">
-    <value></value>
+    <value>Den här åtgärden kan endast ångras av en moderator eller administratör.</value>
   </data>
   <data name="This action only disables 2FA." xml:space="preserve">
-    <value></value>
+    <value>Den här åtgärden inaktiverar endast 2FA.</value>
   </data>
   <data name="This display name will be visible publicly." xml:space="preserve">
-    <value></value>
+    <value>Det här visningsnamnet kommer att vara synligt för allmänheten.</value>
   </data>
   <data name="This file does not have any revisions." xml:space="preserve">
-    <value></value>
+    <value>Den här filen har inga revisioner.</value>
   </data>
   <data name="This is your profile, do with it what you may." xml:space="preserve">
-    <value></value>
+    <value>Det här är din profil, gör vad du vill med den.</value>
   </data>
   <data name="This process disables 2FA until you verify your authenticator app. If you do not complete your authenticator app configuration you may lose access to your account." xml:space="preserve">
-    <value></value>
+    <value>Den här processen inaktiverar 2FA tills du verifierar din authenticator-app. Om du inte slutför konfigurationen av din authenticator-app kan du förlora tillgången till ditt konto.</value>
   </data>
   <data name="This will check the database integrity and validate all foreign keys. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att kontrollera databasens integritet och validera alla främmande nycklar. Fortsätt?</value>
   </data>
   <data name="This will compile all pages in the wiki and store them in cache. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att sammanställa alla sidor i wikin och lagra dem i cache. Det kan ta ett tag! Fortsätt?</value>
   </data>
   <data name="This will merge in all default configuration, but will not overwrite any of your currently configured settings. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att sammanfoga all standardkonfiguration, men kommer inte att skriva över några av dina nuvarande inställningar. Fortsätt?</value>
   </data>
   <data name="This will optimize the database indexes and structure. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att optimera databasindex och struktur. Fortsätt?</value>
   </data>
   <data name="This will permanently delete the specified attachment. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent ta bort den specificerade bilagan. Fortsätt?</value>
   </data>
   <data name="This will permanently delete the specified deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent ta bort den specificerade raderade versionen. Fortsätt?</value>
   </data>
   <data name="This will permanently delete the specified page, all revisions and attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent ta bort den specificerade sidan, alla versioner och bilagor. Fortsätt?</value>
   </data>
   <data name="This will permanently purge all deleted page revisions for &quot;{0}&quot;. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent rensa alla raderade sidversioner för "{0}". Fortsätt?</value>
   </data>
   <data name="This will permanently purge all deleted pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent rensa alla raderade sidor. Fortsätt?</value>
   </data>
   <data name="This will permanently purge all event logs. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent rensa alla händelseloggposter. Fortsätt?</value>
   </data>
   <data name="This will permanently purge all orphaned page attachments. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att permanent rensa alla föräldralösa sidbilagor. Fortsätt?</value>
   </data>
   <data name="This will rebuild all pages in the wiki. This could take some time! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att bygga om alla sidor i wikin. Det kan ta ett tag! Fortsätt?</value>
   </data>
   <data name="This will remove empty space from the database, which can free space if a lot of data has been deleted. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att ta bort tomt utrymme från databasen, vilket kan frigöra plats om mycket data har tagits bort. Fortsätt?</value>
   </data>
   <data name="This will restore all built-in namespace pages, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa alla inbyggda namespace-sidor, och skriva över eventuella anpassningar du gjort. Fortsätt?</value>
   </data>
   <data name="This will restore all default themes, overwriting any customizations you may have made in the database. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa alla standardteman, och skriva över eventuella anpassningar du gjort i databasen. Fortsätt?</value>
   </data>
   <data name="This will restore all Feature Templates, overwriting any customizations you may have made. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa alla funktionstmallar, och skriva över eventuella anpassningar du gjort. Fortsätt?</value>
   </data>
   <data name="This will restore all Include namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa alla sidor i Include-namespace. Fortsätt?</value>
   </data>
   <data name="This will restore all Wiki Help namespace pages. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa alla sidor i Wiki Hjälp-namespace. Fortsätt?</value>
   </data>
   <data name="This will restore the deleted page and all of its history. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa den raderade sidan och all dess historik. Fortsätt?</value>
   </data>
   <data name="This will restore the deleted revision. Continue?" xml:space="preserve">
-    <value></value>
+    <value>Det här kommer att återställa den raderade versionen. Fortsätt?</value>
   </data>
   <data name="Time Zone" xml:space="preserve">
-    <value></value>
+    <value>Tidszon</value>
   </data>
   <data name="To use an authenticator app go through the following steps:" xml:space="preserve">
-    <value></value>
+    <value>För att använda en autentiseringsapp, följ stegen nedan:</value>
   </data>
   <data name="Truncate Page Revisions" xml:space="preserve">
-    <value></value>
+    <value>Trimma sidversioner</value>
   </data>
   <data name="Truncating the page revisions will delete all the revision history for all pages and page attachments. This will leave only the most current revision of all objects. This is generally considered a big deal! Continue?" xml:space="preserve">
-    <value></value>
+    <value>Att trimma sidversioner kommer att radera hela versionshistoriken för alla sidor och bilagor. Detta lämnar bara den senaste versionen av alla objekt. Detta anses generellt vara en stor grej! Fortsätt?</value>
   </data>
   <data name="Two-factor authentication" xml:space="preserve">
-    <value></value>
+    <value>Tvåfaktorsautentisering</value>
   </data>
   <data name="Two-factor authentication (2FA)" xml:space="preserve">
-    <value></value>
+    <value>Tvåfaktorsautentisering (2FA)</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value></value>
+    <value>Typ</value>
   </data>
   <data name="Type comment..." xml:space="preserve">
-    <value></value>
+    <value>Skriv kommentar...</value>
   </data>
   <data name="Unable to delete page" xml:space="preserve">
-    <value></value>
+    <value>Kan inte radera sidan</value>
   </data>
   <data name="Unauthorized" xml:space="preserve">
-    <value></value>
+    <value>Ej auktoriserad</value>
   </data>
   <data name="Unconfirmed" xml:space="preserve">
-    <value></value>
+    <value>Ostridig</value>
   </data>
   <data name="Underline" xml:space="preserve">
-    <value></value>
+    <value>Understrykning</value>
   </data>
   <data name="Unexpected Error" xml:space="preserve">
-    <value></value>
+    <value>Oväntat fel</value>
   </data>
   <data name="Unexpected error:" xml:space="preserve">
-    <value></value>
+    <value>Oväntat fel:</value>
   </data>
   <data name="Update password" xml:space="preserve">
-    <value></value>
+    <value>Uppdatera lösenord</value>
   </data>
   <data name="Upload successful" xml:space="preserve">
-    <value></value>
+    <value>Uppladdning lyckades</value>
   </data>
   <data name="URL must start with" xml:space="preserve">
-    <value></value>
+    <value>URL måste börja med</value>
   </data>
   <data name="Use another service to register" xml:space="preserve">
-    <value></value>
+    <value>Använd en annan tjänst för att registrera</value>
   </data>
   <data name="Use commas to separate categories." xml:space="preserve">
-    <value></value>
+    <value>Använd kommatecken för att separera kategorier.</value>
   </data>
   <data name="Use the Templates namespace to add a page to the list of templates, e.g. Templates :: My First Template." xml:space="preserve">
-    <value></value>
+    <value>Använd mallenamespace för att lägga till en sida i listan med mallar, t.ex. Templates :: Min första mall.</value>
   </data>
   <data name="Username" xml:space="preserve">
-    <value></value>
+    <value>Användarnamn</value>
   </data>
   <data name="Users" xml:space="preserve">
-    <value></value>
+    <value>Användare</value>
   </data>
   <data name="Vacuum" xml:space="preserve">
-    <value></value>
+    <value>Dammsuga</value>
   </data>
   <data name="Various utilities to assist in management of the SQLite database." xml:space="preserve">
-    <value></value>
+    <value>Olika hjälpmedel för att underlätta hantering av SQLite-databasen.</value>
   </data>
   <data name="Verification Code" xml:space="preserve">
-    <value></value>
+    <value>Verifikationskod</value>
   </data>
   <data name="Verification code is invalid." xml:space="preserve">
-    <value></value>
+    <value>Verifikationskoden är ogiltig.</value>
   </data>
   <data name="Verification email sent. Please check your email." xml:space="preserve">
-    <value></value>
+    <value>Verifieringsmail har skickats. Vänligen kontrollera din e-post.</value>
   </data>
   <data name="Verify" xml:space="preserve">
-    <value></value>
+    <value>Verifikation</value>
   </data>
   <data name="Version" xml:space="preserve">
-    <value></value>
+    <value>Version</value>
   </data>
   <data name="View" xml:space="preserve">
-    <value></value>
+    <value>Visa</value>
   </data>
   <data name="View all comments" xml:space="preserve">
-    <value></value>
+    <value>Visa alla kommentarer</value>
   </data>
   <data name="View all revisions" xml:space="preserve">
-    <value></value>
+    <value>Visa alla revideringar</value>
   </data>
   <data name="View latest revision" xml:space="preserve">
-    <value></value>
+    <value>Visa senaste revideringen</value>
   </data>
   <data name="Viewing a deleted page" xml:space="preserve">
-    <value></value>
+    <value>Visar en raderad sida</value>
   </data>
   <data name="Viewing a deleted page revision" xml:space="preserve">
-    <value></value>
+    <value>Visar en revidering av en raderad sida</value>
   </data>
   <data name="Viewing a historical version" xml:space="preserve">
-    <value></value>
+    <value>Visar en historisk version</value>
   </data>
   <data name="What did you change and why?" xml:space="preserve">
-    <value></value>
+    <value>Vad ändrade du och varför?</value>
   </data>
   <data name="Wiki Help Pages" xml:space="preserve">
-    <value></value>
+    <value>Wiki Hjälpsidor</value>
   </data>
   <data name="Wiki Page" xml:space="preserve">
-    <value></value>
+    <value>Wiki-sida</value>
   </data>
   <data name="Wikified Size" xml:space="preserve">
-    <value></value>
+    <value>Wikifierad storlek</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value></value>
+    <value>Ja</value>
   </data>
   <data name="You are viewing a page revision which was deleted on {0} by {1}." xml:space="preserve">
-    <value></value>
+    <value>Du tittar på en sidrevidering som raderades den {0} av {1}.</value>
   </data>
   <data name="You are viewing a page which was deleted on {0} by {1}." xml:space="preserve">
-    <value></value>
+    <value>Du tittar på en sida som raderades den {0} av {1}.</value>
   </data>
   <data name="You are viewing revision {0} of &quot;{1}&quot; modified by {2} on {3}." xml:space="preserve">
-    <value></value>
+    <value>Du tittar på revidering {0} av "{1}" ändrad av {2} den {3}.</value>
   </data>
   <data name="You can generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Du kan generera ett nytt set av återställningskoder.</value>
   </data>
   <data name="You can log in with a recovery code" xml:space="preserve">
-    <value></value>
+    <value>Du kan logga in med en återställningskod</value>
   </data>
   <data name="You do not have a local username/password for this site. Add a local account so you can log in without an external login." xml:space="preserve">
-    <value></value>
+    <value>Du har ingen lokal användarnamn/lösenord för denna webbplats. Lägg till ett lokalt konto så att du kan logga in utan extern inloggning.</value>
   </data>
   <data name="You do not have access to this resource." xml:space="preserve">
-    <value></value>
+    <value>Du har inte tillgång till denna resurs.</value>
   </data>
   <data name="You have {0} recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>Du har {0} återställningskoder kvar.</value>
   </data>
   <data name="You have 1 recovery code left." xml:space="preserve">
-    <value></value>
+    <value>Du har 1 återställningskod kvar.</value>
   </data>
   <data name="You have generated new recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Du har genererat nya återställningskoder.</value>
   </data>
   <data name="You have no recovery codes left." xml:space="preserve">
-    <value></value>
+    <value>Du har inga återställningskoder kvar.</value>
   </data>
   <data name="You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again." xml:space="preserve">
-    <value></value>
+    <value>Du har begärt att logga in med en återställningskod. Denna inloggning kommer inte att komma ihåg förrän du anger en kod från appen eller inaktiverar 2FA och loggar in igen.</value>
   </data>
   <data name="You have successfully logged out of the application." xml:space="preserve">
-    <value></value>
+    <value>Du har framgångsrikt loggat ut från applikationen.</value>
   </data>
   <data name="You have successfully signed in with LDAP but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>Du har framgångsrikt loggat in med LDAP men vi behöver fortfarande lite information.</value>
   </data>
   <data name="You have successfully signed in with the external provider but we still need a bit of information." xml:space="preserve">
-    <value></value>
+    <value>Du har framgångsrikt loggat in med den externa leverantören men vi behöver fortfarande lite information.</value>
   </data>
   <data name="You must accept the policy before you can enable two factor authentication." xml:space="preserve">
-    <value></value>
+    <value>Du måste godkänna policyn innan du kan aktivera tvåfaktorsautentisering.</value>
   </data>
   <data name="You must generate a new set of recovery codes before you can log in with a recovery code." xml:space="preserve">
-    <value></value>
+    <value>Du måste generera ett nytt uppsättning återställningskoder innan du kan logga in med en återställningskod.</value>
   </data>
   <data name="You should generate a new set of recovery codes." xml:space="preserve">
-    <value></value>
+    <value>Du bör generera ett nytt uppsättning återställningskoder.</value>
   </data>
   <data name="You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in." xml:space="preserve">
-    <value></value>
+    <value>Du har verifierat dig framgångsrikt med {0}. Vänligen ange en e-postadress för den här webbplatsen nedan och klicka på Registrera-knappen för att slutföra inloggningen.</value>
   </data>
   <data name="Your authenticator app has been verified." xml:space="preserve">
-    <value></value>
+    <value>Din authenticator-app har verifierats.</value>
   </data>
   <data name="Your authenticator app key has been reset, you will need to configure your authenticator app using the new key." xml:space="preserve">
-    <value></value>
+    <value>Nyckeln till din authenticator-app har återställts, du måste konfigurera din authenticator-app med den nya nyckeln.</value>
   </data>
   <data name="Your email is unchanged." xml:space="preserve">
-    <value></value>
+    <value>Din e-post är oförändrad.</value>
   </data>
   <data name="Your login is protected with an authenticator app. Enter your authenticator code below." xml:space="preserve">
-    <value></value>
+    <value>Din inloggning är skyddad med en authenticator-app. Ange din authenticator-kod nedan.</value>
   </data>
   <data name="Your password has been changed." xml:space="preserve">
-    <value></value>
+    <value>Ditt lösenord har ändrats.</value>
   </data>
   <data name="Your password has been reset." xml:space="preserve">
-    <value></value>
+    <value>Ditt lösenord har återställts.</value>
   </data>
   <data name="Your password has been set." xml:space="preserve">
-    <value></value>
+    <value>Ditt lösenord har satts.</value>
   </data>
   <data name="Your search criteria resulted in no pages, simplify your search text." xml:space="preserve">
-    <value></value>
+    <value>Din sökkriterier resulterade i inga sidor, förenkla din söktext.</value>
   </data>
   <data name="An error occurred retrieving user information from the external provider." xml:space="preserve">
-    <value></value>
+    <value>Ett fel uppstod vid hämtning av användarinformation från den externa tjänsteleverantören.</value>
   </data>
   <data name="An error occurred while adding the login." xml:space="preserve">
-    <value></value>
+    <value>Ett fel uppstod vid tillägg av inloggningen.</value>
   </data>
   <data name="An error occurred while creating the user." xml:space="preserve">
-    <value></value>
+    <value>Ett fel uppstod vid skapandet av användaren.</value>
   </data>
   <data name="Display Name is already in use." xml:space="preserve">
-    <value></value>
+    <value>Visningsnamnet används redan.</value>
   </data>
   <data name="Display Name is required." xml:space="preserve">
-    <value></value>
+    <value>Visningsnamn är obligatoriskt.</value>
   </data>
   <data name="Error changing email." xml:space="preserve">
-    <value></value>
+    <value>Fel vid ändring av e-post.</value>
   </data>
   <data name="Error changing user name." xml:space="preserve">
-    <value></value>
+    <value>Fel vid ändring av användarnamn.</value>
   </data>
   <data name="Error confirming your email." xml:space="preserve">
-    <value></value>
+    <value>Fel vid bekräftelse av din e-post.</value>
   </data>
   <data name="Error from external provider: {0}" xml:space="preserve">
-    <value></value>
+    <value>Fel från extern tjänsteleverantör: {0}</value>
   </data>
   <data name="Error loading external login information during confirmation." xml:space="preserve">
-    <value></value>
+    <value>Fel vid inläsning av extern inloggningsinformation under bekräftelsen.</value>
   </data>
   <data name="Error loading external login information." xml:space="preserve">
-    <value></value>
+    <value>Fel vid inläsning av extern inloggningsinformation.</value>
   </data>
   <data name="Failed to add login info for LDAP stub account: {0}." xml:space="preserve">
-    <value></value>
+    <value>Misslyckades med att lägga till inloggningsinfo för LDAP-Stub-konto: {0}.</value>
   </data>
   <data name="Failed to create stub account for the LDAP credential: {0}." xml:space="preserve">
-    <value></value>
+    <value>Misslyckades med att skapa stub-konto för LDAP-credentalen: {0}.</value>
   </data>
   <data name="Failed to locate the user account for the LDAP credential." xml:space="preserve">
-    <value></value>
+    <value>Misslyckades med att hitta användarkontot för LDAP-uppgiften.</value>
   </data>
   <data name="Invalid login attempt." xml:space="preserve">
-    <value></value>
+    <value>Ogiltigt inloggningsförsök.</value>
   </data>
   <data name="Thank you for confirming your email change." xml:space="preserve">
-    <value></value>
+    <value>Tack för att du bekräftade din e-poständring.</value>
   </data>
   <data name="Thank you for confirming your email." xml:space="preserve">
-    <value></value>
+    <value>Tack för att du bekräftade din e-post.</value>
   </data>
   <data name="The email address was not supplied by the external provider." xml:space="preserve">
-    <value></value>
+    <value>E-postadressen levererades inte av den externa leverantören.</value>
   </data>
   <data name="The specified user could not be found." xml:space="preserve">
-    <value></value>
+    <value>Den angivna användaren kunde inte hittas.</value>
   </data>
   <data name="User created a new account with LDAP." xml:space="preserve">
-    <value></value>
+    <value>Användaren skapade ett nytt konto med LDAP.</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value></value>
+    <value>Adress</value>
   </data>
   <data name="Allow Fuzzy Matching" xml:space="preserve">
-    <value></value>
+    <value>Tillåt Ökänningsmatchning</value>
   </data>
   <data name="Allow Signup" xml:space="preserve">
-    <value></value>
+    <value>Tillåt Registrering</value>
   </data>
   <data name="Authentication and Cookies." xml:space="preserve">
-    <value></value>
+    <value>Autentisering och Cookies.</value>
   </data>
   <data name="Basic" xml:space="preserve">
-    <value></value>
+    <value>Grundläggande</value>
   </data>
   <data name="Basic wiki settings such as formatting." xml:space="preserve">
-    <value></value>
+    <value>Grundläggande wiki-inställningar som formatering.</value>
   </data>
   <data name="Brand Image (Small)" xml:space="preserve">
-    <value></value>
+    <value>Varumärkesbild (Liten)</value>
   </data>
   <data name="Cache Memory Limit MB" xml:space="preserve">
-    <value></value>
+    <value>Cacheminnesgräns MB</value>
   </data>
   <data name="Configuration for Active Directory authentication using LDAP" xml:space="preserve">
-    <value></value>
+    <value>Konfiguration för Active Directory-autentisering med LDAP</value>
   </data>
   <data name="Configuration related to searching and indexing." xml:space="preserve">
-    <value></value>
+    <value>Konfiguration relaterad till sökning och indexering.</value>
   </data>
   <data name="Cookies" xml:space="preserve">
-    <value></value>
+    <value>Cookies</value>
   </data>
   <data name="Copyright" xml:space="preserve">
-    <value></value>
+    <value>Upphovsrätt</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value></value>
+    <value>Anpassning</value>
   </data>
   <data name="Default Country" xml:space="preserve">
-    <value></value>
+    <value>Standardland</value>
   </data>
   <data name="Default Emoji Height" xml:space="preserve">
-    <value></value>
+    <value>Standarden för Emoji-höjd</value>
   </data>
   <data name="Default Language" xml:space="preserve">
-    <value></value>
+    <value>StandardSpråk</value>
   </data>
   <data name="Default Profile Recently Modified Count" xml:space="preserve">
-    <value></value>
+    <value>Standardantal för nyligen modifierade profiler</value>
   </data>
   <data name="Default Signup Role" xml:space="preserve">
-    <value></value>
+    <value>Standardregistreringsroll</value>
   </data>
   <data name="Default TimeZone" xml:space="preserve">
-    <value></value>
+    <value>Standard tidszon</value>
   </data>
   <data name="EMail and SMTP setting." xml:space="preserve">
-    <value></value>
+    <value>e-post och SMTP-inställningar.</value>
   </data>
   <data name="Enable Page Comments" xml:space="preserve">
-    <value></value>
+    <value>Aktivera sidkommentarer</value>
   </data>
   <data name="Enable Public Profiles" xml:space="preserve">
-    <value></value>
+    <value>Aktivera offentliga profiler</value>
   </data>
   <data name="Expiraion Hours" xml:space="preserve">
-    <value></value>
+    <value>Utgången timmar</value>
   </data>
   <data name="External Authentication" xml:space="preserve">
-    <value></value>
+    <value>Extern autentisering</value>
   </data>
   <data name="External Authentication Providers" xml:space="preserve">
-    <value></value>
+    <value>Extern autentiseringsleverantörer</value>
   </data>
   <data name="File and Attachment settings." xml:space="preserve">
-    <value></value>
+    <value>Fil- och bilagsinställningar.</value>
   </data>
   <data name="Files and Attachments" xml:space="preserve">
-    <value></value>
+    <value>Filer och bilagor</value>
   </data>
   <data name="Filesystem location where persistent cookies are stored for saved session logins." xml:space="preserve">
-    <value></value>
+    <value>Filsystem plats där persistenta cookies lagras för sparade sessioner inloggningar.</value>
   </data>
   <data name="Fixed Header Menu Position" xml:space="preserve">
-    <value></value>
+    <value>Fast header-meny position</value>
   </data>
   <data name="Footer" xml:space="preserve">
-    <value></value>
+    <value>Sidfot</value>
   </data>
   <data name="FooterBlurb" xml:space="preserve">
-    <value></value>
+    <value>Sidfotsparagraf</value>
   </data>
   <data name="From Display Name" xml:space="preserve">
-    <value></value>
+    <value>Från visningsnamn</value>
   </data>
   <data name="Functionality" xml:space="preserve">
-    <value></value>
+    <value>Funktionalitet</value>
   </data>
   <data name="General wiki functionality." xml:space="preserve">
-    <value></value>
+    <value>Allmän wiki-funktionalitet.</value>
   </data>
   <data name="Google : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientId</value>
   </data>
   <data name="Google : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Google : ClientSecret</value>
   </data>
   <data name="Google : Use Google Authentication" xml:space="preserve">
-    <value></value>
+    <value>Google : Använd Google-autentisering</value>
   </data>
   <data name="Header" xml:space="preserve">
-    <value></value>
+    <value>Rubrik</value>
   </data>
   <data name="HTML email template for new account verification" xml:space="preserve">
-    <value></value>
+    <value>HTML-e-postmall för verifiering av nytt konto</value>
   </data>
   <data name="HTML email template to use when sending a password reset email." xml:space="preserve">
-    <value></value>
+    <value>HTML-e-postmall att använda när du skickar ett lösenordsåterställningsmail.</value>
   </data>
   <data name="HTML Layout" xml:space="preserve">
-    <value></value>
+    <value>HTML-layout</value>
   </data>
   <data name="HTML layout." xml:space="preserve">
-    <value></value>
+    <value>HTML-layout.</value>
   </data>
   <data name="HTML placed inside the body tag but directly after the other body content." xml:space="preserve">
-    <value></value>
+    <value>HTML placerad inuti body-taggen men direkt efter annat body-innehåll.</value>
   </data>
   <data name="HTML placed inside the body tag but just before the other content of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML placerad inom body-taggen men precis före sidans annat innehåll.</value>
   </data>
   <data name="HTML placed into the footer section of the page." xml:space="preserve">
-    <value></value>
+    <value>HTML placerad i sidfoten.</value>
   </data>
   <data name="HTML placed into the header section of the HTML. A useful place to put scripts and CSS." xml:space="preserve">
-    <value></value>
+    <value>HTML placerad i sidhuvudet. En användbar plats för att lägga in scripts och CSS.</value>
   </data>
   <data name="If set, users can not login until their email addresses are verified. If changed, the website will need to be restarted. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om aktiverad kan inte användare logga in förrän deras e-postadresser är verifierade. Om ändrat måste webbplatsen startas om. Standard: Aktiverad.</value>
   </data>
   <data name="If set, users will be allowed to sing up and create their own account. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om aktiverad får användare lov att registrera sig och skapa sitt eget konto. Standard: Aktiverad.</value>
   </data>
   <data name="Include Search on Navbar" xml:space="preserve">
-    <value></value>
+    <value>Inkludera sök i navigationsfältet</value>
   </data>
   <data name="Include wiki Description in Meta" xml:space="preserve">
-    <value></value>
+    <value>Inkludera wiki-beskrivning i Meta</value>
   </data>
   <data name="Include wiki Tags in Meta" xml:space="preserve">
-    <value></value>
+    <value>Inkludera wiki-taggar i Meta</value>
   </data>
   <data name="LDAP : Default Sign-in Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Standard inloggningsdomän</value>
   </data>
   <data name="LDAP : Enable LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Aktivera LDAP-autentisering</value>
   </data>
   <data name="LDAP : Fully-Qualified Domain" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Fullt kvalificerad domän</value>
   </data>
   <data name="LDAP : Use Secure Socket Layer" xml:space="preserve">
-    <value></value>
+    <value>LDAP : Använd säkert socket-lager</value>
   </data>
   <data name="LDAP Authentication" xml:space="preserve">
-    <value></value>
+    <value>LDAP-autentisering</value>
   </data>
   <data name="Look &amp; Feel customizations." xml:space="preserve">
-    <value></value>
+    <value>Designanpassningar för utseende och känsla.</value>
   </data>
   <data name="Max Attachment File Size" xml:space="preserve">
-    <value></value>
+    <value>Maximal filstorlek för bilagor</value>
   </data>
   <data name="Max Avatar File Size" xml:space="preserve">
-    <value></value>
+    <value>Maximal filstorlek för avatarbilder</value>
   </data>
   <data name="Max Emoji File Size" xml:space="preserve">
-    <value></value>
+    <value>Maximal filstorlek för Emoji</value>
   </data>
   <data name="Maximum size in bytes for a user any page attachment." xml:space="preserve">
-    <value></value>
+    <value>Maximal storlek i byte för en användares bilaga på vilken sida som helst.</value>
   </data>
   <data name="Maximum size in bytes for a user avatar image." xml:space="preserve">
-    <value></value>
+    <value>Maximal storlek i byte för en användaravatarbild.</value>
   </data>
   <data name="Maximum size in bytes for an emoji image." xml:space="preserve">
-    <value></value>
+    <value>Maximal storlek i byte för en emoji-bild.</value>
   </data>
   <data name="Membership" xml:space="preserve">
-    <value></value>
+    <value>Medlemskap</value>
   </data>
   <data name="Membership settings such as defaults for new members and permissions." xml:space="preserve">
-    <value></value>
+    <value>Medlemskapsinställningar såsom standard för nya medlemmar och behörigheter.</value>
   </data>
   <data name="Microsoft : ClientId" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Klient-ID</value>
   </data>
   <data name="Microsoft : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Klienthemlighet</value>
   </data>
   <data name="Microsoft : Use Microsoft Authentication" xml:space="preserve">
-    <value></value>
+    <value>Microsoft : Använd Microsoft-autentisering</value>
   </data>
   <data name="Minimum Match Score" xml:space="preserve">
-    <value></value>
+    <value>Minsta matchningspoäng</value>
   </data>
   <data name="New Page Template" xml:space="preserve">
-    <value></value>
+    <value>Ny sidmall</value>
   </data>
   <data name="Number of hours before cookies expire." xml:space="preserve">
-    <value></value>
+    <value>Antal timmar innan cookies löper ut.</value>
   </data>
   <data name="OIDC : Authority" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Myndighet</value>
   </data>
   <data name="OIDC : ClientId" xml:space="preserve">
-    <value></value>
+    <value>OIDC : KlientId</value>
   </data>
   <data name="OIDC : ClientSecret" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Klienthemlighet</value>
   </data>
   <data name="OIDC : Use OIDC Authentication" xml:space="preserve">
-    <value></value>
+    <value>OIDC : Använd OIDC-autentisering</value>
   </data>
   <data name="Page Cache Time (Seconds)" xml:space="preserve">
-    <value></value>
+    <value>Sidcache-tid (sekunder)</value>
   </data>
   <data name="Page Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Sidfinns inte</value>
   </data>
   <data name="Pagination Size" xml:space="preserve">
-    <value></value>
+    <value>Storlek på sidnavigering</value>
   </data>
   <data name="Performance" xml:space="preserve">
-    <value></value>
+    <value>Prestanda</value>
   </data>
   <data name="Performance related settings." xml:space="preserve">
-    <value></value>
+    <value>Prestandarelaterade inställningar.</value>
   </data>
   <data name="Persist Keys Path" xml:space="preserve">
-    <value></value>
+    <value>Spara nyckelväg</value>
   </data>
   <data name="Port" xml:space="preserve">
-    <value></value>
+    <value>Port</value>
   </data>
   <data name="Post-Body" xml:space="preserve">
-    <value></value>
+    <value>Post-Body</value>
   </data>
   <data name="Pre-Body" xml:space="preserve">
-    <value></value>
+    <value>Pre-Body</value>
   </data>
   <data name="Pre-Load Animated Emojis" xml:space="preserve">
-    <value></value>
+    <value>Förladda animerade emojis</value>
   </data>
   <data name="Record Compilation Metrics" xml:space="preserve">
-    <value></value>
+    <value>Samla in metrics för inspelning</value>
   </data>
   <data name="Require Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Kräv sammanfattning av ändringar vid redigering</value>
   </data>
   <data name="Require Email Verification" xml:space="preserve">
-    <value></value>
+    <value>Kräv e-postverifiering</value>
   </data>
   <data name="Revision Does Not Exists Page" xml:space="preserve">
-    <value></value>
+    <value>Revition finns inte</value>
   </data>
   <data name="Show Change Summary when Editing" xml:space="preserve">
-    <value></value>
+    <value>Visa förändringssammanfattning vid redigering</value>
   </data>
   <data name="Show Comments on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Visa kommentarer i sidfoten</value>
   </data>
   <data name="Show Last Modified on Page Footer" xml:space="preserve">
-    <value></value>
+    <value>Visa senast ändrade i sidfoten</value>
   </data>
   <data name="Split Camel Case" xml:space="preserve">
-    <value></value>
+    <value>Dela upp stilig version</value>
   </data>
   <data name="Template: Account Verification Email" xml:space="preserve">
-    <value></value>
+    <value>mall: E-post för kontoverifiering</value>
   </data>
   <data name="Template: Reset Password Email" xml:space="preserve">
-    <value></value>
+    <value>mall: E-post för återställning av lösenord</value>
   </data>
   <data name="The account name to use for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Kontonamnet som används för all e-postkommunikation.</value>
   </data>
   <data name="The base theme to use for all site styling." xml:space="preserve">
-    <value></value>
+    <value>Den grundläggande temat att använda för all webbplatsdesign.</value>
   </data>
   <data name="The brand image of the wiki, this is displayed on the top of all wiki pages." xml:space="preserve">
-    <value></value>
+    <value>Varumärkesbilden för wikin, den visas högst upp på alla wikisidor.</value>
   </data>
   <data name="The copyright of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Upphovsrätten för wikin, denna visas längst ner på alla sidor.</value>
   </data>
   <data name="The country to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Landet att använda för webbplatsens kultur för gäster.</value>
   </data>
   <data name="The default country to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Det förvalda landet att använda för nya konton.</value>
   </data>
   <data name="The default domain to use when the user does not specify a UPN or a fully qualified domain\\Username when signing in." xml:space="preserve">
-    <value></value>
+    <value>Standarddomänen att använda när användaren inte anger en UPN eller en fullt kvalificerad domän\\Användarnamn vid inloggning.</value>
   </data>
   <data name="The default height to scale emojis to. The width will be scaled to the same ratio.  Default: 24." xml:space="preserve">
-    <value></value>
+    <value>Standardhöjden för skalning av emojis. Bredden kommer att skalas till samma förhållande. Standard: 24.</value>
   </data>
   <data name="The default language to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Förvaltat språk att använda för nya konton.</value>
   </data>
   <data name="The default role to assign accounts when they sing up. Default: Contributor." xml:space="preserve">
-    <value></value>
+    <value>Standardrollen att tilldela konton när de registrerar sig. Standard: Bidragspartner.</value>
   </data>
   <data name="The default time zone to use for new accounts." xml:space="preserve">
-    <value></value>
+    <value>Standardtidszonen att använda för nya konton.</value>
   </data>
   <data name="The display name to show for all email communications." xml:space="preserve">
-    <value></value>
+    <value>Visningsnamnet som ska visas för all e-postkommunikation.</value>
   </data>
   <data name="The footer of the wiki, this is shown at the bottom of all pages." xml:space="preserve">
-    <value></value>
+    <value>Fotnoten för wikin, den visas längst ner på alla sidor.</value>
   </data>
   <data name="The fully qualified domain name to use when performing LDAP authentication." xml:space="preserve">
-    <value></value>
+    <value>Den fullständiga domännamnet att använda vid LDAP-autentisering.</value>
   </data>
   <data name="The internet address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>Internetadressen till din wiki.</value>
   </data>
   <data name="The language to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Språket att använda för webbplatss kulturen för gäster.</value>
   </data>
   <data name="The memory limit (in megabytes) for the cache. Oldest items will be ejected when limit is reached. Default: 1024." xml:space="preserve">
-    <value></value>
+    <value>Minnegränsen (i megabyte) för cachen. Äldsta objekt tas bort när gränsen nås. Standard: 1024.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page is requested." xml:space="preserve">
-    <value></value>
+    <value>Namnet på wikisidan att visa när en icke-existerande sida begärs.</value>
   </data>
   <data name="The name of the wiki page to display when a non existing page revision is requested." xml:space="preserve">
-    <value></value>
+    <value>Namnet på wikisidan att visa när en icke-existerande sidversion begärs.</value>
   </data>
   <data name="The name of the wiki page to use as the default content when new wiki pages are created." xml:space="preserve">
-    <value></value>
+    <value>Namnet på wikisidan att använda som standardinnehåll när nya wiki-sidor skapas.</value>
   </data>
   <data name="The name of the wiki, this is displayed everywhere." xml:space="preserve">
-    <value></value>
+    <value>Wikins namn, detta visas överallt.</value>
   </data>
   <data name="The number of items to return when pagination is used. Default: 20." xml:space="preserve">
-    <value></value>
+    <value>Antalet objekt som ska returneras vid paginering. Standard: 20.</value>
   </data>
   <data name="The number of recently modified pages to show on users public profiles. Default: 10." xml:space="preserve">
-    <value></value>
+    <value>Antalet nyligen ändrade sidor som ska visas på användares offentliga profiler. Standard: 10.</value>
   </data>
   <data name="The number of seconds to cache pages in memory (0 = disabled). Default: 300." xml:space="preserve">
-    <value></value>
+    <value>Antal sekunder att cacha sidor i minnet (0 = inaktiverat). Standard: 300.</value>
   </data>
   <data name="The SMTP password to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>SMTP-lösenordet som används vid sändning av e-post.</value>
   </data>
   <data name="The SMTP port to use when sending email. Default: 587." xml:space="preserve">
-    <value></value>
+    <value>SMTP-porten som används vid sändning av e-post. Standard: 587.</value>
   </data>
   <data name="The SMTP server ip/host to use when sending email." xml:space="preserve">
-    <value></value>
+    <value>SMTP-serverns ip/host att använda vid sändning av e-post.</value>
   </data>
   <data name="The time zone to use for the site culture for guests." xml:space="preserve">
-    <value></value>
+    <value>Tidszonen som används för webbplatsens kultur för gäster.</value>
   </data>
   <data name="Use SSL" xml:space="preserve">
-    <value></value>
+    <value>Använd SSL</value>
   </data>
   <data name="Value between 0.0 and 1.0 that determines how strong of a match a page search needs to be before it it returned in search results. Default: 0.6." xml:space="preserve">
-    <value></value>
+    <value>Värde mellan 0.0 och 1.0 som avgör hur starkt ett sid-sökning måste matcha för att returneras i sökresultaten. Standard: 0.6.</value>
   </data>
   <data name="When building a search index, these words will be excluded from indexing. (Comma separated)" xml:space="preserve">
-    <value></value>
+    <value>När man skapar ett sökindex ska dessa ord uteslutas från indexering. (Komma-separerade)</value>
   </data>
   <data name="When comments are enabled, this option causes comments to be shown at the bottom of each page. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>När kommentarer är aktiverade, orsakar detta alternativ att kommentarer visas längst ner på varje sida. Standard: Aktiverat.</value>
   </data>
   <data name="Whether a search box will be shown on the navigation bar. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om en sökruta ska visas i navigeringsfältet. Standard: Aktiverat.</value>
   </data>
   <data name="Whether or not OpenID Connect is enabled." xml:space="preserve">
-    <value></value>
+    <value>Om OpenID Connect är aktiverat eller inte.</value>
   </data>
   <data name="Whether or not the engine should perform a lazy pre-load of all animated emojis on startup." xml:space="preserve">
-    <value></value>
+    <value>Om motorn ska utföra en lat förladdning av alla animerade emojis vid start.</value>
   </data>
   <data name="Whether or not to authenticate with LDAP when attempting to login users." xml:space="preserve">
-    <value></value>
+    <value>Om LDAP-autentisering ska användas när man försöker logga in användare.</value>
   </data>
   <data name="Whether or not to use a secure connection to LDAP. This is not always supported by domains." xml:space="preserve">
-    <value></value>
+    <value>Om en säker anslutning till LDAP ska användas. Detta stöds inte alltid av domäner.</value>
   </data>
   <data name="Whether page comments will be enabled. Authentication is required for comment, but all can read. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om sidkommentarer ska vara aktiverade. Autentisering krävs för att kommentera, men alla kan läsa. Standard: Aktiverat.</value>
   </data>
   <data name="Whether SMTP should connect using SSL or not." xml:space="preserve">
-    <value></value>
+    <value>Om SMTP ska ansluta med SSL eller inte.</value>
   </data>
   <data name="Whether the description of the page should be included in the HTML head meta. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om sidans beskrivning ska inkluderas i HTML-head meta. Standard: Aktiverat.</value>
   </data>
   <data name="Whether the top menu should stay in place when scrolling vertically." xml:space="preserve">
-    <value></value>
+    <value>Om toppmenyn ska stanna på plats vid vertikal scrollning.</value>
   </data>
   <data name="Whether the wiki tags attached to the page should be included in the HTML head meta keywords. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om wiki-taggarna som är kopplade till sidan ska ingå i HTML-heads meta-nyckelord. Standard: Aktiverat.</value>
   </data>
   <data name="Whether to allow non-exact matches when searching. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om det ska tillåtas icke-exakta matchningar vid sökning. Standard: Aktiverat.</value>
   </data>
   <data name="Whether to record page wiki Record compilation metrics to the database. This can be used for performance turning, but can itself cause slowness. Default: Disabled." xml:space="preserve">
-    <value></value>
+    <value>Om det ska spelas in metrik för sammansättning av sidans wiki-record till databasen. Detta kan användas för prestandaförbättring, men kan också orsaka långsamhet. Standard: Inaktiverat.</value>
   </data>
   <data name="Whether to show the last user and date that a page was modified with a link to the public user profile. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om det ska visas den senaste användaren och datum då en sida ändrades med länk till den offentliga användarprofilen. Standard: Aktiverat.</value>
   </data>
   <data name="Whether to show the textbox to allow the user to enter a change summary when editing pages." xml:space="preserve">
-    <value></value>
+    <value>Om textfältet för att låta användaren ange en ändringssammanfattning när man redigerar sidor ska visas.</value>
   </data>
   <data name="Whether to split CamelCasedStrings when parsing pages for search tokens. This can be helpful when pages contain a lot of programming/code content. Default: Enabled." xml:space="preserve">
-    <value></value>
+    <value>Om CamelCasedStrings ska delas upp vid parsning av sidor för söktokens. Detta kan vara till hjälp när sidor innehåller mycket programmerings-/kodinnehåll. Standard: Aktiverat.</value>
   </data>
   <data name="Whether users are required to enter a change summary when editing pages. Note that &quot;Show Change Summary when Editing&quot; must also be enabled." xml:space="preserve">
-    <value></value>
+    <value>Om användare måste ange en ändringssammanfattning när de redigerar sidor. Observera att "Visa ändringssammanfattning vid redigering" också måste vara aktiverat.</value>
   </data>
   <data name="Whether visitors can view members and their public profiles." xml:space="preserve">
-    <value></value>
+    <value>Om besökare kan visa medlemmar och deras offentliga profiler.</value>
   </data>
   <data name="Word Exclusions" xml:space="preserve">
-    <value></value>
+    <value>Orddelningar</value>
   </data>
   <data name="You must select a role." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja en roll.</value>
   </data>
   <data name="The account is already a member of the specified role." xml:space="preserve">
-    <value></value>
+    <value>Kontot är redan medlem i den angivna rollen.</value>
   </data>
   <data name="Resource type" xml:space="preserve">
-    <value></value>
+    <value>Resurstyp</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value></value>
+    <value>Lägg till</value>
   </data>
   <data name="Are you sure you want to remove the permission from this account?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill ta bort behörigheten från detta konto?</value>
   </data>
   <data name="Removal failed" xml:space="preserve">
-    <value></value>
+    <value>Ta bort misslyckades</value>
   </data>
   <data name="Are you sure you want to remove the role from this account?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill ta bort rollen från detta konto?</value>
   </data>
   <data name="Select a disposition" xml:space="preserve">
-    <value></value>
+    <value>Välj en disposition</value>
   </data>
   <data name="Select a permission" xml:space="preserve">
-    <value></value>
+    <value>Välj en behörighet</value>
   </data>
   <data name="Select a page" xml:space="preserve">
-    <value></value>
+    <value>Välj en sida</value>
   </data>
   <data name="Select a namespace" xml:space="preserve">
-    <value></value>
+    <value>Välj ett namespace</value>
   </data>
   <data name="You must select a permission disposition." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja en behörighetsdisposition.</value>
   </data>
   <data name="You must select a permission." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja en behörighet.</value>
   </data>
   <data name="You must select a page." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja en sida.</value>
   </data>
   <data name="You must select a namespace." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja ett namespace.</value>
   </data>
   <data name="You must select either page or namespace." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja antingen sida eller namespace.</value>
   </data>
   <data name="The account already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Kontot har redan den angivna behörigheten.</value>
   </data>
   <data name="Are you sure you want to remove the permission from this role?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill ta bort behörigheten från denna roll?</value>
   </data>
   <data name="Are you sure you want to remove the member from this role?" xml:space="preserve">
-    <value></value>
+    <value>Är du säker på att du vill ta bort medlemmen från denna roll?</value>
   </data>
   <data name="The role already has the specified permission." xml:space="preserve">
-    <value></value>
+    <value>Rollen har redan den angivna behörigheten.</value>
   </data>
   <data name="Select an account" xml:space="preserve">
-    <value></value>
+    <value>Välj ett konto</value>
   </data>
   <data name="You must select an account." xml:space="preserve">
-    <value></value>
+    <value>Du måste välja ett konto.</value>
   </data>
   <data name="the address of your wiki." xml:space="preserve">
-    <value></value>
+    <value>adress till din wiki.</value>
   </data>
   <data name="English" xml:space="preserve">
-    <value></value>
+    <value>Engelska</value>
   </data>
   <data name="Arabic" xml:space="preserve">
-    <value></value>
+    <value>Arabiska</value>
   </data>
   <data name="Azerbaijani" xml:space="preserve">
-    <value></value>
+    <value>azerbaijanska</value>
   </data>
   <data name="Belarusian" xml:space="preserve">
-    <value></value>
+    <value>vitryska</value>
   </data>
   <data name="Bulgarian" xml:space="preserve">
-    <value></value>
+    <value>bulgariska</value>
   </data>
   <data name="Czech" xml:space="preserve">
-    <value></value>
+    <value>tjeckiska</value>
   </data>
   <data name="Danish" xml:space="preserve">
-    <value></value>
+    <value>danska</value>
   </data>
   <data name="German" xml:space="preserve">
-    <value></value>
+    <value>tyska</value>
   </data>
   <data name="Greek" xml:space="preserve">
-    <value></value>
+    <value>grekiska</value>
   </data>
   <data name="Spanish" xml:space="preserve">
-    <value></value>
+    <value>spanska</value>
   </data>
   <data name="Estonian" xml:space="preserve">
-    <value></value>
+    <value>estniska</value>
   </data>
   <data name="Persian" xml:space="preserve">
-    <value></value>
+    <value>persiska</value>
   </data>
   <data name="Finnish" xml:space="preserve">
-    <value></value>
+    <value>finska</value>
   </data>
   <data name="French" xml:space="preserve">
-    <value></value>
+    <value>franska</value>
   </data>
   <data name="Hebrew" xml:space="preserve">
-    <value></value>
+    <value>hebreiska</value>
   </data>
   <data name="Croatian" xml:space="preserve">
-    <value></value>
+    <value>kroatiska</value>
   </data>
   <data name="Hungarian" xml:space="preserve">
-    <value></value>
+    <value>ungerska</value>
   </data>
   <data name="Indonesian" xml:space="preserve">
-    <value></value>
+    <value>indonesiska</value>
   </data>
   <data name="Icelandic" xml:space="preserve">
-    <value></value>
+    <value>isländska</value>
   </data>
   <data name="Italian" xml:space="preserve">
-    <value></value>
+    <value>italienska</value>
   </data>
   <data name="Japanese" xml:space="preserve">
-    <value></value>
+    <value>japanska</value>
   </data>
   <data name="Georgian" xml:space="preserve">
-    <value></value>
+    <value>georgiska</value>
   </data>
   <data name="Kazakh" xml:space="preserve">
-    <value></value>
+    <value>kazakiska</value>
   </data>
   <data name="Korean" xml:space="preserve">
-    <value></value>
+    <value>koreanska</value>
   </data>
   <data name="Lithuanian" xml:space="preserve">
-    <value></value>
+    <value>litauiska</value>
   </data>
   <data name="Latvian" xml:space="preserve">
-    <value></value>
+    <value>lettiska</value>
   </data>
   <data name="Malay" xml:space="preserve">
-    <value></value>
+    <value>malajiska</value>
   </data>
   <data name="Dutch" xml:space="preserve">
-    <value></value>
+    <value>Holländska</value>
   </data>
   <data name="Norwegian" xml:space="preserve">
-    <value></value>
+    <value>Norska</value>
   </data>
   <data name="Bokmål" xml:space="preserve">
-    <value></value>
+    <value>Bokmål</value>
   </data>
   <data name="Polish" xml:space="preserve">
-    <value></value>
+    <value>polska</value>
   </data>
   <data name="Portuguese" xml:space="preserve">
-    <value></value>
+    <value>portugisiska</value>
   </data>
   <data name="Romanian" xml:space="preserve">
-    <value></value>
+    <value>rumänska</value>
   </data>
   <data name="Russian" xml:space="preserve">
-    <value></value>
+    <value>ryska</value>
   </data>
   <data name="Slovak" xml:space="preserve">
-    <value></value>
+    <value>slovakiska</value>
   </data>
   <data name="Slovenian" xml:space="preserve">
-    <value></value>
+    <value>sloveniska</value>
   </data>
   <data name="Serbian" xml:space="preserve">
-    <value></value>
+    <value>serbiska</value>
   </data>
   <data name="Swedish" xml:space="preserve">
-    <value></value>
+    <value>svenska</value>
   </data>
   <data name="Thai" xml:space="preserve">
-    <value></value>
+    <value>thai</value>
   </data>
   <data name="Turkish" xml:space="preserve">
-    <value></value>
+    <value>turkiska</value>
   </data>
   <data name="Ukrainian" xml:space="preserve">
-    <value></value>
+    <value>ukrainska</value>
   </data>
   <data name="Vietnamese" xml:space="preserve">
-    <value></value>
+    <value>vietnamesiska</value>
   </data>
   <data name="Chinese simplified" xml:space="preserve">
-    <value></value>
+    <value>förenklad kinesiska</value>
   </data>
   <data name="Chinese traditional" xml:space="preserve">
-    <value></value>
+    <value>traditionell kinesiska</value>
   </data>
   <data name="Bengali" xml:space="preserve">
-    <value></value>
+    <value>bengaliska</value>
   </data>
   <data name="Hindi" xml:space="preserve">
-    <value></value>
+    <value>hindi</value>
   </data>
   <data name="Urdu" xml:space="preserve">
-    <value></value>
+    <value>urdu</value>
   </data>
 </root>
