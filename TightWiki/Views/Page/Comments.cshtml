@@ -66,11 +66,11 @@
         </div>
     }
 
-    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount)
+    @TightWiki.Library.PageSelectorGenerator.Generate(Context.Request.QueryString, Model.PaginationPageCount, @class: "mb-3")
 
     @if (Model.Comments.Count > 0)
     {
-        <div class="mt-3 d-flex flex-column gap-3">
+        <div class="mt-0 d-flex flex-column gap-3">
             @foreach (var h in Model.Comments)
             {
                 <div class="card shadow-sm">

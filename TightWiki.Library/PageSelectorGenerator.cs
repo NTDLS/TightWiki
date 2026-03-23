@@ -5,16 +5,16 @@ namespace TightWiki.Library
 {
     public static class PageSelectorGenerator
     {
-        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount)
-            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, "page");
+        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string? @class = null)
+            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, "page", @class);
 
-        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string queryToken)
-            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken);
+        public static IHtmlContent Generate(QueryString? queryString, int? totalPageCount, string queryToken, string? @class = null)
+            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class);
 
-        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken)
-            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken);
+        public static IHtmlContent Generate(IQueryCollection? queryString, int? totalPageCount, string queryToken, string? @class = null)
+            => Generate(string.Empty, QueryStringConverter.ToDictionary(queryString), totalPageCount, queryToken, @class);
 
-        public static IHtmlContent Generate(string url, Dictionary<string, string>? queryString, int? totalPageCount, string queryToken)
+        public static IHtmlContent Generate(string url, Dictionary<string, string>? queryString, int? totalPageCount, string queryToken, string? @class = null)
         {
             int currentPage = 1;
 
@@ -42,7 +42,7 @@ namespace TightWiki.Library
             if ((totalPageCount ?? 0) > 1 || currentPage > 1)
             {
                 var html = $@"
-                    <div class='d-flex justify-content-center'>
+                    <div class='d-flex justify-content-center {@class ?? string.Empty}'>
                         <div class='btn-group' role='group'>
                             <a class='btn btn-outline-secondary {(currentPage > 1 ? "" : "disabled")}' href='{url}?{QueryStringConverter.FromCollection(firstPage)}'>
                                 <i class='bi bi-chevron-double-left'></i>
