@@ -14,7 +14,7 @@ SELECT
 	@PageSize as PaginationPageSize,
 	(
 		SELECT
-			(Count(DISTINCT P.Id)) + (@PageSize - 1)) / @PageSize
+			(Count(DISTINCT P.Id) + (@PageSize - 1)) / @PageSize
 		FROM
 			CompilationStatistics as Stats
 		INNER JOIN pages_db.[Page] as P
