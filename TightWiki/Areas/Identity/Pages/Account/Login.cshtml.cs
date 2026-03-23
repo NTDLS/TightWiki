@@ -153,12 +153,8 @@ namespace TightWiki.Areas.Identity.Pages.Account
                                                     .Format(string.Join("; ", addLogin.Errors.Select(e => $"{e.Code}:{e.Description}"))));
                                             }
 
-                                            foundUser = await _userManager.FindByNameAsync(samAccountName);
-                                            if (foundUser == null)
-                                            {
-                                                throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
-                                            }
-
+                                            foundUser = await _userManager.FindByNameAsync(samAccountName)
+                                                ?? throw new Exception(_localizer["Failed to locate the user account for the LDAP credential."]);
                                         }
                                         else
                                         {
